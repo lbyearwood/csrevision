@@ -1,1 +1,144 @@
-<!DOCTYPE html><html lang="en-GB"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>2.2.1 Programming fundamentals</title><link rel="stylesheet" href="../styles.css?v=5"></head><body data-topic-id="2-2-1"><header class="site-header"><div class="header-inner"><div><p class="eyebrow">OCR GCSE Computer Science J277</p><h1>GCSE Computer Science Revision</h1><p class="intro">Answer each question, then reveal the hidden mark scheme to check your work.</p></div><div class="header-card"><p class="card-label">Revision set</p><p class="card-title">Question and mark scheme</p><p class="card-small">Mark schemes are hidden by default.</p></div></div></header><main><a class="back-button back-link" href="../index.html">Back to home</a><section class="question-header"><p id="question-paper" class="eyebrow"></p><h2 id="question-title"></h2><p id="question-summary" class="section-note"></p></section><div id="question-list" class="question-list"></div></main><footer><p>GCSE Computer Science revision site.</p></footer><script src="../site.js?v=5"></script></body></html>
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.2.1 Programming fundamentals</title>
+    <link rel="stylesheet" href="../styles.css?v=17">
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <img class="site-logo" src="../assets/images/logo-light.svg" alt="Computing Revision Platform - OCR GCSE Computer Science J277">
+            <div class="header-copy">
+                <p class="eyebrow">OCR GCSE Computer Science J277</p>
+                <h1>Computing Revision Platform</h1>
+                <p class="intro">Answer each question, then reveal the hidden mark scheme to check your work.</p>
+            </div>
+            <div class="header-card">
+                <p class="card-label">Revision set</p>
+                <p class="card-title">Question and mark scheme</p>
+                <p class="card-small">Mark schemes are hidden by default.</p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to home</a>
+        <section class="question-header">
+            <p class="eyebrow">Paper 2</p>
+            <h2>2.2.1 Programming fundamentals</h2>
+            <p class="section-note">Practise core programming ideas including input, output, variables, constants, operators, sequence, selection and iteration.</p>
+        </section>
+        <section class="question-list" aria-label="2.2.1 Programming fundamentals questions">
+            <article class="question-card">
+                <p class="question-text">1) <strong>Describe</strong> the purpose of variables, constants and assignment in a program. (3 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-1-1">Show mark scheme</button>
+                <div id="mark-scheme-2-2-1-1" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 3 marks:</p>
+                    <ul>
+                        <li>A variable stores a value that may change while the program runs.</li>
+                        <li>A constant stores a value that should not change while the program runs.</li>
+                        <li>Assignment gives a value to a variable or constant.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">2) A shop till program inputs the prices of two items. <strong>Write</strong> code that inputs the two prices, adds them together and outputs the total. You may use OCR Exam Reference Language or Python. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-1-2">Show mark scheme</button>
+                <div id="mark-scheme-2-2-1-2" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 4 marks:</p>
+                    <ul>
+                        <li>Inputs the first number.</li>
+                        <li>Inputs the second number.</li>
+                        <li>Adds the two values and stores or uses the total.</li>
+                        <li>Outputs the total.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre class="algorithm-code"><code>num1 = INPUT
+num2 = INPUT
+total = num1 + num2
+OUTPUT total</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre class="algorithm-code"><code>num1 = int(input())
+num2 = int(input())
+total = num1 + num2
+print(total)</code></pre>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">3) A cinema booking program checks a customer's age. <strong>Complete</strong> code that outputs Adult if age is 18 or over, otherwise outputs Child. You may use OCR Exam Reference Language or Python. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-1-3">Show mark scheme</button>
+                <div id="mark-scheme-2-2-1-3" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 4 marks:</p>
+                    <ul>
+                        <li>Uses a condition to test age.</li>
+                        <li>Correctly uses age >= 18.</li>
+                        <li>Outputs Adult when the condition is true.</li>
+                        <li>Outputs Child when the condition is false.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre class="algorithm-code"><code>IF age &gt;= 18 THEN
+    OUTPUT "Adult"
+ELSE
+    OUTPUT "Child"
+ENDIF</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre class="algorithm-code"><code>if age &gt;= 18:
+    print("Adult")
+else:
+    print("Child")</code></pre>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">4) A fitness app displays challenge days numbered 1 to 5. <strong>Write</strong> code that uses a count-controlled loop to output the numbers 1 to 5. You may use OCR Exam Reference Language or Python. (3 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-1-4">Show mark scheme</button>
+                <div id="mark-scheme-2-2-1-4" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 3 marks:</p>
+                    <ul>
+                        <li>Uses a count-controlled loop.</li>
+                        <li>Outputs each number from 1 to 5.</li>
+                        <li>Stops after 5 has been output.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre class="algorithm-code"><code>FOR count = 1 TO 5
+    OUTPUT count
+NEXT count</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre class="algorithm-code"><code>for count in range(1, 6):
+    print(count)</code></pre>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">5) <strong>Compare</strong> count-controlled iteration and condition-controlled iteration. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-1-5">Show mark scheme</button>
+                <div id="mark-scheme-2-2-1-5" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 4 marks:</p>
+                    <ul>
+                        <li>Count-controlled iteration repeats a known number of times.</li>
+                        <li>Condition-controlled iteration repeats while or until a condition is met.</li>
+                        <li>A FOR loop is often used for count-controlled iteration.</li>
+                        <li>A WHILE loop is often used for condition-controlled iteration.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <footer>
+        <p>GCSE Computer Science revision site. <a href="../course-spec.html">Course specification</a>.</p>
+    </footer>
+
+    <script src="../site.js?v=17"></script>
+</body>
+</html>

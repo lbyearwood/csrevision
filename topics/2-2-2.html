@@ -1,1 +1,130 @@
-<!DOCTYPE html><html lang="en-GB"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>2.2.2 Data types</title><link rel="stylesheet" href="../styles.css?v=5"></head><body data-topic-id="2-2-2"><header class="site-header"><div class="header-inner"><div><p class="eyebrow">OCR GCSE Computer Science J277</p><h1>GCSE Computer Science Revision</h1><p class="intro">Answer each question, then reveal the hidden mark scheme to check your work.</p></div><div class="header-card"><p class="card-label">Revision set</p><p class="card-title">Question and mark scheme</p><p class="card-small">Mark schemes are hidden by default.</p></div></div></header><main><a class="back-button back-link" href="../index.html">Back to home</a><section class="question-header"><p id="question-paper" class="eyebrow"></p><h2 id="question-title"></h2><p id="question-summary" class="section-note"></p></section><div id="question-list" class="question-list"></div></main><footer><p>GCSE Computer Science revision site.</p></footer><script src="../site.js?v=5"></script></body></html>
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.2.2 Data types</title>
+    <link rel="stylesheet" href="../styles.css?v=17">
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <img class="site-logo" src="../assets/images/logo-light.svg" alt="Computing Revision Platform - OCR GCSE Computer Science J277">
+            <div class="header-copy">
+                <p class="eyebrow">OCR GCSE Computer Science J277</p>
+                <h1>Computing Revision Platform</h1>
+                <p class="intro">Answer each question, then reveal the hidden mark scheme to check your work.</p>
+            </div>
+            <div class="header-card">
+                <p class="card-label">Revision set</p>
+                <p class="card-title">Question and mark scheme</p>
+                <p class="card-small">Mark schemes are hidden by default.</p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to home</a>
+        <section class="question-header">
+            <p class="eyebrow">Paper 2</p>
+            <h2>2.2.2 Data types</h2>
+            <p class="section-note">Practise choosing and using suitable data types, including integer, real, Boolean, character, string and casting.</p>
+        </section>
+        <section class="question-list" aria-label="2.2.2 Data types questions">
+            <article class="question-card">
+                <p class="question-text">1) A school login system stores age, surname, exam percentage and whether the user is logged in. <strong>Identify</strong> a suitable data type for each item. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-2-1">Show mark scheme</button>
+                <div id="mark-scheme-2-2-2-1" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 4 marks:</p>
+                    <ul>
+                        <li>Age: integer.</li>
+                        <li>Surname: string.</li>
+                        <li>Exam percentage: real or integer depending on whether decimals are needed.</li>
+                        <li>Logged-in status: Boolean.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">2) <strong>Explain</strong> why using suitable data types is important when writing a program. (3 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-2-2">Show mark scheme</button>
+                <div id="mark-scheme-2-2-2-2" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 3 marks:</p>
+                    <ul>
+                        <li>The data type controls what values can be stored.</li>
+                        <li>The data type affects what operations can be performed.</li>
+                        <li>Using a suitable data type can reduce errors or make the program clearer.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">3) A quiz app receives a score from a text box. <strong>Write</strong> code that inputs the score as text, casts it to an integer, doubles it for a bonus round and outputs the result. You may use OCR Exam Reference Language or Python. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-2-3">Show mark scheme</button>
+                <div id="mark-scheme-2-2-2-3" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 4 marks:</p>
+                    <ul>
+                        <li>Inputs or stores the text value.</li>
+                        <li>Casts or converts the value to an integer.</li>
+                        <li>Doubles the integer value.</li>
+                        <li>Outputs the result.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre class="algorithm-code"><code>numberText = INPUT
+number = INTEGER(numberText)
+answer = number * 2
+OUTPUT answer</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre class="algorithm-code"><code>number_text = input()
+number = int(number_text)
+answer = number * 2
+print(answer)</code></pre>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">4) <strong>Describe</strong> the difference between an integer and a real data type. (2 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-2-4">Show mark scheme</button>
+                <div id="mark-scheme-2-2-2-4" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 2 marks:</p>
+                    <ul>
+                        <li>An integer stores a whole number.</li>
+                        <li>A real stores a number that can include a decimal part.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">5) A driving theory app needs to store whether a learner has passed a mock test. <strong>Complete</strong> code that stores this in a Boolean variable called passed, then outputs the value. You may use OCR Exam Reference Language or Python. (3 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-2-5">Show mark scheme</button>
+                <div id="mark-scheme-2-2-2-5" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 3 marks:</p>
+                    <ul>
+                        <li>Uses a Boolean value.</li>
+                        <li>Assigns the Boolean value to passed.</li>
+                        <li>Outputs passed.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre class="algorithm-code"><code>passed = TRUE
+OUTPUT passed</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre class="algorithm-code"><code>passed = True
+print(passed)</code></pre>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <footer>
+        <p>GCSE Computer Science revision site. <a href="../course-spec.html">Course specification</a>.</p>
+    </footer>
+
+    <script src="../site.js?v=17"></script>
+</body>
+</html>

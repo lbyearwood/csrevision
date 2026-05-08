@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.2.6 SQL</title>
+    <link rel="stylesheet" href="../styles.css?v=17">
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <img class="site-logo" src="../assets/images/logo-light.svg" alt="Computing Revision Platform - OCR GCSE Computer Science J277">
+            <div class="header-copy">
+                <p class="eyebrow">OCR GCSE Computer Science J277</p>
+                <h1>Computing Revision Platform</h1>
+                <p class="intro">Answer each question, then reveal the hidden mark scheme to check your work.</p>
+            </div>
+            <div class="header-card">
+                <p class="card-label">Revision set</p>
+                <p class="card-title">Question and mark scheme</p>
+                <p class="card-small">Mark schemes are hidden by default.</p>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to home</a>
+        <section class="question-header">
+            <p class="eyebrow">Paper 2</p>
+            <h2>2.2.6 SQL</h2>
+            <p class="section-note">Practise writing GCSE-level SQL statements using SELECT, FROM, WHERE, comparison operators, Boolean operators, LIKE and SORTBY.</p>
+        </section>
+
+        <section class="question-card" aria-labelledby="database-tables-title">
+            <h3 id="database-tables-title">Database Tables</h3>
+            <p>Use these tables to answer the questions on this page.</p>
+
+            <h4>Table name: Students</h4>
+            <div class="trace-table-wrap">
+                <table class="trace-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">StudentID</th>
+                            <th scope="col">FirstName</th>
+                            <th scope="col">TutorGroup</th>
+                            <th scope="col">YearGroup</th>
+                            <th scope="col">House</th>
+                            <th scope="col">Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>101</td>
+                            <td>Aisha</td>
+                            <td>10A</td>
+                            <td>10</td>
+                            <td>Red</td>
+                            <td>48</td>
+                        </tr>
+                        <tr>
+                            <td>102</td>
+                            <td>Ben</td>
+                            <td>10B</td>
+                            <td>10</td>
+                            <td>Blue</td>
+                            <td>31</td>
+                        </tr>
+                        <tr>
+                            <td>103</td>
+                            <td>Charlie</td>
+                            <td>11A</td>
+                            <td>11</td>
+                            <td>Green</td>
+                            <td>52</td>
+                        </tr>
+                        <tr>
+                            <td>104</td>
+                            <td>Amelia</td>
+                            <td>11B</td>
+                            <td>11</td>
+                            <td>Red</td>
+                            <td>27</td>
+                        </tr>
+                        <tr>
+                            <td>105</td>
+                            <td>Sam</td>
+                            <td>10A</td>
+                            <td>10</td>
+                            <td>Yellow</td>
+                            <td>64</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4>Table name: Books</h4>
+            <div class="trace-table-wrap">
+                <table class="trace-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">BookID</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Author</th>
+                            <th scope="col">Genre</th>
+                            <th scope="col">YearPublished</th>
+                            <th scope="col">Copies</th>
+                            <th scope="col">Available</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>201</td>
+                            <td>Robot Dreams</td>
+                            <td>Isaac Tan</td>
+                            <td>Science Fiction</td>
+                            <td>2019</td>
+                            <td>4</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td>202</td>
+                            <td>Python Basics</td>
+                            <td>Lina Patel</td>
+                            <td>Computing</td>
+                            <td>2021</td>
+                            <td>7</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td>203</td>
+                            <td>Ancient Battles</td>
+                            <td>Mark Ellis</td>
+                            <td>History</td>
+                            <td>2016</td>
+                            <td>2</td>
+                            <td>No</td>
+                        </tr>
+                        <tr>
+                            <td>204</td>
+                            <td>Networks Made Simple</td>
+                            <td>Lina Patel</td>
+                            <td>Computing</td>
+                            <td>2023</td>
+                            <td>5</td>
+                            <td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td>205</td>
+                            <td>The River Path</td>
+                            <td>Owen Clark</td>
+                            <td>Adventure</td>
+                            <td>2018</td>
+                            <td>1</td>
+                            <td>No</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="question-list" aria-label="2.2.6 SQL questions">
+            <article class="question-card">
+                <p class="question-text">1) <strong>Write</strong> an SQL statement to display the FirstName and TutorGroup fields for every record in the Students table. (3 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-6-1">Show mark scheme</button>
+                <div id="mark-scheme-2-2-6-1" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 3 marks:</p>
+                    <ul>
+                        <li>Uses SELECT with FirstName and TutorGroup.</li>
+                        <li>Uses FROM Students.</li>
+                        <li>Correct statement structure.</li>
+                        <li>Accept any other valid SQL statement.</li>
+                    </ul>
+                    <pre class="algorithm-code"><code>SELECT FirstName, TutorGroup
+FROM Students</code></pre>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">2) <strong>Write</strong> an SQL statement to display all fields for every record in the Books table. (2 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-6-2">Show mark scheme</button>
+                <div id="mark-scheme-2-2-6-2" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 2 marks:</p>
+                    <ul>
+                        <li>Uses SELECT * to select every field.</li>
+                        <li>Uses FROM Books.</li>
+                        <li>Accept any other valid SQL statement.</li>
+                    </ul>
+                    <pre class="algorithm-code"><code>SELECT *
+FROM Books</code></pre>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">3) <strong>Write</strong> an SQL statement to display the FirstName and Points fields for students with more than 40 points. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-6-3">Show mark scheme</button>
+                <div id="mark-scheme-2-2-6-3" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 4 marks:</p>
+                    <ul>
+                        <li>Uses SELECT FirstName, Points.</li>
+                        <li>Uses FROM Students.</li>
+                        <li>Uses WHERE.</li>
+                        <li>Uses the correct comparison: Points &gt; 40.</li>
+                        <li>Accept any other valid SQL statement.</li>
+                    </ul>
+                    <pre class="algorithm-code"><code>SELECT FirstName, Points
+FROM Students
+WHERE Points &gt; 40</code></pre>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">4) <strong>Write</strong> an SQL statement to display all fields for students in YearGroup 10. (3 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-6-4">Show mark scheme</button>
+                <div id="mark-scheme-2-2-6-4" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 3 marks:</p>
+                    <ul>
+                        <li>Uses SELECT *.</li>
+                        <li>Uses FROM Students.</li>
+                        <li>Uses WHERE YearGroup = 10.</li>
+                        <li>Accept any other valid SQL statement.</li>
+                    </ul>
+                    <pre class="algorithm-code"><code>SELECT *
+FROM Students
+WHERE YearGroup = 10</code></pre>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">5) <strong>Write</strong> an SQL statement to display the Title and Author fields for books in the Computing genre. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-6-5">Show mark scheme</button>
+                <div id="mark-scheme-2-2-6-5" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 4 marks:</p>
+                    <ul>
+                        <li>Uses SELECT Title, Author.</li>
+                        <li>Uses FROM Books.</li>
+                        <li>Uses WHERE.</li>
+                        <li>Correctly tests Genre = "Computing".</li>
+                        <li>Accept single quotes around text values.</li>
+                        <li>Accept any other valid SQL statement.</li>
+                    </ul>
+                    <pre class="algorithm-code"><code>SELECT Title, Author
+FROM Books
+WHERE Genre = "Computing"</code></pre>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">6) <strong>Write</strong> an SQL statement to display the Title and Copies fields for books with 2 or fewer copies. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-6-6">Show mark scheme</button>
+                <div id="mark-scheme-2-2-6-6" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 4 marks:</p>
+                    <ul>
+                        <li>Uses SELECT Title, Copies.</li>
+                        <li>Uses FROM Books.</li>
+                        <li>Uses WHERE.</li>
+                        <li>Uses the correct comparison: Copies &lt;= 2.</li>
+                        <li>Accept any other valid SQL statement.</li>
+                    </ul>
+                    <pre class="algorithm-code"><code>SELECT Title, Copies
+FROM Books
+WHERE Copies &lt;= 2</code></pre>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">7) <strong>Write</strong> an SQL statement to display FirstName, House and Points for students in Red house with at least 30 points. (5 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-6-7">Show mark scheme</button>
+                <div id="mark-scheme-2-2-6-7" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 5 marks:</p>
+                    <ul>
+                        <li>Uses SELECT FirstName, House, Points.</li>
+                        <li>Uses FROM Students.</li>
+                        <li>Uses WHERE.</li>
+                        <li>Correctly tests House = "Red".</li>
+                        <li>Uses AND with Points &gt;= 30.</li>
+                        <li>Accept single quotes around text values.</li>
+                        <li>Accept any other valid SQL statement.</li>
+                    </ul>
+                    <pre class="algorithm-code"><code>SELECT FirstName, House, Points
+FROM Students
+WHERE House = "Red" AND Points &gt;= 30</code></pre>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">8) <strong>Write</strong> an SQL statement to display all fields for students who are in Blue house or Yellow house. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-6-8">Show mark scheme</button>
+                <div id="mark-scheme-2-2-6-8" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 4 marks:</p>
+                    <ul>
+                        <li>Uses SELECT *.</li>
+                        <li>Uses FROM Students.</li>
+                        <li>Uses WHERE.</li>
+                        <li>Uses OR to test House = "Blue" or House = "Yellow".</li>
+                        <li>Accept single quotes around text values.</li>
+                        <li>Accept any other valid SQL statement.</li>
+                    </ul>
+                    <pre class="algorithm-code"><code>SELECT *
+FROM Students
+WHERE House = "Blue" OR House = "Yellow"</code></pre>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">9) <strong>Write</strong> an SQL statement to display FirstName and TutorGroup for students who are not in YearGroup 11. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-6-9">Show mark scheme</button>
+                <div id="mark-scheme-2-2-6-9" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 4 marks:</p>
+                    <ul>
+                        <li>Uses SELECT FirstName, TutorGroup.</li>
+                        <li>Uses FROM Students.</li>
+                        <li>Uses WHERE.</li>
+                        <li>Correctly excludes YearGroup 11 using NOT or !=.</li>
+                        <li>Accept any other valid SQL statement.</li>
+                    </ul>
+                    <pre class="algorithm-code"><code>SELECT FirstName, TutorGroup
+FROM Students
+WHERE NOT YearGroup = 11</code></pre>
+                    <p class="mark-scheme-intro">Also accept:</p>
+                    <pre class="algorithm-code"><code>SELECT FirstName, TutorGroup
+FROM Students
+WHERE YearGroup != 11</code></pre>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">10) <strong>Write</strong> an SQL statement to display the Title and Author fields for books where the Title starts with Python. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-6-10">Show mark scheme</button>
+                <div id="mark-scheme-2-2-6-10" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 4 marks:</p>
+                    <ul>
+                        <li>Uses SELECT Title, Author.</li>
+                        <li>Uses FROM Books.</li>
+                        <li>Uses WHERE with LIKE.</li>
+                        <li>Uses a valid wildcard pattern such as "Python%".</li>
+                        <li>Accept single quotes around text values.</li>
+                        <li>Accept any other valid SQL statement.</li>
+                    </ul>
+                    <pre class="algorithm-code"><code>SELECT Title, Author
+FROM Books
+WHERE Title LIKE "Python%"</code></pre>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">11) <strong>Write</strong> an SQL statement to display Title, YearPublished and Copies for available books published after 2020, sorted by YearPublished. (5 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-6-11">Show mark scheme</button>
+                <div id="mark-scheme-2-2-6-11" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 5 marks:</p>
+                    <ul>
+                        <li>Uses SELECT Title, YearPublished, Copies.</li>
+                        <li>Uses FROM Books.</li>
+                        <li>Correctly tests Available = "Yes".</li>
+                        <li>Uses AND with YearPublished &gt; 2020.</li>
+                        <li>Uses SORTBY YearPublished.</li>
+                        <li>Accept single quotes around text values.</li>
+                        <li>Accept any other valid SQL statement.</li>
+                    </ul>
+                    <pre class="algorithm-code"><code>SELECT Title, YearPublished, Copies
+FROM Books
+WHERE Available = "Yes" AND YearPublished &gt; 2020
+SORTBY YearPublished</code></pre>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">12) <strong>Write</strong> an SQL statement to display all fields for students in TutorGroup 10A, sorted by Points. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-6-12">Show mark scheme</button>
+                <div id="mark-scheme-2-2-6-12" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 4 marks:</p>
+                    <ul>
+                        <li>Uses SELECT *.</li>
+                        <li>Uses FROM Students.</li>
+                        <li>Uses WHERE TutorGroup = "10A".</li>
+                        <li>Uses SORTBY Points.</li>
+                        <li>Accept single quotes around text values.</li>
+                        <li>Accept any other valid SQL statement.</li>
+                    </ul>
+                    <pre class="algorithm-code"><code>SELECT *
+FROM Students
+WHERE TutorGroup = "10A"
+SORTBY Points</code></pre>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <footer>
+        <p>GCSE Computer Science revision site. <a href="../course-spec.html">Course specification</a>.</p>
+    </footer>
+
+    <script src="../site.js?v=17"></script>
+</body>
+</html>
