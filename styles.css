@@ -246,23 +246,11 @@ main {
     gap: 18px;
 }
 
-.question-card h3 {
-    margin-bottom: 8px;
-}
-
-.question-meta {
-    display: inline-block;
-    margin-bottom: 12px;
-    padding: 4px 10px;
-    border-radius: 999px;
-    background: #f3f4f6;
-    color: #374151;
-    font-weight: bold;
-}
-
 .question-text {
     margin-bottom: 0;
-    font-size: 18px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #111827;
 }
 
 .mark-scheme {
