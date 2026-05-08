@@ -134,7 +134,7 @@ topicGroups.forEach((paperGroup) => {
 
 questionBanks["1-1-1"].questions = [
     {
-        question: "State the purpose of the CPU. (1 mark)",
+        question: "State the purpose of the CPU.",
         marks: 1,
         markScheme: [
             "The CPU processes instructions/data OR controls the operation of the computer.",
@@ -142,7 +142,7 @@ questionBanks["1-1-1"].questions = [
         ]
     },
     {
-        question: "Name two registers used in the Von Neumann architecture. (2 marks)",
+        question: "Name two registers used in the Von Neumann architecture.",
         marks: 2,
         markScheme: [
             "MAR / Memory Address Register.",
@@ -156,14 +156,14 @@ questionBanks["1-1-1"].questions = [
 
 questionBanks["1-2-4-1"].questions = [
     {
-        question: "Convert the denary number 45 into 8-bit binary. (1 mark)",
+        question: "Convert the denary number 45 into 8-bit binary.",
         marks: 1,
         markScheme: [
             "00101101."
         ]
     },
     {
-        question: "Explain what causes an overflow error when adding two 8-bit binary numbers. (2 marks)",
+        question: "Explain what causes an overflow error when adding two 8-bit binary numbers.",
         marks: 2,
         markScheme: [
             "The result is too large to fit in 8 bits.",
@@ -175,7 +175,7 @@ questionBanks["1-2-4-1"].questions = [
 
 questionBanks["1-2-4-2"].questions = [
     {
-        question: "Explain why Unicode can represent more characters than ASCII. (2 marks)",
+        question: "Explain why Unicode can represent more characters than ASCII.",
         marks: 2,
         markScheme: [
             "Unicode uses more bits per character than ASCII.",
@@ -187,7 +187,7 @@ questionBanks["1-2-4-2"].questions = [
 
 questionBanks["1-2-4-3"].questions = [
     {
-        question: "Explain how increasing the resolution of an image affects the image file size. (2 marks)",
+        question: "Explain how increasing the resolution of an image affects the image file size.",
         marks: 2,
         markScheme: [
             "Increasing resolution increases the number of pixels in the image.",
@@ -199,7 +199,7 @@ questionBanks["1-2-4-3"].questions = [
 
 questionBanks["1-2-4-4"].questions = [
     {
-        question: "State two factors that affect the file size of a sound file. (2 marks)",
+        question: "State two factors that affect the file size of a sound file.",
         marks: 2,
         markScheme: [
             "Sample rate.",
@@ -212,7 +212,7 @@ questionBanks["1-2-4-4"].questions = [
 
 questionBanks["1-3-1-1"].questions = [
     {
-        question: "Identify two pieces of hardware needed to connect stand-alone computers into a local area network. (2 marks)",
+        question: "Identify two pieces of hardware needed to connect stand-alone computers into a local area network.",
         marks: 2,
         markScheme: [
             "Switch.",
@@ -258,6 +258,10 @@ function renderHomePage() {
     });
 }
 
+function formatMarks(marks) {
+    return marks === 1 ? "1 mark" : `${marks} marks`;
+}
+
 function openQuestionSet(topicId) {
     const bank = questionBanks[topicId];
     const homeView = document.getElementById("home-view");
@@ -273,18 +277,9 @@ function openQuestionSet(topicId) {
         const card = document.createElement("article");
         card.className = "question-card";
 
-        const heading = document.createElement("h3");
-        heading.textContent = `Question ${index + 1}`;
-        card.appendChild(heading);
-
-        const meta = document.createElement("span");
-        meta.className = "question-meta";
-        meta.textContent = `${item.marks} ${item.marks === 1 ? "mark" : "marks"}`;
-        card.appendChild(meta);
-
         const question = document.createElement("p");
         question.className = "question-text";
-        question.textContent = item.question;
+        question.textContent = `${index + 1}) ${item.question} (${formatMarks(item.marks)})`;
         card.appendChild(question);
 
         const revealButton = document.createElement("button");
