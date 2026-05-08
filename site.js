@@ -19,11 +19,15 @@ const topicGroups = [
         { id: "1-2-5", title: "1.2.5 Compression" }
       ]},
       { heading: "1.3 Computer networks, connections and protocols", topics: [
-        { id: "1-3-1", title: "1.3.1 Networks and topologies" },
-        { id: "1-3-1-1", title: "1.3.1.1 Network hardware" },
-        { id: "1-3-2-1", title: "1.3.2.1 Wired and wireless networks" },
-        { id: "1-3-2-2", title: "1.3.2.2 Protocols" },
-        { id: "1-3-2-3", title: "1.3.2.3 Layers" }
+        { id: "1-3-1", title: "1.3.1 LAN vs WAN" },
+        { id: "1-3-2", title: "1.3.2 Star vs Mesh topologies" },
+        { id: "1-3-3", title: "1.3.3 Client-server vs Peer-to-peer architectures" },
+        { id: "1-3-4", title: "1.3.4 Network hardware" },
+        { id: "1-3-5", title: "1.3.5 The Internet, DNS and Cloud" },
+        { id: "1-3-6", title: "1.3.6 Wired vs Wireless networks and performance factors" },
+        { id: "1-3-7", title: "1.3.7 Network protocols" },
+        { id: "1-3-8", title: "1.3.8 Network layers" },
+        { id: "1-3-9", title: "1.3.9 Encryption" }
       ]},
       { heading: "1.4 Network security", topics: [
         { id: "1-4-1", title: "1.4.1 Threats to computer systems and networks" },
@@ -88,7 +92,7 @@ allTopics().forEach(topic => {
   questionBanks[topic.id] = {
     paper: topic.paper,
     title: topic.title,
-    summary: "Starter question set. More questions can be added to this revision set later.",
+    summary: "Question set will be added shortly.",
     questions: [{
       question: `State one key fact about ${topic.title}.`,
       marks: 1,
@@ -116,12 +120,6 @@ questionBanks["1-1-1"] = {
     { question: "<strong>Explain</strong> the key idea of Von Neumann architecture and how it allows stored programs to be executed.", marks: 5, markSchemeIntro: "1 mark for each correct point:", markScheme: ["Von Neumann architecture stores programs and data in the same memory.", "Instructions are stored in memory before they are processed.", "The CPU fetches instructions from memory.", "The CPU decodes and executes the instructions.", "The Program Counter helps identify the next instruction to fetch.", "The same memory system can hold both instructions and data.", "This allows a stored program to be run automatically by the CPU.", "Accept any other valid point."] }
   ]
 };
-
-questionBanks["1-3-1-1"].questions = [{ question: "Identify two pieces of hardware needed to connect stand-alone computers into a local area network.", marks: 2, markSchemeIntro: "1 mark for each correct item:", markScheme: ["Switch.", "Router.", "Wireless access point.", "Network Interface Controller/Card / NIC.", "Transmission media.", "Accept any other valid point."] }];
-questionBanks["1-2-4-1"].questions = [{ question: "Convert the denary number 45 into 8-bit binary.", marks: 1, markScheme: ["00101101."] }, { question: "Explain what causes an overflow error when adding two 8-bit binary numbers.", marks: 2, markScheme: ["The result is too large to fit in 8 bits.", "An extra carry bit is produced beyond the available 8-bit storage.", "Accept any other valid point."] }];
-questionBanks["1-2-4-2"].questions = [{ question: "Explain why Unicode can represent more characters than ASCII.", marks: 2, markScheme: ["Unicode uses more bits per character than ASCII.", "More bits allow a larger number of unique binary codes/characters to be represented.", "Accept any other valid point."] }];
-questionBanks["1-2-4-3"].questions = [{ question: "Explain how increasing the resolution of an image affects the image file size.", marks: 2, markScheme: ["Increasing resolution increases the number of pixels in the image.", "More pixels require more binary data to be stored, so the file size increases.", "Accept any other valid point."] }];
-questionBanks["1-2-4-4"].questions = [{ question: "State two factors that affect the file size of a sound file.", marks: 2, markScheme: ["Sample rate.", "Duration.", "Bit depth.", "Award 1 mark for each correct factor, maximum 2 marks."] }];
 
 function slug(topicId) {
   return `topics/${topicId}.html`;
