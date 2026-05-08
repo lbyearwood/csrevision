@@ -39,22 +39,23 @@ body {
     background:
         linear-gradient(135deg, #092f3a 0%, #0f5f73 54%, #167f8f 100%);
     color: #ffffff;
-    padding: 50px 24px;
-    border-bottom: 6px solid var(--accent);
+    padding: 20px 24px;
+    border-bottom: 4px solid var(--accent);
 }
 
 .header-inner {
     max-width: 1120px;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: minmax(0, 2fr) minmax(260px, 1fr);
-    gap: 32px;
-    align-items: center;
+    display: block;
+}
+
+.header-card {
+    display: none;
 }
 
 .eyebrow {
-    margin: 0 0 8px 0;
-    font-size: 14px;
+    margin: 0 0 5px 0;
+    font-size: 12px;
     letter-spacing: 0.08em;
     text-transform: uppercase;
     font-weight: bold;
@@ -73,9 +74,9 @@ p {
 }
 
 h1 {
-    font-size: clamp(36px, 5vw, 64px);
-    line-height: 1.05;
-    margin-bottom: 18px;
+    font-size: clamp(26px, 3vw, 38px);
+    line-height: 1.08;
+    margin-bottom: 7px;
 }
 
 h2 {
@@ -91,18 +92,9 @@ h3 {
 
 .intro {
     max-width: 720px;
-    font-size: 18px;
+    font-size: 15px;
     color: #e9f5f7;
     margin-bottom: 0;
-}
-
-.header-card {
-    background: rgba(255, 255, 255, 0.96);
-    color: var(--ink);
-    border-radius: 20px;
-    padding: 24px;
-    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.25);
-    border: 1px solid rgba(255, 255, 255, 0.65);
 }
 
 .card-label {
@@ -129,7 +121,7 @@ h3 {
 main {
     max-width: 1120px;
     margin: 0 auto;
-    padding: 36px 24px 52px 24px;
+    padding: 28px 24px 52px 24px;
 }
 
 .view {
@@ -348,13 +340,20 @@ footer p {
 }
 
 @media (max-width: 900px) {
-    .header-inner,
     .topic-grid {
         grid-template-columns: 1fr;
     }
 
     .site-header {
-        padding: 36px 20px;
+        padding: 14px 20px;
+    }
+
+    h1 {
+        font-size: 26px;
+    }
+
+    .intro {
+        font-size: 14px;
     }
 
     main {
