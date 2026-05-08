@@ -10,8 +10,9 @@
     --primary-soft: #e3f3f6;
     --accent: #f2a541;
     --accent-soft: #fff4df;
-    --answer: #b42318;
-    --answer-soft: #fff1ef;
+    --answer: #1f7a3d;
+    --answer-soft: #edf8ef;
+    --answer-border: #6fbd7b;
     --shadow: 0 14px 34px rgba(16, 32, 51, 0.10);
 }
 
@@ -200,7 +201,6 @@ main {
 .back-button,
 .reveal-button {
     font-family: Arial, sans-serif;
-    font-size: 16px;
     cursor: pointer;
 }
 
@@ -215,6 +215,7 @@ main {
     text-align: left;
     line-height: 1.35;
     text-decoration: none;
+    font-size: 16px;
     transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
 }
 
@@ -226,15 +227,34 @@ main {
     transform: translateY(-1px);
 }
 
-.back-button,
-.reveal-button {
+.back-button {
     border: none;
     border-radius: 14px;
     background: var(--primary-dark);
     color: #ffffff;
     padding: 10px 16px;
+    font-size: 16px;
     font-weight: bold;
     box-shadow: 0 8px 18px rgba(11, 61, 74, 0.18);
+}
+
+.reveal-button {
+    margin-top: 12px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: #f5f9fb;
+    color: var(--muted);
+    padding: 6px 11px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: none;
+}
+
+.reveal-button:hover,
+.reveal-button:focus {
+    background: var(--primary-soft);
+    border-color: var(--primary);
+    color: var(--primary-dark);
 }
 
 .back-link {
@@ -246,14 +266,8 @@ main {
     margin-bottom: 22px;
 }
 
-.reveal-button {
-    margin-top: 14px;
-}
-
 .back-button:hover,
-.back-button:focus,
-.reveal-button:hover,
-.reveal-button:focus {
+.back-button:focus {
     background: var(--primary);
 }
 
@@ -290,9 +304,9 @@ main {
     display: none;
     margin-top: 16px;
     padding: 16px;
-    border-left: 5px solid var(--answer);
+    border-left: 5px solid var(--answer-border);
     background: var(--answer-soft);
-    color: var(--answer);
+    color: #245232;
     border-radius: 0 14px 14px 0;
 }
 
@@ -303,11 +317,12 @@ main {
 .mark-scheme h4 {
     margin: 0 0 8px 0;
     font-size: 18px;
+    color: var(--answer);
 }
 
 .mark-scheme-intro {
     margin-bottom: 8px;
-    color: var(--answer);
+    color: #245232;
 }
 
 .mark-scheme ul,
