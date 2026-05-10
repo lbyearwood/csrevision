@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.1.10 Trace tables quiz</title>
+    <link rel="stylesheet" href="../styles.css?v=25">
+</head>
+<body>
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to home</a>
+        <section class="question-header">
+            <p class="eyebrow">Paper 2 quiz</p>
+            <h2>2.1.10 Trace tables quiz</h2>
+            <p class="section-note">Self-marking retrieval practice on following algorithms and recording variable values.</p>
+        </section>
+
+        <form class="quiz-form" aria-label="2.1.10 Trace tables self-marking quiz">
+            <article class="quiz-question" data-type="input" data-answer="10" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 10.">
+                <h3>1) What is the final output?</h3>
+                <pre class="algorithm-code"><code>total = 0
+FOR number = 1 TO 4
+    total = total + number
+NEXT number
+OUTPUT total</code></pre>
+                <input type="text" aria-label="Answer for question 0">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="3" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 3.">
+                <h3>2) The inputs are Y, N, Y. What is the final score?</h3>
+                <pre class="algorithm-code"><code>score = 0
+FOR attempt = 1 TO 3
+    INPUT answer
+    IF answer == &quot;Y&quot; THEN
+        score = score + 2
+    ELSE
+        score = score - 1
+    ENDIF
+NEXT attempt
+OUTPUT score</code></pre>
+                <input type="text" aria-label="Answer for question 1">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="9" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 9.">
+                <h3>3) What value is stored in largest at the end?</h3>
+                <pre class="algorithm-code"><code>values = [4, 7, 2, 9]
+largest = values[0]
+FOR index = 1 TO 3
+    IF values[index] &gt; largest THEN
+        largest = values[index]
+    ENDIF
+NEXT index
+OUTPUT largest</code></pre>
+                <label><input type="radio" name="q3" value="9"> 9</label>
+                <label><input type="radio" name="q3" value="7"> 7</label>
+                <label><input type="radio" name="q3" value="4"> 4</label>
+                <label><input type="radio" name="q3" value="2"> 2</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="1|1|2|3|3|6" data-correct-feedback="The pseudocode has been completed correctly." data-incorrect-feedback="Correct order: 1|1|2|3|3|6.">
+                <h3>4) Complete the trace for count and total.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="1">1</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="1">1</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="2">2</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="3">3</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="3">3</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="6">6</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="4">4</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="10">10</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p>Row 1: count <span class="drop-blank" data-placeholder="Drop item">Drop item</span> total <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                    <p>Row 2: count <span class="drop-blank" data-placeholder="Drop item">Drop item</span> total <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                    <p>Row 3: count <span class="drop-blank" data-placeholder="Drop item">Drop item</span> total <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="3" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 3.">
+                <h3>5) How many times does the loop body run?</h3>
+                <pre class="algorithm-code"><code>count = 0
+WHILE count &lt; 3
+    count = count + 1
+ENDWHILE</code></pre>
+                <input type="text" aria-label="Answer for question 4">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="B" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: B.">
+                <h3>6) What is output?</h3>
+                <pre class="algorithm-code"><code>x = 6
+IF x &gt; 10 THEN
+    OUTPUT &quot;A&quot;
+ELSEIF x &gt; 5 THEN
+    OUTPUT &quot;B&quot;
+ELSE
+    OUTPUT &quot;C&quot;
+ENDIF</code></pre>
+                <label><input type="radio" name="q6" value="A"> A</label>
+                <label><input type="radio" name="q6" value="B"> B</label>
+                <label><input type="radio" name="q6" value="C"> C</label>
+                <label><input type="radio" name="q6" value="No output"> No output</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="16" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 16.">
+                <h3>7) What is the final value of x?</h3>
+                <pre class="algorithm-code"><code>x = 2
+FOR n = 1 TO 3
+    x = x * 2
+NEXT n
+OUTPUT x</code></pre>
+                <input type="text" aria-label="Answer for question 6">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="6" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 6.">
+                <h3>8) What is output by the nested loops?</h3>
+                <pre class="algorithm-code"><code>total = 0
+FOR row = 1 TO 2
+    FOR col = 1 TO 3
+        total = total + 1
+    NEXT col
+NEXT row
+OUTPUT total</code></pre>
+                <input type="text" aria-label="Answer for question 7">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="output" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: output.">
+                <h3>9) Which trace table column is missing?</h3>
+                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>count</th><th>total</th><th>?</th></tr></thead><tbody><tr><td>1</td><td>1</td><td></td></tr><tr><td>2</td><td>3</td><td></td></tr><tr><td>3</td><td>6</td><td>6</td></tr></tbody></table></div>
+                <label><input type="radio" name="q9" value="output"> output</label>
+                <label><input type="radio" name="q9" value="monitor"> monitor</label>
+                <label><input type="radio" name="q9" value="metadata"> metadata</label>
+                <label><input type="radio" name="q9" value="licence"> licence</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="a:7|b:3|temp:3" data-correct-feedback="Correct." data-incorrect-feedback="Correct matches: a:7|b:3|temp:3.">
+                <h3>10) Match each variable to its final value.</h3>
+                <pre class="algorithm-code"><code>a = 3
+b = 7
+temp = a
+a = b
+b = temp</code></pre>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="3">3</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="7">7</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="3">3</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="a" data-placeholder="Drop item">Drop item</span><p>a</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="b" data-placeholder="Drop item">Drop item</span><p>b</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="temp" data-placeholder="Drop item">Drop item</span><p>temp</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="4" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 4.">
+                <h3>11) What is printed last?</h3>
+                <pre class="algorithm-code"><code>FOR i = 2 TO 4
+    OUTPUT i
+NEXT i</code></pre>
+                <input type="text" aria-label="Answer for question 10">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="count 2, total 3" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: count 2, total 3.">
+                <h3>12) Which row shows the value after the second iteration?</h3>
+                <pre class="algorithm-code"><code>total = 0
+FOR count = 1 TO 3
+    total = total + count
+NEXT count</code></pre>
+                <label><input type="radio" name="q12" value="count 2, total 3"> count 2, total 3</label>
+                <label><input type="radio" name="q12" value="count 1, total 1"> count 1, total 1</label>
+                <label><input type="radio" name="q12" value="count 3, total 6"> count 3, total 6</label>
+                <label><input type="radio" name="q12" value="count 0, total 0"> count 0, total 0</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="false" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: false.">
+                <h3>13) What value is output?</h3>
+                <pre class="algorithm-code"><code>found = false
+item = &quot;cat&quot;
+IF item == &quot;dog&quot; THEN
+    found = true
+ENDIF
+OUTPUT found</code></pre>
+                <input type="text" aria-label="Answer for question 12">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="To record variable values step by step" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: To record variable values step by step.">
+                <h3>14) What is the purpose of a trace table?</h3>
+                <label><input type="radio" name="q14" value="To record variable values step by step"> To record variable values step by step</label>
+                <label><input type="radio" name="q14" value="To compress a file"> To compress a file</label>
+                <label><input type="radio" name="q14" value="To encrypt a network"> To encrypt a network</label>
+                <label><input type="radio" name="q14" value="To draw a logo"> To draw a logo</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="25" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 25.">
+                <h3>15) What final value reveals the logic error if the average should divide by 5?</h3>
+                <pre class="algorithm-code"><code>total = 100
+average = total / 4
+OUTPUT average</code></pre>
+                <input type="text" aria-label="Answer for question 14">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="1|3|6|6" data-correct-feedback="The running total trace is correct." data-incorrect-feedback="Correct missing values: 1, 3, 6, 6.">
+                <h3>16) Complete the missing values in the trace table.</h3>
+                <pre class="algorithm-code"><code>total = 0
+FOR count = 1 TO 3
+    total = total + count
+NEXT count
+OUTPUT total</code></pre>
+                <div class="quiz-table-wrap">
+                    <table class="quiz-table">
+                        <thead><tr><th>count</th><th>total</th><th>output</th></tr></thead>
+                        <tbody>
+                            <tr><td class="trace-given">1</td><td><input class="trace-table-input" type="text" aria-label="Question 16 total row 1"></td><td></td></tr>
+                            <tr><td class="trace-given">2</td><td><input class="trace-table-input" type="text" aria-label="Question 16 total row 2"></td><td></td></tr>
+                            <tr><td class="trace-given">3</td><td><input class="trace-table-input" type="text" aria-label="Question 16 total row 3"></td><td></td></tr>
+                            <tr><td></td><td class="trace-given">6</td><td><input class="trace-table-input" type="text" aria-label="Question 16 output"></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="2|1|3|3" data-correct-feedback="The score trace is correct." data-incorrect-feedback="Correct missing values: 2, 1, 3, 3.">
+                <h3>17) Complete the trace table for the inputs Y, N, Y.</h3>
+                <pre class="algorithm-code"><code>score = 0
+FOR attempt = 1 TO 3
+    INPUT answer
+    IF answer == "Y" THEN
+        score = score + 2
+    ELSE
+        score = score - 1
+    ENDIF
+NEXT attempt
+OUTPUT score</code></pre>
+                <div class="quiz-table-wrap">
+                    <table class="quiz-table">
+                        <thead><tr><th>attempt</th><th>answer</th><th>score</th><th>output</th></tr></thead>
+                        <tbody>
+                            <tr><td class="trace-given">1</td><td class="trace-given">Y</td><td><input class="trace-table-input" type="text" aria-label="Question 17 score row 1"></td><td></td></tr>
+                            <tr><td class="trace-given">2</td><td class="trace-given">N</td><td><input class="trace-table-input" type="text" aria-label="Question 17 score row 2"></td><td></td></tr>
+                            <tr><td class="trace-given">3</td><td class="trace-given">Y</td><td><input class="trace-table-input" type="text" aria-label="Question 17 score row 3"></td><td></td></tr>
+                            <tr><td></td><td></td><td class="trace-given">3</td><td><input class="trace-table-input" type="text" aria-label="Question 17 output"></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="7|7|9|9" data-correct-feedback="The largest-value trace is correct." data-incorrect-feedback="Correct missing values: 7, 7, 9, 9.">
+                <h3>18) Complete the trace table for finding the largest value.</h3>
+                <pre class="algorithm-code"><code>values = [4, 7, 2, 9]
+largest = values[0]
+FOR index = 1 TO 3
+    IF values[index] &gt; largest THEN
+        largest = values[index]
+    ENDIF
+NEXT index
+OUTPUT largest</code></pre>
+                <div class="quiz-table-wrap">
+                    <table class="quiz-table">
+                        <thead><tr><th>index</th><th>values[index]</th><th>largest</th><th>output</th></tr></thead>
+                        <tbody>
+                            <tr><td class="trace-given">1</td><td class="trace-given">7</td><td><input class="trace-table-input" type="text" aria-label="Question 18 largest row 1"></td><td></td></tr>
+                            <tr><td class="trace-given">2</td><td class="trace-given">2</td><td><input class="trace-table-input" type="text" aria-label="Question 18 largest row 2"></td><td></td></tr>
+                            <tr><td class="trace-given">3</td><td class="trace-given">9</td><td><input class="trace-table-input" type="text" aria-label="Question 18 largest row 3"></td><td></td></tr>
+                            <tr><td></td><td></td><td class="trace-given">9</td><td><input class="trace-table-input" type="text" aria-label="Question 18 output"></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="4|8|16|16" data-correct-feedback="The doubling trace is correct." data-incorrect-feedback="Correct missing values: 4, 8, 16, 16.">
+                <h3>19) Complete the trace table for the doubling loop.</h3>
+                <pre class="algorithm-code"><code>x = 2
+FOR n = 1 TO 3
+    x = x * 2
+NEXT n
+OUTPUT x</code></pre>
+                <div class="quiz-table-wrap">
+                    <table class="quiz-table">
+                        <thead><tr><th>n</th><th>x</th><th>output</th></tr></thead>
+                        <tbody>
+                            <tr><td class="trace-given">1</td><td><input class="trace-table-input" type="text" aria-label="Question 19 x row 1"></td><td></td></tr>
+                            <tr><td class="trace-given">2</td><td><input class="trace-table-input" type="text" aria-label="Question 19 x row 2"></td><td></td></tr>
+                            <tr><td class="trace-given">3</td><td><input class="trace-table-input" type="text" aria-label="Question 19 x row 3"></td><td></td></tr>
+                            <tr><td></td><td class="trace-given">16</td><td><input class="trace-table-input" type="text" aria-label="Question 19 output"></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="1|2|3|4|4" data-correct-feedback="The nested-loop trace is correct." data-incorrect-feedback="Correct missing values: 1, 2, 3, 4, 4.">
+                <h3>20) Complete the trace table for the nested loops.</h3>
+                <pre class="algorithm-code"><code>total = 0
+FOR row = 1 TO 2
+    FOR col = 1 TO 2
+        total = total + 1
+    NEXT col
+NEXT row
+OUTPUT total</code></pre>
+                <div class="quiz-table-wrap">
+                    <table class="quiz-table">
+                        <thead><tr><th>row</th><th>col</th><th>total</th><th>output</th></tr></thead>
+                        <tbody>
+                            <tr><td class="trace-given">1</td><td class="trace-given">1</td><td><input class="trace-table-input" type="text" aria-label="Question 20 total row 1"></td><td></td></tr>
+                            <tr><td class="trace-given">1</td><td class="trace-given">2</td><td><input class="trace-table-input" type="text" aria-label="Question 20 total row 2"></td><td></td></tr>
+                            <tr><td class="trace-given">2</td><td class="trace-given">1</td><td><input class="trace-table-input" type="text" aria-label="Question 20 total row 3"></td><td></td></tr>
+                            <tr><td class="trace-given">2</td><td class="trace-given">2</td><td><input class="trace-table-input" type="text" aria-label="Question 20 total row 4"></td><td></td></tr>
+                            <tr><td></td><td></td><td class="trace-given">4</td><td><input class="trace-table-input" type="text" aria-label="Question 20 output"></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <div class="quiz-controls">
+                <button class="back-button" type="submit">Check answers</button>
+                <button class="reveal-button" type="reset">Reset quiz</button>
+                <p class="quiz-result" hidden aria-live="polite"></p>
+            </div>
+        </form>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="../site.js?v=25"></script>
+</body>
+</html>

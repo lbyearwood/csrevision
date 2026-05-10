@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.1.2 CPU performance quiz</title>
+    <link rel="stylesheet" href="../styles.css?v=25">
+</head>
+<body>
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to home</a>
+        <section class="question-header">
+            <p class="eyebrow">Paper 1 quiz</p>
+            <h2>1.1.2 CPU performance quiz</h2>
+            <p class="section-note">Self-marking retrieval practice. Choose the best answer for each question, then check your score.</p>
+        </section>
+
+        <form class="quiz-form" aria-label="1.1.2 CPU performance self-marking quiz">
+            <article class="quiz-question" data-type="radio" data-answer="The number of cycles the CPU can carry out per second" data-correct-feedback="Clock speed measures how many CPU cycles can be completed per second." data-incorrect-feedback="Clock speed is the number of cycles the CPU can carry out per second.">
+                <h3>1) What does clock speed measure?</h3>
+                <label><input type="radio" name="q1" value="The number of cycles the CPU can carry out per second"> The number of cycles the CPU can carry out per second</label>
+                <label><input type="radio" name="q1" value="The number of programs stored on the computer"> The number of programs stored on the computer</label>
+                <label><input type="radio" name="q1" value="The size of secondary storage"> The size of secondary storage</label>
+                <label><input type="radio" name="q1" value="The number of pixels shown on screen"> The number of pixels shown on screen</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="slider" data-answer="3" data-correct-feedback="3 GHz means about 3 billion cycles per second." data-incorrect-feedback="3 GHz means about 3 billion cycles per second.">
+                <h3>2) A CPU has a clock speed of 3 GHz. About how many billion cycles per second is this?</h3>
+                <div class="slider-question">
+                    <input type="range" min="1" max="4" step="1" value="1" aria-label="Number of billion cycles per second">
+                    <div class="slider-labels" aria-hidden="true">
+                        <span>1</span>
+                        <span>2</span>
+                        <span>3</span>
+                        <span>4</span>
+                    </div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="checkbox" data-answer="Clock speed,Cache size,Number of cores" data-correct-feedback="Clock speed, cache size and number of cores are CPU characteristics that can affect performance." data-incorrect-feedback="The CPU performance factors are clock speed, cache size and number of cores.">
+                <h3>3) Tick all that apply: which factors can affect CPU performance?</h3>
+                <label><input type="checkbox" value="Clock speed"> Clock speed</label>
+                <label><input type="checkbox" value="Cache size"> Cache size</label>
+                <label><input type="checkbox" value="Monitor size"> Monitor size</label>
+                <label><input type="checkbox" value="Number of cores"> Number of cores</label>
+                <label><input type="checkbox" value="Keyboard layout"> Keyboard layout</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Cycles per second:Clock speed|Frequently used data and instructions kept close to the CPU:Cache size|Processing units inside the CPU:Number of cores" data-correct-feedback="Each CPU performance factor has been matched to its role." data-incorrect-feedback="Correct matches: clock speed = cycles per second; cache size = frequently used data and instructions close to the CPU; number of cores = processing units inside the CPU.">
+                <h3>4) Drag each factor to what it describes.</h3>
+                <div class="word-bank" aria-label="CPU factors to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Number of cores">Number of cores</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Clock speed">Clock speed</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Cache size">Cache size</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row">
+                        <span class="match-drop" data-match="Cycles per second" data-placeholder="Drop factor">Drop factor</span>
+                        <p>Cycles per second.</p>
+                    </div>
+                    <div class="match-row">
+                        <span class="match-drop" data-match="Frequently used data and instructions kept close to the CPU" data-placeholder="Drop factor">Drop factor</span>
+                        <p>Frequently used data and instructions kept close to the CPU.</p>
+                    </div>
+                    <div class="match-row">
+                        <span class="match-drop" data-match="Processing units inside the CPU" data-placeholder="Drop factor">Drop factor</span>
+                        <p>Processing units inside the CPU.</p>
+                    </div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="higher|cycles|instructions" data-correct-feedback="A higher clock speed can allow more cycles and instructions to be processed each second." data-incorrect-feedback="Correct sentence: A higher clock speed means more cycles can be completed per second, so more instructions may be processed.">
+                <h3>5) Drag each word into the correct blank about clock speed.</h3>
+                <div class="word-bank" aria-label="Words to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="cycles">cycles</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="higher">higher</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="files">files</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="instructions">instructions</button>
+                </div>
+                <p class="blank-paragraph compact-blank-paragraph">
+                    A
+                    <span class="drop-blank" data-placeholder="Drop word" aria-label="Blank 1">Drop word</span>
+                    clock speed means more
+                    <span class="drop-blank" data-placeholder="Drop word" aria-label="Blank 2">Drop word</span>
+                    can be completed per second, so more
+                    <span class="drop-blank" data-placeholder="Drop word" aria-label="Blank 3">Drop word</span>
+                    may be processed.
+                </p>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Frequently used data and instructions" data-correct-feedback="Cache stores frequently used data and instructions so the CPU can access them quickly." data-incorrect-feedback="Cache stores frequently used data and instructions.">
+                <h3>6) What is stored in cache?</h3>
+                <label><input type="radio" name="q6" value="Frequently used data and instructions"> Frequently used data and instructions</label>
+                <label><input type="radio" name="q6" value="All user files permanently"> All user files permanently</label>
+                <label><input type="radio" name="q6" value="Only the operating system logo"> Only the operating system logo</label>
+                <label><input type="radio" name="q6" value="The monitor resolution"> The monitor resolution</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Single calculation-heavy program:Clock speed|Repeatedly used data:Cache size|Several apps at the same time:Number of cores" data-correct-feedback="Each scenario is matched to a likely helpful CPU characteristic." data-incorrect-feedback="Correct matches: calculation-heavy program = clock speed; repeated data = cache size; several apps = number of cores.">
+                <h3>7) Drag the most useful CPU characteristic to each scenario.</h3>
+                <div class="word-bank" aria-label="CPU characteristics to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Cache size">Cache size</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Number of cores">Number of cores</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Clock speed">Clock speed</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row">
+                        <span class="match-drop" data-match="Single calculation-heavy program" data-placeholder="Drop characteristic">Drop characteristic</span>
+                        <p>Single calculation-heavy program.</p>
+                    </div>
+                    <div class="match-row">
+                        <span class="match-drop" data-match="Repeatedly used data" data-placeholder="Drop characteristic">Drop characteristic</span>
+                        <p>Repeatedly used data.</p>
+                    </div>
+                    <div class="match-row">
+                        <span class="match-drop" data-match="Several apps at the same time" data-placeholder="Drop characteristic">Drop characteristic</span>
+                        <p>Several apps at the same time.</p>
+                    </div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="checkbox" data-answer="It is faster to access than RAM,It can reduce the need to access slower main memory" data-correct-feedback="Cache is fast memory close to the CPU and can reduce slower RAM access." data-incorrect-feedback="Cache helps because it is faster to access than RAM and can reduce access to slower main memory.">
+                <h3>8) Tick all that apply: why can cache improve CPU performance?</h3>
+                <label><input type="checkbox" value="It is faster to access than RAM"> It is faster to access than RAM</label>
+                <label><input type="checkbox" value="It can reduce the need to access slower main memory"> It can reduce the need to access slower main memory</label>
+                <label><input type="checkbox" value="It permanently stores every installed program"> It permanently stores every installed program</label>
+                <label><input type="checkbox" value="It replaces the need for a CPU"> It replaces the need for a CPU</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="False" data-correct-feedback="More cores do not always improve performance if the software cannot use them effectively." data-incorrect-feedback="This is false. More cores do not always improve performance because the software and task matter.">
+                <h3>9) True or false: a CPU with more cores will always be faster.</h3>
+                <label><input type="radio" name="q9" value="True"> True</label>
+                <label><input type="radio" name="q9" value="False"> False</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Clock speed:GHz|Cache size:MB|Number of cores:2, 4, 6 or 8 cores" data-correct-feedback="Each characteristic has been matched to a suitable way it may be described." data-incorrect-feedback="Correct matches: clock speed = GHz; cache size = MB; number of cores = 2, 4, 6 or 8 cores.">
+                <h3>10) Complete the table: how might each CPU characteristic be described?</h3>
+                <div class="word-bank" aria-label="Descriptions to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="MB">MB</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="2, 4, 6 or 8 cores">2, 4, 6 or 8 cores</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="GHz">GHz</button>
+                </div>
+                <div class="quiz-table-wrap">
+                    <table class="quiz-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Characteristic</th>
+                                <th scope="col">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Clock speed</th>
+                                <td><span class="match-drop" data-match="Clock speed" data-placeholder="Drop description">Drop description</span></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Cache size</th>
+                                <td><span class="match-drop" data-match="Cache size" data-placeholder="Drop description">Drop description</span></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Number of cores</th>
+                                <td><span class="match-drop" data-match="Number of cores" data-placeholder="Drop description">Drop description</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="True" data-correct-feedback="A larger cache can store more frequently used data and instructions." data-incorrect-feedback="This is true. A larger cache can store more frequently used data and instructions.">
+                <h3>11) True or false: a larger cache can store more frequently used data and instructions.</h3>
+                <label><input type="radio" name="q11" value="True"> True</label>
+                <label><input type="radio" name="q11" value="False"> False</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="checkbox" data-answer="The task being carried out,The software being used,Other CPU characteristics" data-correct-feedback="Performance depends on the task, software and combination of CPU characteristics." data-incorrect-feedback="The effect of changing one factor depends on the task, software and other CPU characteristics.">
+                <h3>12) Tick all that apply: what can affect whether a CPU upgrade improves performance?</h3>
+                <label><input type="checkbox" value="The task being carried out"> The task being carried out</label>
+                <label><input type="checkbox" value="The software being used"> The software being used</label>
+                <label><input type="checkbox" value="The colour of the case"> The colour of the case</label>
+                <label><input type="checkbox" value="Other CPU characteristics"> Other CPU characteristics</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="cache|RAM|waiting" data-correct-feedback="Cache can reduce how often the CPU waits for data from RAM." data-incorrect-feedback="Correct sentence: Data in cache can be accessed faster than RAM, reducing the time spent waiting.">
+                <h3>13) Drag each word into the correct blank about cache.</h3>
+                <div class="word-bank" aria-label="Words to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="RAM">RAM</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="cache">cache</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="waiting">waiting</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="printing">printing</button>
+                </div>
+                <p class="blank-paragraph compact-blank-paragraph">
+                    Data in
+                    <span class="drop-blank" data-placeholder="Drop word" aria-label="Blank 1">Drop word</span>
+                    can be accessed faster than
+                    <span class="drop-blank" data-placeholder="Drop word" aria-label="Blank 2">Drop word</span>,
+                    reducing the time the CPU spends
+                    <span class="drop-blank" data-placeholder="Drop word" aria-label="Blank 3">Drop word</span>.
+                </p>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Extra cores do not help much:The software cannot split work across cores|Large cache does not help much:The needed data is not in cache|Higher clock speed has a drawback:It can increase heat output or power use" data-correct-feedback="Each limitation has been matched to a correct reason." data-incorrect-feedback="Correct matches: extra cores need suitable software; cache only helps when useful data is stored there; higher clock speed can increase heat or power use.">
+                <h3>14) Drag each reason to the correct limitation.</h3>
+                <div class="word-bank" aria-label="Reasons to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="The needed data is not in cache">The needed data is not in cache</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="It can increase heat output or power use">It can increase heat output or power use</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="The software cannot split work across cores">The software cannot split work across cores</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row">
+                        <span class="match-drop" data-match="Extra cores do not help much" data-placeholder="Drop reason">Drop reason</span>
+                        <p>Extra cores do not help much.</p>
+                    </div>
+                    <div class="match-row">
+                        <span class="match-drop" data-match="Large cache does not help much" data-placeholder="Drop reason">Drop reason</span>
+                        <p>Large cache does not help much.</p>
+                    </div>
+                    <div class="match-row">
+                        <span class="match-drop" data-match="Higher clock speed has a drawback" data-placeholder="Drop reason">Drop reason</span>
+                        <p>Higher clock speed has a drawback.</p>
+                    </div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Screen resolution" data-correct-feedback="Screen resolution is not a CPU performance factor." data-incorrect-feedback="The odd one out is screen resolution because it is not a CPU performance factor.">
+                <h3>15) Spot the odd one out.</h3>
+                <label><input type="radio" name="q15" value="Clock speed"> Clock speed</label>
+                <label><input type="radio" name="q15" value="Cache size"> Cache size</label>
+                <label><input type="radio" name="q15" value="Screen resolution"> Screen resolution</label>
+                <label><input type="radio" name="q15" value="Number of cores"> Number of cores</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Number of cores" data-correct-feedback="More cores can help when several applications or tasks run at the same time." data-incorrect-feedback="Number of cores is the best answer because it can help with multitasking.">
+                <h3>16) Which CPU characteristic is most directly useful when running several applications at the same time?</h3>
+                <label><input type="radio" name="q16" value="Number of cores"> Number of cores</label>
+                <label><input type="radio" name="q16" value="Monitor size"> Monitor size</label>
+                <label><input type="radio" name="q16" value="File extension"> File extension</label>
+                <label><input type="radio" name="q16" value="Keyboard language"> Keyboard language</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <div class="quiz-controls">
+                <button class="back-button" type="submit">Check answers</button>
+                <button class="reveal-button" type="reset">Reset quiz</button>
+                <p class="quiz-result" hidden aria-live="polite"></p>
+            </div>
+        </form>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="../site.js?v=25"></script>
+</body>
+</html>

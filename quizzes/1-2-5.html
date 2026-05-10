@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.2.5 Binary number system quiz</title>
+    <link rel="stylesheet" href="../styles.css?v=25">
+</head>
+<body>
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to home</a>
+        <section class="question-header">
+            <p class="eyebrow">Paper 1 quiz</p>
+            <h2>1.2.5 Binary number system quiz</h2>
+            <p class="section-note">Self-marking retrieval practice. Choose the best answer for each question, then check your score.</p>
+        </section>
+
+        <form class="quiz-form" aria-label="1.2.5 Binary number system self-marking quiz">
+            <article class="quiz-question" data-type="radio" data-answer="0 and 1" data-correct-feedback="Binary uses only the digits 0 and 1." data-incorrect-feedback="Binary uses only 0 and 1.">
+                <h3>1) Which two digits are used in binary?</h3>
+                <label><input type="radio" name="q1" value="0 and 1"> 0 and 1</label>
+                <label><input type="radio" name="q1" value="1 and 2"> 1 and 2</label>
+                <label><input type="radio" name="q1" value="0 to 9"> 0 to 9</label>
+                <label><input type="radio" name="q1" value="A to F"> A to F</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="checkbox" data-answer="Computers use two-state circuits,Data and instructions must be represented for processing,Binary can represent all data stored by a computer" data-correct-feedback="Computers use binary because data and instructions need to be represented using two-state values." data-incorrect-feedback="Computers use binary because circuits have two states, and data/instructions must be represented for processing.">
+                <h3>2) Tick all that apply: why do computers use binary?</h3>
+                <label><input type="checkbox" value="Computers use two-state circuits"> Computers use two-state circuits</label>
+                <label><input type="checkbox" value="Data and instructions must be represented for processing"> Data and instructions must be represented for processing</label>
+                <label><input type="checkbox" value="Binary can represent all data stored by a computer"> Binary can represent all data stored by a computer</label>
+                <label><input type="checkbox" value="Binary only represents music files"> Binary only represents music files</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="128:Most significant bit in 8-bit binary|1:Least significant bit in 8-bit binary|255:Largest denary value using 8 bits|00000000:Smallest 8-bit binary value" data-correct-feedback="The 8-bit place values and range have been matched correctly." data-incorrect-feedback="Correct matches: 128 = MSB; 1 = LSB; 255 = largest 8-bit denary value; 00000000 = smallest 8-bit value.">
+                <h3>3) Drag each description to the correct value.</h3>
+                <div class="word-bank" aria-label="Descriptions to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Least significant bit in 8-bit binary">Least significant bit in 8-bit binary</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Largest denary value using 8 bits">Largest denary value using 8 bits</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Most significant bit in 8-bit binary">Most significant bit in 8-bit binary</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Smallest 8-bit binary value">Smallest 8-bit binary value</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="128" data-placeholder="Drop description">Drop description</span><p>128.</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="1" data-placeholder="Drop description">Drop description</span><p>1.</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="255" data-placeholder="Drop description">Drop description</span><p>255.</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="00000000" data-placeholder="Drop description">Drop description</span><p>00000000.</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="10011101" data-correct-feedback="157 = 128 + 16 + 8 + 4 + 1, so the 8-bit binary is 10011101." data-incorrect-feedback="157 in 8-bit binary is 10011101.">
+                <h3>4) Convert denary 157 to 8-bit binary.</h3>
+                <input type="text" inputmode="numeric" aria-label="157 in 8-bit binary">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="107" data-correct-feedback="01101011 = 64 + 32 + 8 + 2 + 1 = 107." data-incorrect-feedback="01101011 in denary is 107.">
+                <h3>5) Convert binary 01101011 to denary.</h3>
+                <input type="text" inputmode="numeric" aria-label="01101011 in denary">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="00100101" data-correct-feedback="37 = 32 + 4 + 1, so 8-bit binary is 00100101." data-incorrect-feedback="37 in 8-bit binary is 00100101.">
+                <h3>6) Convert denary 37 to 8-bit binary.</h3>
+                <input type="text" inputmode="numeric" aria-label="37 in 8-bit binary">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="69" data-correct-feedback="01000101 = 64 + 4 + 1 = 69." data-incorrect-feedback="01000101 in denary is 69.">
+                <h3>7) Convert binary 01000101 to denary.</h3>
+                <input type="text" inputmode="numeric" aria-label="01000101 in denary">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="11111111" data-correct-feedback="255 is the largest denary value that can be represented in 8 bits: 11111111." data-incorrect-feedback="255 in 8-bit binary is 11111111.">
+                <h3>8) Convert denary 255 to 8-bit binary.</h3>
+                <input type="text" inputmode="numeric" aria-label="255 in 8-bit binary">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="0" data-correct-feedback="00000000 represents denary 0." data-incorrect-feedback="00000000 in denary is 0.">
+                <h3>9) Convert binary 00000000 to denary.</h3>
+                <input type="text" inputmode="numeric" aria-label="00000000 in denary">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="128" data-correct-feedback="10000000 has only the 128 place set to 1." data-incorrect-feedback="10000000 in denary is 128.">
+                <h3>10) Convert binary 10000000 to denary.</h3>
+                <input type="text" inputmode="numeric" aria-label="10000000 in denary">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="01011010" data-correct-feedback="90 = 64 + 16 + 8 + 2, so 8-bit binary is 01011010." data-incorrect-feedback="90 in 8-bit binary is 01011010.">
+                <h3>11) Convert denary 90 to 8-bit binary.</h3>
+                <input type="text" inputmode="numeric" aria-label="90 in 8-bit binary">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="204" data-correct-feedback="11001100 = 128 + 64 + 8 + 4 = 204." data-incorrect-feedback="11001100 in denary is 204.">
+                <h3>12) Convert binary 11001100 to denary.</h3>
+                <input type="text" inputmode="numeric" aria-label="11001100 in denary">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="128|1|leading zeroes" data-correct-feedback="The 128 place is the most significant bit, the 1 place is the least significant bit, and shorter values can be padded with leading zeroes." data-incorrect-feedback="Correct sentence: In 8-bit binary, 128 is the MSB, 1 is the LSB, and shorter values can use leading zeroes.">
+                <h3>13) Drag each phrase into the correct blank.</h3>
+                <div class="word-bank" aria-label="Phrases to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="1">1</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="leading zeroes">leading zeroes</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="128">128</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="trailing letters">trailing letters</button>
+                </div>
+                <p class="blank-paragraph compact-blank-paragraph">
+                    In 8-bit binary, the
+                    <span class="drop-blank" data-placeholder="Drop value" aria-label="Blank 1">Drop value</span>
+                    place is the most significant bit, the
+                    <span class="drop-blank" data-placeholder="Drop value" aria-label="Blank 2">Drop value</span>
+                    place is the least significant bit, and shorter values can be padded with
+                    <span class="drop-blank" data-placeholder="Drop phrase" aria-label="Blank 3">Drop phrase</span>.
+                </p>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="128" data-correct-feedback="In 8-bit binary, the leftmost bit has the place value 128." data-incorrect-feedback="The most significant bit in 8-bit binary has place value 128.">
+                <h3>14) What is the place value of the most significant bit in 8-bit binary?</h3>
+                <label><input type="radio" name="q14" value="1"> 1</label>
+                <label><input type="radio" name="q14" value="8"> 8</label>
+                <label><input type="radio" name="q14" value="128"> 128</label>
+                <label><input type="radio" name="q14" value="255"> 255</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="1" data-correct-feedback="The least significant bit is the rightmost bit and has place value 1." data-incorrect-feedback="The least significant bit in 8-bit binary has place value 1.">
+                <h3>15) What is the place value of the least significant bit in 8-bit binary?</h3>
+                <label><input type="radio" name="q15" value="1"> 1</label>
+                <label><input type="radio" name="q15" value="2"> 2</label>
+                <label><input type="radio" name="q15" value="64"> 64</label>
+                <label><input type="radio" name="q15" value="128"> 128</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="00001011" data-correct-feedback="11 can be written as 00001011 using leading zeroes to make 8 bits." data-incorrect-feedback="11 in 8-bit binary is 00001011.">
+                <h3>16) Which is the 8-bit version of binary 1011?</h3>
+                <label><input type="radio" name="q16" value="00001011"> 00001011</label>
+                <label><input type="radio" name="q16" value="10110000"> 10110000</label>
+                <label><input type="radio" name="q16" value="11111011"> 11111011</label>
+                <label><input type="radio" name="q16" value="00000101"> 00000101</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="255" data-correct-feedback="8 bits can represent denary values from 0 to 255." data-incorrect-feedback="The largest denary value represented by 8 bits is 255.">
+                <h3>17) What is the largest denary value that can be represented using 8 bits?</h3>
+                <label><input type="radio" name="q17" value="8"> 8</label>
+                <label><input type="radio" name="q17" value="127"> 127</label>
+                <label><input type="radio" name="q17" value="255"> 255</label>
+                <label><input type="radio" name="q17" value="256"> 256</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="False" data-correct-feedback="Shorter binary numbers can be padded with leading zeroes." data-incorrect-feedback="This is false. Shorter binary numbers can be padded with leading zeroes.">
+                <h3>18) True or false: adding leading zeroes changes the value of a positive binary number.</h3>
+                <label><input type="radio" name="q18" value="True"> True</label>
+                <label><input type="radio" name="q18" value="False"> False</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="A binary number with more than 8 bits" data-correct-feedback="The 1.2.5 quiz should stay within binary values up to 8 bits." data-incorrect-feedback="The odd one out is a binary number with more than 8 bits, because this subtopic uses values up to 8 bits.">
+                <h3>19) Spot the odd one out for this subtopic.</h3>
+                <label><input type="radio" name="q19" value="00000000"> 00000000</label>
+                <label><input type="radio" name="q19" value="11111111"> 11111111</label>
+                <label><input type="radio" name="q19" value="A binary number with more than 8 bits"> A binary number with more than 8 bits</label>
+                <label><input type="radio" name="q19" value="01010101"> 01010101</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="00000101 and 101 both represent denary 5; leading zeroes do not change the value." data-correct-feedback="Leading zeroes can be added to make an 8-bit number without changing the value." data-incorrect-feedback="The misconception is that leading zeroes change the value. 00000101 and 101 both represent denary 5.">
+                <h3>20) Identify the misconception: "00000101 cannot be the same value as 101."</h3>
+                <label><input type="radio" name="q20" value="00000101 and 101 both represent denary 5; leading zeroes do not change the value."> 00000101 and 101 both represent denary 5; leading zeroes do not change the value.</label>
+                <label><input type="radio" name="q20" value="Binary can only use the digit 5."> Binary can only use the digit 5.</label>
+                <label><input type="radio" name="q20" value="Leading zeroes always make the number negative."> Leading zeroes always make the number negative.</label>
+                <label><input type="radio" name="q20" value="101 is not a binary number."> 101 is not a binary number.</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <div class="quiz-controls">
+                <button class="back-button" type="submit">Check answers</button>
+                <button class="reveal-button" type="reset">Reset quiz</button>
+                <p class="quiz-result" hidden aria-live="polite"></p>
+            </div>
+        </form>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="../site.js?v=25"></script>
+</body>
+</html>

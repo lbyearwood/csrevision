@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.2.2 Data types and type casting challenge quiz</title>
+    <link rel="stylesheet" href="../styles.css?v=25">
+</head>
+<body>
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to home</a>
+        <section class="question-header">
+            <p class="eyebrow">Paper 2 quiz</p>
+            <h2>2.2.2 Data types and type casting challenge quiz</h2>
+            <p class="section-note">Self-marking retrieval practice on data types, suitable choices and type casting.</p>
+        </section>
+
+        <form class="quiz-form" aria-label="2.2.2 Data types and type casting challenge self-marking quiz">
+            <article class="quiz-question" data-type="drag-blank" data-answer="Integer" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: Integer.">
+                <h3>1) What data type should be used to store a whole number?</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Integer">Integer</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Real">Real</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Boolean">Boolean</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="String">String</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p>A whole number such as 42 should be stored as <span class="drop-blank" data-placeholder="Drop item">Drop item</span>.</p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Real" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Real.">
+                <h3>2) What data type should be used to store a decimal number?</h3>
+                <label><input type="radio" name="q2" value="Integer"> Integer</label>
+                <label><input type="radio" name="q2" value="Real"> Real</label>
+                <label><input type="radio" name="q2" value="Boolean"> Boolean</label>
+                <label><input type="radio" name="q2" value="Character"> Character</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="42:Integer|3.14:Real|TRUE:Boolean|A:Character|Hello:String" data-correct-feedback="The matches are correct." data-incorrect-feedback="Correct matches: 42:Integer|3.14:Real|TRUE:Boolean|A:Character|Hello:String.">
+                <h3>3) Match each value to the correct data type.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Integer">Integer</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Real">Real</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Boolean">Boolean</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Character">Character</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="String">String</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="42" data-placeholder="Drop item">Drop item</span><p>42</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="3.14" data-placeholder="Drop item">Drop item</span><p>3.14</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="TRUE" data-placeholder="Drop item">Drop item</span><p>TRUE</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="A" data-placeholder="Drop item">Drop item</span><p>A</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Hello" data-placeholder="Drop item">Drop item</span><p>Hello</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="17:Integer|8.5:Real|FALSE:Boolean|Z:Character|OCR:String" data-correct-feedback="The matches are correct." data-incorrect-feedback="Correct matches: 17:Integer|8.5:Real|FALSE:Boolean|Z:Character|OCR:String.">
+                <h3>4) Sort each value into the correct data type group.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Integer">Integer</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Real">Real</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Boolean">Boolean</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Character">Character</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="String">String</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="17" data-placeholder="Drop item">Drop item</span><p>17</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="8.5" data-placeholder="Drop item">Drop item</span><p>8.5</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="FALSE" data-placeholder="Drop item">Drop item</span><p>FALSE</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Z" data-placeholder="Drop item">Drop item</span><p>Z</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="OCR" data-placeholder="Drop item">Drop item</span><p>OCR</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="checkbox" data-answer="7,-3,0,102" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 7,-3,0,102.">
+                <h3>5) Select all values that are examples of integers.</h3>
+                <label><input type="checkbox" value="7"> 7</label>
+                <label><input type="checkbox" value="-3"> -3</label>
+                <label><input type="checkbox" value="0"> 0</label>
+                <label><input type="checkbox" value="102"> 102</label>
+                <label><input type="checkbox" value="4.5"> 4.5</label>
+                <label><input type="checkbox" value="TRUE"> TRUE</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="checkbox" data-answer="3.5,-0.25,10.0" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 3.5,-0.25,10.0.">
+                <h3>6) Select all values that are examples of real numbers.</h3>
+                <label><input type="checkbox" value="3.5"> 3.5</label>
+                <label><input type="checkbox" value="-0.25"> -0.25</label>
+                <label><input type="checkbox" value="10.0"> 10.0</label>
+                <label><input type="checkbox" value="8"> 8</label>
+                <label><input type="checkbox" value="FALSE"> FALSE</label>
+                <label><input type="checkbox" value="A"> A</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Real" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Real.">
+                <h3>7) A product price is being stored in a program. Which data type should be used?</h3>
+                <label><input type="radio" name="q7" value="Integer"> Integer</label>
+                <label><input type="radio" name="q7" value="Real"> Real</label>
+                <label><input type="radio" name="q7" value="Boolean"> Boolean</label>
+                <label><input type="radio" name="q7" value="Character"> Character</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Boolean" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Boolean.">
+                <h3>8) A program stores whether a user is logged in. Which data type should be used?</h3>
+                <label><input type="radio" name="q8" value="Boolean"> Boolean</label>
+                <label><input type="radio" name="q8" value="Integer"> Integer</label>
+                <label><input type="radio" name="q8" value="Real"> Real</label>
+                <label><input type="radio" name="q8" value="Character"> Character</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Age:Integer|Average mark:Real|Logged in:Boolean|Middle initial:Character|Surname:String" data-correct-feedback="The matches are correct." data-incorrect-feedback="Correct matches: Age:Integer|Average mark:Real|Logged in:Boolean|Middle initial:Character|Surname:String.">
+                <h3>9) Drag each school database field into the most suitable data type category.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Integer">Integer</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Real">Real</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Boolean">Boolean</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Character">Character</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="String">String</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="Age" data-placeholder="Drop item">Drop item</span><p>Age</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Average mark" data-placeholder="Drop item">Drop item</span><p>Average mark</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Logged in" data-placeholder="Drop item">Drop item</span><p>Logged in</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Middle initial" data-placeholder="Drop item">Drop item</span><p>Middle initial</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Surname" data-placeholder="Drop item">Drop item</span><p>Surname</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Character" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Character.">
+                <h3>10) Identify the most suitable data type for a single letter.</h3>
+                <label><input type="radio" name="q10" value="Character"> Character</label>
+                <label><input type="radio" name="q10" value="String"> String</label>
+                <label><input type="radio" name="q10" value="Integer"> Integer</label>
+                <label><input type="radio" name="q10" value="Boolean"> Boolean</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="Integer|String|Boolean" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: Integer|String|Boolean.">
+                <h3>11) Complete the missing data type in the code.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Integer">Integer</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Real">Real</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="String">String</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Boolean">Boolean</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p>age : <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                    <p>surname : <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                    <p>loggedIn : <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="&quot;25&quot;" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: &quot;25&quot;.">
+                <h3>12) Identify the value that would be stored as a string.</h3>
+                <label><input type="radio" name="q12" value="&quot;25&quot;"> &quot;25&quot;</label>
+                <label><input type="radio" name="q12" value="25"> 25</label>
+                <label><input type="radio" name="q12" value="25.0"> 25.0</label>
+                <label><input type="radio" name="q12" value="TRUE"> TRUE</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Character:Stores one symbol|String:Stores a sequence of characters" data-correct-feedback="The matches are correct." data-incorrect-feedback="Correct matches: Character:Stores one symbol|String:Stores a sequence of characters.">
+                <h3>13) Match each statement about characters and strings to the correct term.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Stores one symbol">Stores one symbol</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Stores a sequence of characters">Stores a sequence of characters</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="Character" data-placeholder="Drop item">Drop item</span><p>Character</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="String" data-placeholder="Drop item">Drop item</span><p>String</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="True" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: True.">
+                <h3>14) True or false: A string can contain numbers.</h3>
+                <label><input type="radio" name="q14" value="True"> True</label>
+                <label><input type="radio" name="q14" value="False"> False</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="False" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: False.">
+                <h3>15) True or false: An integer can store decimal values.</h3>
+                <label><input type="radio" name="q15" value="True"> True</label>
+                <label><input type="radio" name="q15" value="False"> False</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Convert text input:So numbers can be used in calculations|Convert number to string:So it can be joined to another string" data-correct-feedback="The matches are correct." data-incorrect-feedback="Correct matches: Convert text input:So numbers can be used in calculations|Convert number to string:So it can be joined to another string.">
+                <h3>16) Why might a programmer use type casting?</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="So numbers can be used in calculations">So numbers can be used in calculations</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="So it can be joined to another string">So it can be joined to another string</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="Convert text input" data-placeholder="Drop item">Drop item</span><p>Convert text input</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Convert number to string" data-placeholder="Drop item">Drop item</span><p>Convert number to string</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="INTEGER" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: INTEGER.">
+                <h3>17) Complete the missing casting function to convert input into an integer.</h3>
+                <pre class="algorithm-code"><code>ageText = INPUT
+age = ...(ageText)</code></pre>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="INTEGER">INTEGER</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="STRING">STRING</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="REAL">REAL</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="BOOLEAN">BOOLEAN</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p>ageText = INPUT</p>
+                    <p>age = <span class="drop-blank" data-placeholder="Drop item">Drop item</span>(ageText)</p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="INTEGER" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: INTEGER.">
+                <h3>18) Convert the string "25" into an integer.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="INTEGER">INTEGER</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="STRING">STRING</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="REAL">REAL</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p>numberText = "25"</p>
+                    <p>number = <span class="drop-blank" data-placeholder="Drop item">Drop item</span>(numberText)</p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="STRING" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: STRING.">
+                <h3>19) Convert the integer 12 into a string.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="INTEGER">INTEGER</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="STRING">STRING</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="REAL">REAL</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p>score = 12</p>
+                    <p>message = <span class="drop-blank" data-placeholder="Drop item">Drop item</span>(score)</p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="30" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 30.">
+                <h3>20) Predict the output after the string "25" is cast into an integer and added to 5.</h3>
+                <pre class="algorithm-code"><code>numberText = &quot;25&quot;
+number = INTEGER(numberText)
+answer = number + 5
+OUTPUT answer</code></pre>
+                <input type="text" aria-label="Answer for question 19">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="age = INTEGER(&quot;hello&quot;)" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: age = INTEGER(&quot;hello&quot;).">
+                <h3>21) Identify the line of code that uses casting incorrectly.</h3>
+                <label><input type="radio" name="q21" value="age = INTEGER(&quot;25&quot;)"> age = INTEGER(&quot;25&quot;)</label>
+                <label><input type="radio" name="q21" value="price = REAL(&quot;4.99&quot;)"> price = REAL(&quot;4.99&quot;)</label>
+                <label><input type="radio" name="q21" value="age = INTEGER(&quot;hello&quot;)"> age = INTEGER(&quot;hello&quot;)</label>
+                <label><input type="radio" name="q21" value="textScore = STRING(12)"> textScore = STRING(12)</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="scoreText = INPUT|score = INTEGER(scoreText)|total = score + 5|OUTPUT total" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: scoreText = INPUT|score = INTEGER(scoreText)|total = score + 5|OUTPUT total.">
+                <h3>22) Rearrange the code so that casting happens before a calculation.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="scoreText = INPUT">scoreText = INPUT</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="score = INTEGER(scoreText)">score = INTEGER(scoreText)</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="total = score + 5">total = score + 5</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="OUTPUT total">OUTPUT total</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p>1. <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                    <p>2. <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                    <p>3. <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                    <p>4. <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Input returns text:Text values may concatenate instead of add|Casting to integer:Allows arithmetic addition" data-correct-feedback="The matches are correct." data-incorrect-feedback="Correct matches: Input returns text:Text values may concatenate instead of add|Casting to integer:Allows arithmetic addition.">
+                <h3>23) Why might input values need to be cast before they are added?</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Text values may concatenate instead of add">Text values may concatenate instead of add</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Allows arithmetic addition">Allows arithmetic addition</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="Input returns text" data-placeholder="Drop item">Drop item</span><p>Input returns text</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Casting to integer" data-placeholder="Drop item">Drop item</span><p>Casting to integer</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="INTEGER():Integer|REAL():Real|STRING():String|BOOLEAN():Boolean" data-correct-feedback="The matches are correct." data-incorrect-feedback="Correct matches: INTEGER():Integer|REAL():Real|STRING():String|BOOLEAN():Boolean.">
+                <h3>24) Match each casting function to the data type it converts into.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Integer">Integer</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Real">Real</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="String">String</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Boolean">Boolean</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="INTEGER()" data-placeholder="Drop item">Drop item</span><p>INTEGER()</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="REAL()" data-placeholder="Drop item">Drop item</span><p>REAL()</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="STRING()" data-placeholder="Drop item">Drop item</span><p>STRING()</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="BOOLEAN()" data-placeholder="Drop item">Drop item</span><p>BOOLEAN()</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="INPUT|REAL|*|OUTPUT" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: INPUT|REAL|*|OUTPUT.">
+                <h3>25) Complete the code to cast user input into a real number before calculating the total.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="INPUT">INPUT</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="REAL">REAL</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="INTEGER">INTEGER</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="*">*</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="+">+</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="OUTPUT">OUTPUT</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p>priceText = <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                    <p>price = <span class="drop-blank" data-placeholder="Drop item">Drop item</span>(priceText)</p>
+                    <p>total = price <span class="drop-blank" data-placeholder="Drop item">Drop item</span> 1.2</p>
+                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span> total</p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <div class="quiz-controls">
+                <button class="back-button" type="submit">Check answers</button>
+                <button class="reveal-button" type="reset">Reset quiz</button>
+                <p class="quiz-result" hidden aria-live="polite"></p>
+            </div>
+        </form>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="../site.js?v=25"></script>
+</body>
+</html>

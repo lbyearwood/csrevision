@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.2.2 Virtual memory quiz</title>
+    <link rel="stylesheet" href="../styles.css?v=25">
+</head>
+<body>
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to home</a>
+        <section class="question-header">
+            <p class="eyebrow">Paper 1 quiz</p>
+            <h2>1.2.2 Virtual memory quiz</h2>
+            <p class="section-note">Self-marking retrieval practice. Choose the best answer for each question, then check your score.</p>
+        </section>
+
+        <form class="quiz-form" aria-label="1.2.2 Virtual memory self-marking quiz">
+            <article class="quiz-question" data-type="radio" data-answer="Part of secondary storage used as if it were RAM" data-correct-feedback="Virtual memory is secondary storage used temporarily as if it were RAM." data-incorrect-feedback="Virtual memory is part of secondary storage used as if it were RAM.">
+                <h3>1) What is virtual memory?</h3>
+                <label><input type="radio" name="q1" value="Part of secondary storage used as if it were RAM"> Part of secondary storage used as if it were RAM</label>
+                <label><input type="radio" name="q1" value="A type of monitor"> A type of monitor</label>
+                <label><input type="radio" name="q1" value="Permanent instructions stored in ROM"> Permanent instructions stored in ROM</label>
+                <label><input type="radio" name="q1" value="A processor core"> A processor core</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="When RAM is full or there is not enough RAM available" data-correct-feedback="Virtual memory is used when there is not enough RAM available." data-incorrect-feedback="Virtual memory is needed when RAM is full or there is not enough RAM available.">
+                <h3>2) When is virtual memory usually needed?</h3>
+                <label><input type="radio" name="q2" value="When RAM is full or there is not enough RAM available"> When RAM is full or there is not enough RAM available</label>
+                <label><input type="radio" name="q2" value="Only when the monitor is unplugged"> Only when the monitor is unplugged</label>
+                <label><input type="radio" name="q2" value="Only when a printer is empty"> Only when a printer is empty</label>
+                <label><input type="radio" name="q2" value="Whenever ROM is deleted"> Whenever ROM is deleted</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="RAM|secondary storage|back" data-correct-feedback="Virtual memory moves data between RAM and secondary storage." data-incorrect-feedback="Correct sentence: When RAM is full, data not currently needed can be moved to secondary storage and moved back when needed.">
+                <h3>3) Drag each phrase into the correct blank about how virtual memory works.</h3>
+                <div class="word-bank" aria-label="Words to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="secondary storage">secondary storage</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="RAM">RAM</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="screen">screen</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="back">back</button>
+                </div>
+                <p class="blank-paragraph compact-blank-paragraph">
+                    When
+                    <span class="drop-blank" data-placeholder="Drop word" aria-label="Blank 1">Drop word</span>
+                    is full, data not currently needed can be moved to
+                    <span class="drop-blank" data-placeholder="Drop phrase" aria-label="Blank 2">Drop phrase</span>
+                    and moved
+                    <span class="drop-blank" data-placeholder="Drop word" aria-label="Blank 3">Drop word</span>
+                    when needed.
+                </p>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="RAM becomes full:Virtual memory may be used|Data not currently needed:Moved from RAM to secondary storage|Data needed again:Moved back into RAM|Heavy use of virtual memory:System performance may reduce" data-correct-feedback="The virtual memory process has been matched correctly." data-incorrect-feedback="Correct matches: RAM full = virtual memory may be used; not needed data = moved to secondary storage; needed again = moved back to RAM; heavy use = lower performance.">
+                <h3>4) Drag each outcome to the correct virtual memory situation.</h3>
+                <div class="word-bank" aria-label="Outcomes to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Moved back into RAM">Moved back into RAM</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Virtual memory may be used">Virtual memory may be used</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="System performance may reduce">System performance may reduce</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Moved from RAM to secondary storage">Moved from RAM to secondary storage</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row">
+                        <span class="match-drop" data-match="RAM becomes full" data-placeholder="Drop outcome">Drop outcome</span>
+                        <p>RAM becomes full.</p>
+                    </div>
+                    <div class="match-row">
+                        <span class="match-drop" data-match="Data not currently needed" data-placeholder="Drop outcome">Drop outcome</span>
+                        <p>Data not currently needed.</p>
+                    </div>
+                    <div class="match-row">
+                        <span class="match-drop" data-match="Data needed again" data-placeholder="Drop outcome">Drop outcome</span>
+                        <p>Data needed again.</p>
+                    </div>
+                    <div class="match-row">
+                        <span class="match-drop" data-match="Heavy use of virtual memory" data-placeholder="Drop outcome">Drop outcome</span>
+                        <p>Heavy use of virtual memory.</p>
+                    </div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="checkbox" data-answer="Several applications are open,Large files or programs need more memory than available RAM,RAM is full" data-correct-feedback="Virtual memory may be used when open programs and data need more RAM than is available." data-incorrect-feedback="Virtual memory may be used when several applications are open, large files or programs need more memory, or RAM is full.">
+                <h3>5) Tick all that apply: when might a computer use virtual memory?</h3>
+                <label><input type="checkbox" value="Several applications are open"> Several applications are open</label>
+                <label><input type="checkbox" value="Large files or programs need more memory than available RAM"> Large files or programs need more memory than available RAM</label>
+                <label><input type="checkbox" value="RAM is full"> RAM is full</label>
+                <label><input type="checkbox" value="The user changes the desktop wallpaper"> The user changes the desktop wallpaper</label>
+                <label><input type="checkbox" value="The keyboard is unplugged"> The keyboard is unplugged</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Secondary storage is slower to access than RAM" data-correct-feedback="Virtual memory is slower because it uses secondary storage, which is slower than RAM." data-incorrect-feedback="Virtual memory can reduce performance because secondary storage is slower to access than RAM.">
+                <h3>6) Why can using virtual memory reduce system performance?</h3>
+                <label><input type="radio" name="q6" value="Secondary storage is slower to access than RAM"> Secondary storage is slower to access than RAM</label>
+                <label><input type="radio" name="q6" value="ROM always becomes empty"> ROM always becomes empty</label>
+                <label><input type="radio" name="q6" value="The monitor must refresh more pixels"> The monitor must refresh more pixels</label>
+                <label><input type="radio" name="q6" value="The CPU stops existing"> The CPU stops existing</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="RAM:Fast primary storage|Virtual memory:Uses secondary storage|Secondary storage:Slower than RAM for this purpose" data-correct-feedback="RAM, virtual memory and secondary storage have been matched correctly." data-incorrect-feedback="Correct matches: RAM = fast primary storage; virtual memory = uses secondary storage; secondary storage = slower than RAM.">
+                <h3>7) Complete the table: match each term to its role.</h3>
+                <div class="word-bank" aria-label="Roles to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Uses secondary storage">Uses secondary storage</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Slower than RAM for this purpose">Slower than RAM for this purpose</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Fast primary storage">Fast primary storage</button>
+                </div>
+                <div class="quiz-table-wrap">
+                    <table class="quiz-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Term</th>
+                                <th scope="col">Role</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">RAM</th>
+                                <td><span class="match-drop" data-match="RAM" data-placeholder="Drop role">Drop role</span></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Virtual memory</th>
+                                <td><span class="match-drop" data-match="Virtual memory" data-placeholder="Drop role">Drop role</span></td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Secondary storage</th>
+                                <td><span class="match-drop" data-match="Secondary storage" data-placeholder="Drop role">Drop role</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="checkbox" data-answer="Programs can continue running when RAM is full,More applications may be open than RAM alone would allow" data-correct-feedback="Virtual memory can help programs keep running when RAM is full." data-incorrect-feedback="Virtual memory can allow programs to continue running and may allow more applications to be open than RAM alone would allow.">
+                <h3>8) Tick all that apply: what are possible benefits of virtual memory?</h3>
+                <label><input type="checkbox" value="Programs can continue running when RAM is full"> Programs can continue running when RAM is full</label>
+                <label><input type="checkbox" value="More applications may be open than RAM alone would allow"> More applications may be open than RAM alone would allow</label>
+                <label><input type="checkbox" value="It is always faster than RAM"> It is always faster than RAM</label>
+                <label><input type="checkbox" value="It permanently stores the boot-up instructions"> It permanently stores the boot-up instructions</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="False" data-correct-feedback="Virtual memory is not faster than RAM; it uses slower secondary storage." data-incorrect-feedback="This is false. Virtual memory is slower than RAM because it uses secondary storage.">
+                <h3>9) True or false: virtual memory is faster than RAM.</h3>
+                <label><input type="radio" name="q9" value="True"> True</label>
+                <label><input type="radio" name="q9" value="False"> False</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="more RAM|less often|faster" data-correct-feedback="More RAM can reduce the need for virtual memory and improve performance." data-incorrect-feedback="Correct sentence: Adding more RAM can mean virtual memory is used less often, which may make the system faster.">
+                <h3>10) Drag each phrase into the correct blank about improving performance.</h3>
+                <div class="word-bank" aria-label="Phrases to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="slower">slower</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="more RAM">more RAM</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="faster">faster</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="less often">less often</button>
+                </div>
+                <p class="blank-paragraph compact-blank-paragraph">
+                    Adding
+                    <span class="drop-blank" data-placeholder="Drop phrase" aria-label="Blank 1">Drop phrase</span>
+                    can mean virtual memory is used
+                    <span class="drop-blank" data-placeholder="Drop phrase" aria-label="Blank 2">Drop phrase</span>,
+                    which may make the system
+                    <span class="drop-blank" data-placeholder="Drop word" aria-label="Blank 3">Drop word</span>.
+                </p>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="The operating system" data-correct-feedback="The operating system manages virtual memory." data-incorrect-feedback="The operating system manages virtual memory by moving data between RAM and secondary storage.">
+                <h3>11) What manages virtual memory?</h3>
+                <label><input type="radio" name="q11" value="The operating system"> The operating system</label>
+                <label><input type="radio" name="q11" value="The monitor stand"> The monitor stand</label>
+                <label><input type="radio" name="q11" value="A printed textbook"> A printed textbook</label>
+                <label><input type="radio" name="q11" value="The mouse mat"> The mouse mat</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Virtual memory uses secondary storage as extra temporary memory when RAM is full." data-correct-feedback="Virtual memory uses secondary storage as extra temporary memory when RAM is full." data-incorrect-feedback="The misconception is that virtual memory is the same as RAM. It uses secondary storage when RAM is full.">
+                <h3>12) Identify the misconception: "Virtual memory is just extra RAM inside the CPU."</h3>
+                <label><input type="radio" name="q12" value="Virtual memory uses secondary storage as extra temporary memory when RAM is full."> Virtual memory uses secondary storage as extra temporary memory when RAM is full.</label>
+                <label><input type="radio" name="q12" value="Virtual memory is always faster than RAM."> Virtual memory is always faster than RAM.</label>
+                <label><input type="radio" name="q12" value="Virtual memory stores only boot-up instructions."> Virtual memory stores only boot-up instructions.</label>
+                <label><input type="radio" name="q12" value="Virtual memory is a type of keyboard shortcut."> Virtual memory is a type of keyboard shortcut.</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Excessive use of virtual memory" data-correct-feedback="Heavy use of virtual memory can make a computer run slowly." data-incorrect-feedback="The odd one out is excessive use of virtual memory because it is likely to reduce performance.">
+                <h3>13) Spot the odd one out: which is most likely to reduce performance?</h3>
+                <label><input type="radio" name="q13" value="More data kept in RAM"> More data kept in RAM</label>
+                <label><input type="radio" name="q13" value="Excessive use of virtual memory"> Excessive use of virtual memory</label>
+                <label><input type="radio" name="q13" value="Less swapping between RAM and secondary storage"> Less swapping between RAM and secondary storage</label>
+                <label><input type="radio" name="q13" value="More RAM available for running programs"> More RAM available for running programs</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Step 1:RAM becomes full|Step 2:Less-needed data is moved to secondary storage|Step 3:Needed data is moved back into RAM|Step 4:The system may run more slowly" data-correct-feedback="The virtual memory sequence is in the correct order." data-incorrect-feedback="Correct order: RAM becomes full; less-needed data moves to secondary storage; needed data moves back into RAM; the system may run more slowly.">
+                <h3>14) Drag each event to its place in the virtual memory sequence.</h3>
+                <div class="word-bank" aria-label="Events to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Needed data is moved back into RAM">Needed data is moved back into RAM</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="The system may run more slowly">The system may run more slowly</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="RAM becomes full">RAM becomes full</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Less-needed data is moved to secondary storage">Less-needed data is moved to secondary storage</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row">
+                        <span class="match-drop" data-match="Step 1" data-placeholder="Drop event">Drop event</span>
+                        <p>Step 1.</p>
+                    </div>
+                    <div class="match-row">
+                        <span class="match-drop" data-match="Step 2" data-placeholder="Drop event">Drop event</span>
+                        <p>Step 2.</p>
+                    </div>
+                    <div class="match-row">
+                        <span class="match-drop" data-match="Step 3" data-placeholder="Drop event">Drop event</span>
+                        <p>Step 3.</p>
+                    </div>
+                    <div class="match-row">
+                        <span class="match-drop" data-match="Step 4" data-placeholder="Drop event">Drop event</span>
+                        <p>Step 4.</p>
+                    </div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <div class="quiz-controls">
+                <button class="back-button" type="submit">Check answers</button>
+                <button class="reveal-button" type="reset">Reset quiz</button>
+                <p class="quiz-result" hidden aria-live="polite"></p>
+            </div>
+        </form>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="../site.js?v=25"></script>
+</body>
+</html>

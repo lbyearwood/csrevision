@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.2.6 SQL challenge quiz</title>
+    <link rel="stylesheet" href="../styles.css?v=25">
+</head>
+<body>
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to home</a>
+        <section class="question-header">
+            <p class="eyebrow">Paper 2 quiz</p>
+            <h2>2.2.6 SQL challenge quiz</h2>
+            <p class="section-note">Self-marking retrieval practice on SELECT, FROM and WHERE using simple data tables.</p>
+        </section>
+
+        <form class="quiz-form" aria-label="2.2.6 SQL challenge self-marking quiz">
+            <article class="quiz-question" data-type="drag-match" data-answer="SELECT:Chooses fields|FROM:Chooses the table|WHERE:Filters records" data-correct-feedback="The matches are correct." data-incorrect-feedback="Correct matches: SELECT:Chooses fields|FROM:Chooses the table|WHERE:Filters records.">
+                <h3>1) Match SELECT, FROM and WHERE to their purpose.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Chooses fields">Chooses fields</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Chooses the table">Chooses the table</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Filters records">Filters records</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="SELECT" data-placeholder="Drop item">Drop item</span><p>SELECT</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="FROM" data-placeholder="Drop item">Drop item</span><p>FROM</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="WHERE" data-placeholder="Drop item">Drop item</span><p>WHERE</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="SELECT" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: SELECT.">
+                <h3>2) Complete the missing keyword in a simple SQL query.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="SELECT">SELECT</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="FROM">FROM</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="WHERE">WHERE</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span> FirstName</p>
+                    <p>FROM Students</p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="FROM" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: FROM.">
+                <h3>3) Identify which part of an SQL query chooses the table.</h3>
+                <label><input type="radio" name="q3" value="SELECT"> SELECT</label>
+                <label><input type="radio" name="q3" value="FROM"> FROM</label>
+                <label><input type="radio" name="q3" value="WHERE"> WHERE</label>
+                <label><input type="radio" name="q3" value="OUTPUT"> OUTPUT</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="SELECT" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: SELECT.">
+                <h3>4) Identify which part of an SQL query chooses the field.</h3>
+                <label><input type="radio" name="q4" value="SELECT"> SELECT</label>
+                <label><input type="radio" name="q4" value="FROM"> FROM</label>
+                <label><input type="radio" name="q4" value="WHERE"> WHERE</label>
+                <label><input type="radio" name="q4" value="INPUT"> INPUT</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="SELECT|FROM" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: SELECT|FROM.">
+                <h3>5) Complete the SQL query to find records from the Students table.</h3>
+                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>StudentID</th><th>FirstName</th><th>TutorGroup</th><th>YearGroup</th><th>House</th><th>Points</th></tr></thead><tbody><tr><td>101</td><td>Aisha</td><td>10A</td><td>10</td><td>Red</td><td>48</td></tr><tr><td>102</td><td>Ben</td><td>10B</td><td>10</td><td>Blue</td><td>31</td></tr><tr><td>103</td><td>Charlie</td><td>11A</td><td>11</td><td>Green</td><td>52</td></tr><tr><td>104</td><td>Amelia</td><td>11B</td><td>11</td><td>Red</td><td>27</td></tr><tr><td>105</td><td>Sam</td><td>10A</td><td>10</td><td>Yellow</td><td>64</td></tr></tbody></table></div>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="SELECT">SELECT</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="FROM">FROM</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="WHERE">WHERE</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Students">Students</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span> FirstName</p>
+                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span> Students</p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="SELECT|FROM|WHERE" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: SELECT|FROM|WHERE.">
+                <h3>6) Drag the SQL keywords into the correct order.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="WHERE">WHERE</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="SELECT">SELECT</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="FROM">FROM</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p>1. <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                    <p>2. <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                    <p>3. <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="checkbox" data-answer="Aisha,Sam" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Aisha,Sam.">
+                <h3>7) Predict which records would be returned by WHERE TutorGroup = "10A".</h3>
+                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>StudentID</th><th>FirstName</th><th>TutorGroup</th><th>YearGroup</th><th>House</th><th>Points</th></tr></thead><tbody><tr><td>101</td><td>Aisha</td><td>10A</td><td>10</td><td>Red</td><td>48</td></tr><tr><td>102</td><td>Ben</td><td>10B</td><td>10</td><td>Blue</td><td>31</td></tr><tr><td>103</td><td>Charlie</td><td>11A</td><td>11</td><td>Green</td><td>52</td></tr><tr><td>104</td><td>Amelia</td><td>11B</td><td>11</td><td>Red</td><td>27</td></tr><tr><td>105</td><td>Sam</td><td>10A</td><td>10</td><td>Yellow</td><td>64</td></tr></tbody></table></div>
+                <pre class="algorithm-code"><code>SELECT FirstName
+FROM Students
+WHERE TutorGroup = &quot;10A&quot;</code></pre>
+                <label><input type="checkbox" value="Aisha"> Aisha</label>
+                <label><input type="checkbox" value="Ben"> Ben</label>
+                <label><input type="checkbox" value="Charlie"> Charlie</label>
+                <label><input type="checkbox" value="Amelia"> Amelia</label>
+                <label><input type="checkbox" value="Sam"> Sam</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="The table name is missing after FROM" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: The table name is missing after FROM.">
+                <h3>8) Identify the error in this SQL query.</h3>
+                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>StudentID</th><th>FirstName</th><th>TutorGroup</th><th>YearGroup</th><th>House</th><th>Points</th></tr></thead><tbody><tr><td>101</td><td>Aisha</td><td>10A</td><td>10</td><td>Red</td><td>48</td></tr><tr><td>102</td><td>Ben</td><td>10B</td><td>10</td><td>Blue</td><td>31</td></tr><tr><td>103</td><td>Charlie</td><td>11A</td><td>11</td><td>Green</td><td>52</td></tr><tr><td>104</td><td>Amelia</td><td>11B</td><td>11</td><td>Red</td><td>27</td></tr><tr><td>105</td><td>Sam</td><td>10A</td><td>10</td><td>Yellow</td><td>64</td></tr></tbody></table></div>
+                <pre class="algorithm-code"><code>SELECT FirstName
+FROM
+WHERE House = &quot;Red&quot;</code></pre>
+                <label><input type="radio" name="q8" value="The table name is missing after FROM"> The table name is missing after FROM</label>
+                <label><input type="radio" name="q8" value="SELECT is spelt correctly"> SELECT is spelt correctly</label>
+                <label><input type="radio" name="q8" value="WHERE can never be used"> WHERE can never be used</label>
+                <label><input type="radio" name="q8" value="FirstName is not a field"> FirstName is not a field</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="SELECT FirstName FROM Students WHERE House = &quot;Red&quot;:Aisha and Amelia|SELECT FirstName FROM Students WHERE YearGroup = 10:Aisha, Ben and Sam|SELECT FirstName FROM Students WHERE Points &gt; 50:Charlie and Sam" data-correct-feedback="The matches are correct." data-incorrect-feedback="Correct matches: SELECT FirstName FROM Students WHERE House = &quot;Red&quot;:Aisha and Amelia|SELECT FirstName FROM Students WHERE YearGroup = 10:Aisha, Ben and Sam|SELECT FirstName FROM Students WHERE Points &gt; 50:Charlie and Sam.">
+                <h3>9) Match each SQL query to the data it would return.</h3>
+                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>StudentID</th><th>FirstName</th><th>TutorGroup</th><th>YearGroup</th><th>House</th><th>Points</th></tr></thead><tbody><tr><td>101</td><td>Aisha</td><td>10A</td><td>10</td><td>Red</td><td>48</td></tr><tr><td>102</td><td>Ben</td><td>10B</td><td>10</td><td>Blue</td><td>31</td></tr><tr><td>103</td><td>Charlie</td><td>11A</td><td>11</td><td>Green</td><td>52</td></tr><tr><td>104</td><td>Amelia</td><td>11B</td><td>11</td><td>Red</td><td>27</td></tr><tr><td>105</td><td>Sam</td><td>10A</td><td>10</td><td>Yellow</td><td>64</td></tr></tbody></table></div>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Aisha and Amelia">Aisha and Amelia</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Aisha, Ben and Sam">Aisha, Ben and Sam</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Charlie and Sam">Charlie and Sam</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="SELECT FirstName FROM Students WHERE House = &quot;Red&quot;" data-placeholder="Drop item">Drop item</span><p>House = Red</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="SELECT FirstName FROM Students WHERE YearGroup = 10" data-placeholder="Drop item">Drop item</span><p>YearGroup = 10</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="SELECT FirstName FROM Students WHERE Points &gt; 50" data-placeholder="Drop item">Drop item</span><p>Points &gt; 50</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="SELECT|FROM|WHERE|Red" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: SELECT|FROM|WHERE|Red.">
+                <h3>10) Complete the SQL query to search for students in Red house.</h3>
+                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>StudentID</th><th>FirstName</th><th>TutorGroup</th><th>YearGroup</th><th>House</th><th>Points</th></tr></thead><tbody><tr><td>101</td><td>Aisha</td><td>10A</td><td>10</td><td>Red</td><td>48</td></tr><tr><td>102</td><td>Ben</td><td>10B</td><td>10</td><td>Blue</td><td>31</td></tr><tr><td>103</td><td>Charlie</td><td>11A</td><td>11</td><td>Green</td><td>52</td></tr><tr><td>104</td><td>Amelia</td><td>11B</td><td>11</td><td>Red</td><td>27</td></tr><tr><td>105</td><td>Sam</td><td>10A</td><td>10</td><td>Yellow</td><td>64</td></tr></tbody></table></div>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="SELECT">SELECT</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="FROM">FROM</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="WHERE">WHERE</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Red">Red</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Blue">Blue</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span> FirstName</p>
+                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span> Students</p>
+                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span> House = "<span class="drop-blank" data-placeholder="Drop item">Drop item</span>"</p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="SELECT * FROM Students" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: SELECT * FROM Students.">
+                <h3>11) Select the SQL query that would return all records from the Students table.</h3>
+                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>StudentID</th><th>FirstName</th><th>TutorGroup</th><th>YearGroup</th><th>House</th><th>Points</th></tr></thead><tbody><tr><td>101</td><td>Aisha</td><td>10A</td><td>10</td><td>Red</td><td>48</td></tr><tr><td>102</td><td>Ben</td><td>10B</td><td>10</td><td>Blue</td><td>31</td></tr><tr><td>103</td><td>Charlie</td><td>11A</td><td>11</td><td>Green</td><td>52</td></tr><tr><td>104</td><td>Amelia</td><td>11B</td><td>11</td><td>Red</td><td>27</td></tr><tr><td>105</td><td>Sam</td><td>10A</td><td>10</td><td>Yellow</td><td>64</td></tr></tbody></table></div>
+                <label><input type="radio" name="q11" value="SELECT * FROM Students"> SELECT * FROM Students</label>
+                <label><input type="radio" name="q11" value="SELECT FROM WHERE Students"> SELECT FROM WHERE Students</label>
+                <label><input type="radio" name="q11" value="WHERE * FROM Students"> WHERE * FROM Students</label>
+                <label><input type="radio" name="q11" value="FROM * SELECT Students"> FROM * SELECT Students</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="Students" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: Students.">
+                <h3>12) Complete the missing table name in an SQL query.</h3>
+                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>StudentID</th><th>FirstName</th><th>TutorGroup</th><th>YearGroup</th><th>House</th><th>Points</th></tr></thead><tbody><tr><td>101</td><td>Aisha</td><td>10A</td><td>10</td><td>Red</td><td>48</td></tr><tr><td>102</td><td>Ben</td><td>10B</td><td>10</td><td>Blue</td><td>31</td></tr><tr><td>103</td><td>Charlie</td><td>11A</td><td>11</td><td>Green</td><td>52</td></tr><tr><td>104</td><td>Amelia</td><td>11B</td><td>11</td><td>Red</td><td>27</td></tr><tr><td>105</td><td>Sam</td><td>10A</td><td>10</td><td>Yellow</td><td>64</td></tr></tbody></table></div>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Students">Students</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="FirstName">FirstName</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="House">House</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p>SELECT FirstName</p>
+                    <p>FROM <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                    <p>WHERE House = "Red"</p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="TutorGroup" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: TutorGroup.">
+                <h3>13) Complete the missing field name in an SQL query.</h3>
+                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>StudentID</th><th>FirstName</th><th>TutorGroup</th><th>YearGroup</th><th>House</th><th>Points</th></tr></thead><tbody><tr><td>101</td><td>Aisha</td><td>10A</td><td>10</td><td>Red</td><td>48</td></tr><tr><td>102</td><td>Ben</td><td>10B</td><td>10</td><td>Blue</td><td>31</td></tr><tr><td>103</td><td>Charlie</td><td>11A</td><td>11</td><td>Green</td><td>52</td></tr><tr><td>104</td><td>Amelia</td><td>11B</td><td>11</td><td>Red</td><td>27</td></tr><tr><td>105</td><td>Sam</td><td>10A</td><td>10</td><td>Yellow</td><td>64</td></tr></tbody></table></div>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="FirstName">FirstName</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="TutorGroup">TutorGroup</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Students">Students</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p>SELECT FirstName</p>
+                    <p>FROM Students</p>
+                    <p>WHERE <span class="drop-blank" data-placeholder="Drop item">Drop item</span> = "10A"</p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="House = &quot;Red&quot;:Aisha and Amelia|TutorGroup = &quot;10A&quot;:Aisha and Sam|Points &gt; 50:Charlie and Sam" data-correct-feedback="The matches are correct." data-incorrect-feedback="Correct matches: House = &quot;Red&quot;:Aisha and Amelia|TutorGroup = &quot;10A&quot;:Aisha and Sam|Points &gt; 50:Charlie and Sam.">
+                <h3>14) Match each WHERE condition to the records it would return.</h3>
+                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>StudentID</th><th>FirstName</th><th>TutorGroup</th><th>YearGroup</th><th>House</th><th>Points</th></tr></thead><tbody><tr><td>101</td><td>Aisha</td><td>10A</td><td>10</td><td>Red</td><td>48</td></tr><tr><td>102</td><td>Ben</td><td>10B</td><td>10</td><td>Blue</td><td>31</td></tr><tr><td>103</td><td>Charlie</td><td>11A</td><td>11</td><td>Green</td><td>52</td></tr><tr><td>104</td><td>Amelia</td><td>11B</td><td>11</td><td>Red</td><td>27</td></tr><tr><td>105</td><td>Sam</td><td>10A</td><td>10</td><td>Yellow</td><td>64</td></tr></tbody></table></div>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Aisha and Amelia">Aisha and Amelia</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Aisha and Sam">Aisha and Sam</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Charlie and Sam">Charlie and Sam</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="House = &quot;Red&quot;" data-placeholder="Drop item">Drop item</span><p>House = Red</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="TutorGroup = &quot;10A&quot;" data-placeholder="Drop item">Drop item</span><p>TutorGroup = 10A</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Points &gt; 50" data-placeholder="Drop item">Drop item</span><p>Points greater than 50</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="House = &quot;Red&quot;:Text|YearGroup = 10:Number|Points &gt; 50:Number|TutorGroup = &quot;10A&quot;:Text" data-correct-feedback="The matches are correct." data-incorrect-feedback="Correct matches: House = &quot;Red&quot;:Text|YearGroup = 10:Number|Points &gt; 50:Number|TutorGroup = &quot;10A&quot;:Text.">
+                <h3>15) Identify whether each SQL query searches by text or number.</h3>
+                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>StudentID</th><th>FirstName</th><th>TutorGroup</th><th>YearGroup</th><th>House</th><th>Points</th></tr></thead><tbody><tr><td>101</td><td>Aisha</td><td>10A</td><td>10</td><td>Red</td><td>48</td></tr><tr><td>102</td><td>Ben</td><td>10B</td><td>10</td><td>Blue</td><td>31</td></tr><tr><td>103</td><td>Charlie</td><td>11A</td><td>11</td><td>Green</td><td>52</td></tr><tr><td>104</td><td>Amelia</td><td>11B</td><td>11</td><td>Red</td><td>27</td></tr><tr><td>105</td><td>Sam</td><td>10A</td><td>10</td><td>Yellow</td><td>64</td></tr></tbody></table></div>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Text">Text</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Number">Number</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Number">Number</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Text">Text</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="House = &quot;Red&quot;" data-placeholder="Drop item">Drop item</span><p>House = &quot;Red&quot;</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="YearGroup = 10" data-placeholder="Drop item">Drop item</span><p>YearGroup = 10</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Points &gt; 50" data-placeholder="Drop item">Drop item</span><p>Points &gt; 50</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="TutorGroup = &quot;10A&quot;" data-placeholder="Drop item">Drop item</span><p>TutorGroup = &quot;10A&quot;</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="SELECT|FROM|WHERE|TutorGroup" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: SELECT|FROM|WHERE|TutorGroup.">
+                <h3>16) Complete the SQL query to find students in class 10A.</h3>
+                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>StudentID</th><th>FirstName</th><th>TutorGroup</th><th>YearGroup</th><th>House</th><th>Points</th></tr></thead><tbody><tr><td>101</td><td>Aisha</td><td>10A</td><td>10</td><td>Red</td><td>48</td></tr><tr><td>102</td><td>Ben</td><td>10B</td><td>10</td><td>Blue</td><td>31</td></tr><tr><td>103</td><td>Charlie</td><td>11A</td><td>11</td><td>Green</td><td>52</td></tr><tr><td>104</td><td>Amelia</td><td>11B</td><td>11</td><td>Red</td><td>27</td></tr><tr><td>105</td><td>Sam</td><td>10A</td><td>10</td><td>Yellow</td><td>64</td></tr></tbody></table></div>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="SELECT">SELECT</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="FROM">FROM</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="WHERE">WHERE</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="TutorGroup">TutorGroup</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="House">House</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span> FirstName</p>
+                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span> Students</p>
+                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span> <span class="drop-blank" data-placeholder="Drop item">Drop item</span> = "10A"</p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="House" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: House.">
+                <h3>17) Identify the field being searched in this WHERE clause.</h3>
+                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>StudentID</th><th>FirstName</th><th>TutorGroup</th><th>YearGroup</th><th>House</th><th>Points</th></tr></thead><tbody><tr><td>101</td><td>Aisha</td><td>10A</td><td>10</td><td>Red</td><td>48</td></tr><tr><td>102</td><td>Ben</td><td>10B</td><td>10</td><td>Blue</td><td>31</td></tr><tr><td>103</td><td>Charlie</td><td>11A</td><td>11</td><td>Green</td><td>52</td></tr><tr><td>104</td><td>Amelia</td><td>11B</td><td>11</td><td>Red</td><td>27</td></tr><tr><td>105</td><td>Sam</td><td>10A</td><td>10</td><td>Yellow</td><td>64</td></tr></tbody></table></div>
+                <pre class="algorithm-code"><code>SELECT FirstName
+FROM Students
+WHERE House = &quot;Red&quot;</code></pre>
+                <label><input type="radio" name="q17" value="StudentID"> StudentID</label>
+                <label><input type="radio" name="q17" value="FirstName"> FirstName</label>
+                <label><input type="radio" name="q17" value="House"> House</label>
+                <label><input type="radio" name="q17" value="Points"> Points</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="SELECT FirstName|FROM Students|WHERE Points &gt; 50" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: SELECT FirstName|FROM Students|WHERE Points &gt; 50.">
+                <h3>18) Rearrange the parts of an SQL query into the correct order.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="WHERE Points &gt; 50">WHERE Points &gt; 50</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="SELECT FirstName">SELECT FirstName</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="FROM Students">FROM Students</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p>1. <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                    <p>2. <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                    <p>3. <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Filter records:Only returns matching rows|Make searches specific:Finds values such as one class or house" data-correct-feedback="The matches are correct." data-incorrect-feedback="Correct matches: Filter records:Only returns matching rows|Make searches specific:Finds values such as one class or house.">
+                <h3>19) Why is the WHERE clause useful in an SQL query?</h3>
+                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>StudentID</th><th>FirstName</th><th>TutorGroup</th><th>YearGroup</th><th>House</th><th>Points</th></tr></thead><tbody><tr><td>101</td><td>Aisha</td><td>10A</td><td>10</td><td>Red</td><td>48</td></tr><tr><td>102</td><td>Ben</td><td>10B</td><td>10</td><td>Blue</td><td>31</td></tr><tr><td>103</td><td>Charlie</td><td>11A</td><td>11</td><td>Green</td><td>52</td></tr><tr><td>104</td><td>Amelia</td><td>11B</td><td>11</td><td>Red</td><td>27</td></tr><tr><td>105</td><td>Sam</td><td>10A</td><td>10</td><td>Yellow</td><td>64</td></tr></tbody></table></div>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Only returns matching rows">Only returns matching rows</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Finds values such as one class or house">Finds values such as one class or house</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="Filter records" data-placeholder="Drop item">Drop item</span><p>Filter records</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Make searches specific" data-placeholder="Drop item">Drop item</span><p>Make searches specific</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="SELECT|FirstName|FROM|WHERE|Points" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: SELECT|FirstName|FROM|WHERE|Points.">
+                <h3>20) Complete the SQL query to return one field from records that match a condition.</h3>
+                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>StudentID</th><th>FirstName</th><th>TutorGroup</th><th>YearGroup</th><th>House</th><th>Points</th></tr></thead><tbody><tr><td>101</td><td>Aisha</td><td>10A</td><td>10</td><td>Red</td><td>48</td></tr><tr><td>102</td><td>Ben</td><td>10B</td><td>10</td><td>Blue</td><td>31</td></tr><tr><td>103</td><td>Charlie</td><td>11A</td><td>11</td><td>Green</td><td>52</td></tr><tr><td>104</td><td>Amelia</td><td>11B</td><td>11</td><td>Red</td><td>27</td></tr><tr><td>105</td><td>Sam</td><td>10A</td><td>10</td><td>Yellow</td><td>64</td></tr></tbody></table></div>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="SELECT">SELECT</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="FirstName">FirstName</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="FROM">FROM</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="WHERE">WHERE</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Points">Points</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Students">Students</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span> <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span> Students</p>
+                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span> <span class="drop-blank" data-placeholder="Drop item">Drop item</span> > 50</p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <div class="quiz-controls">
+                <button class="back-button" type="submit">Check answers</button>
+                <button class="reveal-button" type="reset">Reset quiz</button>
+                <p class="quiz-result" hidden aria-live="polite"></p>
+            </div>
+        </form>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="../site.js?v=25"></script>
+</body>
+</html>
