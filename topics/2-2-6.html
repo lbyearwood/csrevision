@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>2.2.6 SQL questions</title>
-    <link rel="stylesheet" href="../styles.css?v=19">
+    <link rel="stylesheet" href="../styles.css?v=40">
 </head>
 <body>
     <header id="site-header" class="site-header"></header>
 
     <main>
-        <a class="back-button back-link" href="../index.html">Back to home</a>
+        <a class="back-button back-link" href="../ocr-gcse-computer-science-j277.html">Back to J277 topics</a>
         <section class="question-header">
             <p class="eyebrow">Paper 2</p>
             <h2>2.2.6 SQL questions</h2>
-            <p class="section-note">Practise writing GCSE-level SQL statements using SELECT, FROM, WHERE, comparison operators, Boolean operators, LIKE and SORTBY.</p>
+            <p class="section-note">Practise writing GCSE-level SQL statements using SELECT, FROM and WHERE with simple conditions.</p>
         </section>
 
         <section class="question-card" aria-labelledby="database-tables-title">
@@ -319,7 +319,7 @@ WHERE YearGroup != 11</code></pre>
             </article>
 
             <article class="question-card">
-                <p class="question-text">10) <strong>Write</strong> an SQL statement to display the Title and Author fields for books where the Title starts with Python. (4 marks)</p>
+                <p class="question-text">10) <strong>Write</strong> an SQL statement to display the Title and Author fields for books where the Genre is Computing. (4 marks)</p>
                 <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-6-10">Show mark scheme</button>
                 <div id="mark-scheme-2-2-6-10" class="mark-scheme" hidden>
                     <h4>Mark scheme</h4>
@@ -327,57 +327,52 @@ WHERE YearGroup != 11</code></pre>
                     <ul>
                         <li>Uses SELECT Title, Author.</li>
                         <li>Uses FROM Books.</li>
-                        <li>Uses WHERE with LIKE.</li>
-                        <li>Uses a valid wildcard pattern such as "Python%".</li>
+                        <li>Uses WHERE Genre = "Computing".</li>
                         <li>Accept single quotes around text values.</li>
                         <li>Accept any other valid SQL statement.</li>
                     </ul>
                     <pre class="algorithm-code"><code>SELECT Title, Author
 FROM Books
-WHERE Title LIKE "Python%"</code></pre>
+WHERE Genre = "Computing"</code></pre>
                 </div>
             </article>
 
             <article class="question-card">
-                <p class="question-text">11) <strong>Write</strong> an SQL statement to display Title, YearPublished and Copies for available books published after 2020, sorted by YearPublished. (5 marks)</p>
+                <p class="question-text">11) <strong>Write</strong> an SQL statement to display Title, YearPublished and Copies for available books published after 2020. (4 marks)</p>
                 <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-6-11">Show mark scheme</button>
                 <div id="mark-scheme-2-2-6-11" class="mark-scheme" hidden>
                     <h4>Mark scheme</h4>
-                    <p class="mark-scheme-intro">Award up to 5 marks:</p>
+                    <p class="mark-scheme-intro">Award up to 4 marks:</p>
                     <ul>
                         <li>Uses SELECT Title, YearPublished, Copies.</li>
                         <li>Uses FROM Books.</li>
                         <li>Correctly tests Available = "Yes".</li>
                         <li>Uses AND with YearPublished &gt; 2020.</li>
-                        <li>Uses SORTBY YearPublished.</li>
                         <li>Accept single quotes around text values.</li>
                         <li>Accept any other valid SQL statement.</li>
                     </ul>
                     <pre class="algorithm-code"><code>SELECT Title, YearPublished, Copies
 FROM Books
-WHERE Available = "Yes" AND YearPublished &gt; 2020
-SORTBY YearPublished</code></pre>
+WHERE Available = "Yes" AND YearPublished &gt; 2020</code></pre>
                 </div>
             </article>
 
             <article class="question-card">
-                <p class="question-text">12) <strong>Write</strong> an SQL statement to display all fields for students in TutorGroup 10A, sorted by Points. (4 marks)</p>
+                <p class="question-text">12) <strong>Write</strong> an SQL statement to display all fields for students in TutorGroup 10A. (3 marks)</p>
                 <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-6-12">Show mark scheme</button>
                 <div id="mark-scheme-2-2-6-12" class="mark-scheme" hidden>
                     <h4>Mark scheme</h4>
-                    <p class="mark-scheme-intro">Award up to 4 marks:</p>
+                    <p class="mark-scheme-intro">Award up to 3 marks:</p>
                     <ul>
                         <li>Uses SELECT *.</li>
                         <li>Uses FROM Students.</li>
                         <li>Uses WHERE TutorGroup = "10A".</li>
-                        <li>Uses SORTBY Points.</li>
                         <li>Accept single quotes around text values.</li>
                         <li>Accept any other valid SQL statement.</li>
                     </ul>
                     <pre class="algorithm-code"><code>SELECT *
 FROM Students
-WHERE TutorGroup = "10A"
-SORTBY Points</code></pre>
+WHERE TutorGroup = "10A"</code></pre>
                 </div>
             </article>
         </section>
@@ -385,6 +380,17 @@ SORTBY Points</code></pre>
 
     <footer id="site-footer"></footer>
 
-    <script src="../site.js?v=19"></script>
+    <script src="../site.js?v=40"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+

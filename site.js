@@ -306,15 +306,29 @@ function assetPrefix() {
 function currentPage() {
   const path = window.location.pathname.split("/").pop() || "index.html";
   if (path === "index.html" || path === "") return "home";
-  if (path === "course-spec.html") return "about";
+  if (path === "course-spec.html") return "info";
+  if (["ocr-gcse-computer-science-j277.html", "btec-it.html", "ks3-computer-science.html"].includes(path)) return "course";
   return "topic";
 }
 
+function currentCourseLabel() {
+  const path = window.location.pathname;
+  const filename = path.split("/").pop() || "index.html";
+  if (filename === "ocr-gcse-computer-science-j277.html" || path.includes("/teachesheets/") || path.includes("/worksheets/") || path.includes("/topics/") || path.includes("/quizzes/")) {
+    return "GCSE Computer Science";
+  }
+  if (filename === "btec-it.html") return "BTEC IT";
+  if (filename === "ks3-computer-science.html") return "KS3 Computer Science";
+  return "";
+}
+
 function renderSharedLayout() {
-  const prefix = assetPrefix();
-  const page = currentPage();
-  const headerMount = document.getElementById("site-header");
-  const footerMount = document.getElementById("site-footer");
+    const prefix = assetPrefix();
+    const page = currentPage();
+    const courseLabel = currentCourseLabel();
+    const isCourseArea = Boolean(courseLabel);
+    const headerMount = document.getElementById("site-header");
+    const footerMount = document.getElementById("site-footer");
 
   if (headerMount) {
     headerMount.className = "site-header";
@@ -322,24 +336,32 @@ function renderSharedLayout() {
         <div class="header-inner">
             <a class="brand" href="${prefix}index.html" aria-label="Computing Revision Platform home">
                 <span class="brand-mark" aria-hidden="true"></span>
-                <span>OCR GCSE Computer Science J277</span>
+                <span class="brand-title">Computing Revision Platform${courseLabel ? ` <span class="brand-course-wrap"><span class="brand-separator" aria-hidden="true">&gt;</span> <span class="brand-course">${courseLabel}</span></span>` : ""}</span>
             </a>
             <nav class="site-nav" aria-label="Primary navigation">
                 <a class="nav-link${page === "home" ? " active" : ""}" href="${prefix}index.html"${page === "home" ? ' aria-current="page"' : ""}>
                     <span class="nav-icon nav-icon-home" aria-hidden="true"></span>
                     Home
                 </a>
-                <a class="nav-link${page === "about" ? " active" : ""}" href="${prefix}course-spec.html"${page === "about" ? ' aria-current="page"' : ""}>
-                    <span class="nav-icon" aria-hidden="true">i</span>
-                    About
-                </a>
+                <details class="course-menu">
+                    <summary class="nav-link${isCourseArea ? " active" : ""}"${isCourseArea ? ' aria-current="page"' : ""}>
+                        <span class="nav-icon nav-icon-courses" aria-hidden="true"></span>
+                        Courses
+                    </summary>
+                    <div class="course-menu-list">
+                        <a href="${prefix}ocr-gcse-computer-science-j277.html">GCSE Computer Science</a>
+                        <a href="${prefix}btec-it.html">BTEC IT</a>
+                        <a href="${prefix}ks3-computer-science.html">KS3 Computer Science</a>
+                    </div>
+                </details>
             </nav>
         </div>`;
   }
 
   if (footerMount) {
-    footerMount.innerHTML = `
-        <p>Custom revision site supporting OCR GCSE Computer Science J277. Not an official OCR website. <a href="${prefix}course-spec.html">Course specification</a>.</p>`;
+    footerMount.innerHTML = page === "home"
+      ? `<p>Computing Revision Platform</p>`
+      : `<p>OCR GCSE Computer Science J277 content is independent and not an official OCR website. <a href="${prefix}course-spec.html">Course specification</a>.</p>`;
   }
 }
 
@@ -378,9 +400,19 @@ function slug(topicId) {
 }
 
 const availableQuizIds = new Set(["1-1-1", "1-1-2", "1-1-3", "1-2-1", "1-2-2", "1-2-3", "1-2-4", "1-2-5", "1-2-6", "1-2-7", "1-2-8", "1-2-9", "1-2-10", "1-2-11", "1-3-1", "1-3-2", "1-3-3", "1-3-4", "1-3-5", "1-3-6", "1-3-7", "1-3-8", "1-3-9", "1-4-1", "1-4-2", "1-5-1", "1-5-2", "1-6-1-1", "1-6-1-2", "1-6-1-3", "2-1-1", "2-1-2", "2-1-3", "2-1-4", "2-1-5", "2-1-6", "2-1-7", "2-1-8", "2-1-9", "2-1-10", "2-2-1", "2-2-2", "2-2-3", "2-2-4", "2-2-5", "2-2-6", "2-2-7", "2-2-8", "2-2-9", "2-3-1", "2-3-2", "2-4-1", "2-5-1", "2-5-2", "2-6-1", "2-6-2"]);
+const availableLessonIds = new Set(["1-2-7"]);
+const availableWorksheetIds = new Set(["1-2-7"]);
 
 function quizSlug(topicId) {
   return `quizzes/${topicId}.html`;
+}
+
+function learnSlug(topicId) {
+  return `teachesheets/${topicId}.html`;
+}
+
+function worksheetSlug(topicId) {
+  return `worksheets/${topicId}.html`;
 }
 
 function groupNumber(heading) {
@@ -438,11 +470,29 @@ function renderHomePage() {
         const actions = document.createElement("div");
         actions.className = "topic-actions";
 
+        if (availableLessonIds.has(topic.id)) {
+          const learnLink = document.createElement("a");
+          learnLink.className = "action-button learn-button";
+          learnLink.href = learnSlug(topic.id);
+          learnLink.textContent = "Lesson";
+          learnLink.setAttribute("aria-label", `${topic.title} lesson page`);
+          actions.appendChild(learnLink);
+        }
+
+        if (availableWorksheetIds.has(topic.id)) {
+          const worksheetLink = document.createElement("a");
+          worksheetLink.className = "action-button worksheet-button";
+          worksheetLink.href = worksheetSlug(topic.id);
+          worksheetLink.textContent = "Tasks";
+          worksheetLink.setAttribute("aria-label", `${topic.title} tasksheet page`);
+          actions.appendChild(worksheetLink);
+        }
+
         const qaLink = document.createElement("a");
         qaLink.className = "action-button qa-button";
         qaLink.href = slug(topic.id);
-        qaLink.textContent = "Q&A";
-        qaLink.setAttribute("aria-label", `${topic.title} Q&A page`);
+        qaLink.textContent = "Exam";
+        qaLink.setAttribute("aria-label", `${topic.title} exam practice page`);
         actions.appendChild(qaLink);
 
         if (availableQuizIds.has(topic.id)) {
@@ -481,10 +531,12 @@ function setupMarkSchemeButtons() {
 
     button.addEventListener("click", () => {
       const isExpanded = button.getAttribute("aria-expanded") === "true";
+      const showLabel = button.dataset.showLabel || "Show mark scheme";
+      const hideLabel = button.dataset.hideLabel || "Hide mark scheme";
       button.setAttribute("aria-expanded", String(!isExpanded));
       markScheme.hidden = isExpanded;
       markScheme.classList.toggle("visible", !isExpanded);
-      button.textContent = isExpanded ? "Show mark scheme" : "Hide mark scheme";
+      button.textContent = isExpanded ? showLabel : hideLabel;
     });
   });
 }
@@ -553,7 +605,7 @@ function createQuizTimer(form) {
 
 function setupSelfMarkingQuizzes() {
   document.querySelectorAll(".quiz-form").forEach((form) => {
-    const result = form.querySelector(".quiz-result");
+    const result = form.querySelector(".quiz-result, .quiz-score");
     const timer = createQuizTimer(form);
 
     form.addEventListener("submit", (event) => {
