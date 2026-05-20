@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.2.3 String manipulation challenge quiz</title>
+    <link rel="stylesheet" href="../../../styles.css?v=41">
+</head>
+<body>
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to J277 topics</a>
+        <section class="question-header">
+            <p class="eyebrow">Paper 2 quiz</p>
+            <h2>2.2.3 String manipulation challenge quiz</h2>
+            <p class="section-note">Self-marking retrieval practice on string operations, slicing, concatenation and character codes.</p>
+        </section>
+
+        <form class="quiz-form" aria-label="2.2.3 String manipulation challenge self-marking quiz">
+            <article class="quiz-question" data-type="drag-match" data-answer="Concatenation:Joins strings|Length:Counts characters|Substring:Extracts part of a string|Uppercase:Converts letters to capitals" data-correct-feedback="The matches are correct." data-incorrect-feedback="Correct matches: Concatenation:Joins strings|Length:Counts characters|Substring:Extracts part of a string|Uppercase:Converts letters to capitals.">
+                <h3>1) Match each string operation to what it does.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Joins strings">Joins strings</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Counts characters">Counts characters</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Extracts part of a string">Extracts part of a string</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Converts letters to capitals">Converts letters to capitals</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="Concatenation" data-placeholder="Drop item">Drop item</span><p>Concatenation</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Length" data-placeholder="Drop item">Drop item</span><p>Length</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Substring" data-placeholder="Drop item">Drop item</span><p>Substring</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Uppercase" data-placeholder="Drop item">Drop item</span><p>Uppercase</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="+|OUTPUT" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: +|OUTPUT.">
+                <h3>2) Complete the code to join two strings together.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="+">+</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="-">-</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="OUTPUT">OUTPUT</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="INPUT">INPUT</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p>firstName = "Ada"</p>
+                    <p>surname = "Lovelace"</p>
+                    <p>fullName = firstName <span class="drop-blank" data-placeholder="Drop item">Drop item</span> surname</p>
+                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span> fullName</p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="HelloWorld" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: HelloWorld.">
+                <h3>3) Predict the output when two strings are concatenated.</h3>
+                <pre class="algorithm-code"><code>word1 = &quot;Hello&quot;
+word2 = &quot;World&quot;
+OUTPUT word1 + word2</code></pre>
+                <input type="text" aria-label="Answer for question 2">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="8" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 8.">
+                <h3>4) Identify the length of the string "COMPUTER".</h3>
+                <input type="text" aria-label="Answer for question 3">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="LEN" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: LEN.">
+                <h3>5) Complete the missing string length function.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="LEN">LEN</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="LEFT">LEFT</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="RIGHT">RIGHT</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="ASC">ASC</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p>word = "network"</p>
+                    <p>letters = <span class="drop-blank" data-placeholder="Drop item">Drop item</span>(word)</p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="COM" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: COM.">
+                <h3>6) Identify the substring returned from the string "COMPUTER" using substring(0, 3).</h3>
+                <pre class="algorithm-code"><code>word = &quot;COMPUTER&quot;
+part = word.substring(0, 3)
+OUTPUT part</code></pre>
+                <input type="text" aria-label="Answer for question 5">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="word|substring|0|3" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: word|substring|0|3.">
+                <h3>7) Drag the substring parts into the correct order.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="word">word</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="substring">substring</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="0">0</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="3">3</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p>part = <span class="drop-blank" data-placeholder="Drop item">Drop item</span>.<span class="drop-blank" data-placeholder="Drop item">Drop item</span>(<span class="drop-blank" data-placeholder="Drop item">Drop item</span>, <span class="drop-blank" data-placeholder="Drop item">Drop item</span>)</p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="COM" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: COM.">
+                <h3>8) Predict the output of .left(3) on "COMPUTER".</h3>
+                <pre class="algorithm-code"><code>word = &quot;COMPUTER&quot;
+OUTPUT word.left(3)</code></pre>
+                <input type="text" aria-label="Answer for question 7">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="TER" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: TER.">
+                <h3>9) Predict the output of .right(3) on "COMPUTER".</h3>
+                <pre class="algorithm-code"><code>word = &quot;COMPUTER&quot;
+OUTPUT word.right(3)</code></pre>
+                <input type="text" aria-label="Answer for question 8">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer=".substring():Extracts characters from a start position|.left():Extracts characters from the start|.right():Extracts characters from the end" data-correct-feedback="The matches are correct." data-incorrect-feedback="Correct matches: .substring():Extracts characters from a start position|.left():Extracts characters from the start|.right():Extracts characters from the end.">
+                <h3>10) Match .substring(), .left() and .right() to their purpose.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Extracts characters from a start position">Extracts characters from a start position</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Extracts characters from the start">Extracts characters from the start</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Extracts characters from the end">Extracts characters from the end</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match=".substring()" data-placeholder="Drop item">Drop item</span><p>.substring()</p></div>
+                    <div class="match-row"><span class="match-drop" data-match=".left()" data-placeholder="Drop item">Drop item</span><p>.left()</p></div>
+                    <div class="match-row"><span class="match-drop" data-match=".right()" data-placeholder="Drop item">Drop item</span><p>.right()</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="left|3|OUTPUT" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: left|3|OUTPUT.">
+                <h3>11) Complete the code to extract the first three characters from a string.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="left">left</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="right">right</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="substring">substring</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="3">3</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="4">4</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="OUTPUT">OUTPUT</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p>code = "AB123"</p>
+                    <p>prefix = code.<span class="drop-blank" data-placeholder="Drop item">Drop item</span>(<span class="drop-blank" data-placeholder="Drop item">Drop item</span>)</p>
+                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span> prefix</p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="right|4|OUTPUT" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: right|4|OUTPUT.">
+                <h3>12) Complete the code to extract the last four characters from a string.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="left">left</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="right">right</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="substring">substring</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="3">3</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="4">4</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="OUTPUT">OUTPUT</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p>code = "GCSE2026"</p>
+                    <p>year = code.<span class="drop-blank" data-placeholder="Drop item">Drop item</span>(<span class="drop-blank" data-placeholder="Drop item">Drop item</span>)</p>
+                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span> year</p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="fullName = firstName + &quot; &quot; + surname" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: fullName = firstName + &quot; &quot; + surname.">
+                <h3>13) Identify which line of code correctly joins a first name and surname.</h3>
+                <label><input type="radio" name="q13" value="fullName = firstName + &quot; &quot; + surname"> fullName = firstName + &quot; &quot; + surname</label>
+                <label><input type="radio" name="q13" value="fullName = firstName - surname"> fullName = firstName - surname</label>
+                <label><input type="radio" name="q13" value="fullName = firstName / surname"> fullName = firstName / surname</label>
+                <label><input type="radio" name="q13" value="fullName = firstName AND surname"> fullName = firstName AND surname</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="It uses - instead of +" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: It uses - instead of +.">
+                <h3>14) Identify the error in this string concatenation statement.</h3>
+                <pre class="algorithm-code"><code>fullName = firstName - surname</code></pre>
+                <label><input type="radio" name="q14" value="It uses - instead of +"> It uses - instead of +</label>
+                <label><input type="radio" name="q14" value="It uses a string variable"> It uses a string variable</label>
+                <label><input type="radio" name="q14" value="It outputs a full name"> It outputs a full name</label>
+                <label><input type="radio" name="q14" value="It has no variables"> It has no variables</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="firstName = INPUT|surname = INPUT|fullName = firstName + &quot; &quot; + surname|OUTPUT fullName" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: firstName = INPUT|surname = INPUT|fullName = firstName + &quot; &quot; + surname|OUTPUT fullName.">
+                <h3>15) Rearrange the code so the program creates a full name from two strings.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="firstName = INPUT">firstName = INPUT</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="surname = INPUT">surname = INPUT</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="fullName = firstName + &quot; &quot; + surname">fullName = firstName + &quot; &quot; + surname</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="OUTPUT fullName">OUTPUT fullName</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p>1. <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                    <p>2. <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                    <p>3. <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                    <p>4. <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="True" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: True.">
+                <h3>16) True or false: String indexing starts at 0 in OCR Exam Reference Language.</h3>
+                <label><input type="radio" name="q16" value="True"> True</label>
+                <label><input type="radio" name="q16" value="False"> False</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="checkbox" data-answer="Creating usernames,Extracting initials,Formatting names,Checking product code prefixes" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Creating usernames,Extracting initials,Formatting names,Checking product code prefixes.">
+                <h3>17) Select all examples where string manipulation would be useful.</h3>
+                <label><input type="checkbox" value="Creating usernames"> Creating usernames</label>
+                <label><input type="checkbox" value="Extracting initials"> Extracting initials</label>
+                <label><input type="checkbox" value="Formatting names"> Formatting names</label>
+                <label><input type="checkbox" value="Checking product code prefixes"> Checking product code prefixes</label>
+                <label><input type="checkbox" value="Adding two integers"> Adding two integers</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Create full name:Concatenation|Count password characters:Length|Get first three letters:Left|Get file extension:Right" data-correct-feedback="The matches are correct." data-incorrect-feedback="Correct matches: Create full name:Concatenation|Count password characters:Length|Get first three letters:Left|Get file extension:Right.">
+                <h3>18) Match each scenario to the most suitable string operation.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Concatenation">Concatenation</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Length">Length</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Left">Left</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Right">Right</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="Create full name" data-placeholder="Drop item">Drop item</span><p>Create full name</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Count password characters" data-placeholder="Drop item">Drop item</span><p>Count password characters</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Get first three letters" data-placeholder="Drop item">Drop item</span><p>Get first three letters</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Get file extension" data-placeholder="Drop item">Drop item</span><p>Get file extension</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="upper|OUTPUT" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: upper|OUTPUT.">
+                <h3>19) Complete the code to convert a string to uppercase.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="upper">upper</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="lower">lower</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="LEN">LEN</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="OUTPUT">OUTPUT</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p>name = "ada"</p>
+                    <p>name = name.<span class="drop-blank" data-placeholder="Drop item">Drop item</span>()</p>
+                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span> name</p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="lower|OUTPUT" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: lower|OUTPUT.">
+                <h3>20) Complete the code to convert a string to lowercase.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="upper">upper</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="lower">lower</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="LEN">LEN</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="OUTPUT">OUTPUT</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p>name = "ADA"</p>
+                    <p>name = name.<span class="drop-blank" data-placeholder="Drop item">Drop item</span>()</p>
+                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span> name</p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="GCSE" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: GCSE.">
+                <h3>21) Predict the output after .upper() is applied to "gcse".</h3>
+                <pre class="algorithm-code"><code>word = &quot;gcse&quot;
+OUTPUT word.upper()</code></pre>
+                <input type="text" aria-label="Answer for question 20">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="ocr" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: ocr.">
+                <h3>22) Predict the output after .lower() is applied to "OCR".</h3>
+                <pre class="algorithm-code"><code>word = &quot;OCR&quot;
+OUTPUT word.lower()</code></pre>
+                <input type="text" aria-label="Answer for question 21">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="65" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 65.">
+                <h3>23) Identify the ASCII value returned by ASC("A").</h3>
+                <pre class="algorithm-code"><code>OUTPUT ASC(&quot;A&quot;)</code></pre>
+                <input type="text" aria-label="Answer for question 22">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="B" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: B.">
+                <h3>24) Identify the character returned by CHR(66).</h3>
+                <pre class="algorithm-code"><code>OUTPUT CHR(66)</code></pre>
+                <input type="text" aria-label="Answer for question 23">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="LEN(&quot;cat&quot;):3|&quot;Hi&quot; + &quot;ya&quot;:Hiya|&quot;CODE&quot;.left(2):CO|&quot;CODE&quot;.right(2):DE" data-correct-feedback="The matches are correct." data-incorrect-feedback="Correct matches: LEN(&quot;cat&quot;):3|&quot;Hi&quot; + &quot;ya&quot;:Hiya|&quot;CODE&quot;.left(2):CO|&quot;CODE&quot;.right(2):DE.">
+                <h3>25) Match each string handling command to its output.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="3">3</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Hiya">Hiya</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="CO">CO</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="DE">DE</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="LEN(&quot;cat&quot;)" data-placeholder="Drop item">Drop item</span><p>LEN(&quot;cat&quot;)</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="&quot;Hi&quot; + &quot;ya&quot;" data-placeholder="Drop item">Drop item</span><p>&quot;Hi&quot; + &quot;ya&quot;</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="&quot;CODE&quot;.left(2)" data-placeholder="Drop item">Drop item</span><p>&quot;CODE&quot;.left(2)</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="&quot;CODE&quot;.right(2)" data-placeholder="Drop item">Drop item</span><p>&quot;CODE&quot;.right(2)</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <div class="quiz-controls">
+                <button class="back-button" type="submit">Check answers</button>
+                <button class="reveal-button" type="reset">Reset quiz</button>
+                <p class="quiz-result" hidden aria-live="polite"></p>
+            </div>
+        </form>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="../../../site.js?v=40"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

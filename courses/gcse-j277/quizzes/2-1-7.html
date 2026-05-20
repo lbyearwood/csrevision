@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.1.7 Identifying common errors quiz</title>
+    <link rel="stylesheet" href="../../../styles.css?v=41">
+</head>
+<body>
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to J277 topics</a>
+        <section class="question-header">
+            <p class="eyebrow">Paper 2 quiz</p>
+            <h2>2.1.7 Identifying common errors quiz</h2>
+            <p class="section-note">Self-marking retrieval practice on syntax, logic and runtime errors.</p>
+        </section>
+
+        <form class="quiz-form" aria-label="2.1.7 Identifying common errors self-marking quiz">
+            <article class="quiz-question" data-type="radio" data-answer="Syntax error" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Syntax error.">
+                <h3>1) Missing ENDIF after an IF statement is what type of error?</h3>
+                <label><input type="radio" name="q1" value="Syntax error"> Syntax error</label>
+                <label><input type="radio" name="q1" value="Logic error"> Logic error</label>
+                <label><input type="radio" name="q1" value="Runtime error"> Runtime error</label>
+                <label><input type="radio" name="q1" value="Rounding error"> Rounding error</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Logic error" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Logic error.">
+                <h3>2) A program runs but divides by 4 instead of 5. What type of error is this?</h3>
+                <label><input type="radio" name="q2" value="Logic error"> Logic error</label>
+                <label><input type="radio" name="q2" value="Syntax error"> Syntax error</label>
+                <label><input type="radio" name="q2" value="Runtime error"> Runtime error</label>
+                <label><input type="radio" name="q2" value="Translator error"> Translator error</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Runtime error" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Runtime error.">
+                <h3>3) A program tries to divide by zero while running. What type of error is this?</h3>
+                <label><input type="radio" name="q3" value="Runtime error"> Runtime error</label>
+                <label><input type="radio" name="q3" value="Logic error"> Logic error</label>
+                <label><input type="radio" name="q3" value="Syntax error"> Syntax error</label>
+                <label><input type="radio" name="q3" value="Comment error"> Comment error</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="checkbox" data-answer="Misspelt keyword,Missing bracket,Missing ENDIF" data-correct-feedback="Correct." data-incorrect-feedback="Correct answers: Misspelt keyword,Missing bracket,Missing ENDIF.">
+                <h3>4) Tick all examples of syntax errors.</h3>
+                <label><input type="checkbox" value="Misspelt keyword"> Misspelt keyword</label>
+                <label><input type="checkbox" value="Missing bracket"> Missing bracket</label>
+                <label><input type="checkbox" value="Missing ENDIF"> Missing ENDIF</label>
+                <label><input type="checkbox" value="Wrong formula that still runs"> Wrong formula that still runs</label>
+                <label><input type="checkbox" value="Valid input giving wrong output"> Valid input giving wrong output</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="The program may fail to run or translate" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: The program may fail to run or translate.">
+                <h3>5) What usually happens when a syntax error is present?</h3>
+                <label><input type="radio" name="q5" value="The program may fail to run or translate"> The program may fail to run or translate</label>
+                <label><input type="radio" name="q5" value="The program always gives the correct output"> The program always gives the correct output</label>
+                <label><input type="radio" name="q5" value="The program becomes compressed"> The program becomes compressed</label>
+                <label><input type="radio" name="q5" value="The CPU stops storing binary"> The CPU stops storing binary</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Change age &gt; 18 to age &gt;= 18" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Change age &gt; 18 to age &gt;= 18.">
+                <h3>6) Which fix corrects the boundary error if age 18 should count as adult?</h3>
+                <pre class="algorithm-code"><code>IF age &gt; 18 THEN
+    OUTPUT &quot;Adult&quot;
+ELSE
+    OUTPUT &quot;Child&quot;
+ENDIF</code></pre>
+                <label><input type="radio" name="q6" value="Change age &gt; 18 to age &gt;= 18"> Change age &gt; 18 to age &gt;= 18</label>
+                <label><input type="radio" name="q6" value="Remove OUTPUT"> Remove OUTPUT</label>
+                <label><input type="radio" name="q6" value="Change age to password"> Change age to password</label>
+                <label><input type="radio" name="q6" value="Use ENDWHILE instead of ENDIF"> Use ENDWHILE instead of ENDIF</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Logic error" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Logic error.">
+                <h3>7) Which error type is hardest to find using only a translator?</h3>
+                <label><input type="radio" name="q7" value="Logic error"> Logic error</label>
+                <label><input type="radio" name="q7" value="Syntax error"> Syntax error</label>
+                <label><input type="radio" name="q7" value="Missing punctuation"> Missing punctuation</label>
+                <label><input type="radio" name="q7" value="Misspelt keyword"> Misspelt keyword</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Syntax error:Breaks language rules|Logic error:Runs but gives unexpected output|Runtime error:Occurs while the program is running" data-correct-feedback="Correct." data-incorrect-feedback="Correct matches: Syntax error:Breaks language rules|Logic error:Runs but gives unexpected output|Runtime error:Occurs while the program is running.">
+                <h3>8) Drag each error type to the correct description.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Runs but gives unexpected output">Runs but gives unexpected output</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Occurs while the program is running">Occurs while the program is running</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Breaks language rules">Breaks language rules</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="Syntax error" data-placeholder="Drop item">Drop item</span><p>Syntax error</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Logic error" data-placeholder="Drop item">Drop item</span><p>Logic error</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Runtime error" data-placeholder="Drop item">Drop item</span><p>Runtime error</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Change count &lt; 10 to count &lt;= 10" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Change count &lt; 10 to count &lt;= 10.">
+                <h3>9) A loop uses count < 10 but it should include 10. What is the best fix?</h3>
+                <label><input type="radio" name="q9" value="Change count &lt; 10 to count &lt;= 10"> Change count &lt; 10 to count &lt;= 10</label>
+                <label><input type="radio" name="q9" value="Delete the loop"> Delete the loop</label>
+                <label><input type="radio" name="q9" value="Change OUTPUT to INPUT"> Change OUTPUT to INPUT</label>
+                <label><input type="radio" name="q9" value="Use a string instead of a number"> Use a string instead of a number</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Runtime error" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Runtime error.">
+                <h3>10) A program crashes because it opens a missing file. What type of error is most likely?</h3>
+                <label><input type="radio" name="q10" value="Runtime error"> Runtime error</label>
+                <label><input type="radio" name="q10" value="Syntax error"> Syntax error</label>
+                <label><input type="radio" name="q10" value="Logic error"> Logic error</label>
+                <label><input type="radio" name="q10" value="Selection error"> Selection error</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="9" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 9.">
+                <h3>11) This code outputs 9 but should output 10. What final value is produced?</h3>
+                <pre class="algorithm-code"><code>total = 0
+FOR count = 1 TO 9
+    total = total + 1
+NEXT count
+OUTPUT total</code></pre>
+                <input type="text" aria-label="Answer for question 10">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Trace table" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Trace table.">
+                <h3>12) Which tool helps find a logic error by recording variable values step by step?</h3>
+                <label><input type="radio" name="q12" value="Trace table"> Trace table</label>
+                <label><input type="radio" name="q12" value="Metadata"> Metadata</label>
+                <label><input type="radio" name="q12" value="Firewall"> Firewall</label>
+                <label><input type="radio" name="q12" value="MAC address"> MAC address</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="syntax|logic|runtime" data-correct-feedback="The pseudocode has been completed correctly." data-incorrect-feedback="Correct order: syntax|logic|runtime.">
+                <h3>13) Complete the error explanation.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="syntax">syntax</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="logic">logic</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="runtime">runtime</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="metadata">metadata</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p>A <span class="drop-blank" data-placeholder="Drop item">Drop item</span> error breaks language rules. A <span class="drop-blank" data-placeholder="Drop item">Drop item</span> error runs but gives the wrong result. A <span class="drop-blank" data-placeholder="Drop item">Drop item</span> error occurs while executing.</p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Logic error" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Logic error.">
+                <h3>14) A condition uses OR when it should use AND, so access is granted too easily. What type of error is this?</h3>
+                <label><input type="radio" name="q14" value="Logic error"> Logic error</label>
+                <label><input type="radio" name="q14" value="Syntax error"> Syntax error</label>
+                <label><input type="radio" name="q14" value="Runtime error"> Runtime error</label>
+                <label><input type="radio" name="q14" value="No error"> No error</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Test values at, just below and just above the boundary" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Test values at, just below and just above the boundary.">
+                <h3>15) Which test is best for finding a boundary error?</h3>
+                <label><input type="radio" name="q15" value="Test values at, just below and just above the boundary"> Test values at, just below and just above the boundary</label>
+                <label><input type="radio" name="q15" value="Only test very large values"> Only test very large values</label>
+                <label><input type="radio" name="q15" value="Never test invalid data"> Never test invalid data</label>
+                <label><input type="radio" name="q15" value="Only check comments"> Only check comments</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <div class="quiz-controls">
+                <button class="back-button" type="submit">Check answers</button>
+                <button class="reveal-button" type="reset">Reset quiz</button>
+                <p class="quiz-result" hidden aria-live="polite"></p>
+            </div>
+        </form>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="../../../site.js?v=40"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.3.1 Defensive design questions</title>
+    <link rel="stylesheet" href="../../../styles.css?v=41">
+</head>
+<body>
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to J277 topics</a>
+        <section class="question-header">
+            <p class="eyebrow">Paper 2</p>
+            <h2>2.3.1 Defensive design questions</h2>
+            <p class="section-note">What this topic covers: designing programs that reduce errors, handle invalid input, use authentication where appropriate and are easier to maintain.</p>
+        </section>
+        <section class="question-list" aria-label="2.3.1 Defensive design questions">
+            <article class="question-card">
+                <p class="question-text">1) <strong>State</strong> what is meant by defensive design. (1 mark)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-3-1-1">Show mark scheme</button>
+                <div id="mark-scheme-2-3-1-1" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">1 mark for a correct point:</p>
+                    <ul>
+                        <li>Designing a program to reduce errors and cope with unexpected or invalid input.</li>
+                        <li>Designing a program to prevent misuse and make it more robust.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">2) A ticket booking program asks users to enter the number of tickets they want. <strong>Identify</strong> two validation checks that could be used. (2 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-3-1-2">Show mark scheme</button>
+                <div id="mark-scheme-2-3-1-2" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">1 mark for each suitable validation check:</p>
+                    <ul>
+                        <li>Range check, for example between 1 and the maximum number of tickets.</li>
+                        <li>Type check, for example the input must be an integer.</li>
+                        <li>Presence check, for example the field must not be left blank.</li>
+                        <li>Length check where a fixed number of digits is required.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">3) A booking form accepts an age of 16 because it is within the allowed range. <strong>Explain</strong> why validation does not guarantee that this age is accurate. (2 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-3-1-3">Show mark scheme</button>
+                <div id="mark-scheme-2-3-1-3" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">1 mark for each correct point:</p>
+                    <ul>
+                        <li>Validation only checks whether data is sensible or follows rules.</li>
+                        <li>Incorrect data can still pass validation if it is in an acceptable format or range.</li>
+                        <li>For example, a valid date of birth could still be someone else's date of birth.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">4) A login system asks for a username and password. <strong>Describe</strong> two ways authentication can improve the security of the system. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-3-1-4">Show mark scheme</button>
+                <div id="mark-scheme-2-3-1-4" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 2 marks for each way:</p>
+                    <ul>
+                        <li>It checks the user is who they claim to be.</li>
+                        <li>This helps prevent unauthorised users accessing the system.</li>
+                        <li>Strong passwords make guessing or brute-force attacks harder.</li>
+                        <li>Multi-factor authentication adds another check beyond a password.</li>
+                        <li>Account lockout can reduce repeated login attempts.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">5) A program asks a user to enter an email address. <strong>Complete</strong> the missing validation rule: the email address must contain an @ symbol and must not be ______. (1 mark)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-3-1-5">Show mark scheme</button>
+                <div id="mark-scheme-2-3-1-5" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">1 mark for:</p>
+                    <ul>
+                        <li>blank / empty / null.</li>
+                        <li>Accept equivalent wording.</li>
+                    </ul>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">6) Several programmers maintain a school reports program. <strong>Describe</strong> how comments can improve the maintainability of the program. (2 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-3-1-6">Show mark scheme</button>
+                <div id="mark-scheme-2-3-1-6" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">1 mark for each correct point:</p>
+                    <ul>
+                        <li>Comments explain the purpose of code or complex sections.</li>
+                        <li>They help programmers understand the code later.</li>
+                        <li>They make it easier to update, debug or fix the program.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">7) A program uses variables called x, y and z to store price, discount and final total. <strong>Explain</strong> why meaningful variable names are part of defensive design. (3 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-3-1-7">Show mark scheme</button>
+                <div id="mark-scheme-2-3-1-7" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">1 mark for each correct point:</p>
+                    <ul>
+                        <li>Meaningful names make the purpose of variables clearer.</li>
+                        <li>This reduces the chance of a programmer using the wrong variable.</li>
+                        <li>It makes the program easier to read, test and maintain.</li>
+                        <li>It helps another programmer understand the program more quickly.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">8) A program accepts a user's age. It should only accept values from 11 to 18. <strong>Write</strong> a validation condition that could be used. (2 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-3-1-8">Show mark scheme</button>
+                <div id="mark-scheme-2-3-1-8" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 2 marks:</p>
+                    <ul>
+                        <li>Checks the lower boundary, for example age &gt;= 11.</li>
+                        <li>Checks the upper boundary, for example age &lt;= 18.</li>
+                        <li>Example answer: age &gt;= 11 AND age &lt;= 18.</li>
+                        <li>Accept any equivalent condition.</li>
+                    </ul>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">9) <strong>Compare</strong> input validation and authentication. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-3-1-9">Show mark scheme</button>
+                <div id="mark-scheme-2-3-1-9" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award marks for linked comparative points:</p>
+                    <ul>
+                        <li>Input validation checks whether entered data is acceptable.</li>
+                        <li>Authentication checks the identity of a user.</li>
+                        <li>Validation helps prevent invalid data being processed.</li>
+                        <li>Authentication helps prevent unauthorised access.</li>
+                        <li>Both can make a program more robust or secure.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">10) A school reports program crashes if a teacher leaves the mark field blank. <strong>Explain</strong> one defensive design improvement that could reduce this problem. (3 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-3-1-10">Show mark scheme</button>
+                <div id="mark-scheme-2-3-1-10" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">1 mark for each correct point:</p>
+                    <ul>
+                        <li>Use a presence check to make sure the mark field is not blank.</li>
+                        <li>Display a clear error message asking the teacher to enter a mark.</li>
+                        <li>Prevent the program from processing the record until valid data is entered.</li>
+                        <li>Use exception handling or safe input handling where appropriate.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="../../../site.js?v=40"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

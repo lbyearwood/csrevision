@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.1.4 Structure diagrams quiz</title>
+    <link rel="stylesheet" href="../../../styles.css?v=41">
+</head>
+<body>
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to J277 topics</a>
+        <section class="question-header">
+            <p class="eyebrow">Paper 2 quiz</p>
+            <h2>2.1.4 Structure diagrams quiz</h2>
+            <p class="section-note">Self-marking retrieval practice. Complete each structure diagram by placing modules into the correct blank boxes.</p>
+        </section>
+
+        <form class="quiz-form" aria-label="2.1.4 Structure diagrams self-marking quiz">
+            <article class="quiz-question" data-type="drag-blank" data-answer="Quiz app|Display menu|Calculate score|Check answer" data-correct-feedback="The completed tree shows the whole quiz app, its main modules and the smaller tasks under each module." data-incorrect-feedback="Correct order: Quiz app, Display menu, Calculate score, Check answer.">
+                <h3>1) Complete the missing root, main and sub-modules in the quiz program structure diagram.</h3>
+                <div class="structure-diagram" aria-label="Structure diagram for a quiz app">
+                    <div class="structure-tree">
+                        <ul>
+                            <li>
+                                <span class="drop-blank" data-placeholder="Drop root">Drop root</span>
+                                <ul>
+                                    <li>
+                                        <span class="drop-blank" data-placeholder="Drop module">Drop module</span>
+                                        <ul>
+                                            <li><span class="structure-node">Show title</span></li>
+                                            <li><span class="structure-node">Show options</span></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <span class="structure-node">Ask questions</span>
+                                        <ul>
+                                            <li><span class="structure-node">Get answer</span></li>
+                                            <li><span class="drop-blank" data-placeholder="Drop sub-module">Drop sub-module</span></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <span class="drop-blank" data-placeholder="Drop module">Drop module</span>
+                                        <ul>
+                                            <li><span class="structure-node">Add mark</span></li>
+                                            <li><span class="structure-node">Store total</span></li>
+                                        </ul>
+                                    </li>
+                                    <li><span class="structure-node">Show result</span></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="word-bank" aria-label="Modules to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Quiz app">Quiz app</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Display menu">Display menu</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Calculate score">Calculate score</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Check answer">Check answer</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Print invoice">Print invoice</button>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="Login system|Get username|Check password|Show error" data-correct-feedback="The login system is broken into input, validation and feedback modules." data-incorrect-feedback="Correct order: Login system, Get username, Check password, Show error.">
+                <h3>2) Complete the missing modules in the login system structure diagram.</h3>
+                <div class="structure-diagram" aria-label="Structure diagram for a login system">
+                    <div class="structure-tree">
+                        <ul>
+                            <li>
+                                <span class="drop-blank" data-placeholder="Drop root">Drop root</span>
+                                <ul>
+                                    <li>
+                                        <span class="structure-node">Collect details</span>
+                                        <ul>
+                                            <li><span class="drop-blank" data-placeholder="Drop sub-module">Drop sub-module</span></li>
+                                            <li><span class="structure-node">Get password</span></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <span class="structure-node">Validate login</span>
+                                        <ul>
+                                            <li><span class="structure-node">Find account</span></li>
+                                            <li><span class="drop-blank" data-placeholder="Drop sub-module">Drop sub-module</span></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <span class="structure-node">Give feedback</span>
+                                        <ul>
+                                            <li><span class="structure-node">Show welcome</span></li>
+                                            <li><span class="drop-blank" data-placeholder="Drop sub-module">Drop sub-module</span></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="word-bank" aria-label="Modules to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Login system">Login system</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Get username">Get username</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Check password">Check password</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Show error">Show error</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Calculate total">Calculate total</button>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="Get numbers|Choose operation|Add numbers|Divide numbers|Display answer" data-correct-feedback="The calculator diagram separates input, processing and output into a clear hierarchy." data-incorrect-feedback="Correct order: Get numbers, Choose operation, Add numbers, Divide numbers, Display answer.">
+                <h3>3) Complete the simple calculator structure diagram.</h3>
+                <div class="structure-diagram" aria-label="Structure diagram for a simple calculator">
+                    <div class="structure-tree">
+                        <ul>
+                            <li>
+                                <span class="structure-node">Simple calculator</span>
+                                <ul>
+                                    <li>
+                                        <span class="drop-blank" data-placeholder="Drop module">Drop module</span>
+                                        <ul>
+                                            <li><span class="structure-node">Enter first number</span></li>
+                                            <li><span class="structure-node">Enter second number</span></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <span class="drop-blank" data-placeholder="Drop module">Drop module</span>
+                                        <ul>
+                                            <li><span class="drop-blank" data-placeholder="Drop sub-module">Drop sub-module</span></li>
+                                            <li><span class="structure-node">Subtract numbers</span></li>
+                                            <li><span class="structure-node">Multiply numbers</span></li>
+                                            <li><span class="drop-blank" data-placeholder="Drop sub-module">Drop sub-module</span></li>
+                                        </ul>
+                                    </li>
+                                    <li><span class="drop-blank" data-placeholder="Drop module">Drop module</span></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="word-bank" aria-label="Modules to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Get numbers">Get numbers</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Choose operation">Choose operation</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Add numbers">Add numbers</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Divide numbers">Divide numbers</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Display answer">Display answer</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Search book">Search book</button>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="Booking system|Check availability|Take payment|Send confirmation|Cancel booking" data-correct-feedback="The booking system diagram groups each task under the module that controls it." data-incorrect-feedback="Correct order: Booking system, Check availability, Take payment, Send confirmation, Cancel booking.">
+                <h3>4) Drag the missing modules into the booking system structure diagram.</h3>
+                <div class="structure-diagram" aria-label="Structure diagram for a booking system">
+                    <div class="structure-tree">
+                        <ul>
+                            <li>
+                                <span class="drop-blank" data-placeholder="Drop root">Drop root</span>
+                                <ul>
+                                    <li>
+                                        <span class="structure-node">Search slots</span>
+                                        <ul>
+                                            <li><span class="structure-node">Choose date</span></li>
+                                            <li><span class="drop-blank" data-placeholder="Drop sub-module">Drop sub-module</span></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <span class="structure-node">Make booking</span>
+                                        <ul>
+                                            <li><span class="structure-node">Enter details</span></li>
+                                            <li><span class="drop-blank" data-placeholder="Drop sub-module">Drop sub-module</span></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <span class="structure-node">Manage booking</span>
+                                        <ul>
+                                            <li><span class="drop-blank" data-placeholder="Drop sub-module">Drop sub-module</span></li>
+                                            <li><span class="drop-blank" data-placeholder="Drop sub-module">Drop sub-module</span></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="word-bank" aria-label="Modules to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Booking system">Booking system</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Check availability">Check availability</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Take payment">Take payment</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Send confirmation">Send confirmation</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Cancel booking">Cancel booking</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Update avatar">Update avatar</button>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="Online shop|Basket|Add item|Checkout|Calculate delivery" data-correct-feedback="The corrected online shop diagram places product tasks, basket tasks and checkout tasks in the right branches." data-incorrect-feedback="Correct order: Online shop, Basket, Add item, Checkout, Calculate delivery.">
+                <h3>5) Fix the online shop structure diagram by placing the missing modules in the correct branches.</h3>
+                <div class="structure-diagram" aria-label="Structure diagram for an online shop">
+                    <div class="structure-tree">
+                        <ul>
+                            <li>
+                                <span class="drop-blank" data-placeholder="Drop root">Drop root</span>
+                                <ul>
+                                    <li>
+                                        <span class="structure-node">Products</span>
+                                        <ul>
+                                            <li><span class="structure-node">Search products</span></li>
+                                            <li><span class="structure-node">View product details</span></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <span class="drop-blank" data-placeholder="Drop module">Drop module</span>
+                                        <ul>
+                                            <li><span class="drop-blank" data-placeholder="Drop sub-module">Drop sub-module</span></li>
+                                            <li><span class="structure-node">Remove item</span></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <span class="drop-blank" data-placeholder="Drop module">Drop module</span>
+                                        <ul>
+                                            <li><span class="structure-node">Enter address</span></li>
+                                            <li><span class="drop-blank" data-placeholder="Drop sub-module">Drop sub-module</span></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="word-bank" aria-label="Modules to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Online shop">Online shop</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Basket">Basket</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Add item">Add item</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Checkout">Checkout</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Calculate delivery">Calculate delivery</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Mark attendance">Mark attendance</button>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="Game menu|Start game|Load save|Options|Set volume|Show credits" data-correct-feedback="The game menu diagram keeps menu actions and option settings under their correct parents." data-incorrect-feedback="Correct order: Game menu, Start game, Load save, Options, Set volume, Show credits.">
+                <h3>6) Complete the game menu structure diagram.</h3>
+                <div class="structure-diagram" aria-label="Structure diagram for a game menu">
+                    <div class="structure-tree">
+                        <ul>
+                            <li>
+                                <span class="drop-blank" data-placeholder="Drop root">Drop root</span>
+                                <ul>
+                                    <li><span class="drop-blank" data-placeholder="Drop module">Drop module</span></li>
+                                    <li><span class="drop-blank" data-placeholder="Drop module">Drop module</span></li>
+                                    <li>
+                                        <span class="drop-blank" data-placeholder="Drop module">Drop module</span>
+                                        <ul>
+                                            <li><span class="drop-blank" data-placeholder="Drop sub-module">Drop sub-module</span></li>
+                                            <li><span class="structure-node">Set difficulty</span></li>
+                                        </ul>
+                                    </li>
+                                    <li><span class="drop-blank" data-placeholder="Drop module">Drop module</span></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="word-bank" aria-label="Modules to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Game menu">Game menu</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Start game">Start game</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Load save">Load save</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Options">Options</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Set volume">Set volume</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Show credits">Show credits</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Record payment">Record payment</button>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="Library system|Catalogue|Issue book|Return book|Overdue report" data-correct-feedback="The library system diagram correctly separates catalogue, loans, members and reports." data-incorrect-feedback="Correct order: Library system, Catalogue, Issue book, Return book, Overdue report.">
+                <h3>7) Complete the library system structure diagram.</h3>
+                <div class="structure-diagram" aria-label="Structure diagram for a library system">
+                    <div class="structure-tree">
+                        <ul>
+                            <li>
+                                <span class="drop-blank" data-placeholder="Drop root">Drop root</span>
+                                <ul>
+                                    <li>
+                                        <span class="drop-blank" data-placeholder="Drop module">Drop module</span>
+                                        <ul>
+                                            <li><span class="structure-node">Search title</span></li>
+                                            <li><span class="structure-node">Add book</span></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <span class="structure-node">Loans</span>
+                                        <ul>
+                                            <li><span class="drop-blank" data-placeholder="Drop sub-module">Drop sub-module</span></li>
+                                            <li><span class="drop-blank" data-placeholder="Drop sub-module">Drop sub-module</span></li>
+                                        </ul>
+                                    </li>
+                                    <li><span class="structure-node">Members</span></li>
+                                    <li>
+                                        <span class="structure-node">Reports</span>
+                                        <ul>
+                                            <li><span class="drop-blank" data-placeholder="Drop sub-module">Drop sub-module</span></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="word-bank" aria-label="Modules to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Library system">Library system</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Catalogue">Catalogue</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Issue book">Issue book</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Return book">Return book</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Overdue report">Overdue report</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Start timer">Start timer</button>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="School report program|Collect marks|Calculate grade|Generate report|Print report" data-correct-feedback="The report program diagram follows the path from collecting data to producing the final report." data-incorrect-feedback="Correct order: School report program, Collect marks, Calculate grade, Generate report, Print report.">
+                <h3>8) Complete the school report program structure diagram.</h3>
+                <div class="structure-diagram" aria-label="Structure diagram for a school report program">
+                    <div class="structure-tree">
+                        <ul>
+                            <li>
+                                <span class="drop-blank" data-placeholder="Drop root">Drop root</span>
+                                <ul>
+                                    <li>
+                                        <span class="drop-blank" data-placeholder="Drop module">Drop module</span>
+                                        <ul>
+                                            <li><span class="structure-node">English mark</span></li>
+                                            <li><span class="structure-node">Maths mark</span></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <span class="drop-blank" data-placeholder="Drop module">Drop module</span>
+                                        <ul>
+                                            <li><span class="structure-node">Find average</span></li>
+                                            <li><span class="structure-node">Choose boundary</span></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <span class="drop-blank" data-placeholder="Drop module">Drop module</span>
+                                        <ul>
+                                            <li><span class="structure-node">Add comments</span></li>
+                                            <li><span class="drop-blank" data-placeholder="Drop sub-module">Drop sub-module</span></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="word-bank" aria-label="Modules to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="School report program">School report program</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Collect marks">Collect marks</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Calculate grade">Calculate grade</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Generate report">Generate report</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Print report">Print report</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Check password">Check password</button>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="Attendance system|Select class|Mark present|Mark absent|Save register" data-correct-feedback="The attendance system diagram groups class selection, marking and saving as connected modules." data-incorrect-feedback="Correct order: Attendance system, Select class, Mark present, Mark absent, Save register.">
+                <h3>9) Complete the attendance system structure diagram.</h3>
+                <div class="structure-diagram" aria-label="Structure diagram for an attendance system">
+                    <div class="structure-tree">
+                        <ul>
+                            <li>
+                                <span class="drop-blank" data-placeholder="Drop root">Drop root</span>
+                                <ul>
+                                    <li><span class="drop-blank" data-placeholder="Drop module">Drop module</span></li>
+                                    <li>
+                                        <span class="structure-node">Update register</span>
+                                        <ul>
+                                            <li><span class="drop-blank" data-placeholder="Drop sub-module">Drop sub-module</span></li>
+                                            <li><span class="drop-blank" data-placeholder="Drop sub-module">Drop sub-module</span></li>
+                                        </ul>
+                                    </li>
+                                    <li><span class="drop-blank" data-placeholder="Drop module">Drop module</span></li>
+                                    <li><span class="structure-node">Print summary</span></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="word-bank" aria-label="Modules to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Attendance system">Attendance system</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Select class">Select class</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Mark present">Mark present</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Mark absent">Mark absent</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Save register">Save register</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Apply discount">Apply discount</button>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="Password reset system|Find account|Send reset code|Check code|Update password|Show confirmation" data-correct-feedback="The password reset system diagram follows the correct reset sequence in a hierarchy." data-incorrect-feedback="Correct order: Password reset system, Find account, Send reset code, Check code, Update password, Show confirmation.">
+                <h3>10) Complete the password reset system structure diagram.</h3>
+                <div class="structure-diagram" aria-label="Structure diagram for a password reset system">
+                    <div class="structure-tree">
+                        <ul>
+                            <li>
+                                <span class="drop-blank" data-placeholder="Drop root">Drop root</span>
+                                <ul>
+                                    <li>
+                                        <span class="structure-node">Identify user</span>
+                                        <ul>
+                                            <li><span class="structure-node">Enter email</span></li>
+                                            <li><span class="drop-blank" data-placeholder="Drop sub-module">Drop sub-module</span></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <span class="structure-node">Verify user</span>
+                                        <ul>
+                                            <li><span class="drop-blank" data-placeholder="Drop sub-module">Drop sub-module</span></li>
+                                            <li><span class="drop-blank" data-placeholder="Drop sub-module">Drop sub-module</span></li>
+                                        </ul>
+                                    </li>
+                                    <li>
+                                        <span class="structure-node">Reset details</span>
+                                        <ul>
+                                            <li><span class="drop-blank" data-placeholder="Drop sub-module">Drop sub-module</span></li>
+                                            <li><span class="drop-blank" data-placeholder="Drop sub-module">Drop sub-module</span></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="word-bank" aria-label="Modules to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Password reset system">Password reset system</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Find account">Find account</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Send reset code">Send reset code</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Check code">Check code</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Update password">Update password</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Show confirmation">Show confirmation</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Calculate score">Calculate score</button>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <div class="quiz-controls">
+                <button class="back-button" type="submit">Submit quiz</button>
+                <p class="quiz-result" aria-live="polite"></p>
+            </div>
+        </form>
+    </main>
+
+    <footer id="site-footer" class="site-footer"></footer>
+    <script src="../../../site.js?v=40"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.13 Build a basic navigation menu</title>
+    <link rel="stylesheet" href="../../../../styles.css?v=41">
+</head>
+<body>
+    <header id="site-header" class="site-header"></header>
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to Unit 6</a>
+        <section class="question-header">
+            <p class="eyebrow">Unit 6 Website Development - Tutorial 1</p>
+            <h2>1.13 Build a basic navigation menu</h2>
+            <p class="section-note">Continue the same static website project by adding a navigation menu across your pages.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>What You Are Building</h3>
+            <p>A navigation menu is a set of links that helps visitors move around a website. It normally appears near the top of each page, often inside the <code>&lt;header&gt;</code> or just below it.</p>
+            <p>A basic navigation menu can be built with a semantic <code>&lt;nav&gt;</code> element and several <code>&lt;a&gt;</code> links.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Basic Navigation Example</h3>
+            <p>Add this menu inside the <code>&lt;body&gt;</code> section of your HTML page:</p>
+            <pre class="algorithm-code"><code>&lt;nav&gt;
+    &lt;a href="index.html"&gt;Home&lt;/a&gt;
+    &lt;a href="about.html"&gt;About&lt;/a&gt;
+    &lt;a href="contact.html"&gt;Contact&lt;/a&gt;
+&lt;/nav&gt;</code></pre>
+            <p>Each link uses the <code>href</code> attribute to tell the browser which file to open when the user clicks it.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Menu Inside A Page</h3>
+            <p>A navigation menu is usually placed near the top of the page so users can find it quickly:</p>
+            <pre class="algorithm-code"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en-GB"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;School Coding Club&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;
+        &lt;h1&gt;School Coding Club&lt;/h1&gt;
+        &lt;nav&gt;
+            &lt;a href="index.html"&gt;Home&lt;/a&gt;
+            &lt;a href="about.html"&gt;About&lt;/a&gt;
+            &lt;a href="contact.html"&gt;Contact&lt;/a&gt;
+        &lt;/nav&gt;
+    &lt;/header&gt;
+
+    &lt;main&gt;
+        &lt;h2&gt;Welcome&lt;/h2&gt;
+        &lt;p&gt;This is my homepage.&lt;/p&gt;
+    &lt;/main&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </section>
+
+        <section class="lesson-part">
+            <h3>What Each Part Does</h3>
+            <table class="answer-table compact-answer-table">
+                <thead>
+                    <tr>
+                        <th>Part</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>&lt;nav&gt;</code></td>
+                        <td>Marks a section of the page as navigation.</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;a&gt;</code></td>
+                        <td>Creates a clickable link.</td>
+                    </tr>
+                    <tr>
+                        <td><code>href="index.html"</code></td>
+                        <td>Gives the file path or web address the link should open.</td>
+                    </tr>
+                    <tr>
+                        <td>Link text</td>
+                        <td>The visible text users click, such as Home, About or Contact.</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;header&gt;</code></td>
+                        <td>Groups introductory content such as the site title and navigation menu.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Build It Yourself</h3>
+            <ol>
+                <li>Open the same <code>unit-6-website</code> folder.</li>
+                <li>Check that <code>index.html</code>, <code>about.html</code> and <code>contact.html</code> exist.</li>
+                <li>Add a basic HTML page structure to any page that does not have one yet.</li>
+                <li>Add the same <code>&lt;nav&gt;</code> menu inside the <code>&lt;header&gt;</code> of each page.</li>
+                <li>Make the Home link open <code>index.html</code>.</li>
+                <li>Make the About link open <code>about.html</code>.</li>
+                <li>Make the Contact link open <code>contact.html</code>.</li>
+                <li>Open <code>index.html</code> in a browser and test every link.</li>
+            </ol>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Common Mistakes</h3>
+            <ul>
+                <li>Forgetting the <code>href</code> attribute, which means the link has nowhere to go.</li>
+                <li>Typing the file name incorrectly, such as <code>About.html</code> instead of <code>about.html</code>.</li>
+                <li>Linking to a file that has not been created yet.</li>
+                <li>Putting all the links in one page but forgetting to copy the menu to the other pages.</li>
+                <li>Using unclear link text such as Click here instead of Home, About or Contact.</li>
+            </ul>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Success Checklist</h3>
+            <ul>
+                <li>The menu is inside a <code>&lt;nav&gt;</code> element.</li>
+                <li>Each menu item uses an <code>&lt;a&gt;</code> link.</li>
+                <li>Each link has a correct <code>href</code> value.</li>
+                <li>The link text clearly describes the page it opens.</li>
+                <li>The same navigation menu appears on each page.</li>
+                <li>All links work when tested in a browser.</li>
+            </ul>
+        </section>
+
+        <nav class="tutorial-page-nav" aria-label="Tutorial navigation">
+            <a class="back-button back-link" href="btec-unit-6-1-12-simple-homepage.html">Previous: 1.12 Homepage</a>
+            <a class="back-button back-link next-tutorial-link" href="btec-unit-6-1-14-links-between-pages.html">Next: 1.14 Page links</a>
+        </nav>
+    </main>
+    <footer id="site-footer"></footer>
+    <script src="../../../../site.js?v=40"></script>
+</body>
+</html>

@@ -300,25 +300,27 @@ const topicGroups = [
 function assetPrefix() {
   const script = document.currentScript || document.querySelector('script[src*="site.js"]');
   const src = script ? script.getAttribute("src") || "" : "";
-  return src.startsWith("../") ? "../" : "";
+  const match = src.match(/^(.*)site\.js/);
+  return match ? match[1] : "";
 }
 
 function currentPage() {
-  const path = window.location.pathname.split("/").pop() || "index.html";
-  if (path === "index.html" || path === "") return "home";
-  if (path === "course-spec.html") return "info";
-  if (["ocr-gcse-computer-science-j277.html", "btec-it.html", "ks3-computer-science.html"].includes(path)) return "course";
+  const pathname = window.location.pathname;
+  const filename = pathname.split("/").pop() || "index.html";
+  if ((filename === "index.html" || filename === "") && !pathname.includes("/courses/")) return "home";
+  if (pathname.includes("/courses/gcse-j277/specification.html")) return "info";
+  if (pathname.includes("/courses/") && filename === "index.html") return "course";
   return "topic";
 }
 
 function currentCourseLabel() {
   const path = window.location.pathname;
   const filename = path.split("/").pop() || "index.html";
-  if (filename === "ocr-gcse-computer-science-j277.html" || path.includes("/teachesheets/") || path.includes("/worksheets/") || path.includes("/topics/") || path.includes("/quizzes/")) {
+  if (path.includes("/courses/gcse-j277/")) {
     return "GCSE Computer Science";
   }
-  if (filename === "btec-it.html") return "BTEC IT";
-  if (filename === "ks3-computer-science.html") return "KS3 Computer Science";
+  if (path.includes("/courses/btec-it/")) return "BTEC IT";
+  if (path.includes("/courses/ks3/")) return "KS3 Computer Science";
   return "";
 }
 
@@ -349,9 +351,9 @@ function renderSharedLayout() {
                         Courses
                     </summary>
                     <div class="course-menu-list">
-                        <a href="${prefix}ocr-gcse-computer-science-j277.html">GCSE Computer Science</a>
-                        <a href="${prefix}btec-it.html">BTEC IT</a>
-                        <a href="${prefix}ks3-computer-science.html">KS3 Computer Science</a>
+                        <a href="${prefix}courses/gcse-j277/index.html">GCSE Computer Science</a>
+                        <a href="${prefix}courses/btec-it/index.html">BTEC IT</a>
+                        <a href="${prefix}courses/ks3/index.html">KS3 Computer Science</a>
                     </div>
                 </details>
             </nav>
@@ -361,7 +363,9 @@ function renderSharedLayout() {
   if (footerMount) {
     footerMount.innerHTML = page === "home"
       ? `<p>Computing Revision Platform</p>`
-      : `<p>OCR GCSE Computer Science J277 content is independent and not an official OCR website. <a href="${prefix}course-spec.html">Course specification</a>.</p>`;
+      : courseLabel === "BTEC IT"
+        ? `<p>BTEC IT revision content for classroom practice and assessment preparation.</p>`
+        : `<p>OCR GCSE Computer Science J277 content is independent and not an official OCR website. <a href="${prefix}courses/gcse-j277/specification.html">Course specification</a>.</p>`;
   }
 }
 
@@ -400,8 +404,8 @@ function slug(topicId) {
 }
 
 const availableQuizIds = new Set(["1-1-1", "1-1-2", "1-1-3", "1-2-1", "1-2-2", "1-2-3", "1-2-4", "1-2-5", "1-2-6", "1-2-7", "1-2-8", "1-2-9", "1-2-10", "1-2-11", "1-3-1", "1-3-2", "1-3-3", "1-3-4", "1-3-5", "1-3-6", "1-3-7", "1-3-8", "1-3-9", "1-4-1", "1-4-2", "1-5-1", "1-5-2", "1-6-1-1", "1-6-1-2", "1-6-1-3", "2-1-1", "2-1-2", "2-1-3", "2-1-4", "2-1-5", "2-1-6", "2-1-7", "2-1-8", "2-1-9", "2-1-10", "2-2-1", "2-2-2", "2-2-3", "2-2-4", "2-2-5", "2-2-6", "2-2-7", "2-2-8", "2-2-9", "2-3-1", "2-3-2", "2-4-1", "2-5-1", "2-5-2", "2-6-1", "2-6-2"]);
-const availableLessonIds = new Set(["1-2-7"]);
-const availableWorksheetIds = new Set(["1-2-7"]);
+const availableLessonIds = new Set(["1-2-7", "1-2-8"]);
+const availableWorksheetIds = new Set(["1-2-7", "1-2-8"]);
 
 function quizSlug(topicId) {
   return `quizzes/${topicId}.html`;
@@ -538,6 +542,119 @@ function setupMarkSchemeButtons() {
       markScheme.classList.toggle("visible", !isExpanded);
       button.textContent = isExpanded ? showLabel : hideLabel;
     });
+  });
+}
+
+function setupWorkbookAnswerButtons() {
+  function getPreviousTask(answerBlock) {
+    let sibling = answerBlock.previousElementSibling;
+    while (sibling) {
+      if ((sibling.classList.contains("workbook-task") || sibling.classList.contains("task-block")) && !sibling.classList.contains("answers")) {
+        return sibling;
+      }
+      sibling = sibling.previousElementSibling;
+    }
+    return null;
+  }
+
+  function getMatchingAnswerCell(answerTable, targetCell) {
+    const targetRow = targetCell.parentElement;
+    const targetBody = targetRow ? targetRow.parentElement : null;
+    const rowIndex = targetBody ? Array.from(targetBody.children).indexOf(targetRow) : -1;
+    const cellIndex = targetRow ? Array.from(targetRow.children).indexOf(targetCell) : -1;
+    const answerRows = answerTable ? Array.from(answerTable.querySelectorAll("tbody tr")) : [];
+    const answerRow = answerRows[rowIndex];
+    return answerRow ? answerRow.children[cellIndex] : null;
+  }
+
+  function createInlineAnswerContainer(taskBlock) {
+    const container = document.createElement("div");
+    container.className = "inline-workbook-answer";
+    taskBlock.appendChild(container);
+    return container;
+  }
+
+  document.querySelectorAll(".workbook-lesson .answers, .workbook-tasks .answers").forEach((answerBlock) => {
+    answerBlock.hidden = true;
+    answerBlock.classList.remove("visible");
+
+    const taskBlock = getPreviousTask(answerBlock);
+    if (!taskBlock || taskBlock.dataset.inlineAnswersReady === "true") return;
+
+    const taskTable = taskBlock.querySelector("table:not(.answer-lines)");
+    const answerTable = answerBlock.querySelector("table");
+    const blankCells = taskTable && answerTable
+      ? Array.from(taskTable.querySelectorAll("tbody td")).filter((cell) => cell.textContent.trim() === "")
+      : [];
+
+    taskBlock.dataset.inlineAnswersReady = "true";
+
+    if (blankCells.length) {
+      let nextIndex = 0;
+      const controls = document.createElement("div");
+      const previousButton = document.createElement("button");
+      const nextButton = document.createElement("button");
+      const status = document.createElement("span");
+
+      controls.className = "workbook-answer-controls";
+      previousButton.className = "reveal-button workbook-answer-button";
+      nextButton.className = "reveal-button workbook-answer-button";
+      previousButton.type = "button";
+      nextButton.type = "button";
+      previousButton.textContent = "Hide previous answer";
+      nextButton.textContent = blankCells.length === 1 ? "Show answer" : "Reveal next answer";
+      status.className = "workbook-answer-status";
+
+      function updateControls() {
+        previousButton.disabled = nextIndex === 0;
+        nextButton.disabled = nextIndex >= blankCells.length;
+        status.textContent = `${nextIndex} of ${blankCells.length} answers shown`;
+      }
+
+      nextButton.addEventListener("click", () => {
+        const targetCell = blankCells[nextIndex];
+        const answerCell = getMatchingAnswerCell(answerTable, targetCell);
+        if (!targetCell || !answerCell) return;
+
+        targetCell.textContent = answerCell.textContent.trim();
+        targetCell.classList.add("inline-revealed-answer");
+        nextIndex += 1;
+        updateControls();
+      });
+
+      previousButton.addEventListener("click", () => {
+        if (nextIndex === 0) return;
+        nextIndex -= 1;
+        const targetCell = blankCells[nextIndex];
+        targetCell.textContent = "";
+        targetCell.classList.remove("inline-revealed-answer");
+        updateControls();
+      });
+
+      updateControls();
+      controls.append(previousButton, nextButton, status);
+      taskBlock.appendChild(controls);
+      return;
+    }
+
+    const button = document.createElement("button");
+    button.className = "reveal-button workbook-answer-button";
+    button.type = "button";
+    const container = createInlineAnswerContainer(taskBlock);
+    const answerLines = taskBlock.querySelector(".answer-lines");
+    Array.from(answerBlock.children).forEach((child) => {
+      if (child.matches("h4")) return;
+      container.appendChild(child.cloneNode(true));
+    });
+    container.hidden = true;
+    button.textContent = "Show answer";
+    button.addEventListener("click", () => {
+      const isHidden = container.hidden;
+      container.hidden = !isHidden;
+      if (answerLines) answerLines.hidden = isHidden;
+      button.textContent = isHidden ? "Hide answer" : "Show answer";
+    });
+    taskBlock.appendChild(button);
   });
 }
 
@@ -862,6 +979,7 @@ function highlightAlgorithmCode() {
 renderSharedLayout();
 renderHomePage();
 highlightAlgorithmCode();
+setupWorkbookAnswerButtons();
 setupMarkSchemeButtons();
 setupSelfMarkingQuizzes();
 setupDragBlankQuestions();

@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.6.1 Writing basic programs questions</title>
+    <link rel="stylesheet" href="../../../styles.css?v=41">
+</head>
+<body>
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to J277 topics</a>
+        <section class="question-header">
+            <p class="eyebrow">Paper 2</p>
+            <h2>2.6.1 Writing basic programs questions</h2>
+            <p class="section-note">Practise writing short code fragments using input, output, variables, operators, selection, loops and simple data access.</p>
+        </section>
+        <section class="question-list" aria-label="2.6.1 Writing basic programs questions">
+            <article class="question-card">
+                <p class="question-text">1) A school welcome screen asks a student to enter their name. <strong>Write</strong> code that:</p>
+                <ul class="question-requirements">
+                    <li>inputs the name</li>
+                    <li>outputs Hello followed by the name.</li>
+                </ul>
+                <p class="question-text">You may use OCR Exam Reference Language or Python. (2 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-1-1">Show mark scheme</button>
+                <div id="mark-scheme-2-6-1-1" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 2 marks:</p>
+                    <ul>
+                        <li>Inputs or stores the user's name.</li>
+                        <li>Outputs a greeting that includes the stored name.</li>
+                        <li>Accept OCR Exam Reference Language or a high-level programming language.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre><code class="language-pseudocode">name = input("Enter name")
+print("Hello " + name)</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre><code class="language-python">name = input("Enter name")
+print("Hello " + name)</code></pre>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">2) A garden design program calculates the area of a rectangular lawn. <strong>Complete</strong> code that:</p>
+                <ul class="question-requirements">
+                    <li>calculates the area using length and width variables</li>
+                    <li>outputs the area.</li>
+                </ul>
+                <p class="question-text">You may use OCR Exam Reference Language or Python. (3 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-1-2">Show mark scheme</button>
+                <div id="mark-scheme-2-6-1-2" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 3 marks:</p>
+                    <ul>
+                        <li>Uses suitable variables for length and width.</li>
+                        <li>Calculates area using length multiplied by width.</li>
+                        <li>Outputs the calculated area.</li>
+                        <li>Accept OCR Exam Reference Language or a high-level programming language.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre><code class="language-pseudocode">area = length * width
+print(area)</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre><code class="language-python">area = length * width
+print(area)</code></pre>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">3) A quiz program inputs a student's mark. <strong>Write</strong> code that:</p>
+                <ul class="question-requirements">
+                    <li>inputs the mark</li>
+                    <li>outputs Pass if the mark is 50 or more.</li>
+                </ul>
+                <p class="question-text">You may use OCR Exam Reference Language or Python. (3 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-1-3">Show mark scheme</button>
+                <div id="mark-scheme-2-6-1-3" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 3 marks:</p>
+                    <ul>
+                        <li>Inputs or stores the mark.</li>
+                        <li>Uses a comparison to test whether the mark is greater than or equal to 50.</li>
+                        <li>Outputs Pass when the condition is true.</li>
+                        <li>Accept OCR Exam Reference Language or a high-level programming language.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre><code class="language-pseudocode">mark = input("Enter mark")
+if mark &gt;= 50 then
+    print("Pass")
+endif</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre><code class="language-python">mark = int(input("Enter mark"))
+if mark &gt;= 50:
+    print("Pass")</code></pre>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">4) A fitness app displays days 1 to 5 of a challenge. <strong>Write</strong> code that:</p>
+                <ul class="question-requirements">
+                    <li>uses a loop</li>
+                    <li>outputs the numbers 1 to 5.</li>
+                </ul>
+                <p class="question-text">You may use OCR Exam Reference Language or Python. (3 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-1-4">Show mark scheme</button>
+                <div id="mark-scheme-2-6-1-4" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 3 marks:</p>
+                    <ul>
+                        <li>Uses a suitable loop.</li>
+                        <li>Starts at or outputs the value 1.</li>
+                        <li>Repeats until the value 5 has been output.</li>
+                        <li>Accept OCR Exam Reference Language or a high-level programming language.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre><code class="language-pseudocode">for day = 1 to 5
+    print(day)
+next day</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre><code class="language-python">for day in range(1, 6):
+    print(day)</code></pre>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">5) A club program stores the names Ali, Beth and Chen. <strong>Write</strong> code that:</p>
+                <ul class="question-requirements">
+                    <li>stores the three names in a list or array</li>
+                    <li>outputs the second name.</li>
+                </ul>
+                <p class="question-text">You may use OCR Exam Reference Language or Python. (3 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-1-5">Show mark scheme</button>
+                <div id="mark-scheme-2-6-1-5" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 3 marks:</p>
+                    <ul>
+                        <li>Creates or uses a suitable list or array.</li>
+                        <li>Stores three names in the list or array.</li>
+                        <li>Outputs the second item using a valid index for the chosen language.</li>
+                        <li>Accept zero-based or one-based indexing if it matches the language used.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre><code class="language-pseudocode">names = ["Ali", "Beth", "Chen"]
+print(names[1])</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre><code class="language-python">names = ["Ali", "Beth", "Chen"]
+print(names[1])</code></pre>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">6) A points app receives a whole number from a text box. <strong>Write</strong> code that:</p>
+                <ul class="question-requirements">
+                    <li>inputs the number as text</li>
+                    <li>casts it to an integer</li>
+                    <li>adds 10 bonus points</li>
+                    <li>outputs the result.</li>
+                </ul>
+                <p class="question-text">You may use OCR Exam Reference Language or Python. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-1-6">Show mark scheme</button>
+                <div id="mark-scheme-2-6-1-6" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 4 marks:</p>
+                    <ul>
+                        <li>Inputs or stores the value as text.</li>
+                        <li>Casts or converts the value to an integer.</li>
+                        <li>Adds 10 to the integer value.</li>
+                        <li>Outputs the result.</li>
+                        <li>Accept OCR Exam Reference Language or a high-level programming language.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre><code class="language-pseudocode">pointsText = input("Enter points")
+points = int(pointsText)
+total = points + 10
+print(total)</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre><code class="language-python">points_text = input("Enter points")
+points = int(points_text)
+total = points + 10
+print(total)</code></pre>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">7) A maths program checks whether a number is in the range 10 to 20 inclusive. <strong>Write</strong> code that:</p>
+                <ul class="question-requirements">
+                    <li>inputs a whole number</li>
+                    <li>uses comparison and Boolean operations to test whether it is at least 10 and at most 20</li>
+                    <li>outputs In range or Out of range.</li>
+                </ul>
+                <p class="question-text">You may use OCR Exam Reference Language or Python. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-1-7">Show mark scheme</button>
+                <div id="mark-scheme-2-6-1-7" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 4 marks:</p>
+                    <ul>
+                        <li>Inputs or stores a whole number.</li>
+                        <li>Uses suitable comparisons with 10 and 20.</li>
+                        <li>Combines the comparisons using AND.</li>
+                        <li>Outputs a suitable message for true and false outcomes.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre><code class="language-pseudocode">number = input("Enter number")
+if number &gt;= 10 AND number &lt;= 20 then
+    print("In range")
+else
+    print("Out of range")
+endif</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre><code class="language-python">number = int(input("Enter number"))
+if number &gt;= 10 and number &lt;= 20:
+    print("In range")
+else:
+    print("Out of range")</code></pre>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">8) A science lab program decides whether a reaction is safe. The temperature must be below 80 and the pressure must be below 50. <strong>Write</strong> code that:</p>
+                <ul class="question-requirements">
+                    <li>inputs the temperature</li>
+                    <li>inputs the pressure</li>
+                    <li>uses a Boolean operation to test both conditions</li>
+                    <li>outputs Safe or Unsafe.</li>
+                </ul>
+                <p class="question-text">You may use OCR Exam Reference Language or Python. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-1-8">Show mark scheme</button>
+                <div id="mark-scheme-2-6-1-8" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 4 marks:</p>
+                    <ul>
+                        <li>Inputs or stores temperature.</li>
+                        <li>Inputs or stores pressure.</li>
+                        <li>Uses comparisons joined with AND.</li>
+                        <li>Outputs a suitable safe or unsafe message.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre><code class="language-pseudocode">temperature = input("Enter temperature")
+pressure = input("Enter pressure")
+if temperature &lt; 80 AND pressure &lt; 50 then
+    print("Safe")
+else
+    print("Unsafe")
+endif</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre><code class="language-python">temperature = float(input("Enter temperature"))
+pressure = float(input("Enter pressure"))
+if temperature &lt; 80 and pressure &lt; 50:
+    print("Safe")
+else:
+    print("Unsafe")</code></pre>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">9) A computing club creates usernames from first names. <strong>Write</strong> code that:</p>
+                <ul class="question-requirements">
+                    <li>inputs a first name</li>
+                    <li>converts the name to lowercase</li>
+                    <li>outputs the lowercase name joined to 2026.</li>
+                </ul>
+                <p class="question-text">You may use OCR Exam Reference Language or Python. (3 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-1-9">Show mark scheme</button>
+                <div id="mark-scheme-2-6-1-9" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 3 marks:</p>
+                    <ul>
+                        <li>Inputs or stores a name.</li>
+                        <li>Uses a lowercase string function or method.</li>
+                        <li>Concatenates or joins the lowercase name with 2026 and outputs it.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre><code class="language-pseudocode">name = input("Enter first name")
+username = lower(name) + "2026"
+print(username)</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre><code class="language-python">name = input("Enter first name")
+username = name.lower() + "2026"
+print(username)</code></pre>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">10) A science app formats chemical symbols. <strong>Write</strong> code that:</p>
+                <ul class="question-requirements">
+                    <li>inputs a chemical symbol</li>
+                    <li>converts the symbol to uppercase</li>
+                    <li>outputs the uppercase symbol.</li>
+                </ul>
+                <p class="question-text">You may use OCR Exam Reference Language or Python. (3 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-1-10">Show mark scheme</button>
+                <div id="mark-scheme-2-6-1-10" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 3 marks:</p>
+                    <ul>
+                        <li>Inputs or stores a chemical symbol.</li>
+                        <li>Uses an uppercase string function or method.</li>
+                        <li>Outputs the converted symbol.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre><code class="language-pseudocode">symbol = input("Enter symbol")
+print(upper(symbol))</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre><code class="language-python">symbol = input("Enter symbol")
+print(symbol.upper())</code></pre>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">11) A password checker rejects short passwords. <strong>Write</strong> code that:</p>
+                <ul class="question-requirements">
+                    <li>inputs a password</li>
+                    <li>uses len() to find the number of characters</li>
+                    <li>outputs Too short if the password has fewer than 8 characters</li>
+                    <li>otherwise outputs Accepted.</li>
+                </ul>
+                <p class="question-text">You may use OCR Exam Reference Language or Python. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-1-11">Show mark scheme</button>
+                <div id="mark-scheme-2-6-1-11" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 4 marks:</p>
+                    <ul>
+                        <li>Inputs or stores a password.</li>
+                        <li>Uses len() or an equivalent length function.</li>
+                        <li>Compares the length with 8.</li>
+                        <li>Uses IF ELSE to output suitable messages.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre><code class="language-pseudocode">password = input("Enter password")
+if len(password) &lt; 8 then
+    print("Too short")
+else
+    print("Accepted")
+endif</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre><code class="language-python">password = input("Enter password")
+if len(password) &lt; 8:
+    print("Too short")
+else:
+    print("Accepted")</code></pre>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">12) A maths revision app grades a percentage score. <strong>Write</strong> code that:</p>
+                <ul class="question-requirements">
+                    <li>inputs a percentage score</li>
+                    <li>outputs High if the score is 70 or more</li>
+                    <li>outputs Pass if the score is 50 or more but less than 70</li>
+                    <li>outputs Retry otherwise.</li>
+                </ul>
+                <p class="question-text">You may use OCR Exam Reference Language or Python. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-1-12">Show mark scheme</button>
+                <div id="mark-scheme-2-6-1-12" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 4 marks:</p>
+                    <ul>
+                        <li>Inputs or stores a percentage score.</li>
+                        <li>Uses selection with IF, ELSE IF or ELIF, and ELSE.</li>
+                        <li>Tests the 70 and 50 boundaries correctly.</li>
+                        <li>Outputs the correct category for each branch.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre><code class="language-pseudocode">score = input("Enter score")
+if score &gt;= 70 then
+    print("High")
+else if score &gt;= 50 then
+    print("Pass")
+else
+    print("Retry")
+endif</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre><code class="language-python">score = int(input("Enter score"))
+if score &gt;= 70:
+    print("High")
+elif score &gt;= 50:
+    print("Pass")
+else:
+    print("Retry")</code></pre>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">13) A science experiment repeats readings until a valid pH value is entered. Valid pH values are from 0 to 14 inclusive. <strong>Write</strong> code that:</p>
+                <ul class="question-requirements">
+                    <li>inputs a pH value</li>
+                    <li>uses a while loop to keep asking while the pH value is below 0 or above 14</li>
+                    <li>outputs Valid pH after a valid value has been entered.</li>
+                </ul>
+                <p class="question-text">You may use OCR Exam Reference Language or Python. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-1-13">Show mark scheme</button>
+                <div id="mark-scheme-2-6-1-13" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 4 marks:</p>
+                    <ul>
+                        <li>Inputs or stores a pH value before the loop.</li>
+                        <li>Uses a WHILE loop.</li>
+                        <li>Uses OR with boundary comparisons for invalid values.</li>
+                        <li>Inputs a new value inside the loop and outputs a valid message after the loop.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre><code class="language-pseudocode">pH = input("Enter pH")
+while pH &lt; 0 OR pH &gt; 14
+    pH = input("Enter pH")
+endwhile
+print("Valid pH")</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre><code class="language-python">ph = float(input("Enter pH"))
+while ph &lt; 0 or ph &gt; 14:
+    ph = float(input("Enter pH"))
+print("Valid pH")</code></pre>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">14) A computing program checks whether a file size is even. <strong>Write</strong> code that:</p>
+                <ul class="question-requirements">
+                    <li>inputs a file size as a whole number of bytes</li>
+                    <li>uses MOD or % to find the remainder after division by 2</li>
+                    <li>outputs Even if the remainder is 0</li>
+                    <li>otherwise outputs Odd.</li>
+                </ul>
+                <p class="question-text">You may use OCR Exam Reference Language or Python. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-1-14">Show mark scheme</button>
+                <div id="mark-scheme-2-6-1-14" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 4 marks:</p>
+                    <ul>
+                        <li>Inputs or stores a whole number.</li>
+                        <li>Uses MOD or % with 2.</li>
+                        <li>Compares the remainder with 0.</li>
+                        <li>Outputs suitable even and odd messages.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre><code class="language-pseudocode">fileSize = input("Enter file size")
+if fileSize MOD 2 = 0 then
+    print("Even")
+else
+    print("Odd")
+endif</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre><code class="language-python">file_size = int(input("Enter file size"))
+if file_size % 2 == 0:
+    print("Even")
+else:
+    print("Odd")</code></pre>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">15) A coach puts students into teams of 4. <strong>Write</strong> code that:</p>
+                <ul class="question-requirements">
+                    <li>inputs the number of students</li>
+                    <li>uses DIV or integer division to calculate the number of full teams</li>
+                    <li>uses MOD or % to calculate the number of students left over</li>
+                    <li>outputs both results.</li>
+                </ul>
+                <p class="question-text">You may use OCR Exam Reference Language or Python. (5 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-1-15">Show mark scheme</button>
+                <div id="mark-scheme-2-6-1-15" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 5 marks:</p>
+                    <ul>
+                        <li>Inputs or stores the number of students.</li>
+                        <li>Uses DIV or integer division by 4.</li>
+                        <li>Stores or calculates full teams.</li>
+                        <li>Uses MOD or % by 4 for the remainder.</li>
+                        <li>Outputs both values.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre><code class="language-pseudocode">students = input("Enter students")
+teams = students DIV 4
+leftOver = students MOD 4
+print(teams)
+print(leftOver)</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre><code class="language-python">students = int(input("Enter students"))
+teams = students // 4
+left_over = students % 4
+print(teams)
+print(left_over)</code></pre>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">16) A maths program calculates the area of a square from its side length. <strong>Write</strong> code that:</p>
+                <ul class="question-requirements">
+                    <li>inputs the side length</li>
+                    <li>uses the power operator ** to square the side length</li>
+                    <li>outputs the area.</li>
+                </ul>
+                <p class="question-text">You may use OCR Exam Reference Language or Python. (3 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-1-16">Show mark scheme</button>
+                <div id="mark-scheme-2-6-1-16" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 3 marks:</p>
+                    <ul>
+                        <li>Inputs or stores the side length.</li>
+                        <li>Uses ** or an equivalent power operation to square the value.</li>
+                        <li>Outputs the calculated area.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre><code class="language-pseudocode">side = input("Enter side length")
+area = side ** 2
+print(area)</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre><code class="language-python">side = float(input("Enter side length"))
+area = side ** 2
+print(area)</code></pre>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">17) A physics program calculates kinetic energy using the formula 0.5 x mass x velocity squared. <strong>Write</strong> code that:</p>
+                <ul class="question-requirements">
+                    <li>inputs mass</li>
+                    <li>inputs velocity</li>
+                    <li>uses ** to square the velocity</li>
+                    <li>outputs the kinetic energy.</li>
+                </ul>
+                <p class="question-text">You may use OCR Exam Reference Language or Python. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-1-17">Show mark scheme</button>
+                <div id="mark-scheme-2-6-1-17" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 4 marks:</p>
+                    <ul>
+                        <li>Inputs or stores mass.</li>
+                        <li>Inputs or stores velocity.</li>
+                        <li>Uses ** or an equivalent power operation for velocity squared.</li>
+                        <li>Calculates and outputs kinetic energy.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre><code class="language-pseudocode">mass = input("Enter mass")
+velocity = input("Enter velocity")
+energy = 0.5 * mass * velocity ** 2
+print(energy)</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre><code class="language-python">mass = float(input("Enter mass"))
+velocity = float(input("Enter velocity"))
+energy = 0.5 * mass * velocity ** 2
+print(energy)</code></pre>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">18) A ticket system prints a personalised booking message. <strong>Write</strong> code that:</p>
+                <ul class="question-requirements">
+                    <li>inputs a customer's name</li>
+                    <li>inputs the number of tickets</li>
+                    <li>uses string interpolation or an f-string to create the message Name has booked tickets tickets</li>
+                    <li>outputs the message.</li>
+                </ul>
+                <p class="question-text">You may use OCR Exam Reference Language or Python. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-1-18">Show mark scheme</button>
+                <div id="mark-scheme-2-6-1-18" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 4 marks:</p>
+                    <ul>
+                        <li>Inputs or stores a name.</li>
+                        <li>Inputs or stores the number of tickets.</li>
+                        <li>Uses string interpolation, an f-string, or a valid equivalent.</li>
+                        <li>Outputs a message containing both values.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre><code class="language-pseudocode">name = input("Enter name")
+tickets = input("Enter tickets")
+message = name + " has booked " + str(tickets) + " tickets"
+print(message)</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre><code class="language-python">name = input("Enter name")
+tickets = int(input("Enter tickets"))
+message = f"{name} has booked {tickets} tickets"
+print(message)</code></pre>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">19) A computing lesson combines a first name and surname into an email address. <strong>Write</strong> code that:</p>
+                <ul class="question-requirements">
+                    <li>inputs a first name</li>
+                    <li>inputs a surname</li>
+                    <li>converts both names to lowercase</li>
+                    <li>concatenates them with a dot and @school.org</li>
+                    <li>outputs the email address.</li>
+                </ul>
+                <p class="question-text">You may use OCR Exam Reference Language or Python. (5 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-1-19">Show mark scheme</button>
+                <div id="mark-scheme-2-6-1-19" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 5 marks:</p>
+                    <ul>
+                        <li>Inputs or stores first name and surname.</li>
+                        <li>Converts both values to lowercase.</li>
+                        <li>Concatenates the first name, dot, surname and domain.</li>
+                        <li>Stores or forms a valid email string.</li>
+                        <li>Outputs the email address.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre><code class="language-pseudocode">firstName = lower(input("Enter first name"))
+surname = lower(input("Enter surname"))
+email = firstName + "." + surname + "@school.org"
+print(email)</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre><code class="language-python">first_name = input("Enter first name").lower()
+surname = input("Enter surname").lower()
+email = first_name + "." + surname + "@school.org"
+print(email)</code></pre>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">20) A science quiz app only lets a student continue if they have entered the correct code word or they are a teacher. The code word is ATOM. <strong>Write</strong> code that:</p>
+                <ul class="question-requirements">
+                    <li>inputs a code word</li>
+                    <li>inputs whether the user is a teacher</li>
+                    <li>converts the code word to uppercase before checking it</li>
+                    <li>uses a Boolean OR operation to decide whether access is allowed</li>
+                    <li>outputs Access granted or Access denied.</li>
+                </ul>
+                <p class="question-text">You may use OCR Exam Reference Language or Python. (5 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-1-20">Show mark scheme</button>
+                <div id="mark-scheme-2-6-1-20" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 5 marks:</p>
+                    <ul>
+                        <li>Inputs or stores a code word.</li>
+                        <li>Inputs or stores teacher status.</li>
+                        <li>Uses uppercase conversion before comparing with ATOM.</li>
+                        <li>Uses OR to combine the code word check with teacher status.</li>
+                        <li>Outputs suitable access granted and denied messages.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre><code class="language-pseudocode">code = upper(input("Enter code"))
+teacher = input("Are you a teacher?")
+if code = "ATOM" OR teacher = "yes" then
+    print("Access granted")
+else
+    print("Access denied")
+endif</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre><code class="language-python">code = input("Enter code").upper()
+teacher = input("Are you a teacher?").lower()
+if code == "ATOM" or teacher == "yes":
+    print("Access granted")
+else:
+    print("Access denied")</code></pre>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="../../../site.js?v=40"></script>
+</body>
+</html>

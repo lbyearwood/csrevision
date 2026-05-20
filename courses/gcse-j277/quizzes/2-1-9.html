@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.1.9 Sorting algorithms quiz</title>
+    <link rel="stylesheet" href="../../../styles.css?v=41">
+</head>
+<body>
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to J277 topics</a>
+        <section class="question-header">
+            <p class="eyebrow">Paper 2 quiz</p>
+            <h2>2.1.9 Sorting algorithms quiz</h2>
+            <p class="section-note">Self-marking retrieval practice on bubble sort, merge sort and insertion sort.</p>
+        </section>
+
+        <form class="quiz-form" aria-label="2.1.9 Sorting algorithms self-marking quiz">
+            <article class="quiz-question" data-type="radio" data-answer="Bubble sort" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Bubble sort.">
+                <h3>1) Which sort repeatedly compares adjacent items and swaps them if needed?</h3>
+                <label><input type="radio" name="q1" value="Bubble sort"> Bubble sort</label>
+                <label><input type="radio" name="q1" value="Merge sort"> Merge sort</label>
+                <label><input type="radio" name="q1" value="Linear search"> Linear search</label>
+                <label><input type="radio" name="q1" value="Binary search"> Binary search</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Merge sort" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Merge sort.">
+                <h3>2) Which sort splits a list into smaller lists and merges them in order?</h3>
+                <label><input type="radio" name="q2" value="Merge sort"> Merge sort</label>
+                <label><input type="radio" name="q2" value="Bubble sort"> Bubble sort</label>
+                <label><input type="radio" name="q2" value="Linear search"> Linear search</label>
+                <label><input type="radio" name="q2" value="Trace table"> Trace table</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="[2, 4, 1, 5]" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: [2, 4, 1, 5].">
+                <h3>3) After one bubble sort pass on [5, 2, 4, 1], what is the list?</h3>
+                <label><input type="radio" name="q3" value="[2, 4, 1, 5]"> [2, 4, 1, 5]</label>
+                <label><input type="radio" name="q3" value="[1, 2, 4, 5]"> [1, 2, 4, 5]</label>
+                <label><input type="radio" name="q3" value="[5, 4, 2, 1]"> [5, 4, 2, 1]</label>
+                <label><input type="radio" name="q3" value="[2, 5, 4, 1]"> [2, 5, 4, 1]</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="3" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 3.">
+                <h3>4) In the first pass of bubble sort on 4 items, how many adjacent comparisons are made?</h3>
+                <input type="text" aria-label="Answer for question 3">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="[6, 2] and [8, 3]" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: [6, 2] and [8, 3].">
+                <h3>5) Merge sort splits [6, 2, 8, 3] first into which two halves?</h3>
+                <label><input type="radio" name="q5" value="[6, 2] and [8, 3]"> [6, 2] and [8, 3]</label>
+                <label><input type="radio" name="q5" value="[6, 8] and [2, 3]"> [6, 8] and [2, 3]</label>
+                <label><input type="radio" name="q5" value="[2, 3] and [6, 8]"> [2, 3] and [6, 8]</label>
+                <label><input type="radio" name="q5" value="[6] and [2, 8, 3]"> [6] and [2, 8, 3]</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="[2, 3, 6, 8]" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: [2, 3, 6, 8].">
+                <h3>6) When merging [2, 6] and [3, 8], what is the final merged list?</h3>
+                <label><input type="radio" name="q6" value="[2, 3, 6, 8]"> [2, 3, 6, 8]</label>
+                <label><input type="radio" name="q6" value="[6, 2, 8, 3]"> [6, 2, 8, 3]</label>
+                <label><input type="radio" name="q6" value="[3, 2, 8, 6]"> [3, 2, 8, 6]</label>
+                <label><input type="radio" name="q6" value="[8, 6, 3, 2]"> [8, 6, 3, 2]</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="checkbox" data-answer="Compares adjacent items,Swaps items in the wrong order,Repeats passes until sorted" data-correct-feedback="Correct." data-incorrect-feedback="Correct answers: Compares adjacent items,Swaps items in the wrong order,Repeats passes until sorted.">
+                <h3>7) Tick all true statements about bubble sort.</h3>
+                <label><input type="checkbox" value="Compares adjacent items"> Compares adjacent items</label>
+                <label><input type="checkbox" value="Swaps items in the wrong order"> Swaps items in the wrong order</label>
+                <label><input type="checkbox" value="Repeats passes until sorted"> Repeats passes until sorted</label>
+                <label><input type="checkbox" value="Requires a sorted list before it starts"> Requires a sorted list before it starts</label>
+                <label><input type="checkbox" value="Always halves the list"> Always halves the list</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="checkbox" data-answer="Splits the list,Merges sublists in order,Uses divide and conquer" data-correct-feedback="Correct." data-incorrect-feedback="Correct answers: Splits the list,Merges sublists in order,Uses divide and conquer.">
+                <h3>8) Tick all true statements about merge sort.</h3>
+                <label><input type="checkbox" value="Splits the list"> Splits the list</label>
+                <label><input type="checkbox" value="Merges sublists in order"> Merges sublists in order</label>
+                <label><input type="checkbox" value="Uses divide and conquer"> Uses divide and conquer</label>
+                <label><input type="checkbox" value="Only compares adjacent pairs in passes"> Only compares adjacent pairs in passes</label>
+                <label><input type="checkbox" value="Requires user input every step"> Requires user input every step</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Bubble sort:Repeated adjacent comparisons and swaps|Merge sort:Split into sublists then merge in order|Insertion sort:Build a sorted section one item at a time" data-correct-feedback="Correct." data-incorrect-feedback="Correct matches: Bubble sort:Repeated adjacent comparisons and swaps|Merge sort:Split into sublists then merge in order|Insertion sort:Build a sorted section one item at a time.">
+                <h3>9) Drag each description to the sorting algorithm.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Split into sublists then merge in order">Split into sublists then merge in order</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Build a sorted section one item at a time">Build a sorted section one item at a time</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Repeated adjacent comparisons and swaps">Repeated adjacent comparisons and swaps</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="Bubble sort" data-placeholder="Drop item">Drop item</span><p>Bubble sort</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Merge sort" data-placeholder="Drop item">Drop item</span><p>Merge sort</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Insertion sort" data-placeholder="Drop item">Drop item</span><p>Insertion sort</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="[1, 2, 4, 5]" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: [1, 2, 4, 5].">
+                <h3>10) Which list is sorted ascending?</h3>
+                <label><input type="radio" name="q10" value="[1, 2, 4, 5]"> [1, 2, 4, 5]</label>
+                <label><input type="radio" name="q10" value="[5, 4, 2, 1]"> [5, 4, 2, 1]</label>
+                <label><input type="radio" name="q10" value="[2, 1, 4, 5]"> [2, 1, 4, 5]</label>
+                <label><input type="radio" name="q10" value="[1, 4, 2, 5]"> [1, 4, 2, 5]</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="7" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 7.">
+                <h3>11) After sorting [9, 3, 7] ascending, what is the middle value?</h3>
+                <input type="text" aria-label="Answer for question 10">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Exchanges two adjacent items" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Exchanges two adjacent items.">
+                <h3>12) What does a swap do in bubble sort?</h3>
+                <label><input type="radio" name="q12" value="Exchanges two adjacent items"> Exchanges two adjacent items</label>
+                <label><input type="radio" name="q12" value="Deletes the largest item"> Deletes the largest item</label>
+                <label><input type="radio" name="q12" value="Splits the list in half"> Splits the list in half</label>
+                <label><input type="radio" name="q12" value="Stops the algorithm immediately"> Stops the algorithm immediately</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Bubble sort" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Bubble sort.">
+                <h3>13) Which algorithm is usually easier to trace by hand for a very short GCSE list?</h3>
+                <label><input type="radio" name="q13" value="Bubble sort"> Bubble sort</label>
+                <label><input type="radio" name="q13" value="Public key encryption"> Public key encryption</label>
+                <label><input type="radio" name="q13" value="DNS lookup"> DNS lookup</label>
+                <label><input type="radio" name="q13" value="Packet switching"> Packet switching</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Merge sort" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Merge sort.">
+                <h3>14) Which algorithm is generally better for larger lists at GCSE level?</h3>
+                <label><input type="radio" name="q14" value="Merge sort"> Merge sort</label>
+                <label><input type="radio" name="q14" value="Bubble sort"> Bubble sort</label>
+                <label><input type="radio" name="q14" value="Linear search"> Linear search</label>
+                <label><input type="radio" name="q14" value="Runtime error"> Runtime error</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Sorting algorithms order a whole list; searching algorithms find a target" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Sorting algorithms order a whole list; searching algorithms find a target.">
+                <h3>15) Identify the misconception: sorting algorithms search for one target value.</h3>
+                <label><input type="radio" name="q15" value="Sorting algorithms order a whole list; searching algorithms find a target"> Sorting algorithms order a whole list; searching algorithms find a target</label>
+                <label><input type="radio" name="q15" value="Bubble sort compares adjacent items"> Bubble sort compares adjacent items</label>
+                <label><input type="radio" name="q15" value="Merge sort merges sublists"> Merge sort merges sublists</label>
+                <label><input type="radio" name="q15" value="A sorted list can help binary search"> A sorted list can help binary search</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <div class="quiz-controls">
+                <button class="back-button" type="submit">Check answers</button>
+                <button class="reveal-button" type="reset">Reset quiz</button>
+                <p class="quiz-result" hidden aria-live="polite"></p>
+            </div>
+        </form>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="../../../site.js?v=40"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

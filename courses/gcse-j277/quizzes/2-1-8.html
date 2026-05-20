@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.1.8 Searching algorithms quiz</title>
+    <link rel="stylesheet" href="../../../styles.css?v=41">
+</head>
+<body>
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to J277 topics</a>
+        <section class="question-header">
+            <p class="eyebrow">Paper 2 quiz</p>
+            <h2>2.1.8 Searching algorithms quiz</h2>
+            <p class="section-note">Self-marking retrieval practice on linear search and binary search.</p>
+        </section>
+
+        <form class="quiz-form" aria-label="2.1.8 Searching algorithms self-marking quiz">
+            <article class="quiz-question" data-type="radio" data-answer="Linear search" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Linear search.">
+                <h3>1) Which search checks each item from the start until the target is found?</h3>
+                <label><input type="radio" name="q1" value="Linear search"> Linear search</label>
+                <label><input type="radio" name="q1" value="Binary search"> Binary search</label>
+                <label><input type="radio" name="q1" value="Bubble sort"> Bubble sort</label>
+                <label><input type="radio" name="q1" value="Merge sort"> Merge sort</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Binary search" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Binary search.">
+                <h3>2) Which search requires the list to be sorted?</h3>
+                <label><input type="radio" name="q2" value="Binary search"> Binary search</label>
+                <label><input type="radio" name="q2" value="Linear search"> Linear search</label>
+                <label><input type="radio" name="q2" value="Random search"> Random search</label>
+                <label><input type="radio" name="q2" value="Insertion sort"> Insertion sort</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="3" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 3.">
+                <h3>3) Linear search for 9 in [4, 7, 9, 2]. How many comparisons are made?</h3>
+                <input type="text" aria-label="Answer for question 2">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="8" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 8.">
+                <h3>4) Binary search first checks which item in [2, 5, 8, 11, 14]?</h3>
+                <label><input type="radio" name="q4" value="2"> 2</label>
+                <label><input type="radio" name="q4" value="5"> 5</label>
+                <label><input type="radio" name="q4" value="8"> 8</label>
+                <label><input type="radio" name="q4" value="14"> 14</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="3" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 3.">
+                <h3>5) Binary search checks 8, then 11, then 14. How many comparisons is that?</h3>
+                <input type="text" aria-label="Answer for question 4">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Because the list is sorted" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Because the list is sorted.">
+                <h3>6) Why can binary search discard half of the list?</h3>
+                <label><input type="radio" name="q6" value="Because the list is sorted"> Because the list is sorted</label>
+                <label><input type="radio" name="q6" value="Because the list is encrypted"> Because the list is encrypted</label>
+                <label><input type="radio" name="q6" value="Because every item is identical"> Because every item is identical</label>
+                <label><input type="radio" name="q6" value="Because it never compares values"> Because it never compares values</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="checkbox" data-answer="Works on unsorted data,Checks items one at a time,Can be slow for long lists" data-correct-feedback="Correct." data-incorrect-feedback="Correct answers: Works on unsorted data,Checks items one at a time,Can be slow for long lists.">
+                <h3>7) Tick all true statements about linear search.</h3>
+                <label><input type="checkbox" value="Works on unsorted data"> Works on unsorted data</label>
+                <label><input type="checkbox" value="Checks items one at a time"> Checks items one at a time</label>
+                <label><input type="checkbox" value="Can be slow for long lists"> Can be slow for long lists</label>
+                <label><input type="checkbox" value="Requires sorted data"> Requires sorted data</label>
+                <label><input type="checkbox" value="Always starts in the middle"> Always starts in the middle</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="checkbox" data-answer="Requires sorted data,Checks the middle item,Repeatedly halves the search area" data-correct-feedback="Correct." data-incorrect-feedback="Correct answers: Requires sorted data,Checks the middle item,Repeatedly halves the search area.">
+                <h3>8) Tick all true statements about binary search.</h3>
+                <label><input type="checkbox" value="Requires sorted data"> Requires sorted data</label>
+                <label><input type="checkbox" value="Checks the middle item"> Checks the middle item</label>
+                <label><input type="checkbox" value="Repeatedly halves the search area"> Repeatedly halves the search area</label>
+                <label><input type="checkbox" value="Works correctly on any unsorted list"> Works correctly on any unsorted list</label>
+                <label><input type="checkbox" value="Compares every item in order"> Compares every item in order</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Linear search" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Linear search.">
+                <h3>9) A list is [9, 1, 6, 3]. Which search is suitable without sorting first?</h3>
+                <label><input type="radio" name="q9" value="Linear search"> Linear search</label>
+                <label><input type="radio" name="q9" value="Binary search"> Binary search</label>
+                <label><input type="radio" name="q9" value="Merge sort"> Merge sort</label>
+                <label><input type="radio" name="q9" value="Bubble sort only"> Bubble sort only</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Linear search:Compare current item, then move to the next item|Binary search:Compare the middle item, then discard half|Not found:Stop when the target cannot be located" data-correct-feedback="Correct." data-incorrect-feedback="Correct matches: Linear search:Compare current item, then move to the next item|Binary search:Compare the middle item, then discard half|Not found:Stop when the target cannot be located.">
+                <h3>10) Drag each step to the correct search idea.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Compare the middle item, then discard half">Compare the middle item, then discard half</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Stop when the target cannot be located">Stop when the target cannot be located</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Compare current item, then move to the next item">Compare current item, then move to the next item</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="Linear search" data-placeholder="Drop item">Drop item</span><p>Linear search</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Binary search" data-placeholder="Drop item">Drop item</span><p>Binary search</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Not found" data-placeholder="Drop item">Drop item</span><p>Not found</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Binary search" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Binary search.">
+                <h3>11) Which algorithm checks the middle, then keeps the lower or upper half?</h3>
+                <label><input type="radio" name="q11" value="Binary search"> Binary search</label>
+                <label><input type="radio" name="q11" value="Linear search"> Linear search</label>
+                <label><input type="radio" name="q11" value="Bubble sort"> Bubble sort</label>
+                <label><input type="radio" name="q11" value="Trace table"> Trace table</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Linear search" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Linear search.">
+                <h3>12) Which algorithm checks item 0, then item 1, then item 2?</h3>
+                <label><input type="radio" name="q12" value="Linear search"> Linear search</label>
+                <label><input type="radio" name="q12" value="Binary search"> Binary search</label>
+                <label><input type="radio" name="q12" value="Merge sort"> Merge sort</label>
+                <label><input type="radio" name="q12" value="Insertion sort"> Insertion sort</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="4" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 4.">
+                <h3>13) Linear search for 12 in [3, 5, 8, 10]. How many comparisons are made when not found?</h3>
+                <input type="text" aria-label="Answer for question 12">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="The upper half" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: The upper half.">
+                <h3>14) In binary search, if the target is greater than the middle value, which half is kept?</h3>
+                <label><input type="radio" name="q14" value="The upper half"> The upper half</label>
+                <label><input type="radio" name="q14" value="The lower half"> The lower half</label>
+                <label><input type="radio" name="q14" value="Neither half"> Neither half</label>
+                <label><input type="radio" name="q14" value="Both halves forever"> Both halves forever</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Binary search only works correctly when the data is sorted" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Binary search only works correctly when the data is sorted.">
+                <h3>15) Identify the misconception: binary search is always suitable for any list.</h3>
+                <label><input type="radio" name="q15" value="Binary search only works correctly when the data is sorted"> Binary search only works correctly when the data is sorted</label>
+                <label><input type="radio" name="q15" value="Binary search checks every item from the start"> Binary search checks every item from the start</label>
+                <label><input type="radio" name="q15" value="Binary search is a sorting algorithm"> Binary search is a sorting algorithm</label>
+                <label><input type="radio" name="q15" value="Linear search requires sorted data"> Linear search requires sorted data</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <div class="quiz-controls">
+                <button class="back-button" type="submit">Check answers</button>
+                <button class="reveal-button" type="reset">Reset quiz</button>
+                <p class="quiz-result" hidden aria-live="polite"></p>
+            </div>
+        </form>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="../../../site.js?v=40"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

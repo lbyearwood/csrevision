@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasksheet: 1.2.8 Characters</title>
+    <link rel="stylesheet" href="../../../styles.css?v=41">
+    <style>
+        .workbook-tasks table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: Arial, sans-serif;
+            margin: 16px 0;
+        }
+
+        .workbook-tasks th,
+        .workbook-tasks td {
+            border: 1px solid #000000;
+            padding: 0 14px;
+            text-align: center;
+            vertical-align: middle;
+            color: #111111;
+            background-color: #ffffff;
+        }
+
+        .workbook-tasks th {
+            background-color: #ffffff;
+            font-weight: bold;
+            font-size: 18px;
+            border-bottom: 4px solid #000000;
+        }
+
+        .workbook-tasks td {
+            font-size: 16px;
+        }
+
+        .workbook-tasks .answers {
+            color: #cc0000;
+        }
+
+        .workbook-tasks .answers table,
+        .workbook-tasks .answers th,
+        .workbook-tasks .answers td {
+            border-color: #cc0000;
+            color: #cc0000;
+        }
+
+        .workbook-tasks .answer-lines {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 8px 0 18px 0;
+        }
+
+        .workbook-tasks .answer-lines td {
+            border: none;
+            border-bottom: 1px solid #000000;
+            height: 22px;
+            padding: 0;
+            background-color: #ffffff;
+        }
+
+        .task-block {
+            margin-bottom: 18px;
+            padding: 16px;
+            border: 1px solid #d7e2f0;
+            border-radius: 8px;
+            background: #ffffff;
+        }
+
+        .task-block h4 {
+            margin: 0 0 10px;
+            color: #071332;
+            font-size: 19px;
+        }
+
+        .task-block.answers h4 {
+            color: #cc0000;
+        }
+    </style>
+</head>
+<body>
+    <header id="site-header" class="site-header"></header>
+
+    <main class="workbook-tasks">
+        <a class="back-button back-link" href="../index.html">Back to J277 topics</a>
+        <section class="tasksheet-header">
+            <p class="eyebrow">Paper 1 Tasks</p>
+            <h2>Tasksheet: 1.2.8 Characters</h2>
+            <p class="section-note">Complete the activities and exam questions after studying the matching lesson parts.</p>
+        </section>
+
+        <nav class="part-nav" aria-label="Tasksheet parts">
+            <ol>
+                <li><a href="#part-1">Part 1: What is a character?</a></li>
+                <li><a href="#part-2">Part 2: Character sets</a></li>
+                <li><a href="#part-3">Part 3: Why bits per character matter</a></li>
+                <li><a href="#part-4">Part 4: Logical ordering</a></li>
+            </ol>
+        </nav>
+
+        <section id="part-1" class="worksheet-part">
+            <h3>Part 1: What is a character?</h3>
+            <p class="worksheet-focus">Focus: explain that characters are represented using unique binary codes.</p>
+
+            <article class="task-block">
+                <h4>Activity - Complete the character code table</h4>
+                <p>Use the pattern in the table to complete the missing binary codes.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Character</th>
+                            <th scope="col">Denary code</th>
+                            <th scope="col">8-bit binary code</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>A</td><td>65</td><td>01000001</td></tr>
+                        <tr><td>B</td><td>66</td><td></td></tr>
+                        <tr><td>C</td><td>67</td><td></td></tr>
+                        <tr><td>D</td><td>68</td><td></td></tr>
+                        <tr><td>E</td><td>69</td><td></td></tr>
+                        <tr><td>F</td><td>70</td><td></td></tr>
+                    </tbody>
+                </table>
+            </article>
+
+            <article class="task-block answers" hidden>
+                <h4>Activity answer - Complete the character code table</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Character</th>
+                            <th scope="col">Denary code</th>
+                            <th scope="col">8-bit binary code</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>A</td><td>65</td><td>01000001</td></tr>
+                        <tr><td>B</td><td>66</td><td>01000010</td></tr>
+                        <tr><td>C</td><td>67</td><td>01000011</td></tr>
+                        <tr><td>D</td><td>68</td><td>01000100</td></tr>
+                        <tr><td>E</td><td>69</td><td>01000101</td></tr>
+                        <tr><td>F</td><td>70</td><td>01000110</td></tr>
+                    </tbody>
+                </table>
+            </article>
+
+            <article class="task-block">
+                <h4>Exam Question - Correct the misconception (3 marks)</h4>
+                <p>A student says, "A computer stores the shape of each letter in a text file." Correct this misconception.</p>
+                <table class="answer-lines" aria-label="Answer lines for character misconception exam question">
+                    <tbody><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr></tbody>
+                </table>
+            </article>
+
+            <article class="task-block answers" hidden>
+                <h4>Exam Question answer - Correct the misconception (3 marks)</h4>
+                <p>A computer stores characters using binary codes. [1]</p>
+                <p>A character set links each character to a unique code. [1]</p>
+                <p>The visible letter is displayed later by using the stored code. [1]</p>
+            </article>
+        </section>
+
+        <section id="part-2" class="worksheet-part">
+            <h3>Part 2: Character sets</h3>
+            <p class="worksheet-focus">Focus: choose between ASCII and Unicode for different situations.</p>
+
+            <article class="task-block">
+                <h4>Activity - Select the best character set</h4>
+                <p>For each scenario, choose ASCII or Unicode and explain why.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Scenario</th>
+                            <th scope="col">Best choice</th>
+                            <th scope="col">Reason</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>A plain English error log for a small device</td><td></td><td></td></tr>
+                        <tr><td>A messaging app using emojis</td><td></td><td></td></tr>
+                        <tr><td>A website with Arabic, Japanese and English text</td><td></td><td></td></tr>
+                        <tr><td>A basic English-only username list</td><td></td><td></td></tr>
+                    </tbody>
+                </table>
+            </article>
+
+            <article class="task-block answers" hidden>
+                <h4>Activity answer - Select the best character set</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Scenario</th>
+                            <th scope="col">Best choice</th>
+                            <th scope="col">Reason</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>A plain English error log for a small device</td><td>ASCII</td><td>It only needs basic English characters.</td></tr>
+                        <tr><td>A messaging app using emojis</td><td>Unicode</td><td>It needs to represent emojis.</td></tr>
+                        <tr><td>A website with Arabic, Japanese and English text</td><td>Unicode</td><td>It needs characters from multiple languages.</td></tr>
+                        <tr><td>A basic English-only username list</td><td>ASCII</td><td>It only needs basic English text.</td></tr>
+                    </tbody>
+                </table>
+            </article>
+
+            <article class="task-block">
+                <h4>Exam Question - Compare ASCII and Unicode (4 marks)</h4>
+                <p>Compare ASCII and Unicode. Include one similarity and two differences.</p>
+                <table class="answer-lines" aria-label="Answer lines for ASCII and Unicode comparison">
+                    <tbody><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr></tbody>
+                </table>
+            </article>
+
+            <article class="task-block answers" hidden>
+                <h4>Exam Question answer - Compare ASCII and Unicode (4 marks)</h4>
+                <p>ASCII and Unicode are both character sets that represent characters using codes. [1]</p>
+                <p>ASCII is smaller and is suitable for basic English text. [1]</p>
+                <p>Unicode is larger and can represent many languages, symbols and emojis. [1]</p>
+                <p>Unicode is taught here as using 16 bits per character, so it uses more bits than ASCII. [1]</p>
+            </article>
+        </section>
+
+        <section id="part-3" class="worksheet-part">
+            <h3>Part 3: Why bits per character matter</h3>
+            <p class="worksheet-focus">Focus: calculate how many characters can be represented from the number of bits available.</p>
+
+            <article class="task-block">
+                <h4>Activity - Calculate possible characters</h4>
+                <p>Complete the table. Use 2 to the power of the number of bits.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Bits per character</th>
+                            <th scope="col">Calculation</th>
+                            <th scope="col">Possible characters</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>5</td><td></td><td></td></tr>
+                        <tr><td>6</td><td></td><td></td></tr>
+                        <tr><td>7</td><td></td><td></td></tr>
+                        <tr><td>8</td><td></td><td></td></tr>
+                    </tbody>
+                </table>
+            </article>
+
+            <article class="task-block answers" hidden>
+                <h4>Activity answer - Calculate possible characters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Bits per character</th>
+                            <th scope="col">Calculation</th>
+                            <th scope="col">Possible characters</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>5</td><td>2^5</td><td>32</td></tr>
+                        <tr><td>6</td><td>2^6</td><td>64</td></tr>
+                        <tr><td>7</td><td>2^7</td><td>128</td></tr>
+                        <tr><td>8</td><td>2^8</td><td>256</td></tr>
+                    </tbody>
+                </table>
+            </article>
+
+            <article class="task-block">
+                <h4>Exam Question - Decide if enough bits are available (4 marks)</h4>
+                <p>A device needs to represent 100 different symbols. Explain whether 6 bits per character would be enough.</p>
+                <table class="answer-lines" aria-label="Answer lines for bits available exam question">
+                    <tbody><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr></tbody>
+                </table>
+            </article>
+
+            <article class="task-block answers" hidden>
+                <h4>Exam Question answer - Decide if enough bits are available (4 marks)</h4>
+                <p>6 bits would not be enough. [1]</p>
+                <p>2^6 gives 64 possible codes. [1]</p>
+                <p>The device needs 100 symbols, so it needs more than 64 codes. [1]</p>
+                <p>7 bits would be enough because 2^7 gives 128 possible codes. [1]</p>
+            </article>
+        </section>
+
+        <section id="part-4" class="worksheet-part">
+            <h3>Part 4: Logical ordering</h3>
+            <p class="worksheet-focus">Focus: use logical ordering to predict nearby character codes.</p>
+
+            <article class="task-block">
+                <h4>Activity - Predict the next character</h4>
+                <p>Complete the table using the idea that related characters are stored in a sensible order.</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Character</th>
+                            <th scope="col">Code</th>
+                            <th scope="col">Next code</th>
+                            <th scope="col">Next character</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>A</td><td>65</td><td></td><td></td></tr>
+                        <tr><td>M</td><td>77</td><td></td><td></td></tr>
+                        <tr><td>P</td><td>80</td><td></td><td></td></tr>
+                        <tr><td>y</td><td>121</td><td></td><td></td></tr>
+                    </tbody>
+                </table>
+            </article>
+
+            <article class="task-block answers" hidden>
+                <h4>Activity answer - Predict the next character</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Character</th>
+                            <th scope="col">Code</th>
+                            <th scope="col">Next code</th>
+                            <th scope="col">Next character</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>A</td><td>65</td><td>66</td><td>B</td></tr>
+                        <tr><td>M</td><td>77</td><td>78</td><td>N</td></tr>
+                        <tr><td>P</td><td>80</td><td>81</td><td>Q</td></tr>
+                        <tr><td>y</td><td>121</td><td>122</td><td>z</td></tr>
+                    </tbody>
+                </table>
+            </article>
+
+            <article class="task-block">
+                <h4>Exam Question - Explain random ordering problems (3 marks)</h4>
+                <p>Explain one problem that could happen if characters were placed randomly within a character set.</p>
+                <table class="answer-lines" aria-label="Answer lines for random ordering exam question">
+                    <tbody><tr><td></td></tr><tr><td></td></tr><tr><td></td></tr></tbody>
+                </table>
+            </article>
+
+            <article class="task-block answers" hidden>
+                <h4>Exam Question answer - Explain random ordering problems (3 marks)</h4>
+                <p>If characters were placed randomly, it would be harder for a computer to compare and sort text. [1]</p>
+                <p>Sorting names alphabetically would be less straightforward. [1]</p>
+                <p>This is because the character codes would not follow the same order as the alphabet. [1]</p>
+            </article>
+        </section>
+
+        <section class="resource-summary">
+            <h3>Review checklist</h3>
+            <ul>
+                <li>I can explain how characters are represented using binary codes.</li>
+                <li>I can describe what a character set is.</li>
+                <li>I can compare ASCII and Unicode.</li>
+                <li>I can calculate how many characters can be represented from a number of bits.</li>
+                <li>I can explain logical ordering in a character set.</li>
+            </ul>
+            <div class="resource-actions"><a class="action-button learn-button" href="../teachesheets/1-2-8.html">Lesson</a><a class="action-button worksheet-button" href="../worksheets/1-2-8.html">Tasks</a><a class="action-button qa-button" href="../topics/1-2-8.html">Exam</a><a class="action-button quiz-button" href="../quizzes/1-2-8.html">Quiz</a></div>
+        </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="../../../site.js?v=40"></script>
+</body>
+</html>

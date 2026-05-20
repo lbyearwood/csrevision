@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.1.1 Architecture of the CPU quiz</title>
+    <link rel="stylesheet" href="../../../styles.css?v=41">
+</head>
+<body>
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to J277 topics</a>
+        <section class="question-header">
+            <p class="eyebrow">Paper 1 quiz</p>
+            <h2>1.1.1 Architecture of the CPU quiz</h2>
+            <p class="section-note">Self-marking retrieval practice. Choose the best answer for each question, then check your score.</p>
+        </section>
+
+        <form class="quiz-form" aria-label="1.1.1 Architecture of the CPU self-marking quiz">
+            <article class="quiz-question" data-type="radio" data-answer="Control Unit" data-correct-feedback="The Control Unit coordinates CPU activity and manages instruction execution." data-incorrect-feedback="The Control Unit coordinates CPU activity and manages instruction execution.">
+                <h3>1) Which CPU component coordinates the activities of the CPU?</h3>
+                <label><input type="radio" name="q1" value="ALU"> ALU</label>
+                <label><input type="radio" name="q1" value="Control Unit"> Control Unit</label>
+                <label><input type="radio" name="q1" value="Cache"> Cache</label>
+                <label><input type="radio" name="q1" value="MDR"> MDR</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="checkbox" data-answer="Arithmetic operations,Logic operations" data-correct-feedback="The ALU carries out arithmetic and logical operations." data-incorrect-feedback="The ALU carries out arithmetic operations and logic operations.">
+                <h3>2) Which two types of operation are carried out by the ALU?</h3>
+                <label><input type="checkbox" value="Arithmetic operations"> Arithmetic operations</label>
+                <label><input type="checkbox" value="Logic operations"> Logic operations</label>
+                <label><input type="checkbox" value="Storing addresses"> Storing addresses</label>
+                <label><input type="checkbox" value="Decoding instructions"> Decoding instructions</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="Program Counter|address" data-correct-feedback="The Program Counter stores the address of the next instruction." data-incorrect-feedback="Correct sentence: The Program Counter stores the address of the next instruction.">
+                <h3>3) Fill in the blanks about the next instruction.</h3>
+                <div class="word-bank" aria-label="Words to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="address">address</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="MDR">MDR</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Program Counter">Program Counter</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="calculation result">calculation result</button>
+                </div>
+                <p class="blank-paragraph compact-blank-paragraph">
+                    The
+                    <span class="drop-blank" data-placeholder="Drop word" aria-label="Blank 1">Drop word</span>
+                    stores the
+                    <span class="drop-blank" data-placeholder="Drop word" aria-label="Blank 2">Drop word</span>
+                    of the next instruction to be fetched.
+                </p>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Memory address:MAR|Data or instruction from memory:MDR|Result of a calculation:Accumulator" data-correct-feedback="The table correctly matches each value to the register that stores it." data-incorrect-feedback="Correct table: memory address = MAR; data or instruction from memory = MDR; result of a calculation = Accumulator.">
+                <h3>4) Complete the table: which register stores each value?</h3>
+                <div class="word-bank" aria-label="Registers to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="MDR">MDR</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Accumulator">Accumulator</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="MAR">MAR</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Control Unit">Control Unit</button>
+                </div>
+                <div class="quiz-table-wrap">
+                    <table class="quiz-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Value being stored</th>
+                                <th scope="col">Register</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Memory address</th>
+                                <td>
+                                    <span class="match-drop" data-match="Memory address" data-placeholder="Drop register">Drop register</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Data or instruction from memory</th>
+                                <td>
+                                    <span class="match-drop" data-match="Data or instruction from memory" data-placeholder="Drop register">Drop register</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Result of a calculation</th>
+                                <td>
+                                    <span class="match-drop" data-match="Result of a calculation" data-placeholder="Drop register">Drop register</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="MDR" data-correct-feedback="The MDR stores data or instructions being transferred to or from memory." data-incorrect-feedback="The MDR stores data or instructions being transferred to or from memory.">
+                <h3>5) Which register stores data or instructions being transferred to or from memory?</h3>
+                <label><input type="radio" name="q5" value="Program Counter"> Program Counter</label>
+                <label><input type="radio" name="q5" value="MAR"> MAR</label>
+                <label><input type="radio" name="q5" value="MDR"> MDR</label>
+                <label><input type="radio" name="q5" value="Control Unit"> Control Unit</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="True" data-correct-feedback="Cache is faster to access than main memory." data-incorrect-feedback="Cache is small, fast memory close to or inside the CPU.">
+                <h3>6) True or false: Cache is faster for the CPU to access than main memory.</h3>
+                <label><input type="radio" name="q6" value="True"> True</label>
+                <label><input type="radio" name="q6" value="False"> False</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="checkbox" data-answer="Fetch,Decode,Execute" data-correct-feedback="The basic cycle is fetch, decode, execute." data-incorrect-feedback="The fetch-execute cycle is commonly described as fetch, decode and execute.">
+                <h3>7) Select the three main stages of the fetch-execute cycle.</h3>
+                <label><input type="checkbox" value="Fetch"> Fetch</label>
+                <label><input type="checkbox" value="Compress"> Compress</label>
+                <label><input type="checkbox" value="Decode"> Decode</label>
+                <label><input type="checkbox" value="Encrypt"> Encrypt</label>
+                <label><input type="checkbox" value="Execute"> Execute</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="slider" data-answer="2" data-correct-feedback="Decode is stage 2 in fetch, decode, execute." data-incorrect-feedback="Decode is stage 2 when the stages are fetch, decode, execute.">
+                <h3>8) In the sequence fetch, decode, execute, what stage number is decode?</h3>
+                <div class="slider-question">
+                    <input type="range" min="1" max="3" step="1" value="1" aria-label="Stage number for decode">
+                    <div class="slider-labels" aria-hidden="true">
+                        <span>1</span>
+                        <span>2</span>
+                        <span>3</span>
+                    </div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Von Neumann" data-correct-feedback="Von Neumann architecture stores program instructions and data in the same memory." data-incorrect-feedback="Von Neumann architecture stores program instructions and data in the same memory.">
+                <h3>9) Which architecture stores program instructions and data in the same memory?</h3>
+                <label><input type="radio" name="q9" value="Harvard"> Harvard</label>
+                <label><input type="radio" name="q9" value="Von Neumann"> Von Neumann</label>
+                <label><input type="radio" name="q9" value="Client-server"> Client-server</label>
+                <label><input type="radio" name="q9" value="Peer-to-peer"> Peer-to-peer</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Accumulator" data-correct-feedback="The Accumulator stores the result of calculations." data-incorrect-feedback="The Accumulator stores the result of calculations carried out by the CPU.">
+                <h3>10) Which register stores the result of calculations?</h3>
+                <label><input type="radio" name="q10" value="Accumulator"> Accumulator</label>
+                <label><input type="radio" name="q10" value="Program Counter"> Program Counter</label>
+                <label><input type="radio" name="q10" value="MAR"> MAR</label>
+                <label><input type="radio" name="q10" value="Control Unit"> Control Unit</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Performs arithmetic and logical operations:ALU|Decodes instructions and coordinates CPU activity:Control Unit|Holds a memory address:MAR|Holds data or instructions being transferred:MDR" data-correct-feedback="Each keyword has been matched to its correct definition." data-incorrect-feedback="Correct matches: ALU = arithmetic and logical operations; Control Unit = decodes and coordinates; MAR = memory address; MDR = data or instructions being transferred.">
+                <h3>11) Drag each CPU keyword to the correct definition.</h3>
+                <div class="word-bank" aria-label="CPU keywords to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="MDR">MDR</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="ALU">ALU</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="MAR">MAR</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Control Unit">Control Unit</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row">
+                        <span class="match-drop" data-match="Performs arithmetic and logical operations" data-placeholder="Drop keyword">Drop keyword</span>
+                        <p>Performs arithmetic and logical operations.</p>
+                    </div>
+                    <div class="match-row">
+                        <span class="match-drop" data-match="Decodes instructions and coordinates CPU activity" data-placeholder="Drop keyword">Drop keyword</span>
+                        <p>Decodes instructions and coordinates CPU activity.</p>
+                    </div>
+                    <div class="match-row">
+                        <span class="match-drop" data-match="Holds a memory address" data-placeholder="Drop keyword">Drop keyword</span>
+                        <p>Holds a memory address.</p>
+                    </div>
+                    <div class="match-row">
+                        <span class="match-drop" data-match="Holds data or instructions being transferred" data-placeholder="Drop keyword">Drop keyword</span>
+                        <p>Holds data or instructions being transferred.</p>
+                    </div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="Program Counter|MAR|MDR|Control Unit" data-correct-feedback="The fetch stage and decode role are completed correctly." data-incorrect-feedback="Correct order: Program Counter, MAR, MDR, Control Unit.">
+                <h3>12) Drag each word into the correct blank.</h3>
+                <div class="word-bank" aria-label="Words to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="MDR">MDR</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Control Unit">Control Unit</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Program Counter">Program Counter</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="MAR">MAR</button>
+                </div>
+                <p class="blank-paragraph">
+                    During the fetch stage, the
+                    <span class="drop-blank" data-placeholder="Drop word" aria-label="Blank 1">Drop word</span>
+                    holds the address of the next instruction. This address is copied to the
+                    <span class="drop-blank" data-placeholder="Drop word" aria-label="Blank 2">Drop word</span>.
+                    The instruction or data being transferred is held in the
+                    <span class="drop-blank" data-placeholder="Drop word" aria-label="Blank 3">Drop word</span>.
+                    The
+                    <span class="drop-blank" data-placeholder="Drop word" aria-label="Blank 4">Drop word</span>
+                    decodes the instruction.
+                </p>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Router" data-correct-feedback="A router is network hardware, not an internal CPU component." data-incorrect-feedback="The odd one out is Router because it is network hardware, not an internal CPU component.">
+                <h3>13) Spot the odd one out.</h3>
+                <label><input type="radio" name="q13" value="ALU"> ALU</label>
+                <label><input type="radio" name="q13" value="Control Unit"> Control Unit</label>
+                <label><input type="radio" name="q13" value="Cache"> Cache</label>
+                <label><input type="radio" name="q13" value="Router"> Router</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="The Program Counter stores the address of the next instruction, not calculation results." data-correct-feedback="The Accumulator stores calculation results; the Program Counter stores the next instruction address." data-incorrect-feedback="The misconception is that the Program Counter stores calculation results. It stores the address of the next instruction.">
+                <h3>14) Identify the misconception in this statement: "The Program Counter stores the result of calculations."</h3>
+                <label><input type="radio" name="q14" value="The Program Counter stores the address of the next instruction, not calculation results."> The Program Counter stores the address of the next instruction, not calculation results.</label>
+                <label><input type="radio" name="q14" value="The Program Counter performs arithmetic and logic operations."> The Program Counter performs arithmetic and logic operations.</label>
+                <label><input type="radio" name="q14" value="The Program Counter stores data being transferred from memory."> The Program Counter stores data being transferred from memory.</label>
+                <label><input type="radio" name="q14" value="The Program Counter decodes the instruction."> The Program Counter decodes the instruction.</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="MAR:Address|MDR:Data or instruction|Program Counter:Address|Accumulator:Data or result" data-correct-feedback="The table correctly separates address storage from data or result storage." data-incorrect-feedback="Correct table: MAR = address; MDR = data or instruction; Program Counter = address; Accumulator = data or result.">
+                <h3>15) Complete the table: what type of information is stored?</h3>
+                <div class="word-bank" aria-label="Information types to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Address">Address</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Data or instruction">Data or instruction</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Address">Address</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Data or result">Data or result</button>
+                </div>
+                <div class="quiz-table-wrap">
+                    <table class="quiz-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Register</th>
+                                <th scope="col">Stores</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">MAR</th>
+                                <td>
+                                    <span class="match-drop" data-match="MAR" data-placeholder="Drop type">Drop type</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">MDR</th>
+                                <td>
+                                    <span class="match-drop" data-match="MDR" data-placeholder="Drop type">Drop type</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Program Counter</th>
+                                <td>
+                                    <span class="match-drop" data-match="Program Counter" data-placeholder="Drop type">Drop type</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Accumulator</th>
+                                <td>
+                                    <span class="match-drop" data-match="Accumulator" data-placeholder="Drop type">Drop type</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Fetch:1|Decode:2|Execute:3" data-correct-feedback="The sequence is fetch, decode, execute." data-incorrect-feedback="Correct order: fetch = 1, decode = 2, execute = 3.">
+                <h3>16) Complete the order table for the fetch-execute cycle.</h3>
+                <div class="word-bank" aria-label="Order numbers to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="2">2</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="1">1</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="3">3</button>
+                </div>
+                <div class="quiz-table-wrap">
+                    <table class="quiz-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Stage</th>
+                                <th scope="col">Order number</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">Fetch</th>
+                                <td>
+                                    <span class="match-drop" data-match="Fetch" data-placeholder="Drop number">Drop number</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Decode</th>
+                                <td>
+                                    <span class="match-drop" data-match="Decode" data-placeholder="Drop number">Drop number</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Execute</th>
+                                <td>
+                                    <span class="match-drop" data-match="Execute" data-placeholder="Drop number">Drop number</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="checkbox" data-answer="It stores frequently used data and instructions,It can be accessed faster than main memory" data-correct-feedback="Cache stores frequently used data and instructions and is faster to access than main memory." data-incorrect-feedback="Cache stores frequently used data and instructions, and the CPU can access it faster than main memory.">
+                <h3>17) Tick all that apply: why does cache help CPU performance?</h3>
+                <label><input type="checkbox" value="It stores frequently used data and instructions"> It stores frequently used data and instructions</label>
+                <label><input type="checkbox" value="It can be accessed faster than main memory"> It can be accessed faster than main memory</label>
+                <label><input type="checkbox" value="It permanently stores user files"> It permanently stores user files</label>
+                <label><input type="checkbox" value="It replaces the need for the Control Unit"> It replaces the need for the Control Unit</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="processes|instructions|operation" data-correct-feedback="The CPU processes data and instructions and controls the operation of the computer system." data-incorrect-feedback="Correct sentence: The CPU processes data and instructions and controls the operation of the computer system.">
+                <h3>18) Fill in the blanks about the purpose of the CPU.</h3>
+                <div class="word-bank" aria-label="Words to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="instructions">instructions</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="stores">stores</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="operation">operation</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="processes">processes</button>
+                </div>
+                <p class="blank-paragraph compact-blank-paragraph">
+                    The CPU
+                    <span class="drop-blank" data-placeholder="Drop word" aria-label="Blank 1">Drop word</span>
+                    data and
+                    <span class="drop-blank" data-placeholder="Drop word" aria-label="Blank 2">Drop word</span>
+                    and controls the
+                    <span class="drop-blank" data-placeholder="Drop word" aria-label="Blank 3">Drop word</span>
+                    of the computer system.
+                </p>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="The CPU gets the next instruction from memory:Fetch|The instruction is worked out by the Control Unit:Decode|The instruction is carried out:Execute" data-correct-feedback="Each fetch-execute stage has been matched to the correct description." data-incorrect-feedback="Correct matches: Fetch = gets the next instruction from memory; Decode = instruction is worked out by the Control Unit; Execute = instruction is carried out.">
+                <h3>19) Drag each fetch-execute stage to its description.</h3>
+                <div class="word-bank" aria-label="Fetch-execute stages to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Execute">Execute</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Fetch">Fetch</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Decode">Decode</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row">
+                        <span class="match-drop" data-match="The CPU gets the next instruction from memory" data-placeholder="Drop stage">Drop stage</span>
+                        <p>The CPU gets the next instruction from memory.</p>
+                    </div>
+                    <div class="match-row">
+                        <span class="match-drop" data-match="The instruction is worked out by the Control Unit" data-placeholder="Drop stage">Drop stage</span>
+                        <p>The instruction is worked out by the Control Unit.</p>
+                    </div>
+                    <div class="match-row">
+                        <span class="match-drop" data-match="The instruction is carried out" data-placeholder="Drop stage">Drop stage</span>
+                        <p>The instruction is carried out.</p>
+                    </div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="False" data-correct-feedback="Von Neumann architecture stores instructions and data in the same memory." data-incorrect-feedback="This is false. Von Neumann architecture stores instructions and data in the same memory.">
+                <h3>20) True or false: Von Neumann architecture stores program instructions and data in completely separate memories.</h3>
+                <label><input type="radio" name="q20" value="True"> True</label>
+                <label><input type="radio" name="q20" value="False"> False</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <div class="quiz-controls">
+                <button class="back-button" type="submit">Check answers</button>
+                <button class="reveal-button" type="reset">Reset quiz</button>
+                <p class="quiz-result" hidden aria-live="polite"></p>
+            </div>
+        </form>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="../../../site.js?v=40"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

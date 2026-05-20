@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.2.3 String manipulation questions</title>
+    <link rel="stylesheet" href="../../../styles.css?v=41">
+</head>
+<body>
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to J277 topics</a>
+        <section class="question-header">
+            <p class="eyebrow">Paper 2</p>
+            <h2>2.2.3 String manipulation questions</h2>
+            <p class="section-note">Practise basic string handling, including concatenation, slicing and using strings in simple programs.</p>
+        </section>
+        <section class="question-list" aria-label="2.2.3 String manipulation questions">
+            <article class="question-card">
+                <p class="question-text">1) <strong>Describe</strong> what is meant by string concatenation. (2 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-3-1">Show mark scheme</button>
+                <div id="mark-scheme-2-2-3-1" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 2 marks:</p>
+                    <ul>
+                        <li>Concatenation joins strings together.</li>
+                        <li>It can be used to build a longer string from smaller strings.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">2) A school badge system prints a student's full name. <strong>Write</strong> code that inputs a first name and surname, then outputs them as one full name with a space between them. You may use OCR Exam Reference Language or Python. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-3-2">Show mark scheme</button>
+                <div id="mark-scheme-2-2-3-2" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 4 marks:</p>
+                    <ul>
+                        <li>Inputs the first name.</li>
+                        <li>Inputs the surname.</li>
+                        <li>Concatenates the names with a space.</li>
+                        <li>Outputs the full name.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre class="algorithm-code"><code>firstName = INPUT
+surname = INPUT
+fullName = firstName + " " + surname
+OUTPUT fullName</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre class="algorithm-code"><code>first_name = input()
+surname = input()
+full_name = first_name + " " + surname
+print(full_name)</code></pre>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">3) A stock system uses the product code COMPUTER. <strong>Write</strong> code that stores the string COMPUTER and outputs the first three characters as a short code. You may use OCR Exam Reference Language or Python. (3 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-3-3">Show mark scheme</button>
+                <div id="mark-scheme-2-2-3-3" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 3 marks:</p>
+                    <ul>
+                        <li>Stores the string COMPUTER.</li>
+                        <li>Uses slicing or indexing to get the first three characters.</li>
+                        <li>Outputs COM.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre class="algorithm-code"><code>word = "COMPUTER"
+part = word.substring(0, 3)
+OUTPUT part</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre class="algorithm-code"><code>word = "COMPUTER"
+part = word[0:3]
+print(part)</code></pre>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">4) <strong>Explain</strong> why string slicing may be useful in a program that processes product codes. (3 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-3-4">Show mark scheme</button>
+                <div id="mark-scheme-2-2-3-4" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 3 marks:</p>
+                    <ul>
+                        <li>A product code may contain different pieces of information.</li>
+                        <li>Slicing can extract part of the code.</li>
+                        <li>The extracted part can be checked or processed separately.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                </div>
+            </article>
+            <article class="question-card">
+                <p class="question-text">5) A school account system creates usernames automatically. <strong>Complete</strong> code that creates a username by joining the first three letters of a surname to a year group. You may use OCR Exam Reference Language or Python. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-2-3-5">Show mark scheme</button>
+                <div id="mark-scheme-2-2-3-5" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <p class="mark-scheme-intro">Award up to 4 marks:</p>
+                    <ul>
+                        <li>Stores or inputs the surname.</li>
+                        <li>Stores or inputs the year group.</li>
+                        <li>Slices the first three letters of the surname.</li>
+                        <li>Concatenates the sliced surname with the year group.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre class="algorithm-code"><code>surname = INPUT
+yearGroup = INPUT
+username = surname.substring(0, 3) + yearGroup
+OUTPUT username</code></pre>
+                    <p class="mark-scheme-intro">Python example:</p>
+                    <pre class="algorithm-code"><code>surname = input()
+year_group = input()
+username = surname[0:3] + year_group
+print(username)</code></pre>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="../../../site.js?v=40"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

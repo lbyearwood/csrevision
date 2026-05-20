@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.1.6 Flowcharts quiz</title>
+    <link rel="stylesheet" href="../../../styles.css?v=41">
+</head>
+<body>
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to J277 topics</a>
+        <section class="question-header">
+            <p class="eyebrow">Paper 2 quiz</p>
+            <h2>2.1.6 Flowcharts quiz</h2>
+            <p class="section-note">Self-marking retrieval practice. Read the flowchart diagrams and answer each question.</p>
+        </section>
+
+        <form class="quiz-form" aria-label="2.1.6 Flowcharts self-marking quiz">
+            <article class="quiz-question" data-type="radio" data-answer="Terminal" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Terminal.">
+                <h3>1) Which flowchart symbol is used for Start and End?</h3>
+                <div class="flowchart-diagram" aria-label="Start and end">
+                    <div class="flow-row"><span class="flow-node terminal">Start</span><span class="flow-arrow">-&gt;</span><span class="flow-node process">set score = 0</span><span class="flow-arrow">-&gt;</span><span class="flow-node terminal">End</span></div>
+                </div>
+                <label><input type="radio" name="q1" value="Terminal"> Terminal</label>
+                <label><input type="radio" name="q1" value="Decision"> Decision</label>
+                <label><input type="radio" name="q1" value="Process"> Process</label>
+                <label><input type="radio" name="q1" value="Input/output"> Input/output</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Decision" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Decision.">
+                <h3>2) Which symbol should contain a yes/no condition?</h3>
+                <div class="flowchart-diagram" aria-label="Decision check">
+                    <div class="flow-row"><span class="flow-node terminal">Start</span><span class="flow-arrow">-&gt;</span><span class="flow-node io">INPUT age</span><span class="flow-arrow">-&gt;</span><span class="flow-node decision">age &gt;= 18?</span></div>
+                    <div class="flow-row"><span class="flow-node process">Adult path</span><span class="flow-arrow">-&gt;</span><span class="flow-node process">Child path</span></div>
+                </div>
+                <label><input type="radio" name="q2" value="Decision"> Decision</label>
+                <label><input type="radio" name="q2" value="Process"> Process</label>
+                <label><input type="radio" name="q2" value="Sub program"> Sub program</label>
+                <label><input type="radio" name="q2" value="Terminal"> Terminal</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Odd" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Odd.">
+                <h3>3) What is output when number = 7?</h3>
+                <div class="flowchart-diagram" aria-label="Even or odd">
+                    <div class="flow-row"><span class="flow-node terminal">Start</span><span class="flow-arrow">-&gt;</span><span class="flow-node io">INPUT number</span><span class="flow-arrow">-&gt;</span><span class="flow-node decision">number MOD 2 = 0?</span></div>
+                    <div class="flow-row"><span class="flow-node io">Yes: OUTPUT Even</span><span class="flow-arrow">-&gt;</span><span class="flow-node io">No: OUTPUT Odd</span><span class="flow-arrow">-&gt;</span><span class="flow-node terminal">End</span></div>
+                </div>
+                <label><input type="radio" name="q3" value="Odd"> Odd</label>
+                <label><input type="radio" name="q3" value="Even"> Even</label>
+                <label><input type="radio" name="q3" value="7"> 7</label>
+                <label><input type="radio" name="q3" value="No output"> No output</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Pass" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Pass.">
+                <h3>4) What is output when mark = 50?</h3>
+                <div class="flowchart-diagram" aria-label="Pass or fail">
+                    <div class="flow-row"><span class="flow-node terminal">Start</span><span class="flow-arrow">-&gt;</span><span class="flow-node io">INPUT mark</span><span class="flow-arrow">-&gt;</span><span class="flow-node decision">mark &gt;= 50?</span></div>
+                    <div class="flow-row"><span class="flow-node io">Yes: OUTPUT Pass</span><span class="flow-arrow">-&gt;</span><span class="flow-node io">No: OUTPUT Fail</span><span class="flow-arrow">-&gt;</span><span class="flow-node terminal">End</span></div>
+                </div>
+                <label><input type="radio" name="q4" value="Pass"> Pass</label>
+                <label><input type="radio" name="q4" value="Fail"> Fail</label>
+                <label><input type="radio" name="q4" value="50"> 50</label>
+                <label><input type="radio" name="q4" value="Nothing"> Nothing</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="The arrow returning to the decision" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: The arrow returning to the decision.">
+                <h3>5) Which part of this flowchart shows iteration?</h3>
+                <div class="flowchart-diagram" aria-label="Counting loop">
+                    <div class="flow-row"><span class="flow-node terminal">Start</span><span class="flow-arrow">-&gt;</span><span class="flow-node process">count = 1</span><span class="flow-arrow">-&gt;</span><span class="flow-node decision">count &lt;= 4?</span></div>
+                    <div class="flow-row"><span class="flow-node io">OUTPUT count</span><span class="flow-arrow">-&gt;</span><span class="flow-node process">count = count + 1</span><span class="flow-arrow">-&gt;</span><span class="flow-node decision">back to condition</span></div>
+                </div>
+                <label><input type="radio" name="q5" value="The arrow returning to the decision"> The arrow returning to the decision</label>
+                <label><input type="radio" name="q5" value="The Start symbol"> The Start symbol</label>
+                <label><input type="radio" name="q5" value="The End symbol"> The End symbol</label>
+                <label><input type="radio" name="q5" value="The first output only"> The first output only</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="4" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 4.">
+                <h3>6) The counting flowchart outputs 1, 2, 3 and 4. How many values are output?</h3>
+                <div class="flowchart-diagram" aria-label="Counting values">
+                    <div class="flow-row"><span class="flow-node terminal">Start</span><span class="flow-arrow">-&gt;</span><span class="flow-node process">count = 1</span><span class="flow-arrow">-&gt;</span><span class="flow-node decision">count &lt;= 4?</span></div>
+                    <div class="flow-row"><span class="flow-node io">OUTPUT count</span><span class="flow-arrow">-&gt;</span><span class="flow-node process">count = count + 1</span><span class="flow-arrow">-&gt;</span><span class="flow-node terminal">End</span></div>
+                </div>
+                <input type="text" aria-label="Answer for question 5">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Process" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Process.">
+                <h3>7) Which symbol should be used for total = num1 + num2?</h3>
+                <div class="flowchart-diagram" aria-label="Adding values">
+                    <div class="flow-row"><span class="flow-node terminal">Start</span><span class="flow-arrow">-&gt;</span><span class="flow-node io">INPUT num1, num2</span><span class="flow-arrow">-&gt;</span><span class="flow-node process">total = num1 + num2</span><span class="flow-arrow">-&gt;</span><span class="flow-node io">OUTPUT total</span><span class="flow-arrow">-&gt;</span><span class="flow-node terminal">End</span></div>
+                </div>
+                <label><input type="radio" name="q7" value="Process"> Process</label>
+                <label><input type="radio" name="q7" value="Terminal"> Terminal</label>
+                <label><input type="radio" name="q7" value="Decision"> Decision</label>
+                <label><input type="radio" name="q7" value="Flow line"> Flow line</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Terminal:Start or end|Process:Calculation or assignment|Input/output:Get or display data|Decision:Yes/no condition|Flow line:Shows direction of control" data-correct-feedback="Correct." data-incorrect-feedback="Correct matches: Terminal:Start or end|Process:Calculation or assignment|Input/output:Get or display data|Decision:Yes/no condition|Flow line:Shows direction of control.">
+                <h3>8) Drag each symbol to its purpose.</h3>
+                <div class="flowchart-diagram" aria-label="Symbol reminders">
+                    <div class="flow-row"><span class="flow-node terminal">Start</span><span class="flow-arrow">-&gt;</span><span class="flow-node process">x = x + 1</span><span class="flow-arrow">-&gt;</span><span class="flow-node io">OUTPUT x</span><span class="flow-arrow">-&gt;</span><span class="flow-node decision">x &gt; 5?</span></div>
+                </div>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Yes/no condition">Yes/no condition</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Start or end">Start or end</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Shows direction of control">Shows direction of control</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Get or display data">Get or display data</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Calculation or assignment">Calculation or assignment</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="Terminal" data-placeholder="Drop item">Drop item</span><p>Terminal</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Process" data-placeholder="Drop item">Drop item</span><p>Process</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Input/output" data-placeholder="Drop item">Drop item</span><p>Input/output</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Decision" data-placeholder="Drop item">Drop item</span><p>Decision</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Flow line" data-placeholder="Drop item">Drop item</span><p>Flow line</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="The decision branches are not labelled Yes and No" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: The decision branches are not labelled Yes and No.">
+                <h3>9) What is the error in this flowchart?</h3>
+                <div class="flowchart-diagram" aria-label="Missing branch labels">
+                    <div class="flow-row"><span class="flow-node terminal">Start</span><span class="flow-arrow">-&gt;</span><span class="flow-node io">INPUT password</span><span class="flow-arrow">-&gt;</span><span class="flow-node decision">password == abc?</span></div>
+                    <div class="flow-row"><span class="flow-node io">OUTPUT Access granted</span><span class="flow-arrow">-&gt;</span><span class="flow-node io">OUTPUT Try again</span><span class="flow-arrow">-&gt;</span><span class="flow-node terminal">End</span></div>
+                </div>
+                <label><input type="radio" name="q9" value="The decision branches are not labelled Yes and No"> The decision branches are not labelled Yes and No</label>
+                <label><input type="radio" name="q9" value="Start should be a decision"> Start should be a decision</label>
+                <label><input type="radio" name="q9" value="The input/output symbol must never be used"> The input/output symbol must never be used</label>
+                <label><input type="radio" name="q9" value="End should be removed"> End should be removed</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Selection" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Selection.">
+                <h3>10) A flowchart has Start, INPUT mark, mark >= 40?, OUTPUT Pass/Fail, End. Which construct does it show?</h3>
+                <label><input type="radio" name="q10" value="Selection"> Selection</label>
+                <label><input type="radio" name="q10" value="Iteration"> Iteration</label>
+                <label><input type="radio" name="q10" value="Compression"> Compression</label>
+                <label><input type="radio" name="q10" value="Sorting"> Sorting</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="name = INPUT" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: name = INPUT.">
+                <h3>11) Which statement best converts INPUT name to pseudocode?</h3>
+                <label><input type="radio" name="q11" value="name = INPUT"> name = INPUT</label>
+                <label><input type="radio" name="q11" value="OUTPUT name"> OUTPUT name</label>
+                <label><input type="radio" name="q11" value="IF name THEN"> IF name THEN</label>
+                <label><input type="radio" name="q11" value="NEXT name"> NEXT name</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="checkbox" data-answer="Input/output,Decision,Process,Flow line" data-correct-feedback="Correct." data-incorrect-feedback="Correct answers: Input/output,Decision,Process,Flow line.">
+                <h3>12) Tick the symbols that should appear in a validation loop.</h3>
+                <label><input type="checkbox" value="Input/output"> Input/output</label>
+                <label><input type="checkbox" value="Decision"> Decision</label>
+                <label><input type="checkbox" value="Process"> Process</label>
+                <label><input type="checkbox" value="Flow line"> Flow line</label>
+                <label><input type="checkbox" value="Metadata"> Metadata</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Use clear labels on flow lines leaving a decision" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Use clear labels on flow lines leaving a decision.">
+                <h3>13) Which improvement makes a decision flowchart easier to follow?</h3>
+                <label><input type="radio" name="q13" value="Use clear labels on flow lines leaving a decision"> Use clear labels on flow lines leaving a decision</label>
+                <label><input type="radio" name="q13" value="Remove all arrows"> Remove all arrows</label>
+                <label><input type="radio" name="q13" value="Use a decision for every statement"> Use a decision for every statement</label>
+                <label><input type="radio" name="q13" value="Put End before Start"> Put End before Start</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="2" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 2.">
+                <h3>14) A flowchart inputs three numbers, calculates an average and outputs it. How many input/output symbols are needed?</h3>
+                <input type="text" aria-label="Answer for question 13">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Sub program" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Sub program.">
+                <h3>15) Which symbol is suitable for calling a named routine such as CalculateAverage?</h3>
+                <label><input type="radio" name="q15" value="Sub program"> Sub program</label>
+                <label><input type="radio" name="q15" value="Terminal"> Terminal</label>
+                <label><input type="radio" name="q15" value="Decision"> Decision</label>
+                <label><input type="radio" name="q15" value="Flow line"> Flow line</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <div class="quiz-controls">
+                <button class="back-button" type="submit">Check answers</button>
+                <button class="reveal-button" type="reset">Reset quiz</button>
+                <p class="quiz-result" hidden aria-live="polite"></p>
+            </div>
+        </form>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="../../../site.js?v=40"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

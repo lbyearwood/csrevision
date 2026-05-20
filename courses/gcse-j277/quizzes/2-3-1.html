@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.3.1 Defensive design challenge quiz</title>
+    <link rel="stylesheet" href="../../../styles.css?v=41">
+</head>
+<body>
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to J277 topics</a>
+        <section class="question-header">
+            <p class="eyebrow">Paper 2 quiz</p>
+            <h2>2.3.1 Defensive design challenge quiz</h2>
+            <p class="section-note">Self-marking retrieval practice on validation, authentication, anticipating misuse and maintainable code.</p>
+        </section>
+
+        <form class="quiz-form" aria-label="2.3.1 Defensive design challenge quiz self-marking quiz">
+            <article class="quiz-question" data-type="drag-match" data-answer="Input validation:Checks data before it is accepted|Authentication:Checks a user's identity|Maintainability:Makes code easier to understand and change|Anticipating misuse:Designing for mistakes or deliberate misuse" data-correct-feedback="Correct." data-incorrect-feedback="Correct matches: validation checks data, authentication checks identity, maintainability helps changes, anticipating misuse designs for mistakes.">
+                <h3>1) Match each defensive design term to its meaning.</h3>
+<div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Checks a user's identity">Checks a user's identity</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Makes code easier to understand and change">Makes code easier to understand and change</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Designing for mistakes or deliberate misuse">Designing for mistakes or deliberate misuse</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Checks data before it is accepted">Checks data before it is accepted</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="Input validation" data-placeholder="Drop item">Drop item</span><p>Input validation</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Authentication" data-placeholder="Drop item">Drop item</span><p>Authentication</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Maintainability" data-placeholder="Drop item">Drop item</span><p>Maintainability</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Anticipating misuse" data-placeholder="Drop item">Drop item</span><p>Anticipating misuse</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Lock account after five failed attempts:Anticipating misuse|Ask for a password before showing marks:Authentication|Confirm before deleting a file:Anticipating misuse|Check a fingerprint to unlock an app:Authentication" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Lock account after five failed attempts:Anticipating misuse|Ask for a password before showing marks:Authentication|Confirm before deleting a file:Anticipating misuse|Check a fingerprint to unlock an app:Authentication.">
+                <h3>2) Sort each scenario as anticipating misuse or authentication.</h3>
+<div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Anticipating misuse">Anticipating misuse</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Authentication">Authentication</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Anticipating misuse">Anticipating misuse</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Authentication">Authentication</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="Lock account after five failed attempts" data-placeholder="Drop item">Drop item</span><p>Lock account after five failed attempts</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Ask for a password before showing marks" data-placeholder="Drop item">Drop item</span><p>Ask for a password before showing marks</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Confirm before deleting a file" data-placeholder="Drop item">Drop item</span><p>Confirm before deleting a file</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Check a fingerprint to unlock an app" data-placeholder="Drop item">Drop item</span><p>Check a fingerprint to unlock an app</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="checkbox" data-answer="Checking an age is between 11 and 18|Checking an email contains @|Rejecting an empty username" data-correct-feedback="Correct." data-incorrect-feedback="Correct answers: age range check, email format check, and rejecting an empty username.">
+                <h3>3) Select all examples of input validation.</h3>
+                <label><input type="checkbox" name="q3" value="Checking an age is between 11 and 18"> Checking an age is between 11 and 18</label>
+                <label><input type="checkbox" name="q3" value="Checking an email contains @"> Checking an email contains @</label>
+                <label><input type="checkbox" name="q3" value="Printing a receipt"> Printing a receipt</label>
+                <label><input type="checkbox" name="q3" value="Rejecting an empty username"> Rejecting an empty username</label>
+                <label><input type="checkbox" name="q3" value="Changing the background colour"> Changing the background colour</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="age &lt; 11 OR age &gt; 18" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: age &lt; 11 OR age &gt; 18.">
+                <h3>4) Complete the missing validation check in the code.</h3>
+<div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="age &lt; 11 OR age &gt; 18">age &lt; 11 OR age &gt; 18</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="age = 11 AND age = 18">age = 11 AND age = 18</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="password = username">password = username</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="age MOD 2 = 0">age MOD 2 = 0</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p>IF <span class="drop-blank" data-placeholder="Drop item">Drop item</span> THEN</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;OUTPUT "Invalid age"</p>
+                    <p>ENDIF</p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="It accepts the invalid value 0" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: it accepts the invalid value 0. For an age range of 11 to 16, the lower limit is wrong.">
+                <h3>5) Identify the error in this validation routine.</h3>
+                <pre class="algorithm-code"><code>INPUT age
+IF age &gt;= 0 AND age &lt;= 16 THEN
+    OUTPUT &quot;Valid&quot;
+ENDIF</code></pre>
+                <label><input type="radio" name="q5" value="It accepts the invalid value 0"> It accepts the invalid value 0</label>
+                <label><input type="radio" name="q5" value="It rejects the valid value 10"> It rejects the valid value 10</label>
+                <label><input type="radio" name="q5" value="It should use a string instead of an integer"> It should use a string instead of an integer</label>
+                <label><input type="radio" name="q5" value="It checks the password instead of the age"> It checks the password instead of the age</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="Ask the user for input|Check the input against the rule|Show an error if the input is invalid|Ask again until valid" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Ask the user for input|Check the input against the rule|Show an error if the input is invalid|Ask again until valid.">
+                <h3>6) Drag the validation steps into the correct order.</h3>
+<div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Ask again until valid">Ask again until valid</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Ask the user for input">Ask the user for input</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Show an error if the input is invalid">Show an error if the input is invalid</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Check the input against the rule">Check the input against the rule</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Age entered as -2:Show age must be positive|Email entered without @:Show email format error|Password left blank:Ask for the password again|Menu choice entered as 9:Show valid choices are 1 to 4" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Age entered as -2:Show age must be positive|Email entered without @:Show email format error|Password left blank:Ask for the password again|Menu choice entered as 9:Show valid choices are 1 to 4.">
+                <h3>7) Match each invalid input to a suitable validation response.</h3>
+<div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Ask for the password again">Ask for the password again</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Show valid choices are 1 to 4">Show valid choices are 1 to 4</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Show age must be positive">Show age must be positive</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Show email format error">Show email format error</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="Age entered as -2" data-placeholder="Drop item">Drop item</span><p>Age entered as -2</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Email entered without @" data-placeholder="Drop item">Drop item</span><p>Email entered without @</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Password left blank" data-placeholder="Drop item">Drop item</span><p>Password left blank</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Menu choice entered as 9" data-placeholder="Drop item">Drop item</span><p>Menu choice entered as 9</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="True" data-correct-feedback="A password check verifies the user's identity." data-incorrect-feedback="Correct answer: True.">
+                <h3>8) True or false: a password check is an example of authentication.</h3>
+                <label><input type="radio" name="q8" value="True"> True</label>
+                <label><input type="radio" name="q8" value="False"> False</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="username|AND|password|Access granted" data-correct-feedback="Correct." data-incorrect-feedback="Correct order: username, AND, password, Access granted.">
+                <h3>9) Complete the code to check a username and password.</h3>
+<div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="username">username</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="password">password</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="OR">OR</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="AND">AND</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Access granted">Access granted</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Invalid age">Invalid age</button>
+                </div>
+                <div class="pseudocode-fill">
+                    <p>IF <span class="drop-blank" data-placeholder="Drop item">Drop item</span> = "admin" <span class="drop-blank" data-placeholder="Drop item">Drop item</span> <span class="drop-blank" data-placeholder="Drop item">Drop item</span> = "secure123" THEN</p>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;OUTPUT "<span class="drop-blank" data-placeholder="Drop item">Drop item</span>"</p>
+                    <p>ENDIF</p>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Protect personal data:Only authorised users can see it|Stop account misuse:Users must prove who they are|Give different access levels:Admins and students can see different features" data-correct-feedback="Correct." data-incorrect-feedback="Authentication protects data, prevents misuse, and supports different access levels.">
+                <h3>10) Match each reason authentication is used to the correct outcome.</h3>
+<div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Admins and students can see different features">Admins and students can see different features</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Only authorised users can see it">Only authorised users can see it</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Users must prove who they are">Users must prove who they are</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="Protect personal data" data-placeholder="Drop item">Drop item</span><p>Protect personal data</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Stop account misuse" data-placeholder="Drop item">Drop item</span><p>Stop account misuse</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Give different access levels" data-placeholder="Drop item">Drop item</span><p>Give different access levels</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Clear variable names:Good maintainability|Repeated code copied many times:Poor maintainability|Useful comments for complex code:Good maintainability|No indentation:Poor maintainability" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Clear variable names:Good maintainability|Repeated code copied many times:Poor maintainability|Useful comments for complex code:Good maintainability|No indentation:Poor maintainability.">
+                <h3>11) Sort the examples into good and poor maintainability.</h3>
+<div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Good maintainability">Good maintainability</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Poor maintainability">Poor maintainability</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Good maintainability">Good maintainability</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Poor maintainability">Poor maintainability</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="Clear variable names" data-placeholder="Drop item">Drop item</span><p>Clear variable names</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Repeated code copied many times" data-placeholder="Drop item">Drop item</span><p>Repeated code copied many times</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Useful comments for complex code" data-placeholder="Drop item">Drop item</span><p>Useful comments for complex code</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="No indentation" data-placeholder="Drop item">Drop item</span><p>No indentation</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="totalCost" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: totalCost.">
+                <h3>12) Identify the most suitable variable name in this snippet.</h3>
+                <pre class="algorithm-code"><code>price = 12
+quantity = 3
+_____ = price * quantity</code></pre>
+                <label><input type="radio" name="q12" value="x"> x</label>
+                <label><input type="radio" name="q12" value="tc"> tc</label>
+                <label><input type="radio" name="q12" value="totalCost"> totalCost</label>
+                <label><input type="radio" name="q12" value="thing"> thing</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="OUTPUT should be indented inside the IF block" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: OUTPUT should be indented inside the IF block.">
+                <h3>13) Identify the indentation error in this code snippet.</h3>
+                <pre class="algorithm-code"><code>IF score &gt;= 50 THEN
+OUTPUT &quot;Pass&quot;
+ENDIF</code></pre>
+                <label><input type="radio" name="q13" value="OUTPUT should be indented inside the IF block"> OUTPUT should be indented inside the IF block</label>
+                <label><input type="radio" name="q13" value="The variable score should be uppercase"> The variable score should be uppercase</label>
+                <label><input type="radio" name="q13" value="The IF condition should be below ENDIF"> The IF condition should be below ENDIF</label>
+                <label><input type="radio" name="q13" value="There is no indentation error"> There is no indentation error</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Checks the password is correct:IF password = storedPassword THEN|Calculates the total price:total = price * quantity|Asks the user to enter their age:INPUT age" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Checks the password is correct:IF password = storedPassword THEN|Calculates the total price:total = price * quantity|Asks the user to enter their age:INPUT age.">
+                <h3>14) Match each comment to the code it explains.</h3>
+<div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="INPUT age">INPUT age</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="total = price * quantity">total = price * quantity</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="IF password = storedPassword THEN">IF password = storedPassword THEN</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="Checks the password is correct" data-placeholder="Drop item">Drop item</span><p>Checks the password is correct</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Calculates the total price" data-placeholder="Drop item">Drop item</span><p>Calculates the total price</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Asks the user to enter their age" data-placeholder="Drop item">Drop item</span><p>Asks the user to enter their age</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Clear names:Make the purpose of data easier to understand|Consistent indentation:Makes code blocks easier to follow|Useful comments:Explain complex sections for future changes" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Clear names:Make the purpose of data easier to understand|Consistent indentation:Makes code blocks easier to follow|Useful comments:Explain complex sections for future changes.">
+                <h3>15) Match each maintainability feature to why it helps.</h3>
+<div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Explain complex sections for future changes">Explain complex sections for future changes</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Make the purpose of data easier to understand">Make the purpose of data easier to understand</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Makes code blocks easier to follow">Makes code blocks easier to follow</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="Clear names" data-placeholder="Drop item">Drop item</span><p>Clear names</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Consistent indentation" data-placeholder="Drop item">Drop item</span><p>Consistent indentation</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Useful comments" data-placeholder="Drop item">Drop item</span><p>Useful comments</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <div class="quiz-controls">
+                <button class="back-button" type="submit">Check answers</button>
+                <p class="quiz-result" hidden></p>
+            </div>
+        </form>
+    </main>
+
+    <footer id="site-footer" class="site-footer"></footer>
+    <script src="../../../site.js?v=40"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

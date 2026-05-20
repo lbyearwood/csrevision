@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tasksheet: 1.2.7 Binary addition and binary shifts</title>
+    <link rel="stylesheet" href="../../../styles.css?v=41">
+</head>
+<body>
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to J277 topics</a>
+        <section class="tasksheet-header">
+            <p class="eyebrow">Paper 1 Worksheet</p>
+            <h2>Tasksheet: 1.2.7 Binary addition and binary shifts</h2>
+            <p class="section-note">Complete each activity in your book. Show your working where needed.</p>
+        </section>
+
+        <nav class="part-nav" aria-label="Worksheet parts">
+            <ol>
+                <li><a href="#part-1">Part 1: Binary addition rules</a></li>
+                <li><a href="#part-2">Part 2: Adding two 8-bit binary numbers</a></li>
+                <li><a href="#part-3">Part 3: Overflow errors</a></li>
+                <li><a href="#part-4">Part 4: Binary shifts</a></li>
+            </ol>
+        </nav>
+
+        <section id="part-1" class="worksheet-part">
+            <h3>Part 1: Binary addition rules</h3>
+            <p class="worksheet-focus">Focus: practise the basic binary addition facts and carrying.</p>
+            <ol class="worksheet-activities">
+                <li><strong>Activity 1:</strong> A game stores small scores using binary columns. Copy and complete the table of basic binary addition facts.<table class="answer-table student-fill-table"><thead><tr><th scope="col">Scenario</th><th scope="col">Calculation</th><th scope="col">Binary result</th><th scope="col">Drop / write</th><th scope="col">Carry</th></tr></thead><tbody><tr><td>No points are added.</td><td>0 + 0</td><td></td><td></td><td></td></tr><tr><td>One point is added to an empty column.</td><td>0 + 1</td><td></td><td></td><td></td></tr><tr><td>An existing point is added to zero.</td><td>1 + 0</td><td></td><td></td><td></td></tr><tr><td>Two points meet in one binary column.</td><td>1 + 1</td><td></td><td></td><td></td></tr><tr><td>Two points plus a carried point meet.</td><td>1 + 1 + 1</td><td></td><td></td><td></td></tr></tbody></table><button class="reveal-button" type="button" aria-expanded="false" aria-controls="answer-1-2-7-1" data-show-label="Show answer" data-hide-label="Hide answer">Show answer</button><div id="answer-1-2-7-1" class="check-answer" hidden><p>Completed table:</p><table class="answer-table"><thead><tr><th scope="col">Scenario</th><th scope="col">Calculation</th><th scope="col">Binary result</th><th scope="col">Drop / write</th><th scope="col">Carry</th></tr></thead><tbody><tr><td>No points are added.</td><td>0 + 0</td><td>0</td><td>0</td><td>None</td></tr><tr><td>One point is added to an empty column.</td><td>0 + 1</td><td>1</td><td>1</td><td>None</td></tr><tr><td>An existing point is added to zero.</td><td>1 + 0</td><td>1</td><td>1</td><td>None</td></tr><tr><td>Two points meet in one binary column.</td><td>1 + 1</td><td>10</td><td>0</td><td>1</td></tr><tr><td>Two points plus a carried point meet.</td><td>1 + 1 + 1</td><td>11</td><td>1</td><td>1</td></tr></tbody></table></div></li>
+                <li><strong>Activity 2:</strong> A calculator is adding two binary digits in the 1s column. It gets 1 + 1. Explain why the calculator must write 10 in binary instead of writing 2.<button class="reveal-button" type="button" aria-expanded="false" aria-controls="answer-1-2-7-2" data-show-label="Show answer" data-hide-label="Hide answer">Show answer</button><div id="answer-1-2-7-2" class="check-answer" hidden><p>Binary can only use the digits 0 and 1. The value two is written as <strong>10</strong>, so the calculator writes 0 in the current column and carries 1 into the next column.</p></div></li>
+                <li><strong>Activity 3:</strong> A phone is adding two tiny binary values: 01 and 01. Draw a two-column example showing where the carry is written.<button class="reveal-button" type="button" aria-expanded="false" aria-controls="answer-1-2-7-3" data-show-label="Show answer" data-hide-label="Hide answer">Show answer</button><div id="answer-1-2-7-3" class="check-answer" hidden><p>Example two-column layout:</p><table class="answer-table compact-answer-table"><thead><tr><th scope="col">Column</th><th scope="col">2s</th><th scope="col">1s</th></tr></thead><tbody><tr><th scope="row">Carry</th><td>1</td><td></td></tr><tr><th scope="row">Number 1</th><td>0</td><td>1</td></tr><tr><th scope="row">Number 2</th><td>0</td><td>1</td></tr><tr><th scope="row">Result</th><td>1</td><td>0</td></tr></tbody></table><p>The 1s column is 1 + 1 = 10, so write 0 in the 1s column and carry 1 into the 2s column.</p></div></li>
+                <li><strong>Challenge:</strong> Investigate what 1 + 1 + 1 + 1 is in binary. Explain how you know.<button class="reveal-button" type="button" aria-expanded="false" aria-controls="answer-1-2-7-4" data-show-label="Show answer" data-hide-label="Hide answer">Show answer</button><div id="answer-1-2-7-4" class="check-answer" hidden><p><strong>1 + 1 + 1 + 1 = 100</strong> in binary. Four ones have a denary value of 4, and 4 is written as 100 in binary because it has one 4s column, no 2s column and no 1s column.</p></div></li>
+            </ol>
+        </section>
+
+        <section id="part-2" class="worksheet-part">
+            <h3>Part 2: Adding two 8-bit binary numbers</h3>
+            <p class="worksheet-focus">Focus: use column addition and write answers as 8-bit binary numbers.</p>
+            <ol class="worksheet-activities" start="4">
+                <li><strong>Activity 4:</strong> Add 00001101 and 00000110. Show carries.<button class="reveal-button" type="button" aria-expanded="false" aria-controls="answer-1-2-7-5" data-show-label="Show answer" data-hide-label="Hide answer">Show answer</button><div id="answer-1-2-7-5" class="check-answer" hidden><p>Worked column addition:</p><table class="answer-table binary-working-table"><thead><tr><th scope="col">Row</th><th scope="col">128</th><th scope="col">64</th><th scope="col">32</th><th scope="col">16</th><th scope="col">8</th><th scope="col">4</th><th scope="col">2</th><th scope="col">1</th></tr></thead><tbody><tr><th scope="row">Carry</th><td></td><td></td><td></td><td>1</td><td>1</td><td>1</td><td></td><td></td></tr><tr><th scope="row">Number 1</th><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr><tr><th scope="row">Number 2</th><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td></tr><tr><th scope="row">Result</th><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td></tr></tbody></table><p><strong>Answer:</strong> 00010011. Denary check: 13 + 6 = 19.</p></div></li>
+                <li><strong>Activity 5:</strong> Add 00101010 and 00011100. Show carries.<button class="reveal-button" type="button" aria-expanded="false" aria-controls="answer-1-2-7-6" data-show-label="Show answer" data-hide-label="Hide answer">Show answer</button><div id="answer-1-2-7-6" class="check-answer" hidden><p>Worked column addition:</p><table class="answer-table binary-working-table"><thead><tr><th scope="col">Row</th><th scope="col">128</th><th scope="col">64</th><th scope="col">32</th><th scope="col">16</th><th scope="col">8</th><th scope="col">4</th><th scope="col">2</th><th scope="col">1</th></tr></thead><tbody><tr><th scope="row">Carry</th><td></td><td>1</td><td>1</td><td>1</td><td></td><td></td><td></td><td></td></tr><tr><th scope="row">Number 1</th><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td></tr><tr><th scope="row">Number 2</th><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td></tr><tr><th scope="row">Result</th><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td></tr></tbody></table><p><strong>Answer:</strong> 01000110. Denary check: 42 + 28 = 70.</p></div></li>
+                <li><strong>Activity 6:</strong> Add 01010101 and 00101010. Check your answer by converting to denary.<button class="reveal-button" type="button" aria-expanded="false" aria-controls="answer-1-2-7-7" data-show-label="Show answer" data-hide-label="Hide answer">Show answer</button><div id="answer-1-2-7-7" class="check-answer" hidden><p>Column result:</p><table class="answer-table binary-working-table"><thead><tr><th scope="col">Row</th><th scope="col">128</th><th scope="col">64</th><th scope="col">32</th><th scope="col">16</th><th scope="col">8</th><th scope="col">4</th><th scope="col">2</th><th scope="col">1</th></tr></thead><tbody><tr><th scope="row">Number 1</th><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td></tr><tr><th scope="row">Number 2</th><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td></tr><tr><th scope="row">Result</th><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr></tbody></table><p><strong>Binary answer:</strong> 01111111.</p><p><strong>Denary check:</strong> 01010101 = 85, 00101010 = 42, and 01111111 = 127. So 85 + 42 = 127.</p></div></li>
+                <li><strong>Activity 7:</strong> Complete a table with columns: first number, second number, binary answer, denary check.<button class="reveal-button" type="button" aria-expanded="false" aria-controls="answer-1-2-7-8" data-show-label="Show answer" data-hide-label="Hide answer">Show answer</button><div id="answer-1-2-7-8" class="check-answer" hidden><p>Completed example table:</p><table class="answer-table"><thead><tr><th scope="col">First number</th><th scope="col">Second number</th><th scope="col">Binary answer</th><th scope="col">Denary check</th></tr></thead><tbody><tr><td>00001101</td><td>00000110</td><td>00010011</td><td>13 + 6 = 19</td></tr><tr><td>00101010</td><td>00011100</td><td>01000110</td><td>42 + 28 = 70</td></tr><tr><td>01010101</td><td>00101010</td><td>01111111</td><td>85 + 42 = 127</td></tr></tbody></table></div></li>
+                <li><strong>Challenge:</strong> Create your own 8-bit addition question that needs at least two carries.<button class="reveal-button" type="button" aria-expanded="false" aria-controls="answer-1-2-7-9" data-show-label="Show answer" data-hide-label="Hide answer">Show answer</button><div id="answer-1-2-7-9" class="check-answer" hidden><p>Example: 00001111 + 00000001 = <strong>00010000</strong>. This creates several carries as the 1s move left.</p></div></li>
+            </ol>
+        </section>
+
+        <section id="part-3" class="worksheet-part">
+            <h3>Part 3: Overflow errors</h3>
+            <p class="worksheet-focus">Focus: decide whether a result fits inside 8 bits.</p>
+            <ol class="worksheet-activities" start="8">
+                <li><strong>Activity 8:</strong> State the unsigned 8-bit range.<button class="reveal-button" type="button" aria-expanded="false" aria-controls="answer-1-2-7-10" data-show-label="Show answer" data-hide-label="Hide answer">Show answer</button><div id="answer-1-2-7-10" class="check-answer" hidden><p>The unsigned 8-bit range is <strong>0 to 255</strong>.</p></div></li>
+                <li><strong>Activity 9:</strong> Decide whether 11110000 + 00110000 causes overflow. Explain your reason.<button class="reveal-button" type="button" aria-expanded="false" aria-controls="answer-1-2-7-11" data-show-label="Show answer" data-hide-label="Hide answer">Show answer</button><div id="answer-1-2-7-11" class="check-answer" hidden><p>Yes. 11110000 is 240 and 00110000 is 48. The total is 288, which is too large for 8 bits. The full binary result is <strong>100100000</strong>.</p></div></li>
+                <li><strong>Activity 10:</strong> Decide whether 01111111 + 00000001 causes overflow. Explain your reason.<button class="reveal-button" type="button" aria-expanded="false" aria-controls="answer-1-2-7-12" data-show-label="Show answer" data-hide-label="Hide answer">Show answer</button><div id="answer-1-2-7-12" class="check-answer" hidden><p>No. 01111111 is 127 and 00000001 is 1. The result is <strong>10000000</strong>, which is 128 and still fits in 8 bits.</p></div></li>
+                <li><strong>Activity 11:</strong> Explain why overflow is a storage limit issue.<button class="reveal-button" type="button" aria-expanded="false" aria-controls="answer-1-2-7-13" data-show-label="Show answer" data-hide-label="Hide answer">Show answer</button><div id="answer-1-2-7-13" class="check-answer" hidden><p>The arithmetic may be correct, but the answer cannot be stored if it needs more bits than the storage space provides.</p></div></li>
+                <li><strong>Challenge:</strong> Write two different additions that cause overflow in 8 bits.<button class="reveal-button" type="button" aria-expanded="false" aria-controls="answer-1-2-7-14" data-show-label="Show answer" data-hide-label="Hide answer">Show answer</button><div id="answer-1-2-7-14" class="check-answer" hidden><p>Examples: 11111111 + 00000001 and 10000000 + 10000000. Both need a 9th bit.</p></div></li>
+            </ol>
+        </section>
+
+        <section id="part-4" class="worksheet-part">
+            <h3>Part 4: Binary shifts</h3>
+            <p class="worksheet-focus">Focus: carry out left and right shifts and explain the effect on value.</p>
+            <ol class="worksheet-activities" start="12">
+                <li><strong>Activity 12:</strong> Left shift 00010100 by 1 place. State the effect on the denary value.<button class="reveal-button" type="button" aria-expanded="false" aria-controls="answer-1-2-7-15" data-show-label="Show answer" data-hide-label="Hide answer">Show answer</button><div id="answer-1-2-7-15" class="check-answer" hidden><p>00010100 left shifted by 1 becomes <strong>00101000</strong>. The denary value changes from 20 to 40, so it doubles.</p></div></li>
+                <li><strong>Activity 13:</strong> Left shift 00000111 by 2 places.<button class="reveal-button" type="button" aria-expanded="false" aria-controls="answer-1-2-7-16" data-show-label="Show answer" data-hide-label="Hide answer">Show answer</button><div id="answer-1-2-7-16" class="check-answer" hidden><p>00000111 left shifted by 2 becomes <strong>00011100</strong>. The denary value changes from 7 to 28.</p></div></li>
+                <li><strong>Activity 14:</strong> Right shift 00110000 by 2 places. State the effect on the denary value.<button class="reveal-button" type="button" aria-expanded="false" aria-controls="answer-1-2-7-17" data-show-label="Show answer" data-hide-label="Hide answer">Show answer</button><div id="answer-1-2-7-17" class="check-answer" hidden><p>00110000 right shifted by 2 becomes <strong>00001100</strong>. The denary value changes from 48 to 12, so it is divided by 4.</p></div></li>
+                <li><strong>Activity 15:</strong> Explain what happens to empty spaces after a binary shift.<button class="reveal-button" type="button" aria-expanded="false" aria-controls="answer-1-2-7-18" data-show-label="Show answer" data-hide-label="Hide answer">Show answer</button><div id="answer-1-2-7-18" class="check-answer" hidden><p>Empty spaces are filled with 0. Bits shifted beyond the end are lost.</p></div></li>
+                <li><strong>Activity 16:</strong> Explain the mistake: A student moves shifted-out bits back onto the other side.<button class="reveal-button" type="button" aria-expanded="false" aria-controls="answer-1-2-7-19" data-show-label="Show answer" data-hide-label="Hide answer">Show answer</button><div id="answer-1-2-7-19" class="check-answer" hidden><p>That is rotation, not a binary shift for this topic. Shifted-out bits are discarded, and new empty spaces are filled with 0.</p></div></li>
+                <li><strong>Challenge:</strong> Write a short rule for predicting the effect of shifting left or right by two places.<button class="reveal-button" type="button" aria-expanded="false" aria-controls="answer-1-2-7-20" data-show-label="Show answer" data-hide-label="Hide answer">Show answer</button><div id="answer-1-2-7-20" class="check-answer" hidden><p>A left shift by two places usually multiplies by 4. A right shift by two places usually divides by 4, with any shifted-out bits lost.</p></div></li>
+            </ol>
+        </section>
+
+        <section class="resource-summary">
+            <h3>Review checklist</h3>
+            <ul>
+                <li>I can use the binary addition rules.</li>
+                <li>I can add two 8-bit binary numbers.</li>
+                <li>I can explain overflow errors.</li>
+                <li>I can carry out and explain binary shifts.</li>
+            </ul>
+            <div class="resource-actions"><a class="action-button learn-button" href="../teachesheets/1-2-7.html">Lesson</a><a class="action-button worksheet-button" href="../worksheets/1-2-7.html">Tasks</a><a class="action-button qa-button" href="../topics/1-2-7.html">Exam</a><a class="action-button quiz-button" href="../quizzes/1-2-7.html">Quiz</a></div>
+        </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="../../../site.js?v=40"></script>
+</body>
+</html>
+

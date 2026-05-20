@@ -500,6 +500,54 @@ h3 {
     color: var(--muted);
 }
 
+.btec-unit-grid,
+.btec-tutorial-grid {
+    grid-template-columns: 1fr;
+}
+
+.btec-unit-card {
+    color: inherit;
+    text-decoration: none;
+}
+
+.btec-unit-card,
+.btec-tutorial-card {
+    min-height: 0;
+}
+
+.btec-tutorial-list {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding-left: 28px;
+    color: var(--ink);
+    font-size: 18px;
+    line-height: 1.45;
+}
+
+.btec-tutorial-list li::marker {
+    color: var(--blue-dark);
+    font-weight: 900;
+}
+
+.tutorial-page-nav {
+    display: flex;
+    justify-content: space-between;
+    gap: 16px;
+    margin-top: 22px;
+}
+
+.tutorial-page-nav .back-button {
+    width: auto;
+    max-width: min(48%, 420px);
+    margin: 0;
+}
+
+.tutorial-page-nav .next-tutorial-link {
+    margin-left: auto;
+    text-align: right;
+}
+
 .lesson-header {
     margin-bottom: 20px;
     padding: 28px;
@@ -1099,6 +1147,46 @@ h3 {
     margin-top: 8px;
 }
 
+.workbook-answer-button {
+    display: block;
+    margin-top: 10px;
+}
+
+.workbook-answer-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.workbook-answer-controls .workbook-answer-button {
+    margin-top: 0;
+}
+
+.workbook-answer-status {
+    color: #5b6680;
+    font-weight: 700;
+}
+
+.inline-revealed-answer {
+    color: #cc0000 !important;
+    border-color: #cc0000 !important;
+    font-weight: 800;
+}
+
+.inline-workbook-answer {
+    margin-top: 10px;
+    color: #cc0000;
+}
+
+.inline-workbook-answer table,
+.inline-workbook-answer th,
+.inline-workbook-answer td {
+    border-color: #cc0000 !important;
+    color: #cc0000 !important;
+}
+
 .answer-table {
     width: 100%;
     margin: 8px 0;
@@ -1126,6 +1214,21 @@ h3 {
 
 .compact-answer-table {
     max-width: 420px;
+}
+
+.lesson-part .compact-answer-table {
+    max-width: 100%;
+    table-layout: fixed;
+}
+
+.lesson-part .compact-answer-table th:first-child,
+.lesson-part .compact-answer-table td:first-child {
+    width: 28%;
+}
+
+.lesson-part .compact-answer-table th:last-child,
+.lesson-part .compact-answer-table td:last-child {
+    width: 72%;
 }
 
 .student-fill-table td:empty {
@@ -2629,7 +2732,9 @@ body:has(.quiz-form) .question-header .section-note {
 
 .question-requirements {
     margin: 12px 0 0 0;
-    padding-left: 22px;
+    padding-left: 48px;
+    font-size: 20px;
+    font-weight: normal;
     color: var(--ink);
 }
 

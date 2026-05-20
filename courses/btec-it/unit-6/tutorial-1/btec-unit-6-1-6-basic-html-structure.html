@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.5 Build a basic HTML page structure</title>
+    <link rel="stylesheet" href="../../../../styles.css?v=41">
+</head>
+<body>
+    <header id="site-header" class="site-header"></header>
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to Unit 6</a>
+        <section class="question-header">
+            <p class="eyebrow">Unit 6 Website Development - Tutorial 1</p>
+            <h2>1.5 Build a basic HTML page structure</h2>
+            <p class="section-note">Continue the same static website project by adding the essential HTML structure every page needs.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>What You Are Building</h3>
+            <p>A basic HTML page structure is the starting template for a web page. It tells the browser that the file is an HTML document, gives the page a head section for setup information, and gives the page a body section for the content visitors can see.</p>
+            <p>Every page in your website should use this structure before you add headings, paragraphs, images, links or navigation.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Basic Page Template</h3>
+            <p>In your <code>unit-6-website</code> folder, add this structure to <code>index.html</code>, <code>about.html</code> and <code>contact.html</code>. Change the <code>&lt;title&gt;</code>, <code>&lt;h1&gt;</code> and paragraph text so each page has a clear purpose.</p>
+            <pre class="algorithm-code"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en-GB"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;School Coding Club&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;School Coding Club&lt;/h1&gt;
+    &lt;p&gt;Welcome to the School Coding Club website.&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </section>
+
+        <section class="lesson-part">
+            <h3>What Each Part Does</h3>
+            <table class="answer-table compact-answer-table">
+                <thead>
+                    <tr>
+                        <th>Part</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>&lt;!DOCTYPE html&gt;</code></td>
+                        <td>Tells the browser to use modern HTML.</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;html lang="en-GB"&gt;</code></td>
+                        <td>Starts the HTML page and sets the page language to British English.</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;head&gt;</code></td>
+                        <td>Contains setup information about the page. This does not usually appear on the web page itself.</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;meta charset="UTF-8"&gt;</code></td>
+                        <td>Allows the page to display a wide range of characters correctly.</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;meta name="viewport"&gt;</code></td>
+                        <td>Helps the page display properly on phones, tablets and computers.</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;title&gt;</code></td>
+                        <td>Sets the text shown in the browser tab.</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;body&gt;</code></td>
+                        <td>Contains the visible page content, such as headings, text, images and links.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Build It Yourself</h3>
+            <ol>
+                <li>Open your <code>unit-6-website</code> project folder.</li>
+                <li>Add the basic page template to <code>index.html</code>, <code>about.html</code> and <code>contact.html</code>.</li>
+                <li>Use <code>School Coding Club</code> as the homepage <code>&lt;title&gt;</code> and <code>&lt;h1&gt;</code>.</li>
+                <li>Use <code>About the Club</code> as the about page <code>&lt;title&gt;</code> and <code>&lt;h1&gt;</code>.</li>
+                <li>Use <code>Contact the Club</code> as the contact page <code>&lt;title&gt;</code> and <code>&lt;h1&gt;</code>.</li>
+                <li>Add one paragraph to each page.</li>
+                <li>Save each file and open each one in a browser.</li>
+            </ol>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Common Mistakes</h3>
+            <ul>
+                <li>Putting visible page content inside the <code>&lt;head&gt;</code> section.</li>
+                <li>Forgetting to close tags such as <code>&lt;title&gt;</code>, <code>&lt;h1&gt;</code> or <code>&lt;p&gt;</code>.</li>
+                <li>Saving the file as <code>index.html.txt</code> instead of <code>index.html</code>.</li>
+                <li>Using the same text for the browser tab title and every page heading without thinking about the page purpose.</li>
+            </ul>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Success Checklist</h3>
+            <ul>
+                <li>All three HTML files start with <code>&lt;!DOCTYPE html&gt;</code>.</li>
+                <li>All three pages have opening and closing <code>&lt;html&gt;</code>, <code>&lt;head&gt;</code> and <code>&lt;body&gt;</code> tags.</li>
+                <li>Each <code>&lt;title&gt;</code> appears inside the <code>&lt;head&gt;</code>.</li>
+                <li>Each visible heading and paragraph appears inside the <code>&lt;body&gt;</code>.</li>
+                <li>All three pages open correctly in a browser.</li>
+            </ul>
+        </section>
+
+        <nav class="tutorial-page-nav" aria-label="Tutorial navigation">
+            <a class="back-button back-link" href="btec-unit-6-1-4-clear-file-names.html">Previous: 1.4 File names</a>
+            <a class="back-button back-link next-tutorial-link" href="btec-unit-6-1-5-link-external-css.html">Next: 1.6 Link CSS</a>
+        </nav>
+    </main>
+    <footer id="site-footer"></footer>
+    <script src="../../../../site.js?v=40"></script>
+</body>
+</html>

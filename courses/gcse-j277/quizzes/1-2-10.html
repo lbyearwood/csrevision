@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.2.10 Sound quiz</title>
+    <link rel="stylesheet" href="../../../styles.css?v=41">
+</head>
+<body>
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to J277 topics</a>
+        <section class="question-header">
+            <p class="eyebrow">Paper 1 quiz</p>
+            <h2>1.2.10 Sound quiz</h2>
+            <p class="section-note">Self-marking retrieval practice. Choose the best answer for each question, then check your score.</p>
+        </section>
+
+        <form class="quiz-form" aria-label="1.2.10 Sound self-marking quiz">
+            <article class="quiz-question" data-type="radio" data-answer="Analogue" data-correct-feedback="Real-world sound is analogue before it is sampled into digital form." data-incorrect-feedback="Real-world sound is analogue.">
+                <h3>1) Sound in the real world is what type of signal before conversion?</h3>
+                <label><input type="radio" name="q1" value="Analogue"> Analogue</label>
+                <label><input type="radio" name="q1" value="Hexadecimal"> Hexadecimal</label>
+                <label><input type="radio" name="q1" value="SQL"> SQL</label>
+                <label><input type="radio" name="q1" value="Optical"> Optical</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Computers store and process data in binary" data-correct-feedback="Analogue sound must be converted into binary so a computer can store and process it." data-incorrect-feedback="Analogue sound must be converted because computers store and process data in binary.">
+                <h3>2) Why must analogue sound be converted before a computer can store it?</h3>
+                <label><input type="radio" name="q2" value="Computers store and process data in binary"> Computers store and process data in binary</label>
+                <label><input type="radio" name="q2" value="Sound cannot be played through speakers"> Sound cannot be played through speakers</label>
+                <label><input type="radio" name="q2" value="Binary only stores images"> Binary only stores images</label>
+                <label><input type="radio" name="q2" value="All sound is already text"> All sound is already text</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Sampling:Measuring the sound wave at regular intervals|Sample rate:Number of samples taken each second|Bit depth:Number of bits used to store each sample|Duration:Length of the audio in seconds" data-correct-feedback="The sound terms have been matched correctly." data-incorrect-feedback="Correct matches: sampling = measuring the wave; sample rate = samples per second; bit depth = bits per sample; duration = length in seconds.">
+                <h3>3) Drag each definition to the correct sound term.</h3>
+                <div class="word-bank" aria-label="Definitions to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Number of samples taken each second">Number of samples taken each second</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Length of the audio in seconds">Length of the audio in seconds</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Measuring the sound wave at regular intervals">Measuring the sound wave at regular intervals</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Number of bits used to store each sample">Number of bits used to store each sample</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="Sampling" data-placeholder="Drop definition">Drop definition</span><p>Sampling.</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Sample rate" data-placeholder="Drop definition">Drop definition</span><p>Sample rate.</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Bit depth" data-placeholder="Drop definition">Drop definition</span><p>Bit depth.</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Duration" data-placeholder="Drop definition">Drop definition</span><p>Duration.</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="checkbox" data-answer="Sample rate,Duration,Bit depth" data-correct-feedback="Sound file size uses sample rate, duration and bit depth." data-incorrect-feedback="Sound file size depends on sample rate, duration and bit depth.">
+                <h3>4) Tick all that apply: which values are used to calculate sound file size?</h3>
+                <label><input type="checkbox" value="Sample rate"> Sample rate</label>
+                <label><input type="checkbox" value="Duration"> Duration</label>
+                <label><input type="checkbox" value="Bit depth"> Bit depth</label>
+                <label><input type="checkbox" value="Image width"> Image width</label>
+                <label><input type="checkbox" value="Colour depth"> Colour depth</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="640000" data-correct-feedback="8000 x 10 x 8 = 640,000 bits." data-incorrect-feedback="Sound file size = sample rate x duration x bit depth = 8000 x 10 x 8 = 640,000 bits.">
+                <h3>5) Calculate the file size in bits for a sound file with sample rate 8000 Hz, duration 10 seconds and bit depth 8 bits.</h3>
+                <input type="text" inputmode="numeric" aria-label="Sound file size in bits">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="1280000" data-correct-feedback="8000 x 10 x 16 = 1,280,000 bits." data-incorrect-feedback="8000 x 10 x 16 = 1,280,000 bits.">
+                <h3>6) Calculate the file size in bits for sample rate 8000 Hz, duration 10 seconds and bit depth 16 bits.</h3>
+                <input type="text" inputmode="numeric" aria-label="Sound file size in bits">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="320000" data-correct-feedback="4000 x 5 x 16 = 320,000 bits." data-incorrect-feedback="4000 x 5 x 16 = 320,000 bits.">
+                <h3>7) Calculate the file size in bits for sample rate 4000 Hz, duration 5 seconds and bit depth 16 bits.</h3>
+                <input type="text" inputmode="numeric" aria-label="Sound file size in bits">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="More samples are taken each second, usually improving quality and increasing file size." data-correct-feedback="Higher sample rate means more samples each second, which can improve quality and increases file size." data-incorrect-feedback="Increasing sample rate means more samples are taken each second, usually improving quality and increasing file size.">
+                <h3>8) Which statement about increasing sample rate is correct?</h3>
+                <label><input type="radio" name="q8" value="More samples are taken each second, usually improving quality and increasing file size."> More samples are taken each second, usually improving quality and increasing file size.</label>
+                <label><input type="radio" name="q8" value="Fewer samples are stored, always reducing file size."> Fewer samples are stored, always reducing file size.</label>
+                <label><input type="radio" name="q8" value="It only changes image resolution."> It only changes image resolution.</label>
+                <label><input type="radio" name="q8" value="It removes the need for binary."> It removes the need for binary.</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="More bits are used for each sample, usually improving quality and increasing file size." data-correct-feedback="Higher bit depth means more bits per sample, which can improve quality and increases file size." data-incorrect-feedback="Increasing bit depth means more bits are used for each sample, usually improving quality and increasing file size.">
+                <h3>9) Which statement about increasing bit depth is correct?</h3>
+                <label><input type="radio" name="q9" value="More bits are used for each sample, usually improving quality and increasing file size."> More bits are used for each sample, usually improving quality and increasing file size.</label>
+                <label><input type="radio" name="q9" value="It reduces every sample to one bit."> It reduces every sample to one bit.</label>
+                <label><input type="radio" name="q9" value="It only changes image metadata."> It only changes image metadata.</label>
+                <label><input type="radio" name="q9" value="It always makes the file smaller."> It always makes the file smaller.</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="A longer duration means more samples must be stored, increasing file size." data-correct-feedback="Longer audio stores more samples, so file size increases." data-incorrect-feedback="A longer duration means more samples must be stored, increasing file size.">
+                <h3>10) Which statement about duration is correct?</h3>
+                <label><input type="radio" name="q10" value="A longer duration means more samples must be stored, increasing file size."> A longer duration means more samples must be stored, increasing file size.</label>
+                <label><input type="radio" name="q10" value="A longer duration always improves CPU cache."> A longer duration always improves CPU cache.</label>
+                <label><input type="radio" name="q10" value="Duration is measured in pixels."> Duration is measured in pixels.</label>
+                <label><input type="radio" name="q10" value="Duration has no effect on file size."> Duration has no effect on file size.</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="A higher sample rate usually increases file size because more samples are stored." data-correct-feedback="Better quality often needs more data, so file size usually increases." data-incorrect-feedback="The misconception is wrong because a higher sample rate usually increases file size because more samples are stored.">
+                <h3>11) Identify the misconception: "A higher sample rate gives better quality, so it always makes the file smaller."</h3>
+                <label><input type="radio" name="q11" value="A higher sample rate usually increases file size because more samples are stored."> A higher sample rate usually increases file size because more samples are stored.</label>
+                <label><input type="radio" name="q11" value="Sample rate only affects bitmap images."> Sample rate only affects bitmap images.</label>
+                <label><input type="radio" name="q11" value="Sound cannot be sampled."> Sound cannot be sampled.</label>
+                <label><input type="radio" name="q11" value="Bit depth is the same as duration."> Bit depth is the same as duration.</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="sample rate|bit depth|larger" data-correct-feedback="Higher sample rate and bit depth usually create a larger sound file." data-incorrect-feedback="Correct sentence: Higher sample rate and bit depth usually create a larger sound file.">
+                <h3>12) Drag each phrase into the paragraph.</h3>
+                <div class="word-bank" aria-label="Phrases to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="larger">larger</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="sample rate">sample rate</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="colour depth">colour depth</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="bit depth">bit depth</button>
+                </div>
+                <p class="blank-paragraph compact-blank-paragraph">
+                    Higher
+                    <span class="drop-blank" data-placeholder="Drop phrase" aria-label="Blank 1">Drop phrase</span>
+                    and
+                    <span class="drop-blank" data-placeholder="Drop phrase" aria-label="Blank 2">Drop phrase</span>
+                    usually create a
+                    <span class="drop-blank" data-placeholder="Drop word" aria-label="Blank 3">Drop word</span>
+                    sound file.
+                </p>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Lower sample rate or bit depth" data-correct-feedback="Lower sample rate or bit depth can reduce file size, though quality may be lower." data-incorrect-feedback="A lower sample rate or bit depth can reduce file size.">
+                <h3>13) A podcast creator wants a smaller file for streaming. Which choice could reduce file size?</h3>
+                <label><input type="radio" name="q13" value="Lower sample rate or bit depth"> Lower sample rate or bit depth</label>
+                <label><input type="radio" name="q13" value="Higher sample rate and higher bit depth only"> Higher sample rate and higher bit depth only</label>
+                <label><input type="radio" name="q13" value="Increasing image width"> Increasing image width</label>
+                <label><input type="radio" name="q13" value="Adding more CPU cores"> Adding more CPU cores</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="Higher sample rate and bit depth" data-correct-feedback="Higher sample rate and bit depth can improve audio quality, but increase file size." data-incorrect-feedback="A music producer may choose higher sample rate and bit depth for better quality.">
+                <h3>14) A music producer wants high-quality audio. Which choice is most suitable?</h3>
+                <label><input type="radio" name="q14" value="Higher sample rate and bit depth"> Higher sample rate and bit depth</label>
+                <label><input type="radio" name="q14" value="Lower sample rate and lower bit depth only"> Lower sample rate and lower bit depth only</label>
+                <label><input type="radio" name="q14" value="Lower image resolution"> Lower image resolution</label>
+                <label><input type="radio" name="q14" value="Fewer pixels"> Fewer pixels</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="Sample rate x duration x bit depth:Sound file size formula|More samples per second:Higher sample rate|More bits per sample:Higher bit depth|Longer audio:Higher duration" data-correct-feedback="Each sound idea has been matched correctly." data-incorrect-feedback="Correct matches: sample rate x duration x bit depth = formula; more samples per second = higher sample rate; more bits per sample = higher bit depth; longer audio = higher duration.">
+                <h3>15) Drag each description to the correct sound idea.</h3>
+                <div class="word-bank" aria-label="Sound ideas to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Higher bit depth">Higher bit depth</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Sound file size formula">Sound file size formula</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Higher duration">Higher duration</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Higher sample rate">Higher sample rate</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="Sample rate x duration x bit depth" data-placeholder="Drop idea">Drop idea</span><p>Sample rate x duration x bit depth.</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="More samples per second" data-placeholder="Drop idea">Drop idea</span><p>More samples per second.</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="More bits per sample" data-placeholder="Drop idea">Drop idea</span><p>More bits per sample.</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="Longer audio" data-placeholder="Drop idea">Drop idea</span><p>Longer audio.</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <div class="quiz-controls">
+                <button class="back-button" type="submit">Check answers</button>
+                <button class="reveal-button" type="reset">Reset quiz</button>
+                <p class="quiz-result" hidden aria-live="polite"></p>
+            </div>
+        </form>
+    </main>
+
+    <footer id="site-footer"></footer>
+
+    <script src="../../../site.js?v=40"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

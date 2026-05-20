@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.10 Add meaningful alt text to images</title>
+    <link rel="stylesheet" href="../../../../styles.css?v=41">
+</head>
+<body>
+    <header id="site-header" class="site-header"></header>
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to Unit 6</a>
+        <section class="question-header">
+            <p class="eyebrow">Unit 6 Website Development - Tutorial 1</p>
+            <h2>1.10 Add meaningful alt text to images</h2>
+            <p class="section-note">Continue the same static website project by making images understandable for all users.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Why Alt Text Matters</h3>
+            <p>Alt text is a short description of an image. It is written in the <code>alt</code> attribute of the <code>&lt;img&gt;</code> element.</p>
+            <p>Screen readers can read alt text aloud, and browsers can show it if an image does not load. Good alt text helps make your static website more accessible.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Good Example</h3>
+            <pre class="algorithm-code"><code>&lt;img src="images/coding-club.jpg" alt="Students working together at a coding club"&gt;</code></pre>
+            <p>This describes the important information in the image.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Weak And Strong Alt Text</h3>
+            <table class="answer-table compact-answer-table">
+                <thead>
+                    <tr>
+                        <th>Weak alt text</th>
+                        <th>Better alt text</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>alt="image"</code></td>
+                        <td><code>alt="Laptop showing HTML code"</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>alt="photo"</code></td>
+                        <td><code>alt="School building entrance"</code></td>
+                    </tr>
+                    <tr>
+                        <td><code>alt="logo"</code></td>
+                        <td><code>alt="School coding club logo"</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Build It Yourself</h3>
+            <ol>
+                <li>Open the same <code>index.html</code> file from the previous image task.</li>
+                <li>Find your <code>&lt;img&gt;</code> element.</li>
+                <li>Add or improve the <code>alt</code> attribute.</li>
+                <li>Describe the meaning of the image, not just the file name.</li>
+                <li>If you add an image to <code>about.html</code> or <code>contact.html</code>, give that image meaningful alt text too.</li>
+            </ol>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Common Mistakes</h3>
+            <ul>
+                <li>Leaving the <code>alt</code> attribute out completely.</li>
+                <li>Writing vague alt text such as image or picture.</li>
+                <li>Copying the file name into the alt text.</li>
+                <li>Writing very long alt text when a short description would be clearer.</li>
+            </ul>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Success Checklist</h3>
+            <ul>
+                <li>Each meaningful image has an <code>alt</code> attribute.</li>
+                <li>The alt text explains what the image communicates.</li>
+                <li>The alt text is short and clear.</li>
+                <li>The page still displays the images correctly.</li>
+                <li>The homepage image is accessible as well as visible.</li>
+            </ul>
+        </section>
+
+        <nav class="tutorial-page-nav" aria-label="Tutorial navigation">
+            <a class="back-button back-link" href="btec-unit-6-1-9-image-file-paths.html">Previous: 1.9 Images</a>
+            <a class="back-button back-link next-tutorial-link" href="btec-unit-6-1-11-semantic-html.html">Next: 1.11 Semantic HTML</a>
+        </nav>
+    </main>
+    <footer id="site-footer"></footer>
+    <script src="../../../../site.js?v=40"></script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.14 Create links between pages</title>
+    <link rel="stylesheet" href="../../../../styles.css?v=41">
+</head>
+<body>
+    <header id="site-header" class="site-header"></header>
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to Unit 6</a>
+        <section class="question-header">
+            <p class="eyebrow">Unit 6 Website Development - Tutorial 1</p>
+            <h2>1.14 Create links between pages</h2>
+            <p class="section-note">Extend the same static website by linking your HTML pages together.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Why Page Links Matter</h3>
+            <p>A static website normally has more than one HTML page. Links connect those pages so users can move through the website.</p>
+            <p>In this step, you will connect <code>index.html</code>, <code>about.html</code> and <code>contact.html</code> using relative links.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Link Example</h3>
+            <pre class="algorithm-code"><code>&lt;a href="about.html"&gt;About&lt;/a&gt;</code></pre>
+            <p>This opens <code>about.html</code> when it is in the same folder as the current page.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Three Page Menu</h3>
+            <pre class="algorithm-code"><code>&lt;nav&gt;
+    &lt;a href="index.html"&gt;Home&lt;/a&gt;
+    &lt;a href="about.html"&gt;About&lt;/a&gt;
+    &lt;a href="contact.html"&gt;Contact&lt;/a&gt;
+&lt;/nav&gt;</code></pre>
+            <p>Put the same menu on every page so the website feels consistent.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Build It Yourself</h3>
+            <ol>
+                <li>Check that <code>index.html</code>, <code>about.html</code> and <code>contact.html</code> exist in the same folder.</li>
+                <li>Check that the same navigation menu appears on all three pages.</li>
+                <li>Open <code>index.html</code> in the browser.</li>
+                <li>Click each link and check it opens the correct page.</li>
+                <li>Use the browser back button or menu links to test the route back to the homepage.</li>
+                <li>Fix any broken file names or paths.</li>
+            </ol>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Common Mistakes</h3>
+            <ul>
+                <li>Linking to a file name that does not exist.</li>
+                <li>Using different menus on different pages.</li>
+                <li>Forgetting the <code>.html</code> extension.</li>
+                <li>Using absolute computer paths instead of project-relative paths.</li>
+            </ul>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Success Checklist</h3>
+            <ul>
+                <li>Every page has a navigation menu.</li>
+                <li>Every menu link has a correct <code>href</code>.</li>
+                <li>Users can move from the homepage to the other pages.</li>
+                <li>Users can return to the homepage from every page.</li>
+            </ul>
+        </section>
+
+        <nav class="tutorial-page-nav" aria-label="Tutorial navigation">
+            <a class="back-button back-link" href="btec-unit-6-1-13-navigation-menu.html">Previous: 1.13 Navigation</a>
+            <a class="back-button back-link next-tutorial-link" href="btec-unit-6-1-15-website-design-principles.html">Next: 1.15 Review</a>
+        </nav>
+    </main>
+    <footer id="site-footer"></footer>
+    <script src="../../../../site.js?v=40"></script>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.6 Link an external CSS file</title>
+    <link rel="stylesheet" href="../../../../styles.css?v=41">
+</head>
+<body>
+    <header id="site-header" class="site-header"></header>
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to Unit 6</a>
+        <section class="question-header">
+            <p class="eyebrow">Unit 6 Website Development - Tutorial 1</p>
+            <h2>1.6 Link an external CSS file to an HTML page</h2>
+            <p class="section-note">Learn how to connect a CSS stylesheet to an HTML page using the link element.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Why Link CSS</h3>
+            <p>An external CSS file keeps styling separate from page content. This makes the HTML easier to read and lets the same stylesheet control several pages.</p>
+            <p>The stylesheet is usually linked inside the <code>&lt;head&gt;</code> section of the HTML page.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>HTML Link Example</h3>
+            <p>If your CSS file is called <code>style.css</code> and is in the same folder as your HTML page, use:</p>
+            <pre class="algorithm-code"><code>&lt;link rel="stylesheet" href="style.css"&gt;</code></pre>
+            <p>If your CSS file is inside a folder called <code>css</code>, use:</p>
+            <pre class="algorithm-code"><code>&lt;link rel="stylesheet" href="css/style.css"&gt;</code></pre>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Full Page Example</h3>
+            <pre class="algorithm-code"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en-GB"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;School Coding Club&lt;/title&gt;
+    &lt;link rel="stylesheet" href="css/style.css"&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;School Coding Club&lt;/h1&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Build It Yourself</h3>
+            <ol>
+                <li>Open the same <code>unit-6-website</code> folder.</li>
+                <li>Open <code>index.html</code>, <code>about.html</code> and <code>contact.html</code>. These pages should already have a complete <code>&lt;head&gt;</code> section from the previous sub-tutorial.</li>
+                <li>Add the <code>&lt;link&gt;</code> element inside the <code>&lt;head&gt;</code> of each page.</li>
+                <li>Add the simple CSS rule below to <code>css/style.css</code> only to test that the link works. Tutorial 2 will replace this with proper styling.</li>
+            </ol>
+            <pre class="algorithm-code"><code>body {
+    background-color: #f2f6ff;
+}</code></pre>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Common Mistakes</h3>
+            <ul>
+                <li>Putting the <code>&lt;link&gt;</code> element inside the <code>&lt;body&gt;</code> instead of the <code>&lt;head&gt;</code>.</li>
+                <li>Typing the wrong file path, such as <code>style/style.css</code> instead of <code>css/style.css</code>.</li>
+                <li>Saving the stylesheet with the wrong extension.</li>
+                <li>Forgetting the <code>rel="stylesheet"</code> attribute.</li>
+            </ul>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Success Checklist</h3>
+            <ul>
+                <li>Your CSS file is saved as <code>style.css</code>.</li>
+                <li>The <code>&lt;link&gt;</code> element is inside the <code>&lt;head&gt;</code> of all three pages.</li>
+                <li>The <code>href</code> path points to <code>css/style.css</code>.</li>
+                <li>A test CSS rule changes the appearance of all three pages.</li>
+            </ul>
+        </section>
+
+        <nav class="tutorial-page-nav" aria-label="Tutorial navigation">
+            <a class="back-button back-link" href="btec-unit-6-1-6-basic-html-structure.html">Previous: 1.5 HTML structure</a>
+            <a class="back-button back-link next-tutorial-link" href="btec-unit-6-1-7-headings-h1-h3.html">Next: 1.7 Headings</a>
+        </nav>
+    </main>
+    <footer id="site-footer"></footer>
+    <script src="../../../../site.js?v=40"></script>
+</body>
+</html>
