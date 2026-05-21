@@ -336,9 +336,9 @@ function renderSharedLayout() {
     headerMount.className = "site-header";
     headerMount.innerHTML = `
         <div class="header-inner">
-            <a class="brand" href="${prefix}index.html" aria-label="Computing Revision Platform home">
+            <a class="brand" href="${prefix}index.html" aria-label="CS Revision Platform home">
                 <span class="brand-mark" aria-hidden="true"></span>
-                <span class="brand-title">Computing Revision Platform${courseLabel ? ` <span class="brand-course-wrap"><span class="brand-separator" aria-hidden="true">&gt;</span> <span class="brand-course">${courseLabel}</span></span>` : ""}</span>
+                <span class="brand-title">CS Revision Platform${courseLabel ? ` <span class="brand-course-wrap"><span class="brand-separator" aria-hidden="true">&gt;</span> <span class="brand-course">${courseLabel}</span></span>` : ""}</span>
             </a>
             <nav class="site-nav" aria-label="Primary navigation">
                 <a class="nav-link${page === "home" ? " active" : ""}" href="${prefix}index.html"${page === "home" ? ' aria-current="page"' : ""}>
@@ -362,7 +362,7 @@ function renderSharedLayout() {
 
   if (footerMount) {
     footerMount.innerHTML = page === "home"
-      ? `<p>Computing Revision Platform</p>`
+      ? `<p>CS Revision Platform</p>`
       : courseLabel === "BTEC IT"
         ? `<p>BTEC IT revision content for classroom practice and assessment preparation.</p>`
         : `<p>OCR GCSE Computer Science J277 content is independent and not an official OCR website. <a href="${prefix}courses/gcse-j277/specification.html">Course specification</a>.</p>`;

@@ -68,10 +68,10 @@ body {
 }
 
 .header-inner {
-    max-width: 1180px;
+    max-width: 1480px;
     min-height: 70px;
     margin: 0 auto;
-    padding: 0 28px;
+    padding: 0 32px;
     display: flex;
     align-items: center;
     justify-content: space-between;

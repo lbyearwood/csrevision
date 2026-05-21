@@ -6,6 +6,7 @@ chrome-qa*/
 *.log
 *.tmp
 *.temp
+*.pdf
 
 # OS/editor files
 .DS_Store
