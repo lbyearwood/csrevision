@@ -304,6 +304,17 @@ function assetPrefix() {
   return match ? match[1] : "";
 }
 
+function siteBasePath() {
+  const pathname = window.location.pathname;
+  const coursesIndex = pathname.indexOf("/courses/");
+  if (coursesIndex !== -1) return pathname.slice(0, coursesIndex + 1);
+  return pathname.slice(0, pathname.lastIndexOf("/") + 1) || "/";
+}
+
+function siteLink(path) {
+  return `${siteBasePath()}${path}`;
+}
+
 function currentPage() {
   const pathname = window.location.pathname;
   const filename = pathname.split("/").pop() || "index.html";
@@ -325,7 +336,7 @@ function currentCourseLabel() {
 }
 
 function renderSharedLayout() {
-    const prefix = assetPrefix();
+    const homeHref = siteLink("index.html");
     const page = currentPage();
     const courseLabel = currentCourseLabel();
     const isCourseArea = Boolean(courseLabel);
@@ -336,12 +347,12 @@ function renderSharedLayout() {
     headerMount.className = "site-header";
     headerMount.innerHTML = `
         <div class="header-inner">
-            <a class="brand" href="${prefix}index.html" aria-label="CS Revision Platform home">
+            <a class="brand" href="${homeHref}" aria-label="CS Revision Platform home">
                 <span class="brand-mark" aria-hidden="true"></span>
                 <span class="brand-title">CS Revision Platform${courseLabel ? ` <span class="brand-course-wrap"><span class="brand-separator" aria-hidden="true">&gt;</span> <span class="brand-course">${courseLabel}</span></span>` : ""}</span>
             </a>
             <nav class="site-nav" aria-label="Primary navigation">
-                <a class="nav-link${page === "home" ? " active" : ""}" href="${prefix}index.html"${page === "home" ? ' aria-current="page"' : ""}>
+                <a class="nav-link${page === "home" ? " active" : ""}" href="${homeHref}"${page === "home" ? ' aria-current="page"' : ""}>
                     <span class="nav-icon nav-icon-home" aria-hidden="true"></span>
                     Home
                 </a>
@@ -351,9 +362,9 @@ function renderSharedLayout() {
                         Courses
                     </summary>
                     <div class="course-menu-list">
-                        <a href="${prefix}courses/gcse-j277/index.html">GCSE Computer Science</a>
-                        <a href="${prefix}courses/btec-it/index.html">BTEC IT</a>
-                        <a href="${prefix}courses/ks3/index.html">KS3 Computer Science</a>
+                        <a href="${siteLink("courses/gcse-j277/index.html")}">GCSE Computer Science</a>
+                        <a href="${siteLink("courses/btec-it/index.html")}">BTEC IT</a>
+                        <a href="${siteLink("courses/ks3/index.html")}">KS3 Computer Science</a>
                     </div>
                 </details>
             </nav>
@@ -365,7 +376,7 @@ function renderSharedLayout() {
       ? `<p>CS Revision Platform</p>`
       : courseLabel === "BTEC IT"
         ? `<p>BTEC IT revision content for classroom practice and assessment preparation.</p>`
-        : `<p>OCR GCSE Computer Science J277 content is independent and not an official OCR website. <a href="${prefix}courses/gcse-j277/specification.html">Course specification</a>.</p>`;
+        : `<p>OCR GCSE Computer Science J277 content is independent and not an official OCR website. <a href="${siteLink("courses/gcse-j277/specification.html")}">Course specification</a>.</p>`;
   }
 }
 
