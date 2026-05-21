@@ -312,6 +312,7 @@ function siteBasePath() {
 }
 
 function siteLink(path) {
+  if (window.routeTo) return window.routeTo(path);
   if (window.location.protocol === "file:") return `${assetPrefix()}${path}`;
   return `/${path}`;
 }
@@ -337,7 +338,8 @@ function currentCourseLabel() {
 }
 
 function renderSharedLayout() {
-    const homeHref = siteLink("index.html");
+    const routes = window.siteRoutes;
+    const homeHref = siteLink(routes.home);
     const page = currentPage();
     const courseLabel = currentCourseLabel();
     const isCourseArea = Boolean(courseLabel);
@@ -363,9 +365,9 @@ function renderSharedLayout() {
                         Courses
                     </summary>
                     <div class="course-menu-list">
-                        <a href="${siteLink("courses/gcse-j277/index.html")}">GCSE Computer Science</a>
-                        <a href="${siteLink("courses/btec-it/index.html")}">BTEC IT</a>
-                        <a href="${siteLink("courses/ks3/index.html")}">KS3 Computer Science</a>
+                        <a href="${siteLink(routes.courses.gcseJ277)}">GCSE Computer Science</a>
+                        <a href="${siteLink(routes.courses.btecIt)}">BTEC IT</a>
+                        <a href="${siteLink(routes.courses.ks3)}">KS3 Computer Science</a>
                     </div>
                 </details>
             </nav>
@@ -377,7 +379,7 @@ function renderSharedLayout() {
       ? `<p>CS Revision Platform</p>`
       : courseLabel === "BTEC IT"
         ? `<p>BTEC IT revision content for classroom practice and assessment preparation.</p>`
-        : `<p>OCR GCSE Computer Science J277 content is independent and not an official OCR website. <a href="${siteLink("courses/gcse-j277/specification.html")}">Course specification</a>.</p>`;
+        : `<p>OCR GCSE Computer Science J277 content is independent and not an official OCR website. <a href="${siteLink(routes.gcseJ277.specification)}">Course specification</a>.</p>`;
   }
 }
 
@@ -412,7 +414,7 @@ const iconMarkup = {
 };
 
 function slug(topicId) {
-  return `topics/${topicId}.html`;
+  return siteLink(window.siteRoutes.gcseJ277.topic(topicId));
 }
 
 const availableQuizIds = new Set(["1-1-1", "1-1-2", "1-1-3", "1-2-1", "1-2-2", "1-2-3", "1-2-4", "1-2-5", "1-2-6", "1-2-7", "1-2-8", "1-2-9", "1-2-10", "1-2-11", "1-3-1", "1-3-2", "1-3-3", "1-3-4", "1-3-5", "1-3-6", "1-3-7", "1-3-8", "1-3-9", "1-4-1", "1-4-2", "1-5-1", "1-5-2", "1-6-1-1", "1-6-1-2", "1-6-1-3", "2-1-1", "2-1-2", "2-1-3", "2-1-4", "2-1-5", "2-1-6", "2-1-7", "2-1-8", "2-1-9", "2-1-10", "2-2-1", "2-2-2", "2-2-3", "2-2-4", "2-2-5", "2-2-6", "2-2-7", "2-2-8", "2-2-9", "2-3-1", "2-3-2", "2-4-1", "2-5-1", "2-5-2", "2-6-1", "2-6-2"]);
@@ -420,15 +422,15 @@ const availableLessonIds = new Set(["1-2-7", "1-2-8"]);
 const availableWorksheetIds = new Set(["1-2-7", "1-2-8"]);
 
 function quizSlug(topicId) {
-  return `quizzes/${topicId}.html`;
+  return siteLink(window.siteRoutes.gcseJ277.quiz(topicId));
 }
 
 function learnSlug(topicId) {
-  return `teachesheets/${topicId}.html`;
+  return siteLink(window.siteRoutes.gcseJ277.lesson(topicId));
 }
 
 function worksheetSlug(topicId) {
-  return `worksheets/${topicId}.html`;
+  return siteLink(window.siteRoutes.gcseJ277.worksheet(topicId));
 }
 
 function groupNumber(heading) {
