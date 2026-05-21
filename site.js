@@ -312,7 +312,8 @@ function siteBasePath() {
 }
 
 function siteLink(path) {
-  return `${siteBasePath()}${path}`;
+  if (window.location.protocol === "file:") return `${assetPrefix()}${path}`;
+  return `/${path}`;
 }
 
 function currentPage() {
