@@ -3,272 +3,64 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2.2.7 Lists / arrays challenge quiz</title>
-    <link rel="stylesheet" href="../../../styles.css?v=44">
+    <title>2.2.7 Selection constructs quiz</title>
+    <link rel="stylesheet" href="../../../styles.css?v=45">
 </head>
-<body>
+<body data-page-type="quiz" data-course="gcse-j277" data-topic-id="2-2-7">
     <header id="site-header" class="site-header"></header>
 
     <main>
         <a class="back-button back-link" href="../index.html">Back to J277 topics</a>
         <section class="question-header">
             <p class="eyebrow">Paper 2 quiz</p>
-            <h2>2.2.7 Lists / arrays challenge quiz</h2>
-            <p class="section-note">Self-marking retrieval practice on 1D arrays, 2D arrays, indexing and updates.</p>
+            <h2>2.2.7 Selection constructs quiz</h2>
+            <p class="section-note">Self-marking retrieval practice for choosing between paths using IF, ELSE and ELSE IF.</p>
         </section>
-
-        <form class="quiz-form" aria-label="2.2.7 Lists / arrays challenge self-marking quiz">
-            <article class="quiz-question" data-type="drag-match" data-answer="1D array:A single row or list of values|2D array:Rows and columns of values" data-correct-feedback="The matches are correct." data-incorrect-feedback="Correct matches: 1D array:A single row or list of values|2D array:Rows and columns of values.">
-                <h3>1) Match 1D array and 2D array to the correct description.</h3>
+        <form class="quiz-form" aria-label="2.2.7 Selection constructs self-marking quiz">
+            <article class="quiz-question" data-type="radio" data-answer="Selection" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Selection.">
+                <h3>1) Which construct is used to choose between different paths?</h3>
+                <label><input type="radio" name="q1" value="Selection"> Selection</label>
+                <label><input type="radio" name="q1" value="Iteration"> Iteration</label>
+                <label><input type="radio" name="q1" value="Assignment"> Assignment</label>
+                <label><input type="radio" name="q1" value="Casting"> Casting</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+            <article class="quiz-question" data-type="checkbox" data-answer="clear variable names,correct operator" data-correct-feedback="Both good programming habits were selected." data-incorrect-feedback="Select clear variable names and the correct operator.">
+                <h3>2) Tick two habits that help with this topic.</h3>
+                <label><input type="checkbox" value="clear variable names"> Clear variable names</label>
+                <label><input type="checkbox" value="random indentation"> Random indentation</label>
+                <label><input type="checkbox" value="correct operator"> Correct operator</label>
+                <label><input type="checkbox" value="unrelated output"> Unrelated output</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+            <article class="quiz-question" data-type="input" data-answer="Selection" data-correct-feedback="Correct." data-incorrect-feedback="Check the lesson keyword for this topic.">
+                <h3>3) Type the key answer from question 1.</h3>
+                <input type="text" aria-label="Keyword answer">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+            <article class="quiz-question" data-type="drag-blank" data-answer="OUTPUT|value" data-correct-feedback="The pseudocode line is complete." data-incorrect-feedback="Correct order: OUTPUT|value.">
+                <h3>4) Complete the simple output line.</h3>
                 <div class="word-bank" aria-label="Items to drag">
-                    <button class="drag-word" type="button" draggable="true" data-value="A single row or list of values">A single row or list of values</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="Rows and columns of values">Rows and columns of values</button>
-                </div>
-                <div class="matching-grid">
-                    <div class="match-row"><span class="match-drop" data-match="1D array" data-placeholder="Drop item">Drop item</span><p>1D array</p></div>
-                    <div class="match-row"><span class="match-drop" data-match="2D array" data-placeholder="Drop item">Drop item</span><p>2D array</p></div>
-                </div>
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="input" data-answer="2" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 2.">
-                <h3>2) Identify the index position of value 9 in the 1D array.</h3>
-                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>Index</th><th>0</th><th>1</th><th>2</th><th>3</th></tr></thead><tbody><tr><td>scores</td><td>4</td><td>7</td><td>9</td><td>12</td></tr></tbody></table></div>
-                <input type="text" aria-label="Answer for question 2">
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="input" data-answer="7" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 7.">
-                <h3>3) Predict the value returned from scores[1].</h3>
-                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>Index</th><th>0</th><th>1</th><th>2</th><th>3</th></tr></thead><tbody><tr><td>scores</td><td>4</td><td>7</td><td>9</td><td>12</td></tr></tbody></table></div>
-                <pre class="algorithm-code"><code>OUTPUT scores[1]</code></pre>
-                <input type="text" aria-label="Answer for question 3">
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="drag-blank" data-answer="4|7|9|12" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: 4|7|9|12.">
-                <h3>4) Drag each value into the correct index position.</h3>
-                <div class="word-bank" aria-label="Items to drag">
-                    <button class="drag-word" type="button" draggable="true" data-value="4">4</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="7">7</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="9">9</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="12">12</button>
-                </div>
-                <div class="pseudocode-fill">
-                    <p>index 0: <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
-                    <p>index 1: <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
-                    <p>index 2: <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
-                    <p>index 3: <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
-                </div>
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="drag-blank" data-answer="scores|2|OUTPUT" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: scores|2|OUTPUT.">
-                <h3>5) Complete the code to access a value in a 1D array.</h3>
-                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>Index</th><th>0</th><th>1</th><th>2</th><th>3</th></tr></thead><tbody><tr><td>scores</td><td>4</td><td>7</td><td>9</td><td>12</td></tr></tbody></table></div>
-                <div class="word-bank" aria-label="Items to drag">
-                    <button class="drag-word" type="button" draggable="true" data-value="scores">scores</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="names">names</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="2">2</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="3">3</button>
                     <button class="drag-word" type="button" draggable="true" data-value="OUTPUT">OUTPUT</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="INPUT">INPUT</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="value">value</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="IF">IF</button>
                 </div>
                 <div class="pseudocode-fill">
-                    <p>value = <span class="drop-blank" data-placeholder="Drop item">Drop item</span>[<span class="drop-blank" data-placeholder="Drop item">Drop item</span>]</p>
-                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span> value</p>
+                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span> <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
                 </div>
                 <p class="quiz-feedback" hidden></p>
             </article>
-
-            <article class="quiz-question" data-type="drag-blank" data-answer="scores|1|10" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: scores|1|10.">
-                <h3>6) Complete the code to update a value in a 1D array.</h3>
-                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>Index</th><th>0</th><th>1</th><th>2</th><th>3</th></tr></thead><tbody><tr><td>scores</td><td>4</td><td>7</td><td>9</td><td>12</td></tr></tbody></table></div>
-                <div class="word-bank" aria-label="Items to drag">
-                    <button class="drag-word" type="button" draggable="true" data-value="scores">scores</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="1">1</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="2">2</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="10">10</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="OUTPUT">OUTPUT</button>
-                </div>
-                <div class="pseudocode-fill">
-                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span>[<span class="drop-blank" data-placeholder="Drop item">Drop item</span>] = <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
-                </div>
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="drag-match" data-answer="[4, 7, 9]:1D array|[[1,2],[3,4]]:2D array|[&quot;A&quot;,&quot;B&quot;]:1D array|table of rows and columns:2D array" data-correct-feedback="The matches are correct." data-incorrect-feedback="Correct matches: [4, 7, 9]:1D array|[[1,2],[3,4]]:2D array|[&quot;A&quot;,&quot;B&quot;]:1D array|table of rows and columns:2D array.">
-                <h3>7) Sort examples into 1D array and 2D array groups.</h3>
-                <div class="word-bank" aria-label="Items to drag">
-                    <button class="drag-word" type="button" draggable="true" data-value="1D array">1D array</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="2D array">2D array</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="1D array">1D array</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="2D array">2D array</button>
-                </div>
-                <div class="matching-grid">
-                    <div class="match-row"><span class="match-drop" data-match="[4, 7, 9]" data-placeholder="Drop item">Drop item</span><p>[4, 7, 9]</p></div>
-                    <div class="match-row"><span class="match-drop" data-match="[[1,2],[3,4]]" data-placeholder="Drop item">Drop item</span><p>[[1,2],[3,4]]</p></div>
-                    <div class="match-row"><span class="match-drop" data-match="[&quot;A&quot;,&quot;B&quot;]" data-placeholder="Drop item">Drop item</span><p>[&quot;A&quot;,&quot;B&quot;]</p></div>
-                    <div class="match-row"><span class="match-drop" data-match="table of rows and columns" data-placeholder="Drop item">Drop item</span><p>table of rows and columns</p></div>
-                </div>
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="input" data-answer="1,1" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 1,1.">
-                <h3>8) Identify the row and column position of value E as row,column.</h3>
-                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th></th><th>Column 0</th><th>Column 1</th><th>Column 2</th></tr></thead><tbody><tr><td>Row 0</td><td>A</td><td>B</td><td>C</td></tr><tr><td>Row 1</td><td>D</td><td>E</td><td>F</td></tr></tbody></table></div>
-                <input type="text" aria-label="Answer for question 8">
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="input" data-answer="F" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: F.">
-                <h3>9) Predict the value returned from grid[1][2].</h3>
-                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th></th><th>Column 0</th><th>Column 1</th><th>Column 2</th></tr></thead><tbody><tr><td>Row 0</td><td>A</td><td>B</td><td>C</td></tr><tr><td>Row 1</td><td>D</td><td>E</td><td>F</td></tr></tbody></table></div>
-                <pre class="algorithm-code"><code>OUTPUT grid[1][2]</code></pre>
-                <input type="text" aria-label="Answer for question 9">
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="drag-match" data-answer="scores[0]:Access first item|scores[1] = 10:Update second item|LENGTH(scores):Find number of items" data-correct-feedback="The matches are correct." data-incorrect-feedback="Correct matches: scores[0]:Access first item|scores[1] = 10:Update second item|LENGTH(scores):Find number of items.">
-                <h3>10) Match each array statement to its purpose.</h3>
-                <div class="word-bank" aria-label="Items to drag">
-                    <button class="drag-word" type="button" draggable="true" data-value="Access first item">Access first item</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="Update second item">Update second item</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="Find number of items">Find number of items</button>
-                </div>
-                <div class="matching-grid">
-                    <div class="match-row"><span class="match-drop" data-match="scores[0]" data-placeholder="Drop item">Drop item</span><p>scores[0]</p></div>
-                    <div class="match-row"><span class="match-drop" data-match="scores[1] = 10" data-placeholder="Drop item">Drop item</span><p>scores[1] = 10</p></div>
-                    <div class="match-row"><span class="match-drop" data-match="LENGTH(scores)" data-placeholder="Drop item">Drop item</span><p>LENGTH(scores)</p></div>
-                </div>
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="drag-blank" data-answer="2" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: 2.">
-                <h3>11) Complete the missing index in an array access statement.</h3>
-                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>Index</th><th>0</th><th>1</th><th>2</th><th>3</th></tr></thead><tbody><tr><td>scores</td><td>4</td><td>7</td><td>9</td><td>12</td></tr></tbody></table></div>
-                <div class="word-bank" aria-label="Items to drag">
-                    <button class="drag-word" type="button" draggable="true" data-value="0">0</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="1">1</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="2">2</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="3">3</button>
-                </div>
-                <div class="pseudocode-fill">
-                    <p>value = scores[<span class="drop-blank" data-placeholder="Drop item">Drop item</span>]</p>
-                </div>
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="radio" data-answer="Index 4 is outside the shown array" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Index 4 is outside the shown array.">
-                <h3>12) Identify the error in the array index statement.</h3>
-                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>Index</th><th>0</th><th>1</th><th>2</th><th>3</th></tr></thead><tbody><tr><td>scores</td><td>4</td><td>7</td><td>9</td><td>12</td></tr></tbody></table></div>
-                <pre class="algorithm-code"><code>OUTPUT scores[4]</code></pre>
-                <label><input type="radio" name="q12" value="Index 4 is outside the shown array"> Index 4 is outside the shown array</label>
-                <label><input type="radio" name="q12" value="scores is a valid name"> scores is a valid name</label>
-                <label><input type="radio" name="q12" value="OUTPUT can display a value"> OUTPUT can display a value</label>
-                <label><input type="radio" name="q12" value="Indexing starts at 0"> Indexing starts at 0</label>
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="checkbox" data-answer="4,7,9,Asha,TRUE" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 4,7,9,Asha,TRUE.">
-                <h3>13) Select all valid examples of values that could be stored in an array.</h3>
-                <label><input type="checkbox" value="4"> 4</label>
-                <label><input type="checkbox" value="7"> 7</label>
-                <label><input type="checkbox" value="9"> 9</label>
-                <label><input type="checkbox" value="Asha"> Asha</label>
-                <label><input type="checkbox" value="TRUE"> TRUE</label>
-                <label><input type="checkbox" value="field name only"> field name only</label>
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="drag-match" data-answer="Rows:Horizontal sets of values|Columns:Vertical sets of values" data-correct-feedback="The matches are correct." data-incorrect-feedback="Correct matches: Rows:Horizontal sets of values|Columns:Vertical sets of values.">
-                <h3>14) Drag the 2D array labels to show rows and columns.</h3>
-                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th></th><th>Column 0</th><th>Column 1</th><th>Column 2</th></tr></thead><tbody><tr><td>Row 0</td><td>A</td><td>B</td><td>C</td></tr><tr><td>Row 1</td><td>D</td><td>E</td><td>F</td></tr></tbody></table></div>
-                <div class="word-bank" aria-label="Items to drag">
-                    <button class="drag-word" type="button" draggable="true" data-value="Horizontal sets of values">Horizontal sets of values</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="Vertical sets of values">Vertical sets of values</button>
-                </div>
-                <div class="matching-grid">
-                    <div class="match-row"><span class="match-drop" data-match="Rows" data-placeholder="Drop item">Drop item</span><p>Rows</p></div>
-                    <div class="match-row"><span class="match-drop" data-match="Columns" data-placeholder="Drop item">Drop item</span><p>Columns</p></div>
-                </div>
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="drag-blank" data-answer="scores = [4, 7, 9]|scores[1] = 10|OUTPUT scores[1]" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: scores = [4, 7, 9]|scores[1] = 10|OUTPUT scores[1].">
-                <h3>15) Rearrange the code so an array is created, updated and printed.</h3>
-                <div class="word-bank" aria-label="Items to drag">
-                    <button class="drag-word" type="button" draggable="true" data-value="scores[1] = 10">scores[1] = 10</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="OUTPUT scores[1]">OUTPUT scores[1]</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="scores = [4, 7, 9]">scores = [4, 7, 9]</button>
-                </div>
-                <div class="pseudocode-fill">
-                    <p>1. <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
-                    <p>2. <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
-                    <p>3. <span class="drop-blank" data-placeholder="Drop item">Drop item</span></p>
-                </div>
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="drag-match" data-answer="One name:Stores many values under one identifier|Indexes:Allows individual values to be accessed|Loops:Allows repeated processing" data-correct-feedback="The matches are correct." data-incorrect-feedback="Correct matches: One name:Stores many values under one identifier|Indexes:Allows individual values to be accessed|Loops:Allows repeated processing.">
-                <h3>16) Why are arrays useful when storing multiple related values?</h3>
-                <div class="word-bank" aria-label="Items to drag">
-                    <button class="drag-word" type="button" draggable="true" data-value="Stores many values under one identifier">Stores many values under one identifier</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="Allows individual values to be accessed">Allows individual values to be accessed</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="Allows repeated processing">Allows repeated processing</button>
-                </div>
-                <div class="matching-grid">
-                    <div class="match-row"><span class="match-drop" data-match="One name" data-placeholder="Drop item">Drop item</span><p>One name</p></div>
-                    <div class="match-row"><span class="match-drop" data-match="Indexes" data-placeholder="Drop item">Drop item</span><p>Indexes</p></div>
-                    <div class="match-row"><span class="match-drop" data-match="Loops" data-placeholder="Drop item">Drop item</span><p>Loops</p></div>
-                </div>
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="drag-blank" data-answer="scores|CalculateTotal|scores" data-correct-feedback="The missing items are correct." data-incorrect-feedback="Correct order: scores|CalculateTotal|scores.">
-                <h3>17) Complete the code to pass an array into a sub program.</h3>
-                <div class="word-bank" aria-label="Items to drag">
-                    <button class="drag-word" type="button" draggable="true" data-value="scores">scores</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="scores">scores</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="marks">marks</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="CalculateTotal">CalculateTotal</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="OUTPUT">OUTPUT</button>
-                </div>
-                <div class="pseudocode-fill">
-                    <p><span class="drop-blank" data-placeholder="Drop item">Drop item</span> = [4, 7, 9]</p>
-                    <p>total = <span class="drop-blank" data-placeholder="Drop item">Drop item</span>(<span class="drop-blank" data-placeholder="Drop item">Drop item</span>)</p>
-                </div>
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="radio" data-answer="True" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: True.">
-                <h3>18) Identify whether this array example is fixed length: scores = [4, 7, 9].</h3>
-                <label><input type="radio" name="q18" value="True"> True</label>
-                <label><input type="radio" name="q18" value="False"> False</label>
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <div class="quiz-controls">
-                <button class="back-button" type="submit">Check answers</button>
-                <button class="reveal-button" type="reset">Reset quiz</button>
-                <p class="quiz-result" hidden aria-live="polite"></p>
-            </div>
+            <button class="check-quiz" type="submit">Check answers</button>
+            <button class="reset-quiz" type="button">Reset quiz</button>
+            <p class="quiz-result" aria-live="polite"></p>
         </form>
     </main>
 
     <footer id="site-footer"></footer>
-
-    <script src="../../../routes.js?v=1"></script>
-    <script src="../../../site.js?v=44"></script>
+    <script src="../../../routes.js?v=6"></script>
+    <script src="../../../assets/js/site-layout.js?v=1"></script>
+    <script src="../../../assets/js/quiz-engine.js?v=1"></script>
+    <script src="../../../site.js?v=56"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-

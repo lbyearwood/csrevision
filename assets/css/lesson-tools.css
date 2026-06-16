@@ -1,0 +1,561 @@
+.countdown-widget,
+.stopwatch-widget,
+.draw-board-widget {
+  position: fixed;
+  top: 96px;
+  right: 36px;
+  z-index: 9999;
+  width: min(520px, calc(100vw - 32px));
+  border: 1px solid #9eb8f2;
+  border-radius: 16px;
+  background: #ffffff;
+  color: #071638;
+  box-shadow: 0 20px 48px rgba(15, 34, 80, 0.24);
+  font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
+}
+
+.countdown-widget.is-hidden,
+.stopwatch-widget.is-hidden,
+.draw-board-widget.is-hidden {
+  display: none;
+}
+
+.countdown-widget.is-minimised,
+.stopwatch-widget.is-minimised,
+.draw-board-widget.is-minimised {
+  top: auto;
+  right: auto;
+  bottom: 12px;
+  left: 50%;
+  width: min(420px, calc(100vw - 32px));
+  height: auto;
+  min-height: 0;
+  transform: translateX(-50%);
+  border-radius: 14px 14px 0 0;
+}
+
+.countdown-widget.is-fullscreen,
+.stopwatch-widget.is-fullscreen,
+.draw-board-widget.is-fullscreen {
+  inset: 16px;
+  width: auto;
+  min-height: calc(100vh - 32px);
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  border-radius: 20px;
+}
+
+.countdown-widget.is-complete {
+  border-color: #c56a00;
+  box-shadow: 0 20px 48px rgba(197, 106, 0, 0.28);
+}
+
+.countdown-header,
+.stopwatch-header,
+.draw-board-header {
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-bottom: 1px solid #d7e3fb;
+  background: #e9efff;
+  cursor: move;
+  user-select: none;
+}
+
+.countdown-widget.is-fullscreen .countdown-header,
+.stopwatch-widget.is-fullscreen .stopwatch-header,
+.draw-board-widget.is-fullscreen .draw-board-header {
+  cursor: default;
+}
+
+.countdown-title,
+.stopwatch-title,
+.draw-board-title {
+  flex: 0 0 auto;
+  margin: 0;
+  color: #17358d;
+  font-size: var(--text-sm, 1rem);
+  font-weight: 900;
+}
+
+.countdown-header-time,
+.stopwatch-header-time,
+.draw-board-header-note {
+  flex: 1 1 auto;
+  min-width: 64px;
+  margin-left: 0;
+  color: #071638;
+  font-size: 1rem;
+  font-weight: 900;
+  font-variant-numeric: tabular-nums;
+}
+
+.countdown-window-controls,
+.stopwatch-window-controls,
+.draw-board-window-controls {
+  flex: 0 0 auto;
+  display: flex;
+  gap: 6px;
+}
+
+.countdown-icon-button,
+.stopwatch-icon-button,
+.draw-board-icon-button {
+  min-width: 36px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 1px solid #b9cff5;
+  border-radius: 10px;
+  background: #ffffff;
+  color: #17358d;
+  font: inherit;
+  font-size: var(--text-xs, 0.875rem);
+  font-weight: 900;
+  line-height: 1;
+  padding: 0 8px;
+  cursor: pointer;
+}
+
+.countdown-body,
+.stopwatch-body {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+}
+
+.countdown-widget.is-fullscreen .countdown-body,
+.countdown-widget.is-started .countdown-body,
+.stopwatch-widget.is-fullscreen .stopwatch-body,
+.stopwatch-widget.is-started .stopwatch-body {
+  align-content: center;
+  justify-items: center;
+}
+
+.countdown-time,
+.stopwatch-time {
+  display: block;
+  color: #071638;
+  font-size: clamp(3rem, 8vw, 4.4rem);
+  line-height: 1;
+  font-weight: 900;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0;
+}
+
+.countdown-widget.is-started .countdown-time,
+.stopwatch-widget.is-started .stopwatch-time {
+  width: 100%;
+  font-size: clamp(5rem, 9vw, 7rem);
+}
+
+.countdown-widget.is-fullscreen .countdown-time,
+.stopwatch-widget.is-fullscreen .stopwatch-time {
+  font-size: clamp(7rem, 22vw, 20rem);
+}
+
+.countdown-status,
+.stopwatch-status {
+  min-height: 22px;
+  margin: 0;
+  color: #4d5a74;
+  font-size: var(--text-sm, 1rem);
+  font-weight: 800;
+  text-align: center;
+}
+
+.countdown-widget.is-complete .countdown-status {
+  color: #8a4700;
+}
+
+.countdown-inputs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.countdown-field {
+  display: grid;
+  gap: 5px;
+  color: #17358d;
+  font-size: var(--text-xs, 0.875rem);
+  font-weight: 900;
+}
+
+.countdown-field input {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid #b9cff5;
+  border-radius: 12px;
+  padding: 8px 10px;
+  color: #071638;
+  background: #ffffff;
+  font: inherit;
+  font-size: 1.05rem;
+  font-weight: 800;
+}
+
+.countdown-actions,
+.stopwatch-actions {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.countdown-widget:not(.is-started) .countdown-actions,
+.stopwatch-widget:not(.is-started) .stopwatch-actions {
+  grid-template-columns: 1fr;
+}
+
+.countdown-widget:not(.is-started) [data-countdown-pause],
+.countdown-widget:not(.is-started) [data-countdown-reset],
+.stopwatch-widget:not(.is-started) [data-stopwatch-pause],
+.stopwatch-widget:not(.is-started) [data-stopwatch-reset] {
+  display: none;
+}
+
+.countdown-widget.is-started .countdown-inputs,
+.countdown-widget.is-started [data-countdown-start],
+.stopwatch-widget.is-started [data-stopwatch-start] {
+  display: none;
+}
+
+.countdown-widget.is-started .countdown-actions,
+.stopwatch-widget.is-started .stopwatch-actions {
+  width: min(360px, 80vw);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.countdown-button,
+.stopwatch-button {
+  min-height: 42px;
+  border: 1px solid #b9cff5;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #17358d;
+  font: inherit;
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.countdown-button.primary,
+.stopwatch-button.primary {
+  border-color: #2f57d6;
+  background: #2f57d6;
+  color: #ffffff;
+}
+
+.countdown-button:hover,
+.countdown-icon-button:hover,
+.stopwatch-button:hover,
+.stopwatch-icon-button:hover,
+.draw-board-tool-button:hover,
+.draw-board-icon-button:hover,
+.draw-board-clear-button:hover {
+  border-color: #2f57d6;
+  background: #f5f8ff;
+}
+
+.countdown-button.primary:hover,
+.stopwatch-button.primary:hover {
+  background: #17358d;
+  color: #ffffff;
+}
+
+.countdown-button:focus-visible,
+.countdown-icon-button:focus-visible,
+.countdown-field input:focus-visible,
+.stopwatch-button:focus-visible,
+.stopwatch-icon-button:focus-visible,
+.draw-board-tool-button:focus-visible,
+.draw-board-icon-button:focus-visible,
+.draw-board-swatch:focus-visible,
+.draw-board-clear-button:focus-visible {
+  outline: 3px solid rgba(47, 87, 214, 0.35);
+  outline-offset: 2px;
+}
+
+.countdown-widget.is-minimised .countdown-body,
+.stopwatch-widget.is-minimised .stopwatch-body,
+.draw-board-widget.is-minimised .draw-board-body {
+  display: none;
+}
+
+.countdown-widget.is-minimised .countdown-header,
+.stopwatch-widget.is-minimised .stopwatch-header,
+.draw-board-widget.is-minimised .draw-board-header {
+  min-height: 46px;
+  border-bottom: 0;
+}
+
+.countdown-widget.is-minimised .countdown-title,
+.stopwatch-widget.is-minimised .stopwatch-title,
+.draw-board-widget.is-minimised .draw-board-title {
+  font-size: var(--text-xs, 0.875rem);
+}
+
+.countdown-widget.is-minimised .countdown-header-time,
+.stopwatch-widget.is-minimised .stopwatch-header-time,
+.draw-board-widget.is-minimised .draw-board-header-note {
+  text-align: center;
+}
+
+.draw-board-widget:not(.is-minimised) {
+  top: 56px;
+  right: 28px;
+  width: min(920px, calc(100vw - 32px));
+  height: min(700px, calc(100vh - 88px));
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+}
+
+.draw-board-widget.is-fullscreen {
+  top: 12px;
+  right: 12px;
+  bottom: 12px;
+  left: 12px;
+  width: auto;
+  height: auto;
+  min-height: 0;
+  transform: none;
+}
+
+.draw-board-body {
+  min-height: 0;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  background: #f8fbff;
+}
+
+.draw-board-widget.is-transparent {
+  background: transparent;
+}
+
+.draw-board-widget.is-transparent .draw-board-body,
+.draw-board-widget.is-transparent .draw-board-canvas-wrap,
+.draw-board-widget.is-transparent .draw-board-canvas {
+  background: transparent;
+}
+
+.draw-board-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  border-bottom: 1px solid #d7e3fb;
+  background: #ffffff;
+}
+
+.draw-board-tool-button,
+.draw-board-clear-button {
+  min-height: 38px;
+  border: 1px solid #b9cff5;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #17358d;
+  padding: 8px 12px;
+  font: inherit;
+  font-size: var(--text-sm, 1rem);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.draw-board-tool-button.is-active {
+  border-color: #2f57d6;
+  background: #e9efff;
+  box-shadow: inset 0 0 0 1px rgba(47, 87, 214, 0.25);
+}
+
+.draw-board-palette {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+}
+
+.draw-board-swatch {
+  width: 30px;
+  height: 30px;
+  border: 2px solid #ffffff;
+  border-radius: 999px;
+  box-shadow: 0 0 0 1px #9eb8f2;
+  cursor: pointer;
+}
+
+.draw-board-swatch.is-active {
+  box-shadow: 0 0 0 3px rgba(47, 87, 214, 0.35);
+}
+
+.draw-board-clear-button {
+  border-color: #d6b56b;
+  color: #614300;
+  background: #fff8e7;
+}
+
+.draw-board-canvas-wrap {
+  position: relative;
+  min-height: 0;
+  margin: 12px;
+  border: 1px solid #b9cff5;
+  border-radius: 14px;
+  background: var(--draw-board-bg, #ffffff);
+  overflow: hidden;
+}
+
+.draw-board-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  cursor: crosshair;
+}
+
+.draw-board-text-input {
+  position: absolute;
+  min-width: 140px;
+  border: 2px solid #2f57d6;
+  border-radius: 8px;
+  padding: 6px 8px;
+  background: #ffffff;
+  color: #071638;
+  font: inherit;
+  font-size: 24px;
+  font-weight: 800;
+  z-index: 2;
+}
+
+.draw-board-widget.is-hidden {
+  display: none;
+}
+
+.lesson-glossary-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.lesson-glossary-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(7, 22, 56, 0.36);
+}
+
+.lesson-glossary-widget {
+  position: absolute;
+  top: 56px;
+  right: 28px;
+  width: min(520px, calc(100vw - 32px));
+  max-height: min(760px, calc(100vh - 88px));
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  overflow: hidden;
+  border: 1px solid #9eb8f2;
+  border-radius: 16px;
+  background: #ffffff;
+  color: #071638;
+  box-shadow: 0 22px 54px rgba(15, 34, 80, 0.28);
+}
+
+.lesson-glossary-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 16px;
+  border-bottom: 1px solid #d7e3fb;
+  background: #e9efff;
+}
+
+.lesson-glossary-header p {
+  margin: 0 0 4px;
+  color: #17358d;
+  font-size: var(--text-xs, 0.875rem);
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.lesson-glossary-header h2 {
+  margin: 0;
+  color: #071638;
+  font-size: clamp(1.2rem, 2vw, 1.6rem);
+  line-height: 1.1;
+}
+
+.lesson-glossary-close {
+  min-height: 38px;
+  border: 1px solid #b9cff5;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #17358d;
+  padding: 8px 12px;
+  font: inherit;
+  font-size: var(--text-sm, 1rem);
+  font-weight: 900;
+  cursor: pointer;
+}
+
+.lesson-glossary-close:hover {
+  border-color: #2f57d6;
+  background: #f5f8ff;
+}
+
+.lesson-glossary-close:focus-visible {
+  outline: 3px solid rgba(47, 87, 214, 0.35);
+  outline-offset: 2px;
+}
+
+.lesson-glossary-list {
+  min-height: 0;
+  display: grid;
+  gap: 10px;
+  align-content: start;
+  overflow: auto;
+  padding: 16px;
+}
+
+.lesson-glossary-entry {
+  padding: 13px 14px;
+  border: 1px solid #d7e3fb;
+  border-left: 7px solid #2f57d6;
+  border-radius: 12px;
+  background: #ffffff;
+}
+
+.lesson-glossary-entry h3 {
+  margin: 0 0 5px;
+  color: #17358d;
+  font-size: 1rem;
+}
+
+.lesson-glossary-entry p {
+  margin: 0;
+  color: #4d5a74;
+  font-size: var(--text-sm, 1rem);
+  line-height: 1.4;
+}
+
+@media (max-width: 720px) {
+  .countdown-widget,
+  .stopwatch-widget,
+  .draw-board-widget {
+    top: 76px;
+    right: 12px;
+    left: 12px;
+    width: auto;
+  }
+
+  .lesson-glossary-widget {
+    top: 76px;
+    right: 12px;
+    left: 12px;
+    width: auto;
+  }
+}

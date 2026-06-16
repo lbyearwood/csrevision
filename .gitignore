@@ -1,21 +1,17 @@
-# Local QA/browser artifacts
-qa-*.png
-chrome-qa*/
-
-# Logs and temporary files
-*.log
-*.tmp
-*.temp
-*.pdf
-
-# OS/editor files
+# Local/editor noise
 .DS_Store
 Thumbs.db
 desktop.ini
 .vscode/
 .idea/
 
-# Dependency/build folders if tooling is added later
+# Generated or non-deployable planning assets
+planning & quality assurance/
+slide-wire-frames.pdf
+read me.md
+README.md
+
+# Common dependency/build folders if tooling is added later
 node_modules/
 dist/
 build/

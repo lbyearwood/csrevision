@@ -1,0 +1,90 @@
+.lesson-tool-grid,
+.lesson-tools-grid,
+.teacher-tool-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.lesson-toolbar-header {
+  min-width: 0;
+}
+
+.lesson-toolbar-label {
+  margin: 0 0 4px;
+  color: #17358d;
+  font-size: var(--text-xs, 0.875rem);
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.lesson-toolbar-section {
+  min-width: 0;
+  border: 1px solid #d7e3fb;
+  border-radius: 14px;
+  background: #f8fbff;
+  overflow: hidden;
+}
+
+.lesson-toolbar-section .lesson-toolbar-section-title {
+    margin: 0;
+    padding: 10px;
+    cursor: pointer;
+    list-style: none;
+    font-family: inherit;
+    font-size: var(--text-sm, 1rem);
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.lesson-toolbar-section .lesson-toolbar-section-title::-webkit-details-marker {
+  display: none;
+}
+
+.lesson-toolbar-section .lesson-toolbar-section-title::after {
+  content: "+";
+  float: right;
+}
+
+.lesson-toolbar-section[open] .lesson-toolbar-section-title::after {
+  content: "-";
+}
+
+.lesson-toolbar-section .lesson-toolbar-nav-list,
+.lesson-toolbar-section .lesson-tool-grid,
+.lesson-toolbar-section .lesson-tools-grid {
+  padding: 0 10px 10px;
+}
+
+.lesson-tool-grid .lesson-tool-button[data-panel-action="draw-board"],
+.lesson-tool-grid .lesson-tool-button[data-panel-action="sound-board"],
+.teacher-tool-grid .panel-tool-button[data-panel-action="draw-board"],
+.teacher-tool-grid .panel-tool-button[data-panel-action="sound-board"] {
+  grid-column: span 1;
+}
+
+.lesson-tool-button[data-panel-action],
+.lesson-tool-button[data-lesson-tool-action],
+.panel-tool-button[data-panel-action] {
+  cursor: pointer;
+}
+
+.lesson-tool-button .lesson-tool-label,
+.panel-tool-button .panel-tool-label {
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.lesson-tool-button.countdown .lesson-tool-icon,
+.lesson-tool-button.stopwatch .lesson-tool-icon,
+.panel-tool-button.countdown .panel-tool-icon,
+.panel-tool-button.stopwatch .panel-tool-icon {
+  background: #233a8b;
+}
+
+.lesson-tool-button.utility .lesson-tool-icon {
+  background: #2f57d6;
+}

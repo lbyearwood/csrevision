@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.6.2 Writing advanced programs questions</title>
+    <link rel="stylesheet" href="../../../styles.css?v=45">
+</head>
+<body data-page-type="exam" data-course="gcse-j277" data-topic-id="2-6-2">
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to J277 topics</a>
+        <section class="question-header">
+            <p class="eyebrow">Paper 2</p>
+            <h2>2.6.2 Writing advanced programs questions</h2>
+            <p class="section-note">What this topic covers: writing longer scenario-based programs that combine functions, validation, nested selection, nested iteration, 1D and 2D lists, searching, updating values and writing to text files.</p>
+        </section>
+        <section class="question-list" aria-label="2.6.2 Writing advanced programs questions">
+            <article class="question-card">
+                <p class="question-text">1) A leisure centre stores weekly swim distances for 6 members in a 1D list. <strong>Write</strong> a program. You may use OCR Exam Reference Language or Python. (8 marks)</p>
+                <ul class="question-requirements">
+                    <li>Input each distance in metres.</li>
+                    <li>Validate that each distance is from 0 to 10000 inclusive.</li>
+                    <li>Store the valid distances in a list.</li>
+                    <li>Output the total distance and the largest distance.</li>
+                </ul>
+                <div class="trace-table-wrap">
+                    <table class="trace-table">
+                        <caption>Example 1D list: distances</caption>
+                        <thead>
+                            <tr><th>Index</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><th>Distance</th><td>1200</td><td>850</td><td>2300</td><td>0</td><td>4100</td><td>1750</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-2-1">Show mark scheme</button>
+                <div id="mark-scheme-2-6-2-1" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    
+                    <p class="mark-scheme-intro">Use the banded mark scheme first, then the indicative content below to decide the final mark.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mark range</th>
+                                <th>Quality of response</th>
+                                <th>Expected content</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>7-8</td>
+                                <td>Clear, accurate and well-developed response.</td>
+                                <td>Applies the answer to the scenario or task and covers most of the relevant points from the indicative content.</td>
+                            </tr>
+                            <tr>
+                                <td>4-6</td>
+                                <td>Some accurate explanation with relevant points.</td>
+                                <td>Covers several relevant points, but the response may lack detail, balance or clear application.</td>
+                            </tr>
+                            <tr>
+                                <td>1-3</td>
+                                <td>Limited response with basic understanding.</td>
+                                <td>Includes one or two relevant points, but may be brief, generic or partly inaccurate.</td>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>No creditworthy response.</td>
+                                <td>No relevant answer, or the response is too unclear to award marks.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="mark-scheme-intro">Indicative content:</p>
+                    <ul>
+                        <li>Uses a suitable 1D list or array.</li>
+                        <li>Uses a count-controlled loop for 6 members.</li>
+                        <li>Inputs each distance.</li>
+                        <li>Validates each distance using a loop or repeated input.</li>
+                        <li>Stores each valid distance in the list.</li>
+                        <li>Calculates a running total.</li>
+                        <li>Finds the largest distance.</li>
+                        <li>Outputs the total and largest distance.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre class="algorithm-code"><code>distances = []
+total = 0
+largest = 0
+FOR index = 0 TO 5
+    distance = INPUT
+    WHILE distance &lt; 0 OR distance &gt; 10000
+        distance = INPUT
+    ENDWHILE
+    distances[index] = distance
+    total = total + distance
+    IF distance &gt; largest THEN
+        largest = distance
+    ENDIF
+NEXT index
+OUTPUT total
+OUTPUT largest</code></pre>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">2) A school shop stores the stock levels for 8 products in a 1D list. <strong>Write</strong> a program. You may use OCR Exam Reference Language or Python. (7 marks)</p>
+                <ul class="question-requirements">
+                    <li>Search the list for products with fewer than 5 items.</li>
+                    <li>Add 10 to each low stock value.</li>
+                    <li>Update the list with the new values.</li>
+                    <li>Output the updated list.</li>
+                </ul>
+                <div class="trace-table-wrap">
+                    <table class="trace-table">
+                        <caption>Example 1D list: stock</caption>
+                        <thead>
+                            <tr><th>Index</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><th>Stock</th><td>3</td><td>12</td><td>4</td><td>8</td><td>1</td><td>6</td><td>5</td><td>2</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-2-2">Show mark scheme</button>
+                <div id="mark-scheme-2-6-2-2" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    
+                    <p class="mark-scheme-intro">Use the banded mark scheme first, then the indicative content below to decide the final mark.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mark range</th>
+                                <th>Quality of response</th>
+                                <th>Expected content</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>6-7</td>
+                                <td>Clear, accurate and well-developed response.</td>
+                                <td>Applies the answer to the scenario or task and covers most of the relevant points from the indicative content.</td>
+                            </tr>
+                            <tr>
+                                <td>3-5</td>
+                                <td>Some accurate explanation with relevant points.</td>
+                                <td>Covers several relevant points, but the response may lack detail, balance or clear application.</td>
+                            </tr>
+                            <tr>
+                                <td>1-2</td>
+                                <td>Limited response with basic understanding.</td>
+                                <td>Includes one or two relevant points, but may be brief, generic or partly inaccurate.</td>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>No creditworthy response.</td>
+                                <td>No relevant answer, or the response is too unclear to award marks.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="mark-scheme-intro">Indicative content:</p>
+                    <ul>
+                        <li>Uses or creates a suitable 1D list of stock values.</li>
+                        <li>Uses a loop to process each item.</li>
+                        <li>Accesses each list item using an index or equivalent.</li>
+                        <li>Checks whether the stock value is less than 5.</li>
+                        <li>Adds 10 only to low stock items.</li>
+                        <li>Updates the value in the list.</li>
+                        <li>Outputs the updated list or each updated value.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre class="algorithm-code"><code>stock = [3, 12, 4, 8, 1, 6, 5, 2]
+FOR index = 0 TO LENGTH(stock) - 1
+    IF stock[index] &lt; 5 THEN
+        stock[index] = stock[index] + 10
+    ENDIF
+NEXT index
+OUTPUT stock</code></pre>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">3) A teacher stores marks for 4 students across 3 tests in a 2D list. <strong>Write</strong> a program. You may use OCR Exam Reference Language or Python. (8 marks)</p>
+                <ul class="question-requirements">
+                    <li>Use the 2D list of marks.</li>
+                    <li>Calculate each student's total mark.</li>
+                    <li>Output each student's total mark.</li>
+                    <li>Calculate and output the class total.</li>
+                </ul>
+                <div class="trace-table-wrap">
+                    <table class="trace-table">
+                        <caption>Example 2D list: marks</caption>
+                        <thead>
+                            <tr><th>Student</th><th>Test 1</th><th>Test 2</th><th>Test 3</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><th>0</th><td>6</td><td>8</td><td>7</td></tr>
+                            <tr><th>1</th><td>9</td><td>5</td><td>6</td></tr>
+                            <tr><th>2</th><td>4</td><td>7</td><td>8</td></tr>
+                            <tr><th>3</th><td>10</td><td>9</td><td>9</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-2-3">Show mark scheme</button>
+                <div id="mark-scheme-2-6-2-3" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    
+                    <p class="mark-scheme-intro">Use the banded mark scheme first, then the indicative content below to decide the final mark.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mark range</th>
+                                <th>Quality of response</th>
+                                <th>Expected content</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>7-8</td>
+                                <td>Clear, accurate and well-developed response.</td>
+                                <td>Applies the answer to the scenario or task and covers most of the relevant points from the indicative content.</td>
+                            </tr>
+                            <tr>
+                                <td>4-6</td>
+                                <td>Some accurate explanation with relevant points.</td>
+                                <td>Covers several relevant points, but the response may lack detail, balance or clear application.</td>
+                            </tr>
+                            <tr>
+                                <td>1-3</td>
+                                <td>Limited response with basic understanding.</td>
+                                <td>Includes one or two relevant points, but may be brief, generic or partly inaccurate.</td>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>No creditworthy response.</td>
+                                <td>No relevant answer, or the response is too unclear to award marks.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="mark-scheme-intro">Indicative content:</p>
+                    <ul>
+                        <li>Uses or creates a suitable 2D list.</li>
+                        <li>Uses an outer loop for students.</li>
+                        <li>Initialises each student's total before processing their marks.</li>
+                        <li>Uses an inner loop for the tests.</li>
+                        <li>Correctly accesses each mark in the 2D list.</li>
+                        <li>Adds marks to the student total.</li>
+                        <li>Adds marks to the class total.</li>
+                        <li>Outputs each student total and the class total.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre class="algorithm-code"><code>marks = [[6, 8, 7], [9, 5, 6], [4, 7, 8], [10, 9, 9]]
+classTotal = 0
+FOR student = 0 TO 3
+    studentTotal = 0
+    FOR test = 0 TO 2
+        studentTotal = studentTotal + marks[student][test]
+        classTotal = classTotal + marks[student][test]
+    NEXT test
+    OUTPUT studentTotal
+NEXT student
+OUTPUT classTotal</code></pre>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">4) A cinema stores seat bookings in a 2D list where 0 means available and 1 means booked. <strong>Write</strong> a program. You may use OCR Exam Reference Language or Python. (8 marks)</p>
+                <ul class="question-requirements">
+                    <li>Ask the user for a row and column.</li>
+                    <li>Validate that both values are within the grid.</li>
+                    <li>Book the seat if it is available.</li>
+                    <li>Output a suitable booked or unavailable message.</li>
+                </ul>
+                <div class="trace-table-wrap">
+                    <table class="trace-table">
+                        <caption>Example 2D list: seats</caption>
+                        <thead>
+                            <tr><th>Row</th><th>Column 0</th><th>Column 1</th><th>Column 2</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><th>0</th><td>0</td><td>0</td><td>1</td></tr>
+                            <tr><th>1</th><td>1</td><td>0</td><td>0</td></tr>
+                            <tr><th>2</th><td>0</td><td>1</td><td>0</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-2-4">Show mark scheme</button>
+                <div id="mark-scheme-2-6-2-4" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    
+                    <p class="mark-scheme-intro">Use the banded mark scheme first, then the indicative content below to decide the final mark.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mark range</th>
+                                <th>Quality of response</th>
+                                <th>Expected content</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>7-8</td>
+                                <td>Clear, accurate and well-developed response.</td>
+                                <td>Applies the answer to the scenario or task and covers most of the relevant points from the indicative content.</td>
+                            </tr>
+                            <tr>
+                                <td>4-6</td>
+                                <td>Some accurate explanation with relevant points.</td>
+                                <td>Covers several relevant points, but the response may lack detail, balance or clear application.</td>
+                            </tr>
+                            <tr>
+                                <td>1-3</td>
+                                <td>Limited response with basic understanding.</td>
+                                <td>Includes one or two relevant points, but may be brief, generic or partly inaccurate.</td>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>No creditworthy response.</td>
+                                <td>No relevant answer, or the response is too unclear to award marks.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="mark-scheme-intro">Indicative content:</p>
+                    <ul>
+                        <li>Uses or creates a suitable 2D list for seats.</li>
+                        <li>Inputs row and column values.</li>
+                        <li>Validates row using a condition-controlled loop or equivalent.</li>
+                        <li>Validates column using a condition-controlled loop or equivalent.</li>
+                        <li>Accesses the selected seat in the 2D list.</li>
+                        <li>Uses selection to check whether the seat is available.</li>
+                        <li>Updates the seat to booked when available.</li>
+                        <li>Outputs an appropriate booked or unavailable message.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre class="algorithm-code"><code>seats = [[0, 0, 1], [1, 0, 0], [0, 1, 0]]
+row = INPUT
+WHILE row &lt; 0 OR row &gt; 2
+    row = INPUT
+ENDWHILE
+column = INPUT
+WHILE column &lt; 0 OR column &gt; 2
+    column = INPUT
+ENDWHILE
+IF seats[row][column] = 0 THEN
+    seats[row][column] = 1
+    OUTPUT "Seat booked"
+ELSE
+    OUTPUT "Seat unavailable"
+ENDIF</code></pre>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">5) A school trip program calculates ticket prices. <strong>Write</strong> a program. You may use OCR Exam Reference Language or Python. (7 marks)</p>
+                <ul class="question-requirements">
+                    <li>Input the user's age.</li>
+                    <li>Validate that the age is from 0 to 120 inclusive.</li>
+                    <li>Use nested selection to choose the correct price.</li>
+                    <li>Output free for children under 5, 6 pounds for ages 5 to 15, 12 pounds for ages 16 to 64, and 8 pounds for ages 65 or over.</li>
+                </ul>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-2-5">Show mark scheme</button>
+                <div id="mark-scheme-2-6-2-5" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    
+                    <p class="mark-scheme-intro">Use the banded mark scheme first, then the indicative content below to decide the final mark.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mark range</th>
+                                <th>Quality of response</th>
+                                <th>Expected content</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>6-7</td>
+                                <td>Clear, accurate and well-developed response.</td>
+                                <td>Applies the answer to the scenario or task and covers most of the relevant points from the indicative content.</td>
+                            </tr>
+                            <tr>
+                                <td>3-5</td>
+                                <td>Some accurate explanation with relevant points.</td>
+                                <td>Covers several relevant points, but the response may lack detail, balance or clear application.</td>
+                            </tr>
+                            <tr>
+                                <td>1-2</td>
+                                <td>Limited response with basic understanding.</td>
+                                <td>Includes one or two relevant points, but may be brief, generic or partly inaccurate.</td>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>No creditworthy response.</td>
+                                <td>No relevant answer, or the response is too unclear to award marks.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="mark-scheme-intro">Indicative content:</p>
+                    <ul>
+                        <li>Inputs the age.</li>
+                        <li>Validates age from 0 to 120 inclusive.</li>
+                        <li>Uses nested selection or a correct multi-branch equivalent.</li>
+                        <li>Correctly handles under 5 as free.</li>
+                        <li>Correctly handles ages 5 to 15.</li>
+                        <li>Correctly handles ages 16 to 64.</li>
+                        <li>Correctly handles ages 65 or over and outputs the correct price.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre class="algorithm-code"><code>age = INPUT
+WHILE age &lt; 0 OR age &gt; 120
+    age = INPUT
+ENDWHILE
+IF age &lt; 5 THEN
+    price = 0
+ELSE
+    IF age &lt;= 15 THEN
+        price = 6
+    ELSE
+        IF age &lt;= 64 THEN
+            price = 12
+        ELSE
+            price = 8
+        ENDIF
+    ENDIF
+ENDIF
+OUTPUT price</code></pre>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">6) A game records each player's score. <strong>Write</strong> a function and main program. You may use OCR Exam Reference Language or Python. (8 marks)</p>
+                <ul class="question-requirements">
+                    <li>Create a function called awardBadge that takes a score as a parameter.</li>
+                    <li>Return Gold for 80 or more.</li>
+                    <li>Return Silver for 50 to 79.</li>
+                    <li>Return Bronze for 20 to 49.</li>
+                    <li>Return No badge otherwise.</li>
+                    <li>In the main program, input a score, call the function and output the badge.</li>
+                </ul>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-2-6">Show mark scheme</button>
+                <div id="mark-scheme-2-6-2-6" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    
+                    <p class="mark-scheme-intro">Use the banded mark scheme first, then the indicative content below to decide the final mark.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mark range</th>
+                                <th>Quality of response</th>
+                                <th>Expected content</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>7-8</td>
+                                <td>Clear, accurate and well-developed response.</td>
+                                <td>Applies the answer to the scenario or task and covers most of the relevant points from the indicative content.</td>
+                            </tr>
+                            <tr>
+                                <td>4-6</td>
+                                <td>Some accurate explanation with relevant points.</td>
+                                <td>Covers several relevant points, but the response may lack detail, balance or clear application.</td>
+                            </tr>
+                            <tr>
+                                <td>1-3</td>
+                                <td>Limited response with basic understanding.</td>
+                                <td>Includes one or two relevant points, but may be brief, generic or partly inaccurate.</td>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>No creditworthy response.</td>
+                                <td>No relevant answer, or the response is too unclear to award marks.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="mark-scheme-intro">Indicative content:</p>
+                    <ul>
+                        <li>Defines a function with a suitable name.</li>
+                        <li>Uses a score parameter.</li>
+                        <li>Uses selection to test 80 or more.</li>
+                        <li>Uses selection to test 50 to 79.</li>
+                        <li>Uses selection to test 20 to 49.</li>
+                        <li>Returns the correct badge for scores below 20.</li>
+                        <li>Main program inputs or stores a score and calls the function.</li>
+                        <li>Outputs the returned badge.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre class="algorithm-code"><code>FUNCTION awardBadge(score)
+    IF score &gt;= 80 THEN
+        RETURN "Gold"
+    ELSE
+        IF score &gt;= 50 THEN
+            RETURN "Silver"
+        ELSE
+            IF score &gt;= 20 THEN
+                RETURN "Bronze"
+            ELSE
+                RETURN "No badge"
+            ENDIF
+        ENDIF
+    ENDIF
+ENDFUNCTION
+
+score = INPUT
+badge = awardBadge(score)
+OUTPUT badge</code></pre>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">7) A charity event records donations from 10 visitors. <strong>Write</strong> a program. You may use OCR Exam Reference Language or Python. (8 marks)</p>
+                <ul class="question-requirements">
+                    <li>Input each donation.</li>
+                    <li>Validate that each donation is not negative.</li>
+                    <li>Count how many donations are 20 pounds or more.</li>
+                    <li>Calculate the total donation amount.</li>
+                    <li>Write the total to a text file called donations.txt.</li>
+                </ul>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-2-7">Show mark scheme</button>
+                <div id="mark-scheme-2-6-2-7" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    
+                    <p class="mark-scheme-intro">Use the banded mark scheme first, then the indicative content below to decide the final mark.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mark range</th>
+                                <th>Quality of response</th>
+                                <th>Expected content</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>7-8</td>
+                                <td>Clear, accurate and well-developed response.</td>
+                                <td>Applies the answer to the scenario or task and covers most of the relevant points from the indicative content.</td>
+                            </tr>
+                            <tr>
+                                <td>4-6</td>
+                                <td>Some accurate explanation with relevant points.</td>
+                                <td>Covers several relevant points, but the response may lack detail, balance or clear application.</td>
+                            </tr>
+                            <tr>
+                                <td>1-3</td>
+                                <td>Limited response with basic understanding.</td>
+                                <td>Includes one or two relevant points, but may be brief, generic or partly inaccurate.</td>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>No creditworthy response.</td>
+                                <td>No relevant answer, or the response is too unclear to award marks.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="mark-scheme-intro">Indicative content:</p>
+                    <ul>
+                        <li>Uses a loop for 10 donations.</li>
+                        <li>Inputs each donation.</li>
+                        <li>Validates that each donation is not negative.</li>
+                        <li>Adds each valid donation to a total.</li>
+                        <li>Checks whether each donation is 20 or more.</li>
+                        <li>Counts donations of 20 or more.</li>
+                        <li>Opens or creates the text file for writing.</li>
+                        <li>Writes the total to the file and closes it where required.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre class="algorithm-code"><code>total = 0
+largeDonations = 0
+FOR count = 1 TO 10
+    donation = INPUT
+    WHILE donation &lt; 0
+        donation = INPUT
+    ENDWHILE
+    total = total + donation
+    IF donation &gt;= 20 THEN
+        largeDonations = largeDonations + 1
+    ENDIF
+NEXT count
+file = OPENWRITE("donations.txt")
+WRITEFILE(file, total)
+CLOSEFILE(file)</code></pre>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">8) A weather station stores temperatures for 3 towns over 4 days in a 2D list. <strong>Write</strong> a program. You may use OCR Exam Reference Language or Python. (6 marks)</p>
+                <ul class="question-requirements">
+                    <li>Use the 2D list of temperatures.</li>
+                    <li>Use nested iteration to check every temperature.</li>
+                    <li>Count how many temperatures are above 25 degrees.</li>
+                    <li>Output the final count.</li>
+                </ul>
+                <div class="trace-table-wrap">
+                    <table class="trace-table">
+                        <caption>Example 2D list: temperatures</caption>
+                        <thead>
+                            <tr><th>Town</th><th>Day 1</th><th>Day 2</th><th>Day 3</th><th>Day 4</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><th>0</th><td>21</td><td>26</td><td>24</td><td>28</td></tr>
+                            <tr><th>1</th><td>19</td><td>22</td><td>27</td><td>30</td></tr>
+                            <tr><th>2</th><td>25</td><td>25</td><td>26</td><td>24</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-2-8">Show mark scheme</button>
+                <div id="mark-scheme-2-6-2-8" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    
+                    <p class="mark-scheme-intro">Use the banded mark scheme first, then the indicative content below to decide the final mark.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mark range</th>
+                                <th>Quality of response</th>
+                                <th>Expected content</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>5-6</td>
+                                <td>Clear, accurate and well-developed response.</td>
+                                <td>Applies the answer to the scenario or task and covers most of the relevant points from the indicative content.</td>
+                            </tr>
+                            <tr>
+                                <td>3-4</td>
+                                <td>Some accurate explanation with relevant points.</td>
+                                <td>Covers several relevant points, but the response may lack detail, balance or clear application.</td>
+                            </tr>
+                            <tr>
+                                <td>1-2</td>
+                                <td>Limited response with basic understanding.</td>
+                                <td>Includes one or two relevant points, but may be brief, generic or partly inaccurate.</td>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>No creditworthy response.</td>
+                                <td>No relevant answer, or the response is too unclear to award marks.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="mark-scheme-intro">Indicative content:</p>
+                    <ul>
+                        <li>Uses or creates a suitable 2D list.</li>
+                        <li>Initialises a counter.</li>
+                        <li>Uses nested iteration to process towns and days.</li>
+                        <li>Correctly accesses each temperature.</li>
+                        <li>Checks whether the temperature is greater than 25.</li>
+                        <li>Increments and outputs the counter.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre class="algorithm-code"><code>temps = [[21, 26, 24, 28], [19, 22, 27, 30], [25, 25, 26, 24]]
+count = 0
+FOR town = 0 TO 2
+    FOR day = 0 TO 3
+        IF temps[town][day] &gt; 25 THEN
+            count = count + 1
+        ENDIF
+    NEXT day
+NEXT town
+OUTPUT count</code></pre>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">9) A library stores book titles in a 1D list and loan counts in a matching 1D list. <strong>Write</strong> a program. You may use OCR Exam Reference Language or Python. (8 marks)</p>
+                <ul class="question-requirements">
+                    <li>Input a book title.</li>
+                    <li>Search the titles list for the book.</li>
+                    <li>Increase the matching loan count by 1 if the title is found.</li>
+                    <li>Output the updated loan count if the title is found.</li>
+                    <li>Output Book not found if the title is not found.</li>
+                </ul>
+                <div class="trace-table-wrap">
+                    <table class="trace-table">
+                        <caption>Example matching 1D lists: titles and loans</caption>
+                        <thead>
+                            <tr><th>Index</th><th>0</th><th>1</th><th>2</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><th>titles</th><td>Wolf Run</td><td>Code Club</td><td>Sky Map</td></tr>
+                            <tr><th>loans</th><td>4</td><td>2</td><td>7</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-2-9">Show mark scheme</button>
+                <div id="mark-scheme-2-6-2-9" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    
+                    <p class="mark-scheme-intro">Use the banded mark scheme first, then the indicative content below to decide the final mark.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mark range</th>
+                                <th>Quality of response</th>
+                                <th>Expected content</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>7-8</td>
+                                <td>Clear, accurate and well-developed response.</td>
+                                <td>Applies the answer to the scenario or task and covers most of the relevant points from the indicative content.</td>
+                            </tr>
+                            <tr>
+                                <td>4-6</td>
+                                <td>Some accurate explanation with relevant points.</td>
+                                <td>Covers several relevant points, but the response may lack detail, balance or clear application.</td>
+                            </tr>
+                            <tr>
+                                <td>1-3</td>
+                                <td>Limited response with basic understanding.</td>
+                                <td>Includes one or two relevant points, but may be brief, generic or partly inaccurate.</td>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>No creditworthy response.</td>
+                                <td>No relevant answer, or the response is too unclear to award marks.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="mark-scheme-intro">Indicative content:</p>
+                    <ul>
+                        <li>Uses matching 1D lists for titles and loan counts.</li>
+                        <li>Inputs the target title.</li>
+                        <li>Uses a loop to search the titles list.</li>
+                        <li>Compares each title with the target title.</li>
+                        <li>Uses a flag or equivalent to record whether the title is found.</li>
+                        <li>Updates the matching loan count when found.</li>
+                        <li>Outputs the updated loan count.</li>
+                        <li>Outputs Book not found when no match is found.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre class="algorithm-code"><code>titles = ["Wolf Run", "Code Club", "Sky Map"]
+loans = [4, 2, 7]
+target = INPUT
+found = FALSE
+FOR index = 0 TO LENGTH(titles) - 1
+    IF titles[index] = target THEN
+        loans[index] = loans[index] + 1
+        OUTPUT loans[index]
+        found = TRUE
+    ENDIF
+NEXT index
+IF found = FALSE THEN
+    OUTPUT "Book not found"
+ENDIF</code></pre>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">10) A sports coach stores times for 5 runners in a 1D list. <strong>Write</strong> a function and main program. You may use OCR Exam Reference Language or Python. (8 marks)</p>
+                <ul class="question-requirements">
+                    <li>Create a function called averageTime that takes a list of times as a parameter.</li>
+                    <li>Return the average time from the function.</li>
+                    <li>In the main program, call the function.</li>
+                    <li>Output Fast team if the average is below 13 seconds.</li>
+                    <li>Otherwise output Keep training.</li>
+                </ul>
+                <div class="trace-table-wrap">
+                    <table class="trace-table">
+                        <caption>Example 1D list: times</caption>
+                        <thead>
+                            <tr><th>Index</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><th>Time</th><td>12.4</td><td>13.1</td><td>12.8</td><td>12.2</td><td>13.0</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-2-10">Show mark scheme</button>
+                <div id="mark-scheme-2-6-2-10" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    
+                    <p class="mark-scheme-intro">Use the banded mark scheme first, then the indicative content below to decide the final mark.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mark range</th>
+                                <th>Quality of response</th>
+                                <th>Expected content</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>7-8</td>
+                                <td>Clear, accurate and well-developed response.</td>
+                                <td>Applies the answer to the scenario or task and covers most of the relevant points from the indicative content.</td>
+                            </tr>
+                            <tr>
+                                <td>4-6</td>
+                                <td>Some accurate explanation with relevant points.</td>
+                                <td>Covers several relevant points, but the response may lack detail, balance or clear application.</td>
+                            </tr>
+                            <tr>
+                                <td>1-3</td>
+                                <td>Limited response with basic understanding.</td>
+                                <td>Includes one or two relevant points, but may be brief, generic or partly inaccurate.</td>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>No creditworthy response.</td>
+                                <td>No relevant answer, or the response is too unclear to award marks.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="mark-scheme-intro">Indicative content:</p>
+                    <ul>
+                        <li>Defines a function with a suitable name.</li>
+                        <li>Uses a list parameter.</li>
+                        <li>Initialises a total inside the function.</li>
+                        <li>Loops through the list and adds each time.</li>
+                        <li>Calculates and returns the average.</li>
+                        <li>Main program stores or inputs a list of 5 times.</li>
+                        <li>Calls the function and stores the returned average.</li>
+                        <li>Uses selection to output the correct message.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre class="algorithm-code"><code>FUNCTION averageTime(times)
+    total = 0
+    FOR index = 0 TO LENGTH(times) - 1
+        total = total + times[index]
+    NEXT index
+    RETURN total / LENGTH(times)
+ENDFUNCTION
+
+times = [12.4, 13.1, 12.8, 12.2, 13.0]
+average = averageTime(times)
+IF average &lt; 13 THEN
+    OUTPUT "Fast team"
+ELSE
+    OUTPUT "Keep training"
+ENDIF</code></pre>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">11) A cafe records orders in a 2D list where each row stores an item name, quantity and price. <strong>Write</strong> a program. You may use OCR Exam Reference Language or Python. (8 marks)</p>
+                <ul class="question-requirements">
+                    <li>Calculate the line total for each order.</li>
+                    <li>Calculate the total cost of all orders.</li>
+                    <li>Write each item name and line total to orders.txt.</li>
+                    <li>Output the total cost.</li>
+                </ul>
+                <div class="trace-table-wrap">
+                    <table class="trace-table">
+                        <caption>Example 2D list: orders</caption>
+                        <thead>
+                            <tr><th>Row</th><th>Item</th><th>Quantity</th><th>Price</th></tr>
+                        </thead>
+                        <tbody>
+                            <tr><th>0</th><td>Tea</td><td>2</td><td>1.50</td></tr>
+                            <tr><th>1</th><td>Cake</td><td>3</td><td>2.00</td></tr>
+                            <tr><th>2</th><td>Juice</td><td>1</td><td>1.20</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-2-11">Show mark scheme</button>
+                <div id="mark-scheme-2-6-2-11" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    
+                    <p class="mark-scheme-intro">Use the banded mark scheme first, then the indicative content below to decide the final mark.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mark range</th>
+                                <th>Quality of response</th>
+                                <th>Expected content</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>7-8</td>
+                                <td>Clear, accurate and well-developed response.</td>
+                                <td>Applies the answer to the scenario or task and covers most of the relevant points from the indicative content.</td>
+                            </tr>
+                            <tr>
+                                <td>4-6</td>
+                                <td>Some accurate explanation with relevant points.</td>
+                                <td>Covers several relevant points, but the response may lack detail, balance or clear application.</td>
+                            </tr>
+                            <tr>
+                                <td>1-3</td>
+                                <td>Limited response with basic understanding.</td>
+                                <td>Includes one or two relevant points, but may be brief, generic or partly inaccurate.</td>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>No creditworthy response.</td>
+                                <td>No relevant answer, or the response is too unclear to award marks.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="mark-scheme-intro">Indicative content:</p>
+                    <ul>
+                        <li>Uses a suitable 2D list for orders.</li>
+                        <li>Initialises an overall total.</li>
+                        <li>Uses a loop to process each order row.</li>
+                        <li>Correctly accesses item name, quantity and price.</li>
+                        <li>Calculates the line total as quantity multiplied by price.</li>
+                        <li>Adds each line total to the overall total.</li>
+                        <li>Opens a text file for writing.</li>
+                        <li>Writes each item and line total to the file and closes it where required.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre class="algorithm-code"><code>orders = [["Tea", 2, 1.50], ["Cake", 3, 2.00], ["Juice", 1, 1.20]]
+total = 0
+file = OPENWRITE("orders.txt")
+FOR row = 0 TO LENGTH(orders) - 1
+    item = orders[row][0]
+    quantity = orders[row][1]
+    price = orders[row][2]
+    lineTotal = quantity * price
+    total = total + lineTotal
+    WRITEFILE(file, item)
+    WRITEFILE(file, lineTotal)
+NEXT row
+CLOSEFILE(file)
+OUTPUT total</code></pre>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">12) An online form asks users to create a password. <strong>Write</strong> a program. You may use OCR Exam Reference Language or Python. (7 marks)</p>
+                <ul class="question-requirements">
+                    <li>Repeatedly ask for a password until it is valid.</li>
+                    <li>Check that the password is at least 8 characters long.</li>
+                    <li>Check that the password contains at least one digit.</li>
+                    <li>Output Password accepted when the password is valid.</li>
+                </ul>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-6-2-12">Show mark scheme</button>
+                <div id="mark-scheme-2-6-2-12" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    
+                    <p class="mark-scheme-intro">Use the banded mark scheme first, then the indicative content below to decide the final mark.</p>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Mark range</th>
+                                <th>Quality of response</th>
+                                <th>Expected content</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>6-7</td>
+                                <td>Clear, accurate and well-developed response.</td>
+                                <td>Applies the answer to the scenario or task and covers most of the relevant points from the indicative content.</td>
+                            </tr>
+                            <tr>
+                                <td>3-5</td>
+                                <td>Some accurate explanation with relevant points.</td>
+                                <td>Covers several relevant points, but the response may lack detail, balance or clear application.</td>
+                            </tr>
+                            <tr>
+                                <td>1-2</td>
+                                <td>Limited response with basic understanding.</td>
+                                <td>Includes one or two relevant points, but may be brief, generic or partly inaccurate.</td>
+                            </tr>
+                            <tr>
+                                <td>0</td>
+                                <td>No creditworthy response.</td>
+                                <td>No relevant answer, or the response is too unclear to award marks.</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p class="mark-scheme-intro">Indicative content:</p>
+                    <ul>
+                        <li>Inputs a password.</li>
+                        <li>Uses a condition-controlled loop to repeat until valid.</li>
+                        <li>Checks the password length is at least 8.</li>
+                        <li>Checks for at least one digit using iteration or an equivalent method.</li>
+                        <li>Combines the validation checks correctly.</li>
+                        <li>Asks for the password again if invalid.</li>
+                        <li>Outputs Password accepted when valid.</li>
+                        <li>Accept any other valid point.</li>
+                    </ul>
+                    <p class="mark-scheme-intro">OCR-style pseudocode example:</p>
+                    <pre class="algorithm-code"><code>valid = FALSE
+WHILE valid = FALSE
+    password = INPUT
+    hasDigit = FALSE
+    FOR index = 0 TO LENGTH(password) - 1
+        IF password[index] &gt;= "0" AND password[index] &lt;= "9" THEN
+            hasDigit = TRUE
+        ENDIF
+    NEXT index
+    IF LENGTH(password) &gt;= 8 AND hasDigit = TRUE THEN
+        valid = TRUE
+    ENDIF
+ENDWHILE
+OUTPUT "Password accepted"</code></pre>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <script src="../../../routes.js?v=6"></script>
+    <script src="../../../assets/js/site-layout.js?v=1"></script>
+    <script src="../../../assets/js/exam-page.js?v=1"></script>
+    <script src="../../../assets/js/code-display.js?v=1"></script>
+    <script src="../../../site.js?v=56"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

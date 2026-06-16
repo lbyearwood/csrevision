@@ -3,24 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2.4.1 Boolean logic challenge quiz</title>
-    <link rel="stylesheet" href="../../../styles.css?v=44">
+    <title>2.4.1 Logic gate diagrams quiz</title>
+    <link rel="stylesheet" href="../../../styles.css?v=45">
 </head>
-<body>
+<body data-page-type="quiz" data-course="gcse-j277" data-topic-id="2-4-1">
     <header id="site-header" class="site-header"></header>
 
     <main>
         <a class="back-button back-link" href="../index.html">Back to J277 topics</a>
         <section class="question-header">
             <p class="eyebrow">Paper 2 quiz</p>
-            <h2>2.4.1 Boolean logic challenge quiz</h2>
-            <p class="section-note">Self-marking retrieval practice on AND, OR, NOT, logic diagrams and truth tables.</p>
+            <h2>2.4.1 Logic gate diagrams quiz</h2>
+            <p class="section-note">Self-marking retrieval practice on AND, OR and NOT gate diagrams.</p>
         </section>
 
-        <form class="quiz-form" aria-label="2.4.1 Boolean logic challenge quiz self-marking quiz">
-            <article class="quiz-question" data-type="drag-match" data-answer="AND:Outputs 1 only when both inputs are 1|OR:Outputs 1 when at least one input is 1|NOT:Outputs the opposite of the input" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: AND:Outputs 1 only when both inputs are 1|OR:Outputs 1 when at least one input is 1|NOT:Outputs the opposite of the input.">
-                <h3>1) Match AND, OR and NOT to their meanings.</h3>
-<div class="word-bank" aria-label="Items to drag">
+        <form class="quiz-form" aria-label="2.4.1 Logic gate diagrams quiz">
+            <article class="quiz-question" data-type="drag-match" data-answer="AND:Outputs 1 only when both inputs are 1|OR:Outputs 1 when at least one input is 1|NOT:Outputs the opposite of the input" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: AND outputs 1 only when both inputs are 1; OR outputs 1 when at least one input is 1; NOT outputs the opposite.">
+                <h3>1) Match each gate to its rule.</h3>
+                <div class="word-bank" aria-label="Items to drag">
                     <button class="drag-word" type="button" draggable="true" data-value="Outputs 1 when at least one input is 1">Outputs 1 when at least one input is 1</button>
                     <button class="drag-word" type="button" draggable="true" data-value="Outputs the opposite of the input">Outputs the opposite of the input</button>
                     <button class="drag-word" type="button" draggable="true" data-value="Outputs 1 only when both inputs are 1">Outputs 1 only when both inputs are 1</button>
@@ -34,236 +34,58 @@
             </article>
 
             <article class="quiz-question" data-type="radio" data-answer="AND" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: AND.">
-                <h3>2) Identify the correct symbol for an AND gate.</h3>
-                <label><input type="radio" name="q2" value="AND"> <span class="gate-symbol-card"><svg viewBox="0 0 120 70" aria-hidden="true"><path d="M18 10H58C82 10 102 26 102 35C102 44 82 60 58 60H18Z"></path><path d="M2 24H18M2 46H18M102 35H118"></path></svg><strong>AND</strong></span></label>
-                <label><input type="radio" name="q2" value="OR"> <span class="gate-symbol-card"><svg viewBox="0 0 120 70" aria-hidden="true"><path d="M18 10C45 10 76 10 104 35C76 60 45 60 18 60C32 45 32 25 18 10Z"></path><path d="M2 24H25M2 46H25M104 35H118"></path></svg><strong>OR</strong></span></label>
-                <label><input type="radio" name="q2" value="NOT"> <span class="gate-symbol-card"><svg viewBox="0 0 120 70" aria-hidden="true"><path d="M20 12L84 35L20 58Z"></path><circle cx="93" cy="35" r="8"></circle><path d="M2 35H20M101 35H118"></path></svg><strong>NOT</strong></span></label>
+                <h3>2) Which gate is needed for "A and B must both be true"?</h3>
+                <label><input type="radio" name="q2" value="AND"> AND</label>
+                <label><input type="radio" name="q2" value="OR"> OR</label>
+                <label><input type="radio" name="q2" value="NOT"> NOT</label>
                 <p class="quiz-feedback" hidden></p>
             </article>
 
-            <article class="quiz-question" data-type="radio" data-answer="OR" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: OR.">
-                <h3>3) Identify the correct symbol for an OR gate.</h3>
-                <label><input type="radio" name="q3" value="AND"> <span class="gate-symbol-card"><svg viewBox="0 0 120 70" aria-hidden="true"><path d="M18 10H58C82 10 102 26 102 35C102 44 82 60 58 60H18Z"></path><path d="M2 24H18M2 46H18M102 35H118"></path></svg><strong>AND</strong></span></label>
-                <label><input type="radio" name="q3" value="OR"> <span class="gate-symbol-card"><svg viewBox="0 0 120 70" aria-hidden="true"><path d="M18 10C45 10 76 10 104 35C76 60 45 60 18 60C32 45 32 25 18 10Z"></path><path d="M2 24H25M2 46H25M104 35H118"></path></svg><strong>OR</strong></span></label>
-                <label><input type="radio" name="q3" value="NOT"> <span class="gate-symbol-card"><svg viewBox="0 0 120 70" aria-hidden="true"><path d="M20 12L84 35L20 58Z"></path><circle cx="93" cy="35" r="8"></circle><path d="M2 35H20M101 35H118"></path></svg><strong>NOT</strong></span></label>
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="radio" data-answer="NOT" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: NOT.">
-                <h3>4) Identify the correct symbol for a NOT gate.</h3>
-                <label><input type="radio" name="q4" value="AND"> <span class="gate-symbol-card"><svg viewBox="0 0 120 70" aria-hidden="true"><path d="M18 10H58C82 10 102 26 102 35C102 44 82 60 58 60H18Z"></path><path d="M2 24H18M2 46H18M102 35H118"></path></svg><strong>AND</strong></span></label>
-                <label><input type="radio" name="q4" value="OR"> <span class="gate-symbol-card"><svg viewBox="0 0 120 70" aria-hidden="true"><path d="M18 10C45 10 76 10 104 35C76 60 45 60 18 60C32 45 32 25 18 10Z"></path><path d="M2 24H25M2 46H25M104 35H118"></path></svg><strong>OR</strong></span></label>
-                <label><input type="radio" name="q4" value="NOT"> <span class="gate-symbol-card"><svg viewBox="0 0 120 70" aria-hidden="true"><path d="M20 12L84 35L20 58Z"></path><circle cx="93" cy="35" r="8"></circle><path d="M2 35H20M101 35H118"></path></svg><strong>NOT</strong></span></label>
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="input" data-answer="0" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 0.">
-                <h3>5) Complete the missing output in an AND truth table.</h3>
-                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>A</th><th>B</th><th>A AND B</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>?</td></tr><tr><td>1</td><td>1</td><td>1</td></tr></tbody></table></div>
-                <input type="text" aria-label="Answer for question 5">
+            <article class="quiz-question" data-type="input" data-answer="OR" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: OR.">
+                <h3>3) Q = (A OR B) AND C. Which gate combines A and B first?</h3>
+                <input type="text" aria-label="Answer for question 3">
                 <p class="quiz-feedback" hidden></p>
             </article>
 
             <article class="quiz-question" data-type="input" data-answer="1" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 1.">
-                <h3>6) Complete the missing output in an OR truth table.</h3>
-                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>A</th><th>B</th><th>A OR B</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td></tr><tr><td>1</td><td>0</td><td>?</td></tr><tr><td>1</td><td>1</td><td>1</td></tr></tbody></table></div>
-                <input type="text" aria-label="Answer for question 6">
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="input" data-answer="0" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 0.">
-                <h3>7) Complete the missing output in a NOT truth table.</h3>
-                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>A</th><th>NOT A</th></tr></thead><tbody><tr><td>0</td><td>1</td></tr><tr><td>1</td><td>?</td></tr></tbody></table></div>
-                <input type="text" aria-label="Answer for question 7">
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="drag-match" data-answer="1 AND 1:True|1 AND 0:False|0 OR 1:True|NOT 1:False" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 1 AND 1:True|1 AND 0:False|0 OR 1:True|NOT 1:False.">
-                <h3>8) Sort Boolean expressions into True and False outputs.</h3>
-<div class="word-bank" aria-label="Items to drag">
-                    <button class="drag-word" type="button" draggable="true" data-value="True">True</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="False">False</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="True">True</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="False">False</button>
-                </div>
-                <div class="matching-grid">
-                    <div class="match-row"><span class="match-drop" data-match="1 AND 1" data-placeholder="Drop item">Drop item</span><p>1 AND 1</p></div>
-                    <div class="match-row"><span class="match-drop" data-match="1 AND 0" data-placeholder="Drop item">Drop item</span><p>1 AND 0</p></div>
-                    <div class="match-row"><span class="match-drop" data-match="0 OR 1" data-placeholder="Drop item">Drop item</span><p>0 OR 1</p></div>
-                    <div class="match-row"><span class="match-drop" data-match="NOT 1" data-placeholder="Drop item">Drop item</span><p>NOT 1</p></div>
-                </div>
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="input" data-answer="0" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 0.">
-                <h3>9) Predict the output of A AND B when A = 1 and B = 0.</h3>
-                <input type="text" aria-label="Answer for question 9">
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="input" data-answer="1" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 1.">
-                <h3>10) Predict the output of A OR B when A = 1 and B = 0.</h3>
-                <input type="text" aria-label="Answer for question 10">
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="input" data-answer="1" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 1.">
-                <h3>11) Predict the output of NOT A when A = 0.</h3>
-                <input type="text" aria-label="Answer for question 11">
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="input" data-answer="1" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 1.">
-                <h3>12) Complete the missing output in the combined logic gate diagram.</h3>
+                <h3>4) Trace Figure A when A = 1, B = 0 and C = 1. What is Q?</h3>
                 <figure class="question-figure">
-                    <img src="../../../assets/images/boolean-logic-a-and-b-or-c.png" alt="A and B enter an AND gate. The AND output and C enter an OR gate to produce Q.">
-                    <figcaption>Use A = 1, B = 0 and C = 1.</figcaption>
-                </figure>
-                <input type="text" aria-label="Answer for question 12">
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="drag-blank" data-answer="OR" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: OR.">
-                <h3>13) Identify which gate should be placed in the missing part of the logic diagram.</h3>
-                <figure class="question-figure">
-                    <img src="../../../assets/images/boolean-logic-a-or-b-and-c.png" alt="Inputs A and B enter an OR gate, then the OR output and C enter an AND gate.">
-                    <figcaption>The first gate combines A and B before the final AND gate.</figcaption>
-                </figure>
-<div class="word-bank" aria-label="Items to drag">
-                    <button class="drag-word" type="button" draggable="true" data-value="AND">AND</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="OR">OR</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="NOT">NOT</button>
-                </div>
-                <div class="pseudocode-fill">
-                    <p>A and B must enter a <span class="drop-blank" data-placeholder="Drop gate">Drop gate</span> gate before the result is combined with C in this expression: Q = (A OR B) AND C.</p>
-                </div>
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="drag-match" data-answer="Figure A:Q = (A AND B) OR C|Figure B:Q = (A OR B) AND C|Figure C:Q = (A AND NOT B) OR NOT C" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: Figure A:Q = (A AND B) OR C|Figure B:Q = (A OR B) AND C|Figure C:Q = (A AND NOT B) OR NOT C.">
-                <h3>14) Match each logic diagram to its Boolean expression.</h3>
-                <div class="logic-figure-grid">
-                    <figure class="question-figure">
-                    <img src="../../../assets/images/boolean-logic-a-and-b-or-c.png" alt="A and B enter an AND gate, then the output and C enter an OR gate.">
+                    <img src="../../../assets/images/boolean-logic-a-and-b-or-c.png" alt="A and B enter an AND gate, then that output and C enter an OR gate.">
                     <figcaption>Figure A</figcaption>
                 </figure>
-                    <figure class="question-figure">
-                    <img src="../../../assets/images/boolean-logic-a-or-b-and-c.png" alt="A and B enter an OR gate, then the output and C enter an AND gate.">
-                    <figcaption>Figure B</figcaption>
-                </figure>
-                    <figure class="question-figure">
-                    <img src="../../../assets/images/boolean-logic-a-and-not-b-or-not-c.png" alt="B and C are inverted in a combined AND and OR expression.">
-                    <figcaption>Figure C</figcaption>
-                </figure>
-                </div>
-<div class="word-bank" aria-label="Items to drag">
-                    <button class="drag-word" type="button" draggable="true" data-value="Q = (A OR B) AND C">Q = (A OR B) AND C</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="Q = (A AND NOT B) OR NOT C">Q = (A AND NOT B) OR NOT C</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="Q = (A AND B) OR C">Q = (A AND B) OR C</button>
-                </div>
-                <div class="matching-grid">
-                    <div class="match-row"><span class="match-drop" data-match="Figure A" data-placeholder="Drop item">Drop item</span><p>Figure A</p></div>
-                    <div class="match-row"><span class="match-drop" data-match="Figure B" data-placeholder="Drop item">Drop item</span><p>Figure B</p></div>
-                    <div class="match-row"><span class="match-drop" data-match="Figure C" data-placeholder="Drop item">Drop item</span><p>Figure C</p></div>
-                </div>
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="drag-match" data-answer="A AND B:0|A OR B:1|NOT B:1|(A AND B) OR C:1" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: A AND B:0|A OR B:1|NOT B:1|(A AND B) OR C:1.">
-                <h3>15) Match each Boolean expression to its truth table output when A = 1, B = 0 and C = 1.</h3>
-                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>A</th><th>B</th><th>C</th></tr></thead><tbody><tr><td>1</td><td>0</td><td>1</td></tr></tbody></table></div>
-<div class="word-bank" aria-label="Items to drag">
-                    <button class="drag-word" type="button" draggable="true" data-value="1">1</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="0">0</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="1">1</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="1">1</button>
-                </div>
-                <div class="matching-grid">
-                    <div class="match-row"><span class="match-drop" data-match="A AND B" data-placeholder="Drop item">Drop item</span><p>A AND B</p></div>
-                    <div class="match-row"><span class="match-drop" data-match="A OR B" data-placeholder="Drop item">Drop item</span><p>A OR B</p></div>
-                    <div class="match-row"><span class="match-drop" data-match="NOT B" data-placeholder="Drop item">Drop item</span><p>NOT B</p></div>
-                    <div class="match-row"><span class="match-drop" data-match="(A AND B) OR C" data-placeholder="Drop item">Drop item</span><p>(A AND B) OR C</p></div>
-                </div>
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="input" data-answer="0|0|1|0" data-correct-feedback="Correct." data-incorrect-feedback="Correct outputs: 0, 0, 1, 0.">
-                <h3>16) Complete the truth table for Q = A AND NOT B.</h3>
-                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>A</th><th>B</th><th>Q</th></tr></thead><tbody><tr><td>0</td><td>0</td><td><input type="text" aria-label="Q for A 0 B 0"></td></tr><tr><td>0</td><td>1</td><td><input type="text" aria-label="Q for A 0 B 1"></td></tr><tr><td>1</td><td>0</td><td><input type="text" aria-label="Q for A 1 B 0"></td></tr><tr><td>1</td><td>1</td><td><input type="text" aria-label="Q for A 1 B 1"></td></tr></tbody></table></div>
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="radio" data-answer="The row A = 0 and B = 1 should output 1" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: The row A = 0 and B = 1 should output 1.">
-                <h3>17) Find the error in this completed truth table for A OR B.</h3>
-                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>A</th><th>B</th><th>A OR B</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td></tr></tbody></table></div>
-                <label><input type="radio" name="q17" value="The row A = 0 and B = 1 should output 1"> The row A = 0 and B = 1 should output 1</label>
-                <label><input type="radio" name="q17" value="The row A = 0 and B = 0 should output 1"> The row A = 0 and B = 0 should output 1</label>
-                <label><input type="radio" name="q17" value="The row A = 1 and B = 1 should output 0"> The row A = 1 and B = 1 should output 0</label>
-                <label><input type="radio" name="q17" value="There is no error"> There is no error</label>
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="checkbox" data-answer="1 AND 1,0 OR 1,NOT 0,1 OR 0" data-correct-feedback="Correct." data-incorrect-feedback="Correct answers: 1 AND 1, 0 OR 1, NOT 0, and 1 OR 0.">
-                <h3>18) Select all Boolean expressions that output True.</h3>
-                <label><input type="checkbox" name="q18" value="1 AND 1"> 1 AND 1</label>
-                <label><input type="checkbox" name="q18" value="0 AND 1"> 0 AND 1</label>
-                <label><input type="checkbox" name="q18" value="0 OR 1"> 0 OR 1</label>
-                <label><input type="checkbox" name="q18" value="NOT 1"> NOT 1</label>
-                <label><input type="checkbox" name="q18" value="NOT 0"> NOT 0</label>
-                <label><input type="checkbox" name="q18" value="1 OR 0"> 1 OR 0</label>
-                <p class="quiz-feedback" hidden></p>
-            </article>
-
-            <article class="quiz-question" data-type="drag-match" data-answer="Input 0:Output 1|Input 1:Output 0|The NOT gate rule:It inverts the input" data-correct-feedback="Correct." data-incorrect-feedback="A NOT gate inverts the input: 0 becomes 1 and 1 becomes 0.">
-                <h3>19) Match each NOT gate input to the output it produces.</h3>
-<div class="word-bank" aria-label="Items to drag">
-                    <button class="drag-word" type="button" draggable="true" data-value="Output 0">Output 0</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="It inverts the input">It inverts the input</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="Output 1">Output 1</button>
-                </div>
-                <div class="matching-grid">
-                    <div class="match-row"><span class="match-drop" data-match="Input 0" data-placeholder="Drop item">Drop item</span><p>Input 0</p></div>
-                    <div class="match-row"><span class="match-drop" data-match="Input 1" data-placeholder="Drop item">Drop item</span><p>Input 1</p></div>
-                    <div class="match-row"><span class="match-drop" data-match="The NOT gate rule" data-placeholder="Drop item">Drop item</span><p>The NOT gate rule</p></div>
-                </div>
+                <input type="text" aria-label="Answer for question 4">
                 <p class="quiz-feedback" hidden></p>
             </article>
 
             <article class="quiz-question" data-type="drag-blank" data-answer="NOT" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: NOT.">
-                <h3>20) Complete the missing part of the Boolean expression.</h3>
-                <p class="section-note">The expression should be true when A = 1 and B = 0.</p>
-<div class="word-bank" aria-label="Items to drag">
+                <h3>5) Complete the missing gate: Q = A AND ___ B.</h3>
+                <div class="word-bank" aria-label="Items to drag">
                     <button class="drag-word" type="button" draggable="true" data-value="AND">AND</button>
                     <button class="drag-word" type="button" draggable="true" data-value="OR">OR</button>
                     <button class="drag-word" type="button" draggable="true" data-value="NOT">NOT</button>
-                    <button class="drag-word" type="button" draggable="true" data-value="XOR">XOR</button>
                 </div>
-                <div class="pseudocode-fill">
-                    <p>Q = A AND <span class="drop-blank" data-placeholder="Drop item">Drop item</span> B</p>
-                </div>
+                <p>A is combined with <span class="drop-blank" data-placeholder="Drop gate">Drop gate</span> B using an AND gate.</p>
                 <p class="quiz-feedback" hidden></p>
             </article>
 
-            <div class="quiz-controls">
-                <button class="back-button" type="submit">Check answers</button>
-                <p class="quiz-result" hidden></p>
-            </div>
+            <article class="quiz-question" data-type="checkbox" data-answer="Inputs labelled,Correct gate type,Output labelled" data-correct-feedback="Correct." data-incorrect-feedback="A clear diagram needs labelled inputs, the correct gate type and a labelled output.">
+                <h3>6) Select features that should be checked in a logic gate diagram.</h3>
+                <label><input type="checkbox" name="q6" value="Inputs labelled"> Inputs labelled</label>
+                <label><input type="checkbox" name="q6" value="Correct gate type"> Correct gate type</label>
+                <label><input type="checkbox" name="q6" value="Output labelled"> Output labelled</label>
+                <label><input type="checkbox" name="q6" value="Decimal places shown"> Decimal places shown</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <button class="quiz-submit" type="submit">Check answers</button>
+            <p class="quiz-score" aria-live="polite"></p>
         </form>
     </main>
 
-    <footer id="site-footer" class="site-footer"></footer>
-    <script src="../../../routes.js?v=1"></script>
-    <script src="../../../site.js?v=44"></script>
+    <footer id="site-footer"></footer>
+    <script src="../../../routes.js?v=6"></script>
+    <script src="../../../assets/js/site-layout.js?v=1"></script>
+    <script src="../../../assets/js/quiz-engine.js?v=1"></script>
+    <script src="../../../site.js?v=56"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-

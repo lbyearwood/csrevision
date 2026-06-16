@@ -1,0 +1,772 @@
+﻿<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.2.7 Binary addition and binary shifts</title>
+    <link rel="stylesheet" href="../../../styles.css?v=49">
+    <link rel="stylesheet" href="../../../assets/css/lesson-shell.css?v=18">
+    <link rel="stylesheet" href="../../../assets/css/single-page-lesson.css?v=15">
+    <link rel="stylesheet" href="../../../assets/css/binary-addition-lesson.css?v=11">
+</head>
+<body class="single-lesson-body lesson-shell-active single-lesson-linear-flow binary-lesson-body" data-page-type="single-lesson" data-course="gcse-j277" data-topic-id="1-2-7">
+    <div class="single-lesson-page single-lesson-shell">
+        <header class="single-lesson-topbar">
+            <a class="single-lesson-brand" href="../index.html" aria-label="Back to GCSE J277 dashboard"><span class="single-lesson-brand-mark" aria-hidden="true">J277</span><span>Computer Systems</span></a>
+            <nav class="single-lesson-breadcrumb" aria-label="Breadcrumb"><span>1.2 Memory and storage</span><span aria-hidden="true">&gt;</span><strong>1.2.7 Binary addition and binary shifts</strong></nav>
+            <a class="single-lesson-save-link" href="../index.html">Back to topics</a>
+        </header>
+        <div class="single-lesson-layout">
+            <aside class="single-lesson-sidebar" aria-label="Lesson navigation">
+                <div class="single-lesson-sidebar-header"><p class="single-lesson-topic-code">1.2.7</p><h1>Binary addition and binary shifts</h1></div>
+                <p class="single-lesson-panel-title">Lesson navigation</p>
+                <nav class="single-lesson-nav" aria-label="Single-page lesson sections">
+                    <a class="single-lesson-nav-link is-active" href="#add-and-shift-binary-values"><span>1</span><strong>Introduction</strong></a>
+                    <a class="single-lesson-nav-link" href="#learning-objectives"><span>2</span><strong>Learning objectives</strong></a>
+                    <a class="single-lesson-nav-link" href="#part-1-binary-addition-rules"><span>3</span><strong>Part 1 - Binary Addition Rules</strong></a>
+                    <a class="single-lesson-nav-link" href="#understand-binary-addition-rules"><span>4</span><strong>Understand the binary addition rules</strong></a>
+                    <a class="single-lesson-nav-link" href="#check-binary-addition-rules"><span>5</span><strong>Knowledge check questions</strong></a>
+                    <a class="single-lesson-nav-link" href="#part-2-adding-two-8-bit-binary-numbers"><span>6</span><strong>Part 2 - Adding two 8-bit binary numbers</strong></a>
+                    <a class="single-lesson-nav-link" href="#model-adding-two-8-bit-binary-numbers"><span>7</span><strong>Modelling 1 - Add binary numbers</strong></a>
+                    <a class="single-lesson-nav-link" href="#practise-adding-with-teacher-support"><span>8</span><strong>Modelling 2 - Add binary numbers</strong></a>
+                    <a class="single-lesson-nav-link" href="#add-two-8-bit-binary-numbers-independently"><span>9</span><strong>Modelling 3 - Add binary numbers</strong></a>
+                    <a class="single-lesson-nav-link" href="#check-the-8-bit-addition-method"><span>10</span><strong>Knowledge check questions</strong></a>
+                    <a class="single-lesson-nav-link" href="#answer-exam-style-binary-addition-questions"><span>11</span><strong>Exam questions</strong></a>
+                    <a class="single-lesson-nav-link" href="#part-3-overflow-errors"><span>12</span><strong>Part 3 - Overflow errors</strong></a>
+                    <a class="single-lesson-nav-link" href="#model-an-overflow-error"><span>13</span><strong>Modelling 1 - Overflow errors</strong></a>
+                    <a class="single-lesson-nav-link" href="#decide-whether-overflow-has-occurred"><span>14</span><strong>Modelling 2 - Overflow errors</strong></a>
+                    <a class="single-lesson-nav-link" href="#identify-overflow-independently"><span>15</span><strong>Modelling 3 - Overflow errors</strong></a>
+                    <a class="single-lesson-nav-link" href="#explain-overflow-errors-in-exam-answers"><span>16</span><strong>Exam questions</strong></a>
+                    <a class="single-lesson-nav-link" href="#part-4-binary-shifts"><span>17</span><strong>Part 4 - Binary shifts</strong></a>
+                    <a class="single-lesson-nav-link" href="#model-a-left-binary-shift"><span>18</span><strong>Modelling 1 - Binary shifts</strong></a>
+                    <a class="single-lesson-nav-link" href="#practise-a-right-binary-shift"><span>19</span><strong>Modelling 2 - Binary shifts</strong></a>
+                    <a class="single-lesson-nav-link" href="#complete-binary-shifts-independently"><span>20</span><strong>Modelling 3 - Binary shifts</strong></a>
+                    <a class="single-lesson-nav-link" href="#answer-exam-style-binary-shift-questions"><span>21</span><strong>Exam questions</strong></a>
+                    <a class="single-lesson-nav-link" href="#end-of-lesson"><span>22</span><strong>End of lesson</strong></a>
+                </nav>
+                <details class="single-lesson-sidebar-panel"><summary>Lesson tools</summary><div class="single-lesson-sidebar-panel-body"><div class="lesson-tools-grid"><button class="lesson-tool-button utility" type="button" data-single-lesson-tool-action="glossary" aria-label="Open glossary"><span class="lesson-tool-icon">G</span><span class="lesson-tool-label">Glossary</span></button><button class="lesson-tool-button utility" type="button" data-single-lesson-tool-action="print" aria-label="Print lesson"><span class="lesson-tool-icon">P</span><span class="lesson-tool-label">Print</span></button></div></div></details>
+                <details class="single-lesson-sidebar-panel"><summary>Teacher tools</summary><div class="single-lesson-sidebar-panel-body"><div class="lesson-tool-grid"><button class="lesson-tool-button countdown" type="button" data-panel-action="countdown" data-alarm-src="../../../assets/audio/alarm-beep.mp3" aria-label="Open Count Down"><span class="lesson-tool-icon">CD</span><span class="lesson-tool-label">Count Down</span></button><button class="lesson-tool-button stopwatch" type="button" data-panel-action="stopwatch" aria-label="Open Stopwatch"><span class="lesson-tool-icon">SW</span><span class="lesson-tool-label">Stopwatch</span></button><button class="lesson-tool-button board" type="button" data-panel-action="draw-board" aria-label="Open Draw board"><span class="lesson-tool-icon">DB</span><span class="lesson-tool-label">Draw board</span></button><button class="lesson-tool-button sound" type="button" data-panel-action="sound-board" aria-label="Open Sound board"><span class="lesson-tool-icon">SB</span><span class="lesson-tool-label">Sound board</span></button></div></div></details>
+                <div class="single-lesson-sidebar-actions"><a href="../index.html">Back to topics</a></div>
+            </aside>
+            <main class="single-lesson-content single-lesson-main binary-lesson-main" tabindex="-1">
+                <section class="single-lesson-section binary-lesson-section " id="add-and-shift-binary-values" data-single-lesson-section aria-label="Introduction">
+                    <div class="single-lesson-section-inner binary-section-inner">
+                        <header class="single-lesson-section-header">
+                            
+                            <h2 class="single-lesson-title">Introduction</h2>
+                            <div class="single-lesson-rule" aria-hidden="true"></div>
+                        </header>
+                        <div class="single-lesson-content-wrap binary-content-wrap">
+                            <div class="binary-hero-grid">
+                                <div class="binary-copy-stack">
+                                    <p>Computers store whole numbers using a fixed number of bits. In this lesson, you will add binary integers, identify when an answer does not fit into 8 bits, and use binary shifts to quickly multiply or divide by powers of 2.</p>
+                                    <article class="single-lesson-question-card binary-question-card">
+                                        <span class="single-lesson-card-label">Starter question</span>
+                                        <p>If an 8-bit box can only hold values from <code>00000000</code> to <code>11111111</code>, what happens when the answer needs a ninth bit?</p>
+                                    </article>
+                                </div>
+                                <div class="binary-register-visual">
+                                    <p class="binary-visual-title">8-bit register</p>
+                                    <div class="binary-overflow-register"><span class="binary-extra-carry">1</span><span class="binary-bit">0</span><span class="binary-bit">0</span><span class="binary-bit">1</span><span class="binary-bit">0</span><span class="binary-bit">0</span><span class="binary-bit">0</span><span class="binary-bit">0</span><span class="binary-bit">0</span></div>
+                                    <p class="binary-warning-note">A ninth bit sits outside the 8-bit storage space.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="single-lesson-section binary-lesson-section " id="learning-objectives" data-single-lesson-section aria-label="Learning objectives">
+                    <div class="single-lesson-section-inner binary-section-inner">
+                        <header class="single-lesson-section-header">
+                            
+                            <h2 class="single-lesson-title">Learning objectives</h2>
+                        </header>
+                        <div class="single-lesson-content-wrap binary-content-wrap">
+                            <div class="single-lesson-objectives binary-objectives">
+                                <p class="single-lesson-objectives-intro">By the end of this lesson, you should be able to:</p>
+                                <div class="single-lesson-objective-list">
+                                <article><span>1</span><p><strong>Use</strong> binary addition rules.</p></article>
+                                <article><span>2</span><p><strong>Add</strong> binary integers up to 8 bits.</p></article>
+                                <article><span>3</span><p><strong>Explain</strong> overflow as a storage limit problem.</p></article>
+                                <article><span>4</span><p><strong>Describe</strong> the effect of left and right binary shifts.</p></article>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="single-lesson-section binary-lesson-section single-lesson-segment-section" id="part-1-binary-addition-rules" data-single-lesson-section aria-label="Part 1 - Binary Addition Rules">
+                    <div class="single-lesson-section-inner binary-section-inner single-lesson-segment-inner">
+                        <div class="single-lesson-segment-title">Part 1 - Binary Addition Rules</div>
+                    </div>
+                </section>
+                <section class="single-lesson-section binary-lesson-section " id="understand-binary-addition-rules" data-single-lesson-section aria-label="Understand the binary addition rules">
+                    <div class="single-lesson-section-inner binary-section-inner">
+                        <header class="single-lesson-section-header">
+                            <p class="single-lesson-badge">Part 1 - Binary Addition Rules</p>
+                            <h2 class="single-lesson-title">Understand the binary addition rules</h2>
+                            <div class="single-lesson-rule" aria-hidden="true"></div>
+                        </header>
+                        <div class="single-lesson-content-wrap binary-content-wrap">
+                            <div class="binary-two-column">
+                                <article class="single-lesson-explanation-card">
+                                    <p>Binary addition follows a small set of rules. Each column can only hold <code>0</code> or <code>1</code>, so when a column reaches the value 2, you write <code>0</code> and carry <code>1</code> into the next column.</p>
+                                </article>
+                                <div class="binary-table-card">
+                                    <table class="binary-rule-table">
+                                        <thead><tr><th>Calculation</th><th>Write</th><th>Carry</th><th>Why</th></tr></thead>
+                                        <tbody>
+                                            <tr><td><code>0 + 0</code></td><td>0</td><td>-</td><td>No value to move.</td></tr>
+                                            <tr><td><code>0 + 1</code></td><td>1</td><td>-</td><td>The column can hold 1.</td></tr>
+                                            <tr><td><code>1 + 0</code></td><td>1</td><td>-</td><td>The column can hold 1.</td></tr>
+                                            <tr><td><code>1 + 1</code></td><td>0</td><td>1</td><td>Two is <code>10</code> in binary.</td></tr>
+                                            <tr><td><code>1 + 1 + 1</code></td><td>1</td><td>1</td><td>Three is <code>11</code> in binary.</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="single-lesson-section binary-lesson-section " id="check-binary-addition-rules" data-single-lesson-section aria-label="Knowledge check questions">
+                    <div class="single-lesson-section-inner binary-section-inner">
+                        <header class="single-lesson-section-header">
+                            <p class="single-lesson-badge">Part 1 - Binary Addition Rules</p>
+                            <h2 class="single-lesson-title">Knowledge check questions</h2>
+                            <div class="single-lesson-rule" aria-hidden="true"></div>
+                        </header>
+                        <div class="single-lesson-content-wrap binary-content-wrap">
+                            <div class="single-lesson-knowledge-list">
+                                <button class="single-lesson-knowledge-card" type="button" data-binary-modal-open="modal-rule-check-1">
+                                    <span class="single-lesson-knowledge-number">Q1</span>
+                                    <span class="single-lesson-knowledge-content">
+                                        <span class="single-lesson-knowledge-topic">Why not 2?</span>
+                                        <span class="single-lesson-knowledge-question">Why does <code>1 + 1</code> not equal <code>2</code> in binary notation?</span>
+                                    </span>
+                                </button>
+                                <div class="binary-modal" id="modal-rule-check-1" hidden data-binary-modal>
+                                    <div class="binary-modal-backdrop" data-binary-modal-close></div>
+                                    <div class="binary-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-rule-check-1-title">
+                                        <button class="binary-modal-close" type="button" aria-label="Close answer" data-binary-modal-close>x</button>
+                                        <h3 id="modal-rule-check-1-title">Why not 2?</h3>
+                                        <p class="binary-modal-question">Why does <code>1 + 1</code> not equal <code>2</code> in binary notation?</p>
+                                        <div class="single-lesson-knowledge-answer"><strong>Answer</strong><p>Binary only has the digits <code>0</code> and <code>1</code>. The denary value 2 is written as <code>10</code> in binary.</p></div>
+                                    </div>
+                                </div>
+                                <button class="single-lesson-knowledge-card" type="button" data-binary-modal-open="modal-rule-check-2">
+                                    <span class="single-lesson-knowledge-number">Q2</span>
+                                    <span class="single-lesson-knowledge-content">
+                                        <span class="single-lesson-knowledge-topic">Correct result</span>
+                                        <span class="single-lesson-knowledge-question">What is the correct result of <code>1 + 1</code> in binary?</span>
+                                    </span>
+                                </button>
+                                <div class="binary-modal" id="modal-rule-check-2" hidden data-binary-modal>
+                                    <div class="binary-modal-backdrop" data-binary-modal-close></div>
+                                    <div class="binary-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-rule-check-2-title">
+                                        <button class="binary-modal-close" type="button" aria-label="Close answer" data-binary-modal-close>x</button>
+                                        <h3 id="modal-rule-check-2-title">Correct result</h3>
+                                        <p class="binary-modal-question">What is the correct result of <code>1 + 1</code> in binary?</p>
+                                        <div class="single-lesson-knowledge-answer"><strong>Answer</strong><p><code>1 + 1 = 10</code>. You write <code>0</code> in the current column and carry <code>1</code> to the next column.</p></div>
+                                    </div>
+                                </div>
+                                <button class="single-lesson-knowledge-card" type="button" data-binary-modal-open="modal-rule-check-3">
+                                    <span class="single-lesson-knowledge-number">Q3</span>
+                                    <span class="single-lesson-knowledge-content">
+                                        <span class="single-lesson-knowledge-topic">Forgotten carry</span>
+                                        <span class="single-lesson-knowledge-question">What would happen if you forgot to carry the <code>1</code>?</span>
+                                    </span>
+                                </button>
+                                <div class="binary-modal" id="modal-rule-check-3" hidden data-binary-modal>
+                                    <div class="binary-modal-backdrop" data-binary-modal-close></div>
+                                    <div class="binary-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-rule-check-3-title">
+                                        <button class="binary-modal-close" type="button" aria-label="Close answer" data-binary-modal-close>x</button>
+                                        <h3 id="modal-rule-check-3-title">Forgotten carry</h3>
+                                        <p class="binary-modal-question">What would happen if you forgot to carry the <code>1</code>?</p>
+                                        <div class="single-lesson-knowledge-answer"><strong>Answer</strong><p>The answer would be too small because the value that should move left into the next column would be missing.</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="single-lesson-section binary-lesson-section single-lesson-segment-section" id="part-2-adding-two-8-bit-binary-numbers" data-single-lesson-section aria-label="Part 2 - Adding two 8-bit binary numbers">
+                    <div class="single-lesson-section-inner binary-section-inner single-lesson-segment-inner">
+                        <div class="single-lesson-segment-title">Part 2 - Adding two 8-bit binary numbers</div>
+                    </div>
+                </section>
+                <section class="single-lesson-section binary-lesson-section " id="model-adding-two-8-bit-binary-numbers" data-single-lesson-section aria-label="Modelling 1 - Add binary numbers">
+                    <div class="single-lesson-section-inner binary-section-inner">
+                        <header class="single-lesson-section-header">
+                            <p class="single-lesson-badge">Part 2 - Adding two 8-bit binary numbers</p>
+                            <h2 class="single-lesson-title">Modelling 1 - Add binary numbers</h2>
+                            <div class="single-lesson-rule" aria-hidden="true"></div>
+                        </header>
+                        <div class="single-lesson-content-wrap binary-content-wrap">
+                            <div class="binary-model-layout">
+                                <article class="single-lesson-explanation-card"><p>To add two 8-bit binary numbers, start at the rightmost bit and work left one column at a time. Each column produces an answer bit, and some columns may produce a carry into the next column.</p></article>
+                                <article class="binary-model-card" data-binary-stepper data-total="8">
+        <div class="binary-model-scroll">
+            <div class="binary-addition-grid" style="--binary-cols:8;">
+                <div class="binary-grid-label">Place</div><span class="binary-cell place-cell" data-step-column="0">128</span><span class="binary-cell place-cell" data-step-column="1">64</span><span class="binary-cell place-cell" data-step-column="2">32</span><span class="binary-cell place-cell" data-step-column="3">16</span><span class="binary-cell place-cell" data-step-column="4">8</span><span class="binary-cell place-cell" data-step-column="5">4</span><span class="binary-cell place-cell" data-step-column="6">2</span><span class="binary-cell place-cell" data-step-column="7">1</span>
+                <div class="binary-grid-label">Carry</div><span class="binary-cell carry-cell is-hidden" data-step-column="0" data-show-step="7">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="1" data-show-step="6">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="2" data-show-step="5">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="3" data-show-step="4">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="4" data-show-step="3">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="5" data-show-step="2">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="6" data-show-step="1">0</span><span class="binary-cell carry-cell is-empty" data-step-column="7" data-show-step="1"></span>
+                <div class="binary-grid-label">First</div><span class="binary-cell" data-step-column="0">0</span><span class="binary-cell" data-step-column="1">0</span><span class="binary-cell" data-step-column="2">1</span><span class="binary-cell" data-step-column="3">1</span><span class="binary-cell" data-step-column="4">0</span><span class="binary-cell" data-step-column="5">1</span><span class="binary-cell" data-step-column="6">1</span><span class="binary-cell" data-step-column="7">0</span>
+                <div class="binary-grid-label">Second</div><span class="binary-cell" data-step-column="0">0</span><span class="binary-cell" data-step-column="1">1</span><span class="binary-cell" data-step-column="2">0</span><span class="binary-cell" data-step-column="3">0</span><span class="binary-cell" data-step-column="4">1</span><span class="binary-cell" data-step-column="5">0</span><span class="binary-cell" data-step-column="6">1</span><span class="binary-cell" data-step-column="7">1</span>
+                <div class="binary-grid-label">Answer</div><span class="binary-cell is-hidden" data-step-column="0" data-show-step="8">1</span><span class="binary-cell is-hidden" data-step-column="1" data-show-step="7">0</span><span class="binary-cell is-hidden" data-step-column="2" data-show-step="6">0</span><span class="binary-cell is-hidden" data-step-column="3" data-show-step="5">0</span><span class="binary-cell is-hidden" data-step-column="4" data-show-step="4">0</span><span class="binary-cell is-hidden" data-step-column="5" data-show-step="3">0</span><span class="binary-cell is-hidden" data-step-column="6" data-show-step="2">0</span><span class="binary-cell is-hidden" data-step-column="7" data-show-step="1">1</span>
+            </div>
+        </div>
+        
+        <p class="binary-step-status" data-step-status>Press next step to begin.</p>
+        <p class="binary-step-text" data-step-text>1s column: 0 + 1 = 1. Write 1.</p>
+        <p class="binary-denary-check" hidden data-step-complete>Denary check: 54 + 75 = 129.</p>
+        <div class="binary-step-controls single-lesson-control-row">
+            <button class="single-lesson-control-button" type="button" data-step-prev>Previous step</button>
+            <button class="single-lesson-control-button" type="button" data-step-reset>Reset</button>
+            <button class="single-lesson-control-button" type="button" data-step-next>Next step</button>
+        </div>
+        <script type="application/json" data-step-data>["1s column: 0 + 1 = 1. Write 1.","2s column: 1 + 1 = 10. Write 0 and carry 1.","4s column: 1 + 0 + carry 1 = 10. Write 0 and carry 1.","8s column: 0 + 1 + carry 1 = 10. Write 0 and carry 1.","16s column: 1 + 0 + carry 1 = 10. Write 0 and carry 1.","32s column: 1 + 0 + carry 1 = 10. Write 0 and carry 1.","64s column: 0 + 1 + carry 1 = 10. Write 0 and carry 1.","128s column: 0 + 0 + carry 1 = 1. The answer is 10000001."]</script>
+    </article>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="single-lesson-section binary-lesson-section " id="practise-adding-with-teacher-support" data-single-lesson-section aria-label="Modelling 2 - Add binary numbers">
+                    <div class="single-lesson-section-inner binary-section-inner">
+                        <header class="single-lesson-section-header">
+                            <p class="single-lesson-badge">Part 2 - Adding two 8-bit binary numbers</p>
+                            <h2 class="single-lesson-title">Modelling 2 - Add binary numbers</h2>
+                            <div class="single-lesson-rule" aria-hidden="true"></div>
+                        </header>
+                        <div class="single-lesson-content-wrap binary-content-wrap">
+                            <div class="binary-model-layout">
+                                <article class="single-lesson-explanation-card"><p>How to add these two 8-bit binary numbers <code>01100101 + 00011110</code>.</p></article>
+                                <article class="binary-model-card" data-binary-stepper data-total="8">
+        <div class="binary-model-scroll">
+            <div class="binary-addition-grid" style="--binary-cols:8;">
+                <div class="binary-grid-label">Place</div><span class="binary-cell place-cell" data-step-column="0">128</span><span class="binary-cell place-cell" data-step-column="1">64</span><span class="binary-cell place-cell" data-step-column="2">32</span><span class="binary-cell place-cell" data-step-column="3">16</span><span class="binary-cell place-cell" data-step-column="4">8</span><span class="binary-cell place-cell" data-step-column="5">4</span><span class="binary-cell place-cell" data-step-column="6">2</span><span class="binary-cell place-cell" data-step-column="7">1</span>
+                <div class="binary-grid-label">Carry</div><span class="binary-cell carry-cell is-empty" data-step-column="0" data-show-step="7"></span><span class="binary-cell carry-cell is-hidden" data-step-column="1" data-show-step="6">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="2" data-show-step="5">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="3" data-show-step="4">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="4" data-show-step="3">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="5" data-show-step="2">0</span><span class="binary-cell carry-cell is-empty" data-step-column="6" data-show-step="1"></span><span class="binary-cell carry-cell is-empty" data-step-column="7" data-show-step="1"></span>
+                <div class="binary-grid-label">First</div><span class="binary-cell" data-step-column="0">0</span><span class="binary-cell" data-step-column="1">1</span><span class="binary-cell" data-step-column="2">1</span><span class="binary-cell" data-step-column="3">0</span><span class="binary-cell" data-step-column="4">0</span><span class="binary-cell" data-step-column="5">1</span><span class="binary-cell" data-step-column="6">0</span><span class="binary-cell" data-step-column="7">1</span>
+                <div class="binary-grid-label">Second</div><span class="binary-cell" data-step-column="0">0</span><span class="binary-cell" data-step-column="1">0</span><span class="binary-cell" data-step-column="2">0</span><span class="binary-cell" data-step-column="3">1</span><span class="binary-cell" data-step-column="4">1</span><span class="binary-cell" data-step-column="5">1</span><span class="binary-cell" data-step-column="6">1</span><span class="binary-cell" data-step-column="7">0</span>
+                <div class="binary-grid-label">Answer</div><span class="binary-cell is-hidden" data-step-column="0" data-show-step="8">1</span><span class="binary-cell is-hidden" data-step-column="1" data-show-step="7">0</span><span class="binary-cell is-hidden" data-step-column="2" data-show-step="6">0</span><span class="binary-cell is-hidden" data-step-column="3" data-show-step="5">0</span><span class="binary-cell is-hidden" data-step-column="4" data-show-step="4">0</span><span class="binary-cell is-hidden" data-step-column="5" data-show-step="3">0</span><span class="binary-cell is-hidden" data-step-column="6" data-show-step="2">1</span><span class="binary-cell is-hidden" data-step-column="7" data-show-step="1">1</span>
+            </div>
+        </div>
+        
+        <p class="binary-step-status" data-step-status>Press next step to begin.</p>
+        <p class="binary-step-text" data-step-text>1s column: 1 + 0 = 1. Write 1.</p>
+        <p class="binary-denary-check" hidden data-step-complete>Denary check: 101 + 30 = 131.</p>
+        <div class="binary-step-controls single-lesson-control-row">
+            <button class="single-lesson-control-button" type="button" data-step-prev>Previous step</button>
+            <button class="single-lesson-control-button" type="button" data-step-reset>Reset</button>
+            <button class="single-lesson-control-button" type="button" data-step-next>Next step</button>
+        </div>
+        <script type="application/json" data-step-data>["1s column: 1 + 0 = 1. Write 1.","2s column: 0 + 1 = 1. Write 1.","4s column: 1 + 1 = 10. Write 0 and carry 1.","8s column: 0 + 1 + carry 1 = 10. Write 0 and carry 1.","16s column: 0 + 1 + carry 1 = 10. Write 0 and carry 1.","32s column: 1 + 0 + carry 1 = 10. Write 0 and carry 1.","64s column: 1 + 0 + carry 1 = 10. Write 0 and carry 1.","128s column: 0 + 0 + carry 1 = 1. The answer is 10000011."]</script>
+    </article>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="single-lesson-section binary-lesson-section " id="add-two-8-bit-binary-numbers-independently" data-single-lesson-section aria-label="Modelling 3 - Add binary numbers">
+                    <div class="single-lesson-section-inner binary-section-inner">
+                        <header class="single-lesson-section-header">
+                            <p class="single-lesson-badge">Part 2 - Adding two 8-bit binary numbers</p>
+                            <h2 class="single-lesson-title">Modelling 3 - Add binary numbers</h2>
+                            <div class="single-lesson-rule" aria-hidden="true"></div>
+                        </header>
+                        <div class="single-lesson-content-wrap binary-content-wrap">
+                            <div class="binary-model-layout">
+                                <article class="single-lesson-explanation-card"><p>How to add these two 8-bit binary numbers <code>01011010 + 00100111</code>.</p></article>
+                                <article class="binary-model-card" data-binary-stepper data-total="8">
+        <div class="binary-model-scroll">
+            <div class="binary-addition-grid" style="--binary-cols:8;">
+                <div class="binary-grid-label">Place</div><span class="binary-cell place-cell" data-step-column="0">128</span><span class="binary-cell place-cell" data-step-column="1">64</span><span class="binary-cell place-cell" data-step-column="2">32</span><span class="binary-cell place-cell" data-step-column="3">16</span><span class="binary-cell place-cell" data-step-column="4">8</span><span class="binary-cell place-cell" data-step-column="5">4</span><span class="binary-cell place-cell" data-step-column="6">2</span><span class="binary-cell place-cell" data-step-column="7">1</span>
+                <div class="binary-grid-label">Carry</div><span class="binary-cell carry-cell is-empty" data-step-column="0" data-show-step="7"></span><span class="binary-cell carry-cell is-hidden" data-step-column="1" data-show-step="6">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="2" data-show-step="5">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="3" data-show-step="4">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="4" data-show-step="3">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="5" data-show-step="2">1</span><span class="binary-cell carry-cell is-empty" data-step-column="6" data-show-step="1"></span><span class="binary-cell carry-cell is-empty" data-step-column="7" data-show-step="1"></span>
+                <div class="binary-grid-label">First</div><span class="binary-cell" data-step-column="0">0</span><span class="binary-cell" data-step-column="1">1</span><span class="binary-cell" data-step-column="2">0</span><span class="binary-cell" data-step-column="3">1</span><span class="binary-cell" data-step-column="4">1</span><span class="binary-cell" data-step-column="5">0</span><span class="binary-cell" data-step-column="6">1</span><span class="binary-cell" data-step-column="7">0</span>
+                <div class="binary-grid-label">Second</div><span class="binary-cell" data-step-column="0">0</span><span class="binary-cell" data-step-column="1">0</span><span class="binary-cell" data-step-column="2">1</span><span class="binary-cell" data-step-column="3">0</span><span class="binary-cell" data-step-column="4">0</span><span class="binary-cell" data-step-column="5">1</span><span class="binary-cell" data-step-column="6">1</span><span class="binary-cell" data-step-column="7">1</span>
+                <div class="binary-grid-label">Answer</div><span class="binary-cell is-hidden" data-step-column="0" data-show-step="8">1</span><span class="binary-cell is-hidden" data-step-column="1" data-show-step="7">0</span><span class="binary-cell is-hidden" data-step-column="2" data-show-step="6">0</span><span class="binary-cell is-hidden" data-step-column="3" data-show-step="5">0</span><span class="binary-cell is-hidden" data-step-column="4" data-show-step="4">0</span><span class="binary-cell is-hidden" data-step-column="5" data-show-step="3">0</span><span class="binary-cell is-hidden" data-step-column="6" data-show-step="2">0</span><span class="binary-cell is-hidden" data-step-column="7" data-show-step="1">1</span>
+            </div>
+        </div>
+        
+        <p class="binary-step-status" data-step-status>Press next step to begin.</p>
+        <p class="binary-step-text" data-step-text>Try the 1s column, then keep working left.</p>
+        <p class="binary-denary-check" hidden data-step-complete>Denary check: 90 + 39 = 129.</p>
+        <div class="binary-step-controls single-lesson-control-row">
+            <button class="single-lesson-control-button" type="button" data-step-prev>Previous step</button>
+            <button class="single-lesson-control-button" type="button" data-step-reset>Reset</button>
+            <button class="single-lesson-control-button" type="button" data-step-next>Next step</button>
+        </div>
+        <script type="application/json" data-step-data>["Try the 1s column, then keep working left.","Reveal the completed carry row and answer.","The final answer is 10000001."]</script>
+    </article>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="single-lesson-section binary-lesson-section " id="check-the-8-bit-addition-method" data-single-lesson-section aria-label="Knowledge check questions">
+                    <div class="single-lesson-section-inner binary-section-inner">
+                        <header class="single-lesson-section-header">
+                            <p class="single-lesson-badge">Part 2 - Adding two 8-bit binary numbers</p>
+                            <h2 class="single-lesson-title">Knowledge check questions</h2>
+                            <div class="single-lesson-rule" aria-hidden="true"></div>
+                        </header>
+                        <div class="single-lesson-content-wrap binary-content-wrap">
+                            <div class="single-lesson-knowledge-list">
+                                <button class="single-lesson-knowledge-card" type="button" data-binary-modal-open="modal-method-check-1">
+                                    <span class="single-lesson-knowledge-number">Q1</span>
+                                    <span class="single-lesson-knowledge-content">
+                                        <span class="single-lesson-knowledge-topic">Start on the right</span>
+                                        <span class="single-lesson-knowledge-question">Why do we start from the rightmost bit to carry out binary addition?</span>
+                                    </span>
+                                </button>
+                                <div class="binary-modal" id="modal-method-check-1" hidden data-binary-modal>
+                                    <div class="binary-modal-backdrop" data-binary-modal-close></div>
+                                    <div class="binary-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-method-check-1-title">
+                                        <button class="binary-modal-close" type="button" aria-label="Close answer" data-binary-modal-close>x</button>
+                                        <h3 id="modal-method-check-1-title">Start on the right</h3>
+                                        <p class="binary-modal-question">Why do we start from the rightmost bit to carry out binary addition?</p>
+                                        <div class="single-lesson-knowledge-answer"><strong>Answer</strong><p>The rightmost bit is the 1s column. Carries move left into larger place values, so the method must begin on the right.</p></div>
+                                    </div>
+                                </div>
+                                <button class="single-lesson-knowledge-card" type="button" data-binary-modal-open="modal-method-check-2">
+                                    <span class="single-lesson-knowledge-number">Q2</span>
+                                    <span class="single-lesson-knowledge-content">
+                                        <span class="single-lesson-knowledge-topic">Carry meaning</span>
+                                        <span class="single-lesson-knowledge-question">What does a carry mean in binary addition?</span>
+                                    </span>
+                                </button>
+                                <div class="binary-modal" id="modal-method-check-2" hidden data-binary-modal>
+                                    <div class="binary-modal-backdrop" data-binary-modal-close></div>
+                                    <div class="binary-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-method-check-2-title">
+                                        <button class="binary-modal-close" type="button" aria-label="Close answer" data-binary-modal-close>x</button>
+                                        <h3 id="modal-method-check-2-title">Carry meaning</h3>
+                                        <p class="binary-modal-question">What does a carry mean in binary addition?</p>
+                                        <div class="single-lesson-knowledge-answer"><strong>Answer</strong><p>A carry is a value moved left into the next column when the current column is too large to store as one bit.</p></div>
+                                    </div>
+                                </div>
+                                <button class="single-lesson-knowledge-card" type="button" data-binary-modal-open="modal-method-check-3">
+                                    <span class="single-lesson-knowledge-number">Q3</span>
+                                    <span class="single-lesson-knowledge-content">
+                                        <span class="single-lesson-knowledge-topic">Denary check</span>
+                                        <span class="single-lesson-knowledge-question">How could you use denary to check whether an answer is sensible?</span>
+                                    </span>
+                                </button>
+                                <div class="binary-modal" id="modal-method-check-3" hidden data-binary-modal>
+                                    <div class="binary-modal-backdrop" data-binary-modal-close></div>
+                                    <div class="binary-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-method-check-3-title">
+                                        <button class="binary-modal-close" type="button" aria-label="Close answer" data-binary-modal-close>x</button>
+                                        <h3 id="modal-method-check-3-title">Denary check</h3>
+                                        <p class="binary-modal-question">How could you use denary to check whether an answer is sensible?</p>
+                                        <div class="single-lesson-knowledge-answer"><strong>Answer</strong><p>Convert both binary numbers and the answer to denary, then check that the denary addition matches.</p></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="single-lesson-section binary-lesson-section " id="answer-exam-style-binary-addition-questions" data-single-lesson-section aria-label="Exam questions">
+                    <div class="single-lesson-section-inner binary-section-inner">
+                        <header class="single-lesson-section-header">
+                            <p class="single-lesson-badge">Part 2 - Adding two 8-bit binary numbers</p>
+                            <h2 class="single-lesson-title">Exam questions</h2>
+                            <div class="single-lesson-rule" aria-hidden="true"></div>
+                        </header>
+                        <div class="single-lesson-content-wrap binary-content-wrap">
+                            <div class="single-lesson-exam-list binary-exam-grid">
+                                <button class="single-lesson-exam-card binary-exam-card" type="button" data-binary-modal-open="modal-q1">
+        <span class="single-lesson-exam-number binary-question-number">Q1</span>
+        <span class="single-lesson-exam-question binary-exam-question">Add the binary integers 00110101 and 01000010. Give your answer in binary.</span>
+        <span class="single-lesson-exam-marks binary-marks">2 marks</span>
+    </button>
+    <div class="binary-modal" id="modal-q1" hidden data-binary-modal>
+        <div class="binary-modal-backdrop" data-binary-modal-close></div>
+        <div class="binary-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-q1-title">
+            <button class="binary-modal-close" type="button" aria-label="Close mark scheme" data-binary-modal-close>x</button>
+            <h3 id="modal-q1-title">Q1 mark scheme</h3>
+            <p class="binary-modal-question">Add the binary integers 00110101 and 01000010. Give your answer in binary. (2 marks)</p>
+            <div class="binary-mark-scheme"><strong>Mark scheme</strong><p>1 mark for a correct method or carries. 1 mark for <code>01110111</code>.</p></div>
+            <div class="binary-model-answer"><strong>Model answer</strong><p><code>00110101 + 01000010 = 01110111</code>. Denary check: 53 + 66 = 119.</p></div>
+        </div>
+    </div>
+                                <button class="single-lesson-exam-card binary-exam-card" type="button" data-binary-modal-open="modal-q2">
+        <span class="single-lesson-exam-number binary-question-number">Q2</span>
+        <span class="single-lesson-exam-question binary-exam-question">Add the binary integers 00011100 and 00101011. Give your answer in binary.</span>
+        <span class="single-lesson-exam-marks binary-marks">2 marks</span>
+    </button>
+    <div class="binary-modal" id="modal-q2" hidden data-binary-modal>
+        <div class="binary-modal-backdrop" data-binary-modal-close></div>
+        <div class="binary-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-q2-title">
+            <button class="binary-modal-close" type="button" aria-label="Close mark scheme" data-binary-modal-close>x</button>
+            <h3 id="modal-q2-title">Q2 mark scheme</h3>
+            <p class="binary-modal-question">Add the binary integers 00011100 and 00101011. Give your answer in binary. (2 marks)</p>
+            <div class="binary-mark-scheme"><strong>Mark scheme</strong><p>1 mark for a correct method or carries. 1 mark for <code>01000111</code>.</p></div>
+            <div class="binary-model-answer"><strong>Model answer</strong><p><code>00011100 + 00101011 = 01000111</code>. Denary check: 28 + 43 = 71.</p></div>
+        </div>
+    </div>
+                                <button class="single-lesson-exam-card binary-exam-card" type="button" data-binary-modal-open="modal-q3">
+        <span class="single-lesson-exam-number binary-question-number">Q3</span>
+        <span class="single-lesson-exam-question binary-exam-question">Add the binary integers 01100001 and 00010110. Give your answer in binary.</span>
+        <span class="single-lesson-exam-marks binary-marks">2 marks</span>
+    </button>
+    <div class="binary-modal" id="modal-q3" hidden data-binary-modal>
+        <div class="binary-modal-backdrop" data-binary-modal-close></div>
+        <div class="binary-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-q3-title">
+            <button class="binary-modal-close" type="button" aria-label="Close mark scheme" data-binary-modal-close>x</button>
+            <h3 id="modal-q3-title">Q3 mark scheme</h3>
+            <p class="binary-modal-question">Add the binary integers 01100001 and 00010110. Give your answer in binary. (2 marks)</p>
+            <div class="binary-mark-scheme"><strong>Mark scheme</strong><p>1 mark for a correct method or carries. 1 mark for <code>01110111</code>.</p></div>
+            <div class="binary-model-answer"><strong>Model answer</strong><p><code>01100001 + 00010110 = 01110111</code>. Denary check: 97 + 22 = 119.</p></div>
+        </div>
+    </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="single-lesson-section binary-lesson-section single-lesson-segment-section" id="part-3-overflow-errors" data-single-lesson-section aria-label="Part 3 - Overflow errors">
+                    <div class="single-lesson-section-inner binary-section-inner single-lesson-segment-inner">
+                        <div class="single-lesson-segment-title">Part 3 - Overflow errors</div>
+                    </div>
+                </section>
+                <section class="single-lesson-section binary-lesson-section " id="model-an-overflow-error" data-single-lesson-section aria-label="Modelling 1 - Overflow errors">
+                    <div class="single-lesson-section-inner binary-section-inner">
+                        <header class="single-lesson-section-header">
+                            <p class="single-lesson-badge">Part 3 - Overflow errors</p>
+                            <h2 class="single-lesson-title">Modelling 1 - Overflow errors</h2>
+                            <div class="single-lesson-rule" aria-hidden="true"></div>
+                        </header>
+                        <div class="single-lesson-content-wrap binary-content-wrap">
+                            <div class="binary-model-layout">
+                                <article class="single-lesson-explanation-card"><p>How to add these two 8-bit binary numbers <code>11110000 + 00110000</code>. Watch for the 9th bit.</p></article>
+                                <article class="binary-model-card is-overflow-model" data-binary-stepper data-total="9">
+        <div class="binary-model-scroll">
+            <div class="binary-addition-grid has-extra-bit" style="--binary-cols:9;">
+                <div class="binary-grid-label">Place</div><span class="binary-cell place-cell is-warning" data-step-column="0">256</span><span class="binary-cell place-cell" data-step-column="1">128</span><span class="binary-cell place-cell" data-step-column="2">64</span><span class="binary-cell place-cell" data-step-column="3">32</span><span class="binary-cell place-cell" data-step-column="4">16</span><span class="binary-cell place-cell" data-step-column="5">8</span><span class="binary-cell place-cell" data-step-column="6">4</span><span class="binary-cell place-cell" data-step-column="7">2</span><span class="binary-cell place-cell" data-step-column="8">1</span>
+                <div class="binary-grid-label">Carry</div><span class="binary-cell carry-cell is-hidden" data-step-column="0" data-show-step="8">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="1" data-show-step="7">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="2" data-show-step="6">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="3" data-show-step="5">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="4" data-show-step="4">1</span><span class="binary-cell carry-cell is-empty" data-step-column="5" data-show-step="3"></span><span class="binary-cell carry-cell is-empty" data-step-column="6" data-show-step="2"></span><span class="binary-cell carry-cell is-empty" data-step-column="7" data-show-step="1"></span><span class="binary-cell carry-cell is-empty" data-step-column="8" data-show-step="1"></span>
+                <div class="binary-grid-label">First</div><span class="binary-cell is-empty" data-step-column="0"></span><span class="binary-cell" data-step-column="1">1</span><span class="binary-cell" data-step-column="2">1</span><span class="binary-cell" data-step-column="3">1</span><span class="binary-cell" data-step-column="4">1</span><span class="binary-cell" data-step-column="5">0</span><span class="binary-cell" data-step-column="6">0</span><span class="binary-cell" data-step-column="7">0</span><span class="binary-cell" data-step-column="8">0</span>
+                <div class="binary-grid-label">Second</div><span class="binary-cell is-empty" data-step-column="0"></span><span class="binary-cell" data-step-column="1">0</span><span class="binary-cell" data-step-column="2">0</span><span class="binary-cell" data-step-column="3">1</span><span class="binary-cell" data-step-column="4">1</span><span class="binary-cell" data-step-column="5">0</span><span class="binary-cell" data-step-column="6">0</span><span class="binary-cell" data-step-column="7">0</span><span class="binary-cell" data-step-column="8">0</span>
+                <div class="binary-grid-label">Answer</div><span class="binary-cell is-hidden is-warning" data-step-column="0" data-show-step="9">1</span><span class="binary-cell is-hidden" data-step-column="1" data-show-step="8">0</span><span class="binary-cell is-hidden" data-step-column="2" data-show-step="7">0</span><span class="binary-cell is-hidden" data-step-column="3" data-show-step="6">1</span><span class="binary-cell is-hidden" data-step-column="4" data-show-step="5">0</span><span class="binary-cell is-hidden" data-step-column="5" data-show-step="4">0</span><span class="binary-cell is-hidden" data-step-column="6" data-show-step="3">0</span><span class="binary-cell is-hidden" data-step-column="7" data-show-step="2">0</span><span class="binary-cell is-hidden" data-step-column="8" data-show-step="1">0</span>
+            </div>
+        </div>
+        <p class="binary-warning-note">The red bit is outside the 8-bit storage boundary.</p>
+        <p class="binary-step-status" data-step-status>Press next step to begin.</p>
+        <p class="binary-step-text" data-step-text>1s column: 0 + 0 = 0. Write 0.</p>
+        <p class="binary-denary-check" hidden data-step-complete>Full result: 1 00100000. The extra leftmost 1 does not fit, so overflow has occurred.</p>
+        <div class="binary-step-controls single-lesson-control-row">
+            <button class="single-lesson-control-button" type="button" data-step-prev>Previous step</button>
+            <button class="single-lesson-control-button" type="button" data-step-reset>Reset</button>
+            <button class="single-lesson-control-button" type="button" data-step-next>Next step</button>
+        </div>
+        <script type="application/json" data-step-data>["1s column: 0 + 0 = 0. Write 0.","2s column: 0 + 0 = 0. Write 0.","4s column: 0 + 0 = 0. Write 0.","8s column: 0 + 0 = 0. Write 0.","16s column: 1 + 1 = 10. Write 0 and carry 1.","32s column: 1 + 1 + carry 1 = 11. Write 1 and carry 1.","64s column: 1 + 0 + carry 1 = 10. Write 0 and carry 1.","128s column: 1 + 0 + carry 1 = 10. Write 0 and carry 1 outside the register.","The ninth bit does not fit inside 8 bits, so overflow has occurred."]</script>
+    </article>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="single-lesson-section binary-lesson-section " id="decide-whether-overflow-has-occurred" data-single-lesson-section aria-label="Modelling 2 - Overflow errors">
+                    <div class="single-lesson-section-inner binary-section-inner">
+                        <header class="single-lesson-section-header">
+                            <p class="single-lesson-badge">Part 3 - Overflow errors</p>
+                            <h2 class="single-lesson-title">Modelling 2 - Overflow errors</h2>
+                            <div class="single-lesson-rule" aria-hidden="true"></div>
+                        </header>
+                        <div class="single-lesson-content-wrap binary-content-wrap">
+                            <div class="binary-model-layout">
+                                <article class="single-lesson-explanation-card"><p>How to add these two 8-bit binary numbers <code>10101010 + 01110101</code>. Watch for the 9th bit.</p></article>
+                                <article class="binary-model-card is-overflow-model" data-binary-stepper data-total="9">
+        <div class="binary-model-scroll">
+            <div class="binary-addition-grid has-extra-bit" style="--binary-cols:9;">
+                <div class="binary-grid-label">Place</div><span class="binary-cell place-cell is-warning" data-step-column="0">256</span><span class="binary-cell place-cell" data-step-column="1">128</span><span class="binary-cell place-cell" data-step-column="2">64</span><span class="binary-cell place-cell" data-step-column="3">32</span><span class="binary-cell place-cell" data-step-column="4">16</span><span class="binary-cell place-cell" data-step-column="5">8</span><span class="binary-cell place-cell" data-step-column="6">4</span><span class="binary-cell place-cell" data-step-column="7">2</span><span class="binary-cell place-cell" data-step-column="8">1</span>
+                <div class="binary-grid-label">Carry</div><span class="binary-cell carry-cell is-hidden" data-step-column="0" data-show-step="8">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="1" data-show-step="7">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="2" data-show-step="6">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="3" data-show-step="5">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="4" data-show-step="4">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="5" data-show-step="3">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="6" data-show-step="2">1</span><span class="binary-cell carry-cell is-empty" data-step-column="7" data-show-step="1"></span><span class="binary-cell carry-cell is-empty" data-step-column="8" data-show-step="1"></span>
+                <div class="binary-grid-label">First</div><span class="binary-cell is-empty" data-step-column="0"></span><span class="binary-cell" data-step-column="1">1</span><span class="binary-cell" data-step-column="2">0</span><span class="binary-cell" data-step-column="3">1</span><span class="binary-cell" data-step-column="4">0</span><span class="binary-cell" data-step-column="5">1</span><span class="binary-cell" data-step-column="6">0</span><span class="binary-cell" data-step-column="7">1</span><span class="binary-cell" data-step-column="8">0</span>
+                <div class="binary-grid-label">Second</div><span class="binary-cell is-empty" data-step-column="0"></span><span class="binary-cell" data-step-column="1">0</span><span class="binary-cell" data-step-column="2">1</span><span class="binary-cell" data-step-column="3">1</span><span class="binary-cell" data-step-column="4">1</span><span class="binary-cell" data-step-column="5">0</span><span class="binary-cell" data-step-column="6">1</span><span class="binary-cell" data-step-column="7">0</span><span class="binary-cell" data-step-column="8">1</span>
+                <div class="binary-grid-label">Answer</div><span class="binary-cell is-hidden is-warning" data-step-column="0" data-show-step="9">1</span><span class="binary-cell is-hidden" data-step-column="1" data-show-step="8">0</span><span class="binary-cell is-hidden" data-step-column="2" data-show-step="7">0</span><span class="binary-cell is-hidden" data-step-column="3" data-show-step="6">0</span><span class="binary-cell is-hidden" data-step-column="4" data-show-step="5">1</span><span class="binary-cell is-hidden" data-step-column="5" data-show-step="4">1</span><span class="binary-cell is-hidden" data-step-column="6" data-show-step="3">1</span><span class="binary-cell is-hidden" data-step-column="7" data-show-step="2">1</span><span class="binary-cell is-hidden" data-step-column="8" data-show-step="1">1</span>
+            </div>
+        </div>
+        <p class="binary-warning-note">The red bit is outside the 8-bit storage boundary.</p>
+        <p class="binary-step-status" data-step-status>Press next step to begin.</p>
+        <p class="binary-step-text" data-step-text>Work from the right and watch for a carry moving beyond the 128 column.</p>
+        <p class="binary-denary-check" hidden data-step-complete>Denary check: 170 + 117 = 287, which is larger than 255.</p>
+        <div class="binary-step-controls single-lesson-control-row">
+            <button class="single-lesson-control-button" type="button" data-step-prev>Previous step</button>
+            <button class="single-lesson-control-button" type="button" data-step-reset>Reset</button>
+            <button class="single-lesson-control-button" type="button" data-step-next>Next step</button>
+        </div>
+        <script type="application/json" data-step-data>["Work from the right and watch for a carry moving beyond the 128 column.","The result needs a ninth bit.","Final judgement: overflow has occurred because 1 00011111 needs 9 bits."]</script>
+    </article>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="single-lesson-section binary-lesson-section " id="identify-overflow-independently" data-single-lesson-section aria-label="Modelling 3 - Overflow errors">
+                    <div class="single-lesson-section-inner binary-section-inner">
+                        <header class="single-lesson-section-header">
+                            <p class="single-lesson-badge">Part 3 - Overflow errors</p>
+                            <h2 class="single-lesson-title">Modelling 3 - Overflow errors</h2>
+                            <div class="single-lesson-rule" aria-hidden="true"></div>
+                        </header>
+                        <div class="single-lesson-content-wrap binary-content-wrap">
+                            <div class="binary-model-layout">
+                                <article class="single-lesson-explanation-card"><p>How to add these two 8-bit binary numbers <code>11111111 + 00000001</code>. Watch for the 9th bit.</p></article>
+                                <article class="binary-model-card is-overflow-model" data-binary-stepper data-total="9">
+        <div class="binary-model-scroll">
+            <div class="binary-addition-grid has-extra-bit" style="--binary-cols:9;">
+                <div class="binary-grid-label">Place</div><span class="binary-cell place-cell is-warning" data-step-column="0">256</span><span class="binary-cell place-cell" data-step-column="1">128</span><span class="binary-cell place-cell" data-step-column="2">64</span><span class="binary-cell place-cell" data-step-column="3">32</span><span class="binary-cell place-cell" data-step-column="4">16</span><span class="binary-cell place-cell" data-step-column="5">8</span><span class="binary-cell place-cell" data-step-column="6">4</span><span class="binary-cell place-cell" data-step-column="7">2</span><span class="binary-cell place-cell" data-step-column="8">1</span>
+                <div class="binary-grid-label">Carry</div><span class="binary-cell carry-cell is-hidden" data-step-column="0" data-show-step="8">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="1" data-show-step="7">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="2" data-show-step="6">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="3" data-show-step="5">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="4" data-show-step="4">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="5" data-show-step="3">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="6" data-show-step="2">1</span><span class="binary-cell carry-cell is-hidden" data-step-column="7" data-show-step="1">1</span><span class="binary-cell carry-cell is-empty" data-step-column="8" data-show-step="1"></span>
+                <div class="binary-grid-label">First</div><span class="binary-cell is-empty" data-step-column="0"></span><span class="binary-cell" data-step-column="1">1</span><span class="binary-cell" data-step-column="2">1</span><span class="binary-cell" data-step-column="3">1</span><span class="binary-cell" data-step-column="4">1</span><span class="binary-cell" data-step-column="5">1</span><span class="binary-cell" data-step-column="6">1</span><span class="binary-cell" data-step-column="7">1</span><span class="binary-cell" data-step-column="8">1</span>
+                <div class="binary-grid-label">Second</div><span class="binary-cell is-empty" data-step-column="0"></span><span class="binary-cell" data-step-column="1">0</span><span class="binary-cell" data-step-column="2">0</span><span class="binary-cell" data-step-column="3">0</span><span class="binary-cell" data-step-column="4">0</span><span class="binary-cell" data-step-column="5">0</span><span class="binary-cell" data-step-column="6">0</span><span class="binary-cell" data-step-column="7">0</span><span class="binary-cell" data-step-column="8">1</span>
+                <div class="binary-grid-label">Answer</div><span class="binary-cell is-hidden is-warning" data-step-column="0" data-show-step="9">1</span><span class="binary-cell is-hidden" data-step-column="1" data-show-step="8">0</span><span class="binary-cell is-hidden" data-step-column="2" data-show-step="7">0</span><span class="binary-cell is-hidden" data-step-column="3" data-show-step="6">0</span><span class="binary-cell is-hidden" data-step-column="4" data-show-step="5">0</span><span class="binary-cell is-hidden" data-step-column="5" data-show-step="4">0</span><span class="binary-cell is-hidden" data-step-column="6" data-show-step="3">0</span><span class="binary-cell is-hidden" data-step-column="7" data-show-step="2">0</span><span class="binary-cell is-hidden" data-step-column="8" data-show-step="1">0</span>
+            </div>
+        </div>
+        <p class="binary-warning-note">The red bit is outside the 8-bit storage boundary.</p>
+        <p class="binary-step-status" data-step-status>Press next step to begin.</p>
+        <p class="binary-step-text" data-step-text>1s column: 1 + 1 = 10. Write 0 and carry 1.</p>
+        <p class="binary-denary-check" hidden data-step-complete>Full result: 1 00000000. The extra leftmost 1 does not fit, so overflow has occurred.</p>
+        <div class="binary-step-controls single-lesson-control-row">
+            <button class="single-lesson-control-button" type="button" data-step-prev>Previous step</button>
+            <button class="single-lesson-control-button" type="button" data-step-reset>Reset</button>
+            <button class="single-lesson-control-button" type="button" data-step-next>Next step</button>
+        </div>
+        <script type="application/json" data-step-data>["1s column: 1 + 1 = 10. Write 0 and carry 1.","2s column: 1 + 0 + carry 1 = 10. Write 0 and carry 1.","4s column: 1 + 0 + carry 1 = 10. Write 0 and carry 1.","8s column: 1 + 0 + carry 1 = 10. Write 0 and carry 1.","16s column: 1 + 0 + carry 1 = 10. Write 0 and carry 1.","32s column: 1 + 0 + carry 1 = 10. Write 0 and carry 1.","64s column: 1 + 0 + carry 1 = 10. Write 0 and carry 1.","128s column: 1 + 0 + carry 1 = 10. Write 0 and carry 1 outside the register.","The ninth bit does not fit inside 8 bits, so overflow has occurred."]</script>
+    </article>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="single-lesson-section binary-lesson-section " id="explain-overflow-errors-in-exam-answers" data-single-lesson-section aria-label="Exam questions">
+                    <div class="single-lesson-section-inner binary-section-inner">
+                        <header class="single-lesson-section-header">
+                            <p class="single-lesson-badge">Part 3 - Overflow errors</p>
+                            <h2 class="single-lesson-title">Exam questions</h2>
+                            <div class="single-lesson-rule" aria-hidden="true"></div>
+                        </header>
+                        <div class="single-lesson-content-wrap binary-content-wrap">
+                            <div class="single-lesson-exam-list binary-exam-grid">
+                                <button class="single-lesson-exam-card binary-exam-card" type="button" data-binary-modal-open="modal-q4">
+        <span class="single-lesson-exam-number binary-question-number">Q4</span>
+        <span class="single-lesson-exam-question binary-exam-question">A computer adds two 8-bit binary numbers and produces the result 1 01010101. Explain why this causes an overflow error.</span>
+        <span class="single-lesson-exam-marks binary-marks">2 marks</span>
+    </button>
+    <div class="binary-modal" id="modal-q4" hidden data-binary-modal>
+        <div class="binary-modal-backdrop" data-binary-modal-close></div>
+        <div class="binary-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-q4-title">
+            <button class="binary-modal-close" type="button" aria-label="Close mark scheme" data-binary-modal-close>x</button>
+            <h3 id="modal-q4-title">Q4 mark scheme</h3>
+            <p class="binary-modal-question">A computer adds two 8-bit binary numbers and produces the result 1 01010101. Explain why this causes an overflow error. (2 marks)</p>
+            <div class="binary-mark-scheme"><strong>Mark scheme</strong><p>1 mark for identifying that the result needs 9 bits. 1 mark for explaining that only 8 bits can be stored.</p></div>
+            <div class="binary-model-answer"><strong>Model answer</strong><p>The result has a ninth bit. An 8-bit register cannot store that extra bit, so overflow has occurred.</p></div>
+        </div>
+    </div>
+                                <button class="single-lesson-exam-card binary-exam-card" type="button" data-binary-modal-open="modal-q5">
+        <span class="single-lesson-exam-number binary-question-number">Q5</span>
+        <span class="single-lesson-exam-question binary-exam-question">A student adds 11100000 and 01100000. Explain why the answer cannot be fully stored in 8 bits.</span>
+        <span class="single-lesson-exam-marks binary-marks">2 marks</span>
+    </button>
+    <div class="binary-modal" id="modal-q5" hidden data-binary-modal>
+        <div class="binary-modal-backdrop" data-binary-modal-close></div>
+        <div class="binary-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-q5-title">
+            <button class="binary-modal-close" type="button" aria-label="Close mark scheme" data-binary-modal-close>x</button>
+            <h3 id="modal-q5-title">Q5 mark scheme</h3>
+            <p class="binary-modal-question">A student adds 11100000 and 01100000. Explain why the answer cannot be fully stored in 8 bits. (2 marks)</p>
+            <div class="binary-mark-scheme"><strong>Mark scheme</strong><p>1 mark for saying the full result is too large or needs a ninth bit. 1 mark for linking this to the 8-bit storage limit.</p></div>
+            <div class="binary-model-answer"><strong>Model answer</strong><p><code>11100000 + 01100000 = 1 01000000</code>. The extra leftmost bit cannot fit inside 8 bits.</p></div>
+        </div>
+    </div>
+                                <button class="single-lesson-exam-card binary-exam-card" type="button" data-binary-modal-open="modal-q6">
+        <span class="single-lesson-exam-number binary-question-number">Q6</span>
+        <span class="single-lesson-exam-question binary-exam-question">A computer stores unsigned 8-bit binary integers. Explain why the denary answer 270 would cause an overflow error.</span>
+        <span class="single-lesson-exam-marks binary-marks">2 marks</span>
+    </button>
+    <div class="binary-modal" id="modal-q6" hidden data-binary-modal>
+        <div class="binary-modal-backdrop" data-binary-modal-close></div>
+        <div class="binary-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-q6-title">
+            <button class="binary-modal-close" type="button" aria-label="Close mark scheme" data-binary-modal-close>x</button>
+            <h3 id="modal-q6-title">Q6 mark scheme</h3>
+            <p class="binary-modal-question">A computer stores unsigned 8-bit binary integers. Explain why the denary answer 270 would cause an overflow error. (2 marks)</p>
+            <div class="binary-mark-scheme"><strong>Mark scheme</strong><p>1 mark for stating the unsigned 8-bit maximum is 255. 1 mark for explaining that 270 is larger than this limit.</p></div>
+            <div class="binary-model-answer"><strong>Model answer</strong><p>Unsigned 8-bit integers can store values from 0 to 255. Since 270 is greater than 255, it cannot be stored in 8 bits.</p></div>
+        </div>
+    </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="single-lesson-section binary-lesson-section single-lesson-segment-section" id="part-4-binary-shifts" data-single-lesson-section aria-label="Part 4 - Binary shifts">
+                    <div class="single-lesson-section-inner binary-section-inner single-lesson-segment-inner">
+                        <div class="single-lesson-segment-title">Part 4 - Binary shifts</div>
+                    </div>
+                </section>
+                <section class="single-lesson-section binary-lesson-section " id="model-a-left-binary-shift" data-single-lesson-section aria-label="Modelling 1 - Binary shifts">
+                    <div class="single-lesson-section-inner binary-section-inner">
+                        <header class="single-lesson-section-header">
+                            <p class="single-lesson-badge">Part 4 - Binary shifts</p>
+                            <h2 class="single-lesson-title">Modelling 1 - Binary shifts</h2>
+                            <div class="single-lesson-rule" aria-hidden="true"></div>
+                        </header>
+                        <div class="single-lesson-content-wrap binary-content-wrap">
+                            <div class="binary-model-layout">
+                                <article class="single-lesson-explanation-card"><p>Shift the binary number <code>00010100</code> left by 1 place.</p></article>
+                                <article class="binary-shift-board" data-shift-board data-start="00010100" data-start-index="4" data-target-index="3">
+                                    <div class="binary-shift-board-scroll">
+                                        <div class="binary-shift-value-grid" aria-label="16 place value binary shift grid">
+                                            <div class="binary-shift-row-label">Place value</div>
+                                            <span class="binary-shift-place">2048</span><span class="binary-shift-place">1024</span><span class="binary-shift-place">512</span><span class="binary-shift-place">256</span><span class="binary-shift-place is-boundary-start">128</span><span class="binary-shift-place">64</span><span class="binary-shift-place">32</span><span class="binary-shift-place">16</span><span class="binary-shift-place">8</span><span class="binary-shift-place">4</span><span class="binary-shift-place">2</span><span class="binary-shift-place is-boundary-end">1</span><span class="binary-shift-place">0.5</span><span class="binary-shift-place">0.25</span><span class="binary-shift-place">0.125</span><span class="binary-shift-place">0.0625</span>
+                                            <div class="binary-shift-row-label">Number</div>
+                                            <span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell is-boundary-start" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell is-boundary-end" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span>
+                                        </div>
+                                    </div>
+                                    <div class="binary-step-controls single-lesson-control-row">
+                                        <button class="single-lesson-control-button" type="button" data-shift-board-left>Left shift</button>
+                                        <button class="single-lesson-control-button" type="button" data-shift-board-right>Right shift</button>
+                                    </div>
+                                    <p class="binary-step-status" data-shift-board-status>Use the buttons to shift the binary string.</p>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="single-lesson-section binary-lesson-section " id="practise-a-right-binary-shift" data-single-lesson-section aria-label="Modelling 2 - Binary shifts">
+                    <div class="single-lesson-section-inner binary-section-inner">
+                        <header class="single-lesson-section-header">
+                            <p class="single-lesson-badge">Part 4 - Binary shifts</p>
+                            <h2 class="single-lesson-title">Modelling 2 - Binary shifts</h2>
+                            <div class="single-lesson-rule" aria-hidden="true"></div>
+                        </header>
+                        <div class="single-lesson-content-wrap binary-content-wrap">
+                            <div class="binary-model-layout">
+                                <article class="single-lesson-explanation-card"><p>Shift the binary number <code>01101000</code> right by 2 places.</p></article>
+                                <article class="binary-shift-board" data-shift-board data-start="01101000" data-start-index="4" data-target-index="6">
+                                    <div class="binary-shift-board-scroll">
+                                        <div class="binary-shift-value-grid" aria-label="16 place value binary shift grid">
+                                            <div class="binary-shift-row-label">Place value</div>
+                                            <span class="binary-shift-place">2048</span><span class="binary-shift-place">1024</span><span class="binary-shift-place">512</span><span class="binary-shift-place">256</span><span class="binary-shift-place is-boundary-start">128</span><span class="binary-shift-place">64</span><span class="binary-shift-place">32</span><span class="binary-shift-place">16</span><span class="binary-shift-place">8</span><span class="binary-shift-place">4</span><span class="binary-shift-place">2</span><span class="binary-shift-place is-boundary-end">1</span><span class="binary-shift-place">0.5</span><span class="binary-shift-place">0.25</span><span class="binary-shift-place">0.125</span><span class="binary-shift-place">0.0625</span>
+                                            <div class="binary-shift-row-label">Number</div>
+                                            <span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell is-boundary-start" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell is-boundary-end" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span>
+                                        </div>
+                                    </div>
+                                    <div class="binary-step-controls single-lesson-control-row">
+                                        <button class="single-lesson-control-button" type="button" data-shift-board-left>Left shift</button>
+                                        <button class="single-lesson-control-button" type="button" data-shift-board-right>Right shift</button>
+                                    </div>
+                                    <p class="binary-step-status" data-shift-board-status>Use the buttons to shift the binary string.</p>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="single-lesson-section binary-lesson-section " id="complete-binary-shifts-independently" data-single-lesson-section aria-label="Modelling 3 - Binary shifts">
+                    <div class="single-lesson-section-inner binary-section-inner">
+                        <header class="single-lesson-section-header">
+                            <p class="single-lesson-badge">Part 4 - Binary shifts</p>
+                            <h2 class="single-lesson-title">Modelling 3 - Binary shifts</h2>
+                            <div class="single-lesson-rule" aria-hidden="true"></div>
+                        </header>
+                        <div class="single-lesson-content-wrap binary-content-wrap">
+                            <div class="binary-model-layout">
+                                <article class="single-lesson-explanation-card"><p>Shift the binary number <code>00110010</code> left by 2 places.</p></article>
+                                <article class="binary-shift-board" data-shift-board data-start="00110010" data-start-index="4" data-target-index="2">
+                                    <div class="binary-shift-board-scroll">
+                                        <div class="binary-shift-value-grid" aria-label="16 place value binary shift grid">
+                                            <div class="binary-shift-row-label">Place value</div>
+                                            <span class="binary-shift-place">2048</span><span class="binary-shift-place">1024</span><span class="binary-shift-place">512</span><span class="binary-shift-place">256</span><span class="binary-shift-place is-boundary-start">128</span><span class="binary-shift-place">64</span><span class="binary-shift-place">32</span><span class="binary-shift-place">16</span><span class="binary-shift-place">8</span><span class="binary-shift-place">4</span><span class="binary-shift-place">2</span><span class="binary-shift-place is-boundary-end">1</span><span class="binary-shift-place">0.5</span><span class="binary-shift-place">0.25</span><span class="binary-shift-place">0.125</span><span class="binary-shift-place">0.0625</span>
+                                            <div class="binary-shift-row-label">Number</div>
+                                            <span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell is-boundary-start" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell is-boundary-end" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span><span class="binary-shift-cell" data-shift-board-cell></span>
+                                        </div>
+                                    </div>
+                                    <div class="binary-step-controls single-lesson-control-row">
+                                        <button class="single-lesson-control-button" type="button" data-shift-board-left>Left shift</button>
+                                        <button class="single-lesson-control-button" type="button" data-shift-board-right>Right shift</button>
+                                    </div>
+                                    <p class="binary-step-status" data-shift-board-status>Use the buttons to shift the binary string.</p>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="single-lesson-section binary-lesson-section " id="answer-exam-style-binary-shift-questions" data-single-lesson-section aria-label="Exam questions">
+                    <div class="single-lesson-section-inner binary-section-inner">
+                        <header class="single-lesson-section-header">
+                            <p class="single-lesson-badge">Part 4 - Binary shifts</p>
+                            <h2 class="single-lesson-title">Exam questions</h2>
+                            <div class="single-lesson-rule" aria-hidden="true"></div>
+                        </header>
+                        <div class="single-lesson-content-wrap binary-content-wrap">
+                            <div class="single-lesson-exam-list binary-exam-grid">
+                                <button class="single-lesson-exam-card binary-exam-card" type="button" data-binary-modal-open="modal-q7">
+        <span class="single-lesson-exam-number binary-question-number">Q7</span>
+        <span class="single-lesson-exam-question binary-exam-question">Shift 00101100 two places to the left. State the denary effect of this shift.</span>
+        <span class="single-lesson-exam-marks binary-marks">2 marks</span>
+    </button>
+    <div class="binary-modal" id="modal-q7" hidden data-binary-modal>
+        <div class="binary-modal-backdrop" data-binary-modal-close></div>
+        <div class="binary-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-q7-title">
+            <button class="binary-modal-close" type="button" aria-label="Close mark scheme" data-binary-modal-close>x</button>
+            <h3 id="modal-q7-title">Q7 mark scheme</h3>
+            <p class="binary-modal-question">Shift 00101100 two places to the left. State the denary effect of this shift. (2 marks)</p>
+            <div class="binary-mark-scheme"><strong>Mark scheme</strong><p>1 mark for <code>10110000</code>. 1 mark for saying the value is multiplied by 4.</p></div>
+            <div class="binary-model-answer"><strong>Model answer</strong><p><code>00101100</code> shifted left by 2 becomes <code>10110000</code>. A left shift by 2 multiplies by 4.</p></div>
+        </div>
+    </div>
+                                <button class="single-lesson-exam-card binary-exam-card" type="button" data-binary-modal-open="modal-q8">
+        <span class="single-lesson-exam-number binary-question-number">Q8</span>
+        <span class="single-lesson-exam-question binary-exam-question">Shift 11000000 two places to the right. State the denary effect of this shift.</span>
+        <span class="single-lesson-exam-marks binary-marks">2 marks</span>
+    </button>
+    <div class="binary-modal" id="modal-q8" hidden data-binary-modal>
+        <div class="binary-modal-backdrop" data-binary-modal-close></div>
+        <div class="binary-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-q8-title">
+            <button class="binary-modal-close" type="button" aria-label="Close mark scheme" data-binary-modal-close>x</button>
+            <h3 id="modal-q8-title">Q8 mark scheme</h3>
+            <p class="binary-modal-question">Shift 11000000 two places to the right. State the denary effect of this shift. (2 marks)</p>
+            <div class="binary-mark-scheme"><strong>Mark scheme</strong><p>1 mark for <code>00110000</code>. 1 mark for saying the value is divided by 4.</p></div>
+            <div class="binary-model-answer"><strong>Model answer</strong><p><code>11000000</code> shifted right by 2 becomes <code>00110000</code>. A right shift by 2 divides by 4.</p></div>
+        </div>
+    </div>
+                                <button class="single-lesson-exam-card binary-exam-card" type="button" data-binary-modal-open="modal-q9">
+        <span class="single-lesson-exam-number binary-question-number">Q9</span>
+        <span class="single-lesson-exam-question binary-exam-question">A student shifts 00010100 three places to the left. Give the new binary value and state the denary effect.</span>
+        <span class="single-lesson-exam-marks binary-marks">2 marks</span>
+    </button>
+    <div class="binary-modal" id="modal-q9" hidden data-binary-modal>
+        <div class="binary-modal-backdrop" data-binary-modal-close></div>
+        <div class="binary-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-q9-title">
+            <button class="binary-modal-close" type="button" aria-label="Close mark scheme" data-binary-modal-close>x</button>
+            <h3 id="modal-q9-title">Q9 mark scheme</h3>
+            <p class="binary-modal-question">A student shifts 00010100 three places to the left. Give the new binary value and state the denary effect. (2 marks)</p>
+            <div class="binary-mark-scheme"><strong>Mark scheme</strong><p>1 mark for <code>10100000</code>. 1 mark for saying the value is multiplied by 8.</p></div>
+            <div class="binary-model-answer"><strong>Model answer</strong><p><code>00010100</code> shifted left by 3 becomes <code>10100000</code>. A left shift by 3 multiplies by 8.</p></div>
+        </div>
+    </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="single-lesson-section binary-lesson-section single-lesson-end-section" id="end-of-lesson" data-single-lesson-section aria-label="Ready for the next step?">
+                    <div class="single-lesson-section-inner binary-section-inner">
+                        <header class="single-lesson-section-header">
+                            <p class="single-lesson-badge">End of lesson</p>
+                            <h2 class="single-lesson-title">Ready for the next step?</h2>
+                        </header>
+                        <div class="single-lesson-content-wrap binary-content-wrap">
+                            <div class="single-lesson-end-layout">
+                                <div class="single-lesson-end-grid">
+                                    <a class="single-lesson-end-card is-tasks" href="../tasks/1-2-7.html">
+                                        <span class="single-lesson-end-card-title">Tasks</span>
+                                        <span class="single-lesson-end-card-copy">Practise the key ideas from this lesson.</span>
+                                    </a>
+                                    <a class="single-lesson-end-card is-exam" href="../exams/1-2-7.html">
+                                        <span class="single-lesson-end-card-title">Exam</span>
+                                        <span class="single-lesson-end-card-copy">Try exam-style questions for this topic.</span>
+                                    </a>
+                                    <a class="single-lesson-end-card is-quiz" href="../quizzes/1-2-7.html">
+                                        <span class="single-lesson-end-card-title">Quiz</span>
+                                        <span class="single-lesson-end-card-copy">Check recall with quick questions.</span>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script src="../../../routes.js?v=6"></script>
+    <script src="1-2-7.js?v=3"></script>
+    <script src="../../../assets/js/single-page-lesson.js?v=2"></script>
+</body>
+</html>
+
+

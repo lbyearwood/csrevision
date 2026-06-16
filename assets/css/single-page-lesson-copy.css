@@ -1,0 +1,156 @@
+.single-lesson-copy-body {
+    --single-lesson-section-padding-x: clamp(18px, 3vw, 40px);
+    --single-lesson-section-padding-y: clamp(18px, 3vh, 30px);
+}
+
+.single-lesson-copy-body .single-lesson-page {
+    min-height: 100dvh;
+}
+
+.single-lesson-copy-body .single-lesson-copy-main {
+    background: #f4f8ff;
+}
+
+.single-lesson-copy-body .lesson-slide-source {
+    width: min(100%, 1280px);
+    min-height: 100%;
+    margin: 0 auto;
+}
+
+.single-lesson-copy-body .lesson-slide-source > :first-child {
+    margin-top: 0;
+}
+
+.single-lesson-copy-body .subsection-divider-slide:not(.single-lesson-segment-template) {
+    display: grid;
+    align-content: start;
+    justify-items: center;
+    padding-top: clamp(170px, 28vh, 260px);
+}
+
+body.lesson-shell-active.single-lesson-copy-body .learning-objectives-single {
+    display: grid;
+    grid-template-rows: auto auto auto;
+    align-content: start;
+    gap: clamp(18px, 3vh, 28px);
+    min-height: 100%;
+}
+
+body.lesson-shell-active.single-lesson-copy-body .learning-objectives-single .SlideTitle,
+body.lesson-shell-active.single-lesson-copy-body .learning-objectives-single > p:not(.slide-kicker),
+body.lesson-shell-active.single-lesson-copy-body .learning-objectives-single .objective-list {
+    grid-row: auto;
+}
+
+body.lesson-shell-active.single-lesson-copy-body .learning-objectives-single > p:not(.slide-kicker) {
+    transform: none;
+}
+
+.single-lesson-copy-body .lesson-slide-source :is(.slide-grid, .ContentGrid, .hinge-template) {
+    min-height: 100%;
+}
+
+.single-lesson-copy-body .hinge-template {
+    align-content: start;
+}
+
+.single-lesson-copy-body .single-column-slide .slide-grid {
+    max-width: 1180px;
+    margin-inline: auto;
+}
+
+.single-lesson-copy-body .slide-visual-panel img {
+    max-width: 100%;
+    height: auto;
+}
+
+.single-lesson-copy-body .cpu-instructions-output-panel svg,
+.single-lesson-copy-body .von-neumann-architecture-panel svg,
+.single-lesson-copy-body .architecture-comparison-panel svg {
+    width: min(100%, 1180px);
+}
+
+.single-lesson-copy-body .component-match-slide .summary-table-wrap,
+.single-lesson-copy-body .sequence-activity-slide .sequence-sorter {
+    margin-inline: auto;
+}
+
+body.lesson-shell-active.single-lesson-copy-body .fde-cycle-action-layout {
+    height: auto;
+    min-height: 100%;
+    grid-template-rows: auto auto auto auto auto;
+    align-content: start;
+}
+
+body.lesson-shell-active.single-lesson-copy-body .fde-action-d3-panel {
+    margin-bottom: 0;
+}
+
+body.lesson-shell-active.single-lesson-copy-body .fde-action-d3-panel svg {
+    max-height: min(48vh, 500px);
+}
+
+body.lesson-shell-active.single-lesson-copy-body .fde-action-controls {
+    margin-top: 0;
+}
+
+.single-lesson-copy-body .completion-resources-slide .completion-resource-grid {
+    width: min(100%, 1040px);
+    margin-inline: auto;
+}
+
+.single-lesson-copy-body [data-lesson-glossary-trigger] {
+    cursor: pointer;
+}
+
+@media (max-width: 1040px) {
+    .single-lesson-copy-body {
+        overflow: auto;
+    }
+}
+
+@media (max-width: 640px) {
+    .single-lesson-copy-body .single-lesson-copy-section {
+        padding-inline: 14px;
+    }
+
+    .single-lesson-copy-body .lesson-slide-source :is(.slide-grid, .ContentGrid, .hinge-template) {
+        height: auto;
+    }
+
+    .single-lesson-copy-body .lesson-slide-source :is(.slide-grid, .ContentGrid) {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .single-lesson-copy-body .slide-grid > *,
+    .single-lesson-copy-body .slide-copy,
+    .single-lesson-copy-body .teaching-explanation-card,
+    .single-lesson-copy-body .key-point,
+    .single-lesson-copy-body .slide-think-panel,
+    .single-lesson-copy-body .stable-reveal {
+        min-width: 0;
+        max-width: 100%;
+    }
+
+    .single-lesson-copy-body .binary-board {
+        width: 100%;
+        max-width: 100%;
+        overflow-x: auto;
+    }
+
+    .single-lesson-copy-body .summary-table-wrap {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .single-lesson-copy-body .cpu-summary-table {
+        min-width: 0;
+        table-layout: fixed;
+    }
+
+    .single-lesson-copy-body .cpu-summary-table th,
+    .single-lesson-copy-body .cpu-summary-table td {
+        padding: 8px;
+        overflow-wrap: anywhere;
+    }
+}

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.4.1 Logic gate diagrams questions</title>
+    <link rel="stylesheet" href="../../../styles.css?v=45">
+</head>
+<body data-page-type="exam" data-course="gcse-j277" data-topic-id="2-4-1">
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to J277 topics</a>
+        <section class="question-header">
+            <p class="eyebrow">Paper 2</p>
+            <h2>2.4.1 Logic gate diagrams questions</h2>
+            <p class="section-note">OCR-style practice on reading, drawing and correcting AND, OR and NOT logic gate diagrams.</p>
+        </section>
+        <section class="question-list" aria-label="2.4.1 Logic gate diagrams questions">
+            <article class="question-card">
+                <p class="question-text">1) Write the Boolean expression represented by Figure 1. (3 marks)</p>
+                <figure class="question-figure">
+                    <img src="../../../assets/images/boolean-logic-a-and-b-or-c.png" alt="A and B enter an AND gate, then the output and C enter an OR gate.">
+                    <figcaption>Figure 1</figcaption>
+                </figure>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-4-1-1">Show mark scheme</button>
+                <div id="mark-scheme-2-4-1-1" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <ul>
+                        <li>Identifies A AND B.</li>
+                        <li>Identifies that result is ORed with C.</li>
+                        <li>Correct expression: Q = (A AND B) OR C.</li>
+                    </ul>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">2) Draw a logic gate diagram for Q = (A OR B) AND C. (4 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-4-1-2">Show mark scheme</button>
+                <div id="mark-scheme-2-4-1-2" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <ul>
+                        <li>Inputs A and B are correctly labelled.</li>
+                        <li>A and B enter an OR gate.</li>
+                        <li>The OR output and C enter an AND gate.</li>
+                        <li>The final output is labelled Q.</li>
+                    </ul>
+                    <figure class="question-figure">
+                        <img src="../../../assets/images/boolean-logic-a-or-b-and-c.png" alt="A and B enter an OR gate, then that output and C enter an AND gate.">
+                        <figcaption>Correct diagram</figcaption>
+                    </figure>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">3) Draw a logic gate diagram for Q = (A AND NOT B) OR NOT C. (5 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-4-1-3">Show mark scheme</button>
+                <div id="mark-scheme-2-4-1-3" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <ul>
+                        <li>Correctly labels inputs A, B and C.</li>
+                        <li>Uses a NOT gate on B.</li>
+                        <li>Combines A and NOT B using an AND gate.</li>
+                        <li>Uses a NOT gate on C.</li>
+                        <li>Combines the AND output and NOT C using an OR gate, with output Q.</li>
+                    </ul>
+                    <figure class="question-figure">
+                        <img src="../../../assets/images/boolean-logic-a-and-not-b-or-not-c.png" alt="B and C are inverted in a combined AND and OR expression.">
+                        <figcaption>Correct diagram</figcaption>
+                    </figure>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">4) A heater turns on only when the room is cold and the timer is active. Draw the logic diagram and name the gate used. (3 marks)</p>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-4-1-4">Show mark scheme</button>
+                <div id="mark-scheme-2-4-1-4" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <ul>
+                        <li>Uses two inputs, cold and timer active.</li>
+                        <li>Connects both inputs to an AND gate.</li>
+                        <li>Labels the output as heater on, or equivalent.</li>
+                    </ul>
+                </div>
+            </article>
+
+            <article class="question-card">
+                <p class="question-text">5) Figure 2 shows Q = NOT((A AND B) OR C). Explain why the NOT gate is placed at the end of the diagram. (2 marks)</p>
+                <figure class="question-figure">
+                    <img src="../../../assets/images/boolean-logic-not-a-and-b-or-c-whole.png" alt="A and B enter an AND gate, that output and C enter an OR gate, then the OR output passes through a NOT gate.">
+                    <figcaption>Figure 2</figcaption>
+                </figure>
+                <button class="reveal-button" type="button" aria-expanded="false" aria-controls="mark-scheme-2-4-1-5">Show mark scheme</button>
+                <div id="mark-scheme-2-4-1-5" class="mark-scheme" hidden>
+                    <h4>Mark scheme</h4>
+                    <ul>
+                        <li>The expression inside the brackets is processed first.</li>
+                        <li>The final NOT gate inverts the whole result, not just one input.</li>
+                    </ul>
+                </div>
+            </article>
+        </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <script src="../../../routes.js?v=6"></script>
+    <script src="../../../assets/js/site-layout.js?v=1"></script>
+    <script src="../../../assets/js/exam-page.js?v=1"></script>
+    <script src="../../../site.js?v=56"></script>
+</body>
+</html>
