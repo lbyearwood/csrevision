@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.3 Build Three Styled Flex Sections</title>
+    <link rel="stylesheet" href="../../../../styles.css?v=56">
+    <link rel="stylesheet" href="../../../../assets/css/btec-web-tutorials.css?v=6">
+</head>
+<body data-page-type="btec-web-tutorial" data-course="btec-it">
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to Unit 6</a>
+
+        <section class="question-header">
+            <p class="eyebrow">Unit 6 Website Development - Tutorial 3</p>
+            <h2>3.3 Build Three Styled Flex Sections</h2>
+            <p class="section-note">First add the HTML in small steps. Then style the three sections afterwards using small CSS chunks.</p>
+        </section>
+
+        <section class="lesson-part btec-web-guide">
+            <h3>How To Use This Tutorial</h3>
+            <p>Work through each step in order. Add the code shown, check the expected output, then move to the next step. The final code is visible at the bottom so you can compare your finished work.</p>
+        </section>
+
+<section class="lesson-part btec-web-contents">
+        <h3>Steps</h3>
+        <ol><li><a href='#step-1'>Create the project files</a></li><li><a href='#step-2'>Add the basic HTML page structure</a></li><li><a href='#step-3'>Link the external CSS file</a></li><li><a href='#step-4'>Add the main area HTML</a></li><li><a href='#step-5'>Add the red section HTML</a></li><li><a href='#step-6'>Add the amber section HTML</a></li><li><a href='#step-7'>Add the green section HTML</a></li><li><a href='#step-8'>Style the body</a></li><li><a href='#step-9'>Make main use flex</a></li><li><a href='#step-10'>Add a gap between the sections</a></li><li><a href='#step-11'>Add padding and background to main</a></li><li><a href='#step-12'>Make each section use flex</a></li><li><a href='#step-13'>Style the shared section boxes</a></li><li><a href='#step-14'>Add the red section colours</a></li><li><a href='#step-15'>Add the amber section colours</a></li><li><a href='#step-16'>Add the green section colours</a></li><li><a href='#step-17'>Remove the heading margins</a></li><li><a href='#step-18'>Remove the paragraph margins</a></li></ol>
+    </section>
+
+
+<section class="lesson-part btec-web-step" id="step-1">
+    <div class="step-number">Step 1</div>
+    <h2>Step 1 Create the project files</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Create these files inside a new project folder. This step is not typed into the HTML file.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="TEXT"><code>styled-flex-sections
+|
+|-- index.html
+`-- style.css</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>styled-flex-sections</strong> is the project folder for this tutorial.</li><li><strong>index.html</strong> will contain the webpage structure.</li><li><strong>style.css</strong> will contain the CSS styling rules.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class='blank-preview'>No webpage output yet. You have only created the files.</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-2">
+    <div class="step-number">Step 2</div>
+    <h2>Step 2 Add the basic HTML page structure</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into index.html. This creates the starting HTML page.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Three Styled Flex Sections&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>DOCTYPE html</strong> tells the browser that this is an HTML5 webpage.</li><li><strong>head</strong> stores information about the webpage.</li><li><strong>title</strong> sets the text shown on the browser tab.</li><li><strong>body</strong> is where the visible webpage content will go.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class='blank-preview'>The page is blank because no visible content has been added yet.</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-3">
+    <div class="step-number">Step 3</div>
+    <h2>Step 3 Link the external CSS file</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Replace the current head section in index.html with this updated head section.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Three Styled Flex Sections&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+&lt;/head&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>link</strong> connects the HTML file to another file.</li><li><strong>rel</strong> tells the browser that the linked file is a stylesheet.</li><li><strong>href</strong> tells the browser the name of the CSS file.</li><li><strong>style.css</strong> will control how the webpage looks.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class='blank-preview'>The page is still blank because there is no visible content yet.</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-4">
+    <div class="step-number">Step 4</div>
+    <h2>Step 4 Add the main area HTML</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add the main tag inside the body tag in index.html.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;main&gt;
+
+&lt;/main&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>main</strong> creates the main content area of the webpage.</li><li><strong>main</strong> will hold the three coloured sections.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class='blank-preview'>The main area is empty, so there is still no visible content yet.</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-5">
+    <div class="step-number">Step 5</div>
+    <h2>Step 5 Add the red section HTML</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this first section inside the main tag in index.html.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;section class=&quot;section-box red-section&quot;&gt;
+    &lt;h2&gt;Section 1&lt;/h2&gt;
+    &lt;p&gt;This section uses a red theme for warning or important information.&lt;/p&gt;
+&lt;/section&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>section</strong> creates the first content section inside main.</li><li><strong>section-box</strong> is a shared class that will style all three sections.</li><li><strong>red-section</strong> is a specific class that will give this section its red theme.</li><li><strong>h2</strong> creates the section heading.</li><li><strong>p</strong> creates the paragraph text.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame">
+    <main class="pv-main-plain">
+
+        <section class="pv-section">
+            <h2 class="">Section 1</h2>
+            <p class="">This section uses a red theme for warning or important information.</p>
+        </section>
+    </main>
+</div>
+</div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-6">
+    <div class="step-number">Step 6</div>
+    <h2>Step 6 Add the amber section HTML</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this second section inside the main tag, under the red section.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;section class=&quot;section-box amber-section&quot;&gt;
+    &lt;h2&gt;Section 2&lt;/h2&gt;
+    &lt;p&gt;This section uses an amber theme for reminders or useful notes.&lt;/p&gt;
+&lt;/section&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>section</strong> creates the second content section inside main.</li><li><strong>section-box</strong> uses the same shared class as the first section.</li><li><strong>amber-section</strong> is a specific class that will give this section its amber theme.</li><li><strong>h2</strong> creates the section heading.</li><li><strong>p</strong> creates the paragraph text.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame">
+    <main class="pv-main-plain">
+
+        <section class="pv-section">
+            <h2 class="">Section 1</h2>
+            <p class="">This section uses a red theme for warning or important information.</p>
+        </section>
+        <section class="pv-section">
+            <h2 class="">Section 2</h2>
+            <p class="">This section uses an amber theme for reminders or useful notes.</p>
+        </section>
+    </main>
+</div>
+</div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-7">
+    <div class="step-number">Step 7</div>
+    <h2>Step 7 Add the green section HTML</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this third section inside the main tag, under the amber section.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;section class=&quot;section-box green-section&quot;&gt;
+    &lt;h2&gt;Section 3&lt;/h2&gt;
+    &lt;p&gt;This section uses a green theme for success or positive information.&lt;/p&gt;
+&lt;/section&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>section</strong> creates the third content section inside main.</li><li><strong>section-box</strong> uses the same shared class as the first two sections.</li><li><strong>green-section</strong> is a specific class that will give this section its green theme.</li><li><strong>h2</strong> creates the section heading.</li><li><strong>p</strong> creates the paragraph text.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame">
+    <main class="pv-main-plain">
+
+        <section class="pv-section">
+            <h2 class="">Section 1</h2>
+            <p class="">This section uses a red theme for warning or important information.</p>
+        </section>
+        <section class="pv-section">
+            <h2 class="">Section 2</h2>
+            <p class="">This section uses an amber theme for reminders or useful notes.</p>
+        </section>
+        <section class="pv-section">
+            <h2 class="">Section 3</h2>
+            <p class="">This section uses a green theme for success or positive information.</p>
+        </section>
+    </main>
+</div>
+</div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-8">
+    <div class="step-number">Step 8</div>
+    <h2>Step 8 Style the body</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>body {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    color: #222222;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>body</strong> selects the whole visible webpage.</li><li><strong>margin-top</strong> removes the browser gap at the top.</li><li><strong>margin-right</strong> removes the browser gap on the right.</li><li><strong>margin-bottom</strong> removes the browser gap at the bottom.</li><li><strong>margin-left</strong> removes the browser gap on the left.</li><li><strong>font-family</strong> changes the font used on the webpage.</li><li><strong>background-color</strong> changes the page background to light grey.</li><li><strong>color</strong> changes the normal text colour to dark grey.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main class="pv-main-plain">
+
+        <section class="pv-section">
+            <h2 class="">Section 1</h2>
+            <p class="">This section uses a red theme for warning or important information.</p>
+        </section>
+        <section class="pv-section">
+            <h2 class="">Section 2</h2>
+            <p class="">This section uses an amber theme for reminders or useful notes.</p>
+        </section>
+        <section class="pv-section">
+            <h2 class="">Section 3</h2>
+            <p class="">This section uses a green theme for success or positive information.</p>
+        </section>
+    </main>
+</div>
+</div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-9">
+    <div class="step-number">Step 9</div>
+    <h2>Step 9 Make main use flex</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the body CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>main {
+    display: flex;
+    justify-content: center;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>main</strong> selects the main content area.</li><li><strong>display</strong> turns the main area into a flex container.</li><li><strong>flex</strong> allows the three sections to sit side by side.</li><li><strong>justify-content</strong> controls how content is positioned across the main axis.</li><li><strong>center</strong> places the group of sections in the centre horizontally.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main class="pv-main-flex">
+
+        <section class="pv-section">
+            <h2 class="">Section 1</h2>
+            <p class="">This section uses a red theme for warning or important information.</p>
+        </section>
+        <section class="pv-section">
+            <h2 class="">Section 2</h2>
+            <p class="">This section uses an amber theme for reminders or useful notes.</p>
+        </section>
+        <section class="pv-section">
+            <h2 class="">Section 3</h2>
+            <p class="">This section uses a green theme for success or positive information.</p>
+        </section>
+    </main>
+</div>
+</div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-10">
+    <div class="step-number">Step 10</div>
+    <h2>Step 10 Add a gap between the sections</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this gap line inside the existing main CSS rule in style.css.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>main {
+    gap: 20px;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>gap</strong> adds space between flex items.</li><li><strong>20px</strong> creates a clear gap between each section.</li><li><strong>main</strong> is the flex container, so the gap is applied between the sections inside it.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-gap">
+
+        <section class="pv-section">
+            <h2 class="">Section 1</h2>
+            <p class="">This section uses a red theme for warning or important information.</p>
+        </section>
+        <section class="pv-section">
+            <h2 class="">Section 2</h2>
+            <p class="">This section uses an amber theme for reminders or useful notes.</p>
+        </section>
+        <section class="pv-section">
+            <h2 class="">Section 3</h2>
+            <p class="">This section uses a green theme for success or positive information.</p>
+        </section>
+    </main>
+</div>
+</div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-11">
+    <div class="step-number">Step 11</div>
+    <h2>Step 11 Add padding and background to main</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add these padding and background lines inside the existing main CSS rule in style.css.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>main {
+    padding-top: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+
+    background-color: #cccccc;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>padding-top</strong> adds space inside the top of main.</li><li><strong>padding-right</strong> adds space inside the right side of main.</li><li><strong>padding-bottom</strong> adds space inside the bottom of main.</li><li><strong>padding-left</strong> adds space inside the left side of main.</li><li><strong>background-color</strong> changes the main area background to grey.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-gap pv-main-styled">
+
+        <section class="pv-section">
+            <h2 class="">Section 1</h2>
+            <p class="">This section uses a red theme for warning or important information.</p>
+        </section>
+        <section class="pv-section">
+            <h2 class="">Section 2</h2>
+            <p class="">This section uses an amber theme for reminders or useful notes.</p>
+        </section>
+        <section class="pv-section">
+            <h2 class="">Section 3</h2>
+            <p class="">This section uses a green theme for success or positive information.</p>
+        </section>
+    </main>
+</div>
+</div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-12">
+    <div class="step-number">Step 12</div>
+    <h2>Step 12 Make each section use flex</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the main CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>.section-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>.section-box</strong> selects every section with the class name section-box.</li><li><strong>display</strong> turns each section into a flex container.</li><li><strong>flex-direction</strong> controls the direction of the content inside each section.</li><li><strong>column</strong> places the heading above the paragraph.</li><li><strong>gap</strong> adds space between the heading and paragraph.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-gap pv-main-styled">
+
+        <section class="pv-section pv-section-flex">
+            <h2 class="">Section 1</h2>
+            <p class="">This section uses a red theme for warning or important information.</p>
+        </section>
+        <section class="pv-section pv-section-flex">
+            <h2 class="">Section 2</h2>
+            <p class="">This section uses an amber theme for reminders or useful notes.</p>
+        </section>
+        <section class="pv-section pv-section-flex">
+            <h2 class="">Section 3</h2>
+            <p class="">This section uses a green theme for success or positive information.</p>
+        </section>
+    </main>
+</div>
+</div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-13">
+    <div class="step-number">Step 13</div>
+    <h2>Step 13 Style the shared section boxes</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add these style lines inside the existing .section-box CSS rule in style.css.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>.section-box {
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+
+    width: 30%;
+
+    border-width: 2px;
+    border-left-width: 10px;
+    border-style: solid;
+
+    border-radius: 8px;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>padding</strong> adds space inside each section.</li><li><strong>width</strong> makes each section take up 30 percent of main.</li><li><strong>border-width</strong> sets the normal border thickness.</li><li><strong>border-left-width</strong> makes the left border thicker than the other sides.</li><li><strong>border-style</strong> makes the border a solid line.</li><li><strong>border-radius</strong> rounds the corners of each section.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-gap pv-main-styled">
+
+        <section class="pv-section pv-section-flex pv-section-box">
+            <h2 class="">Section 1</h2>
+            <p class="">This section uses a red theme for warning or important information.</p>
+        </section>
+        <section class="pv-section pv-section-flex pv-section-box">
+            <h2 class="">Section 2</h2>
+            <p class="">This section uses an amber theme for reminders or useful notes.</p>
+        </section>
+        <section class="pv-section pv-section-flex pv-section-box">
+            <h2 class="">Section 3</h2>
+            <p class="">This section uses a green theme for success or positive information.</p>
+        </section>
+    </main>
+</div>
+</div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-14">
+    <div class="step-number">Step 14</div>
+    <h2>Step 14 Add the red section colours</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the .section-box CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>.red-section {
+    background-color: #ffe5e5;
+    border-color: #8b0000;
+    border-left-color: #c1121f;
+    color: #7f1d1d;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>.red-section</strong> selects only the section with the red-section class.</li><li><strong>background-color</strong> changes the section background to light red.</li><li><strong>border-color</strong> changes the normal border to dark red.</li><li><strong>border-left-color</strong> changes the thick left border to a stronger red.</li><li><strong>color</strong> changes the text colour to dark red.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-gap pv-main-styled">
+
+        <section class="pv-section pv-section-flex pv-section-box pv-red-section">
+            <h2 class="">Section 1</h2>
+            <p class="">This section uses a red theme for warning or important information.</p>
+        </section>
+        <section class="pv-section pv-section-flex pv-section-box pv-amber-section">
+            <h2 class="">Section 2</h2>
+            <p class="">This section uses an amber theme for reminders or useful notes.</p>
+        </section>
+        <section class="pv-section pv-section-flex pv-section-box pv-green-section">
+            <h2 class="">Section 3</h2>
+            <p class="">This section uses a green theme for success or positive information.</p>
+        </section>
+    </main>
+</div>
+</div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-15">
+    <div class="step-number">Step 15</div>
+    <h2>Step 15 Add the amber section colours</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the .red-section CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>.amber-section {
+    background-color: #fff3cd;
+    border-color: #92400e;
+    border-left-color: #f59e0b;
+    color: #78350f;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>.amber-section</strong> selects only the section with the amber-section class.</li><li><strong>background-color</strong> changes the section background to light amber.</li><li><strong>border-color</strong> changes the normal border to dark amber.</li><li><strong>border-left-color</strong> changes the thick left border to a stronger amber.</li><li><strong>color</strong> changes the text colour to dark amber.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-gap pv-main-styled">
+
+        <section class="pv-section pv-section-flex pv-section-box pv-red-section">
+            <h2 class="">Section 1</h2>
+            <p class="">This section uses a red theme for warning or important information.</p>
+        </section>
+        <section class="pv-section pv-section-flex pv-section-box pv-amber-section">
+            <h2 class="">Section 2</h2>
+            <p class="">This section uses an amber theme for reminders or useful notes.</p>
+        </section>
+        <section class="pv-section pv-section-flex pv-section-box pv-green-section">
+            <h2 class="">Section 3</h2>
+            <p class="">This section uses a green theme for success or positive information.</p>
+        </section>
+    </main>
+</div>
+</div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-16">
+    <div class="step-number">Step 16</div>
+    <h2>Step 16 Add the green section colours</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the .amber-section CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>.green-section {
+    background-color: #e7f7e7;
+    border-color: #166534;
+    border-left-color: #22c55e;
+    color: #14532d;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>.green-section</strong> selects only the section with the green-section class.</li><li><strong>background-color</strong> changes the section background to light green.</li><li><strong>border-color</strong> changes the normal border to dark green.</li><li><strong>border-left-color</strong> changes the thick left border to a stronger green.</li><li><strong>color</strong> changes the text colour to dark green.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-gap pv-main-styled">
+
+        <section class="pv-section pv-section-flex pv-section-box pv-red-section">
+            <h2 class="">Section 1</h2>
+            <p class="">This section uses a red theme for warning or important information.</p>
+        </section>
+        <section class="pv-section pv-section-flex pv-section-box pv-amber-section">
+            <h2 class="">Section 2</h2>
+            <p class="">This section uses an amber theme for reminders or useful notes.</p>
+        </section>
+        <section class="pv-section pv-section-flex pv-section-box pv-green-section">
+            <h2 class="">Section 3</h2>
+            <p class="">This section uses a green theme for success or positive information.</p>
+        </section>
+    </main>
+</div>
+</div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-17">
+    <div class="step-number">Step 17</div>
+    <h2>Step 17 Remove the heading margins</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the colour section CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>.section-box h2 {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>.section-box h2</strong> selects only headings inside the section boxes.</li><li><strong>margin-top</strong> removes extra space above each heading.</li><li><strong>margin-right</strong> removes extra space on the right of each heading.</li><li><strong>margin-bottom</strong> removes extra space below each heading.</li><li><strong>margin-left</strong> removes extra space on the left of each heading.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-gap pv-main-styled">
+
+        <section class="pv-section pv-section-flex pv-section-box pv-red-section">
+            <h2 class="pv-reset">Section 1</h2>
+            <p class="pv-reset">This section uses a red theme for warning or important information.</p>
+        </section>
+        <section class="pv-section pv-section-flex pv-section-box pv-amber-section">
+            <h2 class="pv-reset">Section 2</h2>
+            <p class="pv-reset">This section uses an amber theme for reminders or useful notes.</p>
+        </section>
+        <section class="pv-section pv-section-flex pv-section-box pv-green-section">
+            <h2 class="pv-reset">Section 3</h2>
+            <p class="pv-reset">This section uses a green theme for success or positive information.</p>
+        </section>
+    </main>
+</div>
+</div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-18">
+    <div class="step-number">Step 18</div>
+    <h2>Step 18 Remove the paragraph margins</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the .section-box h2 CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>.section-box p {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>.section-box p</strong> selects only paragraphs inside the section boxes.</li><li><strong>margin-top</strong> removes extra space above each paragraph.</li><li><strong>margin-right</strong> removes extra space on the right of each paragraph.</li><li><strong>margin-bottom</strong> removes extra space below each paragraph.</li><li><strong>margin-left</strong> removes extra space on the left of each paragraph.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-gap pv-main-styled">
+
+        <section class="pv-section pv-section-flex pv-section-box pv-red-section">
+            <h2 class="pv-reset">Section 1</h2>
+            <p class="pv-reset">This section uses a red theme for warning or important information.</p>
+        </section>
+        <section class="pv-section pv-section-flex pv-section-box pv-amber-section">
+            <h2 class="pv-reset">Section 2</h2>
+            <p class="pv-reset">This section uses an amber theme for reminders or useful notes.</p>
+        </section>
+        <section class="pv-section pv-section-flex pv-section-box pv-green-section">
+            <h2 class="pv-reset">Section 3</h2>
+            <p class="pv-reset">This section uses a green theme for success or positive information.</p>
+        </section>
+    </main>
+</div>
+</div>
+</section>
+
+
+    <section class="lesson-part btec-web-final-code">
+        <h2>Final code</h2>
+<div class="btec-final-code-content">
+            <h2>Final index.html</h2>
+            <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Three Styled Flex Sections&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+    &lt;main&gt;
+        &lt;section class=&quot;section-box red-section&quot;&gt;
+            &lt;h2&gt;Section 1&lt;/h2&gt;
+            &lt;p&gt;This section uses a red theme for warning or important information.&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section class=&quot;section-box amber-section&quot;&gt;
+            &lt;h2&gt;Section 2&lt;/h2&gt;
+            &lt;p&gt;This section uses an amber theme for reminders or useful notes.&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section class=&quot;section-box green-section&quot;&gt;
+            &lt;h2&gt;Section 3&lt;/h2&gt;
+            &lt;p&gt;This section uses a green theme for success or positive information.&lt;/p&gt;
+        &lt;/section&gt;
+    &lt;/main&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+            <h2>Final style.css</h2>
+            <pre class="algorithm-code code-block" data-lang="CSS"><code>body {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    color: #222222;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+
+    padding-top: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+
+    background-color: #cccccc;
+}
+
+.section-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+
+    width: 30%;
+
+    border-width: 2px;
+    border-left-width: 10px;
+    border-style: solid;
+
+    border-radius: 8px;
+}
+
+.red-section {
+    background-color: #ffe5e5;
+    border-color: #8b0000;
+    border-left-color: #c1121f;
+    color: #7f1d1d;
+}
+
+.amber-section {
+    background-color: #fff3cd;
+    border-color: #92400e;
+    border-left-color: #f59e0b;
+    color: #78350f;
+}
+
+.green-section {
+    background-color: #e7f7e7;
+    border-color: #166534;
+    border-left-color: #22c55e;
+    color: #14532d;
+}
+
+.section-box h2 {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}
+
+.section-box p {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}</code></pre>
+        </div>
+    </section>
+
+        <nav class="tutorial-page-nav" aria-label="Tutorial navigation">
+            <a class="back-button back-link" href="btec-unit-6-3-2-three-flex-sections.html">Previous: Build Three Flex Sections</a>
+            <a class="back-button back-link next-tutorial-link" href="btec-unit-6-3-4-nine-wrapped-flex-sections.html">Next: Build Nine Wrapped Flex Sections</a>
+        </nav>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <script src="../../../../routes.js?v=6"></script>
+    <script src="../../../../assets/js/site-layout.js?v=1"></script>
+    <script src="../../../../assets/js/code-display.js?v=2"></script>
+    <script src="../../../../site.js?v=57"></script>
+</body>
+</html>

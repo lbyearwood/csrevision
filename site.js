@@ -55,7 +55,7 @@
       initModule("code display", app.codeDisplay?.init);
     }
 
-    if (type === "content" || type === "course" || type === "home") {
+    if (type === "content" || type === "course" || type === "home" || type === "btec-web-tutorial") {
       initModule("code display", app.codeDisplay?.init);
     }
   }

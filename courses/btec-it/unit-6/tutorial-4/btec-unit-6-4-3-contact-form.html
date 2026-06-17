@@ -1,0 +1,967 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4.3 Contact Form</title>
+    <link rel="stylesheet" href="../../../../styles.css?v=56">
+    <link rel="stylesheet" href="../../../../assets/css/btec-web-tutorials.css?v=6">
+</head>
+<body data-page-type="btec-web-tutorial" data-course="btec-it">
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to Unit 6</a>
+
+        <section class="question-header">
+            <p class="eyebrow">Unit 6 Website Development - Tutorial 4</p>
+            <h2>4.3 Build a Contact Form</h2>
+            <p class="section-note">First add the HTML in small steps. Then style the form afterwards using small CSS chunks.</p>
+        </section>
+
+        <section class="lesson-part btec-web-guide">
+            <h3>How To Use This Tutorial</h3>
+            <p>Work through each step in order. Add the code shown, check the expected output, then move to the next step. The final code is visible at the bottom so you can compare your finished work.</p>
+        </section>
+
+<section class="lesson-part btec-web-contents"><h3>Steps</h3><ol><li><a href="#step-1">Create the project files</a></li><li><a href="#step-2">Add the basic HTML page structure</a></li><li><a href="#step-3">Link the external CSS file</a></li><li><a href="#step-4">Add the main area HTML</a></li><li><a href="#step-5">Add the form section HTML</a></li><li><a href="#step-6">Add the form heading HTML</a></li><li><a href="#step-7">Add the form introduction HTML</a></li><li><a href="#step-8">Add the form tag HTML</a></li><li><a href="#step-9">Add the full name field HTML</a></li><li><a href="#step-10">Add the email field HTML</a></li><li><a href="#step-11">Add the subject field HTML</a></li><li><a href="#step-12">Add the message field HTML</a></li><li><a href="#step-13">Add the submit button HTML</a></li><li><a href="#step-14">Style the body</a></li><li><a href="#step-15">Centre the form inside main</a></li><li><a href="#step-16">Add height and padding to main</a></li><li><a href="#step-17">Style the form section box</a></li><li><a href="#step-18">Style the form heading</a></li><li><a href="#step-19">Style the form introduction</a></li><li><a href="#step-20">Make the form use flex</a></li><li><a href="#step-21">Style the labels</a></li><li><a href="#step-22">Style the inputs and textarea</a></li><li><a href="#step-23">Style the textarea</a></li><li><a href="#step-24">Style the button</a></li><li><a href="#step-25">Add the button hover effect</a></li></ol></section>
+
+<section class="lesson-part btec-web-step" id="step-1">
+    <div class="step-number">Step 1</div>
+    <h2>Step 1 Create the project files</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Create these files inside a new project folder. This step is not typed into the HTML file.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="TEXT"><code>contact-form
+|
+|-- index.html
+`-- style.css</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>contact-form</strong> is the project folder.</li><li><strong>index.html</strong> will contain the webpage structure.</li><li><strong>style.css</strong> will contain the CSS styling rules.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class='blank-preview'>No webpage output yet. You have only created the files.</div></div>
+</section>
+<section class="lesson-part btec-web-step" id="step-2">
+    <div class="step-number">Step 2</div>
+    <h2>Step 2 Add the basic HTML page structure</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into index.html. This creates the starting HTML page.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Contact Form&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>DOCTYPE html</strong> tells the browser this is an HTML5 webpage.</li><li><strong>head</strong> stores information about the webpage.</li><li><strong>body</strong> is where the visible webpage content will go.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class='blank-preview'>The page is blank because no visible content has been added yet.</div></div>
+</section>
+<section class="lesson-part btec-web-step" id="step-3">
+    <div class="step-number">Step 3</div>
+    <h2>Step 3 Link the external CSS file</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Replace the current head section in index.html with this updated head section.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Contact Form&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+&lt;/head&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>link</strong> connects the HTML file to another file.</li><li><strong>rel</strong> tells the browser the linked file is a stylesheet.</li><li><strong>href</strong> tells the browser the name of the CSS file.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class='blank-preview'>The page is still blank because there is no visible content yet.</div></div>
+</section>
+<section class="lesson-part btec-web-step" id="step-4">
+    <div class="step-number">Step 4</div>
+    <h2>Step 4 Add the main area HTML</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add the main tag inside the body tag in index.html.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;main&gt;
+
+&lt;/main&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>main</strong> creates the main content area.</li><li><strong>main</strong> will hold the contact form section.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class='blank-preview'>The main area is empty, so there is still no visible content yet.</div></div>
+</section>
+<section class="lesson-part btec-web-step" id="step-5">
+    <div class="step-number">Step 5</div>
+    <h2>Step 5 Add the form section HTML</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add the section tag inside the main tag in index.html.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;section class=&quot;form-section&quot;&gt;
+
+&lt;/section&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>section</strong> creates a separate section inside main.</li><li><strong>class</strong> gives the section a name so CSS can style it later.</li><li><strong>form-section</strong> is the class name used for the form container.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class='blank-preview'>The form section is empty, so there is still no visible text.</div></div>
+</section>
+<section class="lesson-part btec-web-step" id="step-6">
+    <div class="step-number">Step 6</div>
+    <h2>Step 6 Add the form heading HTML</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add the h1 tag inside the form-section section.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;h1&gt;Contact Us&lt;/h1&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>h1</strong> creates the main heading inside the form section.</li><li><strong>Contact Us</strong> is the heading text shown above the form.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="preview-frame">
+    <main class="">
+        <section class="">
+            <h1 class="">Contact Us</h1>
+        </section>
+    </main>
+</div></div>
+</section>
+<section class="lesson-part btec-web-step" id="step-7">
+    <div class="step-number">Step 7</div>
+    <h2>Step 7 Add the form introduction HTML</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add the p tag inside the form-section section, under the h1 tag.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;p&gt;Complete the form below and we will get back to you soon.&lt;/p&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>p</strong> creates paragraph text inside the form section.</li><li><strong>Introduction text</strong> explains what the form is for.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="preview-frame">
+    <main class="">
+        <section class="">
+            <h1 class="">Contact Us</h1>
+            <p class="">Complete the form below and we will get back to you soon.</p>
+        </section>
+    </main>
+</div></div>
+</section>
+<section class="lesson-part btec-web-step" id="step-8">
+    <div class="step-number">Step 8</div>
+    <h2>Step 8 Add the form tag HTML</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add the form tag inside the form-section section, under the paragraph.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;form&gt;
+
+&lt;/form&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>form</strong> creates an area for input fields and a submit button.</li><li><strong>form</strong> will contain the labels, inputs, message box and button.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="preview-frame">
+    <main class="">
+        <section class="">
+            <h1 class="">Contact Us</h1>
+            <p class="">Complete the form below and we will get back to you soon.</p>
+
+            <form class="" onsubmit="return false;">
+            </form>
+        </section>
+    </main>
+</div></div>
+</section>
+<section class="lesson-part btec-web-step" id="step-9">
+    <div class="step-number">Step 9</div>
+    <h2>Step 9 Add the full name field HTML</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code inside the form tag.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;label for=&quot;name&quot;&gt;Full Name&lt;/label&gt;
+&lt;input type=&quot;text&quot; id=&quot;name&quot; name=&quot;name&quot; placeholder=&quot;Enter your full name&quot;&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>label</strong> adds text that tells the user what to type.</li><li><strong>for</strong> connects the label to the input with the matching id.</li><li><strong>input</strong> creates a field where the user can type.</li><li><strong>placeholder</strong> shows hint text inside the input field.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="preview-frame">
+    <main class="">
+        <section class="">
+            <h1 class="">Contact Us</h1>
+            <p class="">Complete the form below and we will get back to you soon.</p>
+
+            <form class="" onsubmit="return false;">
+                <label class="" for="pv-name">Full Name</label>
+                <input class="" type="text" id="pv-name" name="name" placeholder="Enter your full name">
+            </form>
+        </section>
+    </main>
+</div></div>
+</section>
+<section class="lesson-part btec-web-step" id="step-10">
+    <div class="step-number">Step 10</div>
+    <h2>Step 10 Add the email field HTML</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code inside the form tag, under the full name input.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;label for=&quot;email&quot;&gt;Email Address&lt;/label&gt;
+&lt;input type=&quot;email&quot; id=&quot;email&quot; name=&quot;email&quot; placeholder=&quot;Enter your email address&quot;&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>label</strong> adds text for the email field.</li><li><strong>type</strong> uses email so the browser understands this field should contain an email address.</li><li><strong>id</strong> connects the input to the matching label.</li><li><strong>name</strong> gives the field a name for form data.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="preview-frame">
+    <main class="">
+        <section class="">
+            <h1 class="">Contact Us</h1>
+            <p class="">Complete the form below and we will get back to you soon.</p>
+
+            <form class="" onsubmit="return false;">
+                <label class="" for="pv-name">Full Name</label>
+                <input class="" type="text" id="pv-name" name="name" placeholder="Enter your full name">
+
+                <label class="" for="pv-email">Email Address</label>
+                <input class="" type="email" id="pv-email" name="email" placeholder="Enter your email address">
+            </form>
+        </section>
+    </main>
+</div></div>
+</section>
+<section class="lesson-part btec-web-step" id="step-11">
+    <div class="step-number">Step 11</div>
+    <h2>Step 11 Add the subject field HTML</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code inside the form tag, under the email input.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;label for=&quot;subject&quot;&gt;Subject&lt;/label&gt;
+&lt;input type=&quot;text&quot; id=&quot;subject&quot; name=&quot;subject&quot; placeholder=&quot;Enter a subject&quot;&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>label</strong> adds text for the subject field.</li><li><strong>input</strong> creates another single-line text box.</li><li><strong>type</strong> uses text because the subject is normal text.</li><li><strong>placeholder</strong> shows hint text inside the input.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="preview-frame">
+    <main class="">
+        <section class="">
+            <h1 class="">Contact Us</h1>
+            <p class="">Complete the form below and we will get back to you soon.</p>
+
+            <form class="" onsubmit="return false;">
+                <label class="" for="pv-name">Full Name</label>
+                <input class="" type="text" id="pv-name" name="name" placeholder="Enter your full name">
+
+                <label class="" for="pv-email">Email Address</label>
+                <input class="" type="email" id="pv-email" name="email" placeholder="Enter your email address">
+
+                <label class="" for="pv-subject">Subject</label>
+                <input class="" type="text" id="pv-subject" name="subject" placeholder="Enter a subject">
+            </form>
+        </section>
+    </main>
+</div></div>
+</section>
+<section class="lesson-part btec-web-step" id="step-12">
+    <div class="step-number">Step 12</div>
+    <h2>Step 12 Add the message field HTML</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code inside the form tag, under the subject input.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;label for=&quot;message&quot;&gt;Message&lt;/label&gt;
+&lt;textarea id=&quot;message&quot; name=&quot;message&quot; placeholder=&quot;Write your message here&quot;&gt;&lt;/textarea&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>label</strong> adds text for the message field.</li><li><strong>textarea</strong> creates a larger box for a longer message.</li><li><strong>id</strong> connects the textarea to the matching label.</li><li><strong>placeholder</strong> shows hint text inside the message box.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="preview-frame">
+    <main class="">
+        <section class="">
+            <h1 class="">Contact Us</h1>
+            <p class="">Complete the form below and we will get back to you soon.</p>
+
+            <form class="" onsubmit="return false;">
+                <label class="" for="pv-name">Full Name</label>
+                <input class="" type="text" id="pv-name" name="name" placeholder="Enter your full name">
+
+                <label class="" for="pv-email">Email Address</label>
+                <input class="" type="email" id="pv-email" name="email" placeholder="Enter your email address">
+
+                <label class="" for="pv-subject">Subject</label>
+                <input class="" type="text" id="pv-subject" name="subject" placeholder="Enter a subject">
+
+                <label class="" for="pv-message">Message</label>
+                <textarea class="" id="pv-message" name="message" placeholder="Write your message here"></textarea>
+            </form>
+        </section>
+    </main>
+</div></div>
+</section>
+<section class="lesson-part btec-web-step" id="step-13">
+    <div class="step-number">Step 13</div>
+    <h2>Step 13 Add the submit button HTML</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code inside the form tag, under the textarea.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;button type=&quot;submit&quot;&gt;Send Message&lt;/button&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>button</strong> creates a clickable button.</li><li><strong>type</strong> sets the button as a submit button.</li><li><strong>Send Message</strong> is the text shown on the button.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="preview-frame">
+    <main class="">
+        <section class="">
+            <h1 class="">Contact Us</h1>
+            <p class="">Complete the form below and we will get back to you soon.</p>
+
+            <form class="" onsubmit="return false;">
+                <label class="" for="pv-name">Full Name</label>
+                <input class="" type="text" id="pv-name" name="name" placeholder="Enter your full name">
+
+                <label class="" for="pv-email">Email Address</label>
+                <input class="" type="email" id="pv-email" name="email" placeholder="Enter your email address">
+
+                <label class="" for="pv-subject">Subject</label>
+                <input class="" type="text" id="pv-subject" name="subject" placeholder="Enter a subject">
+
+                <label class="" for="pv-message">Message</label>
+                <textarea class="" id="pv-message" name="message" placeholder="Write your message here"></textarea>
+
+                <button class="" type="submit">Send Message</button>
+            </form>
+        </section>
+    </main>
+</div></div>
+</section>
+<section class="lesson-part btec-web-step" id="step-14">
+    <div class="step-number">Step 14</div>
+    <h2>Step 14 Style the body</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>body {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+
+    font-family: Arial, sans-serif;
+    background-color: #eeeeee;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>body</strong> selects the whole visible webpage.</li><li><strong>margin-top</strong> removes the browser gap at the top.</li><li><strong>font-family</strong> changes the font used on the webpage.</li><li><strong>background-color</strong> changes the page background to light grey.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="preview-frame pv-body">
+    <main class="">
+        <section class="">
+            <h1 class="">Contact Us</h1>
+            <p class="">Complete the form below and we will get back to you soon.</p>
+
+            <form class="" onsubmit="return false;">
+                <label class="" for="pv-name">Full Name</label>
+                <input class="" type="text" id="pv-name" name="name" placeholder="Enter your full name">
+
+                <label class="" for="pv-email">Email Address</label>
+                <input class="" type="email" id="pv-email" name="email" placeholder="Enter your email address">
+
+                <label class="" for="pv-subject">Subject</label>
+                <input class="" type="text" id="pv-subject" name="subject" placeholder="Enter a subject">
+
+                <label class="" for="pv-message">Message</label>
+                <textarea class="" id="pv-message" name="message" placeholder="Write your message here"></textarea>
+
+                <button class="" type="submit">Send Message</button>
+            </form>
+        </section>
+    </main>
+</div></div>
+</section>
+<section class="lesson-part btec-web-step" id="step-15">
+    <div class="step-number">Step 15</div>
+    <h2>Step 15 Centre the form inside main</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the body CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>main</strong> selects the main content area.</li><li><strong>display</strong> turns main into a flex container.</li><li><strong>justify-content</strong> centres the form horizontally.</li><li><strong>align-items</strong> centres the form vertically when main has height.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="preview-frame pv-body">
+    <main class="pv-main-flex">
+        <section class="">
+            <h1 class="">Contact Us</h1>
+            <p class="">Complete the form below and we will get back to you soon.</p>
+
+            <form class="" onsubmit="return false;">
+                <label class="" for="pv-name">Full Name</label>
+                <input class="" type="text" id="pv-name" name="name" placeholder="Enter your full name">
+
+                <label class="" for="pv-email">Email Address</label>
+                <input class="" type="email" id="pv-email" name="email" placeholder="Enter your email address">
+
+                <label class="" for="pv-subject">Subject</label>
+                <input class="" type="text" id="pv-subject" name="subject" placeholder="Enter a subject">
+
+                <label class="" for="pv-message">Message</label>
+                <textarea class="" id="pv-message" name="message" placeholder="Write your message here"></textarea>
+
+                <button class="" type="submit">Send Message</button>
+            </form>
+        </section>
+    </main>
+</div></div>
+</section>
+<section class="lesson-part btec-web-step" id="step-16">
+    <div class="step-number">Step 16</div>
+    <h2>Step 16 Add height and padding to main</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add these lines inside the existing main CSS rule in style.css.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>main {
+    min-height: 100vh;
+
+    padding-top: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>min-height</strong> makes main at least the full height of the browser window.</li><li><strong>100vh</strong> means 100 percent of the viewport height.</li><li><strong>padding</strong> adds space inside main.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-size">
+        <section class="">
+            <h1 class="">Contact Us</h1>
+            <p class="">Complete the form below and we will get back to you soon.</p>
+
+            <form class="" onsubmit="return false;">
+                <label class="" for="pv-name">Full Name</label>
+                <input class="" type="text" id="pv-name" name="name" placeholder="Enter your full name">
+
+                <label class="" for="pv-email">Email Address</label>
+                <input class="" type="email" id="pv-email" name="email" placeholder="Enter your email address">
+
+                <label class="" for="pv-subject">Subject</label>
+                <input class="" type="text" id="pv-subject" name="subject" placeholder="Enter a subject">
+
+                <label class="" for="pv-message">Message</label>
+                <textarea class="" id="pv-message" name="message" placeholder="Write your message here"></textarea>
+
+                <button class="" type="submit">Send Message</button>
+            </form>
+        </section>
+    </main>
+</div></div>
+</section>
+<section class="lesson-part btec-web-step" id="step-17">
+    <div class="step-number">Step 17</div>
+    <h2>Step 17 Style the form section box</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the main CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>.form-section {
+    background-color: white;
+
+    border-width: 2px;
+    border-style: solid;
+    border-color: red;
+
+    border-radius: 10px;
+
+    padding-top: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+
+    width: 400px;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>.form-section</strong> selects the section with the class name form-section.</li><li><strong>background-color</strong> changes the form section background to white.</li><li><strong>border-color</strong> changes the border colour to red.</li><li><strong>border-radius</strong> rounds the corners.</li><li><strong>padding</strong> adds space inside the form section.</li><li><strong>width</strong> sets the form section width to 400 pixels.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-size">
+        <section class="pv-form-section">
+            <h1 class="">Contact Us</h1>
+            <p class="">Complete the form below and we will get back to you soon.</p>
+
+            <form class="" onsubmit="return false;">
+                <label class="" for="pv-name">Full Name</label>
+                <input class="" type="text" id="pv-name" name="name" placeholder="Enter your full name">
+
+                <label class="" for="pv-email">Email Address</label>
+                <input class="" type="email" id="pv-email" name="email" placeholder="Enter your email address">
+
+                <label class="" for="pv-subject">Subject</label>
+                <input class="" type="text" id="pv-subject" name="subject" placeholder="Enter a subject">
+
+                <label class="" for="pv-message">Message</label>
+                <textarea class="" id="pv-message" name="message" placeholder="Write your message here"></textarea>
+
+                <button class="" type="submit">Send Message</button>
+            </form>
+        </section>
+    </main>
+</div></div>
+</section>
+<section class="lesson-part btec-web-step" id="step-18">
+    <div class="step-number">Step 18</div>
+    <h2>Step 18 Style the form heading</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the .form-section CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>.form-section h1 {
+    margin-top: 0;
+    color: #8b0000;
+    text-align: center;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>.form-section h1</strong> selects only the h1 inside the form section.</li><li><strong>margin-top</strong> removes extra space above the heading.</li><li><strong>color</strong> changes the heading text to dark red.</li><li><strong>text-align</strong> centres the heading text.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-size">
+        <section class="pv-form-section">
+            <h1 class="pv-form-h1">Contact Us</h1>
+            <p class="">Complete the form below and we will get back to you soon.</p>
+
+            <form class="" onsubmit="return false;">
+                <label class="" for="pv-name">Full Name</label>
+                <input class="" type="text" id="pv-name" name="name" placeholder="Enter your full name">
+
+                <label class="" for="pv-email">Email Address</label>
+                <input class="" type="email" id="pv-email" name="email" placeholder="Enter your email address">
+
+                <label class="" for="pv-subject">Subject</label>
+                <input class="" type="text" id="pv-subject" name="subject" placeholder="Enter a subject">
+
+                <label class="" for="pv-message">Message</label>
+                <textarea class="" id="pv-message" name="message" placeholder="Write your message here"></textarea>
+
+                <button class="" type="submit">Send Message</button>
+            </form>
+        </section>
+    </main>
+</div></div>
+</section>
+<section class="lesson-part btec-web-step" id="step-19">
+    <div class="step-number">Step 19</div>
+    <h2>Step 19 Style the form introduction</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the .form-section h1 CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>.form-section p {
+    text-align: center;
+    color: #444444;
+    margin-bottom: 25px;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>.form-section p</strong> selects only the paragraph inside the form section.</li><li><strong>text-align</strong> centres the paragraph text.</li><li><strong>color</strong> changes the paragraph text to dark grey.</li><li><strong>margin-bottom</strong> adds space below the paragraph.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-size">
+        <section class="pv-form-section">
+            <h1 class="pv-form-h1">Contact Us</h1>
+            <p class="pv-form-p">Complete the form below and we will get back to you soon.</p>
+
+            <form class="" onsubmit="return false;">
+                <label class="" for="pv-name">Full Name</label>
+                <input class="" type="text" id="pv-name" name="name" placeholder="Enter your full name">
+
+                <label class="" for="pv-email">Email Address</label>
+                <input class="" type="email" id="pv-email" name="email" placeholder="Enter your email address">
+
+                <label class="" for="pv-subject">Subject</label>
+                <input class="" type="text" id="pv-subject" name="subject" placeholder="Enter a subject">
+
+                <label class="" for="pv-message">Message</label>
+                <textarea class="" id="pv-message" name="message" placeholder="Write your message here"></textarea>
+
+                <button class="" type="submit">Send Message</button>
+            </form>
+        </section>
+    </main>
+</div></div>
+</section>
+<section class="lesson-part btec-web-step" id="step-20">
+    <div class="step-number">Step 20</div>
+    <h2>Step 20 Make the form use flex</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the .form-section p CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>form</strong> selects the form area.</li><li><strong>display</strong> turns the form into a flex container.</li><li><strong>flex-direction</strong> controls the direction of the form items.</li><li><strong>column</strong> places each label, input and button on a new line.</li><li><strong>gap</strong> adds space between each form item.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-size">
+        <section class="pv-form-section">
+            <h1 class="pv-form-h1">Contact Us</h1>
+            <p class="pv-form-p">Complete the form below and we will get back to you soon.</p>
+
+            <form class="pv-form" onsubmit="return false;">
+                <label class="" for="pv-name">Full Name</label>
+                <input class="" type="text" id="pv-name" name="name" placeholder="Enter your full name">
+
+                <label class="" for="pv-email">Email Address</label>
+                <input class="" type="email" id="pv-email" name="email" placeholder="Enter your email address">
+
+                <label class="" for="pv-subject">Subject</label>
+                <input class="" type="text" id="pv-subject" name="subject" placeholder="Enter a subject">
+
+                <label class="" for="pv-message">Message</label>
+                <textarea class="" id="pv-message" name="message" placeholder="Write your message here"></textarea>
+
+                <button class="" type="submit">Send Message</button>
+            </form>
+        </section>
+    </main>
+</div></div>
+</section>
+<section class="lesson-part btec-web-step" id="step-21">
+    <div class="step-number">Step 21</div>
+    <h2>Step 21 Style the labels</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the form CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>label {
+    font-weight: bold;
+    color: #333333;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>label</strong> selects all labels on the page.</li><li><strong>font-weight</strong> makes the label text bold.</li><li><strong>color</strong> changes the label text to dark grey.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-size">
+        <section class="pv-form-section">
+            <h1 class="pv-form-h1">Contact Us</h1>
+            <p class="pv-form-p">Complete the form below and we will get back to you soon.</p>
+
+            <form class="pv-form" onsubmit="return false;">
+                <label class="pv-label" for="pv-name">Full Name</label>
+                <input class="" type="text" id="pv-name" name="name" placeholder="Enter your full name">
+
+                <label class="pv-label" for="pv-email">Email Address</label>
+                <input class="" type="email" id="pv-email" name="email" placeholder="Enter your email address">
+
+                <label class="pv-label" for="pv-subject">Subject</label>
+                <input class="" type="text" id="pv-subject" name="subject" placeholder="Enter a subject">
+
+                <label class="pv-label" for="pv-message">Message</label>
+                <textarea class="" id="pv-message" name="message" placeholder="Write your message here"></textarea>
+
+                <button class="" type="submit">Send Message</button>
+            </form>
+        </section>
+    </main>
+</div></div>
+</section>
+<section class="lesson-part btec-web-step" id="step-22">
+    <div class="step-number">Step 22</div>
+    <h2>Step 22 Style the inputs and textarea</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the label CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>input,
+textarea {
+    padding-top: 12px;
+    padding-right: 12px;
+    padding-bottom: 12px;
+    padding-left: 12px;
+
+    border-width: 1px;
+    border-style: solid;
+    border-color: #999999;
+
+    border-radius: 6px;
+
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>input</strong> selects all input boxes.</li><li><strong>textarea</strong> selects the message box.</li><li><strong>padding</strong> adds space inside the fields.</li><li><strong>border-color</strong> changes the border colour to grey.</li><li><strong>border-radius</strong> rounds the corners of the fields.</li><li><strong>font-size</strong> changes the text size inside the fields.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-size">
+        <section class="pv-form-section">
+            <h1 class="pv-form-h1">Contact Us</h1>
+            <p class="pv-form-p">Complete the form below and we will get back to you soon.</p>
+
+            <form class="pv-form" onsubmit="return false;">
+                <label class="pv-label" for="pv-name">Full Name</label>
+                <input class="pv-field" type="text" id="pv-name" name="name" placeholder="Enter your full name">
+
+                <label class="pv-label" for="pv-email">Email Address</label>
+                <input class="pv-field" type="email" id="pv-email" name="email" placeholder="Enter your email address">
+
+                <label class="pv-label" for="pv-subject">Subject</label>
+                <input class="pv-field" type="text" id="pv-subject" name="subject" placeholder="Enter a subject">
+
+                <label class="pv-label" for="pv-message">Message</label>
+                <textarea class="pv-field" id="pv-message" name="message" placeholder="Write your message here"></textarea>
+
+                <button class="" type="submit">Send Message</button>
+            </form>
+        </section>
+    </main>
+</div></div>
+</section>
+<section class="lesson-part btec-web-step" id="step-23">
+    <div class="step-number">Step 23</div>
+    <h2>Step 23 Style the textarea</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the input and textarea CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>textarea {
+    min-height: 120px;
+    resize: vertical;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>textarea</strong> selects only the message box.</li><li><strong>min-height</strong> makes the message box at least 120 pixels tall.</li><li><strong>resize</strong> allows the user to resize the message box vertically.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-size">
+        <section class="pv-form-section">
+            <h1 class="pv-form-h1">Contact Us</h1>
+            <p class="pv-form-p">Complete the form below and we will get back to you soon.</p>
+
+            <form class="pv-form" onsubmit="return false;">
+                <label class="pv-label" for="pv-name">Full Name</label>
+                <input class="pv-field" type="text" id="pv-name" name="name" placeholder="Enter your full name">
+
+                <label class="pv-label" for="pv-email">Email Address</label>
+                <input class="pv-field" type="email" id="pv-email" name="email" placeholder="Enter your email address">
+
+                <label class="pv-label" for="pv-subject">Subject</label>
+                <input class="pv-field" type="text" id="pv-subject" name="subject" placeholder="Enter a subject">
+
+                <label class="pv-label" for="pv-message">Message</label>
+                <textarea class="pv-field pv-textarea" id="pv-message" name="message" placeholder="Write your message here"></textarea>
+
+                <button class="" type="submit">Send Message</button>
+            </form>
+        </section>
+    </main>
+</div></div>
+</section>
+<section class="lesson-part btec-web-step" id="step-24">
+    <div class="step-number">Step 24</div>
+    <h2>Step 24 Style the button</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the textarea CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>button {
+    padding-top: 12px;
+    padding-right: 12px;
+    padding-bottom: 12px;
+    padding-left: 12px;
+
+    background-color: red;
+    color: white;
+
+    border-width: 0;
+    border-style: none;
+    border-color: transparent;
+
+    border-radius: 6px;
+
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>button</strong> selects the submit button.</li><li><strong>padding</strong> adds space inside the button.</li><li><strong>background-color</strong> changes the button background to red.</li><li><strong>color</strong> changes the button text to white.</li><li><strong>border-width</strong> removes the visible border.</li><li><strong>border-radius</strong> rounds the button corners.</li><li><strong>cursor</strong> changes the mouse pointer to a hand.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-size">
+        <section class="pv-form-section">
+            <h1 class="pv-form-h1">Contact Us</h1>
+            <p class="pv-form-p">Complete the form below and we will get back to you soon.</p>
+
+            <form class="pv-form" onsubmit="return false;">
+                <label class="pv-label" for="pv-name">Full Name</label>
+                <input class="pv-field" type="text" id="pv-name" name="name" placeholder="Enter your full name">
+
+                <label class="pv-label" for="pv-email">Email Address</label>
+                <input class="pv-field" type="email" id="pv-email" name="email" placeholder="Enter your email address">
+
+                <label class="pv-label" for="pv-subject">Subject</label>
+                <input class="pv-field" type="text" id="pv-subject" name="subject" placeholder="Enter a subject">
+
+                <label class="pv-label" for="pv-message">Message</label>
+                <textarea class="pv-field pv-textarea" id="pv-message" name="message" placeholder="Write your message here"></textarea>
+
+                <button class="pv-button" type="submit">Send Message</button>
+            </form>
+        </section>
+    </main>
+</div></div>
+</section>
+<section class="lesson-part btec-web-step" id="step-25">
+    <div class="step-number">Step 25</div>
+    <h2>Step 25 Add the button hover effect</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the button CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>button:hover {
+    background-color: #8b0000;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>button:hover</strong> selects the button when the mouse moves over it.</li><li><strong>background-color</strong> changes the button background to dark red on hover.</li><li><strong>hover</strong> helps users see that the button is interactive.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-size">
+        <section class="pv-form-section">
+            <h1 class="pv-form-h1">Contact Us</h1>
+            <p class="pv-form-p">Complete the form below and we will get back to you soon.</p>
+
+            <form class="pv-form" onsubmit="return false;">
+                <label class="pv-label" for="pv-name">Full Name</label>
+                <input class="pv-field" type="text" id="pv-name" name="name" placeholder="Enter your full name">
+
+                <label class="pv-label" for="pv-email">Email Address</label>
+                <input class="pv-field" type="email" id="pv-email" name="email" placeholder="Enter your email address">
+
+                <label class="pv-label" for="pv-subject">Subject</label>
+                <input class="pv-field" type="text" id="pv-subject" name="subject" placeholder="Enter a subject">
+
+                <label class="pv-label" for="pv-message">Message</label>
+                <textarea class="pv-field pv-textarea" id="pv-message" name="message" placeholder="Write your message here"></textarea>
+
+                <button class="pv-button pv-button-hover" type="submit">Send Message</button>
+            </form>
+        </section>
+    </main>
+</div><p class='preview-note'>Move your mouse over the button. It should turn dark red.</p></div>
+</section>
+    <section class="lesson-part btec-web-final-code">
+        <h2>Final code</h2>
+<div class="btec-final-code-content">
+            <h2>Final index.html</h2><pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Contact Form&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+    &lt;main&gt;
+        &lt;section class=&quot;form-section&quot;&gt;
+            &lt;h1&gt;Contact Us&lt;/h1&gt;
+            &lt;p&gt;Complete the form below and we will get back to you soon.&lt;/p&gt;
+
+            &lt;form&gt;
+                &lt;label for=&quot;name&quot;&gt;Full Name&lt;/label&gt;
+                &lt;input type=&quot;text&quot; id=&quot;name&quot; name=&quot;name&quot; placeholder=&quot;Enter your full name&quot;&gt;
+
+                &lt;label for=&quot;email&quot;&gt;Email Address&lt;/label&gt;
+                &lt;input type=&quot;email&quot; id=&quot;email&quot; name=&quot;email&quot; placeholder=&quot;Enter your email address&quot;&gt;
+
+                &lt;label for=&quot;subject&quot;&gt;Subject&lt;/label&gt;
+                &lt;input type=&quot;text&quot; id=&quot;subject&quot; name=&quot;subject&quot; placeholder=&quot;Enter a subject&quot;&gt;
+
+                &lt;label for=&quot;message&quot;&gt;Message&lt;/label&gt;
+                &lt;textarea id=&quot;message&quot; name=&quot;message&quot; placeholder=&quot;Write your message here&quot;&gt;&lt;/textarea&gt;
+
+                &lt;button type=&quot;submit&quot;&gt;Send Message&lt;/button&gt;
+            &lt;/form&gt;
+        &lt;/section&gt;
+    &lt;/main&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+            <h2>Final style.css</h2><pre class="algorithm-code code-block" data-lang="CSS"><code>body {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+
+    font-family: Arial, sans-serif;
+    background-color: #eeeeee;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 100vh;
+
+    padding-top: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+}
+
+.form-section {
+    background-color: white;
+
+    border-width: 2px;
+    border-style: solid;
+    border-color: red;
+
+    border-radius: 10px;
+
+    padding-top: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+
+    width: 400px;
+}
+
+.form-section h1 {
+    margin-top: 0;
+    color: #8b0000;
+    text-align: center;
+}
+
+.form-section p {
+    text-align: center;
+    color: #444444;
+    margin-bottom: 25px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+label {
+    font-weight: bold;
+    color: #333333;
+}
+
+input,
+textarea {
+    padding-top: 12px;
+    padding-right: 12px;
+    padding-bottom: 12px;
+    padding-left: 12px;
+
+    border-width: 1px;
+    border-style: solid;
+    border-color: #999999;
+
+    border-radius: 6px;
+
+    font-size: 16px;
+    font-family: Arial, sans-serif;
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+button {
+    padding-top: 12px;
+    padding-right: 12px;
+    padding-bottom: 12px;
+    padding-left: 12px;
+
+    background-color: red;
+    color: white;
+
+    border-width: 0;
+    border-style: none;
+    border-color: transparent;
+
+    border-radius: 6px;
+
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #8b0000;
+}</code></pre>
+        </div>
+    </section>
+
+        <nav class="tutorial-page-nav" aria-label="Tutorial navigation">
+            <a class="back-button back-link" href="btec-unit-6-4-2-image-card.html">Previous: Build an Image Card</a>
+            <a class="back-button back-link next-tutorial-link" href="../index.html">Finish: Back to Unit 6</a>
+        </nav>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <script src="../../../../routes.js?v=6"></script>
+    <script src="../../../../assets/js/site-layout.js?v=1"></script>
+    <script src="../../../../assets/js/code-display.js?v=2"></script>
+    <script src="../../../../site.js?v=57"></script>
+</body>
+</html>

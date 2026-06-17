@@ -96,6 +96,43 @@ function init() {
     codeBlock.innerHTML = highlighted;
     tokenPattern.lastIndex = 0;
   });
+
+  document.querySelectorAll("pre.code-block").forEach((block) => {
+    if (block.previousElementSibling?.classList.contains("code-tools")) return;
+
+    const rawCode = block.textContent;
+    const language = block.getAttribute("data-lang") || "CODE";
+    const tools = document.createElement("div");
+    tools.className = "code-tools";
+
+    const label = document.createElement("span");
+    label.textContent = language;
+
+    const button = document.createElement("button");
+    button.className = "copy-button";
+    button.type = "button";
+    button.textContent = "Copy code";
+
+    tools.append(label, button);
+    block.parentNode.insertBefore(tools, block);
+
+    button.addEventListener("click", async () => {
+      try {
+        await navigator.clipboard.writeText(rawCode);
+        button.textContent = "Copied";
+      } catch {
+        button.textContent = "Copy failed";
+      }
+
+      window.setTimeout(() => {
+        button.textContent = "Copy code";
+      }, 1200);
+    });
+  });
+
+  document.querySelectorAll(".expected-output a[href='#']").forEach((link) => {
+    link.addEventListener("click", (event) => event.preventDefault());
+  });
 }
 
   window.CSRevision.codeDisplay = { init };

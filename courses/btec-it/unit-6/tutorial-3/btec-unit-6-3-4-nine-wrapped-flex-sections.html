@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.4 Build Nine Wrapped Flex Sections</title>
+    <link rel="stylesheet" href="../../../../styles.css?v=56">
+    <link rel="stylesheet" href="../../../../assets/css/btec-web-tutorials.css?v=6">
+</head>
+<body data-page-type="btec-web-tutorial" data-course="btec-it">
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to Unit 6</a>
+
+        <section class="question-header">
+            <p class="eyebrow">Unit 6 Website Development - Tutorial 3</p>
+            <h2>3.4 Build Nine Wrapped Flex Sections</h2>
+            <p class="section-note">Build nine coloured sections and use flex-wrap so they wrap into rows of three.</p>
+        </section>
+
+        <section class="lesson-part btec-web-guide">
+            <h3>How To Use This Tutorial</h3>
+            <p>Work through each step in order. Add the code shown, check the expected output, then move to the next step. The final code is visible at the bottom so you can compare your finished work.</p>
+        </section>
+
+<section class="lesson-part btec-web-contents">
+        <h3>Steps</h3>
+        <ol><li><a href='#step-1'>Create the project files</a></li><li><a href='#step-2'>Add the basic HTML page structure</a></li><li><a href='#step-3'>Link the external CSS file</a></li><li><a href='#step-4'>Add the main area HTML</a></li><li><a href='#step-5'>Add the first row of section HTML</a></li><li><a href='#step-6'>Add the second row of section HTML</a></li><li><a href='#step-7'>Add the third row of section HTML</a></li><li><a href='#step-8'>Style the body</a></li><li><a href='#step-9'>Make main use flex</a></li><li><a href='#step-10'>Allow the cards to wrap</a></li><li><a href='#step-11'>Add padding and background to main</a></li><li><a href='#step-12'>Make each card use flex</a></li><li><a href='#step-13'>Style the shared card boxes</a></li><li><a href='#step-14'>Add the red, amber and green colours</a></li><li><a href='#step-15'>Add the blue, purple and pink colours</a></li><li><a href='#step-16'>Add the teal, orange and grey colours</a></li><li><a href='#step-17'>Remove the heading margins</a></li><li><a href='#step-18'>Remove the paragraph margins</a></li></ol>
+    </section>
+
+
+<section class="lesson-part btec-web-step" id="step-1">
+    <div class="step-number">Step 1</div>
+    <h2>Step 1 Create the project files</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Create these files inside a new project folder. This step is not typed into the HTML file.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="TEXT"><code>wrapped-flex-sections
+|
+|-- index.html
+`-- style.css</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>wrapped-flex-sections</strong> is the project folder for this tutorial.</li><li><strong>index.html</strong> will contain the webpage structure.</li><li><strong>style.css</strong> will contain the CSS styling rules.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class='blank-preview'>No webpage output yet. You have only created the files.</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-2">
+    <div class="step-number">Step 2</div>
+    <h2>Step 2 Add the basic HTML page structure</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into index.html. This creates the starting HTML page.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Nine Wrapped Flex Sections&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>DOCTYPE html</strong> tells the browser that this is an HTML5 webpage.</li><li><strong>head</strong> stores information about the webpage.</li><li><strong>title</strong> sets the text shown on the browser tab.</li><li><strong>body</strong> is where the visible webpage content will go.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class='blank-preview'>The page is blank because no visible content has been added yet.</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-3">
+    <div class="step-number">Step 3</div>
+    <h2>Step 3 Link the external CSS file</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Replace the current head section in index.html with this updated head section.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Nine Wrapped Flex Sections&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+&lt;/head&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>link</strong> connects the HTML file to another file.</li><li><strong>rel</strong> tells the browser that the linked file is a stylesheet.</li><li><strong>href</strong> tells the browser the name of the CSS file.</li><li><strong>style.css</strong> will control how the webpage looks.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class='blank-preview'>The page is still blank because there is no visible content yet.</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-4">
+    <div class="step-number">Step 4</div>
+    <h2>Step 4 Add the main area HTML</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add the main tag inside the body tag in index.html.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;main&gt;
+
+&lt;/main&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>main</strong> creates the main content area of the webpage.</li><li><strong>main</strong> will hold the nine section cards.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class='blank-preview'>The main area is empty, so there is still no visible content yet.</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-5">
+    <div class="step-number">Step 5</div>
+    <h2>Step 5 Add the first row of section HTML</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add these three section tags inside the main tag in index.html.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;section class=&quot;section-card red-card&quot;&gt;
+    &lt;h2&gt;Section 1&lt;/h2&gt;
+    &lt;p&gt;This section uses a red theme.&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;section-card amber-card&quot;&gt;
+    &lt;h2&gt;Section 2&lt;/h2&gt;
+    &lt;p&gt;This section uses an amber theme.&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;section-card green-card&quot;&gt;
+    &lt;h2&gt;Section 3&lt;/h2&gt;
+    &lt;p&gt;This section uses a green theme.&lt;/p&gt;
+&lt;/section&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>section</strong> creates each content card inside main.</li><li><strong>section-card</strong> is the shared class that all nine cards will use.</li><li><strong>red-card</strong> will give Section 1 its red theme later.</li><li><strong>amber-card</strong> will give Section 2 its amber theme later.</li><li><strong>green-card</strong> will give Section 3 its green theme later.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame">
+    <main class="pv-main-plain">
+
+        <section class="pv-card">
+            <h2 class="">Section 1</h2>
+            <p class="">This section uses a red theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 2</h2>
+            <p class="">This section uses an amber theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 3</h2>
+            <p class="">This section uses a green theme.</p>
+        </section>
+    </main>
+</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-6">
+    <div class="step-number">Step 6</div>
+    <h2>Step 6 Add the second row of section HTML</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add these three section tags inside the main tag, under the first three sections.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;section class=&quot;section-card blue-card&quot;&gt;
+    &lt;h2&gt;Section 4&lt;/h2&gt;
+    &lt;p&gt;This section uses a blue theme.&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;section-card purple-card&quot;&gt;
+    &lt;h2&gt;Section 5&lt;/h2&gt;
+    &lt;p&gt;This section uses a purple theme.&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;section-card pink-card&quot;&gt;
+    &lt;h2&gt;Section 6&lt;/h2&gt;
+    &lt;p&gt;This section uses a pink theme.&lt;/p&gt;
+&lt;/section&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>blue-card</strong> will give Section 4 its blue theme later.</li><li><strong>purple-card</strong> will give Section 5 its purple theme later.</li><li><strong>pink-card</strong> will give Section 6 its pink theme later.</li><li><strong>section-card</strong> is reused so these cards share the same layout CSS.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame">
+    <main class="pv-main-plain">
+
+        <section class="pv-card">
+            <h2 class="">Section 1</h2>
+            <p class="">This section uses a red theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 2</h2>
+            <p class="">This section uses an amber theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 3</h2>
+            <p class="">This section uses a green theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 4</h2>
+            <p class="">This section uses a blue theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 5</h2>
+            <p class="">This section uses a purple theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 6</h2>
+            <p class="">This section uses a pink theme.</p>
+        </section>
+    </main>
+</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-7">
+    <div class="step-number">Step 7</div>
+    <h2>Step 7 Add the third row of section HTML</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add these three section tags inside the main tag, under the first six sections.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;section class=&quot;section-card teal-card&quot;&gt;
+    &lt;h2&gt;Section 7&lt;/h2&gt;
+    &lt;p&gt;This section uses a teal theme.&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;section-card orange-card&quot;&gt;
+    &lt;h2&gt;Section 8&lt;/h2&gt;
+    &lt;p&gt;This section uses an orange theme.&lt;/p&gt;
+&lt;/section&gt;
+
+&lt;section class=&quot;section-card grey-card&quot;&gt;
+    &lt;h2&gt;Section 9&lt;/h2&gt;
+    &lt;p&gt;This section uses a grey theme.&lt;/p&gt;
+&lt;/section&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>teal-card</strong> will give Section 7 its teal theme later.</li><li><strong>orange-card</strong> will give Section 8 its orange theme later.</li><li><strong>grey-card</strong> will give Section 9 its grey theme later.</li><li><strong>section-card</strong> is reused so all nine cards share the same layout CSS.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame">
+    <main class="pv-main-plain">
+
+        <section class="pv-card">
+            <h2 class="">Section 1</h2>
+            <p class="">This section uses a red theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 2</h2>
+            <p class="">This section uses an amber theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 3</h2>
+            <p class="">This section uses a green theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 4</h2>
+            <p class="">This section uses a blue theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 5</h2>
+            <p class="">This section uses a purple theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 6</h2>
+            <p class="">This section uses a pink theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 7</h2>
+            <p class="">This section uses a teal theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 8</h2>
+            <p class="">This section uses an orange theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 9</h2>
+            <p class="">This section uses a grey theme.</p>
+        </section>
+    </main>
+</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-8">
+    <div class="step-number">Step 8</div>
+    <h2>Step 8 Style the body</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>body {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    color: #222222;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>body</strong> selects the whole visible webpage.</li><li><strong>margin-top</strong> removes the browser gap at the top.</li><li><strong>margin-right</strong> removes the browser gap on the right.</li><li><strong>margin-bottom</strong> removes the browser gap at the bottom.</li><li><strong>margin-left</strong> removes the browser gap on the left.</li><li><strong>font-family</strong> changes the font used on the webpage.</li><li><strong>background-color</strong> changes the page background to light grey.</li><li><strong>color</strong> changes the normal text colour to dark grey.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main class="pv-main-plain">
+
+        <section class="pv-card">
+            <h2 class="">Section 1</h2>
+            <p class="">This section uses a red theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 2</h2>
+            <p class="">This section uses an amber theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 3</h2>
+            <p class="">This section uses a green theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 4</h2>
+            <p class="">This section uses a blue theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 5</h2>
+            <p class="">This section uses a purple theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 6</h2>
+            <p class="">This section uses a pink theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 7</h2>
+            <p class="">This section uses a teal theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 8</h2>
+            <p class="">This section uses an orange theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 9</h2>
+            <p class="">This section uses a grey theme.</p>
+        </section>
+    </main>
+</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-9">
+    <div class="step-number">Step 9</div>
+    <h2>Step 9 Make main use flex</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the body CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>main {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>main</strong> selects the main content area.</li><li><strong>display</strong> turns main into a flex container.</li><li><strong>flex</strong> allows the section cards to sit next to each other.</li><li><strong>justify-content</strong> centres the group of cards across the main area.</li><li><strong>gap</strong> adds space between the section cards.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main class="pv-main-flex">
+
+        <section class="pv-card">
+            <h2 class="">Section 1</h2>
+            <p class="">This section uses a red theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 2</h2>
+            <p class="">This section uses an amber theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 3</h2>
+            <p class="">This section uses a green theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 4</h2>
+            <p class="">This section uses a blue theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 5</h2>
+            <p class="">This section uses a purple theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 6</h2>
+            <p class="">This section uses a pink theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 7</h2>
+            <p class="">This section uses a teal theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 8</h2>
+            <p class="">This section uses an orange theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 9</h2>
+            <p class="">This section uses a grey theme.</p>
+        </section>
+    </main>
+</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-10">
+    <div class="step-number">Step 10</div>
+    <h2>Step 10 Allow the cards to wrap</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this flex-wrap line inside the existing main CSS rule in style.css.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>main {
+    flex-wrap: wrap;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>flex-wrap</strong> allows flex items to move onto a new row when there is not enough space.</li><li><strong>wrap</strong> moves the extra sections onto the next row.</li><li><strong>main</strong> is the flex container, so the wrapping happens to the section cards inside main.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-wrap">
+
+        <section class="pv-card">
+            <h2 class="">Section 1</h2>
+            <p class="">This section uses a red theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 2</h2>
+            <p class="">This section uses an amber theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 3</h2>
+            <p class="">This section uses a green theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 4</h2>
+            <p class="">This section uses a blue theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 5</h2>
+            <p class="">This section uses a purple theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 6</h2>
+            <p class="">This section uses a pink theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 7</h2>
+            <p class="">This section uses a teal theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 8</h2>
+            <p class="">This section uses an orange theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 9</h2>
+            <p class="">This section uses a grey theme.</p>
+        </section>
+    </main>
+</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-11">
+    <div class="step-number">Step 11</div>
+    <h2>Step 11 Add padding and background to main</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add these padding and background lines inside the existing main CSS rule in style.css.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>main {
+    padding-top: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+
+    background-color: #cccccc;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>padding-top</strong> adds space inside the top of main.</li><li><strong>padding-right</strong> adds space inside the right side of main.</li><li><strong>padding-bottom</strong> adds space inside the bottom of main.</li><li><strong>padding-left</strong> adds space inside the left side of main.</li><li><strong>background-color</strong> changes the main area background to grey.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-wrap pv-main-styled">
+
+        <section class="pv-card">
+            <h2 class="">Section 1</h2>
+            <p class="">This section uses a red theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 2</h2>
+            <p class="">This section uses an amber theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 3</h2>
+            <p class="">This section uses a green theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 4</h2>
+            <p class="">This section uses a blue theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 5</h2>
+            <p class="">This section uses a purple theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 6</h2>
+            <p class="">This section uses a pink theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 7</h2>
+            <p class="">This section uses a teal theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 8</h2>
+            <p class="">This section uses an orange theme.</p>
+        </section>
+        <section class="pv-card">
+            <h2 class="">Section 9</h2>
+            <p class="">This section uses a grey theme.</p>
+        </section>
+    </main>
+</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-12">
+    <div class="step-number">Step 12</div>
+    <h2>Step 12 Make each card use flex</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the main CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>.section-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>.section-card</strong> selects every section with the section-card class.</li><li><strong>display</strong> turns each card into a flex container.</li><li><strong>flex-direction</strong> controls the direction of the content inside each card.</li><li><strong>column</strong> places the heading above the paragraph.</li><li><strong>gap</strong> adds space between the heading and paragraph.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-wrap pv-main-styled">
+
+        <section class="pv-card pv-card-flex">
+            <h2 class="">Section 1</h2>
+            <p class="">This section uses a red theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex">
+            <h2 class="">Section 2</h2>
+            <p class="">This section uses an amber theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex">
+            <h2 class="">Section 3</h2>
+            <p class="">This section uses a green theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex">
+            <h2 class="">Section 4</h2>
+            <p class="">This section uses a blue theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex">
+            <h2 class="">Section 5</h2>
+            <p class="">This section uses a purple theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex">
+            <h2 class="">Section 6</h2>
+            <p class="">This section uses a pink theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex">
+            <h2 class="">Section 7</h2>
+            <p class="">This section uses a teal theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex">
+            <h2 class="">Section 8</h2>
+            <p class="">This section uses an orange theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex">
+            <h2 class="">Section 9</h2>
+            <p class="">This section uses a grey theme.</p>
+        </section>
+    </main>
+</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-13">
+    <div class="step-number">Step 13</div>
+    <h2>Step 13 Style the shared card boxes</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add these style lines inside the existing .section-card CSS rule in style.css.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>.section-card {
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+
+    width: 30%;
+
+    border-width: 2px;
+    border-left-width: 10px;
+    border-style: solid;
+
+    border-radius: 8px;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>padding</strong> adds space inside each card.</li><li><strong>width</strong> makes each card take up 30 percent of main, so three cards can fit on one row.</li><li><strong>border-width</strong> sets the normal border thickness.</li><li><strong>border-left-width</strong> makes the left border thicker than the other sides.</li><li><strong>border-style</strong> makes the border a solid line.</li><li><strong>border-radius</strong> rounds the corners of each card.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-wrap pv-main-styled">
+
+        <section class="pv-card pv-card-flex pv-card-box">
+            <h2 class="">Section 1</h2>
+            <p class="">This section uses a red theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box">
+            <h2 class="">Section 2</h2>
+            <p class="">This section uses an amber theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box">
+            <h2 class="">Section 3</h2>
+            <p class="">This section uses a green theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box">
+            <h2 class="">Section 4</h2>
+            <p class="">This section uses a blue theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box">
+            <h2 class="">Section 5</h2>
+            <p class="">This section uses a purple theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box">
+            <h2 class="">Section 6</h2>
+            <p class="">This section uses a pink theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box">
+            <h2 class="">Section 7</h2>
+            <p class="">This section uses a teal theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box">
+            <h2 class="">Section 8</h2>
+            <p class="">This section uses an orange theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box">
+            <h2 class="">Section 9</h2>
+            <p class="">This section uses a grey theme.</p>
+        </section>
+    </main>
+</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-14">
+    <div class="step-number">Step 14</div>
+    <h2>Step 14 Add the red, amber and green colours</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the .section-card CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>.red-card {
+    background-color: #ffe5e5;
+    border-color: #8b0000;
+    border-left-color: #c1121f;
+    color: #7f1d1d;
+}
+
+.amber-card {
+    background-color: #fff3cd;
+    border-color: #92400e;
+    border-left-color: #f59e0b;
+    color: #78350f;
+}
+
+.green-card {
+    background-color: #e7f7e7;
+    border-color: #166534;
+    border-left-color: #22c55e;
+    color: #14532d;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>.red-card</strong> selects only the red themed card.</li><li><strong>.amber-card</strong> selects only the amber themed card.</li><li><strong>.green-card</strong> selects only the green themed card.</li><li><strong>background-color</strong> sets each card background colour.</li><li><strong>border-left-color</strong> sets the colour of the thick left border.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-wrap pv-main-styled">
+
+        <section class="pv-card pv-card-flex pv-card-box pv-red-card">
+            <h2 class="">Section 1</h2>
+            <p class="">This section uses a red theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-amber-card">
+            <h2 class="">Section 2</h2>
+            <p class="">This section uses an amber theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-green-card">
+            <h2 class="">Section 3</h2>
+            <p class="">This section uses a green theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-blue-card">
+            <h2 class="">Section 4</h2>
+            <p class="">This section uses a blue theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-purple-card">
+            <h2 class="">Section 5</h2>
+            <p class="">This section uses a purple theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-pink-card">
+            <h2 class="">Section 6</h2>
+            <p class="">This section uses a pink theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-teal-card">
+            <h2 class="">Section 7</h2>
+            <p class="">This section uses a teal theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-orange-card">
+            <h2 class="">Section 8</h2>
+            <p class="">This section uses an orange theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-grey-card">
+            <h2 class="">Section 9</h2>
+            <p class="">This section uses a grey theme.</p>
+        </section>
+    </main>
+</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-15">
+    <div class="step-number">Step 15</div>
+    <h2>Step 15 Add the blue, purple and pink colours</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the green-card CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>.blue-card {
+    background-color: #dbeafe;
+    border-color: #1e3a8a;
+    border-left-color: #2563eb;
+    color: #1e3a8a;
+}
+
+.purple-card {
+    background-color: #ede9fe;
+    border-color: #5b21b6;
+    border-left-color: #7c3aed;
+    color: #4c1d95;
+}
+
+.pink-card {
+    background-color: #fce7f3;
+    border-color: #9d174d;
+    border-left-color: #db2777;
+    color: #831843;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>.blue-card</strong> selects only the blue themed card.</li><li><strong>.purple-card</strong> selects only the purple themed card.</li><li><strong>.pink-card</strong> selects only the pink themed card.</li><li><strong>border-color</strong> sets the normal border colour for each card.</li><li><strong>color</strong> sets the text colour for each card.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-wrap pv-main-styled">
+
+        <section class="pv-card pv-card-flex pv-card-box pv-red-card">
+            <h2 class="">Section 1</h2>
+            <p class="">This section uses a red theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-amber-card">
+            <h2 class="">Section 2</h2>
+            <p class="">This section uses an amber theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-green-card">
+            <h2 class="">Section 3</h2>
+            <p class="">This section uses a green theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-blue-card">
+            <h2 class="">Section 4</h2>
+            <p class="">This section uses a blue theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-purple-card">
+            <h2 class="">Section 5</h2>
+            <p class="">This section uses a purple theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-pink-card">
+            <h2 class="">Section 6</h2>
+            <p class="">This section uses a pink theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-teal-card">
+            <h2 class="">Section 7</h2>
+            <p class="">This section uses a teal theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-orange-card">
+            <h2 class="">Section 8</h2>
+            <p class="">This section uses an orange theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-grey-card">
+            <h2 class="">Section 9</h2>
+            <p class="">This section uses a grey theme.</p>
+        </section>
+    </main>
+</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-16">
+    <div class="step-number">Step 16</div>
+    <h2>Step 16 Add the teal, orange and grey colours</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the pink-card CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>.teal-card {
+    background-color: #ccfbf1;
+    border-color: #115e59;
+    border-left-color: #14b8a6;
+    color: #134e4a;
+}
+
+.orange-card {
+    background-color: #ffedd5;
+    border-color: #9a3412;
+    border-left-color: #f97316;
+    color: #7c2d12;
+}
+
+.grey-card {
+    background-color: #e5e7eb;
+    border-color: #374151;
+    border-left-color: #6b7280;
+    color: #1f2937;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>.teal-card</strong> selects only the teal themed card.</li><li><strong>.orange-card</strong> selects only the orange themed card.</li><li><strong>.grey-card</strong> selects only the grey themed card.</li><li><strong>background-color</strong> sets each card background colour.</li><li><strong>color</strong> sets each card text colour.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-wrap pv-main-styled">
+
+        <section class="pv-card pv-card-flex pv-card-box pv-red-card">
+            <h2 class="">Section 1</h2>
+            <p class="">This section uses a red theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-amber-card">
+            <h2 class="">Section 2</h2>
+            <p class="">This section uses an amber theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-green-card">
+            <h2 class="">Section 3</h2>
+            <p class="">This section uses a green theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-blue-card">
+            <h2 class="">Section 4</h2>
+            <p class="">This section uses a blue theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-purple-card">
+            <h2 class="">Section 5</h2>
+            <p class="">This section uses a purple theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-pink-card">
+            <h2 class="">Section 6</h2>
+            <p class="">This section uses a pink theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-teal-card">
+            <h2 class="">Section 7</h2>
+            <p class="">This section uses a teal theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-orange-card">
+            <h2 class="">Section 8</h2>
+            <p class="">This section uses an orange theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-grey-card">
+            <h2 class="">Section 9</h2>
+            <p class="">This section uses a grey theme.</p>
+        </section>
+    </main>
+</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-17">
+    <div class="step-number">Step 17</div>
+    <h2>Step 17 Remove the heading margins</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the colour section CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>.section-card h2 {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>.section-card h2</strong> selects only headings inside the section cards.</li><li><strong>margin-top</strong> removes extra space above each heading.</li><li><strong>margin-right</strong> removes extra space on the right of each heading.</li><li><strong>margin-bottom</strong> removes extra space below each heading.</li><li><strong>margin-left</strong> removes extra space on the left of each heading.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-wrap pv-main-styled">
+
+        <section class="pv-card pv-card-flex pv-card-box pv-red-card">
+            <h2 class="pv-reset">Section 1</h2>
+            <p class="pv-reset">This section uses a red theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-amber-card">
+            <h2 class="pv-reset">Section 2</h2>
+            <p class="pv-reset">This section uses an amber theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-green-card">
+            <h2 class="pv-reset">Section 3</h2>
+            <p class="pv-reset">This section uses a green theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-blue-card">
+            <h2 class="pv-reset">Section 4</h2>
+            <p class="pv-reset">This section uses a blue theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-purple-card">
+            <h2 class="pv-reset">Section 5</h2>
+            <p class="pv-reset">This section uses a purple theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-pink-card">
+            <h2 class="pv-reset">Section 6</h2>
+            <p class="pv-reset">This section uses a pink theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-teal-card">
+            <h2 class="pv-reset">Section 7</h2>
+            <p class="pv-reset">This section uses a teal theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-orange-card">
+            <h2 class="pv-reset">Section 8</h2>
+            <p class="pv-reset">This section uses an orange theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-grey-card">
+            <h2 class="pv-reset">Section 9</h2>
+            <p class="pv-reset">This section uses a grey theme.</p>
+        </section>
+    </main>
+</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-18">
+    <div class="step-number">Step 18</div>
+    <h2>Step 18 Remove the paragraph margins</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the .section-card h2 CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>.section-card p {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>.section-card p</strong> selects only paragraphs inside the section cards.</li><li><strong>margin-top</strong> removes extra space above each paragraph.</li><li><strong>margin-right</strong> removes extra space on the right of each paragraph.</li><li><strong>margin-bottom</strong> removes extra space below each paragraph.</li><li><strong>margin-left</strong> removes extra space on the left of each paragraph.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main class="pv-main-flex pv-main-wrap pv-main-styled">
+
+        <section class="pv-card pv-card-flex pv-card-box pv-red-card">
+            <h2 class="pv-reset">Section 1</h2>
+            <p class="pv-reset">This section uses a red theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-amber-card">
+            <h2 class="pv-reset">Section 2</h2>
+            <p class="pv-reset">This section uses an amber theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-green-card">
+            <h2 class="pv-reset">Section 3</h2>
+            <p class="pv-reset">This section uses a green theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-blue-card">
+            <h2 class="pv-reset">Section 4</h2>
+            <p class="pv-reset">This section uses a blue theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-purple-card">
+            <h2 class="pv-reset">Section 5</h2>
+            <p class="pv-reset">This section uses a purple theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-pink-card">
+            <h2 class="pv-reset">Section 6</h2>
+            <p class="pv-reset">This section uses a pink theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-teal-card">
+            <h2 class="pv-reset">Section 7</h2>
+            <p class="pv-reset">This section uses a teal theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-orange-card">
+            <h2 class="pv-reset">Section 8</h2>
+            <p class="pv-reset">This section uses an orange theme.</p>
+        </section>
+        <section class="pv-card pv-card-flex pv-card-box pv-grey-card">
+            <h2 class="pv-reset">Section 9</h2>
+            <p class="pv-reset">This section uses a grey theme.</p>
+        </section>
+    </main>
+</div></div>
+</section>
+
+
+    <section class="lesson-part btec-web-final-code">
+        <h2>Final code</h2>
+<div class="btec-final-code-content">
+            <h2>Final index.html</h2>
+            <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Nine Wrapped Flex Sections&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+    &lt;main&gt;
+        &lt;section class=&quot;section-card red-card&quot;&gt;
+            &lt;h2&gt;Section 1&lt;/h2&gt;
+            &lt;p&gt;This section uses a red theme.&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section class=&quot;section-card amber-card&quot;&gt;
+            &lt;h2&gt;Section 2&lt;/h2&gt;
+            &lt;p&gt;This section uses an amber theme.&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section class=&quot;section-card green-card&quot;&gt;
+            &lt;h2&gt;Section 3&lt;/h2&gt;
+            &lt;p&gt;This section uses a green theme.&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section class=&quot;section-card blue-card&quot;&gt;
+            &lt;h2&gt;Section 4&lt;/h2&gt;
+            &lt;p&gt;This section uses a blue theme.&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section class=&quot;section-card purple-card&quot;&gt;
+            &lt;h2&gt;Section 5&lt;/h2&gt;
+            &lt;p&gt;This section uses a purple theme.&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section class=&quot;section-card pink-card&quot;&gt;
+            &lt;h2&gt;Section 6&lt;/h2&gt;
+            &lt;p&gt;This section uses a pink theme.&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section class=&quot;section-card teal-card&quot;&gt;
+            &lt;h2&gt;Section 7&lt;/h2&gt;
+            &lt;p&gt;This section uses a teal theme.&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section class=&quot;section-card orange-card&quot;&gt;
+            &lt;h2&gt;Section 8&lt;/h2&gt;
+            &lt;p&gt;This section uses an orange theme.&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section class=&quot;section-card grey-card&quot;&gt;
+            &lt;h2&gt;Section 9&lt;/h2&gt;
+            &lt;p&gt;This section uses a grey theme.&lt;/p&gt;
+        &lt;/section&gt;
+    &lt;/main&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+            <h2>Final style.css</h2>
+            <pre class="algorithm-code code-block" data-lang="CSS"><code>body {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    color: #222222;
+}
+
+main {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+
+    padding-top: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+
+    background-color: #cccccc;
+}
+
+.section-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+
+    width: 30%;
+
+    border-width: 2px;
+    border-left-width: 10px;
+    border-style: solid;
+
+    border-radius: 8px;
+}
+
+.red-card {
+    background-color: #ffe5e5;
+    border-color: #8b0000;
+    border-left-color: #c1121f;
+    color: #7f1d1d;
+}
+
+.amber-card {
+    background-color: #fff3cd;
+    border-color: #92400e;
+    border-left-color: #f59e0b;
+    color: #78350f;
+}
+
+.green-card {
+    background-color: #e7f7e7;
+    border-color: #166534;
+    border-left-color: #22c55e;
+    color: #14532d;
+}
+
+.blue-card {
+    background-color: #dbeafe;
+    border-color: #1e3a8a;
+    border-left-color: #2563eb;
+    color: #1e3a8a;
+}
+
+.purple-card {
+    background-color: #ede9fe;
+    border-color: #5b21b6;
+    border-left-color: #7c3aed;
+    color: #4c1d95;
+}
+
+.pink-card {
+    background-color: #fce7f3;
+    border-color: #9d174d;
+    border-left-color: #db2777;
+    color: #831843;
+}
+
+.teal-card {
+    background-color: #ccfbf1;
+    border-color: #115e59;
+    border-left-color: #14b8a6;
+    color: #134e4a;
+}
+
+.orange-card {
+    background-color: #ffedd5;
+    border-color: #9a3412;
+    border-left-color: #f97316;
+    color: #7c2d12;
+}
+
+.grey-card {
+    background-color: #e5e7eb;
+    border-color: #374151;
+    border-left-color: #6b7280;
+    color: #1f2937;
+}
+
+.section-card h2 {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}
+
+.section-card p {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}</code></pre>
+        </div>
+    </section>
+
+        <nav class="tutorial-page-nav" aria-label="Tutorial navigation">
+            <a class="back-button back-link" href="btec-unit-6-3-3-styled-flex-sections.html">Previous: Build Three Styled Flex Sections</a>
+            <a class="back-button back-link next-tutorial-link" href="btec-unit-6-3-5-central-nav-template.html">Next: Build a Central Navigation Website Template</a>
+        </nav>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <script src="../../../../routes.js?v=6"></script>
+    <script src="../../../../assets/js/site-layout.js?v=1"></script>
+    <script src="../../../../assets/js/code-display.js?v=2"></script>
+    <script src="../../../../site.js?v=57"></script>
+</body>
+</html>
