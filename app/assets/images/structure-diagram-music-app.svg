@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520" role="img" aria-labelledby="title desc">
+  <title id="title">Music streaming app structure diagram</title>
+  <desc id="desc">A structure diagram with Music streaming app at the top and modules for search songs, play music, manage playlists and show recommendations underneath.</desc>
+  <rect width="900" height="520" fill="#ffffff"/>
+  <g stroke="#102033" stroke-width="4" fill="#f7fbfd">
+    <rect x="305" y="40" width="290" height="76" rx="8"/>
+    <rect x="54" y="280" width="180" height="76" rx="8"/>
+    <rect x="270" y="280" width="180" height="76" rx="8"/>
+    <rect x="486" y="280" width="180" height="76" rx="8"/>
+    <rect x="702" y="280" width="160" height="76" rx="8"/>
+  </g>
+  <g stroke="#102033" stroke-width="4" fill="none">
+    <line x1="450" y1="116" x2="450" y2="200"/>
+    <line x1="144" y1="200" x2="782" y2="200"/>
+    <line x1="144" y1="200" x2="144" y2="280"/>
+    <line x1="360" y1="200" x2="360" y2="280"/>
+    <line x1="576" y1="200" x2="576" y2="280"/>
+    <line x1="782" y1="200" x2="782" y2="280"/>
+  </g>
+  <g fill="#102033" font-family="Arial, sans-serif" font-size="24" text-anchor="middle">
+    <text x="450" y="72">Music streaming</text><text x="450" y="100">app</text>
+    <text x="144" y="310">Search</text><text x="144" y="338">songs</text>
+    <text x="360" y="310">Play</text><text x="360" y="338">music</text>
+    <text x="576" y="310">Manage</text><text x="576" y="338">playlists</text>
+    <text x="782" y="310">Show</text><text x="782" y="338">recommendations</text>
+  </g>
+</svg>

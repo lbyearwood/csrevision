@@ -1,0 +1,384 @@
+/* Shared full-screen GCSE lesson shell */
+:root {
+    --colour-text: var(--ink, #071638);
+    --text-xs: 0.875rem;
+    --text-sm: 1rem;
+    --text-base: 1.125rem;
+    --text-lg: 1.25rem;
+    --text-xl: 1.5rem;
+    --text-2xl: 2rem;
+    --text-3xl: 2.75rem;
+    --space-xs: 0.25rem;
+    --space-sm: 0.5rem;
+    --space-md: 1rem;
+    --space-lg: 1.5rem;
+    --space-xl: 2rem;
+    --space-2xl: 3rem;
+    --slide-kicker-title-gap: clamp(0.55rem, 1.1vh, 0.85rem);
+    --slide-title-content-gap: clamp(1.1rem, 2vh, 1.45rem);
+    --slide-table-explanation-gap: clamp(0.9rem, 1.8vh, 1.35rem);
+}
+
+body.lesson-shell-active {
+    width: 100%;
+    height: 100dvh;
+    min-height: 100dvh;
+    margin: 0;
+    overflow: hidden;
+    background: #eaf3fb;
+    color: var(--colour-text);
+}
+
+body.lesson-shell-active,
+body.lesson-shell-active * {
+    box-sizing: border-box;
+}
+
+body.lesson-shell-active .site-header,
+body.lesson-shell-active #site-footer,
+body.lesson-shell-active > footer {
+    display: none;
+}
+
+.lesson-layout {
+    width: 100vw;
+    height: 100dvh;
+    min-height: 100dvh;
+    display: grid;
+    grid-template-columns: 310px minmax(0, 1fr);
+    overflow: hidden;
+    background: #eaf3fb;
+}
+
+.lesson-toolbar {
+    height: 100dvh;
+    min-width: 0;
+    padding: 14px 12px;
+    border-right: 1px solid #b9cff5;
+    background: rgba(255, 255, 255, 0.82);
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: 12px;
+    overflow: hidden;
+}
+
+.lesson-toolbar-title {
+    margin: 0;
+    color: var(--blue-dark);
+    font-size: var(--text-sm);
+    font-weight: 800;
+}
+
+.lesson-toolbar-subtitle {
+    margin: 3px 0 0;
+    color: var(--muted);
+    font-size: var(--text-sm);
+    line-height: 1.25;
+}
+
+.lesson-toolbar-scroll {
+    min-height: 0;
+    display: grid;
+    gap: 12px;
+    align-content: start;
+    overflow: hidden;
+}
+
+.lesson-toolbar-section-title {
+    margin: 0 0 7px;
+    color: var(--blue-dark);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.lesson-toolbar-nav-list,
+.lesson-tool-grid {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.lesson-toolbar-nav-list {
+    max-height: min(70vh, 640px);
+    overflow: hidden auto;
+    padding-right: 2px;
+}
+
+.lesson-toolbar-nav-item {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 30px minmax(0, 1fr);
+    align-items: center;
+    gap: 9px;
+    padding: 9px;
+    border: 1px solid #d7e3fb;
+    border-radius: 14px;
+    background: #ffffff;
+    color: var(--ink);
+    font: inherit;
+    font-size: var(--text-sm);
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: left;
+    cursor: pointer;
+}
+
+.lesson-toolbar-nav-item.is-active {
+    border-color: var(--blue);
+    background: #e8efff;
+    box-shadow: inset 4px 0 0 var(--blue);
+}
+
+.lesson-toolbar-number,
+.lesson-tool-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    background: var(--blue);
+    color: #ffffff;
+    font-size: var(--text-sm);
+    font-weight: 800;
+    line-height: 1;
+    flex-shrink: 0;
+}
+
+.lesson-tool-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.lesson-tool-button {
+    min-height: 70px;
+    border: 1px solid #d7e3fb;
+    border-radius: 16px;
+    background: #ffffff;
+    color: var(--ink);
+    display: grid;
+    place-items: center;
+    gap: 5px;
+    padding: 9px 7px;
+    font: inherit;
+    cursor: default;
+}
+
+.lesson-tool-button.countdown .lesson-tool-icon,
+.lesson-tool-button.stopwatch .lesson-tool-icon {
+    background: #233a8b;
+}
+
+.lesson-tool-button.board .lesson-tool-icon {
+    background: #7d4bc1;
+}
+
+.lesson-tool-button.sound .lesson-tool-icon {
+    background: #c56a00;
+}
+
+.lesson-tool-label {
+    font-size: var(--text-sm);
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.15;
+}
+
+.lesson-toolbar-back {
+    display: grid;
+    min-height: 42px;
+    place-items: center;
+    border-radius: 14px;
+    background: var(--blue);
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 800;
+}
+
+.lesson-main {
+    height: 100dvh;
+    width: 100%;
+    min-width: 0;
+    padding: var(--space-md) clamp(var(--space-md), 1.8vw, var(--space-xl));
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.lesson-main > .lesson-slide {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    padding: 0;
+    display: none;
+    overflow: hidden;
+    border: 1px solid #b9cff5;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #ffffff 0%, #f4f8ff 100%);
+    box-shadow: 0 14px 38px rgba(15, 34, 80, 0.14);
+    box-sizing: border-box;
+}
+
+.lesson-main > .lesson-slide.is-active {
+    display: grid;
+    grid-template-rows: minmax(0, 1fr) auto;
+}
+
+.lesson-slide-inner {
+    width: 100%;
+    height: auto;
+    min-height: 0;
+    padding: var(--space-lg);
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.lesson-slide-source {
+    width: 100% !important;
+    height: auto !important;
+    max-width: none;
+    margin: 0;
+    transform: none !important;
+    transform-origin: top left;
+    will-change: auto;
+}
+
+.lesson-slide-source > .slide-grid,
+.lesson-slide-source > .slide-copy,
+.lesson-slide-source > .exam-practice-panel {
+    min-height: auto;
+}
+
+.lesson-slide-source > :first-child {
+    margin-top: 0;
+}
+
+.lesson-slide-source .back-link,
+.lesson-slide-source.back-link {
+    display: none;
+}
+
+.lesson-shell-active .lesson-header,
+.lesson-shell-active .resource-summary,
+.lesson-shell-active .resource-panel,
+.lesson-shell-active .lesson-part,
+.lesson-shell-active .lesson-section,
+.lesson-shell-active .cpu-activity,
+.lesson-shell-active .cpu-exam-card,
+.lesson-shell-active .teaching-explanation-card,
+.lesson-shell-active .slide-visual-panel {
+    width: 100%;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.lesson-shell-active .resource-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.lesson-shell-active .lesson-header {
+    margin: 0 0 20px;
+    padding: clamp(22px, 3vh, 34px);
+    border-radius: 18px;
+}
+
+.lesson-shell-active .lesson-header h1,
+.lesson-shell-active .lesson-header h2,
+.lesson-shell-active .lesson-slide-source h1,
+.lesson-shell-active .lesson-slide-source h2 {
+    max-width: none;
+    font-size: var(--lesson-heading-font-size, clamp(1.75rem, 4vw, var(--text-3xl)));
+    line-height: var(--lesson-heading-line-height, 1.1);
+}
+
+.lesson-shell-active .lesson-slide-source p,
+.lesson-shell-active .lesson-slide-source li {
+    font-size: clamp(var(--text-base), 1.2vw, var(--text-lg));
+    line-height: 1.5;
+}
+
+.lesson-shell-active .trace-table-wrap,
+.lesson-shell-active .addition-facts-table-wrap,
+.lesson-shell-active .summary-table-wrap {
+    max-height: 52vh;
+    overflow: auto;
+}
+
+@media (max-width: 1024px) {
+    .lesson-toolbar {
+        grid-template-rows: auto minmax(0, 1fr) auto;
+    }
+
+    .lesson-toolbar [data-left-panel-section="navigation"],
+    .lesson-toolbar [data-left-panel-section="lesson-tools"],
+    .lesson-toolbar [data-left-panel-section="teacher-tools"] {
+        display: none;
+    }
+}
+
+@media (max-width: 900px) {
+    .lesson-layout {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto minmax(0, 1fr);
+    }
+
+    .lesson-toolbar {
+        height: auto;
+        max-height: 40vh;
+        border-right: 0;
+        border-bottom: 1px solid #b9cff5;
+        grid-template-rows: auto minmax(0, 1fr) auto;
+    }
+
+    .lesson-toolbar-scroll {
+        min-height: 0;
+    }
+
+    .lesson-toolbar-nav-list {
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(150px, 1fr);
+        max-height: none;
+        overflow-x: auto;
+        overflow-y: hidden;
+    }
+
+    .lesson-tool-grid,
+    .lesson-tools-grid {
+        display: none;
+    }
+
+    .lesson-main {
+        height: 100%;
+        min-height: 0;
+        padding: var(--space-md);
+    }
+
+    .lesson-slide-inner {
+        padding: var(--space-lg);
+    }
+
+    .lesson-slide-source {
+        height: auto !important;
+        min-height: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .lesson-slide-inner {
+        padding: var(--space-md);
+    }
+
+    .lesson-toolbar-title,
+    .lesson-toolbar-subtitle,
+    .lesson-toolbar-nav-item,
+    .lesson-tool-label {
+        font-size: var(--text-sm);
+    }
+}
+

@@ -6,6 +6,13 @@ Use this workflow when migrating old content from `app/` into `astro-site/`.
 
 Do not bulk migrate. Migrate one lesson or resource set at a time.
 
+## Reference Source
+
+1. Use `app/` as the old working-site reference.
+2. Keep `app/` read-only unless the user explicitly requests changes to the old site.
+3. Inspect old lesson pages, scripts, styles, assets, tasks, quizzes and exam pages in `app/` before rebuilding the equivalent Astro content.
+4. Do not assume the Astro page is complete until the relevant old `app/` material has been checked or intentionally ruled out.
+
 ## GitHub Safety
 
 1. Keep all Astro rebuild uploads on the `astro-site` branch in `lbyearwood/csrevision`.

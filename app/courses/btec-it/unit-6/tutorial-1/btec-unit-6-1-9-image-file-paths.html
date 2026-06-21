@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.9 Insert images using correct file paths</title>
+    <link rel="stylesheet" href="../../../../styles.css?v=53">
+</head>
+<body data-page-type="course" data-course="btec-it">
+    <header id="site-header" class="site-header"></header>
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to Unit 6</a>
+        <section class="question-header">
+            <p class="eyebrow">Unit 6 Website Development - Tutorial 1</p>
+            <h2>1.9 Insert images using correct file paths</h2>
+            <p class="section-note">Continue the School Coding Club website by adding an image from the images folder.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>How Images Work</h3>
+            <p>Images are added with the <code>&lt;img&gt;</code> element. The <code>src</code> attribute tells the browser where the image file is stored.</p>
+            <p>If the file path is wrong, the browser cannot find the image and it will not display correctly.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Image Example</h3>
+            <pre class="algorithm-code"><code>&lt;img src="images/coding-club.jpg" alt="Students learning to code at a computer"&gt;</code></pre>
+            <p>This looks for a file called <code>coding-club.jpg</code> inside an <code>images</code> folder.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Path Examples</h3>
+            <table class="answer-table compact-answer-table">
+                <thead>
+                    <tr>
+                        <th>Folder structure</th>
+                        <th>Correct image path</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Image is in the same folder as the HTML file.</td>
+                        <td><code>src="coding-club.jpg"</code></td>
+                    </tr>
+                    <tr>
+                        <td>Image is inside an images folder.</td>
+                        <td><code>src="images/coding-club.jpg"</code></td>
+                    </tr>
+                    <tr>
+                        <td>Image is inside images/products.</td>
+                        <td><code>src="images/products/item.jpg"</code></td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Build It Yourself</h3>
+            <ol>
+                <li>Open the same <code>unit-6-website</code> folder.</li>
+                <li>Place a suitable club-related image inside the <code>images</code> folder.</li>
+                <li>Rename the image to a clear file name, such as <code>coding-club.jpg</code>.</li>
+                <li>Add an <code>&lt;img&gt;</code> element to <code>index.html</code>.</li>
+                <li>Set the <code>src</code> to the correct file path.</li>
+                <li>Open the homepage and check that the image appears.</li>
+            </ol>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Common Mistakes</h3>
+            <ul>
+                <li>Typing the folder name incorrectly.</li>
+                <li>Using the wrong file extension, such as <code>.jpg</code> instead of <code>.png</code>.</li>
+                <li>Moving the image after writing the path.</li>
+                <li>Forgetting to include useful alt text.</li>
+            </ul>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Success Checklist</h3>
+            <ul>
+                <li>Your image is stored in a sensible folder.</li>
+                <li>Your <code>&lt;img&gt;</code> element has a <code>src</code> attribute.</li>
+                <li>The file path matches the image location exactly.</li>
+                <li>The image displays correctly in the browser.</li>
+            </ul>
+        </section>
+
+        <nav class="tutorial-page-nav" aria-label="Tutorial navigation">
+            <a class="back-button back-link" href="btec-unit-6-1-8-paragraphs-lists-links.html">Previous: 1.8 Content</a>
+            <a class="back-button back-link next-tutorial-link" href="btec-unit-6-1-10-meaningful-alt-text.html">Next: 1.10 Alt text</a>
+        </nav>
+    </main>
+    <footer id="site-footer"></footer>
+    <script src="../../../../routes.js?v=6"></script>
+    <script src="../../../../assets/js/site-layout.js?v=1"></script>
+    <script src="../../../../assets/js/code-display.js?v=1"></script>
+    <script src="../../../../site.js?v=56"></script>
+</body>
+</html>

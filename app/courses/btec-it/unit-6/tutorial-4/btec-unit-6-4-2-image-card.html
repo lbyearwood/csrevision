@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4.2 Image Card</title>
+    <link rel="stylesheet" href="../../../../styles.css?v=56">
+    <link rel="stylesheet" href="../../../../assets/css/btec-web-tutorials.css?v=6">
+</head>
+<body data-page-type="btec-web-tutorial" data-course="btec-it">
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to Unit 6</a>
+
+        <section class="question-header">
+            <p class="eyebrow">Unit 6 Website Development - Tutorial 4</p>
+            <h2>4.2 Build an Image Card</h2>
+            <p class="section-note">First add the HTML in small steps. Then style the image card afterwards using small CSS chunks.</p>
+        </section>
+
+        <section class="lesson-part btec-web-guide">
+            <h3>How To Use This Tutorial</h3>
+            <p>Work through each step in order. Add the code shown, check the expected output, then move to the next step. The final code is visible at the bottom so you can compare your finished work.</p>
+        </section>
+
+<section class="lesson-part btec-web-contents">
+<h3>Steps</h3>
+<ol><li><a href='#step-1'>Create the project files</a></li><li><a href='#step-2'>Add the basic HTML page structure</a></li><li><a href='#step-3'>Link the external CSS file</a></li><li><a href='#step-4'>Add the main area HTML</a></li><li><a href='#step-5'>Add the image card section HTML</a></li><li><a href='#step-6'>Add the image HTML</a></li><li><a href='#step-7'>Add the card heading HTML</a></li><li><a href='#step-8'>Add the card paragraph HTML</a></li><li><a href='#step-9'>Add the card button link HTML</a></li><li><a href='#step-10'>Style the body</a></li><li><a href='#step-11'>Centre the card inside main</a></li><li><a href='#step-12'>Add height and padding to main</a></li><li><a href='#step-13'>Make the image card use flex</a></li><li><a href='#step-14'>Style the image card box</a></li><li><a href='#step-15'>Style the card image</a></li><li><a href='#step-16'>Style the card heading</a></li><li><a href='#step-17'>Style the card paragraph</a></li><li><a href='#step-18'>Style the card button link</a></li><li><a href='#step-19'>Add the card button hover effect</a></li></ol>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-1">
+<div class="step-number">Step 1</div>
+<h2>Step 1 Create the project files</h2>
+<div class="instruction-box"><strong>Where to put this code</strong> Create these files inside a new project folder. This step is not typed into the HTML file.</div>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="TEXT"><code>image-card
+|
+|-- index.html
+|-- style.css
+`-- image.png</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>image-card</strong> is the project folder.</li><li><strong>index.html</strong> will contain the webpage structure.</li><li><strong>style.css</strong> will contain the CSS styling rules.</li><li><strong>image.png</strong> is the image file used in the card.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class='blank'>No webpage output yet.</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-2">
+<div class="step-number">Step 2</div>
+<h2>Step 2 Add the basic HTML page structure</h2>
+<div class="instruction-box"><strong>Where to put this code</strong> Add this code into index.html.</div>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Image Card&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>DOCTYPE html</strong> tells the browser this is an HTML5 webpage.</li><li><strong>head</strong> stores information about the webpage.</li><li><strong>body</strong> is where the visible webpage content will go.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class='blank'>The page is blank because no visible content has been added yet.</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-3">
+<div class="step-number">Step 3</div>
+<h2>Step 3 Link the external CSS file</h2>
+<div class="instruction-box"><strong>Where to put this code</strong> Replace the current head section in index.html with this updated head section.</div>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Image Card&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+&lt;/head&gt;</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>link</strong> connects the HTML file to another file.</li><li><strong>rel</strong> tells the browser the linked file is a stylesheet.</li><li><strong>href</strong> tells the browser the CSS file is called style.css.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class='blank'>The page is still blank because no visible content has been added yet.</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-4">
+<div class="step-number">Step 4</div>
+<h2>Step 4 Add the main area HTML</h2>
+<div class="instruction-box"><strong>Where to put this code</strong> Add the main tag inside the body tag in index.html.</div>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;main&gt;
+
+&lt;/main&gt;</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>main</strong> creates the main content area.</li><li><strong>main</strong> will hold the image card.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class='blank'>The main area is empty, so there is still no visible content.</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-5">
+<div class="step-number">Step 5</div>
+<h2>Step 5 Add the image card section HTML</h2>
+<div class="instruction-box"><strong>Where to put this code</strong> Add the section tag inside the main tag in index.html.</div>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;section class=&quot;image-card&quot;&gt;
+
+&lt;/section&gt;</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>section</strong> creates a separate content section.</li><li><strong>class</strong> gives the section a name so CSS can style it.</li><li><strong>image-card</strong> is the class name for this component.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class='blank'>The image card section is empty.</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-6">
+<div class="step-number">Step 6</div>
+<h2>Step 6 Add the image HTML</h2>
+<div class="instruction-box"><strong>Where to put this code</strong> Add the img tag inside the image-card section.</div>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;img src=&quot;image.png&quot; alt=&quot;Image icon&quot;&gt;</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>img</strong> displays an image.</li><li><strong>src</strong> tells the browser which image file to use.</li><li><strong>alt</strong> describes the image for accessibility.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="expected-browser"><main class=""><section class=""><img class="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNTAwIj48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iI2RiZWFmZSIvPjxjaXJjbGUgY3g9IjIyMCIgY3k9IjE2MCIgcj0iNTUiIGZpbGw9IiM2MGE1ZmEiLz48cGF0aCBkPSJNODAgNDIwIEwzMDAgMjUwIEw0NzAgMzYwIEw1ODAgMjcwIEw3MjAgNDIwIFoiIGZpbGw9IiMxZDRlZDgiLz48dGV4dCB4PSI0MDAiIHk9IjQ3MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjQyIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWUzYThhIj5JTUFHRSBQTEFDRUhPTERFUjwvdGV4dD48L3N2Zz4=" alt="Image icon"></section></main></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-7">
+<div class="step-number">Step 7</div>
+<h2>Step 7 Add the card heading HTML</h2>
+<div class="instruction-box"><strong>Where to put this code</strong> Add the h2 tag inside the image-card section, under the image.</div>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;h2&gt;Image Card&lt;/h2&gt;</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>h2</strong> creates the card heading.</li><li><strong>Image Card</strong> is placeholder heading text.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="expected-browser"><main class=""><section class=""><img class="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNTAwIj48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iI2RiZWFmZSIvPjxjaXJjbGUgY3g9IjIyMCIgY3k9IjE2MCIgcj0iNTUiIGZpbGw9IiM2MGE1ZmEiLz48cGF0aCBkPSJNODAgNDIwIEwzMDAgMjUwIEw0NzAgMzYwIEw1ODAgMjcwIEw3MjAgNDIwIFoiIGZpbGw9IiMxZDRlZDgiLz48dGV4dCB4PSI0MDAiIHk9IjQ3MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjQyIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWUzYThhIj5JTUFHRSBQTEFDRUhPTERFUjwvdGV4dD48L3N2Zz4=" alt="Image icon">
+<h2 class="">Image Card</h2></section></main></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-8">
+<div class="step-number">Step 8</div>
+<h2>Step 8 Add the card paragraph HTML</h2>
+<div class="instruction-box"><strong>Where to put this code</strong> Add the p tag inside the image-card section, under the h2 tag.</div>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;p&gt;This card has an image at the top, text underneath and a button at the bottom.&lt;/p&gt;</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>p</strong> creates paragraph text.</li><li><strong>Paragraph text</strong> explains what the card is about.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="expected-browser"><main class=""><section class=""><img class="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNTAwIj48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iI2RiZWFmZSIvPjxjaXJjbGUgY3g9IjIyMCIgY3k9IjE2MCIgcj0iNTUiIGZpbGw9IiM2MGE1ZmEiLz48cGF0aCBkPSJNODAgNDIwIEwzMDAgMjUwIEw0NzAgMzYwIEw1ODAgMjcwIEw3MjAgNDIwIFoiIGZpbGw9IiMxZDRlZDgiLz48dGV4dCB4PSI0MDAiIHk9IjQ3MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjQyIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWUzYThhIj5JTUFHRSBQTEFDRUhPTERFUjwvdGV4dD48L3N2Zz4=" alt="Image icon">
+<h2 class="">Image Card</h2>
+<p class="">This card has an image at the top, text underneath and a button at the bottom.</p></section></main></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-9">
+<div class="step-number">Step 9</div>
+<h2>Step 9 Add the card button link HTML</h2>
+<div class="instruction-box"><strong>Where to put this code</strong> Add the a tag inside the image-card section, under the paragraph.</div>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;a href=&quot;#&quot;&gt;Read More&lt;/a&gt;</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>a</strong> creates a clickable link.</li><li><strong>href</strong> sets where the link goes.</li><li><strong>#</strong> keeps the link on the same page for now.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="expected-browser"><main class=""><section class=""><img class="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNTAwIj48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iI2RiZWFmZSIvPjxjaXJjbGUgY3g9IjIyMCIgY3k9IjE2MCIgcj0iNTUiIGZpbGw9IiM2MGE1ZmEiLz48cGF0aCBkPSJNODAgNDIwIEwzMDAgMjUwIEw0NzAgMzYwIEw1ODAgMjcwIEw3MjAgNDIwIFoiIGZpbGw9IiMxZDRlZDgiLz48dGV4dCB4PSI0MDAiIHk9IjQ3MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjQyIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWUzYThhIj5JTUFHRSBQTEFDRUhPTERFUjwvdGV4dD48L3N2Zz4=" alt="Image icon">
+<h2 class="">Image Card</h2>
+<p class="">This card has an image at the top, text underneath and a button at the bottom.</p>
+<a class="" href="#">Read More</a></section></main></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-10">
+<div class="step-number">Step 10</div>
+<h2>Step 10 Style the body</h2>
+<div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css.</div>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="CSS"><code>body {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+
+    font-family: Arial, sans-serif;
+    background-color: #eeeeee;
+}</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>body</strong> selects the whole visible webpage.</li><li><strong>margin-top</strong> removes the browser gap at the top.</li><li><strong>font-family</strong> changes the font used on the page.</li><li><strong>background-color</strong> changes the page background to light grey.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="expected-browser pv-body"><main class=""><section class=""><img class="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNTAwIj48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iI2RiZWFmZSIvPjxjaXJjbGUgY3g9IjIyMCIgY3k9IjE2MCIgcj0iNTUiIGZpbGw9IiM2MGE1ZmEiLz48cGF0aCBkPSJNODAgNDIwIEwzMDAgMjUwIEw0NzAgMzYwIEw1ODAgMjcwIEw3MjAgNDIwIFoiIGZpbGw9IiMxZDRlZDgiLz48dGV4dCB4PSI0MDAiIHk9IjQ3MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjQyIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWUzYThhIj5JTUFHRSBQTEFDRUhPTERFUjwvdGV4dD48L3N2Zz4=" alt="Image icon">
+<h2 class="">Image Card</h2>
+<p class="">This card has an image at the top, text underneath and a button at the bottom.</p>
+<a class="" href="#">Read More</a></section></main></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-11">
+<div class="step-number">Step 11</div>
+<h2>Step 11 Centre the card inside main</h2>
+<div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the body CSS.</div>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="CSS"><code>main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>main</strong> selects the main content area.</li><li><strong>display</strong> turns main into a flex container.</li><li><strong>justify-content</strong> centres the card horizontally.</li><li><strong>align-items</strong> centres the card vertically when main has height.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="expected-browser pv-body"><main class="pv-main-flex"><section class=""><img class="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNTAwIj48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iI2RiZWFmZSIvPjxjaXJjbGUgY3g9IjIyMCIgY3k9IjE2MCIgcj0iNTUiIGZpbGw9IiM2MGE1ZmEiLz48cGF0aCBkPSJNODAgNDIwIEwzMDAgMjUwIEw0NzAgMzYwIEw1ODAgMjcwIEw3MjAgNDIwIFoiIGZpbGw9IiMxZDRlZDgiLz48dGV4dCB4PSI0MDAiIHk9IjQ3MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjQyIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWUzYThhIj5JTUFHRSBQTEFDRUhPTERFUjwvdGV4dD48L3N2Zz4=" alt="Image icon">
+<h2 class="">Image Card</h2>
+<p class="">This card has an image at the top, text underneath and a button at the bottom.</p>
+<a class="" href="#">Read More</a></section></main></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-12">
+<div class="step-number">Step 12</div>
+<h2>Step 12 Add height and padding to main</h2>
+<div class="instruction-box"><strong>Where to put this code</strong> Add these lines inside the existing main CSS rule in style.css.</div>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="CSS"><code>main {
+    min-height: 100vh;
+
+    padding-top: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+}</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>min-height</strong> makes main at least the full height of the browser window.</li><li><strong>100vh</strong> means 100 percent of the viewport height.</li><li><strong>padding</strong> adds space inside main.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="expected-browser pv-body"><main class="pv-main-flex pv-main-size"><section class=""><img class="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNTAwIj48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iI2RiZWFmZSIvPjxjaXJjbGUgY3g9IjIyMCIgY3k9IjE2MCIgcj0iNTUiIGZpbGw9IiM2MGE1ZmEiLz48cGF0aCBkPSJNODAgNDIwIEwzMDAgMjUwIEw0NzAgMzYwIEw1ODAgMjcwIEw3MjAgNDIwIFoiIGZpbGw9IiMxZDRlZDgiLz48dGV4dCB4PSI0MDAiIHk9IjQ3MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjQyIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWUzYThhIj5JTUFHRSBQTEFDRUhPTERFUjwvdGV4dD48L3N2Zz4=" alt="Image icon">
+<h2 class="">Image Card</h2>
+<p class="">This card has an image at the top, text underneath and a button at the bottom.</p>
+<a class="" href="#">Read More</a></section></main></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-13">
+<div class="step-number">Step 13</div>
+<h2>Step 13 Make the image card use flex</h2>
+<div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the main CSS.</div>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="CSS"><code>.image-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>.image-card</strong> selects the card section.</li><li><strong>display</strong> turns the card into a flex container.</li><li><strong>flex-direction</strong> places the content in a vertical stack.</li><li><strong>gap</strong> adds space between each item.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="expected-browser pv-body"><main class="pv-main-flex pv-main-size"><section class="pv-card-flex"><img class="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNTAwIj48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iI2RiZWFmZSIvPjxjaXJjbGUgY3g9IjIyMCIgY3k9IjE2MCIgcj0iNTUiIGZpbGw9IiM2MGE1ZmEiLz48cGF0aCBkPSJNODAgNDIwIEwzMDAgMjUwIEw0NzAgMzYwIEw1ODAgMjcwIEw3MjAgNDIwIFoiIGZpbGw9IiMxZDRlZDgiLz48dGV4dCB4PSI0MDAiIHk9IjQ3MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjQyIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWUzYThhIj5JTUFHRSBQTEFDRUhPTERFUjwvdGV4dD48L3N2Zz4=" alt="Image icon">
+<h2 class="">Image Card</h2>
+<p class="">This card has an image at the top, text underneath and a button at the bottom.</p>
+<a class="" href="#">Read More</a></section></main></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-14">
+<div class="step-number">Step 14</div>
+<h2>Step 14 Style the image card box</h2>
+<div class="instruction-box"><strong>Where to put this code</strong> Add these style lines inside the existing .image-card CSS rule in style.css.</div>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="CSS"><code>.image-card {
+    background-color: white;
+
+    border-width: 2px;
+    border-style: solid;
+    border-color: #cccccc;
+
+    border-radius: 12px;
+
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+
+    width: 300px;
+    text-align: center;
+}</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>background-color</strong> changes the card background to white.</li><li><strong>border</strong> creates a light grey border.</li><li><strong>border-radius</strong> rounds the card corners.</li><li><strong>padding</strong> adds space inside the card.</li><li><strong>width</strong> sets the card width to 300 pixels.</li><li><strong>text-align</strong> centres the text.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="expected-browser pv-body"><main class="pv-main-flex pv-main-size"><section class="pv-card-flex pv-card-box"><img class="" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNTAwIj48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iI2RiZWFmZSIvPjxjaXJjbGUgY3g9IjIyMCIgY3k9IjE2MCIgcj0iNTUiIGZpbGw9IiM2MGE1ZmEiLz48cGF0aCBkPSJNODAgNDIwIEwzMDAgMjUwIEw0NzAgMzYwIEw1ODAgMjcwIEw3MjAgNDIwIFoiIGZpbGw9IiMxZDRlZDgiLz48dGV4dCB4PSI0MDAiIHk9IjQ3MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjQyIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWUzYThhIj5JTUFHRSBQTEFDRUhPTERFUjwvdGV4dD48L3N2Zz4=" alt="Image icon">
+<h2 class="">Image Card</h2>
+<p class="">This card has an image at the top, text underneath and a button at the bottom.</p>
+<a class="" href="#">Read More</a></section></main></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-15">
+<div class="step-number">Step 15</div>
+<h2>Step 15 Style the card image</h2>
+<div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the .image-card CSS.</div>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="CSS"><code>.image-card img {
+    width: 100%;
+    border-radius: 10px;
+}</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>.image-card img</strong> selects only the image inside the image card.</li><li><strong>width</strong> makes the image fill the card width.</li><li><strong>border-radius</strong> rounds the image corners.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="expected-browser pv-body"><main class="pv-main-flex pv-main-size"><section class="pv-card-flex pv-card-box"><img class="pv-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNTAwIj48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iI2RiZWFmZSIvPjxjaXJjbGUgY3g9IjIyMCIgY3k9IjE2MCIgcj0iNTUiIGZpbGw9IiM2MGE1ZmEiLz48cGF0aCBkPSJNODAgNDIwIEwzMDAgMjUwIEw0NzAgMzYwIEw1ODAgMjcwIEw3MjAgNDIwIFoiIGZpbGw9IiMxZDRlZDgiLz48dGV4dCB4PSI0MDAiIHk9IjQ3MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjQyIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWUzYThhIj5JTUFHRSBQTEFDRUhPTERFUjwvdGV4dD48L3N2Zz4=" alt="Image icon">
+<h2 class="">Image Card</h2>
+<p class="">This card has an image at the top, text underneath and a button at the bottom.</p>
+<a class="" href="#">Read More</a></section></main></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-16">
+<div class="step-number">Step 16</div>
+<h2>Step 16 Style the card heading</h2>
+<div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the .image-card img CSS.</div>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="CSS"><code>.image-card h2 {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+
+    color: #222222;
+}</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>.image-card h2</strong> selects only the heading inside the card.</li><li><strong>margin</strong> removes extra spacing around the heading.</li><li><strong>color</strong> changes the heading text to dark grey.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="expected-browser pv-body"><main class="pv-main-flex pv-main-size"><section class="pv-card-flex pv-card-box"><img class="pv-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNTAwIj48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iI2RiZWFmZSIvPjxjaXJjbGUgY3g9IjIyMCIgY3k9IjE2MCIgcj0iNTUiIGZpbGw9IiM2MGE1ZmEiLz48cGF0aCBkPSJNODAgNDIwIEwzMDAgMjUwIEw0NzAgMzYwIEw1ODAgMjcwIEw3MjAgNDIwIFoiIGZpbGw9IiMxZDRlZDgiLz48dGV4dCB4PSI0MDAiIHk9IjQ3MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjQyIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWUzYThhIj5JTUFHRSBQTEFDRUhPTERFUjwvdGV4dD48L3N2Zz4=" alt="Image icon">
+<h2 class="pv-h2">Image Card</h2>
+<p class="">This card has an image at the top, text underneath and a button at the bottom.</p>
+<a class="" href="#">Read More</a></section></main></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-17">
+<div class="step-number">Step 17</div>
+<h2>Step 17 Style the card paragraph</h2>
+<div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the .image-card h2 CSS.</div>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="CSS"><code>.image-card p {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+
+    color: #555555;
+    line-height: 1.5;
+}</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>.image-card p</strong> selects only the paragraph inside the card.</li><li><strong>margin</strong> removes extra spacing around the paragraph.</li><li><strong>color</strong> changes the paragraph text to grey.</li><li><strong>line-height</strong> adds space between lines of text.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="expected-browser pv-body"><main class="pv-main-flex pv-main-size"><section class="pv-card-flex pv-card-box"><img class="pv-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNTAwIj48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iI2RiZWFmZSIvPjxjaXJjbGUgY3g9IjIyMCIgY3k9IjE2MCIgcj0iNTUiIGZpbGw9IiM2MGE1ZmEiLz48cGF0aCBkPSJNODAgNDIwIEwzMDAgMjUwIEw0NzAgMzYwIEw1ODAgMjcwIEw3MjAgNDIwIFoiIGZpbGw9IiMxZDRlZDgiLz48dGV4dCB4PSI0MDAiIHk9IjQ3MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjQyIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWUzYThhIj5JTUFHRSBQTEFDRUhPTERFUjwvdGV4dD48L3N2Zz4=" alt="Image icon">
+<h2 class="pv-h2">Image Card</h2>
+<p class="pv-p">This card has an image at the top, text underneath and a button at the bottom.</p>
+<a class="" href="#">Read More</a></section></main></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-18">
+<div class="step-number">Step 18</div>
+<h2>Step 18 Style the card button link</h2>
+<div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the .image-card p CSS.</div>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="CSS"><code>.image-card a {
+    display: inline-block;
+
+    padding-top: 12px;
+    padding-right: 22px;
+    padding-bottom: 12px;
+    padding-left: 22px;
+
+    background-color: #0b7a5c;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+}</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>.image-card a</strong> selects only the link inside the card.</li><li><strong>display</strong> lets the link behave like a button.</li><li><strong>padding</strong> adds space inside the button.</li><li><strong>background-color</strong> changes the button background to green.</li><li><strong>text-decoration</strong> removes the underline from the link.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="expected-browser pv-body"><main class="pv-main-flex pv-main-size"><section class="pv-card-flex pv-card-box"><img class="pv-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNTAwIj48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iI2RiZWFmZSIvPjxjaXJjbGUgY3g9IjIyMCIgY3k9IjE2MCIgcj0iNTUiIGZpbGw9IiM2MGE1ZmEiLz48cGF0aCBkPSJNODAgNDIwIEwzMDAgMjUwIEw0NzAgMzYwIEw1ODAgMjcwIEw3MjAgNDIwIFoiIGZpbGw9IiMxZDRlZDgiLz48dGV4dCB4PSI0MDAiIHk9IjQ3MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjQyIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWUzYThhIj5JTUFHRSBQTEFDRUhPTERFUjwvdGV4dD48L3N2Zz4=" alt="Image icon">
+<h2 class="pv-h2">Image Card</h2>
+<p class="pv-p">This card has an image at the top, text underneath and a button at the bottom.</p>
+<a class="pv-a" href="#">Read More</a></section></main></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-19">
+<div class="step-number">Step 19</div>
+<h2>Step 19 Add the card button hover effect</h2>
+<div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the .image-card a CSS.</div>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="CSS"><code>.image-card a:hover {
+    background-color: #075c45;
+}</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>.image-card a:hover</strong> selects the button when the mouse moves over it.</li><li><strong>background-color</strong> changes the button background to dark green.</li><li><strong>hover</strong> helps users see that the button is interactive.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="expected-browser pv-body"><main class="pv-main-flex pv-main-size"><section class="pv-card-flex pv-card-box"><img class="pv-img" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNTAwIj48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iI2RiZWFmZSIvPjxjaXJjbGUgY3g9IjIyMCIgY3k9IjE2MCIgcj0iNTUiIGZpbGw9IiM2MGE1ZmEiLz48cGF0aCBkPSJNODAgNDIwIEwzMDAgMjUwIEw0NzAgMzYwIEw1ODAgMjcwIEw3MjAgNDIwIFoiIGZpbGw9IiMxZDRlZDgiLz48dGV4dCB4PSI0MDAiIHk9IjQ3MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjQyIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMWUzYThhIj5JTUFHRSBQTEFDRUhPTERFUjwvdGV4dD48L3N2Zz4=" alt="Image icon">
+<h2 class="pv-h2">Image Card</h2>
+<p class="pv-p">This card has an image at the top, text underneath and a button at the bottom.</p>
+<a class="pv-a pv-hover" href="#">Read More</a></section></main></div><p class='preview-note'>Move your mouse over the button. It should turn dark green.</p></div>
+</section>
+
+<section class="lesson-part btec-web-final-code">
+<h2>Final code</h2>
+<div class="btec-final-code-content">
+<h2>Final index.html</h2>
+<pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Image Card&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;main&gt;
+        &lt;section class=&quot;image-card&quot;&gt;
+            &lt;img src=&quot;image.png&quot; alt=&quot;Image icon&quot;&gt;
+
+            &lt;h2&gt;Image Card&lt;/h2&gt;
+
+            &lt;p&gt;This card has an image at the top, text underneath and a button at the bottom.&lt;/p&gt;
+
+            &lt;a href=&quot;#&quot;&gt;Read More&lt;/a&gt;
+        &lt;/section&gt;
+    &lt;/main&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<h2>Final style.css</h2>
+<pre class="algorithm-code code-block" data-lang="CSS"><code>body {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+
+    font-family: Arial, sans-serif;
+    background-color: #eeeeee;
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 100vh;
+
+    padding-top: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+}
+
+.image-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+
+    background-color: white;
+
+    border-width: 2px;
+    border-style: solid;
+    border-color: #cccccc;
+
+    border-radius: 12px;
+
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+
+    width: 300px;
+    text-align: center;
+}
+
+.image-card img {
+    width: 100%;
+    border-radius: 10px;
+}
+
+.image-card h2 {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+
+    color: #222222;
+}
+
+.image-card p {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+
+    color: #555555;
+    line-height: 1.5;
+}
+
+.image-card a {
+    display: inline-block;
+
+    padding-top: 12px;
+    padding-right: 22px;
+    padding-bottom: 12px;
+    padding-left: 22px;
+
+    background-color: #0b7a5c;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.image-card a:hover {
+    background-color: #075c45;
+}</code></pre>
+</div>
+</section>
+
+        <nav class="tutorial-page-nav" aria-label="Tutorial navigation">
+            <a class="back-button back-link" href="btec-unit-6-4-1-hero-section.html">Previous: Build a Hero Section</a>
+            <a class="back-button back-link next-tutorial-link" href="btec-unit-6-4-3-contact-form.html">Next: Build a Contact Form</a>
+        </nav>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <script src="../../../../routes.js?v=6"></script>
+    <script src="../../../../assets/js/site-layout.js?v=1"></script>
+    <script src="../../../../assets/js/code-display.js?v=2"></script>
+    <script src="../../../../site.js?v=57"></script>
+</body>
+</html>

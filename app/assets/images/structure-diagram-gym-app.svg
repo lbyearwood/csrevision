@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="520" viewBox="0 0 900 520" role="img" aria-labelledby="title desc">
+  <title id="title">Gym app structure diagram</title>
+  <desc id="desc">A structure diagram with Gym app at the top and modules for manage members, book classes, record attendance and show progress underneath.</desc>
+  <rect width="900" height="520" fill="#ffffff"/>
+  <g stroke="#102033" stroke-width="4" fill="#f7fbfd">
+    <rect x="315" y="40" width="270" height="76" rx="8"/>
+    <rect x="55" y="280" width="180" height="76" rx="8"/>
+    <rect x="270" y="280" width="180" height="76" rx="8"/>
+    <rect x="485" y="280" width="180" height="76" rx="8"/>
+    <rect x="700" y="280" width="150" height="76" rx="8"/>
+  </g>
+  <g stroke="#102033" stroke-width="4" fill="none">
+    <line x1="450" y1="116" x2="450" y2="200"/>
+    <line x1="145" y1="200" x2="775" y2="200"/>
+    <line x1="145" y1="200" x2="145" y2="280"/>
+    <line x1="360" y1="200" x2="360" y2="280"/>
+    <line x1="575" y1="200" x2="575" y2="280"/>
+    <line x1="775" y1="200" x2="775" y2="280"/>
+  </g>
+  <g fill="#102033" font-family="Arial, sans-serif" font-size="24" text-anchor="middle">
+    <text x="450" y="86">Gym app</text>
+    <text x="145" y="310">Manage</text><text x="145" y="338">members</text>
+    <text x="360" y="310">Book</text><text x="360" y="338">classes</text>
+    <text x="575" y="310">Record</text><text x="575" y="338">attendance</text>
+    <text x="775" y="310">Show</text><text x="775" y="338">progress</text>
+  </g>
+</svg>

@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.7 Right Navigation Website Template</title>
+    <link rel="stylesheet" href="../../../../styles.css?v=56">
+    <link rel="stylesheet" href="../../../../assets/css/btec-web-tutorials.css?v=6">
+</head>
+<body data-page-type="btec-web-tutorial" data-course="btec-it">
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to Unit 6</a>
+
+        <section class="question-header">
+            <p class="eyebrow">Unit 6 Website Development - Tutorial 3</p>
+            <h2>3.7 Build a Right Navigation Bar Website Template</h2>
+            <p class="section-note">Follow each step to build a website header with the navigation buttons positioned on the right.</p>
+        </section>
+
+        <section class="lesson-part btec-web-guide">
+            <h3>How To Use This Tutorial</h3>
+            <p>Work through each step in order. Add the code shown, check the expected output, then move to the next step. The final code is visible at the bottom so you can compare your finished work.</p>
+        </section>
+
+<section class="lesson-part btec-web-contents">
+            <h3>Steps</h3>
+            <ol>
+                <li><a href="#step-1">Create the project files and folders</a></li>
+<li><a href="#step-2">Add the basic HTML page structure</a></li>
+<li><a href="#step-3">Link the external CSS file</a></li>
+<li><a href="#step-4">Add the website header</a></li>
+<li><a href="#step-5">Add the logo image</a></li>
+<li><a href="#step-6">Add the company name</a></li>
+<li><a href="#step-7">Add the menu bar links</a></li>
+<li><a href="#step-8">Style the body to control the whole page</a></li>
+<li><a href="#step-9">Style the header layout</a></li>
+<li><a href="#step-10">Resize and move the logo to the left</a></li>
+<li><a href="#step-11">Move the company name to the left</a></li>
+<li><a href="#step-12">Move the menu links to the right</a></li>
+<li><a href="#step-13">Style the navigation buttons</a></li>
+<li><a href="#step-14">Add the main content area</a></li>
+<li><a href="#step-15">Style the main content area</a></li>
+<li><a href="#step-16">Add the footer</a></li>
+<li><a href="#step-17">Style the footer</a></li>
+<li><a href="#step-18">Add footer links</a></li>
+            </ol>
+        </section>
+
+
+<section class="lesson-part btec-web-step" id="step-1">
+    <div class="step-number">Step 1</div>
+    <h2>Step 1 Create the project files and folders</h2>
+    <div class="instruction-box">
+<p>Create a new folder for your website.</p>
+<p>Inside the folder, create:</p>
+<ul>
+<li><code>index.html</code></li>
+<li><code>style.css</code></li>
+<li>a folder called <code>images</code></li>
+</ul>
+<p>Inside the <code>images</code> folder, save your logo image as <code>logo.png</code>.</p>
+</div>
+    <h3>Folder structure</h3>
+    <pre class="algorithm-code code-block" data-lang="TEXT"><code>website-folder
+|
+|-- index.html
+|-- style.css
+|
+`-- images
+    |
+    `-- logo.png</code></pre>
+
+    <h3>What this does</h3>
+    <div class="explain-box">
+<p>The folder structure keeps your webpage, stylesheet and logo image organised.</p>
+<p><code>index.html</code> will hold the webpage content.</p>
+<p><code>style.css</code> will hold the styling rules.</p>
+<p>The <code>images</code> folder keeps image files separate from the code files.</p>
+</div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="blank-preview">No webpage output yet. You have only created the files and folders.</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-2">
+    <div class="step-number">Step 2</div>
+    <h2>Step 2 Add the basic HTML page structure</h2>
+    <div class="instruction-box"><p>Open <code>index.html</code> and add this code.</p></div>
+    <h3>HTML to add</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Website Template&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+    <h3>What this does</h3>
+    <div class="explain-box">
+<p><code>&lt;!DOCTYPE html&gt;</code> tells the browser that the file is an HTML5 webpage.</p>
+<p><code>&lt;html lang=&quot;en&quot;&gt;</code> starts the webpage and tells the browser the page is written in English.</p>
+<p><code>&lt;head&gt;</code> stores information about the webpage that is not shown directly on the page.</p>
+<p><code>&lt;meta charset=&quot;UTF-8&quot;&gt;</code> helps the browser display letters and symbols correctly.</p>
+<p><code>&lt;title&gt;</code> sets the text shown on the browser tab.</p>
+<p><code>&lt;body&gt;</code> is where the visible webpage content will go.</p>
+</div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="blank-preview">Blank page. This is correct because no visible content has been added yet.</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-3">
+    <div class="step-number">Step 3</div>
+    <h2>Step 3 Link the external CSS file</h2>
+    <div class="instruction-box"><p>Inside the <code>&lt;head&gt;</code> section, add the stylesheet link.</p></div>
+    <h3>Updated head section</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Website Template&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+&lt;/head&gt;</code></pre>
+
+    <h3>What this does</h3>
+    <div class="explain-box">
+<p><code>&lt;link&gt;</code> connects another file to the HTML page.</p>
+<p><code>rel=&quot;stylesheet&quot;</code> tells the browser that the linked file is a CSS stylesheet.</p>
+<p><code>href=&quot;style.css&quot;</code> tells the browser the name and location of the CSS file.</p>
+<p>This means your HTML file controls the content and your CSS file controls the design.</p>
+</div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="blank-preview">Blank page. The CSS is connected, but there is still no visible content.</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-4">
+    <div class="step-number">Step 4</div>
+    <h2>Step 4 Add the website header</h2>
+    <div class="instruction-box"><p>Inside the <code>&lt;body&gt;</code> section, add a header.</p></div>
+    <h3>HTML to add</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;header&gt;
+
+&lt;/header&gt;</code></pre>
+
+    <h3>What this does</h3>
+    <div class="explain-box">
+<p><code>&lt;header&gt;</code> creates the top section of the webpage.</p>
+<p>A header is normally used for the logo, company name and navigation menu.</p>
+<p>This tutorial will style the header so the logo is on the left, the company name is in the centre and the menu buttons are on the right.</p>
+</div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="blank-preview">The page may still look blank because the header has no content inside it yet.</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-5">
+    <div class="step-number">Step 5</div>
+    <h2>Step 5 Add the logo image</h2>
+    <div class="instruction-box"><p>Inside the <code>&lt;header&gt;</code>, add the logo box and image.</p></div>
+    <h3>HTML to add</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;div class=&quot;logo-box&quot;&gt;
+    &lt;img src=&quot;images/logo.png&quot; alt=&quot;Company logo placeholder&quot;&gt;
+&lt;/div&gt;</code></pre>
+
+    <h3>What this does</h3>
+    <div class="explain-box">
+<p><code>&lt;div class=&quot;logo-box&quot;&gt;</code> creates a container for the logo image.</p>
+<p><code>class=&quot;logo-box&quot;</code> gives the container a name so CSS can style it later.</p>
+<p><code>&lt;img&gt;</code> displays an image on the webpage.</p>
+<p><code>src=&quot;images/logo.png&quot;</code> tells the browser to look inside the <code>images</code> folder for the logo file.</p>
+<p><code>alt</code> gives a text description of the image for accessibility and for when the image does not load.</p>
+</div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="browser-preview"><img class="large-logo-preview" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgogIDxyZWN0IHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIGZpbGw9IiNlNWU3ZWIiLz4KICA8ZyBmaWxsPSIjMzMzMzMzIj4KICAgIDxwYXRoIGQ9Ik03MjQgMjI1IEw5NjUgMzY1IEw5NjUgNjQ0IEw3MjQgNzg1IEw0ODMgNjQ0IEw0ODMgMzY1IFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMzMzMyIgc3Ryb2tlLXdpZHRoPSI0OCIvPgogICAgPHBhdGggZD0iTTcyNCAzMzggTDg2NiA0MjEgTDg2NiA1ODggTDcyNCA2NzEgTDU4MiA1ODggTDU4MiA0MjEgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNTU1NTU1IiBzdHJva2Utd2lkdGg9IjM4Ii8+CiAgICA8dGV4dCB4PSI3MjQiIHk9IjkzMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1MCIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+TE9HTzwvdGV4dD4KICA8L2c+Cjwvc3ZnPg==" alt="Logo preview"></div><p class="preview-note">The preview uses an embedded placeholder image. Your own webpage will show the image saved as images/logo.png.</p></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-6">
+    <div class="step-number">Step 6</div>
+    <h2>Step 6 Add the company name</h2>
+    <div class="instruction-box"><p>Under the logo box, add the company name.</p></div>
+    <h3>HTML to add</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;h1&gt;Company Name&lt;/h1&gt;</code></pre>
+
+    <h3>What this does</h3>
+    <div class="explain-box">
+<p><code>&lt;h1&gt;</code> creates the most important heading on the page.</p>
+<p>The text <code>Company Name</code> is placeholder text. Replace it with the name of your own client or website.</p>
+</div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="browser-preview"><img class="large-logo-preview" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgogIDxyZWN0IHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIGZpbGw9IiNlNWU3ZWIiLz4KICA8ZyBmaWxsPSIjMzMzMzMzIj4KICAgIDxwYXRoIGQ9Ik03MjQgMjI1IEw5NjUgMzY1IEw5NjUgNjQ0IEw3MjQgNzg1IEw0ODMgNjQ0IEw0ODMgMzY1IFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMzMzMyIgc3Ryb2tlLXdpZHRoPSI0OCIvPgogICAgPHBhdGggZD0iTTcyNCAzMzggTDg2NiA0MjEgTDg2NiA1ODggTDcyNCA2NzEgTDU4MiA1ODggTDU4MiA0MjEgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNTU1NTU1IiBzdHJva2Utd2lkdGg9IjM4Ii8+CiAgICA8dGV4dCB4PSI3MjQiIHk9IjkzMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1MCIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+TE9HTzwvdGV4dD4KICA8L2c+Cjwvc3ZnPg==" alt="Logo preview"><h1 class="unstyled-heading">Company Name</h1></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-7">
+    <div class="step-number">Step 7</div>
+    <h2>Step 7 Add the menu bar links</h2>
+    <div class="instruction-box"><p>Under the company name, add the navigation links.</p></div>
+    <h3>HTML to add</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;nav&gt;
+    &lt;a href=&quot;#&quot;&gt;Home&lt;/a&gt;
+    &lt;a href=&quot;#&quot;&gt;About&lt;/a&gt;
+    &lt;a href=&quot;#&quot;&gt;Services&lt;/a&gt;
+    &lt;a href=&quot;#&quot;&gt;Contact&lt;/a&gt;
+&lt;/nav&gt;</code></pre>
+
+    <h3>What this does</h3>
+    <div class="explain-box">
+<p><code>&lt;nav&gt;</code> creates a navigation area for page links.</p>
+<p><code>&lt;a&gt;</code> creates a clickable link.</p>
+<p><code>href=&quot;#&quot;</code> is a temporary link. It keeps the link on the same page for now.</p>
+<p>Later, replace <code>#</code> with a real file name such as <code>about.html</code>.</p>
+</div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="browser-preview"><img class="large-logo-preview" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgogIDxyZWN0IHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIGZpbGw9IiNlNWU3ZWIiLz4KICA8ZyBmaWxsPSIjMzMzMzMzIj4KICAgIDxwYXRoIGQ9Ik03MjQgMjI1IEw5NjUgMzY1IEw5NjUgNjQ0IEw3MjQgNzg1IEw0ODMgNjQ0IEw0ODMgMzY1IFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMzMzMyIgc3Ryb2tlLXdpZHRoPSI0OCIvPgogICAgPHBhdGggZD0iTTcyNCAzMzggTDg2NiA0MjEgTDg2NiA1ODggTDcyNCA2NzEgTDU4MiA1ODggTDU4MiA0MjEgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNTU1NTU1IiBzdHJva2Utd2lkdGg9IjM4Ii8+CiAgICA8dGV4dCB4PSI3MjQiIHk9IjkzMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1MCIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+TE9HTzwvdGV4dD4KICA8L2c+Cjwvc3ZnPg==" alt="Logo preview"><h1 class="unstyled-heading">Company Name</h1>
+<div class="plain-links">
+    <a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="#">Services</a>
+    <a href="#">Contact</a>
+</div>
+</div><p class="preview-note">Move your mouse over the links. They behave like normal links, but they do not leave this tutorial page.</p></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-8">
+    <div class="step-number">Step 8</div>
+    <h2>Step 8 Style the body to control the whole page</h2>
+    <div class="instruction-box"><p>Open <code>style.css</code> and add this CSS.</p></div>
+    <h3>CSS to add</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>body {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    color: #222222;
+}</code></pre>
+
+    <h3>What this does</h3>
+    <div class="explain-box">
+<p><code>body</code> selects the whole visible webpage.</p>
+<p>The margin rules remove the browser's default gap around the page.</p>
+<p><code>font-family</code> changes the font used across the webpage.</p>
+<p><code>background-color</code> changes the page background colour. The value <code>#f2f2f2</code> is a light grey.</p>
+<p><code>color</code> changes the normal text colour. The value <code>#222222</code> is a very dark grey.</p>
+</div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="browser-preview body-preview"><img class="large-logo-preview" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgogIDxyZWN0IHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIGZpbGw9IiNlNWU3ZWIiLz4KICA8ZyBmaWxsPSIjMzMzMzMzIj4KICAgIDxwYXRoIGQ9Ik03MjQgMjI1IEw5NjUgMzY1IEw5NjUgNjQ0IEw3MjQgNzg1IEw0ODMgNjQ0IEw0ODMgMzY1IFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMzMzMyIgc3Ryb2tlLXdpZHRoPSI0OCIvPgogICAgPHBhdGggZD0iTTcyNCAzMzggTDg2NiA0MjEgTDg2NiA1ODggTDcyNCA2NzEgTDU4MiA1ODggTDU4MiA0MjEgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNTU1NTU1IiBzdHJva2Utd2lkdGg9IjM4Ii8+CiAgICA8dGV4dCB4PSI3MjQiIHk9IjkzMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1MCIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+TE9HTzwvdGV4dD4KICA8L2c+Cjwvc3ZnPg==" alt="Logo preview"><h1 class="unstyled-heading">Company Name</h1>
+<div class="plain-links">
+    <a href="#">Home</a>
+    <a href="#">About</a>
+    <a href="#">Services</a>
+    <a href="#">Contact</a>
+</div>
+</div><p class="preview-note">The page background is now light grey and the default outer gap has been removed.</p></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-9">
+    <div class="step-number">Step 9</div>
+    <h2>Step 9 Style the header layout</h2>
+    <div class="instruction-box"><p>Add this CSS under the body CSS.</p></div>
+    <h3>CSS to add</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>header {
+    background-color: #333333;
+    color: white;
+
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+}</code></pre>
+
+    <h3>What this does</h3>
+    <div class="explain-box">
+<p><code>header</code> selects the top header section of the webpage.</p>
+<p><code>background-color</code> changes the header background. The value <code>#333333</code> is a dark grey.</p>
+<p><code>color</code> changes the text colour inside the header to white.</p>
+<p>The padding rules add space inside the header.</p>
+<p><code>display: grid;</code> turns the header into a grid layout.</p>
+<p><code>grid-template-columns: auto 1fr auto;</code> creates three columns. The logo column and navigation column only use the space they need, and the company name uses the space in the middle.</p>
+<p><code>align-items: center;</code> vertically aligns the logo, company name and navigation area.</p>
+</div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="browser-preview body-preview"><div class="preview-header-grid-unpositioned"><img class="large-logo-preview" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgogIDxyZWN0IHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIGZpbGw9IiNlNWU3ZWIiLz4KICA8ZyBmaWxsPSIjMzMzMzMzIj4KICAgIDxwYXRoIGQ9Ik03MjQgMjI1IEw5NjUgMzY1IEw5NjUgNjQ0IEw3MjQgNzg1IEw0ODMgNjQ0IEw0ODMgMzY1IFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMzMzMyIgc3Ryb2tlLXdpZHRoPSI0OCIvPgogICAgPHBhdGggZD0iTTcyNCAzMzggTDg2NiA0MjEgTDg2NiA1ODggTDcyNCA2NzEgTDU4MiA1ODggTDU4MiA0MjEgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNTU1NTU1IiBzdHJva2Utd2lkdGg9IjM4Ii8+CiAgICA8dGV4dCB4PSI3MjQiIHk9IjkzMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1MCIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+TE9HTzwvdGV4dD4KICA8L2c+Cjwvc3ZnPg==" alt="Logo preview"><h1>Company Name</h1><div class="plain-links light"><a href="#">Home</a><a href="#">About</a><a href="#">Services</a><a href="#">Contact</a></div></div></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-10">
+    <div class="step-number">Step 10</div>
+    <h2>Step 10 Resize and move the logo to the left</h2>
+    <div class="instruction-box"><p>Add this CSS to make the logo smaller and place it on the left of the header.</p></div>
+    <h3>CSS to add</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>.logo-box {
+    width: 120px;
+    justify-self: left;
+}
+
+.logo-box img {
+    width: 100%;
+    height: auto;
+    display: block;
+}</code></pre>
+
+    <h3>What this does</h3>
+    <div class="explain-box">
+<p><code>.logo-box</code> selects any HTML element with <code>class=&quot;logo-box&quot;</code>.</p>
+<p><code>width: 120px;</code> makes the logo container 120 pixels wide.</p>
+<p><code>justify-self: left;</code> places the logo box on the left side of its grid column.</p>
+<p><code>.logo-box img</code> selects the image inside the logo box.</p>
+<p><code>width: 100%;</code> makes the image fill the width of the logo box.</p>
+<p><code>height: auto;</code> keeps the image in proportion so it does not stretch.</p>
+</div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="browser-preview body-preview"><div class="preview-header-grid"><img class="small-logo-preview left-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgogIDxyZWN0IHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIGZpbGw9IiNlNWU3ZWIiLz4KICA8ZyBmaWxsPSIjMzMzMzMzIj4KICAgIDxwYXRoIGQ9Ik03MjQgMjI1IEw5NjUgMzY1IEw5NjUgNjQ0IEw3MjQgNzg1IEw0ODMgNjQ0IEw0ODMgMzY1IFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMzMzMyIgc3Ryb2tlLXdpZHRoPSI0OCIvPgogICAgPHBhdGggZD0iTTcyNCAzMzggTDg2NiA0MjEgTDg2NiA1ODggTDcyNCA2NzEgTDU4MiA1ODggTDU4MiA0MjEgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNTU1NTU1IiBzdHJva2Utd2lkdGg9IjM4Ii8+CiAgICA8dGV4dCB4PSI3MjQiIHk9IjkzMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1MCIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+TE9HTzwvdGV4dD4KICA8L2c+Cjwvc3ZnPg==" alt="Logo preview"><h1>Company Name</h1><div class="plain-links light right-links"><a href="#">Home</a><a href="#">About</a><a href="#">Services</a><a href="#">Contact</a></div></div></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-11">
+    <div class="step-number">Step 11</div>
+    <h2>Step 11 Move the company name to the left</h2>
+    <div class="instruction-box"><p>Add this CSS to move the company name to the left of the middle column.</p></div>
+    <h3>CSS to add</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>header h1 {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 24px;
+
+    justify-self: left;
+    text-align: left;
+}</code></pre>
+
+    <h3>What this does</h3>
+    <div class="explain-box">
+<p><code>header h1</code> selects only the <code>&lt;h1&gt;</code> inside the header.</p>
+<p>The margin rules remove extra default spacing around the heading, except <code>margin-left: 24px;</code> which creates a clear gap between the logo and company name.</p>
+<p><code>justify-self: left;</code> places the company name on the left side of the middle grid column.</p>
+<p><code>text-align: left;</code> aligns the heading text to the left.</p>
+</div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="browser-preview body-preview">
+<div class="preview-header-grid">
+    <img class="small-logo-preview left-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgogIDxyZWN0IHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIGZpbGw9IiNlNWU3ZWIiLz4KICA8ZyBmaWxsPSIjMzMzMzMzIj4KICAgIDxwYXRoIGQ9Ik03MjQgMjI1IEw5NjUgMzY1IEw5NjUgNjQ0IEw3MjQgNzg1IEw0ODMgNjQ0IEw0ODMgMzY1IFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMzMzMyIgc3Ryb2tlLXdpZHRoPSI0OCIvPgogICAgPHBhdGggZD0iTTcyNCAzMzggTDg2NiA0MjEgTDg2NiA1ODggTDcyNCA2NzEgTDU4MiA1ODggTDU4MiA0MjEgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNTU1NTU1IiBzdHJva2Utd2lkdGg9IjM4Ii8+CiAgICA8dGV4dCB4PSI3MjQiIHk9IjkzMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1MCIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+TE9HTzwvdGV4dD4KICA8L2c+Cjwvc3ZnPg==" alt="Logo preview">
+    <h1>Company Name</h1>
+    <div class="plain-links right-links">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+    </div>
+</div>
+</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-12">
+    <div class="step-number">Step 12</div>
+    <h2>Step 12 Move the menu links to the right</h2>
+    <div class="instruction-box"><p>Add this CSS to move the navigation area to the right side of the header.</p></div>
+    <h3>CSS to add</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>header nav {
+    justify-self: right;
+    margin-top: 0;
+}</code></pre>
+
+    <h3>What this does</h3>
+    <div class="explain-box">
+<p><code>header nav</code> selects only the navigation area inside the header.</p>
+<p><code>justify-self: right;</code> places the navigation area on the right side of its grid column.</p>
+<p><code>margin-top: 0;</code> removes extra space above the navigation area.</p>
+</div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="browser-preview body-preview">
+<div class="preview-header-grid">
+    <img class="small-logo-preview left-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgogIDxyZWN0IHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIGZpbGw9IiNlNWU3ZWIiLz4KICA8ZyBmaWxsPSIjMzMzMzMzIj4KICAgIDxwYXRoIGQ9Ik03MjQgMjI1IEw5NjUgMzY1IEw5NjUgNjQ0IEw3MjQgNzg1IEw0ODMgNjQ0IEw0ODMgMzY1IFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMzMzMyIgc3Ryb2tlLXdpZHRoPSI0OCIvPgogICAgPHBhdGggZD0iTTcyNCAzMzggTDg2NiA0MjEgTDg2NiA1ODggTDcyNCA2NzEgTDU4MiA1ODggTDU4MiA0MjEgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNTU1NTU1IiBzdHJva2Utd2lkdGg9IjM4Ii8+CiAgICA8dGV4dCB4PSI3MjQiIHk9IjkzMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1MCIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+TE9HTzwvdGV4dD4KICA8L2c+Cjwvc3ZnPg==" alt="Logo preview">
+    <h1>Company Name</h1>
+    <div class="plain-links right-links">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+    </div>
+</div>
+</div><p class="preview-note">The links are on the right, but they still look like normal links because they have not been styled as buttons yet.</p></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-13">
+    <div class="step-number">Step 13</div>
+    <h2>Step 13 Style the navigation buttons</h2>
+    <div class="instruction-box"><p>Add this CSS to turn the menu links into buttons.</p></div>
+    <h3>CSS to add</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>nav a {
+    display: inline-block;
+    background-color: #666666;
+    color: white;
+    text-decoration: none;
+
+    padding-top: 12px;
+    padding-right: 18px;
+    padding-bottom: 12px;
+    padding-left: 18px;
+
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+
+    border-width: 2px;
+    border-style: solid;
+    border-color: #999999;
+
+    border-radius: 5px;
+}
+
+nav a:hover {
+    background-color: #ffd84d;
+    color: #222222;
+}</code></pre>
+
+    <h3>What this does</h3>
+    <div class="explain-box">
+<p><code>nav a</code> selects every link inside a navigation area.</p>
+<p><code>display: inline-block;</code> allows each link to behave like a button while still sitting side by side.</p>
+<p><code>background-color: #666666;</code> gives each button a medium grey background.</p>
+<p><code>color: white;</code> makes the button text white.</p>
+<p><code>text-decoration: none;</code> removes the default underline from each link.</p>
+<p>The padding rules add space inside each button so the button looks larger and easier to click.</p>
+<p>The margin rules add space around each button so the buttons do not touch.</p>
+<p>The border rules add a visible outline around each button.</p>
+<p><code>nav a:hover</code> styles a navigation link when the mouse moves over it.</p>
+<p><code>background-color: #ffd84d;</code> changes the hovered button to yellow.</p>
+</div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="browser-preview body-preview">
+<div class="preview-header-grid">
+    <img class="small-logo-preview left-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgogIDxyZWN0IHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIGZpbGw9IiNlNWU3ZWIiLz4KICA8ZyBmaWxsPSIjMzMzMzMzIj4KICAgIDxwYXRoIGQ9Ik03MjQgMjI1IEw5NjUgMzY1IEw5NjUgNjQ0IEw3MjQgNzg1IEw0ODMgNjQ0IEw0ODMgMzY1IFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMzMzMyIgc3Ryb2tlLXdpZHRoPSI0OCIvPgogICAgPHBhdGggZD0iTTcyNCAzMzggTDg2NiA0MjEgTDg2NiA1ODggTDcyNCA2NzEgTDU4MiA1ODggTDU4MiA0MjEgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNTU1NTU1IiBzdHJva2Utd2lkdGg9IjM4Ii8+CiAgICA8dGV4dCB4PSI3MjQiIHk9IjkzMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1MCIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+TE9HTzwvdGV4dD4KICA8L2c+Cjwvc3ZnPg==" alt="Logo preview">
+    <h1 class="grid-heading-preview">Company Name</h1>
+    <nav class="button-links right-buttons">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+    </nav>
+</div>
+</div><p class="preview-note">Move your mouse over a menu button. The button should turn yellow.</p></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-14">
+    <div class="step-number">Step 14</div>
+    <h2>Step 14 Add the main content area</h2>
+    <div class="instruction-box"><p>Go back to <code>index.html</code>. Under the closing <code>&lt;/header&gt;</code> tag, add the main content area.</p></div>
+    <h3>HTML to add</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;main&gt;
+    &lt;h2&gt;Page Heading&lt;/h2&gt;
+&lt;/main&gt;</code></pre>
+
+    <h3>What this does</h3>
+    <div class="explain-box">
+<p><code>&lt;main&gt;</code> creates the main content section of the webpage.</p>
+<p>Semantic HTML uses <code>&lt;main&gt;</code> for the main information on the page.</p>
+<p><code>&lt;h2&gt;</code> creates a second-level heading inside the main area.</p>
+</div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="browser-preview body-preview">
+<div class="preview-header-grid">
+    <img class="small-logo-preview left-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgogIDxyZWN0IHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIGZpbGw9IiNlNWU3ZWIiLz4KICA8ZyBmaWxsPSIjMzMzMzMzIj4KICAgIDxwYXRoIGQ9Ik03MjQgMjI1IEw5NjUgMzY1IEw5NjUgNjQ0IEw3MjQgNzg1IEw0ODMgNjQ0IEw0ODMgMzY1IFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMzMzMyIgc3Ryb2tlLXdpZHRoPSI0OCIvPgogICAgPHBhdGggZD0iTTcyNCAzMzggTDg2NiA0MjEgTDg2NiA1ODggTDcyNCA2NzEgTDU4MiA1ODggTDU4MiA0MjEgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNTU1NTU1IiBzdHJva2Utd2lkdGg9IjM4Ii8+CiAgICA8dGV4dCB4PSI3MjQiIHk9IjkzMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1MCIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+TE9HTzwvdGV4dD4KICA8L2c+Cjwvc3ZnPg==" alt="Logo preview">
+    <h1 class="grid-heading-preview">Company Name</h1>
+    <nav class="button-links right-buttons">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+    </nav>
+</div>
+<div class="main-unstyled-preview"><h2>Page Heading</h2></div></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-15">
+    <div class="step-number">Step 15</div>
+    <h2>Step 15 Style the main content area</h2>
+    <div class="instruction-box"><p>Add this CSS to style the main content section.</p></div>
+    <h3>CSS to add</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>main {
+    background-color: white;
+    min-height: 400px;
+
+    padding-top: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+
+    text-align: center;
+}
+
+main h2 {
+    color: #333333;
+}</code></pre>
+
+    <h3>What this does</h3>
+    <div class="explain-box">
+<p><code>main</code> selects the main content section.</p>
+<p><code>background-color: white;</code> changes the main area background to white.</p>
+<p><code>min-height: 400px;</code> makes the main area at least 400 pixels tall.</p>
+<p>The padding rules add space inside the main area so the heading is not pushed against the edges.</p>
+<p><code>text-align: center;</code> centres the text inside the main area.</p>
+<p><code>main h2</code> selects only the <code>&lt;h2&gt;</code> inside the main section.</p>
+</div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="browser-preview body-preview">
+<div class="preview-header-grid">
+    <img class="small-logo-preview left-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgogIDxyZWN0IHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIGZpbGw9IiNlNWU3ZWIiLz4KICA8ZyBmaWxsPSIjMzMzMzMzIj4KICAgIDxwYXRoIGQ9Ik03MjQgMjI1IEw5NjUgMzY1IEw5NjUgNjQ0IEw3MjQgNzg1IEw0ODMgNjQ0IEw0ODMgMzY1IFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMzMzMyIgc3Ryb2tlLXdpZHRoPSI0OCIvPgogICAgPHBhdGggZD0iTTcyNCAzMzggTDg2NiA0MjEgTDg2NiA1ODggTDcyNCA2NzEgTDU4MiA1ODggTDU4MiA0MjEgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNTU1NTU1IiBzdHJva2Utd2lkdGg9IjM4Ii8+CiAgICA8dGV4dCB4PSI3MjQiIHk9IjkzMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1MCIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+TE9HTzwvdGV4dD4KICA8L2c+Cjwvc3ZnPg==" alt="Logo preview">
+    <h1 class="grid-heading-preview">Company Name</h1>
+    <nav class="button-links right-buttons">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+    </nav>
+</div>
+<div class="main-styled-preview"><h2>Page Heading</h2></div></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-16">
+    <div class="step-number">Step 16</div>
+    <h2>Step 16 Add the footer</h2>
+    <div class="instruction-box"><p>Go back to <code>index.html</code>. Under the closing <code>&lt;/main&gt;</code> tag, add the footer.</p></div>
+    <h3>HTML to add</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;footer&gt;
+    &lt;p&gt;&amp;copy; 2026 Company Name. All rights reserved.&lt;/p&gt;
+&lt;/footer&gt;</code></pre>
+
+    <h3>What this does</h3>
+    <div class="explain-box">
+<p><code>&lt;footer&gt;</code> creates the bottom section of the webpage.</p>
+<p>Footers often contain copyright text, contact links, legal links and social media links.</p>
+<p><code>&lt;p&gt;</code> creates a paragraph for the copyright text.</p>
+<p><code>&amp;copy;</code> displays the copyright symbol.</p>
+</div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="browser-preview body-preview">
+<div class="preview-header-grid">
+    <img class="small-logo-preview left-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgogIDxyZWN0IHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIGZpbGw9IiNlNWU3ZWIiLz4KICA8ZyBmaWxsPSIjMzMzMzMzIj4KICAgIDxwYXRoIGQ9Ik03MjQgMjI1IEw5NjUgMzY1IEw5NjUgNjQ0IEw3MjQgNzg1IEw0ODMgNjQ0IEw0ODMgMzY1IFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMzMzMyIgc3Ryb2tlLXdpZHRoPSI0OCIvPgogICAgPHBhdGggZD0iTTcyNCAzMzggTDg2NiA0MjEgTDg2NiA1ODggTDcyNCA2NzEgTDU4MiA1ODggTDU4MiA0MjEgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNTU1NTU1IiBzdHJva2Utd2lkdGg9IjM4Ii8+CiAgICA8dGV4dCB4PSI3MjQiIHk9IjkzMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1MCIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+TE9HTzwvdGV4dD4KICA8L2c+Cjwvc3ZnPg==" alt="Logo preview">
+    <h1 class="grid-heading-preview">Company Name</h1>
+    <nav class="button-links right-buttons">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+    </nav>
+</div>
+<div class="main-styled-preview compact-main"><h2>Page Heading</h2></div><div class="footer-unstyled-preview">© 2026 Company Name. All rights reserved.</div></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-17">
+    <div class="step-number">Step 17</div>
+    <h2>Step 17 Style the footer</h2>
+    <div class="instruction-box"><p>Add this CSS to style the bottom section of the webpage.</p></div>
+    <h3>CSS to add</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>footer {
+    background-color: #333333;
+    color: white;
+    text-align: center;
+
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+}
+
+footer p {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 10px;
+    margin-left: 0;
+}</code></pre>
+
+    <h3>What this does</h3>
+    <div class="explain-box">
+<p><code>footer</code> selects the footer section at the bottom of the webpage.</p>
+<p><code>background-color: #333333;</code> changes the footer background to dark grey.</p>
+<p><code>color: white;</code> changes the footer text to white.</p>
+<p><code>text-align: center;</code> centres the footer text.</p>
+<p>The padding rules add space inside the footer.</p>
+<p><code>footer p</code> selects the paragraph inside the footer.</p>
+</div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="browser-preview body-preview">
+<div class="preview-header-grid">
+    <img class="small-logo-preview left-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgogIDxyZWN0IHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIGZpbGw9IiNlNWU3ZWIiLz4KICA8ZyBmaWxsPSIjMzMzMzMzIj4KICAgIDxwYXRoIGQ9Ik03MjQgMjI1IEw5NjUgMzY1IEw5NjUgNjQ0IEw3MjQgNzg1IEw0ODMgNjQ0IEw0ODMgMzY1IFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMzMzMyIgc3Ryb2tlLXdpZHRoPSI0OCIvPgogICAgPHBhdGggZD0iTTcyNCAzMzggTDg2NiA0MjEgTDg2NiA1ODggTDcyNCA2NzEgTDU4MiA1ODggTDU4MiA0MjEgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNTU1NTU1IiBzdHJva2Utd2lkdGg9IjM4Ii8+CiAgICA8dGV4dCB4PSI3MjQiIHk9IjkzMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1MCIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+TE9HTzwvdGV4dD4KICA8L2c+Cjwvc3ZnPg==" alt="Logo preview">
+    <h1 class="grid-heading-preview">Company Name</h1>
+    <nav class="button-links right-buttons">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+    </nav>
+</div>
+<div class="main-styled-preview compact-main"><h2>Page Heading</h2></div><div class="footer-styled-preview">© 2026 Company Name. All rights reserved.</div></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-18">
+    <div class="step-number">Step 18</div>
+    <h2>Step 18 Add footer links</h2>
+    <div class="instruction-box"><p>Inside the footer, under the paragraph, add these links. Then add the CSS underneath your existing footer CSS.</p></div>
+    <h3>HTML to add</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;nav&gt;
+    &lt;a href=&quot;#&quot;&gt;Privacy Policy&lt;/a&gt;
+    &lt;a href=&quot;#&quot;&gt;Terms&lt;/a&gt;
+    &lt;a href=&quot;#&quot;&gt;Contact&lt;/a&gt;
+&lt;/nav&gt;</code></pre>
+
+    <h3>CSS to add</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>footer nav {
+    margin-top: 15px;
+}
+
+footer nav a {
+    background-color: #555555;
+    font-size: 14px;
+
+    padding-top: 8px;
+    padding-right: 15px;
+    padding-bottom: 8px;
+    padding-left: 15px;
+}</code></pre>
+
+    <h3>What this does</h3>
+    <div class="explain-box">
+<p>The footer <code>&lt;nav&gt;</code> creates a smaller navigation area at the bottom of the webpage.</p>
+<p><code>footer nav</code> selects only the navigation area inside the footer.</p>
+<p><code>margin-top: 15px;</code> adds space above the footer links.</p>
+<p><code>footer nav a</code> selects only links inside a <code>&lt;nav&gt;</code> that is inside the footer.</p>
+<p><code>background-color: #555555;</code> gives the footer buttons a slightly different grey background.</p>
+<p><code>font-size: 14px;</code> makes the footer link text slightly smaller than the main menu text.</p>
+<p>The earlier <code>nav a:hover</code> rule still applies, so these footer buttons also turn yellow when hovered over.</p>
+</div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class="browser-preview body-preview">
+<div class="preview-header-grid">
+    <img class="small-logo-preview left-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgogIDxyZWN0IHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIGZpbGw9IiNlNWU3ZWIiLz4KICA8ZyBmaWxsPSIjMzMzMzMzIj4KICAgIDxwYXRoIGQ9Ik03MjQgMjI1IEw5NjUgMzY1IEw5NjUgNjQ0IEw3MjQgNzg1IEw0ODMgNjQ0IEw0ODMgMzY1IFoiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzMzMzMzMyIgc3Ryb2tlLXdpZHRoPSI0OCIvPgogICAgPHBhdGggZD0iTTcyNCAzMzggTDg2NiA0MjEgTDg2NiA1ODggTDcyNCA2NzEgTDU4MiA1ODggTDU4MiA0MjEgWiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNTU1NTU1IiBzdHJva2Utd2lkdGg9IjM4Ii8+CiAgICA8dGV4dCB4PSI3MjQiIHk9IjkzMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE1MCIgZm9udC13ZWlnaHQ9IjcwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSI+TE9HTzwvdGV4dD4KICA8L2c+Cjwvc3ZnPg==" alt="Logo preview">
+    <h1 class="grid-heading-preview">Company Name</h1>
+    <nav class="button-links right-buttons">
+        <a href="#">Home</a>
+        <a href="#">About</a>
+        <a href="#">Services</a>
+        <a href="#">Contact</a>
+    </nav>
+</div>
+<div class="main-styled-preview compact-main"><h2>Page Heading</h2></div><div class="footer-styled-preview"><p>© 2026 Company Name. All rights reserved.</p>
+<nav class="footer-button-links">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms</a>
+    <a href="#">Contact</a>
+</nav>
+</div></div><p class="preview-note">Move your mouse over a footer button. The button should also turn yellow.</p></div>
+</section>
+
+
+        <section class="lesson-part btec-web-final-code">
+            <h2>Final code</h2>
+<div class="btec-final-code-content">
+                <h2>Final index.html</h2>
+                <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Website Template&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+    &lt;header&gt;
+        &lt;div class=&quot;logo-box&quot;&gt;
+            &lt;img src=&quot;images/logo.png&quot; alt=&quot;Company logo placeholder&quot;&gt;
+        &lt;/div&gt;
+
+        &lt;h1&gt;Company Name&lt;/h1&gt;
+
+        &lt;nav&gt;
+            &lt;a href=&quot;#&quot;&gt;Home&lt;/a&gt;
+            &lt;a href=&quot;#&quot;&gt;About&lt;/a&gt;
+            &lt;a href=&quot;#&quot;&gt;Services&lt;/a&gt;
+            &lt;a href=&quot;#&quot;&gt;Contact&lt;/a&gt;
+        &lt;/nav&gt;
+    &lt;/header&gt;
+
+    &lt;main&gt;
+        &lt;h2&gt;Page Heading&lt;/h2&gt;
+    &lt;/main&gt;
+
+    &lt;footer&gt;
+        &lt;p&gt;&amp;copy; 2026 Company Name. All rights reserved.&lt;/p&gt;
+
+        &lt;nav&gt;
+            &lt;a href=&quot;#&quot;&gt;Privacy Policy&lt;/a&gt;
+            &lt;a href=&quot;#&quot;&gt;Terms&lt;/a&gt;
+            &lt;a href=&quot;#&quot;&gt;Contact&lt;/a&gt;
+        &lt;/nav&gt;
+    &lt;/footer&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+                <h2>Final style.css</h2>
+                <pre class="algorithm-code code-block" data-lang="CSS"><code>body {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    color: #222222;
+}
+
+header {
+    background-color: #333333;
+    color: white;
+
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+}
+
+.logo-box {
+    width: 120px;
+    justify-self: left;
+}
+
+.logo-box img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+header h1 {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 24px;
+
+    justify-self: left;
+    text-align: left;
+}
+
+header nav {
+    justify-self: right;
+    margin-top: 0;
+}
+
+nav a {
+    display: inline-block;
+    background-color: #666666;
+    color: white;
+    text-decoration: none;
+
+    padding-top: 12px;
+    padding-right: 18px;
+    padding-bottom: 12px;
+    padding-left: 18px;
+
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+
+    border-width: 2px;
+    border-style: solid;
+    border-color: #999999;
+
+    border-radius: 5px;
+}
+
+nav a:hover {
+    background-color: #ffd84d;
+    color: #222222;
+}
+
+main {
+    background-color: white;
+    min-height: 400px;
+
+    padding-top: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+
+    text-align: center;
+}
+
+main h2 {
+    color: #333333;
+}
+
+footer {
+    background-color: #333333;
+    color: white;
+    text-align: center;
+
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+}
+
+footer p {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 10px;
+    margin-left: 0;
+}
+
+footer nav {
+    margin-top: 15px;
+}
+
+footer nav a {
+    background-color: #555555;
+    font-size: 14px;
+
+    padding-top: 8px;
+    padding-right: 15px;
+    padding-bottom: 8px;
+    padding-left: 15px;
+}</code></pre>
+
+                <a class="top-link" href="#top">Back to top</a>
+            </div>
+        </section>
+
+        <nav class="tutorial-page-nav" aria-label="Tutorial navigation">
+            <a class="back-button back-link" href="btec-unit-6-3-6-sidebar-nav-template.html">Previous: Build a Sidebar Navigation Website Template</a>
+            <a class="back-button back-link next-tutorial-link" href="btec-unit-6-3-8-main-section-rows-columns.html">Next: Organise the Main Section into Rows and Columns</a>
+        </nav>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <script src="../../../../routes.js?v=6"></script>
+    <script src="../../../../assets/js/site-layout.js?v=1"></script>
+    <script src="../../../../assets/js/code-display.js?v=2"></script>
+    <script src="../../../../site.js?v=57"></script>
+</body>
+</html>

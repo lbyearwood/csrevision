@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.4.2 Truth tables quiz</title>
+    <link rel="stylesheet" href="../../../styles.css?v=53">
+</head>
+<body data-page-type="quiz" data-course="gcse-j277" data-topic-id="2-4-2">
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to J277 topics</a>
+        <section class="question-header">
+            <p class="eyebrow">Paper 2 quiz</p>
+            <h2>2.4.2 Truth tables quiz</h2>
+            <p class="section-note">Self-marking retrieval practice on truth tables and Boolean outputs.</p>
+        </section>
+
+        <form class="quiz-form" aria-label="2.4.2 Truth tables quiz">
+            <article class="quiz-question" data-type="input" data-answer="1" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 1.">
+                <h3>1) What is the output of 1 AND 1?</h3>
+                <input type="text" aria-label="Answer for question 1">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="1" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 1.">
+                <h3>2) What is the output of 0 OR 1?</h3>
+                <input type="text" aria-label="Answer for question 2">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="0" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 0.">
+                <h3>3) What is the output of NOT 1?</h3>
+                <input type="text" aria-label="Answer for question 3">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-match" data-answer="A AND B:0|A OR B:1|NOT B:1|A AND NOT B:1" data-correct-feedback="Correct." data-incorrect-feedback="Use A = 1 and B = 0: A AND B is 0; A OR B is 1; NOT B is 1; A AND NOT B is 1.">
+                <h3>4) Match each expression to its output when A = 1 and B = 0.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="0">0</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="1">1</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="1">1</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="1">1</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="A AND B" data-placeholder="Drop item">Drop item</span><p>A AND B</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="A OR B" data-placeholder="Drop item">Drop item</span><p>A OR B</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="NOT B" data-placeholder="Drop item">Drop item</span><p>NOT B</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="A AND NOT B" data-placeholder="Drop item">Drop item</span><p>A AND NOT B</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="0|0|0|1" data-correct-feedback="Correct." data-incorrect-feedback="Correct outputs: 0, 0, 0, 1.">
+                <h3>5) Complete the output column for A AND B.</h3>
+                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>A</th><th>B</th><th>A AND B</th></tr></thead><tbody><tr><td>0</td><td>0</td><td><input type="text" aria-label="Output row 1"></td></tr><tr><td>0</td><td>1</td><td><input type="text" aria-label="Output row 2"></td></tr><tr><td>1</td><td>0</td><td><input type="text" aria-label="Output row 3"></td></tr><tr><td>1</td><td>1</td><td><input type="text" aria-label="Output row 4"></td></tr></tbody></table></div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="The row A = 0 and B = 1 should output 1" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: The row A = 0 and B = 1 should output 1.">
+                <h3>6) Find the error in this A OR B truth table.</h3>
+                <div class="quiz-table-wrap"><table class="quiz-table"><thead><tr><th>A</th><th>B</th><th>A OR B</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td></tr></tbody></table></div>
+                <label><input type="radio" name="q6" value="The row A = 0 and B = 1 should output 1"> The row A = 0 and B = 1 should output 1</label>
+                <label><input type="radio" name="q6" value="The row A = 0 and B = 0 should output 1"> The row A = 0 and B = 0 should output 1</label>
+                <label><input type="radio" name="q6" value="There is no error"> There is no error</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="checkbox" data-answer="1 AND 1,0 OR 1,NOT 0" data-correct-feedback="Correct." data-incorrect-feedback="Correct true outputs: 1 AND 1, 0 OR 1 and NOT 0.">
+                <h3>7) Select all expressions that output True.</h3>
+                <label><input type="checkbox" name="q7" value="1 AND 1"> 1 AND 1</label>
+                <label><input type="checkbox" name="q7" value="1 AND 0"> 1 AND 0</label>
+                <label><input type="checkbox" name="q7" value="0 OR 1"> 0 OR 1</label>
+                <label><input type="checkbox" name="q7" value="NOT 1"> NOT 1</label>
+                <label><input type="checkbox" name="q7" value="NOT 0"> NOT 0</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <button class="quiz-submit" type="submit">Check answers</button>
+            <p class="quiz-score" aria-live="polite"></p>
+        </form>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <script src="../../../routes.js?v=6"></script>
+    <script src="../../../assets/js/site-layout.js?v=1"></script>
+    <script src="../../../assets/js/quiz-engine.js?v=1"></script>
+    <script src="../../../site.js?v=56"></script>
+</body>
+</html>

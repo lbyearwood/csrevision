@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.17 Build the contact page</title>
+    <link rel="stylesheet" href="../../../../styles.css?v=53">
+</head>
+<body data-page-type="course" data-course="btec-it">
+    <header id="site-header" class="site-header"></header>
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to Unit 6</a>
+        <section class="question-header">
+            <p class="eyebrow">Unit 6 Website Development - Tutorial 1</p>
+            <h2>1.17 Build the contact page</h2>
+            <p class="section-note">Add a contact page so visitors know how to ask about joining the club.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>What This Page Should Do</h3>
+            <p>The contact page should give visitors clear next steps. It can include a teacher name, school address, room, email address, social media links and a short message about how to join.</p>
+            <p>It can also include a contact form. In this HTML tutorial, the form will show the correct structure, but it will not send messages yet because that needs extra JavaScript or server-side code later.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Contact Details Example</h3>
+            <pre class="algorithm-code"><code>&lt;p&gt;Email the club leader:
+    &lt;a href="mailto:codingclub@example.com"&gt;codingclub@example.com&lt;/a&gt;
+&lt;/p&gt;
+
+&lt;p&gt;Room: IT2, North Building&lt;/p&gt;
+&lt;p&gt;Address: Example School, 12 Learning Road, London&lt;/p&gt;
+
+&lt;p&gt;Follow us:
+    &lt;a href="https://www.instagram.com/example"&gt;Instagram&lt;/a&gt;
+    &lt;a href="https://www.youtube.com/example"&gt;YouTube&lt;/a&gt;
+&lt;/p&gt;</code></pre>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Contact Cards Example</h3>
+            <pre class="algorithm-code"><code>&lt;section&gt;
+    &lt;h2&gt;Contact Options&lt;/h2&gt;
+    &lt;article&gt;
+        &lt;h3&gt;Visit Us&lt;/h3&gt;
+        &lt;p&gt;Room IT2, North Building, Example School.&lt;/p&gt;
+    &lt;/article&gt;
+    &lt;article&gt;
+        &lt;h3&gt;Email Us&lt;/h3&gt;
+        &lt;p&gt;&lt;a href="mailto:codingclub@example.com"&gt;codingclub@example.com&lt;/a&gt;&lt;/p&gt;
+    &lt;/article&gt;
+    &lt;article&gt;
+        &lt;h3&gt;Follow Us&lt;/h3&gt;
+        &lt;p&gt;Instagram, YouTube and the school website.&lt;/p&gt;
+    &lt;/article&gt;
+&lt;/section&gt;</code></pre>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Contact Form Example</h3>
+            <pre class="algorithm-code"><code>&lt;form&gt;
+    &lt;label for="name"&gt;Name&lt;/label&gt;
+    &lt;input type="text" id="name" name="name"&gt;
+
+    &lt;label for="email"&gt;Email&lt;/label&gt;
+    &lt;input type="email" id="email" name="email"&gt;
+
+    &lt;label for="message"&gt;Message&lt;/label&gt;
+    &lt;textarea id="message" name="message"&gt;&lt;/textarea&gt;
+
+    &lt;button type="submit"&gt;Send message&lt;/button&gt;
+&lt;/form&gt;</code></pre>
+            <p>The <code>&lt;label&gt;</code> elements explain each input. The <code>for</code> value should match the input <code>id</code> so the form is easier to use.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Build It Yourself</h3>
+            <ol>
+                <li>Open <code>contact.html</code>.</li>
+                <li>Keep the same basic HTML structure and navigation menu used by the other pages.</li>
+                <li>Add a heading that says <code>Contact the Club</code>.</li>
+                <li>Add a paragraph telling students who to speak to if they want to join.</li>
+                <li>Add the room location, school address and meeting time.</li>
+                <li>Add an email link using <code>mailto:</code>.</li>
+                <li>Add social media links, such as Instagram, YouTube or the school website.</li>
+                <li>Add three contact option cards for visiting, emailing and following the club.</li>
+                <li>Add a short reminder to check the timetable page before attending.</li>
+                <li>Add a contact form with name, email and message fields.</li>
+                <li>Add a submit button with clear text such as <code>Send message</code>.</li>
+                <li>Check that each form field has a matching <code>&lt;label&gt;</code>.</li>
+                <li>Save the file and test the Contact link from the navigation menu.</li>
+            </ol>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Success Checklist</h3>
+            <ul>
+                <li>The page file is called <code>contact.html</code>.</li>
+                <li>The page gives clear contact information, including address, room and meeting time.</li>
+                <li>The email address is a clickable link.</li>
+                <li>The page includes useful social media or school website links.</li>
+                <li>The page includes contact option cards ready for CSS styling.</li>
+                <li>The page includes a contact form with name, email and message fields.</li>
+                <li>Every form field has a clear label.</li>
+                <li>The submit button has clear text.</li>
+                <li>The page links naturally to the timetable page.</li>
+                <li>The Contact link opens this page correctly.</li>
+            </ul>
+        </section>
+
+        <nav class="tutorial-page-nav" aria-label="Tutorial navigation">
+            <a class="back-button back-link" href="btec-unit-6-1-16-timetable-page.html">Previous: 1.16 Timetable page</a>
+            <a class="back-button back-link next-tutorial-link" href="btec-unit-6-1-18-website-design-principles.html">Next: 1.18 Review</a>
+        </nav>
+    </main>
+    <footer id="site-footer"></footer>
+    <script src="../../../../routes.js?v=6"></script>
+    <script src="../../../../assets/js/site-layout.js?v=1"></script>
+    <script src="../../../../assets/js/code-display.js?v=1"></script>
+    <script src="../../../../site.js?v=56"></script>
+</body>
+</html>

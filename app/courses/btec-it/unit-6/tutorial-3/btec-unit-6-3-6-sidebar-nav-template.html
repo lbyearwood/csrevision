@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.6 Sidebar Navigation Website Template</title>
+    <link rel="stylesheet" href="../../../../styles.css?v=56">
+    <link rel="stylesheet" href="../../../../assets/css/btec-web-tutorials.css?v=6">
+</head>
+<body data-page-type="btec-web-tutorial" data-course="btec-it">
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to Unit 6</a>
+
+        <section class="question-header">
+            <p class="eyebrow">Unit 6 Website Development - Tutorial 3</p>
+            <h2>3.6 Build a Sidebar Navigation Website Template</h2>
+            <p class="section-note">First add the HTML in small steps. Then style the page afterwards using small CSS chunks.</p>
+        </section>
+
+        <section class="lesson-part btec-web-guide">
+            <h3>How To Use This Tutorial</h3>
+            <p>Work through each step in order. Add the code shown, check the expected output, then move to the next step. The final code is visible at the bottom so you can compare your finished work.</p>
+        </section>
+
+<section class="lesson-part btec-web-contents"><h3>Steps</h3><ol><li><a href='#step-1'>Create the project files and folders</a></li><li><a href='#step-2'>Add the basic HTML page structure</a></li><li><a href='#step-3'>Link the external CSS file</a></li><li><a href='#step-4'>Add the header HTML</a></li><li><a href='#step-5'>Add the layout and main content HTML</a></li><li><a href='#step-6'>Add the sidebar navigation HTML</a></li><li><a href='#step-7'>Add the footer HTML</a></li><li><a href='#step-8'>Style the body</a></li><li><a href='#step-9'>Style the header area</a></li><li><a href='#step-10'>Resize and centre the logo box</a></li><li><a href='#step-11'>Style the logo image</a></li><li><a href='#step-12'>Style the company name</a></li><li><a href='#step-13'>Create the sidebar layout</a></li><li><a href='#step-14'>Style the sidebar area</a></li><li><a href='#step-15'>Style the sidebar buttons</a></li><li><a href='#step-16'>Add the sidebar button hover effect</a></li><li><a href='#step-17'>Style the main content area</a></li><li><a href='#step-18'>Style the footer area</a></li><li><a href='#step-19'>Style the footer buttons</a></li><li><a href='#step-20'>Add the footer button hover effect</a></li></ol></section>
+
+<section class="lesson-part btec-web-step" id="step-1">
+<div class="step-number">Step 1</div>
+<h2>Step 1 Create the project files and folders</h2>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="TEXT"><code>website-folder
+|
+|-- index.html
+|-- style.css
+|
+`-- images
+    |
+    `-- logo.png</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>The folder structure</strong> keeps the HTML file, CSS file and logo image organised.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class='blank'>No webpage output yet.</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-2">
+<div class="step-number">Step 2</div>
+<h2>Step 2 Add the basic HTML page structure</h2>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Website Template&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>This</strong> creates the basic webpage.</li><li>The body is where visible content will go.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class='blank'>The page is blank because no visible content has been added.</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-3">
+<div class="step-number">Step 3</div>
+<h2>Step 3 Link the external CSS file</h2>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Website Template&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+&lt;/head&gt;</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>link</strong> connects the HTML file to style.css.</li><li><strong>The HTML</strong> controls content and CSS controls appearance.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class='blank'>The page is still blank because only the CSS file has been connected.</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-4">
+<div class="step-number">Step 4</div>
+<h2>Step 4 Add the header HTML</h2>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;header&gt;
+    &lt;div class=&quot;logo-box&quot;&gt;
+        &lt;img src=&quot;images/logo.png&quot; alt=&quot;Company logo placeholder&quot;&gt;
+    &lt;/div&gt;
+
+    &lt;h1&gt;Company Name&lt;/h1&gt;
+&lt;/header&gt;</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>header</strong> creates the top area.</li><li><strong>logo-box</strong> creates a container for the logo.</li><li><strong>img</strong> displays the logo image.</li><li><strong>h1</strong> displays the company name.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class='preview-box'><img class="large-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgo8cmVjdCB3aWR0aD0iMTQ0OCIgaGVpZ2h0PSIxMDg2IiBmaWxsPSIjZTVlN2ViIi8+Cjx0ZXh0IHg9IjcyNCIgeT0iNTQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgwIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzMzMzIj5MT0dPPC90ZXh0Pgo8L3N2Zz4=" alt="Logo preview"><h1>Company Name</h1></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-5">
+<div class="step-number">Step 5</div>
+<h2>Step 5 Add the layout and main content HTML</h2>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;div class=&quot;page-layout&quot;&gt;
+    &lt;aside&gt;
+
+    &lt;/aside&gt;
+
+    &lt;main&gt;
+        &lt;h2&gt;Page Heading&lt;/h2&gt;
+    &lt;/main&gt;
+&lt;/div&gt;</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>page-layout</strong> creates a wrapper for the sidebar and main area.</li><li><strong>aside</strong> creates the sidebar.</li><li><strong>main</strong> creates the main content area.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class='preview-box'><img class="large-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgo8cmVjdCB3aWR0aD0iMTQ0OCIgaGVpZ2h0PSIxMDg2IiBmaWxsPSIjZTVlN2ViIi8+Cjx0ZXh0IHg9IjcyNCIgeT0iNTQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgwIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzMzMzIj5MT0dPPC90ZXh0Pgo8L3N2Zz4=" alt="Logo preview"><h1>Company Name</h1><h2>Page Heading</h2></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-6">
+<div class="step-number">Step 6</div>
+<h2>Step 6 Add the sidebar navigation HTML</h2>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;nav&gt;
+    &lt;a href=&quot;#&quot;&gt;Home&lt;/a&gt;
+    &lt;a href=&quot;#&quot;&gt;About&lt;/a&gt;
+    &lt;a href=&quot;#&quot;&gt;Services&lt;/a&gt;
+    &lt;a href=&quot;#&quot;&gt;Contact&lt;/a&gt;
+&lt;/nav&gt;</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>nav</strong> creates the navigation area.</li><li><strong>a</strong> creates each link.</li><li><strong>href</strong> keeps the link on the page for now.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class='preview-box'><img class="large-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgo8cmVjdCB3aWR0aD0iMTQ0OCIgaGVpZ2h0PSIxMDg2IiBmaWxsPSIjZTVlN2ViIi8+Cjx0ZXh0IHg9IjcyNCIgeT0iNTQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgwIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzMzMzIj5MT0dPPC90ZXh0Pgo8L3N2Zz4=" alt="Logo preview"><h1>Company Name</h1><a href='#'>Home</a><a href='#'>About</a><a href='#'>Services</a><a href='#'>Contact</a><h2>Page Heading</h2></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-7">
+<div class="step-number">Step 7</div>
+<h2>Step 7 Add the footer HTML</h2>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;footer&gt;
+    &lt;p&gt;&amp;copy; 2026 Company Name. All rights reserved.&lt;/p&gt;
+
+    &lt;nav&gt;
+        &lt;a href=&quot;#&quot;&gt;Privacy Policy&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Terms&lt;/a&gt;
+        &lt;a href=&quot;#&quot;&gt;Contact&lt;/a&gt;
+    &lt;/nav&gt;
+&lt;/footer&gt;</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>footer</strong> creates the bottom area.</li><li><strong>p</strong> creates the copyright text.</li><li><strong>The footer nav</strong> creates the footer links.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class='preview-box'><img class="large-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgo8cmVjdCB3aWR0aD0iMTQ0OCIgaGVpZ2h0PSIxMDg2IiBmaWxsPSIjZTVlN2ViIi8+Cjx0ZXh0IHg9IjcyNCIgeT0iNTQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgwIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzMzMzIj5MT0dPPC90ZXh0Pgo8L3N2Zz4=" alt="Logo preview"><h1>Company Name</h1><a href='#'>Home</a><a href='#'>About</a><a href='#'>Services</a><a href='#'>Contact</a><h2>Page Heading</h2><p>© 2026 Company Name. All rights reserved.</p><a href='#'>Privacy Policy</a><a href='#'>Terms</a><a href='#'>Contact</a></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-8">
+<div class="step-number">Step 8</div>
+<h2>Step 8 Style the body</h2>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="CSS"><code>body {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    color: #222222;
+}</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>body</strong> selects the whole visible webpage.</li><li>The margin rules remove the browser gap.</li><li><strong>background-color</strong> changes the page background to light grey.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="site-preview"><header class="preview-box"><img class="large-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgo8cmVjdCB3aWR0aD0iMTQ0OCIgaGVpZ2h0PSIxMDg2IiBmaWxsPSIjZTVlN2ViIi8+Cjx0ZXh0IHg9IjcyNCIgeT0iNTQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgwIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzMzMzIj5MT0dPPC90ZXh0Pgo8L3N2Zz4=" alt="Logo preview"><h1>Company Name</h1></header><div class="preview-box"><nav><a href="#">Home</a><a href="#">About</a><a href="#">Services</a><a href="#">Contact</a></nav><main><h2>Page Heading</h2></main></div><footer class="preview-box"><p>© 2026 Company Name. All rights reserved.</p><nav class=""><a href="#">Privacy Policy</a><a href="#">Terms</a><a href="#">Contact</a></nav></footer></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-9">
+<div class="step-number">Step 9</div>
+<h2>Step 9 Style the header area</h2>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="CSS"><code>header {
+    background-color: #333333;
+    color: white;
+
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+
+    text-align: center;
+}</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>header</strong> selects the top area.</li><li><strong>background-color</strong> changes the header to dark grey.</li><li><strong>color</strong> changes the header text to white.</li><li><strong>text-align</strong> centres the header content.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="site-preview"><header class="pv-header"><img class="large-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgo8cmVjdCB3aWR0aD0iMTQ0OCIgaGVpZ2h0PSIxMDg2IiBmaWxsPSIjZTVlN2ViIi8+Cjx0ZXh0IHg9IjcyNCIgeT0iNTQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgwIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzMzMzIj5MT0dPPC90ZXh0Pgo8L3N2Zz4=" alt="Logo preview"><h1>Company Name</h1></header><div class="preview-box"><nav><a href="#">Home</a><a href="#">About</a><a href="#">Services</a><a href="#">Contact</a></nav><main><h2>Page Heading</h2></main></div><footer class="preview-box"><p>© 2026 Company Name. All rights reserved.</p><nav class=""><a href="#">Privacy Policy</a><a href="#">Terms</a><a href="#">Contact</a></nav></footer></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-10">
+<div class="step-number">Step 10</div>
+<h2>Step 10 Resize and centre the logo box</h2>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="CSS"><code>.logo-box {
+    width: 120px;
+
+    margin-top: 0;
+    margin-right: auto;
+    margin-bottom: 10px;
+    margin-left: auto;
+}</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>.logo-box</strong> selects the logo container.</li><li><strong>width</strong> makes the logo box smaller.</li><li><strong>margin-right</strong> and margin-left set to auto centre the logo box.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="site-preview"><header class="pv-header"><img class="small-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgo8cmVjdCB3aWR0aD0iMTQ0OCIgaGVpZ2h0PSIxMDg2IiBmaWxsPSIjZTVlN2ViIi8+Cjx0ZXh0IHg9IjcyNCIgeT0iNTQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgwIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzMzMzIj5MT0dPPC90ZXh0Pgo8L3N2Zz4=" alt="Logo preview"><h1>Company Name</h1></header><div class="preview-box"><nav><a href="#">Home</a><a href="#">About</a><a href="#">Services</a><a href="#">Contact</a></nav><main><h2>Page Heading</h2></main></div><footer class="preview-box"><p>© 2026 Company Name. All rights reserved.</p><nav class=""><a href="#">Privacy Policy</a><a href="#">Terms</a><a href="#">Contact</a></nav></footer></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-11">
+<div class="step-number">Step 11</div>
+<h2>Step 11 Style the logo image</h2>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="CSS"><code>.logo-box img {
+    width: 100%;
+    height: auto;
+    display: block;
+}</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>.logo-box img</strong> selects the image inside the logo box.</li><li><strong>width</strong> makes the image fill the logo box.</li><li><strong>height</strong> auto stops the image stretching.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="site-preview"><header class="pv-header"><img class="small-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgo8cmVjdCB3aWR0aD0iMTQ0OCIgaGVpZ2h0PSIxMDg2IiBmaWxsPSIjZTVlN2ViIi8+Cjx0ZXh0IHg9IjcyNCIgeT0iNTQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgwIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzMzMzIj5MT0dPPC90ZXh0Pgo8L3N2Zz4=" alt="Logo preview"><h1>Company Name</h1></header><div class="preview-box"><nav><a href="#">Home</a><a href="#">About</a><a href="#">Services</a><a href="#">Contact</a></nav><main><h2>Page Heading</h2></main></div><footer class="preview-box"><p>© 2026 Company Name. All rights reserved.</p><nav class=""><a href="#">Privacy Policy</a><a href="#">Terms</a><a href="#">Contact</a></nav></footer></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-12">
+<div class="step-number">Step 12</div>
+<h2>Step 12 Style the company name</h2>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="CSS"><code>header h1 {
+    margin-top: 10px;
+    margin-right: 0;
+    margin-bottom: 10px;
+    margin-left: 0;
+}</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>header</strong> h1 selects the company name inside the header.</li><li>The margin rules control the spacing around the heading.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="site-preview"><header class="pv-header"><img class="small-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgo8cmVjdCB3aWR0aD0iMTQ0OCIgaGVpZ2h0PSIxMDg2IiBmaWxsPSIjZTVlN2ViIi8+Cjx0ZXh0IHg9IjcyNCIgeT0iNTQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgwIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzMzMzIj5MT0dPPC90ZXh0Pgo8L3N2Zz4=" alt="Logo preview"><h1>Company Name</h1></header><div class="preview-box"><nav><a href="#">Home</a><a href="#">About</a><a href="#">Services</a><a href="#">Contact</a></nav><main><h2>Page Heading</h2></main></div><footer class="preview-box"><p>© 2026 Company Name. All rights reserved.</p><nav class=""><a href="#">Privacy Policy</a><a href="#">Terms</a><a href="#">Contact</a></nav></footer></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-13">
+<div class="step-number">Step 13</div>
+<h2>Step 13 Create the sidebar layout</h2>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="CSS"><code>.page-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    min-height: 400px;
+}</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>display</strong> grid changes page-layout into a grid.</li><li><strong>grid-template-columns</strong> creates a 220px sidebar and a main area that fills the remaining space.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="site-preview"><header class="pv-header"><img class="small-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgo8cmVjdCB3aWR0aD0iMTQ0OCIgaGVpZ2h0PSIxMDg2IiBmaWxsPSIjZTVlN2ViIi8+Cjx0ZXh0IHg9IjcyNCIgeT0iNTQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgwIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzMzMzIj5MT0dPPC90ZXh0Pgo8L3N2Zz4=" alt="Logo preview"><h1>Company Name</h1></header><div class="pv-layout"><aside class=""><nav><a href="#">Home</a><a href="#">About</a><a href="#">Services</a><a href="#">Contact</a></nav></aside><main class=""><h2>Page Heading</h2></main></div><footer class="preview-box"><p>© 2026 Company Name. All rights reserved.</p><nav class=""><a href="#">Privacy Policy</a><a href="#">Terms</a><a href="#">Contact</a></nav></footer></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-14">
+<div class="step-number">Step 14</div>
+<h2>Step 14 Style the sidebar area</h2>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="CSS"><code>aside {
+    background-color: #444444;
+
+    padding-top: 25px;
+    padding-right: 15px;
+    padding-bottom: 25px;
+    padding-left: 15px;
+}</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>aside</strong> selects the sidebar.</li><li><strong>background-color</strong> changes the sidebar to dark grey.</li><li>The padding rules add space inside the sidebar.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="site-preview"><header class="pv-header"><img class="small-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgo8cmVjdCB3aWR0aD0iMTQ0OCIgaGVpZ2h0PSIxMDg2IiBmaWxsPSIjZTVlN2ViIi8+Cjx0ZXh0IHg9IjcyNCIgeT0iNTQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgwIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzMzMzIj5MT0dPPC90ZXh0Pgo8L3N2Zz4=" alt="Logo preview"><h1>Company Name</h1></header><div class="pv-layout"><aside class="pv-sidebar"><nav class="plain-sidebar-preview-links"><a href="#">Home</a><a href="#">About</a><a href="#">Services</a><a href="#">Contact</a></nav></aside><main class=""><h2>Page Heading</h2></main></div><footer class="preview-box"><p>© 2026 Company Name. All rights reserved.</p><nav class=""><a href="#">Privacy Policy</a><a href="#">Terms</a><a href="#">Contact</a></nav></footer></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-15">
+<div class="step-number">Step 15</div>
+<h2>Step 15 Style the sidebar buttons</h2>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="CSS"><code>aside nav a {
+    display: block;
+    background-color: #666666;
+    color: white;
+    text-decoration: none;
+
+    padding-top: 12px;
+    padding-right: 15px;
+    padding-bottom: 12px;
+    padding-left: 15px;
+
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 10px;
+    margin-left: 0;
+
+    border-width: 2px;
+    border-style: solid;
+    border-color: #999999;
+
+    border-radius: 5px;
+}</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>aside nav a</strong> selects links inside the sidebar.</li><li><strong>display</strong> block makes each link appear on its own line.</li><li><strong>background-color</strong> and padding make the links look like buttons.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="site-preview"><header class="pv-header"><img class="small-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgo8cmVjdCB3aWR0aD0iMTQ0OCIgaGVpZ2h0PSIxMDg2IiBmaWxsPSIjZTVlN2ViIi8+Cjx0ZXh0IHg9IjcyNCIgeT0iNTQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgwIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzMzMzIj5MT0dPPC90ZXh0Pgo8L3N2Zz4=" alt="Logo preview"><h1>Company Name</h1></header><div class="pv-layout"><aside class="pv-sidebar"><nav><a href="#">Home</a><a href="#">About</a><a href="#">Services</a><a href="#">Contact</a></nav></aside><main class=""><h2>Page Heading</h2></main></div><footer class="preview-box"><p>© 2026 Company Name. All rights reserved.</p><nav class=""><a href="#">Privacy Policy</a><a href="#">Terms</a><a href="#">Contact</a></nav></footer></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-16">
+<div class="step-number">Step 16</div>
+<h2>Step 16 Add the sidebar button hover effect</h2>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="CSS"><code>aside nav a:hover {
+    background-color: #ffd84d;
+    color: #222222;
+}</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>aside nav a:hover</strong> changes a sidebar button when the mouse moves over it.</li><li><strong>background-color</strong> changes the button to yellow.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="site-preview"><header class="pv-header"><img class="small-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgo8cmVjdCB3aWR0aD0iMTQ0OCIgaGVpZ2h0PSIxMDg2IiBmaWxsPSIjZTVlN2ViIi8+Cjx0ZXh0IHg9IjcyNCIgeT0iNTQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgwIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzMzMzIj5MT0dPPC90ZXh0Pgo8L3N2Zz4=" alt="Logo preview"><h1>Company Name</h1></header><div class="pv-layout"><aside class="pv-sidebar"><nav><a href="#">Home</a><a href="#">About</a><a href="#">Services</a><a href="#">Contact</a></nav></aside><main class=""><h2>Page Heading</h2></main></div><footer class="preview-box"><p>© 2026 Company Name. All rights reserved.</p><nav class=""><a href="#">Privacy Policy</a><a href="#">Terms</a><a href="#">Contact</a></nav></footer></div><p class='note'>Move your mouse over a sidebar button. It should turn yellow.</p></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-17">
+<div class="step-number">Step 17</div>
+<h2>Step 17 Style the main content area</h2>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="CSS"><code>main {
+    background-color: white;
+
+    padding-top: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+
+    text-align: center;
+}
+
+main h2 {
+    color: #333333;
+}</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>main</strong> selects the main content area.</li><li><strong>background-color</strong> changes it to white.</li><li><strong>text-align</strong> centres the page heading.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="site-preview"><header class="pv-header"><img class="small-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgo8cmVjdCB3aWR0aD0iMTQ0OCIgaGVpZ2h0PSIxMDg2IiBmaWxsPSIjZTVlN2ViIi8+Cjx0ZXh0IHg9IjcyNCIgeT0iNTQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgwIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzMzMzIj5MT0dPPC90ZXh0Pgo8L3N2Zz4=" alt="Logo preview"><h1>Company Name</h1></header><div class="pv-layout"><aside class="pv-sidebar"><nav><a href="#">Home</a><a href="#">About</a><a href="#">Services</a><a href="#">Contact</a></nav></aside><main class="pv-main"><h2>Page Heading</h2></main></div><footer class="preview-box"><p>© 2026 Company Name. All rights reserved.</p><nav class=""><a href="#">Privacy Policy</a><a href="#">Terms</a><a href="#">Contact</a></nav></footer></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-18">
+<div class="step-number">Step 18</div>
+<h2>Step 18 Style the footer area</h2>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="CSS"><code>footer {
+    background-color: #333333;
+    color: white;
+    text-align: center;
+
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+}
+
+footer p {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 10px;
+    margin-left: 0;
+}</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>footer</strong> selects the bottom area.</li><li><strong>background-color</strong> changes it to dark grey.</li><li><strong>color</strong> changes the footer text to white.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="site-preview"><header class="pv-header"><img class="small-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgo8cmVjdCB3aWR0aD0iMTQ0OCIgaGVpZ2h0PSIxMDg2IiBmaWxsPSIjZTVlN2ViIi8+Cjx0ZXh0IHg9IjcyNCIgeT0iNTQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgwIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzMzMzIj5MT0dPPC90ZXh0Pgo8L3N2Zz4=" alt="Logo preview"><h1>Company Name</h1></header><div class="pv-layout"><aside class="pv-sidebar"><nav><a href="#">Home</a><a href="#">About</a><a href="#">Services</a><a href="#">Contact</a></nav></aside><main class="pv-main"><h2>Page Heading</h2></main></div><footer class="pv-footer"><p>© 2026 Company Name. All rights reserved.</p><nav class=""><a href="#">Privacy Policy</a><a href="#">Terms</a><a href="#">Contact</a></nav></footer></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-19">
+<div class="step-number">Step 19</div>
+<h2>Step 19 Style the footer buttons</h2>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="CSS"><code>footer nav a {
+    display: inline-block;
+    background-color: #555555;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+
+    padding-top: 8px;
+    padding-right: 15px;
+    padding-bottom: 8px;
+    padding-left: 15px;
+
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+
+    border-width: 2px;
+    border-style: solid;
+    border-color: #999999;
+
+    border-radius: 5px;
+}</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>footer nav a</strong> selects links inside the footer.</li><li><strong>display</strong> inline-block lets the footer links behave like small buttons.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="site-preview"><header class="pv-header"><img class="small-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgo8cmVjdCB3aWR0aD0iMTQ0OCIgaGVpZ2h0PSIxMDg2IiBmaWxsPSIjZTVlN2ViIi8+Cjx0ZXh0IHg9IjcyNCIgeT0iNTQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgwIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzMzMzIj5MT0dPPC90ZXh0Pgo8L3N2Zz4=" alt="Logo preview"><h1>Company Name</h1></header><div class="pv-layout"><aside class="pv-sidebar"><nav><a href="#">Home</a><a href="#">About</a><a href="#">Services</a><a href="#">Contact</a></nav></aside><main class="pv-main"><h2>Page Heading</h2></main></div><footer class="pv-footer"><p>© 2026 Company Name. All rights reserved.</p><nav class="footer-links"><a href="#">Privacy Policy</a><a href="#">Terms</a><a href="#">Contact</a></nav></footer></div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-20">
+<div class="step-number">Step 20</div>
+<h2>Step 20 Add the footer button hover effect</h2>
+<h3>Code</h3>
+<pre class="algorithm-code code-block" data-lang="CSS"><code>footer nav a:hover {
+    background-color: #ffd84d;
+    color: #222222;
+}</code></pre>
+<h3>What this does</h3>
+<div class="explain-box"><ul><li><strong>footer nav a:hover</strong> changes a footer button when the mouse moves over it.</li><li><strong>background-color</strong> changes the button to yellow.</li></ul></div>
+<h3>Expected output</h3>
+<div class="expected-output"><div class="site-preview"><header class="pv-header"><img class="small-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNDQ4IiBoZWlnaHQ9IjEwODYiIHZpZXdCb3g9IjAgMCAxNDQ4IDEwODYiPgo8cmVjdCB3aWR0aD0iMTQ0OCIgaGVpZ2h0PSIxMDg2IiBmaWxsPSIjZTVlN2ViIi8+Cjx0ZXh0IHg9IjcyNCIgeT0iNTQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgwIiBmb250LXdlaWdodD0iNzAwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSIjMzMzMzMzIj5MT0dPPC90ZXh0Pgo8L3N2Zz4=" alt="Logo preview"><h1>Company Name</h1></header><div class="pv-layout"><aside class="pv-sidebar"><nav><a href="#">Home</a><a href="#">About</a><a href="#">Services</a><a href="#">Contact</a></nav></aside><main class="pv-main"><h2>Page Heading</h2></main></div><footer class="pv-footer"><p>© 2026 Company Name. All rights reserved.</p><nav class="footer-links"><a href="#">Privacy Policy</a><a href="#">Terms</a><a href="#">Contact</a></nav></footer></div><p class='note'>Move your mouse over a footer button. It should turn yellow.</p></div>
+</section>
+
+<section class="lesson-part btec-web-final-code">
+<h2>Final code</h2>
+<div class="btec-final-code-content">
+<h2>Final index.html</h2><pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Website Template&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+    &lt;header&gt;
+        &lt;div class=&quot;logo-box&quot;&gt;
+            &lt;img src=&quot;images/logo.png&quot; alt=&quot;Company logo placeholder&quot;&gt;
+        &lt;/div&gt;
+
+        &lt;h1&gt;Company Name&lt;/h1&gt;
+    &lt;/header&gt;
+
+    &lt;div class=&quot;page-layout&quot;&gt;
+        &lt;aside&gt;
+            &lt;nav&gt;
+                &lt;a href=&quot;#&quot;&gt;Home&lt;/a&gt;
+                &lt;a href=&quot;#&quot;&gt;About&lt;/a&gt;
+                &lt;a href=&quot;#&quot;&gt;Services&lt;/a&gt;
+                &lt;a href=&quot;#&quot;&gt;Contact&lt;/a&gt;
+            &lt;/nav&gt;
+        &lt;/aside&gt;
+
+        &lt;main&gt;
+            &lt;h2&gt;Page Heading&lt;/h2&gt;
+        &lt;/main&gt;
+    &lt;/div&gt;
+
+    &lt;footer&gt;
+        &lt;p&gt;&amp;copy; 2026 Company Name. All rights reserved.&lt;/p&gt;
+
+        &lt;nav&gt;
+            &lt;a href=&quot;#&quot;&gt;Privacy Policy&lt;/a&gt;
+            &lt;a href=&quot;#&quot;&gt;Terms&lt;/a&gt;
+            &lt;a href=&quot;#&quot;&gt;Contact&lt;/a&gt;
+        &lt;/nav&gt;
+    &lt;/footer&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+<h2>Final style.css</h2><pre class="algorithm-code code-block" data-lang="CSS"><code>body {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+
+    font-family: Arial, sans-serif;
+    background-color: #f2f2f2;
+    color: #222222;
+}
+
+header {
+    background-color: #333333;
+    color: white;
+
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+
+    text-align: center;
+}
+
+.logo-box {
+    width: 120px;
+
+    margin-top: 0;
+    margin-right: auto;
+    margin-bottom: 10px;
+    margin-left: auto;
+}
+
+.logo-box img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+header h1 {
+    margin-top: 10px;
+    margin-right: 0;
+    margin-bottom: 10px;
+    margin-left: 0;
+}
+
+.page-layout {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    min-height: 400px;
+}
+
+aside {
+    background-color: #444444;
+
+    padding-top: 25px;
+    padding-right: 15px;
+    padding-bottom: 25px;
+    padding-left: 15px;
+}
+
+aside nav a {
+    display: block;
+    background-color: #666666;
+    color: white;
+    text-decoration: none;
+
+    padding-top: 12px;
+    padding-right: 15px;
+    padding-bottom: 12px;
+    padding-left: 15px;
+
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 10px;
+    margin-left: 0;
+
+    border-width: 2px;
+    border-style: solid;
+    border-color: #999999;
+
+    border-radius: 5px;
+}
+
+aside nav a:hover {
+    background-color: #ffd84d;
+    color: #222222;
+}
+
+main {
+    background-color: white;
+
+    padding-top: 30px;
+    padding-right: 30px;
+    padding-bottom: 30px;
+    padding-left: 30px;
+
+    text-align: center;
+}
+
+main h2 {
+    color: #333333;
+}
+
+footer {
+    background-color: #333333;
+    color: white;
+    text-align: center;
+
+    padding-top: 20px;
+    padding-right: 20px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+}
+
+footer p {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 10px;
+    margin-left: 0;
+}
+
+footer nav a {
+    display: inline-block;
+    background-color: #555555;
+    color: white;
+    text-decoration: none;
+    font-size: 14px;
+
+    padding-top: 8px;
+    padding-right: 15px;
+    padding-bottom: 8px;
+    padding-left: 15px;
+
+    margin-top: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
+
+    border-width: 2px;
+    border-style: solid;
+    border-color: #999999;
+
+    border-radius: 5px;
+}
+
+footer nav a:hover {
+    background-color: #ffd84d;
+    color: #222222;
+}</code></pre>
+</div>
+</section>
+
+        <nav class="tutorial-page-nav" aria-label="Tutorial navigation">
+            <a class="back-button back-link" href="btec-unit-6-3-5-central-nav-template.html">Previous: Build a Central Navigation Website Template</a>
+            <a class="back-button back-link next-tutorial-link" href="btec-unit-6-3-7-right-nav-template.html">Next: Build a Right Navigation Website Template</a>
+        </nav>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <script src="../../../../routes.js?v=6"></script>
+    <script src="../../../../assets/js/site-layout.js?v=1"></script>
+    <script src="../../../../assets/js/code-display.js?v=2"></script>
+    <script src="../../../../site.js?v=57"></script>
+</body>
+</html>

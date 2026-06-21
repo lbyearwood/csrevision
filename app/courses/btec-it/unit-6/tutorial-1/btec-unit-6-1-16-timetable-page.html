@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.16 Build the timetable page</title>
+    <link rel="stylesheet" href="../../../../styles.css?v=53">
+</head>
+<body data-page-type="course" data-course="btec-it">
+    <header id="site-header" class="site-header"></header>
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to Unit 6</a>
+        <section class="question-header">
+            <p class="eyebrow">Unit 6 Website Development - Tutorial 1</p>
+            <h2>1.16 Build the timetable page</h2>
+            <p class="section-note">Add a timetable page so visitors can see when the club meets.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>What This Page Should Do</h3>
+            <p>The timetable page should show useful session information in a clear structure. A table is suitable because the content has rows and columns.</p>
+            <p>The club timetable should cover Monday to Friday. Each day should have two one-hour periods, and each period should show a different activity or project focus.</p>
+            <p>Keep the content simple for now. Tutorial 2 will make the table easier to read with CSS.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Timetable Example</h3>
+            <pre class="algorithm-code"><code>&lt;table&gt;
+    &lt;tr&gt;
+        &lt;th&gt;Day&lt;/th&gt;
+        &lt;th&gt;Period 1&lt;/th&gt;
+        &lt;th&gt;Period 2&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Monday&lt;/td&gt;
+        &lt;td&gt;3:15pm to 4:15pm - Scratch animation&lt;/td&gt;
+        &lt;td&gt;4:15pm to 5:15pm - Scratch game design&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Tuesday&lt;/td&gt;
+        &lt;td&gt;3:15pm to 4:15pm - Python basics&lt;/td&gt;
+        &lt;td&gt;4:15pm to 5:15pm - Python quiz program&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Wednesday&lt;/td&gt;
+        &lt;td&gt;3:15pm to 4:15pm - HTML website structure&lt;/td&gt;
+        &lt;td&gt;4:15pm to 5:15pm - CSS page styling&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Thursday&lt;/td&gt;
+        &lt;td&gt;3:15pm to 4:15pm - JavaScript interactions&lt;/td&gt;
+        &lt;td&gt;4:15pm to 5:15pm - Browser game project&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;Friday&lt;/td&gt;
+        &lt;td&gt;3:15pm to 4:15pm - Mobile app planning&lt;/td&gt;
+        &lt;td&gt;4:15pm to 5:15pm - App prototype build&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;</code></pre>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Project Cards Example</h3>
+            <p>Add a short set of project cards below the timetable. These give Tutorial 2 more content to style with Flexbox, spacing, borders and hover effects.</p>
+            <pre class="algorithm-code"><code>&lt;section&gt;
+    &lt;h2&gt;Project Highlights&lt;/h2&gt;
+    &lt;article&gt;
+        &lt;h3&gt;Scratch Game&lt;/h3&gt;
+        &lt;p&gt;Design sprites, levels and scoring for an arcade-style game.&lt;/p&gt;
+    &lt;/article&gt;
+    &lt;article&gt;
+        &lt;h3&gt;Python Quiz&lt;/h3&gt;
+        &lt;p&gt;Use input, selection and scoring to make a quiz program.&lt;/p&gt;
+    &lt;/article&gt;
+    &lt;article&gt;
+        &lt;h3&gt;Mobile App Prototype&lt;/h3&gt;
+        &lt;p&gt;Plan screens and features for a useful school app.&lt;/p&gt;
+    &lt;/article&gt;
+&lt;/section&gt;</code></pre>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Build It Yourself</h3>
+            <ol>
+                <li>Create a new file called <code>timetable.html</code>.</li>
+                <li>Copy the same basic HTML structure used by the other pages.</li>
+                <li>Add the same navigation menu and include a link to <code>timetable.html</code>.</li>
+                <li>Add a heading that says <code>Club Timetable</code>.</li>
+                <li>Add a short paragraph explaining that the timetable may change during the term.</li>
+                <li>Add a table with columns for day, period 1 and period 2.</li>
+                <li>Add rows for Monday, Tuesday, Wednesday, Thursday and Friday.</li>
+                <li>Make each period one hour long.</li>
+                <li>Give each period a different activity, such as Scratch, Python, JavaScript, game design, website building or mobile app prototyping.</li>
+                <li>Add a project highlights section with three cards below the timetable.</li>
+                <li>Save the file and test the Timetable link from each page.</li>
+            </ol>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Success Checklist</h3>
+            <ul>
+                <li>The page file is called <code>timetable.html</code>.</li>
+                <li>The navigation menu includes a Timetable link.</li>
+                <li>The page uses a table for session information.</li>
+                <li>The table has clear column headings.</li>
+                <li>The table covers Monday to Friday.</li>
+                <li>Each day has two one-hour periods.</li>
+                <li>The activities show a range of coding projects.</li>
+                <li>The page includes project cards ready to style in Tutorial 2.</li>
+                <li>The timetable page opens from the navigation menu.</li>
+            </ul>
+        </section>
+
+        <nav class="tutorial-page-nav" aria-label="Tutorial navigation">
+            <a class="back-button back-link" href="btec-unit-6-1-15-about-page.html">Previous: 1.15 About page</a>
+            <a class="back-button back-link next-tutorial-link" href="btec-unit-6-1-17-contact-page.html">Next: 1.17 Contact page</a>
+        </nav>
+    </main>
+    <footer id="site-footer"></footer>
+    <script src="../../../../routes.js?v=6"></script>
+    <script src="../../../../assets/js/site-layout.js?v=1"></script>
+    <script src="../../../../assets/js/code-display.js?v=1"></script>
+    <script src="../../../../site.js?v=56"></script>
+</body>
+</html>

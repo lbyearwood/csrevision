@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.24 Build a card layout using Flexbox</title>
+    <link rel="stylesheet" href="../../../../styles.css?v=53">
+</head>
+<body data-page-type="course" data-course="btec-it">
+    <header id="site-header" class="site-header"></header>
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to Unit 6</a>
+        <section class="question-header">
+            <p class="eyebrow">Unit 6 Website Development - Tutorial 2</p>
+            <h2>2.24 Build a card layout using Flexbox</h2>
+            <p class="section-note">Turn repeated articles into a neat card layout.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>What You Are Adding</h3>
+            <p>Card layouts are useful when several pieces of content have the same importance. Flexbox can place cards in a responsive row with equal spacing and wrapping.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>CSS To Add To <code>css/style.css</code></h3>
+            <p>Add or adapt this CSS in the stylesheet you created in Tutorial 1. Keep the HTML structure from Tutorial 1 and use CSS to improve the presentation.</p>
+            <pre class="algorithm-code"><code>.card-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+}
+
+.club-card {
+    flex: 1 1 220px;
+    padding: 18px;
+    border: 2px solid #b9c8f8;
+    border-radius: 8px;
+}</code></pre>
+        </section>
+
+        <section class="lesson-part tutorial-output">
+            <h3>Expected Output</h3>
+            <div class="tutorial-output-frame">
+                <div class="tutorial-mini-card-grid"><article class="tutorial-mini-card"><h4>Websites</h4><p>Build pages with HTML and CSS.</p></article><article class="tutorial-mini-card"><h4>Games</h4><p>Create interactive projects.</p></article><article class="tutorial-mini-card"><h4>Apps</h4><p>Plan simple app ideas.</p></article></div>
+            </div>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Build It Yourself</h3>
+            <ol>
+                <li>Open the same unit-6-website folder from Tutorial 1.</li>
+                <li>Add or update the relevant HTML class names if this page uses classes.</li>
+                <li>Add the CSS shown above to css/style.css.</li>
+                <li>Save the stylesheet and refresh the website in the browser.</li>
+                <li>Compare your page with the expected output preview.</li>
+            </ol>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Common Mistakes</h3>
+            <ul>
+                <li>Editing the HTML page but forgetting to save css/style.css.</li>
+                <li>Using a different class name in HTML and CSS.</li>
+                <li>Adding lots of one-off styles instead of reusing clear selectors.</li>
+            </ul>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Success Checklist</h3>
+            <ul>
+                <li>The CSS has been added to css/style.css.</li>
+                <li>The page still uses the Tutorial 1 HTML structure.</li>
+                <li>The result is close to the expected output preview.</li>
+                <li>The page remains readable and easy to use.</li>
+            </ul>
+        </section>
+
+        <nav class="tutorial-page-nav" aria-label="Tutorial navigation">
+            <a class="back-button back-link" href="btec-unit-6-2-23-flexbox-navigation-bar.html">Previous: 2.23 Build a navigation bar using Flexbox</a>
+            <a class="back-button back-link next-tutorial-link" href="btec-unit-6-2-25-style-buttons-links.html">Next: 2.25 Style buttons and links clearly</a>
+        </nav>
+    </main>
+    <footer id="site-footer"></footer>
+    <script src="../../../../routes.js?v=6"></script>
+    <script src="../../../../assets/js/site-layout.js?v=1"></script>
+    <script src="../../../../assets/js/code-display.js?v=1"></script>
+    <script src="../../../../site.js?v=56"></script>
+</body>
+</html>

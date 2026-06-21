@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3.8 Main Section Rows and Columns</title>
+    <link rel="stylesheet" href="../../../../styles.css?v=56">
+    <link rel="stylesheet" href="../../../../assets/css/btec-web-tutorials.css?v=6">
+</head>
+<body data-page-type="btec-web-tutorial" data-course="btec-it">
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to Unit 6</a>
+
+        <section class="question-header">
+            <p class="eyebrow">Unit 6 Website Development - Tutorial 3</p>
+            <h2>3.8 Organise the Main Section into Rows and Columns</h2>
+            <p class="section-note">Build a main area with two different rows: one row with two section columns, and another row with three section columns.</p>
+        </section>
+
+        <section class="lesson-part btec-web-guide">
+            <h3>How To Use This Tutorial</h3>
+            <p>Work through each step in order. Add the HTML first, then add the CSS afterwards. Check the expected output after each step. The final code is visible at the bottom so you can compare your finished work.</p>
+        </section>
+
+        <section class="lesson-part btec-web-contents">
+            <h3>Steps</h3>
+            <ol>
+                <li><a href="#step-1">Create the project files</a></li>
+                <li><a href="#step-2">Add the basic HTML page structure</a></li>
+                <li><a href="#step-3">Link the external CSS file</a></li>
+                <li><a href="#step-4">Add the header, main and footer</a></li>
+                <li><a href="#step-5">Add the first row inside main</a></li>
+                <li><a href="#step-6">Add two sections inside the first row</a></li>
+                <li><a href="#step-7">Add the second row inside main</a></li>
+                <li><a href="#step-8">Add three sections inside the second row</a></li>
+                <li><a href="#step-9">Style the body</a></li>
+                <li><a href="#step-10">Style the header and footer</a></li>
+                <li><a href="#step-11">Style the main container</a></li>
+                <li><a href="#step-12">Style each content row</a></li>
+                <li><a href="#step-13">Make the sections stand out</a></li>
+                <li><a href="#step-14">Use Flexbox to create different column rows</a></li>
+                <li><a href="#step-15">Add different colours to each row</a></li>
+                <li><a href="#step-16">Make the layout responsive</a></li>
+            </ol>
+        </section>
+
+        <section class="lesson-part btec-web-step" id="step-1">
+            <div class="step-number">Step 1</div>
+            <h2>Step 1 Create the project files</h2>
+            <div class="instruction-box">
+                <p>Create a new folder for this tutorial.</p>
+                <p>Inside the folder, create two files:</p>
+                <ul>
+                    <li><code>index.html</code></li>
+                    <li><code>style.css</code></li>
+                </ul>
+            </div>
+            <h3>Folder structure</h3>
+            <pre class="algorithm-code code-block" data-lang="TEXT"><code>main-layout
+|
+|-- index.html
+`-- style.css</code></pre>
+
+            <h3>What this does</h3>
+            <div class="explain-box">
+                <p><code>index.html</code> will store the webpage content.</p>
+                <p><code>style.css</code> will store the design rules.</p>
+            </div>
+            <h3>Expected output</h3>
+            <div class="expected-output"><div class="blank-preview">No webpage output yet. You have only created the files.</div></div>
+        </section>
+
+        <section class="lesson-part btec-web-step" id="step-2">
+            <div class="step-number">Step 2</div>
+            <h2>Step 2 Add the basic HTML page structure</h2>
+            <div class="instruction-box"><p>Open <code>index.html</code> and add the basic page structure.</p></div>
+            <h3>HTML to add</h3>
+            <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Main Layout Practice&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+            <h3>What this does</h3>
+            <div class="explain-box">
+                <p>This creates the normal structure for an HTML webpage.</p>
+                <p>The visible content will be added inside the <code>&lt;body&gt;</code>.</p>
+            </div>
+            <h3>Expected output</h3>
+            <div class="expected-output"><div class="blank-preview">Blank page. This is correct because no visible content has been added yet.</div></div>
+        </section>
+
+        <section class="lesson-part btec-web-step" id="step-3">
+            <div class="step-number">Step 3</div>
+            <h2>Step 3 Link the external CSS file</h2>
+            <div class="instruction-box"><p>Add the stylesheet link inside the <code>&lt;head&gt;</code> section.</p></div>
+            <h3>Updated head section</h3>
+            <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Main Layout Practice&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+&lt;/head&gt;</code></pre>
+
+            <h3>What this does</h3>
+            <div class="explain-box">
+                <p><code>&lt;link&gt;</code> connects the HTML file to the CSS file.</p>
+                <p>This means the HTML can focus on structure and the CSS can focus on layout and design.</p>
+            </div>
+            <h3>Expected output</h3>
+            <div class="expected-output"><div class="blank-preview">Blank page. The CSS file is linked, but no visible content has been added yet.</div></div>
+        </section>
+
+        <section class="lesson-part btec-web-step" id="step-4">
+            <div class="step-number">Step 4</div>
+            <h2>Step 4 Add the header, main and footer</h2>
+            <div class="instruction-box"><p>Add the main page areas inside the <code>&lt;body&gt;</code>.</p></div>
+            <h3>HTML to add inside body</h3>
+            <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;header&gt;
+    &lt;h1&gt;Community Website&lt;/h1&gt;
+&lt;/header&gt;
+
+&lt;main&gt;
+
+&lt;/main&gt;
+
+&lt;footer&gt;
+    &lt;p&gt;Footer information goes here.&lt;/p&gt;
+&lt;/footer&gt;</code></pre>
+
+            <h3>What this does</h3>
+            <div class="explain-box">
+                <p><code>&lt;header&gt;</code> is for the top of the page.</p>
+                <p><code>&lt;main&gt;</code> is for the main content of the page.</p>
+                <p><code>&lt;footer&gt;</code> is for information at the bottom of the page.</p>
+            </div>
+            <h3>Expected output</h3>
+            <div class="expected-output">
+                <div class="preview-frame pv-main-layout-demo">
+                    <div class="pv-demo-header">Community Website</div>
+                    <div class="pv-demo-footer">Footer information goes here.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="lesson-part btec-web-step" id="step-5">
+            <div class="step-number">Step 5</div>
+            <h2>Step 5 Add the first row inside main</h2>
+            <div class="instruction-box"><p>Inside <code>&lt;main&gt;</code>, add a <code>&lt;div&gt;</code> for the first row.</p></div>
+            <h3>HTML to add inside main</h3>
+            <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;div class=&quot;content-row row-one&quot;&gt;
+
+&lt;/div&gt;</code></pre>
+
+            <h3>What this does</h3>
+            <div class="explain-box">
+                <p>The <code>content-row</code> class marks this as a row inside the main section.</p>
+                <p>The <code>row-one</code> class lets you style this row differently later.</p>
+            </div>
+            <h3>Expected output</h3>
+            <div class="expected-output">
+                <p class="preview-note">There is no visible change yet because the row is empty.</p>
+                <div class="preview-frame pv-main-layout-demo">
+                    <div class="pv-demo-header">Community Website</div>
+                    <div class="pv-demo-footer">Footer information goes here.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="lesson-part btec-web-step" id="step-6">
+            <div class="step-number">Step 6</div>
+            <h2>Step 6 Add two sections inside the first row</h2>
+            <div class="instruction-box"><p>Add two <code>&lt;section&gt;</code> elements inside the first row.</p></div>
+            <h3>Updated first row HTML</h3>
+            <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;div class=&quot;content-row row-one&quot;&gt;
+    &lt;section&gt;
+        &lt;h2&gt;Latest News&lt;/h2&gt;
+        &lt;p&gt;Use this section for important updates.&lt;/p&gt;
+    &lt;/section&gt;
+
+    &lt;section&gt;
+        &lt;h2&gt;Upcoming Events&lt;/h2&gt;
+        &lt;p&gt;Use this section for dates and activities.&lt;/p&gt;
+    &lt;/section&gt;
+&lt;/div&gt;</code></pre>
+
+            <h3>What this does</h3>
+            <div class="explain-box">
+                <p>The first row now contains two separate content sections.</p>
+                <p>Later, CSS will place these sections next to each other as two columns.</p>
+            </div>
+            <h3>Expected output</h3>
+            <div class="expected-output">
+                <div class="preview-frame pv-main-layout-demo">
+                    <div class="pv-demo-header">Community Website</div>
+                    <div class="pv-demo-main">
+                        <div class="pv-demo-row">
+                            <section class="pv-demo-section"><h4>Latest News</h4><p>Use this section for important updates.</p></section>
+                            <section class="pv-demo-section"><h4>Upcoming Events</h4><p>Use this section for dates and activities.</p></section>
+                        </div>
+                    </div>
+                    <div class="pv-demo-footer">Footer information goes here.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="lesson-part btec-web-step" id="step-7">
+            <div class="step-number">Step 7</div>
+            <h2>Step 7 Add the second row inside main</h2>
+            <div class="instruction-box"><p>Below the first row, add another <code>&lt;div&gt;</code> for the second row.</p></div>
+            <h3>HTML to add below the first row</h3>
+            <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;div class=&quot;content-row row-two&quot;&gt;
+
+&lt;/div&gt;</code></pre>
+
+            <h3>What this does</h3>
+            <div class="explain-box">
+                <p>This creates another row inside the same <code>&lt;main&gt;</code> area.</p>
+                <p>Each row can contain a different number of sections.</p>
+            </div>
+            <h3>Expected output</h3>
+            <div class="expected-output">
+                <p class="preview-note">There is no visible change yet because the second row is empty.</p>
+                <div class="preview-frame pv-main-layout-demo">
+                    <div class="pv-demo-header">Community Website</div>
+                    <div class="pv-demo-main">
+                        <div class="pv-demo-row">
+                            <section class="pv-demo-section"><h4>Latest News</h4><p>Use this section for important updates.</p></section>
+                            <section class="pv-demo-section"><h4>Upcoming Events</h4><p>Use this section for dates and activities.</p></section>
+                        </div>
+                    </div>
+                    <div class="pv-demo-footer">Footer information goes here.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="lesson-part btec-web-step" id="step-8">
+            <div class="step-number">Step 8</div>
+            <h2>Step 8 Add three sections inside the second row</h2>
+            <div class="instruction-box"><p>Add three <code>&lt;section&gt;</code> elements inside the second row.</p></div>
+            <h3>Updated second row HTML</h3>
+            <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;div class=&quot;content-row row-two&quot;&gt;
+    &lt;section&gt;
+        &lt;h2&gt;Clubs&lt;/h2&gt;
+        &lt;p&gt;Use this section for weekly clubs.&lt;/p&gt;
+    &lt;/section&gt;
+
+    &lt;section&gt;
+        &lt;h2&gt;Volunteers&lt;/h2&gt;
+        &lt;p&gt;Use this section for volunteer information.&lt;/p&gt;
+    &lt;/section&gt;
+
+    &lt;section&gt;
+        &lt;h2&gt;Contact&lt;/h2&gt;
+        &lt;p&gt;Use this section for contact details.&lt;/p&gt;
+    &lt;/section&gt;
+&lt;/div&gt;</code></pre>
+
+            <h3>What this does</h3>
+            <div class="explain-box">
+                <p>The second row now contains three separate content sections.</p>
+                <p>This is useful when one part of a page needs more columns than another part.</p>
+            </div>
+            <h3>Expected output</h3>
+            <div class="expected-output">
+                <div class="preview-frame pv-main-layout-demo">
+                    <div class="pv-demo-header">Community Website</div>
+                    <div class="pv-demo-main">
+                        <div class="pv-demo-row">
+                            <section class="pv-demo-section"><h4>Latest News</h4><p>Use this section for important updates.</p></section>
+                            <section class="pv-demo-section"><h4>Upcoming Events</h4><p>Use this section for dates and activities.</p></section>
+                        </div>
+                        <div class="pv-demo-row">
+                            <section class="pv-demo-section"><h4>Clubs</h4><p>Use this section for weekly clubs.</p></section>
+                            <section class="pv-demo-section"><h4>Volunteers</h4><p>Use this section for volunteer information.</p></section>
+                            <section class="pv-demo-section"><h4>Contact</h4><p>Use this section for contact details.</p></section>
+                        </div>
+                    </div>
+                    <div class="pv-demo-footer">Footer information goes here.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="lesson-part btec-web-step" id="step-9">
+            <div class="step-number">Step 9</div>
+            <h2>Step 9 Style the body</h2>
+            <div class="instruction-box"><p>Open <code>style.css</code> and add the body styling.</p></div>
+            <h3>CSS to add</h3>
+            <pre class="algorithm-code code-block" data-lang="CSS"><code>body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #eef3f8;
+    color: #222222;
+}</code></pre>
+
+            <h3>What this does</h3>
+            <div class="explain-box">
+                <p><code>margin: 0;</code> removes the browser's default gap around the page.</p>
+                <p>The font, background colour and text colour give the page a clean starting style.</p>
+            </div>
+            <h3>Expected output</h3>
+            <div class="expected-output">
+                <div class="preview-frame pv-main-layout-demo pv-demo-body-styled">
+                    <div class="pv-demo-header">Community Website</div>
+                    <div class="pv-demo-main">
+                        <div class="pv-demo-row"><section class="pv-demo-section"><h4>Latest News</h4><p>Use this section for important updates.</p></section><section class="pv-demo-section"><h4>Upcoming Events</h4><p>Use this section for dates and activities.</p></section></div>
+                        <div class="pv-demo-row"><section class="pv-demo-section"><h4>Clubs</h4><p>Use this section for weekly clubs.</p></section><section class="pv-demo-section"><h4>Volunteers</h4><p>Use this section for volunteer information.</p></section><section class="pv-demo-section"><h4>Contact</h4><p>Use this section for contact details.</p></section></div>
+                    </div>
+                    <div class="pv-demo-footer">Footer information goes here.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="lesson-part btec-web-step" id="step-10">
+            <div class="step-number">Step 10</div>
+            <h2>Step 10 Style the header and footer</h2>
+            <div class="instruction-box"><p>Add styling for the top and bottom of the page.</p></div>
+            <h3>CSS to add</h3>
+            <pre class="algorithm-code code-block" data-lang="CSS"><code>header,
+footer {
+    background-color: #143d67;
+    color: white;
+    text-align: center;
+    padding: 24px;
+}
+
+header h1,
+footer p {
+    margin: 0;
+}</code></pre>
+
+            <h3>What this does</h3>
+            <div class="explain-box">
+                <p>The header and footer now look like clear page areas.</p>
+                <p>The padding creates space inside each area.</p>
+            </div>
+            <h3>Expected output</h3>
+            <div class="expected-output">
+                <div class="preview-frame pv-main-layout-demo pv-demo-body-styled pv-demo-shell-styled">
+                    <div class="pv-demo-header">Community Website</div>
+                    <div class="pv-demo-main">
+                        <div class="pv-demo-row"><section class="pv-demo-section"><h4>Latest News</h4><p>Use this section for important updates.</p></section><section class="pv-demo-section"><h4>Upcoming Events</h4><p>Use this section for dates and activities.</p></section></div>
+                        <div class="pv-demo-row"><section class="pv-demo-section"><h4>Clubs</h4><p>Use this section for weekly clubs.</p></section><section class="pv-demo-section"><h4>Volunteers</h4><p>Use this section for volunteer information.</p></section><section class="pv-demo-section"><h4>Contact</h4><p>Use this section for contact details.</p></section></div>
+                    </div>
+                    <div class="pv-demo-footer">Footer information goes here.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="lesson-part btec-web-step" id="step-11">
+            <div class="step-number">Step 11</div>
+            <h2>Step 11 Style the main container</h2>
+            <div class="instruction-box"><p>Add styling for the <code>&lt;main&gt;</code> area.</p></div>
+            <h3>CSS to add</h3>
+            <pre class="algorithm-code code-block" data-lang="CSS"><code>main {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 24px;
+    background-color: white;
+    border-radius: 12px;
+}</code></pre>
+
+            <h3>What this does</h3>
+            <div class="explain-box">
+                <p><code>max-width</code> stops the main area becoming too wide on large screens.</p>
+                <p><code>margin: 30px auto;</code> adds space above and below the main area and centres it horizontally.</p>
+                <p>The padding, background colour and border radius make the main area stand out from the page background.</p>
+            </div>
+            <h3>Expected output</h3>
+            <div class="expected-output">
+                <div class="preview-frame pv-main-layout-demo pv-demo-body-styled pv-demo-shell-styled pv-demo-main-styled">
+                    <div class="pv-demo-header">Community Website</div>
+                    <div class="pv-demo-main">
+                        <div class="pv-demo-row"><section class="pv-demo-section"><h4>Latest News</h4><p>Use this section for important updates.</p></section><section class="pv-demo-section"><h4>Upcoming Events</h4><p>Use this section for dates and activities.</p></section></div>
+                        <div class="pv-demo-row"><section class="pv-demo-section"><h4>Clubs</h4><p>Use this section for weekly clubs.</p></section><section class="pv-demo-section"><h4>Volunteers</h4><p>Use this section for volunteer information.</p></section><section class="pv-demo-section"><h4>Contact</h4><p>Use this section for contact details.</p></section></div>
+                    </div>
+                    <div class="pv-demo-footer">Footer information goes here.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="lesson-part btec-web-step" id="step-12">
+            <div class="step-number">Step 12</div>
+            <h2>Step 12 Style each content row</h2>
+            <div class="instruction-box"><p>Add styling for the row containers.</p></div>
+            <h3>CSS to add</h3>
+            <pre class="algorithm-code code-block" data-lang="CSS"><code>.content-row {
+    margin-bottom: 24px;
+    padding: 16px;
+    border-width: 3px;
+    border-style: dashed;
+    border-color: #8aa4c2;
+    border-radius: 12px;
+}
+
+.content-row:last-child {
+    margin-bottom: 0;
+}</code></pre>
+
+            <h3>What this does</h3>
+            <div class="explain-box">
+                <p>Each row now has its own visible container.</p>
+                <p>This helps you see that the two-column row and three-column row are separate rows inside <code>&lt;main&gt;</code>.</p>
+            </div>
+            <h3>Expected output</h3>
+            <div class="expected-output">
+                <div class="preview-frame pv-main-layout-demo pv-demo-body-styled pv-demo-shell-styled pv-demo-main-styled pv-demo-rows-styled">
+                    <div class="pv-demo-header">Community Website</div>
+                    <div class="pv-demo-main">
+                        <div class="pv-demo-row"><section class="pv-demo-section"><h4>Latest News</h4><p>Use this section for important updates.</p></section><section class="pv-demo-section"><h4>Upcoming Events</h4><p>Use this section for dates and activities.</p></section></div>
+                        <div class="pv-demo-row"><section class="pv-demo-section"><h4>Clubs</h4><p>Use this section for weekly clubs.</p></section><section class="pv-demo-section"><h4>Volunteers</h4><p>Use this section for volunteer information.</p></section><section class="pv-demo-section"><h4>Contact</h4><p>Use this section for contact details.</p></section></div>
+                    </div>
+                    <div class="pv-demo-footer">Footer information goes here.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="lesson-part btec-web-step" id="step-13">
+            <div class="step-number">Step 13</div>
+            <h2>Step 13 Make the sections stand out</h2>
+            <div class="instruction-box"><p>Add styling for each section.</p></div>
+            <h3>CSS to add</h3>
+            <pre class="algorithm-code code-block" data-lang="CSS"><code>section {
+    padding: 22px;
+    border-width: 3px;
+    border-style: solid;
+    border-color: #2362c9;
+    border-radius: 10px;
+    background-color: #e8f0ff;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+section h2 {
+    margin-top: 0;
+}</code></pre>
+
+            <h3>What this does</h3>
+            <div class="explain-box">
+                <p>The sections now look like clear content blocks.</p>
+                <p>The border, background and shadow make each column easier to identify.</p>
+            </div>
+            <h3>Expected output</h3>
+            <div class="expected-output">
+                <div class="preview-frame pv-main-layout-demo pv-demo-body-styled pv-demo-shell-styled pv-demo-main-styled pv-demo-rows-styled pv-demo-sections-styled">
+                    <div class="pv-demo-header">Community Website</div>
+                    <div class="pv-demo-main">
+                        <div class="pv-demo-row"><section class="pv-demo-section"><h4>Latest News</h4><p>Use this section for important updates.</p></section><section class="pv-demo-section"><h4>Upcoming Events</h4><p>Use this section for dates and activities.</p></section></div>
+                        <div class="pv-demo-row"><section class="pv-demo-section"><h4>Clubs</h4><p>Use this section for weekly clubs.</p></section><section class="pv-demo-section"><h4>Volunteers</h4><p>Use this section for volunteer information.</p></section><section class="pv-demo-section"><h4>Contact</h4><p>Use this section for contact details.</p></section></div>
+                    </div>
+                    <div class="pv-demo-footer">Footer information goes here.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="lesson-part btec-web-step" id="step-14">
+            <div class="step-number">Step 14</div>
+            <h2>Step 14 Use Flexbox to create different column rows</h2>
+            <div class="instruction-box"><p>Use Flexbox on each row so the sections inside that row become columns.</p></div>
+            <h3>CSS to add</h3>
+            <pre class="algorithm-code code-block" data-lang="CSS"><code>.content-row {
+    display: flex;
+    gap: 20px;
+}
+
+.content-row section {
+    flex: 1;
+}</code></pre>
+
+            <h3>What this does</h3>
+            <div class="explain-box">
+                <p><code>display: flex;</code> places the sections in a row.</p>
+                <p><code>gap: 20px;</code> creates space between the columns.</p>
+                <p><code>flex: 1;</code> makes the sections share the available space equally.</p>
+                <p>Because the first row has two sections, it becomes two columns. Because the second row has three sections, it becomes three columns.</p>
+            </div>
+            <h3>Expected output</h3>
+            <div class="expected-output">
+                <div class="preview-frame pv-main-layout-demo pv-demo-body-styled pv-demo-shell-styled pv-demo-main-styled pv-demo-rows-styled pv-demo-sections-styled pv-demo-flex-styled">
+                    <div class="pv-demo-header">Community Website</div>
+                    <div class="pv-demo-main">
+                        <div class="pv-demo-row"><section class="pv-demo-section"><h4>Latest News</h4><p>Use this section for important updates.</p></section><section class="pv-demo-section"><h4>Upcoming Events</h4><p>Use this section for dates and activities.</p></section></div>
+                        <div class="pv-demo-row"><section class="pv-demo-section"><h4>Clubs</h4><p>Use this section for weekly clubs.</p></section><section class="pv-demo-section"><h4>Volunteers</h4><p>Use this section for volunteer information.</p></section><section class="pv-demo-section"><h4>Contact</h4><p>Use this section for contact details.</p></section></div>
+                    </div>
+                    <div class="pv-demo-footer">Footer information goes here.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="lesson-part btec-web-step" id="step-15">
+            <div class="step-number">Step 15</div>
+            <h2>Step 15 Add different colours to each row</h2>
+            <div class="instruction-box"><p>Use the row classes to make each row visually different.</p></div>
+            <h3>CSS to add</h3>
+            <pre class="algorithm-code code-block" data-lang="CSS"><code>.row-one section {
+    background-color: #e8f0ff;
+    border-color: #2362c9;
+}
+
+.row-two section {
+    background-color: #e6f8f1;
+    border-color: #0aa873;
+}</code></pre>
+
+            <h3>What this does</h3>
+            <div class="explain-box">
+                <p><code>.row-one section</code> targets only the sections inside the first row.</p>
+                <p><code>.row-two section</code> targets only the sections inside the second row.</p>
+                <p>This is useful when different page rows need different visual styles.</p>
+            </div>
+            <h3>Expected output</h3>
+            <div class="expected-output">
+                <div class="preview-frame pv-main-layout-demo pv-demo-body-styled pv-demo-shell-styled pv-demo-main-styled pv-demo-rows-styled pv-demo-sections-styled pv-demo-flex-styled pv-demo-colours-styled">
+                    <div class="pv-demo-header">Community Website</div>
+                    <div class="pv-demo-main">
+                        <div class="pv-demo-row pv-demo-row-one"><section class="pv-demo-section"><h4>Latest News</h4><p>Use this section for important updates.</p></section><section class="pv-demo-section"><h4>Upcoming Events</h4><p>Use this section for dates and activities.</p></section></div>
+                        <div class="pv-demo-row pv-demo-row-two"><section class="pv-demo-section"><h4>Clubs</h4><p>Use this section for weekly clubs.</p></section><section class="pv-demo-section"><h4>Volunteers</h4><p>Use this section for volunteer information.</p></section><section class="pv-demo-section"><h4>Contact</h4><p>Use this section for contact details.</p></section></div>
+                    </div>
+                    <div class="pv-demo-footer">Footer information goes here.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="lesson-part btec-web-step" id="step-16">
+            <div class="step-number">Step 16</div>
+            <h2>Step 16 Make the layout responsive</h2>
+            <div class="instruction-box"><p>Add a media query so the columns stack on narrow screens.</p></div>
+            <h3>CSS to add</h3>
+            <pre class="algorithm-code code-block" data-lang="CSS"><code>@media (max-width: 700px) {
+    .content-row {
+        flex-direction: column;
+    }
+}</code></pre>
+
+            <h3>What this does</h3>
+            <div class="explain-box">
+                <p>On smaller screens, each row changes from columns into a vertical stack.</p>
+                <p>This stops the sections becoming too narrow on phones and tablets.</p>
+            </div>
+            <h3>Expected output</h3>
+            <div class="expected-output">
+                <div class="preview-frame pv-main-layout-demo pv-demo-body-styled pv-demo-shell-styled pv-demo-main-styled pv-demo-rows-styled pv-demo-sections-styled pv-demo-flex-styled pv-demo-colours-styled pv-demo-responsive-styled">
+                    <div class="pv-demo-header">Community Website</div>
+                    <div class="pv-demo-main">
+                        <div class="pv-demo-row pv-demo-row-one"><section class="pv-demo-section"><h4>Latest News</h4><p>Use this section for important updates.</p></section><section class="pv-demo-section"><h4>Upcoming Events</h4><p>Use this section for dates and activities.</p></section></div>
+                        <div class="pv-demo-row pv-demo-row-two"><section class="pv-demo-section"><h4>Clubs</h4><p>Use this section for weekly clubs.</p></section><section class="pv-demo-section"><h4>Volunteers</h4><p>Use this section for volunteer information.</p></section><section class="pv-demo-section"><h4>Contact</h4><p>Use this section for contact details.</p></section></div>
+                    </div>
+                    <div class="pv-demo-footer">Footer information goes here.</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="lesson-part btec-web-final-code">
+            <h2>Final code</h2>
+            <div class="btec-final-code-content">
+                <h3>index.html</h3>
+                <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Main Layout Practice&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+    &lt;header&gt;
+        &lt;h1&gt;Community Website&lt;/h1&gt;
+    &lt;/header&gt;
+
+    &lt;main&gt;
+        &lt;div class=&quot;content-row row-one&quot;&gt;
+            &lt;section&gt;
+                &lt;h2&gt;Latest News&lt;/h2&gt;
+                &lt;p&gt;Use this section for important updates.&lt;/p&gt;
+            &lt;/section&gt;
+
+            &lt;section&gt;
+                &lt;h2&gt;Upcoming Events&lt;/h2&gt;
+                &lt;p&gt;Use this section for dates and activities.&lt;/p&gt;
+            &lt;/section&gt;
+        &lt;/div&gt;
+
+        &lt;div class=&quot;content-row row-two&quot;&gt;
+            &lt;section&gt;
+                &lt;h2&gt;Clubs&lt;/h2&gt;
+                &lt;p&gt;Use this section for weekly clubs.&lt;/p&gt;
+            &lt;/section&gt;
+
+            &lt;section&gt;
+                &lt;h2&gt;Volunteers&lt;/h2&gt;
+                &lt;p&gt;Use this section for volunteer information.&lt;/p&gt;
+            &lt;/section&gt;
+
+            &lt;section&gt;
+                &lt;h2&gt;Contact&lt;/h2&gt;
+                &lt;p&gt;Use this section for contact details.&lt;/p&gt;
+            &lt;/section&gt;
+        &lt;/div&gt;
+    &lt;/main&gt;
+
+    &lt;footer&gt;
+        &lt;p&gt;Footer information goes here.&lt;/p&gt;
+    &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+                <h3>style.css</h3>
+                <pre class="algorithm-code code-block" data-lang="CSS"><code>body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #eef3f8;
+    color: #222222;
+}
+
+header,
+footer {
+    background-color: #143d67;
+    color: white;
+    text-align: center;
+    padding: 24px;
+}
+
+header h1,
+footer p {
+    margin: 0;
+}
+
+main {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 24px;
+    background-color: white;
+    border-radius: 12px;
+}
+
+.content-row {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 24px;
+    padding: 16px;
+    border-width: 3px;
+    border-style: dashed;
+    border-color: #8aa4c2;
+    border-radius: 12px;
+}
+
+.content-row:last-child {
+    margin-bottom: 0;
+}
+
+section {
+    padding: 22px;
+    border-width: 3px;
+    border-style: solid;
+    border-color: #2362c9;
+    border-radius: 10px;
+    background-color: #e8f0ff;
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
+}
+
+section h2 {
+    margin-top: 0;
+}
+
+.content-row section {
+    flex: 1;
+}
+
+.row-one section {
+    background-color: #e8f0ff;
+    border-color: #2362c9;
+}
+
+.row-two section {
+    background-color: #e6f8f1;
+    border-color: #0aa873;
+}
+
+@media (max-width: 700px) {
+    .content-row {
+        flex-direction: column;
+    }
+}</code></pre>
+
+                <a class="top-link" href="#top">Back to top</a>
+            </div>
+        </section>
+
+        <nav class="tutorial-page-nav" aria-label="Tutorial navigation">
+            <a class="back-button back-link" href="btec-unit-6-3-7-right-nav-template.html">Previous: Build a Right Navigation Website Template</a>
+            <a class="back-button back-link next-tutorial-link" href="../index.html">Finish: Back to Unit 6</a>
+        </nav>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <script src="../../../../routes.js?v=6"></script>
+    <script src="../../../../assets/js/site-layout.js?v=1"></script>
+    <script src="../../../../assets/js/code-display.js?v=2"></script>
+    <script src="../../../../site.js?v=57"></script>
+</body>
+</html>

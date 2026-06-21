@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2.4.1 Logic gate diagrams quiz</title>
+    <link rel="stylesheet" href="../../../styles.css?v=53">
+</head>
+<body data-page-type="quiz" data-course="gcse-j277" data-topic-id="2-4-1">
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to J277 topics</a>
+        <section class="question-header">
+            <p class="eyebrow">Paper 2 quiz</p>
+            <h2>2.4.1 Logic gate diagrams quiz</h2>
+            <p class="section-note">Self-marking retrieval practice on AND, OR and NOT gate diagrams.</p>
+        </section>
+
+        <form class="quiz-form" aria-label="2.4.1 Logic gate diagrams quiz">
+            <article class="quiz-question" data-type="drag-match" data-answer="AND:Outputs 1 only when both inputs are 1|OR:Outputs 1 when at least one input is 1|NOT:Outputs the opposite of the input" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: AND outputs 1 only when both inputs are 1; OR outputs 1 when at least one input is 1; NOT outputs the opposite.">
+                <h3>1) Match each gate to its rule.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="Outputs 1 when at least one input is 1">Outputs 1 when at least one input is 1</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Outputs the opposite of the input">Outputs the opposite of the input</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="Outputs 1 only when both inputs are 1">Outputs 1 only when both inputs are 1</button>
+                </div>
+                <div class="matching-grid">
+                    <div class="match-row"><span class="match-drop" data-match="AND" data-placeholder="Drop item">Drop item</span><p>AND</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="OR" data-placeholder="Drop item">Drop item</span><p>OR</p></div>
+                    <div class="match-row"><span class="match-drop" data-match="NOT" data-placeholder="Drop item">Drop item</span><p>NOT</p></div>
+                </div>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="radio" data-answer="AND" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: AND.">
+                <h3>2) Which gate is needed for "A and B must both be true"?</h3>
+                <label><input type="radio" name="q2" value="AND"> AND</label>
+                <label><input type="radio" name="q2" value="OR"> OR</label>
+                <label><input type="radio" name="q2" value="NOT"> NOT</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="OR" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: OR.">
+                <h3>3) Q = (A OR B) AND C. Which gate combines A and B first?</h3>
+                <input type="text" aria-label="Answer for question 3">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="input" data-answer="1" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: 1.">
+                <h3>4) Trace Figure A when A = 1, B = 0 and C = 1. What is Q?</h3>
+                <figure class="question-figure">
+                    <img src="../../../assets/images/boolean-logic-a-and-b-or-c.png" alt="A and B enter an AND gate, then that output and C enter an OR gate.">
+                    <figcaption>Figure A</figcaption>
+                </figure>
+                <input type="text" aria-label="Answer for question 4">
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="drag-blank" data-answer="NOT" data-correct-feedback="Correct." data-incorrect-feedback="Correct answer: NOT.">
+                <h3>5) Complete the missing gate: Q = A AND ___ B.</h3>
+                <div class="word-bank" aria-label="Items to drag">
+                    <button class="drag-word" type="button" draggable="true" data-value="AND">AND</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="OR">OR</button>
+                    <button class="drag-word" type="button" draggable="true" data-value="NOT">NOT</button>
+                </div>
+                <p>A is combined with <span class="drop-blank" data-placeholder="Drop gate">Drop gate</span> B using an AND gate.</p>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <article class="quiz-question" data-type="checkbox" data-answer="Inputs labelled,Correct gate type,Output labelled" data-correct-feedback="Correct." data-incorrect-feedback="A clear diagram needs labelled inputs, the correct gate type and a labelled output.">
+                <h3>6) Select features that should be checked in a logic gate diagram.</h3>
+                <label><input type="checkbox" name="q6" value="Inputs labelled"> Inputs labelled</label>
+                <label><input type="checkbox" name="q6" value="Correct gate type"> Correct gate type</label>
+                <label><input type="checkbox" name="q6" value="Output labelled"> Output labelled</label>
+                <label><input type="checkbox" name="q6" value="Decimal places shown"> Decimal places shown</label>
+                <p class="quiz-feedback" hidden></p>
+            </article>
+
+            <button class="quiz-submit" type="submit">Check answers</button>
+            <p class="quiz-score" aria-live="polite"></p>
+        </form>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <script src="../../../routes.js?v=6"></script>
+    <script src="../../../assets/js/site-layout.js?v=1"></script>
+    <script src="../../../assets/js/quiz-engine.js?v=1"></script>
+    <script src="../../../site.js?v=56"></script>
+</body>
+</html>

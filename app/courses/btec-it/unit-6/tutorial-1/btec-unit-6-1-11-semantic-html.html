@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.11 Use semantic HTML</title>
+    <link rel="stylesheet" href="../../../../styles.css?v=53">
+</head>
+<body data-page-type="course" data-course="btec-it">
+    <header id="site-header" class="site-header"></header>
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to Unit 6</a>
+        <section class="question-header">
+            <p class="eyebrow">Unit 6 Website Development - Tutorial 1</p>
+            <h2>1.11 Use semantic HTML such as header, nav, main, section and footer</h2>
+            <p class="section-note">Continue the same static website project by improving the page structure with semantic HTML.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>What You Are Building</h3>
+            <p>Semantic HTML uses tags that describe the meaning of the content, not just how it looks. This makes a web page easier to understand, easier to maintain and more useful for accessibility tools such as screen readers.</p>
+            <p>Instead of putting everything inside plain <code>&lt;div&gt;</code> elements, you can use elements such as <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code> and <code>&lt;footer&gt;</code>.</p>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Semantic Page Template</h3>
+            <p>This example shows a simple page divided into meaningful areas:</p>
+            <pre class="algorithm-code"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang="en-GB"&gt;
+&lt;head&gt;
+    &lt;meta charset="UTF-8"&gt;
+    &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
+    &lt;title&gt;School Coding Club&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;header&gt;
+        &lt;h1&gt;School Coding Club&lt;/h1&gt;
+            &lt;nav&gt;
+            &lt;a href="index.html"&gt;Home&lt;/a&gt;
+            &lt;a href="about.html"&gt;About&lt;/a&gt;
+            &lt;a href="timetable.html"&gt;Timetable&lt;/a&gt;
+            &lt;a href="contact.html"&gt;Contact&lt;/a&gt;
+        &lt;/nav&gt;
+    &lt;/header&gt;
+
+    &lt;main&gt;
+        &lt;section&gt;
+            &lt;h2&gt;About the club&lt;/h2&gt;
+            &lt;p&gt;We learn how to build websites and simple programs.&lt;/p&gt;
+        &lt;/section&gt;
+
+        &lt;section&gt;
+            &lt;h2&gt;What we do&lt;/h2&gt;
+            &lt;p&gt;Students work on HTML, CSS and programming challenges.&lt;/p&gt;
+        &lt;/section&gt;
+    &lt;/main&gt;
+
+    &lt;footer&gt;
+        &lt;p&gt;School Coding Club 2026&lt;/p&gt;
+    &lt;/footer&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+        </section>
+
+        <section class="lesson-part">
+            <h3>What Each Element Does</h3>
+            <table class="answer-table compact-answer-table">
+                <thead>
+                    <tr>
+                        <th>Element</th>
+                        <th>Purpose</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><code>&lt;header&gt;</code></td>
+                        <td>Contains introductory page or site content, such as a logo, page title or navigation.</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;nav&gt;</code></td>
+                        <td>Contains the main navigation links for moving around the website.</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;main&gt;</code></td>
+                        <td>Contains the main unique content of the page. There should usually be only one <code>&lt;main&gt;</code> element on a page.</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;section&gt;</code></td>
+                        <td>Groups related content together, usually with its own heading.</td>
+                    </tr>
+                    <tr>
+                        <td><code>&lt;footer&gt;</code></td>
+                        <td>Contains footer information such as copyright, contact details or useful links.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Build It Yourself</h3>
+            <ol>
+                <li>Open <code>index.html</code>, <code>about.html</code>, <code>timetable.html</code> and <code>contact.html</code>.</li>
+                <li>Add a <code>&lt;header&gt;</code> at the top of each page's <code>&lt;body&gt;</code>.</li>
+                <li>Put the page's main <code>&lt;h1&gt;</code> inside the <code>&lt;header&gt;</code>.</li>
+                <li>Add one <code>&lt;main&gt;</code> element after the <code>&lt;header&gt;</code> on each page.</li>
+                <li>Move each page's main content into clear <code>&lt;section&gt;</code> elements inside <code>&lt;main&gt;</code>.</li>
+                <li>Give each <code>&lt;section&gt;</code> its own <code>&lt;h2&gt;</code> heading and paragraph.</li>
+                <li>Add a <code>&lt;footer&gt;</code> after <code>&lt;main&gt;</code> on each page.</li>
+                <li>Save all four pages and check that they still open correctly in a browser.</li>
+            </ol>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Common Mistakes</h3>
+            <ul>
+                <li>Using <code>&lt;section&gt;</code> for every small item instead of for a meaningful group of content.</li>
+                <li>Putting more than one <code>&lt;main&gt;</code> element on the same page.</li>
+                <li>Putting navigation links outside the <code>&lt;nav&gt;</code> element.</li>
+                <li>Using semantic tags only for styling, instead of choosing them because they match the content purpose.</li>
+                <li>Forgetting to include headings inside sections, which can make the page structure less clear.</li>
+            </ul>
+        </section>
+
+        <section class="lesson-part">
+            <h3>Success Checklist</h3>
+            <ul>
+                <li>Each page has a <code>&lt;header&gt;</code> for introductory content.</li>
+                <li>The unique content on each page is inside one <code>&lt;main&gt;</code> element.</li>
+                <li>Related content is grouped into clear <code>&lt;section&gt;</code> elements.</li>
+                <li>Each page has a <code>&lt;footer&gt;</code> after the main content.</li>
+                <li>The semantic elements make the structure easier to understand.</li>
+            </ul>
+        </section>
+
+        <nav class="tutorial-page-nav" aria-label="Tutorial navigation">
+            <a class="back-button back-link" href="btec-unit-6-1-10-meaningful-alt-text.html">Previous: 1.10 Alt text</a>
+            <a class="back-button back-link next-tutorial-link" href="btec-unit-6-1-12-simple-homepage.html">Next: 1.12 Homepage</a>
+        </nav>
+    </main>
+    <footer id="site-footer"></footer>
+    <script src="../../../../routes.js?v=6"></script>
+    <script src="../../../../assets/js/site-layout.js?v=1"></script>
+    <script src="../../../../assets/js/code-display.js?v=1"></script>
+    <script src="../../../../site.js?v=56"></script>
+</body>
+</html>

@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>4.1 Hero Section</title>
+    <link rel="stylesheet" href="../../../../styles.css?v=56">
+    <link rel="stylesheet" href="../../../../assets/css/btec-web-tutorials.css?v=6">
+</head>
+<body data-page-type="btec-web-tutorial" data-course="btec-it">
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <a class="back-button back-link" href="../index.html">Back to Unit 6</a>
+
+        <section class="question-header">
+            <p class="eyebrow">Unit 6 Website Development - Tutorial 4</p>
+            <h2>4.1 Build a Hero Section</h2>
+            <p class="section-note">First add the HTML in small steps. Then style the hero section afterwards using small CSS chunks.</p>
+        </section>
+
+        <section class="lesson-part btec-web-guide">
+            <h3>How To Use This Tutorial</h3>
+            <p>Work through each step in order. Add the code shown, check the expected output, then move to the next step. The final code is visible at the bottom so you can compare your finished work.</p>
+        </section>
+
+<section class="lesson-part btec-web-contents">
+        <h3>Steps</h3>
+        <ol><li><a href='#step-1'>Create the project files</a></li><li><a href='#step-2'>Add the basic HTML page structure</a></li><li><a href='#step-3'>Link the external CSS file</a></li><li><a href='#step-4'>Add the main area HTML</a></li><li><a href='#step-5'>Add the hero section HTML</a></li><li><a href='#step-6'>Add the hero heading HTML</a></li><li><a href='#step-7'>Add the hero paragraph HTML</a></li><li><a href='#step-8'>Add the hero button link HTML</a></li><li><a href='#step-9'>Style the body</a></li><li><a href='#step-10'>Make the hero use flex</a></li><li><a href='#step-11'>Add size, spacing and centre text</a></li><li><a href='#step-12'>Add the hero background and bottom border</a></li><li><a href='#step-13'>Style the hero heading</a></li><li><a href='#step-14'>Style the hero paragraph</a></li><li><a href='#step-15'>Style the hero button link</a></li><li><a href='#step-16'>Add the hero button hover effect</a></li></ol>
+    </section>
+
+
+<section class="lesson-part btec-web-step" id="step-1">
+    <div class="step-number">Step 1</div>
+    <h2>Step 1 Create the project files</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Create these files inside a new project folder. This step is not typed into the HTML file.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="TEXT"><code>hero-section
+|
+|-- index.html
+`-- style.css</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>hero-section</strong> is the project folder for this tutorial.</li><li><strong>index.html</strong> will contain the webpage structure.</li><li><strong>style.css</strong> will contain the CSS styling rules.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class='blank-preview'>No webpage output yet. You have only created the files.</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-2">
+    <div class="step-number">Step 2</div>
+    <h2>Step 2 Add the basic HTML page structure</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into index.html. This creates the starting HTML page.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Hero Section&lt;/title&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>DOCTYPE html</strong> tells the browser that this is an HTML5 webpage.</li><li><strong>html</strong> starts the webpage.</li><li><strong>head</strong> stores information about the webpage.</li><li><strong>title</strong> sets the text shown on the browser tab.</li><li><strong>body</strong> is where the visible webpage content will go.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class='blank-preview'>The page is blank because no visible content has been added yet.</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-3">
+    <div class="step-number">Step 3</div>
+    <h2>Step 3 Link the external CSS file</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Replace the current head section in index.html with this updated head section.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Hero Section&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+&lt;/head&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>link</strong> connects the HTML file to another file.</li><li><strong>rel</strong> tells the browser that the linked file is a stylesheet.</li><li><strong>href</strong> tells the browser the name of the CSS file.</li><li><strong>style.css</strong> will control how the webpage looks.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class='blank-preview'>The page is still blank because there is no visible content yet.</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-4">
+    <div class="step-number">Step 4</div>
+    <h2>Step 4 Add the main area HTML</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add the main tag inside the body tag in index.html.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;main&gt;
+
+&lt;/main&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>main</strong> creates the main content area of the webpage.</li><li><strong>main</strong> will hold the hero section.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class='blank-preview'>The main area is empty, so there is still no visible content yet.</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-5">
+    <div class="step-number">Step 5</div>
+    <h2>Step 5 Add the hero section HTML</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add the section tag inside the main tag in index.html.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;section class=&quot;hero&quot;&gt;
+
+&lt;/section&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>section</strong> creates a separate section of content inside main.</li><li><strong>class</strong> gives the section a name so CSS can style it later.</li><li><strong>hero</strong> is the class name used for the hero section.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output"><div class='blank-preview'>The hero section is empty, so there is still no visible text.</div></div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-6">
+    <div class="step-number">Step 6</div>
+    <h2>Step 6 Add the hero heading HTML</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add the h1 tag inside the hero section in index.html.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;h1&gt;Welcome to Our Website&lt;/h1&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>h1</strong> creates the main heading inside the hero section.</li><li><strong>Welcome to Our Website</strong> is placeholder text that students can replace later.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame">
+    <main>
+        <section>
+            <h1>Welcome to Our Website</h1>
+        </section>
+    </main>
+</div>
+</div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-7">
+    <div class="step-number">Step 7</div>
+    <h2>Step 7 Add the hero paragraph HTML</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add the p tag inside the hero section, under the h1 tag.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;p&gt;Explore useful information, featured content and key updates in one clear and simple place.&lt;/p&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>p</strong> creates paragraph text inside the hero section.</li><li><strong>Paragraph text</strong> explains what the website or page is about.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame">
+    <main>
+        <section>
+            <h1>Welcome to Our Website</h1>
+            <p>Explore useful information, featured content and key updates in one clear and simple place.</p>
+        </section>
+    </main>
+</div>
+</div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-8">
+    <div class="step-number">Step 8</div>
+    <h2>Step 8 Add the hero button link HTML</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add the a tag inside the hero section, under the paragraph.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;a href=&quot;#&quot;&gt;Find Out More&lt;/a&gt;</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>a</strong> creates a clickable link.</li><li><strong>href</strong> sets where the link goes.</li><li><strong>#</strong> keeps the link on the same page for now.</li><li><strong>Find Out More</strong> is the text shown on the link.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame">
+    <main>
+        <section class="pv-hero-plain">
+            <h1 class="">Welcome to Our Website</h1>
+            <p class="">Explore useful information, featured content and key updates in one clear and simple place.</p>
+            <a class="" href="#">Find Out More</a>
+        </section>
+    </main>
+</div>
+</div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-9">
+    <div class="step-number">Step 9</div>
+    <h2>Step 9 Style the body</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>body {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+
+    font-family: Arial, sans-serif;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>body</strong> selects the whole visible webpage.</li><li><strong>margin-top</strong> removes the browser gap at the top.</li><li><strong>margin-right</strong> removes the browser gap on the right.</li><li><strong>margin-bottom</strong> removes the browser gap at the bottom.</li><li><strong>margin-left</strong> removes the browser gap on the left.</li><li><strong>font-family</strong> changes the font used on the webpage.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main>
+        <section class="pv-hero-plain">
+            <h1 class="">Welcome to Our Website</h1>
+            <p class="">Explore useful information, featured content and key updates in one clear and simple place.</p>
+            <a class="" href="#">Find Out More</a>
+        </section>
+    </main>
+</div>
+</div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-10">
+    <div class="step-number">Step 10</div>
+    <h2>Step 10 Make the hero use flex</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the body CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>.hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>.hero</strong> selects the section with the class name hero.</li><li><strong>display</strong> turns the hero section into a flex container.</li><li><strong>flex-direction</strong> controls the direction of the content inside the hero.</li><li><strong>column</strong> places the heading, paragraph and link in a vertical stack.</li><li><strong>justify-content</strong> centres the content vertically when the hero has height.</li><li><strong>align-items</strong> centres the content horizontally.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main>
+        <section class="pv-hero-flex">
+            <h1 class="">Welcome to Our Website</h1>
+            <p class="">Explore useful information, featured content and key updates in one clear and simple place.</p>
+            <a class="" href="#">Find Out More</a>
+        </section>
+    </main>
+</div>
+</div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-11">
+    <div class="step-number">Step 11</div>
+    <h2>Step 11 Add size, spacing and centre text</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add these style lines inside the existing .hero CSS rule in style.css.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>.hero {
+    min-height: 400px;
+
+    padding-top: 40px;
+    padding-right: 40px;
+    padding-bottom: 40px;
+    padding-left: 40px;
+
+    text-align: center;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>min-height</strong> makes the hero section at least 400 pixels tall.</li><li><strong>padding-top</strong> adds space inside the top of the hero.</li><li><strong>padding-right</strong> adds space inside the right side of the hero.</li><li><strong>padding-bottom</strong> adds space inside the bottom of the hero.</li><li><strong>padding-left</strong> adds space inside the left side of the hero.</li><li><strong>text-align</strong> centres the text inside the hero section.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main>
+        <section class="pv-hero-flex pv-hero-size">
+            <h1 class="">Welcome to Our Website</h1>
+            <p class="">Explore useful information, featured content and key updates in one clear and simple place.</p>
+            <a class="" href="#">Find Out More</a>
+        </section>
+    </main>
+</div>
+</div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-12">
+    <div class="step-number">Step 12</div>
+    <h2>Step 12 Add the hero background and bottom border</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add these style lines inside the existing .hero CSS rule in style.css.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>.hero {
+    background-color: #ffe5e5;
+
+    border-bottom-width: 5px;
+    border-bottom-style: solid;
+    border-bottom-color: red;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>background-color</strong> changes the hero background to pale red.</li><li><strong>border-bottom-width</strong> sets the thickness of the bottom border.</li><li><strong>border-bottom-style</strong> makes the bottom border a solid line.</li><li><strong>border-bottom-color</strong> changes the bottom border colour to red.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main>
+        <section class="pv-hero-flex pv-hero-size pv-hero-colour">
+            <h1 class="">Welcome to Our Website</h1>
+            <p class="">Explore useful information, featured content and key updates in one clear and simple place.</p>
+            <a class="" href="#">Find Out More</a>
+        </section>
+    </main>
+</div>
+</div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-13">
+    <div class="step-number">Step 13</div>
+    <h2>Step 13 Style the hero heading</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the .hero CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>.hero h1 {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+
+    font-size: 48px;
+    color: #8b0000;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>.hero h1</strong> selects only the h1 inside the hero section.</li><li><strong>margin-top</strong> removes extra space above the heading.</li><li><strong>margin-right</strong> removes extra space on the right of the heading.</li><li><strong>margin-bottom</strong> removes extra space below the heading.</li><li><strong>margin-left</strong> removes extra space on the left of the heading.</li><li><strong>font-size</strong> makes the hero heading larger.</li><li><strong>color</strong> changes the heading text to dark red.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main>
+        <section class="pv-hero-flex pv-hero-size pv-hero-colour">
+            <h1 class="pv-hero-h1">Welcome to Our Website</h1>
+            <p class="">Explore useful information, featured content and key updates in one clear and simple place.</p>
+            <a class="" href="#">Find Out More</a>
+        </section>
+    </main>
+</div>
+</div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-14">
+    <div class="step-number">Step 14</div>
+    <h2>Step 14 Style the hero paragraph</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the .hero h1 CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>.hero p {
+    max-width: 600px;
+    font-size: 18px;
+    line-height: 1.5;
+    color: #333333;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>.hero p</strong> selects only the paragraph inside the hero section.</li><li><strong>max-width</strong> stops the paragraph becoming too wide.</li><li><strong>font-size</strong> makes the paragraph text slightly larger.</li><li><strong>line-height</strong> adds space between lines of paragraph text.</li><li><strong>color</strong> changes the paragraph text to dark grey.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main>
+        <section class="pv-hero-flex pv-hero-size pv-hero-colour">
+            <h1 class="pv-hero-h1">Welcome to Our Website</h1>
+            <p class="pv-hero-p">Explore useful information, featured content and key updates in one clear and simple place.</p>
+            <a class="" href="#">Find Out More</a>
+        </section>
+    </main>
+</div>
+</div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-15">
+    <div class="step-number">Step 15</div>
+    <h2>Step 15 Style the hero button link</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the .hero p CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>.hero a {
+    display: inline-block;
+
+    margin-top: 15px;
+
+    padding-top: 12px;
+    padding-right: 24px;
+    padding-bottom: 12px;
+    padding-left: 24px;
+
+    background-color: red;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>.hero a</strong> selects only the link inside the hero section.</li><li><strong>display</strong> lets the link behave like a button.</li><li><strong>margin-top</strong> adds space above the button.</li><li><strong>padding</strong> adds space inside the button.</li><li><strong>background-color</strong> changes the button background to red.</li><li><strong>color</strong> changes the button text to white.</li><li><strong>text-decoration</strong> removes the underline from the link.</li><li><strong>border-radius</strong> rounds the button corners.</li><li><strong>font-weight</strong> makes the button text bold.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main>
+        <section class="pv-hero-flex pv-hero-size pv-hero-colour">
+            <h1 class="pv-hero-h1">Welcome to Our Website</h1>
+            <p class="pv-hero-p">Explore useful information, featured content and key updates in one clear and simple place.</p>
+            <a class="pv-hero-link" href="#">Find Out More</a>
+        </section>
+    </main>
+</div>
+</div>
+</section>
+
+<section class="lesson-part btec-web-step" id="step-16">
+    <div class="step-number">Step 16</div>
+    <h2>Step 16 Add the hero button hover effect</h2>
+    <div class="instruction-box"><strong>Where to put this code</strong> Add this code into style.css under the .hero a CSS.</div>
+    <h3>Code</h3>
+    <pre class="algorithm-code code-block" data-lang="CSS"><code>.hero a:hover {
+    background-color: #8b0000;
+}</code></pre>
+    <h3>What this does</h3>
+    <div class="explain-box"><ul><li><strong>.hero a:hover</strong> selects the hero button when the mouse moves over it.</li><li><strong>background-color</strong> changes the button background to dark red on hover.</li><li><strong>hover</strong> helps users see that the button is interactive.</li></ul></div>
+    <h3>Expected output</h3>
+    <div class="expected-output">
+<div class="preview-frame pv-body">
+    <main>
+        <section class="pv-hero-flex pv-hero-size pv-hero-colour">
+            <h1 class="pv-hero-h1">Welcome to Our Website</h1>
+            <p class="pv-hero-p">Explore useful information, featured content and key updates in one clear and simple place.</p>
+            <a class="pv-hero-link pv-hero-hover" href="#">Find Out More</a>
+        </section>
+    </main>
+</div>
+<p class='preview-note'>Move your mouse over the button. It should turn dark red.</p></div>
+</section>
+
+
+    <section class="lesson-part btec-web-final-code">
+        <h2>Final code</h2>
+<div class="btec-final-code-content">
+            <h2>Final index.html</h2>
+            <pre class="algorithm-code code-block" data-lang="HTML"><code>&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Hero Section&lt;/title&gt;
+    &lt;link rel=&quot;stylesheet&quot; href=&quot;style.css&quot;&gt;
+&lt;/head&gt;
+
+&lt;body&gt;
+
+    &lt;main&gt;
+        &lt;section class=&quot;hero&quot;&gt;
+            &lt;h1&gt;Welcome to Our Website&lt;/h1&gt;
+            &lt;p&gt;Explore useful information, featured content and key updates in one clear and simple place.&lt;/p&gt;
+            &lt;a href=&quot;#&quot;&gt;Find Out More&lt;/a&gt;
+        &lt;/section&gt;
+    &lt;/main&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+            <h2>Final style.css</h2>
+            <pre class="algorithm-code code-block" data-lang="CSS"><code>body {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+
+    font-family: Arial, sans-serif;
+}
+
+.hero {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 400px;
+
+    padding-top: 40px;
+    padding-right: 40px;
+    padding-bottom: 40px;
+    padding-left: 40px;
+
+    text-align: center;
+
+    background-color: #ffe5e5;
+
+    border-bottom-width: 5px;
+    border-bottom-style: solid;
+    border-bottom-color: red;
+}
+
+.hero h1 {
+    margin-top: 0;
+    margin-right: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+
+    font-size: 48px;
+    color: #8b0000;
+}
+
+.hero p {
+    max-width: 600px;
+    font-size: 18px;
+    line-height: 1.5;
+    color: #333333;
+}
+
+.hero a {
+    display: inline-block;
+
+    margin-top: 15px;
+
+    padding-top: 12px;
+    padding-right: 24px;
+    padding-bottom: 12px;
+    padding-left: 24px;
+
+    background-color: red;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: bold;
+}
+
+.hero a:hover {
+    background-color: #8b0000;
+}</code></pre>
+        </div>
+    </section>
+
+        <nav class="tutorial-page-nav" aria-label="Tutorial navigation">
+            <a class="back-button back-link" href="../index.html">Back to Unit 6</a>
+            <a class="back-button back-link next-tutorial-link" href="btec-unit-6-4-2-image-card.html">Next: Build an Image Card</a>
+        </nav>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <script src="../../../../routes.js?v=6"></script>
+    <script src="../../../../assets/js/site-layout.js?v=1"></script>
+    <script src="../../../../assets/js/code-display.js?v=2"></script>
+    <script src="../../../../site.js?v=57"></script>
+</body>
+</html>

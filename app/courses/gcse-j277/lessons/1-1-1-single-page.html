@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.1.1 Architecture of the CPU - Single-page test</title>
+    <link rel="stylesheet" href="../../../assets/css/single-page-lesson.css?v=22">
+</head>
+<body class="single-lesson-body" data-page-type="single-lesson" data-course="gcse-j277" data-topic-id="1-1-1-single-page">
+    <div class="single-lesson-page single-lesson-shell">
+        <header class="single-lesson-topbar">
+            <a class="single-lesson-brand" href="../index.html" aria-label="Back to GCSE J277 dashboard">
+                <span class="single-lesson-brand-mark" aria-hidden="true">CPU</span>
+                <span>Computer Systems</span>
+            </a>
+            <nav class="single-lesson-breadcrumb" aria-label="Breadcrumb">
+                <span>1.1 Systems architecture</span>
+                <span aria-hidden="true">&gt;</span>
+                <strong>1.1.1 Architecture of the CPU - single-page test</strong>
+            </nav>
+            <a class="single-lesson-save-link" href="../index.html">Back to topics</a>
+        </header>
+
+        <div class="single-lesson-layout">
+            <aside class="single-lesson-sidebar" aria-label="Lesson navigation">
+                <div class="single-lesson-sidebar-header">
+                    <p class="single-lesson-topic-code">1.1.1 Single-page test</p>
+                    <h1>Architecture of the CPU</h1>
+                </div>
+                <p class="single-lesson-panel-title">Lesson navigation</p>
+                <nav class="single-lesson-nav" aria-label="Single-page lesson sections">
+                    <a class="single-lesson-nav-link is-active" href="#learning-objectives"><span>1</span><strong>Learning objectives</strong></a>
+                    <a class="single-lesson-nav-link" href="#part-1"><span>2</span><strong>Part 1 - The purpose of the CPU</strong></a>
+                    <a class="single-lesson-nav-link" href="#cpu-knows"><span>3</span><strong>How does the computer know what to do next?</strong></a>
+                    <a class="single-lesson-nav-link" href="#main-processor"><span>4</span><strong>The CPU is the computer's main processor</strong></a>
+                    <a class="single-lesson-nav-link" href="#instructions-output"><span>5</span><strong>CPU instructions create output</strong></a>
+                    <a class="single-lesson-nav-link" href="#instructions-data"><span>6</span><strong>The CPU processes instructions and data</strong></a>
+                    <a class="single-lesson-nav-link" href="#multiple-choice"><span>7</span><strong>Multiple choice question</strong></a>
+                    <a class="single-lesson-nav-link" href="#part-2"><span>8</span><strong>Part 2 - CPU components and the FDE cycle</strong></a>
+                    <a class="single-lesson-nav-link" href="#core-components"><span>9</span><strong>Core CPU components</strong></a>
+                    <a class="single-lesson-nav-link" href="#registers"><span>10</span><strong>Special purpose registers</strong></a>
+                    <a class="single-lesson-nav-link" href="#fde-cycle"><span>11</span><strong>The FDE cycle</strong></a>
+                    <a class="single-lesson-nav-link" href="#stored-program"><span>12</span><strong>Stored program concept</strong></a>
+                    <a class="single-lesson-nav-link" href="#von-neumann"><span>13</span><strong>Von Neumann architecture</strong></a>
+                    <a class="single-lesson-nav-link" href="#summary"><span>14</span><strong>Summary</strong></a>
+                </nav>
+                <details class="single-lesson-sidebar-panel">
+                    <summary>Lesson tools</summary>
+                    <div class="single-lesson-sidebar-panel-body">
+                        <div class="lesson-tools-grid">
+                            <button class="lesson-tool-button utility" type="button" data-single-lesson-tool-action="glossary" aria-label="Open glossary"><span class="lesson-tool-icon">G</span><span class="lesson-tool-label">Glossary</span></button>
+                            <button class="lesson-tool-button utility" type="button" data-single-lesson-tool-action="print" aria-label="Print lesson"><span class="lesson-tool-icon">P</span><span class="lesson-tool-label">Print</span></button>
+                        </div>
+                    </div>
+                </details>
+                <details class="single-lesson-sidebar-panel">
+                    <summary>Teacher tools</summary>
+                    <div class="single-lesson-sidebar-panel-body">
+                        <div class="lesson-tool-grid">
+                            <button class="lesson-tool-button countdown" type="button" data-panel-action="countdown" data-alarm-src="../../../assets/audio/alarm-beep.mp3" aria-label="Open Count Down"><span class="lesson-tool-icon">CD</span><span class="lesson-tool-label">Count Down</span></button>
+                            <button class="lesson-tool-button stopwatch" type="button" data-panel-action="stopwatch" aria-label="Open Stopwatch"><span class="lesson-tool-icon">SW</span><span class="lesson-tool-label">Stopwatch</span></button>
+                            <button class="lesson-tool-button board" type="button" data-panel-action="draw-board" aria-label="Open Draw board"><span class="lesson-tool-icon">DB</span><span class="lesson-tool-label">Draw board</span></button>
+                            <button class="lesson-tool-button sound" type="button" data-panel-action="sound-board" aria-label="Open Sound board"><span class="lesson-tool-icon">SB</span><span class="lesson-tool-label">Sound board</span></button>
+                        </div>
+                    </div>
+                </details>
+                <div class="single-lesson-sidebar-actions">
+                    <a href="../index.html">Back to topics</a>
+                </div>
+            </aside>
+
+            <main class="single-lesson-content single-lesson-main" tabindex="-1">
+                <section class="single-lesson-section" id="learning-objectives" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">1.1.1 Architecture of the CPU</p>
+                        <h2 class="single-lesson-title">Learning objectives</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap is-medium">
+                            <div class="single-lesson-objectives">
+                                <article><span>1</span><p><strong>Describe</strong> the purpose of the Central Processing Unit.</p></article>
+                                <article><span>2</span><p><strong>Identify</strong> the ALU, Control Unit, cache and registers.</p></article>
+                                <article><span>3</span><p><strong>Explain</strong> what the PC, MAR, MDR, CIR and ACC store.</p></article>
+                                <article><span>4</span><p><strong>Model</strong> the fetch-decode-execute cycle.</p></article>
+                                <article><span>5</span><p><strong>Explain</strong> how Von Neumann architecture uses one shared memory.</p></article>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section" id="part-1" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <div class="single-lesson-content-wrap is-centred">
+                            <h2 class="single-lesson-title">Part 1 - The purpose of the CPU</h2>
+                            <article class="single-lesson-callout single-lesson-notice">
+                                <h3>Focus</h3>
+                                <p>First, we will look at why a computer needs a CPU and how instructions make things happen.</p>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section" id="cpu-knows" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 1 - Purpose of the CPU</p>
+                        <h2 class="single-lesson-title">How does the computer know what to do next?</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap is-wide">
+                            <div class="single-lesson-hero-grid">
+                                <div class="single-lesson-copy-stack">
+                                    <article class="single-lesson-card single-lesson-explanation-card">
+                                        <p>You open a 2D platform game. The screen changes, sounds play, buttons respond and the score updates. You reach the final level and the final boss appears on screen.</p>
+                                        <p>The boss suddenly moves towards your character, launches an attack and reacts when you press the buttons.</p>
+                                    </article>
+                                    <article class="single-lesson-callout single-lesson-question">
+                                        <h3>Question</h3>
+                                        <p>How does the computer know what the final boss should do, when it should attack, and how it should respond to the player?</p>
+                                    </article>
+                                </div>
+                                <figure class="single-lesson-image-card">
+                                    <img src="../../../assets/images/cpu-game-fetch-decode-execute-callouts.png" alt="A student playing a platform game with callouts showing sounds play, screen changes, score updates, buttons respond and what the CPU needs.">
+                                </figure>
+                            </div>
+                            <div class="single-lesson-note-grid">
+                                <article class="single-lesson-note single-lesson-note-key">
+                                    <span class="single-lesson-note-icon" aria-hidden="true">!</span>
+                                    <div><h3>Key idea</h3><p>The CPU must know what instructions to run next, what data to use and when to react.</p></div>
+                                </article>
+                                <article class="single-lesson-note single-lesson-note-notice">
+                                    <span class="single-lesson-note-icon" aria-hidden="true">i</span>
+                                    <div><h3>What you should notice</h3><p>Every change on screen happens because the CPU follows instructions one after another.</p></div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section" id="main-processor" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 1 - Purpose of the CPU</p>
+                        <h2 class="single-lesson-title">The CPU is the computer's main processor</h2>
+                        <div class="single-lesson-content-wrap is-wide">
+                            <div class="single-lesson-two-column">
+                                <article class="single-lesson-card single-lesson-explanation-card">
+                                    <p>The Central Processing Unit is the main processor inside a computer. It processes instructions and controls the main operations of the computer.</p>
+                                    <p>Like a brain, the CPU receives information, works out what to do, and sends signals so actions happen.</p>
+                                </article>
+                                <figure class="single-lesson-image-card">
+                                    <img src="../../../assets/images/cpu-brain-comparison.png" alt="Comparison diagram showing the human brain and a CPU receiving input, processing information, making decisions, sending signals and working with memory.">
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section" id="instructions-output" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 1 - Purpose of the CPU</p>
+                        <h2 class="single-lesson-title">CPU instructions create output</h2>
+                        <div class="single-lesson-content-wrap is-medium">
+                            <div class="single-lesson-process-diagram" role="img" aria-label="RAM sends instructions to the CPU, then the CPU sends output signals to an output device.">
+                                <div class="single-lesson-process-node">RAM</div>
+                                <div class="single-lesson-process-arrow" aria-hidden="true"></div>
+                                <div class="single-lesson-process-cpu">CPU</div>
+                                <div class="single-lesson-process-arrow is-green" aria-hidden="true"></div>
+                                <div class="single-lesson-process-node is-output">Output device</div>
+                            </div>
+                            <article class="single-lesson-card single-lesson-explanation-card">
+                                <p>The CPU repeats the cycle of getting one instruction from RAM, processing it, and sending the resulting signal to an output device.</p>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section" id="instructions-data" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 1 - Purpose of the CPU</p>
+                        <h2 class="single-lesson-title">The CPU processes instructions and data</h2>
+                        <div class="single-lesson-content-wrap is-wide">
+                            <div class="single-lesson-ram-panel">
+                                <h3>RAM</h3>
+                                <table class="single-lesson-table">
+                                    <thead><tr><th scope="col">Address</th><th scope="col">Instructions or data</th></tr></thead>
+                                    <tbody>
+                                        <tr><td>1040</td><td><strong>Instructions:</strong> Spotify play button instructions</td></tr>
+                                        <tr><td>1041</td><td><strong>Data:</strong> Spotify current song data</td></tr>
+                                        <tr><td>1042</td><td><strong>Instructions:</strong> Chrome tab instructions</td></tr>
+                                        <tr><td>1043</td><td><strong>Data:</strong> Chrome webpage image data</td></tr>
+                                        <tr><td>1044</td><td><strong>Data:</strong> Game score data</td></tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <article class="single-lesson-card single-lesson-explanation-card">
+                                <p>A program is made from instructions and data. The instructions and data are stored in RAM, then the CPU fetches them from RAM and executes the instructions.</p>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section" id="multiple-choice" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 1 - Check your understanding</p>
+                        <h2 class="single-lesson-title">Multiple choice question</h2>
+                        <div class="single-lesson-content-wrap is-narrow">
+                            <article class="single-lesson-exam-box">
+                                <div class="single-lesson-exam-topline">
+                                    <span class="single-lesson-exam-number">Q1</span>
+                                    <span class="single-lesson-marks">1 mark</span>
+                                </div>
+                                <p>What is the main purpose of the CPU?</p>
+                            </article>
+                            <ul class="single-lesson-check-list">
+                                <li><strong>A.</strong> To permanently store files and programs.</li>
+                                <li><strong>B.</strong> To process instructions and control many computer operations.</li>
+                                <li><strong>C.</strong> To display images on the monitor.</li>
+                                <li><strong>D.</strong> To connect the computer to the Internet.</li>
+                            </ul>
+                            <article class="single-lesson-callout single-lesson-key-idea">
+                                <h3>Correct answer</h3>
+                                <p>B. The CPU processes instructions and controls many computer operations.</p>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section" id="part-2" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <div class="single-lesson-content-wrap is-centred">
+                            <h2 class="single-lesson-title">Part 2 - CPU components and the FDE cycle</h2>
+                            <article class="single-lesson-callout single-lesson-notice">
+                                <h3>Focus</h3>
+                                <p>Next, we will look inside the CPU and follow the fetch-decode-execute cycle.</p>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section" id="core-components" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 2 - CPU components and the FDE cycle</p>
+                        <h2 class="single-lesson-title">Core CPU components</h2>
+                        <div class="single-lesson-content-wrap is-wide">
+                            <div class="single-lesson-component-grid">
+                                <article class="single-lesson-component-card">
+                                    <span class="single-lesson-chip is-cu">CU</span>
+                                    <h3>The Control Unit</h3>
+                                    <p>The Control Unit coordinates CPU operations. It decodes instructions and sends control signals to make the right parts act at the right time.</p>
+                                </article>
+                                <article class="single-lesson-component-card">
+                                    <span class="single-lesson-chip is-alu">ALU</span>
+                                    <h3>Arithmetic Logic Unit</h3>
+                                    <p>The ALU performs arithmetic, logic operations and comparisons needed to execute instructions.</p>
+                                </article>
+                            </div>
+                            <article class="single-lesson-card single-lesson-explanation-card">
+                                <p>Core components are the main internal parts of the CPU. The Control Unit coordinates what happens next, while the ALU performs calculations, logic and comparisons.</p>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section" id="registers" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 2 - CPU components and the FDE cycle</p>
+                        <h2 class="single-lesson-title">Special purpose registers</h2>
+                        <div class="single-lesson-content-wrap is-wide">
+                            <div class="single-lesson-register-list" aria-label="Special purpose registers">
+                                <article><strong>PC</strong><span>Stores the address of the next instruction.</span></article>
+                                <article><strong>MAR</strong><span>Stores the address of a memory location.</span></article>
+                                <article><strong>MDR</strong><span>Stores data or instructions being transferred to or from memory.</span></article>
+                                <article><strong>CIR</strong><span>Stores the current instruction while it is decoded and executed.</span></article>
+                                <article><strong>ACC</strong><span>Stores the result of a calculation.</span></article>
+                            </div>
+                            <article class="single-lesson-card single-lesson-explanation-card">
+                                <p>A CPU register is a very small, very fast storage location inside the CPU. Registers hold the immediate addresses, instructions, data or results the CPU needs while it is processing.</p>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section" id="fde-cycle" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 2 - CPU components and the FDE cycle</p>
+                        <h2 class="single-lesson-title">The FDE cycle</h2>
+                        <div class="single-lesson-content-wrap is-wide">
+                            <div class="single-lesson-stage-grid">
+                                <article><span>1</span><h3>Fetch</h3><p>The CPU gets the next instruction from memory.</p></article>
+                                <article><span>2</span><h3>Decode</h3><p>The Control Unit works out what the instruction means.</p></article>
+                                <article><span>3</span><h3>Execute</h3><p>The CPU carries out the instruction using the right components.</p></article>
+                                <article><span>4</span><h3>Repeat</h3><p>The CPU moves on to the next instruction and continues the cycle.</p></article>
+                            </div>
+                            <article class="single-lesson-callout single-lesson-notice">
+                                <h3>Remember</h3>
+                                <p>The FDE cycle happens repeatedly while the computer is running.</p>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section" id="stored-program" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 3 - The stored program concept and Von Neumann architecture</p>
+                        <h2 class="single-lesson-title">Stored program concept</h2>
+                        <div class="single-lesson-content-wrap is-wide">
+                            <div class="single-lesson-two-column">
+                                <article class="single-lesson-card single-lesson-explanation-card">
+                                    <p>John von Neumann helped explain the stored program concept in 1945. This means program instructions are stored in memory along with the data.</p>
+                                    <p>Before this, many computers had to be physically rewired or reset to do a different job. This idea was an improvement because a computer could run a new program by loading new instructions into memory.</p>
+                                </article>
+                                <figure class="single-lesson-image-card is-portrait">
+                                    <img src="../../../assets/images/john-von-neumann-stored-program.webp" alt="Illustrated portrait of John von Neumann with computing imagery.">
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section" id="von-neumann" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 3 - The stored program concept and Von Neumann architecture</p>
+                        <h2 class="single-lesson-title">Von Neumann architecture</h2>
+                        <div class="single-lesson-content-wrap is-wide">
+                            <div class="single-lesson-architecture-grid">
+                                <article class="single-lesson-architecture-panel">
+                                    <h3>Before</h3>
+                                    <div class="single-lesson-memory-pair">
+                                        <span>Instruction memory</span>
+                                        <span>Data memory</span>
+                                    </div>
+                                    <div class="single-lesson-down-arrows" aria-hidden="true"></div>
+                                    <strong>CPU</strong>
+                                </article>
+                                <article class="single-lesson-architecture-panel">
+                                    <h3>Now</h3>
+                                    <div class="single-lesson-shared-memory">
+                                        <strong>Main memory</strong>
+                                        <span>instructions</span>
+                                        <span>data</span>
+                                    </div>
+                                    <div class="single-lesson-down-arrows is-shared" aria-hidden="true"></div>
+                                    <strong>CPU</strong>
+                                </article>
+                            </div>
+                            <article class="single-lesson-card single-lesson-explanation-card">
+                                <p>Von Neumann architecture uses one main memory for both instructions and data. The CPU fetches what it needs from that memory, so the same computer can run lots of different programs without changing the hardware.</p>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section" id="summary" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Summary</p>
+                        <h2 class="single-lesson-title">What to remember</h2>
+                        <div class="single-lesson-content-wrap is-wide">
+                            <div class="single-lesson-stage-grid single-lesson-summary">
+                                <article><span>1</span><h3>CPU</h3><p>The main processor that processes instructions and controls operations.</p></article>
+                                <article><span>2</span><h3>Registers</h3><p>Very small, fast storage locations inside the CPU.</p></article>
+                                <article><span>3</span><h3>FDE cycle</h3><p>The CPU fetches, decodes and executes instructions repeatedly.</p></article>
+                                <article><span>4</span><h3>Von Neumann</h3><p>Instructions and data are stored in one shared main memory.</p></article>
+                            </div>
+                            <article class="single-lesson-callout single-lesson-key-idea">
+                                <h3>Final takeaway</h3>
+                                <p>The CPU runs programs by repeatedly fetching instructions and data from memory, decoding what to do, and executing the instruction using its internal components.</p>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script src="../../../assets/js/single-page-lesson.js?v=3"></script>
+</body>
+</html>

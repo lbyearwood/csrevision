@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.2.7 Binary addition and binary shifts Lesson</title>
+    <link rel="stylesheet" href="../../../styles.css?v=53">
+</head>
+<body data-page-type="lesson" data-course="gcse-j277" data-topic-id="1-2-7">
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <section data-slide="binary-intro" data-template="engaging-lesson-introduction-template" class="intro-slide">
+            <div class="slide-grid">
+                <div class="slide-copy">
+                    <p class="slide-kicker">Lesson introduction</p>
+                    <h2>Small bits, real calculations</h2>
+                    <p>A computer can only work with binary digits, but it still needs to add scores, store values and change numbers quickly.</p>
+                    <div class="slide-think-panel"><span>Think first</span><p>How can a computer add numbers using only 0 and 1?</p></div>
+                    <button class="reveal-button slide-small-reveal" type="button" aria-controls="binary-intro-answer" aria-expanded="false" data-show-label="Reveal discussion point" data-hide-label="Hide discussion point">Reveal discussion point</button>
+                    <div class="stable-reveal intro-reveal"><p id="binary-intro-answer" class="slide-answer" hidden>Binary addition uses column addition rules. A carry is used when a column reaches the value two or three.</p></div>
+                </div>
+                <figure class="slide-visual-panel">
+                    <svg viewBox="0 0 640 360" role="img" aria-labelledby="binary-intro-title binary-intro-desc">
+                        <title id="binary-intro-title">Binary values being added</title>
+                        <desc id="binary-intro-desc">Two rows of binary digits flow into a calculation block and produce a binary answer.</desc>
+                        <text x="320" y="44" text-anchor="middle" class="svg-title">Binary values combine</text>
+                        <defs><marker id="bin-arrow" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto"><path d="M0,0 L10,5 L0,10 Z" fill="#233a8b"/></marker></defs>
+                        <rect x="70" y="104" width="150" height="62" rx="14" class="svg-panel-blue-soft"/><text x="145" y="142" text-anchor="middle" class="svg-node-title-small">01011</text>
+                        <rect x="70" y="196" width="150" height="62" rx="14" class="svg-panel-blue-soft"/><text x="145" y="234" text-anchor="middle" class="svg-node-title-small">00111</text>
+                        <rect x="280" y="132" width="110" height="100" rx="18" class="svg-chip-large"/><text x="335" y="190" text-anchor="middle" class="svg-chip-text">Add</text>
+                        <rect x="452" y="154" width="142" height="62" rx="14" class="svg-panel-green-soft"/><text x="523" y="192" text-anchor="middle" class="svg-node-title-small">10010</text>
+                        <line x1="222" y1="135" x2="274" y2="168" class="svg-arrow" marker-end="url(#bin-arrow)"/>
+                        <line x1="222" y1="227" x2="274" y2="198" class="svg-arrow" marker-end="url(#bin-arrow)"/>
+                        <line x1="392" y1="184" x2="446" y2="184" class="svg-arrow" marker-end="url(#bin-arrow)"/>
+                    </svg>
+                </figure>
+            </div>
+        </section>
+
+        <section data-slide="binary-progression" data-template="learning-objectives-template">
+            <div class="slide-grid objective-grid">
+                <div class="slide-copy">
+                    <p class="slide-kicker">Learning progression</p>
+                    <h2>Build the method in order</h2>
+                    <p>This lesson moves from single-column rules to full 8-bit addition, then checks what happens when a result does not fit.</p>
+                    <div class="key-point"><span>Route</span><p>Add bits -> carry -> check denary -> overflow -> shift left and right.</p></div>
+                </div>
+                <div class="objective-list">
+                    <article><span>1</span><p>Use binary addition rules.</p></article>
+                    <article><span>2</span><p>Add binary integers up to 8 bits.</p></article>
+                    <article><span>3</span><p>Explain overflow as a storage limit problem.</p></article>
+                    <article><span>4</span><p>Describe the effect of left and right binary shifts.</p></article>
+                </div>
+            </div>
+        </section>
+
+        <section data-slide="binary-vocabulary" data-template="key-vocabulary-glossary-drawer-template">
+            <div class="slide-grid">
+                <div class="slide-copy">
+                    <p class="slide-kicker">Key vocabulary</p>
+                    <h2>Five words to use accurately</h2>
+                    <p>These terms appear throughout the lesson and in exam questions.</p>
+                    <div class="key-point"><span>Careful wording</span><p>A carry is part of addition. Overflow is what happens when the answer needs more bits than are available.</p></div>
+                </div>
+                <div class="summary-table-wrap">
+                    <h3>Vocabulary</h3>
+                    <table class="cpu-summary-table">
+                        <tbody>
+                            <tr><th>Bit</th><td>One binary digit, 0 or 1.</td></tr>
+                            <tr><th>Carry</th><td>A value moved to the next column.</td></tr>
+                            <tr><th>Overflow</th><td>A result that does not fit in the available bits.</td></tr>
+                            <tr><th>Binary shift</th><td>Moving bits left or right.</td></tr>
+                            <tr><th>Denary</th><td>Base 10 numbers.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section data-slide="addition-rules" data-template="teaching-explanation-key-point-template">
+            <div class="slide-grid">
+                <div class="slide-copy">
+                    <p class="slide-kicker">Binary addition rules</p>
+                    <h2>Single-column facts</h2>
+                    <article class="teaching-explanation-card">
+                        <p>Binary addition works like denary column addition, but each column can only show 0 or 1.</p>
+                        <p>When the total reaches two, write the binary result and carry into the next column.</p>
+                    </article>
+                </div>
+                <div class="summary-table-wrap">
+                    <h3>Core facts</h3>
+                    <table class="cpu-summary-table">
+                        <thead><tr><th>Calculation</th><th>Binary result</th><th>Write</th><th>Carry</th></tr></thead>
+                        <tbody>
+                            <tr><td>0 + 0</td><td>0</td><td>0</td><td></td></tr>
+                            <tr><td>0 + 1</td><td>1</td><td>1</td><td></td></tr>
+                            <tr><td>1 + 0</td><td>1</td><td>1</td><td></td></tr>
+                            <tr><td>1 + 1</td><td>10</td><td>0</td><td>1</td></tr>
+                            <tr><td>1 + 1 + 1</td><td>11</td><td>1</td><td>1</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section data-slide="addition-check" data-template="hinge-point-question-card-template">
+            <div class="hinge-template">
+                <header class="panel-header">
+                    <span class="panel-kicker">Hinge Point Question</span>
+                    <h2 class="panel-title">Check the carry rule</h2>
+                    <p class="panel-intro">Use this question to check whether students understand a binary carry before the worked example.</p>
+                </header>
+                <div class="exam-grid">
+                    <article class="question-panel">
+                        <div class="exam-question-box">
+                            <div class="question-topline"><span class="question-number">Q1</span><span class="marks-badge">1 mark</span></div>
+                            <p class="exam-question">In binary addition, what should you write for 1 + 1 in one column?</p>
+                        </div>
+                        <div class="answer-option-list" aria-label="Answer options">
+                            <div class="answer-option-card"><span class="option-letter">A</span><span>Write 2.</span></div>
+                            <div class="answer-option-card"><span class="option-letter">B</span><span>Write 10 in the same column.</span></div>
+                            <div class="answer-option-card"><span class="option-letter">C</span><span>Write 0 and carry 1.</span></div>
+                            <div class="answer-option-card"><span class="option-letter">D</span><span>Write 1 and carry 0.</span></div>
+                        </div>
+                        <div class="student-thinking"><span class="thinking-label">Before revealing the answer</span><p>Ask students to explain why binary cannot write the digit 2 in one column.</p></div>
+                        <div class="answer-plan" aria-label="Answer planning prompts">
+                            <div class="plan-row"><span class="plan-number">1</span><span>What is 1 + 1 in binary?</span></div>
+                            <div class="plan-row"><span class="plan-number">2</span><span>Which bit stays in the current column?</span></div>
+                            <div class="plan-row"><span class="plan-number">3</span><span>Which bit is carried to the next column?</span></div>
+                        </div>
+                        <div class="question-controls" data-reveal-panel>
+                            <button class="action-button" type="button" data-reveal-show="addition-check-answer" data-reveal-placeholder="addition-check-placeholder" data-reveal-panel="addition-check-panel" data-reveal-title="addition-check-title">Reveal answer</button>
+                            <button class="action-button secondary" type="button" data-reveal-hide="addition-check-answer" data-reveal-placeholder="addition-check-placeholder" data-reveal-panel="addition-check-panel" data-reveal-title="addition-check-title" hidden>Hide answer</button>
+                        </div>
+                    </article>
+                    <aside class="mark-panel" id="addition-check-panel" aria-label="Teacher answer panel" data-reveal-panel>
+                        <div class="mark-header"><p class="mark-label">Teacher answer panel</p><h3 class="mark-title" id="addition-check-title">Answer hidden</h3></div>
+                        <div class="mark-content">
+                            <div class="mark-placeholder" id="addition-check-placeholder">Give students thinking time first. Reveal after discussion.</div>
+                            <div class="mark-scheme" id="addition-check-answer" hidden>
+                                <ol class="mark-list"><li class="mark-point"><span class="mark-number">C</span><p>1 + 1 is 10 in binary, so 0 is written in the current column and 1 is carried.</p></li></ol>
+                                <div class="model-answer-box"><span class="model-label">Reasoning</span><p>Binary columns can only show 0 or 1. The value two is represented as 10, so the 1 moves into the next column.</p></div>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+
+        <section data-slide="addition-model" data-template="calculation-walkthrough-template" data-stage-group>
+            <div class="slide-grid">
+                <div class="slide-copy">
+                    <p class="slide-kicker">Calculation walkthrough</p>
+                    <h2>Add 01011 and 00111</h2>
+                    <p>Reveal the working one column at a time. Each step shows the cumulative answer so far.</p>
+                    <div class="stage-button-row">
+                        <button class="step-button" type="button" data-stage-button="1">1s</button>
+                        <button class="step-button" type="button" data-stage-button="2">2s</button>
+                        <button class="step-button" type="button" data-stage-button="4">4s</button>
+                        <button class="step-button" type="button" data-stage-button="8">8s</button>
+                        <button class="step-button" type="button" data-stage-button="16">16s</button>
+                    </div>
+                    <div class="stable-reveal">
+                        <p class="slide-answer" data-stage-panel="1">1s: 1 + 1 = 10. Write 0 and carry 1.</p>
+                        <p class="slide-answer" data-stage-panel="2" hidden>2s: 1 + 1 + carry 1 = 11. Write 1 and carry 1.</p>
+                        <p class="slide-answer" data-stage-panel="4" hidden>4s: 0 + 1 + carry 1 = 10. Write 0 and carry 1.</p>
+                        <p class="slide-answer" data-stage-panel="8" hidden>8s: 1 + 0 + carry 1 = 10. Write 0 and carry 1.</p>
+                        <p class="slide-answer" data-stage-panel="16" hidden>16s: 0 + 0 + carry 1 = 1. The answer is 10010.</p>
+                    </div>
+                </div>
+                <div class="binary-board">
+                    <div class="binary-row"><span></span><b>16</b><b>8</b><b>4</b><b>2</b><b>1</b></div>
+                    <div class="binary-row"><span>top</span><span>0</span><span>1</span><span>0</span><span>1</span><span>1</span></div>
+                    <div class="binary-row"><span>+</span><span>0</span><span>0</span><span>1</span><span>1</span><span>1</span></div>
+                    <div class="binary-row answer-row"><span>answer</span><span data-stage-visual="16">1</span><span data-stage-visual="8">0</span><span data-stage-visual="4">0</span><span data-stage-visual="2">1</span><span data-stage-visual="1">0</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section data-slide="denary-check" data-template="teaching-explanation-key-point-template">
+            <div class="slide-grid">
+                <div class="slide-copy">
+                    <p class="slide-kicker">Denary check</p>
+                    <h2>Does the binary answer make sense?</h2>
+                    <article class="teaching-explanation-card">
+                        <p>Checking in denary helps students spot mistakes in the binary working.</p>
+                        <p>01011 is 11 and 00111 is 7. Their sum is 18, so the binary answer should also represent 18.</p>
+                    </article>
+                    <div class="key-point"><span>Check</span><p>10010 = 16 + 2 = 18.</p></div>
+                </div>
+                <figure class="slide-visual-panel">
+                    <svg viewBox="0 0 640 360" role="img" aria-labelledby="denary-title denary-desc">
+                        <title id="denary-title">Binary answer checked in denary</title>
+                        <desc id="denary-desc">A simple equality check showing 11 plus 7 equals 18 and 10010 equals 18.</desc>
+                        <text x="320" y="44" text-anchor="middle" class="svg-title">Check the answer</text>
+                        <rect x="86" y="126" width="190" height="84" rx="16" class="svg-panel-blue-soft"/><text x="181" y="160" text-anchor="middle" class="svg-node-title-small">01011 + 00111</text><text x="181" y="190" text-anchor="middle" class="svg-muted-label">11 + 7 = 18</text>
+                        <rect x="364" y="126" width="190" height="84" rx="16" class="svg-panel-green-soft"/><text x="459" y="160" text-anchor="middle" class="svg-node-title-small">10010</text><text x="459" y="190" text-anchor="middle" class="svg-muted-label">16 + 2 = 18</text>
+                        <text x="320" y="177" text-anchor="middle" class="svg-stage-label">=</text>
+                    </svg>
+                </figure>
+            </div>
+        </section>
+
+        <section data-slide="overflow-explanation" data-template="teaching-explanation-key-point-template">
+            <div class="slide-grid">
+                <div class="slide-copy">
+                    <p class="slide-kicker">Overflow</p>
+                    <h2>When the result will not fit</h2>
+                    <article class="teaching-explanation-card">
+                        <p>Overflow happens when a calculation result needs more bits than the storage space allows.</p>
+                        <p>With 8 bits, the largest unsigned binary value is 11111111, which is 255 in denary.</p>
+                    </article>
+                    <div class="key-point"><span>Key idea</span><p>Overflow is a capacity problem, not a normal carry within the available columns.</p></div>
+                </div>
+                <figure class="slide-visual-panel">
+                    <svg viewBox="0 0 640 360" role="img" aria-labelledby="overflow-title overflow-desc">
+                        <title id="overflow-title">Eight bit storage limit</title>
+                        <desc id="overflow-desc">Eight storage boxes are full and an extra carry sits outside the storage space.</desc>
+                        <text x="320" y="44" text-anchor="middle" class="svg-title">8-bit limit</text>
+                        <g transform="translate(70 145)">
+                            <rect width="54" height="54" rx="10" class="svg-panel-blue-soft"/><text x="27" y="35" text-anchor="middle" class="svg-node-title-small">1</text>
+                            <rect x="62" width="54" height="54" rx="10" class="svg-panel-blue-soft"/><text x="89" y="35" text-anchor="middle" class="svg-node-title-small">1</text>
+                            <rect x="124" width="54" height="54" rx="10" class="svg-panel-blue-soft"/><text x="151" y="35" text-anchor="middle" class="svg-node-title-small">1</text>
+                            <rect x="186" width="54" height="54" rx="10" class="svg-panel-blue-soft"/><text x="213" y="35" text-anchor="middle" class="svg-node-title-small">1</text>
+                            <rect x="248" width="54" height="54" rx="10" class="svg-panel-blue-soft"/><text x="275" y="35" text-anchor="middle" class="svg-node-title-small">1</text>
+                            <rect x="310" width="54" height="54" rx="10" class="svg-panel-blue-soft"/><text x="337" y="35" text-anchor="middle" class="svg-node-title-small">1</text>
+                            <rect x="372" width="54" height="54" rx="10" class="svg-panel-blue-soft"/><text x="399" y="35" text-anchor="middle" class="svg-node-title-small">1</text>
+                            <rect x="434" width="54" height="54" rx="10" class="svg-panel-blue-soft"/><text x="461" y="35" text-anchor="middle" class="svg-node-title-small">1</text>
+                        </g>
+                        <rect x="575" y="135" width="44" height="74" rx="10" class="svg-warning"/><text x="597" y="179" text-anchor="middle" class="svg-warning-label">carry</text>
+                    </svg>
+                </figure>
+            </div>
+        </section>
+
+        <section data-slide="overflow-model" data-template="calculation-walkthrough-template">
+            <div class="slide-grid">
+                <div class="slide-copy">
+                    <p class="slide-kicker">Overflow model</p>
+                    <h2>One calculation that overflows</h2>
+                    <article class="teaching-explanation-card">
+                        <p>11111111 + 00000001 gives 1 00000000 if a ninth bit is allowed.</p>
+                        <p>In an 8-bit space, the ninth bit cannot be stored, so overflow has occurred.</p>
+                    </article>
+                </div>
+                <div class="binary-board wide-binary">
+                    <div class="binary-row"><span></span><b>128</b><b>64</b><b>32</b><b>16</b><b>8</b><b>4</b><b>2</b><b>1</b></div>
+                    <div class="binary-row"><span></span><span>1</span><span>1</span><span>1</span><span>1</span><span>1</span><span>1</span><span>1</span><span>1</span></div>
+                    <div class="binary-row"><span>+</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>1</span></div>
+                    <div class="binary-row answer-row"><span>=</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span><span>0</span></div>
+                    <p class="overflow-note">Extra carry left of the 128 column cannot fit in 8 bits.</p>
+                </div>
+            </div>
+        </section>
+
+        <section data-slide="left-shift-explanation" data-template="process-walkthrough-template">
+            <div class="slide-grid">
+                <div class="slide-copy">
+                    <p class="slide-kicker">Binary shifts</p>
+                    <h2>Left shift increases the value</h2>
+                    <article class="teaching-explanation-card">
+                        <p>A left binary shift moves every bit one or more places to the left.</p>
+                        <p>For unsigned positive integers, shifting left by one place has the effect of multiplying by 2, if the result still fits.</p>
+                    </article>
+                </div>
+                <figure class="slide-visual-panel">
+                    <svg viewBox="0 0 640 340" role="img" aria-labelledby="left-title left-desc">
+                        <title id="left-title">Left shift</title><desc id="left-desc">Bits move left and zero is added on the right.</desc>
+                        <text x="320" y="44" text-anchor="middle" class="svg-title">Left shift</text>
+                        <text x="230" y="152" text-anchor="middle" class="svg-node-title-small">00001100</text>
+                        <text x="410" y="152" text-anchor="middle" class="svg-node-title-small">00011000</text>
+                        <path d="M285 146 C325 112 350 112 390 146" class="svg-cycle-arc"/>
+                        <text x="320" y="220" text-anchor="middle" class="svg-repeat-label">12 becomes 24</text>
+                    </svg>
+                </figure>
+            </div>
+        </section>
+
+        <section data-slide="left-shift-model" data-template="calculation-walkthrough-template">
+            <div class="slide-grid">
+                <div class="slide-copy">
+                    <p class="slide-kicker">Left shift model</p>
+                    <h2>Move bits left, fill with zero</h2>
+                    <article class="teaching-explanation-card">
+                        <p>Example: 00010110 is 22 in denary.</p>
+                        <p>After one left shift it becomes 00101100, which is 44. The value has doubled.</p>
+                    </article>
+                </div>
+                <div class="binary-board wide-binary">
+                    <div class="binary-row"><span>before</span><span>0</span><span>0</span><span>0</span><span>1</span><span>0</span><span>1</span><span>1</span><span>0</span></div>
+                    <div class="binary-row answer-row"><span>after</span><span>0</span><span>0</span><span>1</span><span>0</span><span>1</span><span>1</span><span>0</span><span>0</span></div>
+                    <p class="overflow-note">22 x 2 = 44</p>
+                </div>
+            </div>
+        </section>
+
+        <section data-slide="right-shift-explanation" data-template="process-walkthrough-template">
+            <div class="slide-grid">
+                <div class="slide-copy">
+                    <p class="slide-kicker">Binary shifts</p>
+                    <h2>Right shift decreases the value</h2>
+                    <article class="teaching-explanation-card">
+                        <p>A right binary shift moves every bit one or more places to the right.</p>
+                        <p>For unsigned positive integers, shifting right by one place has the effect of dividing by 2 and discarding any bit that falls off.</p>
+                    </article>
+                </div>
+                <figure class="slide-visual-panel">
+                    <svg viewBox="0 0 640 340" role="img" aria-labelledby="right-title right-desc">
+                        <title id="right-title">Right shift</title><desc id="right-desc">Bits move right and zero is added on the left.</desc>
+                        <text x="320" y="44" text-anchor="middle" class="svg-title">Right shift</text>
+                        <text x="230" y="152" text-anchor="middle" class="svg-node-title-small">00011000</text>
+                        <text x="410" y="152" text-anchor="middle" class="svg-node-title-small">00001100</text>
+                        <path d="M390 146 C350 112 325 112 285 146" class="svg-cycle-arc"/>
+                        <text x="320" y="220" text-anchor="middle" class="svg-repeat-label">24 becomes 12</text>
+                    </svg>
+                </figure>
+            </div>
+        </section>
+
+        <section data-slide="right-shift-model" data-template="calculation-walkthrough-template">
+            <div class="slide-grid">
+                <div class="slide-copy">
+                    <p class="slide-kicker">Right shift model</p>
+                    <h2>Move bits right, fill with zero</h2>
+                    <article class="teaching-explanation-card">
+                        <p>Example: 00101100 is 44 in denary.</p>
+                        <p>After one right shift it becomes 00010110, which is 22. The value has halved.</p>
+                    </article>
+                </div>
+                <div class="binary-board wide-binary">
+                    <div class="binary-row"><span>before</span><span>0</span><span>0</span><span>1</span><span>0</span><span>1</span><span>1</span><span>0</span><span>0</span></div>
+                    <div class="binary-row answer-row"><span>after</span><span>0</span><span>0</span><span>0</span><span>1</span><span>0</span><span>1</span><span>1</span><span>0</span></div>
+                    <p class="overflow-note">44 / 2 = 22</p>
+                </div>
+            </div>
+        </section>
+
+        <section data-slide="shift-check" data-template="hinge-point-question-card-template">
+            <div class="hinge-template">
+                <header class="panel-header">
+                    <span class="panel-kicker">Hinge Point Question</span>
+                    <h2 class="panel-title">Check the shift effect</h2>
+                    <p class="panel-intro">Use this question to check whether students can connect a left shift to its denary effect.</p>
+                </header>
+                <div class="exam-grid">
+                    <article class="question-panel">
+                        <div class="exam-question-box">
+                            <div class="question-topline"><span class="question-number">Q2</span><span class="marks-badge">1 mark</span></div>
+                            <p class="exam-question">What is the effect of shifting an unsigned positive binary integer left by one place, assuming no overflow?</p>
+                        </div>
+                        <div class="answer-option-list" aria-label="Answer options">
+                            <div class="answer-option-card"><span class="option-letter">A</span><span>It divides the value by 2.</span></div>
+                            <div class="answer-option-card"><span class="option-letter">B</span><span>It doubles the value.</span></div>
+                            <div class="answer-option-card"><span class="option-letter">C</span><span>It changes the value to denary.</span></div>
+                            <div class="answer-option-card"><span class="option-letter">D</span><span>It always causes overflow.</span></div>
+                        </div>
+                        <div class="student-thinking"><span class="thinking-label">Before revealing the answer</span><p>Ask students to test a small value, such as 00000100, before choosing.</p></div>
+                        <div class="answer-plan" aria-label="Answer planning prompts">
+                            <div class="plan-row"><span class="plan-number">1</span><span>Which direction do the bits move?</span></div>
+                            <div class="plan-row"><span class="plan-number">2</span><span>What happens to the place values?</span></div>
+                            <div class="plan-row"><span class="plan-number">3</span><span>Why does the no-overflow condition matter?</span></div>
+                        </div>
+                        <div class="question-controls" data-reveal-panel>
+                            <button class="action-button" type="button" data-reveal-show="shift-check-answer" data-reveal-placeholder="shift-check-placeholder" data-reveal-panel="shift-check-panel" data-reveal-title="shift-check-title">Reveal answer</button>
+                            <button class="action-button secondary" type="button" data-reveal-hide="shift-check-answer" data-reveal-placeholder="shift-check-placeholder" data-reveal-panel="shift-check-panel" data-reveal-title="shift-check-title" hidden>Hide answer</button>
+                        </div>
+                    </article>
+                    <aside class="mark-panel" id="shift-check-panel" aria-label="Teacher answer panel" data-reveal-panel>
+                        <div class="mark-header"><p class="mark-label">Teacher answer panel</p><h3 class="mark-title" id="shift-check-title">Answer hidden</h3></div>
+                        <div class="mark-content">
+                            <div class="mark-placeholder" id="shift-check-placeholder">Give students thinking time first. Reveal after discussion.</div>
+                            <div class="mark-scheme" id="shift-check-answer" hidden>
+                                <ol class="mark-list"><li class="mark-point"><span class="mark-number">B</span><p>A left shift by one place has the effect of multiplying by 2, provided the result fits.</p></li></ol>
+                                <div class="model-answer-box"><span class="model-label">Reasoning</span><p>Each bit moves into the next larger place value. If no bit is lost, the value doubles.</p></div>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+
+        <section data-slide="binary-summary" data-template="summary-recap-slide-template">
+            <div class="slide-grid finish-grid">
+                <div class="slide-copy">
+                    <p class="slide-kicker">Summary recap</p>
+                    <h2>Three ideas to remember</h2>
+                    <div class="key-point"><span>Addition</span><p>Use column rules and carry when a column reaches 2 or 3.</p></div>
+                    <div class="key-point"><span>Overflow</span><p>A result overflows when it needs more bits than are available.</p></div>
+                    <div class="key-point"><span>Shifts</span><p>Left shifts double; right shifts halve for unsigned positive integers.</p></div>
+                </div>
+                <div class="slide-resource-panel">
+                    <h3>Finish and self-assess</h3>
+                    <p>Use the paired Tasks, Exam and Quiz pages for practice after the lesson.</p>
+                    <div class="resource-actions">
+                        <a class="action-button lesson-button" href="../lessons/1-2-7.html">Lesson</a>
+                        <a class="action-button tasks-button" href="../tasks/1-2-7.html">Tasks</a>
+                        <a class="action-button exam-button" href="../exams/1-2-7.html">Exam</a>
+                        <a class="action-button quiz-button" href="../quizzes/1-2-7.html">Quiz</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer id="site-footer"></footer>
+    <script src="../../../routes.js?v=6"></script>
+    <script src="../../../assets/js/site-layout.js?v=1"></script>
+    <script src="../../../assets/js/lesson-left-panel.js?v=1"></script>
+    <script src="../../../assets/js/lesson-components.js?v=1"></script>
+    <script src="../../../assets/js/lesson-countdown.js?v=1"></script>
+    <script src="../../../assets/js/lesson-stopwatch.js?v=1"></script>
+    <script src="../../../assets/js/lesson-draw-board.js?v=1"></script>
+    <script src="../../../assets/js/lesson-shell.js?v=6"></script>
+    <script src="1-2-7.js?v=44"></script>
+    <script src="../../../site.js?v=56"></script>
+</body>
+</html>
+
+
+

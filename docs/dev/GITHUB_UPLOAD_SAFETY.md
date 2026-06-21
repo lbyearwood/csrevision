@@ -35,8 +35,10 @@ Use this document before creating branches, pushing code, or changing GitHub Pag
 
 1. The remote `astro-site` branch was created from `main` on 2026-06-21.
 2. The Astro rebuild source should live in the `astro-site/` folder on that branch.
-3. This local PC workspace is not currently a valid Git checkout because `.git/` is empty.
-4. Future uploads should be done from a proper clone of `lbyearwood/csrevision`, then switched to `astro-site`.
+3. The old working/reference site should live in the `app/` folder on that branch.
+4. `app/` is required for migration reference and must be treated as read-only unless the user explicitly requests old-site changes.
+5. This local PC workspace is not currently a valid Git checkout because `.git/` is empty.
+6. Future uploads should be done from a proper clone of `lbyearwood/csrevision`, then switched to `astro-site`.
 
 ## Two-Codex Coordination
 
@@ -46,7 +48,7 @@ Use this document before creating branches, pushing code, or changing GitHub Pag
 4. Before starting work, each Codex should pull the latest `astro-site` branch.
 5. Before pushing, each Codex should check what it changed and update `docs/dev/HANDOVER.md` if the project state changed materially.
 6. Do not overwrite the other Codex's work. If the same file changed in both places, inspect and merge intentionally.
-7. Keep generated folders and machine-local files out of Git: `node_modules/`, `.astro/`, `dist/`, `*.log`, `*.pid` and `.env*`.
+7. Keep generated folders and machine-local files out of Git: `node_modules/`, `.astro/`, `dist/`, nested `.git/`, `*.log`, `*.pid` and `.env*`.
 
 ## Laptop Codex Start
 
@@ -64,3 +66,5 @@ npm.cmd install
 npm.cmd run build
 npm.cmd run dev -- --host 127.0.0.1 --port 4321
 ```
+
+The old site reference for migration is available at `../app/` from inside `astro-site/`.

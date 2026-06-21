@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.2.8 Characters</title>
+    <link rel="stylesheet" href="../../../assets/css/single-page-lesson.css?v=22">
+    <link rel="stylesheet" href="../../../assets/css/characters-lesson.css">
+</head>
+<body class="single-lesson-body" data-page-type="single-lesson" data-course="gcse-j277" data-topic-id="1-2-8">
+    <div class="single-lesson-page single-lesson-shell">
+        <header class="single-lesson-topbar">
+            <a class="single-lesson-brand" href="../index.html" aria-label="Back to GCSE J277 dashboard">
+                <span class="single-lesson-brand-mark" aria-hidden="true">J277</span>
+                <span>Computer Systems</span>
+            </a>
+            <nav class="single-lesson-breadcrumb" aria-label="Breadcrumb">
+                <span>1.2 Memory and storage</span>
+                <span aria-hidden="true">&gt;</span>
+                <strong>1.2.8 Characters</strong>
+            </nav>
+            <a class="single-lesson-save-link" href="../index.html">Back to topics</a>
+        </header>
+
+        <div class="single-lesson-layout">
+            <aside class="single-lesson-sidebar" aria-label="Lesson navigation">
+                <div class="single-lesson-sidebar-header">
+                    <p class="single-lesson-topic-code">1.2.8 Characters</p>
+                    <h1>Representing characters</h1>
+                </div>
+                <p class="single-lesson-panel-title">Lesson navigation</p>
+                <nav class="single-lesson-nav" aria-label="Single-page lesson sections">
+                    <a class="single-lesson-nav-link is-active" href="#learning-objectives"><span>1</span><strong>Learning objectives</strong></a>
+                    <a class="single-lesson-nav-link" href="#what-is-character"><span>2</span><strong>What is a character?</strong></a>
+                    <a class="single-lesson-nav-link" href="#character-sets"><span>3</span><strong>Character sets</strong></a>
+                    <a class="single-lesson-nav-link" href="#ascii"><span>4</span><strong>ASCII</strong></a>
+                    <a class="single-lesson-nav-link" href="#unicode"><span>5</span><strong>Unicode</strong></a>
+                    <a class="single-lesson-nav-link" href="#binary-model"><span>6</span><strong>Characters in binary</strong></a>
+                    <a class="single-lesson-nav-link" href="#misconceptions"><span>7</span><strong>Common misconceptions</strong></a>
+                    <a class="single-lesson-nav-link" href="#check-understanding"><span>8</span><strong>Check your understanding</strong></a>
+                    <a class="single-lesson-nav-link" href="#exam-question"><span>9</span><strong>Exam-style question</strong></a>
+                    <a class="single-lesson-nav-link" href="#summary"><span>10</span><strong>Summary</strong></a>
+                </nav>
+                <details class="single-lesson-sidebar-panel">
+                    <summary>Lesson tools</summary>
+                    <div class="single-lesson-sidebar-panel-body">
+                        <div class="lesson-tools-grid">
+                            <button class="lesson-tool-button utility" type="button" data-single-lesson-tool-action="glossary" aria-label="Open glossary"><span class="lesson-tool-icon">G</span><span class="lesson-tool-label">Glossary</span></button>
+                            <button class="lesson-tool-button utility" type="button" data-single-lesson-tool-action="print" aria-label="Print lesson"><span class="lesson-tool-icon">P</span><span class="lesson-tool-label">Print</span></button>
+                        </div>
+                    </div>
+                </details>
+                <details class="single-lesson-sidebar-panel">
+                    <summary>Teacher tools</summary>
+                    <div class="single-lesson-sidebar-panel-body">
+                        <div class="lesson-tool-grid">
+                            <button class="lesson-tool-button countdown" type="button" data-panel-action="countdown" data-alarm-src="../../../assets/audio/alarm-beep.mp3" aria-label="Open Count Down"><span class="lesson-tool-icon">CD</span><span class="lesson-tool-label">Count Down</span></button>
+                            <button class="lesson-tool-button stopwatch" type="button" data-panel-action="stopwatch" aria-label="Open Stopwatch"><span class="lesson-tool-icon">SW</span><span class="lesson-tool-label">Stopwatch</span></button>
+                            <button class="lesson-tool-button board" type="button" data-panel-action="draw-board" aria-label="Open Draw board"><span class="lesson-tool-icon">DB</span><span class="lesson-tool-label">Draw board</span></button>
+                            <button class="lesson-tool-button sound" type="button" data-panel-action="sound-board" aria-label="Open Sound board"><span class="lesson-tool-icon">SB</span><span class="lesson-tool-label">Sound board</span></button>
+                        </div>
+                    </div>
+                </details>
+                <div class="single-lesson-sidebar-actions">
+                    <a href="../index.html">Back to topics</a>
+                </div>
+            </aside>
+
+            <main class="single-lesson-content single-lesson-main" tabindex="-1">
+                <section class="single-lesson-section" id="learning-objectives" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">1.2.8 Characters</p>
+                        <h2 class="single-lesson-title">Learning objectives</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap is-medium">
+                            <div class="single-lesson-objectives">
+                                <article><span>1</span><p><strong>Describe</strong> how computers represent characters using binary codes.</p></article>
+                                <article><span>2</span><p><strong>Explain</strong> what a character set is.</p></article>
+                                <article><span>3</span><p><strong>Compare</strong> ASCII and Unicode.</p></article>
+                                <article><span>4</span><p><strong>Model</strong> how a character becomes a code and then a binary pattern.</p></article>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section" id="what-is-character" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Characters</p>
+                        <h2 class="single-lesson-title">What is a character?</h2>
+                        <div class="single-lesson-content-wrap is-wide">
+                            <div class="single-lesson-grid">
+                                <div class="single-lesson-copy-stack">
+                                    <article class="single-lesson-card single-lesson-explanation-card">
+                                        <p>A character is one item of text. It could be a letter, digit, punctuation mark, symbol or space.</p>
+                                        <p>The computer does not store the character as a tiny picture. It stores a code that represents the character.</p>
+                                    </article>
+                                    <article class="single-lesson-callout single-lesson-question">
+                                        <h3>Question</h3>
+                                        <p>Which of these are characters: A, 7, ?, a space, and a pound sign?</p>
+                                    </article>
+                                </div>
+                                <figure class="single-lesson-diagram">
+                                    <svg viewBox="0 0 760 360" role="img" aria-labelledby="character-examples-title character-examples-desc">
+                                        <title id="character-examples-title">Examples of characters</title>
+                                        <desc id="character-examples-desc">Cards show examples of characters including A, 7, question mark, pound sign and a space.</desc>
+                                        <text x="380" y="54" text-anchor="middle" fill="#173b93" font-size="30" font-weight="900">One text item = one character</text>
+                                        <g transform="translate(80 138)" font-family="Arial, Helvetica, sans-serif" font-weight="900">
+                                            <rect width="100" height="90" rx="8" fill="#eef5ff" stroke="#365fd0" stroke-width="4"></rect>
+                                            <text x="50" y="58" text-anchor="middle" fill="#071332" font-size="42">A</text>
+                                            <rect x="130" width="100" height="90" rx="8" fill="#e8f8f0" stroke="#08a978" stroke-width="4"></rect>
+                                            <text x="180" y="58" text-anchor="middle" fill="#071332" font-size="42">7</text>
+                                            <rect x="260" width="100" height="90" rx="8" fill="#fff9df" stroke="#dca311" stroke-width="4"></rect>
+                                            <text x="310" y="58" text-anchor="middle" fill="#071332" font-size="42">?</text>
+                                            <rect x="390" width="100" height="90" rx="8" fill="#eef5ff" stroke="#365fd0" stroke-width="4"></rect>
+                                            <text x="440" y="58" text-anchor="middle" fill="#071332" font-size="40">GBP</text>
+                                            <rect x="520" width="100" height="90" rx="8" fill="#e8f8f0" stroke="#08a978" stroke-width="4"></rect>
+                                            <text x="570" y="58" text-anchor="middle" fill="#071332" font-size="26">space</text>
+                                        </g>
+                                    </svg>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section" id="character-sets" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Character sets</p>
+                        <h2 class="single-lesson-title">Characters need agreed codes</h2>
+                        <div class="single-lesson-content-wrap is-wide">
+                            <div class="single-lesson-grid">
+                                <article class="single-lesson-card single-lesson-explanation-card">
+                                    <p>A character set is a collection of characters and the codes used to represent them.</p>
+                                    <p>For example, a character set might say that uppercase A uses code 65. The computer can then store that code as binary.</p>
+                                </article>
+                                <div class="single-lesson-code-flow single-lesson-diagram" role="img" aria-label="Character A becomes code 65, then binary 01000001.">
+                                    <div class="single-lesson-code-node">Character<br>A</div>
+                                    <div class="single-lesson-code-arrow" aria-hidden="true"></div>
+                                    <div class="single-lesson-code-node is-code">Code<br>65</div>
+                                    <div class="single-lesson-code-arrow" aria-hidden="true"></div>
+                                    <div class="single-lesson-code-node is-binary">Binary<br>01000001</div>
+                                </div>
+                            </div>
+                            <div class="single-lesson-note-grid">
+                                <article class="single-lesson-note single-lesson-note-key">
+                                    <span class="single-lesson-note-icon" aria-hidden="true">!</span>
+                                    <div><h3>Key idea</h3><p>A character set is the agreed list that links characters to codes.</p></div>
+                                </article>
+                                <article class="single-lesson-note single-lesson-note-notice">
+                                    <span class="single-lesson-note-icon" aria-hidden="true">i</span>
+                                    <div><h3>What you should notice</h3><p>The same code must be interpreted using the same character set for the right character to appear.</p></div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section" id="ascii" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">ASCII</p>
+                        <h2 class="single-lesson-title">ASCII is a smaller character set</h2>
+                        <div class="single-lesson-content-wrap is-wide">
+                            <div class="single-lesson-grid">
+                                <article class="single-lesson-card single-lesson-explanation-card">
+                                    <p>ASCII is a character set that represents a limited range of characters. It is useful for basic English letters, digits, punctuation and control characters.</p>
+                                    <p>At GCSE, ASCII is often shown using 8-bit binary patterns, such as uppercase A represented as 01000001.</p>
+                                </article>
+                                <div class="single-lesson-ram-panel">
+                                    <h3>Example ASCII-style codes</h3>
+                                    <table class="single-lesson-table">
+                                        <thead><tr><th scope="col">Character</th><th scope="col">Code</th><th scope="col">8-bit binary</th></tr></thead>
+                                        <tbody>
+                                            <tr><td>A</td><td>65</td><td>01000001</td></tr>
+                                            <tr><td>B</td><td>66</td><td>01000010</td></tr>
+                                            <tr><td>C</td><td>67</td><td>01000011</td></tr>
+                                            <tr><td>space</td><td>32</td><td>00100000</td></tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section" id="unicode" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Unicode</p>
+                        <h2 class="single-lesson-title">Unicode represents many more characters</h2>
+                        <div class="single-lesson-content-wrap is-medium">
+                            <div class="single-lesson-comparison-grid">
+                                <article class="single-lesson-comparison-card">
+                                    <h3>ASCII</h3>
+                                    <ul>
+                                        <li>Smaller character set.</li>
+                                        <li>Good for basic English letters, digits and symbols.</li>
+                                        <li>Limited range compared with modern text needs.</li>
+                                    </ul>
+                                </article>
+                                <article class="single-lesson-comparison-card">
+                                    <h3>Unicode</h3>
+                                    <ul>
+                                        <li>Much larger character set.</li>
+                                        <li>Designed for many languages and symbols.</li>
+                                        <li>May need more bits per character.</li>
+                                    </ul>
+                                </article>
+                            </div>
+                            <article class="single-lesson-callout single-lesson-notice">
+                                <h3>Why Unicode matters</h3>
+                                <p>Modern computers need to store text from many languages, not just basic English. Unicode gives a much wider range of possible characters.</p>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section" id="binary-model" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Binary representation</p>
+                        <h2 class="single-lesson-title">Representing characters in binary</h2>
+                        <div class="single-lesson-content-wrap is-wide">
+                            <div class="single-lesson-grid">
+                                <div class="single-lesson-code-flow single-lesson-diagram" role="img" aria-label="The text CAT is split into characters, then codes, then binary patterns.">
+                                    <div class="single-lesson-code-node">C A T</div>
+                                    <div class="single-lesson-code-arrow" aria-hidden="true"></div>
+                                    <div class="single-lesson-code-node is-code">67 65 84</div>
+                                    <div class="single-lesson-code-arrow" aria-hidden="true"></div>
+                                    <div class="single-lesson-code-node is-binary">01000011<br>01000001<br>01010100</div>
+                                </div>
+                                <article class="single-lesson-card single-lesson-explanation-card">
+                                    <p>Each character in a word is represented separately. The character set gives each character a code, and the code is stored as a binary pattern.</p>
+                                    <p>Students do not need to memorise ASCII or Unicode codes. The important idea is that text is stored using binary codes.</p>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section" id="misconceptions" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Misconception check</p>
+                        <h2 class="single-lesson-title">Correct the common mistakes</h2>
+                        <div class="single-lesson-content-wrap is-medium">
+                            <div class="single-lesson-misconception-grid">
+                                <article class="single-lesson-misconception-card">
+                                    <div><h3>Misconception</h3><p>Characters are stored as tiny pictures.</p></div>
+                                    <div><h3>Correction</h3><p>Characters are represented using codes from a character set.</p></div>
+                                </article>
+                                <article class="single-lesson-misconception-card">
+                                    <div><h3>Misconception</h3><p>ASCII and Unicode are the same size.</p></div>
+                                    <div><h3>Correction</h3><p>Unicode is much larger and can represent many more characters.</p></div>
+                                </article>
+                                <article class="single-lesson-misconception-card">
+                                    <div><h3>Misconception</h3><p>Unicode means computers no longer use binary.</p></div>
+                                    <div><h3>Correction</h3><p>Unicode still uses codes that are stored using binary patterns.</p></div>
+                                </article>
+                                <article class="single-lesson-misconception-card">
+                                    <div><h3>Misconception</h3><p>A character set is only a list of letters.</p></div>
+                                    <div><h3>Correction</h3><p>A character set includes characters and their codes. Characters can include letters, digits, symbols, punctuation and spaces.</p></div>
+                                </article>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section" id="check-understanding" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Check your understanding</p>
+                        <h2 class="single-lesson-title">Quick checks</h2>
+                        <div class="single-lesson-content-wrap is-medium">
+                            <ul class="single-lesson-check-list">
+                                <li><strong>1.</strong> What is a character?</li>
+                                <li><strong>2.</strong> What does a character set match each character with?</li>
+                                <li><strong>3.</strong> Why can Unicode represent more languages and symbols than ASCII?</li>
+                                <li><strong>4.</strong> In the model character -> code -> binary, what does the binary pattern store?</li>
+                            </ul>
+                            <article class="single-lesson-callout single-lesson-key-idea">
+                                <h3>Expected thinking</h3>
+                                <p>Students should connect characters to codes, codes to binary, and Unicode to a larger range of possible characters.</p>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section" id="exam-question" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Exam practice</p>
+                        <h2 class="single-lesson-title">Exam-style question</h2>
+                        <div class="single-lesson-content-wrap is-narrow">
+                            <article class="single-lesson-exam-box">
+                                <div class="single-lesson-exam-topline">
+                                    <span class="single-lesson-exam-number">Q1</span>
+                                    <span class="single-lesson-marks">4 marks</span>
+                                </div>
+                                <p>Explain how a computer represents characters and why Unicode is useful compared with ASCII.</p>
+                            </article>
+                            <article class="single-lesson-card single-lesson-explanation-card">
+                                <p><strong>Answer guidance:</strong> Mention that characters are represented by codes from a character set. Explain that the codes are stored as binary. State that ASCII is limited, while Unicode can represent a much wider range of languages and symbols.</p>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section" id="summary" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Summary</p>
+                        <h2 class="single-lesson-title">What to remember</h2>
+                        <div class="single-lesson-content-wrap is-wide">
+                            <div class="single-lesson-stage-grid single-lesson-summary">
+                                <article><span>1</span><h3>Character</h3><p>One item of text, such as a letter, digit, symbol or space.</p></article>
+                                <article><span>2</span><h3>Character set</h3><p>A collection of characters and the codes used to represent them.</p></article>
+                                <article><span>3</span><h3>ASCII</h3><p>A smaller character set with a limited range of characters.</p></article>
+                                <article><span>4</span><h3>Unicode</h3><p>A larger character set for many languages and symbols.</p></article>
+                            </div>
+                            <article class="single-lesson-callout single-lesson-notice">
+                                <h3>Final takeaway</h3>
+                                <p>Computers store text by representing each character as a binary code from a character set.</p>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+    <script src="../../../assets/js/single-page-lesson.js?v=3"></script>
+</body>
+</html>

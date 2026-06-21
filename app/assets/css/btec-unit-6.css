@@ -1,0 +1,60 @@
+/* Unit 6 dashboard layout overrides. */
+body[data-course="btec-it"] main {
+    overflow-x: visible;
+}
+
+body[data-course="btec-it"] .question-header,
+body[data-course="btec-it"] .lesson-part,
+body[data-course="btec-it"] .topic-card,
+body[data-course="btec-it"] .topic-card-header > div {
+    min-width: 0;
+    max-width: 100%;
+}
+
+body[data-course="btec-it"] .question-header h2,
+body[data-course="btec-it"] .section-note,
+body[data-course="btec-it"] .lesson-part p,
+body[data-course="btec-it"] .topic-card h3,
+body[data-course="btec-it"] .btec-tutorial-list a {
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.topic-grid.btec-tutorial-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: stretch;
+}
+
+.btec-tutorial-card {
+    width: 100%;
+    min-height: 0;
+    justify-content: flex-start;
+}
+
+@media (max-width: 1040px) {
+    .topic-grid.btec-tutorial-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 760px) {
+    body[data-course="btec-it"] main {
+        width: calc(100vw - 28px);
+        max-width: calc(100vw - 28px);
+        padding-right: 0;
+        padding-left: 0;
+        overflow-x: visible;
+    }
+
+    body[data-course="btec-it"] .question-header,
+    body[data-course="btec-it"] .lesson-part,
+    body[data-course="btec-it"] .topic-card {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .btec-tutorial-list {
+        font-size: 16px;
+        padding-left: 22px;
+    }
+}

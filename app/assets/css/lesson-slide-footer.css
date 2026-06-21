@@ -1,0 +1,108 @@
+.lesson-slide-footer,
+.SlideNavigationBar {
+    position: relative;
+    left: auto;
+    right: auto;
+    bottom: auto;
+    z-index: 4;
+    height: auto;
+    min-height: 56px;
+    padding: var(--space-sm, 0.5rem) clamp(var(--space-md, 1rem), 1.6vw, var(--space-lg, 1.5rem));
+    border-top: 1px solid #d7e3fb;
+    background: rgba(255, 255, 255, 0.88);
+    display: grid;
+    grid-template-columns: minmax(78px, auto) minmax(0, 1fr) minmax(78px, auto);
+    align-items: center;
+    gap: 8px;
+    box-sizing: border-box;
+}
+
+.lesson-slide-progress,
+.SlideProgressLabel {
+    margin: 0;
+    color: var(--blue-dark);
+    font-size: clamp(1rem, 1vw, 1.125rem);
+    font-weight: 800;
+    line-height: 1.25;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.lesson-slide-nav-button,
+.PreviousSlideButton,
+.NextSlideButton {
+    min-height: 40px;
+    padding: 0.5rem 0.9rem;
+    border: 1px solid #b9cff5;
+    border-radius: 10px;
+    background: #ffffff;
+    color: var(--blue-dark);
+    font: inherit;
+    font-size: 1rem;
+    font-weight: 800;
+    cursor: pointer;
+}
+
+.lesson-slide-nav-button:not(:disabled):hover,
+.lesson-slide-nav-button:not(:disabled):focus-visible {
+    border-color: var(--blue);
+    background: #e8efff;
+}
+
+.lesson-slide-nav-button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+@media (max-width: 600px) {
+    .lesson-slide-footer,
+    .SlideNavigationBar {
+        position: relative;
+        left: auto;
+        right: auto;
+        bottom: auto;
+        transform: none;
+        grid-template-columns: 66px minmax(0, 1fr) 66px;
+        justify-self: auto;
+        width: calc(100% - (var(--space-sm, 0.5rem) * 2));
+        min-width: 0;
+        max-width: none;
+        min-height: 64px;
+        margin: 0 var(--space-sm, 0.5rem) var(--space-sm, 0.5rem);
+        padding: var(--space-sm, 0.5rem);
+        gap: var(--space-sm, 0.5rem);
+        border: 1px solid #d7e3fb;
+        border-radius: 14px;
+        box-shadow: 0 10px 24px rgba(15, 34, 80, 0.12);
+    }
+
+    .lesson-slide-progress,
+    .SlideProgressLabel {
+        min-width: 0;
+        max-width: none;
+        font-size: 0.9rem;
+        line-height: 1.1;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: clip;
+    }
+
+    .lesson-slide-progress::first-line,
+    .SlideProgressLabel::first-line {
+        font-weight: 800;
+    }
+
+    .lesson-slide-progress-title {
+        display: none;
+    }
+
+    .lesson-slide-nav-button,
+    .PreviousSlideButton,
+    .NextSlideButton {
+        width: 66px;
+        min-width: 0;
+        padding: 0.45rem 0.35rem;
+    }
+}

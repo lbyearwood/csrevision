@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.1.1 Architecture of the CPU</title>
+    <link rel="stylesheet" href="../../../styles.css?v=53">
+</head>
+<body data-page-type="lesson" data-course="gcse-j277" data-topic-id="1-1-1">
+    <header id="site-header" class="site-header"></header>
+
+    <main>
+        <section data-slide="learning-objectives" data-template="learning-objectives-preview">
+            <div class="learning-objectives-single">
+                <h2 class="SlideTitle">Learning objectives</h2>
+                <p>By the end of this lesson, you should be able to:</p>
+                <div class="objective-list objective-list-stacked">
+                    <article><span>1</span><p><strong>Describe</strong> the purpose of the Central Processing Unit.</p></article>
+                    <article><span>2</span><p><strong>Identify</strong> the ALU, Control Unit, cache and registers.</p></article>
+                    <article><span>3</span><p><strong>Explain</strong> what the MAR, MDR, Program Counter and Accumulator store.</p></article>
+                    <article><span>4</span><p><strong>Model</strong> the stages of the fetch-execute cycle.</p></article>
+                    <article><span>5</span><p><strong>Distinguish</strong> between data and an address.</p></article>
+                </div>
+            </div>
+        </section>
+
+        <section data-slide="part-1-purpose-of-cpu" data-template="subsection-divider" class="subsection-divider-slide">
+            <h2 class="SlideTitle">Part 1 - The purpose of the CPU</h2>
+        </section>
+
+        <section data-slide="cpu-introduction" data-template="engaging-lesson-introduction-with-diagram-preview-d3-enhanced" class="intro-slide cpu-intro-game-slide">
+            <div class="slide-grid ContentGrid">
+                <div class="slide-copy TextPanel">
+                    <p class="slide-kicker ActivityBadge">Part 1 - Purpose of the CPU</p>
+                    <h2 class="SlideTitle">How does the Computer know what to do next?</h2>
+                    <p>You open a 2D platform game. The screen changes, sounds play, buttons respond and the score updates. You reach the final level and the final boss appears on screen.</p>
+                    <p>The boss suddenly moves towards your character, launches an attack and reacts when you press the buttons.</p>
+                    <button class="slide-think-panel think-lightbox-trigger" type="button" data-think-lightbox-open="intro-think-lightbox" aria-haspopup="dialog">
+                        <span>Question</span>
+                        <p>How does the computer know what the final boss should do, when it should attack, and how it should respond to the player?</p>
+                    </button>
+                    <aside class="think-lightbox" id="intro-think-lightbox" role="dialog" aria-modal="true" aria-labelledby="intro-think-title" hidden>
+                        <div class="think-lightbox-backdrop" data-think-lightbox-close></div>
+                        <div class="think-lightbox-panel">
+                            <button class="think-lightbox-close" type="button" data-think-lightbox-close aria-label="Close discussion point">Close</button>
+                            <h3 id="intro-think-title">How does the computer know what the final boss should do, when it should attack, and how it should respond to the player?</h3>
+                            <p>The game has program instructions that tell the CPU what to do. The CPU fetches, decodes and executes those instructions, using player input and game data to decide how the boss moves, attacks and reacts.</p>
+                        </div>
+                    </aside>
+                </div>
+                <figure class="slide-visual-panel VisualCard lesson-scenario-image">
+                    <img src="../../../assets/images/cpu-game-fetch-decode-execute-callouts.png" alt="A student playing a platform game with callouts showing sounds play, screen changes, score updates, buttons respond and what the CPU needs.">
+                </figure>
+            </div>
+        </section>
+
+        <section data-slide="cpu-main-processor" data-template="teaching-explanation-key-point-with-diagram-preview" class="cpu-purpose-overview-slide">
+            <div class="slide-grid ContentGrid">
+                <div class="slide-copy TextPanel">
+                    <p class="slide-kicker ActivityBadge">Part 1 - Purpose of the CPU</p>
+                    <h2 class="SlideTitle">The CPU is the computer's main processor</h2>
+                    <article class="teaching-explanation-card TextPanel cpu-purpose-overview-explanation">
+                        <p>The Central Processing Unit (CPU) is the main processor inside a computer. Its job is to process instructions and control the main operations of the computer. Like a brain, the CPU receives information, works out what to do, and sends signals so actions happen.</p>
+                    </article>
+                </div>
+                <figure class="slide-visual-panel VisualCard lesson-scenario-image cpu-purpose-overview-image">
+                    <img src="../../../assets/images/cpu-brain-comparison.png" alt="Comparison diagram showing the human brain receiving input, processing information, making decisions, sending signals and working with memory alongside a CPU doing similar computer operations.">
+                </figure>
+            </div>
+        </section>
+
+        <section data-slide="cpu-instructions-output" data-template="animated-flow-diagram-preview" class="cpu-instructions-output-slide">
+            <div class="cpu-instructions-output-grid">
+                <p class="slide-kicker ActivityBadge">Part 1 - Purpose of the CPU</p>
+                <h2 class="SlideTitle">CPU instructions create output</h2>
+                <figure class="slide-visual-panel VisualCard cpu-instructions-output-panel">
+                    <svg viewBox="0 90 1180 500" role="img" aria-labelledby="cpu-instructions-output-title cpu-instructions-output-desc">
+                        <title id="cpu-instructions-output-title">Instructions moving from RAM to CPU to output devices</title>
+                        <desc id="cpu-instructions-output-desc">Animated instructions move one by one from RAM to the CPU, are processed, and then send output signals to a monitor, printer or speaker.</desc>
+                        <defs>
+                            <linearGradient id="cpu-output-cpu-ring" x1="0%" x2="100%" y1="0%" y2="100%">
+                                <stop offset="0%" stop-color="#155fdf" />
+                                <stop offset="45%" stop-color="#23c9c3" />
+                                <stop offset="75%" stop-color="#9bea32" />
+                                <stop offset="100%" stop-color="#ff5f7e" />
+                            </linearGradient>
+                            <linearGradient id="cpu-output-device-stroke" x1="0%" x2="100%" y1="0%" y2="100%">
+                                <stop offset="0%" stop-color="#f59e0b" />
+                                <stop offset="100%" stop-color="#ec4899" />
+                            </linearGradient>
+                            <filter id="cpu-output-soft-glow" x="-40%" y="-40%" width="180%" height="180%">
+                                <feGaussianBlur stdDeviation="10" result="blur" />
+                                <feColorMatrix in="blur" type="matrix" values="0 0 0 0 0.1 0 0 0 0 0.55 0 0 0 0 0.95 0 0 0 .55 0" />
+                                <feMerge>
+                                    <feMergeNode />
+                                    <feMergeNode in="SourceGraphic" />
+                                </feMerge>
+                            </filter>
+                            <marker id="cpu-output-blue-arrow" markerWidth="15" markerHeight="15" refX="13" refY="7.5" orient="auto">
+                                <path d="M0,0 L15,7.5 L0,15 Z" fill="#155fdf" />
+                            </marker>
+                            <marker id="cpu-output-green-arrow" markerWidth="15" markerHeight="15" refX="13" refY="7.5" orient="auto">
+                                <path d="M0,0 L15,7.5 L0,15 Z" fill="#11951f" />
+                            </marker>
+                            <path id="ram-to-cpu-flow-path" d="M292 302 C380 302 380 370 475 370 L512 370" />
+                            <path id="cpu-to-output-flow-path" d="M668 370 L902 370" />
+                        </defs>
+
+                        <g class="cpu-output-grid-lines" aria-hidden="true">
+                            <path d="M0 70 H1180 M0 140 H1180 M0 210 H1180 M0 280 H1180 M0 350 H1180 M0 420 H1180 M0 490 H1180 M0 560 H1180" />
+                            <path d="M80 0 V610 M160 0 V610 M240 0 V610 M320 0 V610 M400 0 V610 M480 0 V610 M560 0 V610 M640 0 V610 M720 0 V610 M800 0 V610 M880 0 V610 M960 0 V610 M1040 0 V610 M1120 0 V610" />
+                        </g>
+
+                        <g class="cpu-output-ram-card">
+                            <rect x="48" y="120" width="244" height="380" rx="24" />
+                            <text x="170" y="174" text-anchor="middle" class="cpu-output-heading">RAM</text>
+                            <g class="cpu-output-instruction is-active is-ram-one" transform="translate(84 218)">
+                                <rect width="170" height="58" rx="10" />
+                                <path d="M28 18 L28 40 L47 29 Z" />
+                                <text x="108" y="37" text-anchor="middle">001101</text>
+                            </g>
+                            <g class="cpu-output-instruction is-muted is-ram-two" transform="translate(84 296)">
+                                <rect width="170" height="58" rx="10" />
+                                <path d="M28 18 L28 40 L47 29 Z" />
+                                <text x="108" y="37" text-anchor="middle">101011</text>
+                            </g>
+                            <g class="cpu-output-instruction is-muted is-ram-three" transform="translate(84 374)">
+                                <rect width="170" height="58" rx="10" />
+                                <path d="M28 18 L28 40 L47 29 Z" />
+                                <text x="108" y="37" text-anchor="middle">010110</text>
+                            </g>
+                        </g>
+
+                        <path class="cpu-output-flow-line is-fetch" d="M292 302 C380 302 380 370 475 370 L512 370" marker-end="url(#cpu-output-blue-arrow)" />
+                        <path class="cpu-output-flow-line is-output" d="M668 370 L902 370" marker-end="url(#cpu-output-green-arrow)" />
+
+                        <g class="cpu-output-moving-chip is-chip-one">
+                            <rect x="-48" y="-20" width="96" height="40" rx="9" />
+                            <path d="M-30 -9 L-30 9 L-14 0 Z" />
+                            <text x="18" y="7" text-anchor="middle">101011</text>
+                            <animateMotion dur="4.8s" repeatCount="indefinite" begin="0s" rotate="0">
+                                <mpath href="#ram-to-cpu-flow-path" />
+                            </animateMotion>
+                        </g>
+                        <g class="cpu-output-moving-chip is-chip-two">
+                            <rect x="-48" y="-20" width="96" height="40" rx="9" />
+                            <path d="M-30 -9 L-30 9 L-14 0 Z" />
+                            <text x="18" y="7" text-anchor="middle">010110</text>
+                            <animateMotion dur="4.8s" repeatCount="indefinite" begin="1.6s" rotate="0">
+                                <mpath href="#ram-to-cpu-flow-path" />
+                            </animateMotion>
+                        </g>
+
+                        <g class="cpu-output-cpu" transform="translate(590 370)">
+                            <circle r="126" class="cpu-output-cpu-glow" />
+                            <circle r="104" class="cpu-output-cpu-shell" />
+                            <circle r="79" class="cpu-output-cpu-core" />
+                            <circle r="118" class="cpu-output-cpu-processing-ring" />
+                            <text y="-12" text-anchor="middle" class="cpu-output-cpu-label">CPU</text>
+                            <text y="42" text-anchor="middle" class="cpu-output-cycle-icon">process</text>
+                        </g>
+
+                        <g class="cpu-output-moving-chip is-result-chip">
+                            <rect x="-48" y="-20" width="96" height="40" rx="9" />
+                            <path d="M-30 -9 L-30 9 L-14 0 Z" />
+                            <text x="18" y="7" text-anchor="middle">001101</text>
+                            <animateMotion dur="4.8s" repeatCount="indefinite" begin="2.35s" rotate="0">
+                                <mpath href="#cpu-to-output-flow-path" />
+                            </animateMotion>
+                        </g>
+
+                        <g class="cpu-output-device-card">
+                            <rect x="885" y="120" width="275" height="380" rx="24" />
+                            <text x="1022" y="174" text-anchor="middle" class="cpu-output-heading">Output Device</text>
+                            <g class="cpu-output-device-row is-monitor" transform="translate(920 223)">
+                                <g class="cpu-output-device-icon-shake">
+                                    <circle cx="34" cy="34" r="32" />
+                                    <rect x="13" y="20" width="42" height="28" rx="3" />
+                                    <path d="M27 54 H42 M34 48 V58" />
+                                </g>
+                                <text x="122" y="43">Monitor</text>
+                            </g>
+                            <g class="cpu-output-device-row is-printer" transform="translate(920 321)">
+                                <g class="cpu-output-device-icon-shake">
+                                    <circle cx="34" cy="34" r="32" />
+                                    <rect x="17" y="24" width="34" height="29" rx="4" />
+                                    <rect x="22" y="10" width="24" height="18" rx="2" />
+                                    <rect x="24" y="45" width="20" height="14" rx="2" />
+                                </g>
+                                <text x="122" y="43">Printer</text>
+                            </g>
+                            <g class="cpu-output-device-row is-speaker" transform="translate(920 419)">
+                                <g class="cpu-output-device-icon-shake">
+                                    <circle cx="34" cy="34" r="32" />
+                                    <path d="M15 27 H29 L49 13 V55 L29 41 H15 Z" />
+                                    <path d="M57 25 C65 32 65 40 57 47 M64 18 C77 31 77 42 64 55" />
+                                </g>
+                                <text x="122" y="43">Speaker</text>
+                            </g>
+                        </g>
+
+                        <path class="cpu-output-repeat-line" d="M1022 510 V566 H170 V510" />
+                        <circle cx="590" cy="566" r="32" class="cpu-output-repeat-badge" />
+                        <text x="590" y="577" text-anchor="middle" class="cpu-output-repeat-icon">repeat</text>
+                    </svg>
+                    <figcaption class="teaching-explanation-card TextPanel cpu-instructions-output-explanation">
+                        <p>The CPU repeats the cycle of getting one instruction from RAM, processing it, and sending the resulting signal to an output device.</p>
+                    </figcaption>
+                </figure>
+            </div>
+        </section>
+
+        <section data-slide="cpu-purpose" data-template="teaching-explanation-key-point-with-diagram-preview" class="cpu-purpose-slide">
+            <div class="slide-grid ContentGrid">
+                <div class="slide-copy TextPanel">
+                    <p class="slide-kicker ActivityBadge">Part 1 - Purpose of the CPU</p>
+                    <h2 class="SlideTitle">The CPU processes instructions and data</h2>
+                    <article class="teaching-explanation-card TextPanel">
+                        <p>A program is made from instructions and data. The instructions and data are stored in RAM. The Central Processing Unit fetches the instructions and data from RAM and executes it.</p>
+                    </article>
+                </div>
+                <aside class="slide-visual-panel VisualCard ram-table-panel" aria-labelledby="ram-table-title">
+                    <div class="ram-table-wrap">
+                        <h3 id="ram-table-title">RAM</h3>
+                        <table class="ram-table">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Address</th>
+                                    <th scope="col">Instructions / data</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1040</td>
+                                    <td><strong>Instructions:</strong> Spotify play button instructions</td>
+                                </tr>
+                                <tr>
+                                    <td>1041</td>
+                                    <td><strong>Data:</strong> Spotify current song data</td>
+                                </tr>
+                                <tr>
+                                    <td>1042</td>
+                                    <td><strong>Instructions:</strong> Chrome tab instructions</td>
+                                </tr>
+                                <tr>
+                                    <td>1043</td>
+                                    <td><strong>Data:</strong> Chrome webpage image data</td>
+                                </tr>
+                                <tr>
+                                    <td>1044</td>
+                                    <td><strong>Data:</strong> Game score data</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <section data-slide="cpu-purpose-check" data-template="hinge-point-question-card-preview" data-clickable-hinge>
+            <div class="hinge-template">
+                <header class="panel-header">
+                    <span class="panel-kicker">Part 1 - Purpose of the CPU</span>
+                    <h2 class="panel-title SlideTitle">Multiple choice question</h2>
+                    <p class="panel-intro">Use this diagnostic question before moving into CPU components.</p>
+                </header>
+                <div class="exam-grid">
+                    <article class="question-panel">
+                        <div class="exam-question-box">
+                            <div class="question-topline"><span class="question-number">Q1</span><p class="exam-question QuestionPrompt">What is the main purpose of the CPU?</p><span class="marks-badge">1 mark</span></div>
+                        </div>
+                        <div class="answer-option-list" aria-label="Answer options">
+                            <button class="answer-option-card" type="button" data-hinge-option="A" data-feedback="Permanent file storage is the role of storage devices. The CPU processes instructions while programs are running." aria-pressed="false"><span class="option-letter">A</span><span>To permanently store files and programs.</span></button>
+                            <button class="answer-option-card" type="button" data-hinge-option="B" data-correct="true" data-feedback="Instructions are stored in memory before the CPU processes them through the fetch-execute cycle." aria-pressed="false"><span class="option-letter">B</span><span>To process instructions and control many computer operations.</span></button>
+                            <button class="answer-option-card" type="button" data-hinge-option="C" data-feedback="Displaying images is the role of output hardware. The CPU's main role is to process instructions." aria-pressed="false"><span class="option-letter">C</span><span>To display images on the monitor.</span></button>
+                            <button class="answer-option-card" type="button" data-hinge-option="D" data-feedback="Internet connection is handled by network hardware and software. The CPU's main purpose is processing instructions." aria-pressed="false"><span class="option-letter">D</span><span>To connect the computer to the Internet.</span></button>
+                        </div>
+                    </article>
+                    <aside class="mark-panel clickable-answer-panel" id="cpu-purpose-panel" aria-label="Answer feedback">
+                        <div class="mark-content">
+                            <div class="mark-placeholder" data-clickable-hinge-placeholder>Choose an option to check your answer.</div>
+                            <div class="mark-scheme" data-clickable-hinge-result hidden>
+                                <p class="clickable-hinge-status" data-clickable-hinge-status></p>
+                                <div class="model-answer-box"><span class="model-label">Why</span><p data-clickable-hinge-reason>Instructions are stored in memory before the CPU processes them through the fetch-execute cycle.</p></div>
+                            </div>
+                            <div class="answer-reset-actions">
+                                <button class="secondary-action-button" type="button" data-clickable-hinge-reset>Reset</button>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <section data-slide="part-2-cpu-components-fde-cycle" data-template="subsection-divider" class="subsection-divider-slide">
+            <h2 class="SlideTitle">Part 2 - CPU components and the FDE cycle</h2>
+        </section>
+
+        <section data-slide="cpu-components" data-template="key-teaching-point-slide-preview" class="cpu-cu-alu-slide">
+            <div class="cpu-cu-alu-layout">
+                <p class="slide-kicker ActivityBadge">Part 2 - CPU Components &amp; FDE Cycle</p>
+                <h2 class="SlideTitle">Core CPU components</h2>
+                <div class="cpu-component-feature-grid">
+                    <article class="cpu-component-feature is-cu">
+                        <figure class="cpu-component-chip" aria-label="Control Unit chip labelled CU">
+                            <div class="chip-pins chip-pins-top"></div>
+                            <div class="chip-pins chip-pins-right"></div>
+                            <div class="chip-pins chip-pins-bottom"></div>
+                            <div class="chip-pins chip-pins-left"></div>
+                            <span>CU</span>
+                        </figure>
+                        <div class="cpu-component-feature-copy">
+                            <h3>The Control Unit (CU)</h3>
+                        <p>The Control Unit (CU) is responsible for controlling the flow of data and instructions in the CPU and telling other parts of the computer what to do.</p>
+                        <ul>
+                            <li>It decodes instructions.</li>
+                            <li>It executes instructions.</li>
+                            <li>It manages control signals in the CPU.</li>
+                        </ul>
+                        </div>
+                    </article>
+                    <article class="cpu-component-feature is-alu">
+                        <figure class="cpu-component-chip" aria-label="Arithmetic Logic Unit chip labelled ALU">
+                            <div class="chip-pins chip-pins-top"></div>
+                            <div class="chip-pins chip-pins-right"></div>
+                            <div class="chip-pins chip-pins-bottom"></div>
+                            <div class="chip-pins chip-pins-left"></div>
+                            <span>ALU</span>
+                        </figure>
+                        <div class="cpu-component-feature-copy">
+                            <h3>Arithmetic Logic Unit (ALU)</h3>
+                        <p>The Arithmetic Logic Unit (ALU) handles all the calculations and logical decisions, such as addition, subtraction, or comparing numbers.</p>
+                        <ul>
+                            <li>It does arithmetic (add, subtract).</li>
+                            <li>It does logic (AND, OR, NOT) operations.</li>
+                            <li>It does comparison (&gt;, &lt;, =, !=) operations.</li>
+                        </ul>
+                        </div>
+                    </article>
+                </div>
+                <p class="cpu-core-components-summary">Core components are the main internal parts of the CPU that carry out processing: the Control Unit coordinates what happens next, while the ALU performs the calculations, logic and comparisons needed to execute instructions.</p>
+            </div>
+        </section>
+
+        <section data-slide="component-summary" data-template="table-preview" class="special-registers-slide">
+            <div class="special-registers-layout">
+                <p class="slide-kicker ActivityBadge">Part 2 - CPU Components &amp; FDE Cycle</p>
+                <h2 class="SlideTitle">Special purpose registers</h2>
+                <div class="special-register-table" role="table" aria-label="Special purpose CPU registers">
+                    <article class="special-register-row is-pc" role="row">
+                        <div class="special-register-code" role="cell">PC</div>
+                        <div class="special-register-detail" role="cell">
+                            <p>The <strong>Program Counter (PC)</strong> stores the <strong>address of the next instruction</strong> waiting to be processed.</p>
+                            <p>It increments by 1.</p>
+                        </div>
+                    </article>
+                    <article class="special-register-row is-mar" role="row">
+                        <div class="special-register-code" role="cell">MAR</div>
+                        <div class="special-register-detail" role="cell">
+                            <p>The <strong>Memory Address Register (MAR)</strong> stores the <strong>address of the instruction</strong> or data currently being processed.</p>
+                            <p>It copies the address from the PC.</p>
+                        </div>
+                    </article>
+                    <article class="special-register-row is-mdr" role="row">
+                        <div class="special-register-code" role="cell">MDR</div>
+                        <div class="special-register-detail" role="cell">
+                            <p>The <strong>Memory Data Register (MDR)</strong> stores the <strong>actual instruction</strong> or data currently being processed.</p>
+                        </div>
+                    </article>
+                    <article class="special-register-row is-cir" role="row">
+                        <div class="special-register-code" role="cell">CIR</div>
+                        <div class="special-register-detail" role="cell">
+                            <p>The <strong>Current Instruction Register (CIR)</strong> stores the <strong>actual instruction</strong> currently being decoded and executed.</p>
+                            <p>It copies the instruction from the MDR.</p>
+                        </div>
+                    </article>
+                    <article class="special-register-row is-acc" role="row">
+                        <div class="special-register-code" role="cell">ACC</div>
+                        <div class="special-register-detail" role="cell">
+                            <p>The <strong>Accumulator (ACC)</strong> stores the <strong>results from arithmetic calculations</strong>.</p>
+                        </div>
+                    </article>
+                </div>
+                <p class="special-register-summary">A CPU register is a very small, very fast storage location inside the CPU. Registers hold the immediate addresses, instructions, data or results the CPU needs while it is processing.</p>
+            </div>
+        </section>
+
+        <section data-slide="fde-cycle-interactive" data-template="interactive-d3-cycle-preview" class="fde-cycle-interactive-slide">
+            <div class="fde-cycle-interactive-layout">
+                <p class="slide-kicker ActivityBadge">Part 2 - CPU Components &amp; FDE Cycle</p>
+                <h2 class="SlideTitle">Click each stage of the FDE cycle</h2>
+                <figure class="slide-visual-panel VisualCard fde-cycle-d3-panel">
+                    <svg id="fde-cycle-interactive-d3" viewBox="0 0 900 470" role="img" aria-labelledby="fde-cycle-interactive-title fde-cycle-interactive-desc">
+                        <title id="fde-cycle-interactive-title">Interactive fetch decode execute cycle</title>
+                        <desc id="fde-cycle-interactive-desc">A clickable diagram showing the Fetch, Decode and Execute stages of the CPU cycle.</desc>
+                    </svg>
+                </figure>
+                <p class="fde-cycle-callout">Hover over or click a numbered stage to see what happens.</p>
+                <article class="teaching-explanation-card TextPanel fde-cycle-explanation is-fetch" data-fde-explanation aria-live="polite">
+                    <span class="component-explanation-label">Fetch</span>
+                    <p>The CPU gets the next instruction from memory. The Program Counter holds the address of that next instruction, and the instruction is copied into the CPU so it can be worked on.</p>
+                </article>
+            </div>
+        </section>
+
+        <section data-slide="fde-cycle-in-action" data-template="interactive-d3-cycle-preview" class="fde-cycle-action-slide">
+            <div class="fde-cycle-action-layout">
+                <p class="slide-kicker ActivityBadge">Part 2 - CPU Components &amp; FDE Cycle</p>
+                <h2 class="SlideTitle">FDE cycle in action</h2>
+                <figure class="slide-visual-panel VisualCard fde-action-d3-panel">
+                    <svg id="fde-cycle-action-d3" viewBox="0 0 1180 520" role="img" aria-labelledby="fde-action-title fde-action-desc">
+                        <title id="fde-action-title">Fetch decode execute cycle values moving between CPU and RAM</title>
+                        <desc id="fde-action-desc">An animated diagram showing CPU registers, RAM, address bus, control bus and data bus during the fetch-decode-execute cycle.</desc>
+                    </svg>
+                </figure>
+                <div class="fde-action-controls" aria-label="FDE animation controls">
+                    <button class="secondary-action-button" type="button" data-fde-action="previous">Previous step</button>
+                    <button class="secondary-action-button" type="button" data-fde-action="reset">Reset</button>
+                    <button class="action-button" type="button" data-fde-action="play" aria-pressed="false">Autoplay</button>
+                    <button class="secondary-action-button" type="button" data-fde-action="next">Next step</button>
+                </div>
+                <article class="teaching-explanation-card TextPanel fde-action-step-panel" data-fde-action-explanation aria-live="polite">
+                    <span class="component-explanation-label">Step 1: PC points to the next instruction</span>
+                    <p>The Program Counter stores address 1, so the CPU knows which RAM address to fetch from next.</p>
+                </article>
+            </div>
+        </section>
+
+        <section data-slide="component-activity" data-template="matching-table-activity-preview-step-reveal-example-table-style" class="component-match-slide" data-term-match>
+            <div class="slide-grid ContentGrid">
+                <div class="slide-copy TextPanel">
+                    <p class="slide-kicker ActivityBadge">Part 2 - CPU Components &amp; FDE Cycle</p>
+                    <h2 class="SlideTitle">Match CPU components to roles</h2>
+                </div>
+                <div class="summary-table-wrap">
+                    <div class="keyword-bank" data-keyword-bank aria-label="Draggable keywords">
+                        <button class="keyword-token" type="button" draggable="true" data-keyword="MDR">MDR</button>
+                        <button class="keyword-token" type="button" draggable="true" data-keyword="ACC">ACC</button>
+                        <button class="keyword-token" type="button" draggable="true" data-keyword="CU">CU</button>
+                        <button class="keyword-token" type="button" draggable="true" data-keyword="MAR">MAR</button>
+                        <button class="keyword-token" type="button" draggable="true" data-keyword="CIR">CIR</button>
+                        <button class="keyword-token" type="button" draggable="true" data-keyword="ALU">ALU</button>
+                        <button class="keyword-token" type="button" draggable="true" data-keyword="PC">PC</button>
+                    </div>
+                    <div class="table-wrap">
+                        <table class="classroom-table term-match-table">
+                            <thead><tr><th scope="col">Term</th><th scope="col">Description</th></tr></thead>
+                            <tbody>
+                                <tr><td><div class="term-drop-slot" data-term-slot data-answer="ALU" tabindex="0" aria-label="Drop term for calculations and logical comparisons"></div></td><td>Performs calculations and logical comparisons.</td></tr>
+                                <tr><td><div class="term-drop-slot" data-term-slot data-answer="CU" tabindex="0" aria-label="Drop term for coordinating CPU operations"></div></td><td>Coordinates CPU operations and controls the flow of instructions and data.</td></tr>
+                                <tr><td><div class="term-drop-slot" data-term-slot data-answer="PC" tabindex="0" aria-label="Drop term for address of the next instruction"></div></td><td>Stores the address of the next instruction.</td></tr>
+                                <tr><td><div class="term-drop-slot" data-term-slot data-answer="MAR" tabindex="0" aria-label="Drop term for address of a memory location"></div></td><td>Stores the address of a memory location.</td></tr>
+                                <tr><td><div class="term-drop-slot" data-term-slot data-answer="MDR" tabindex="0" aria-label="Drop term for data transferred to or from memory"></div></td><td>Stores data being transferred to or from memory.</td></tr>
+                                <tr><td><div class="term-drop-slot" data-term-slot data-answer="CIR" tabindex="0" aria-label="Drop term for current instruction"></div></td><td>Stores the current instruction while it is decoded and executed.</td></tr>
+                                <tr><td><div class="term-drop-slot" data-term-slot data-answer="ACC" tabindex="0" aria-label="Drop term for calculation result"></div></td><td>Stores the result of a calculation.</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="mark-scheme term-match-feedback is-incorrect" data-term-match-feedback aria-live="polite"><p class="clickable-hinge-status sequence-feedback-status">You have 0 of 7 correct.</p></div>
+                    <div class="term-match-actions answer-reset-actions">
+                        <button class="secondary-action-button" type="button" data-term-match-reset>Reset</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section data-slide="registers-explained" data-template="exam-practice-card-mark-scheme-preview">
+            <div class="hinge-template stacked-exam-questions">
+                <header class="panel-header">
+                    <span class="panel-kicker">Part 2 - CPU Components &amp; FDE Cycle</span>
+                    <h2 class="panel-title SlideTitle">Exam questions</h2>
+                </header>
+                <div class="stacked-question-list">
+                    <div class="exam-grid">
+                        <article class="question-panel">
+                            <button class="exam-question-box exam-question-link" type="button" data-think-lightbox-open="registers-used-answer-lightbox" aria-haspopup="dialog" aria-label="Open mark scheme: Explain why the CPU uses registers while processing instructions.">
+                                <div class="question-topline"><span class="question-number">Q2</span><span class="exam-question QuestionPrompt">Explain why the CPU uses registers while processing instructions.</span><span class="marks-badge">2 marks</span></div>
+                            </button>
+                        </article>
+                    </div>
+                    <div class="exam-grid">
+                        <article class="question-panel">
+                            <button class="exam-question-box exam-question-link" type="button" data-think-lightbox-open="control-unit-role-answer-lightbox" aria-haspopup="dialog" aria-label="Open mark scheme: Describe the role of the Control Unit in the CPU.">
+                                <div class="question-topline"><span class="question-number">Q3</span><span class="exam-question QuestionPrompt">Describe the role of the Control Unit in the CPU.</span><span class="marks-badge">2 marks</span></div>
+                            </button>
+                        </article>
+                    </div>
+                    <div class="exam-grid">
+                        <article class="question-panel">
+                            <button class="exam-question-box exam-question-link" type="button" data-think-lightbox-open="mdr-acc-difference-answer-lightbox" aria-haspopup="dialog" aria-label="Open mark scheme: Explain the difference between the MDR and the ACC.">
+                                <div class="question-topline"><span class="question-number">Q4</span><span class="exam-question QuestionPrompt">Explain the difference between the MDR and the ACC.</span><span class="marks-badge">2 marks</span></div>
+                            </button>
+                        </article>
+                    </div>
+                </div>
+                <aside class="think-lightbox" id="registers-used-answer-lightbox" role="dialog" aria-modal="true" aria-labelledby="registers-used-answer-title" hidden>
+                    <div class="think-lightbox-backdrop" data-think-lightbox-close></div>
+                    <div class="think-lightbox-panel">
+                        <button class="think-lightbox-close" type="button" data-think-lightbox-close aria-label="Close mark scheme">Close</button>
+                        <h3 id="registers-used-answer-title">Explain why the CPU uses registers while processing instructions. (2 marks)</h3>
+                        <p><strong>1 mark:</strong> Registers are very small, very fast storage locations inside the CPU.</p>
+                        <p><strong>1 mark:</strong> They temporarily hold values the CPU needs immediately while fetching, decoding or executing instructions.</p>
+                    </div>
+                </aside>
+                <aside class="think-lightbox" id="control-unit-role-answer-lightbox" role="dialog" aria-modal="true" aria-labelledby="control-unit-role-answer-title" hidden>
+                    <div class="think-lightbox-backdrop" data-think-lightbox-close></div>
+                    <div class="think-lightbox-panel">
+                        <button class="think-lightbox-close" type="button" data-think-lightbox-close aria-label="Close mark scheme">Close</button>
+                        <h3 id="control-unit-role-answer-title">Describe the role of the Control Unit in the CPU. (2 marks)</h3>
+                        <p><strong>1 mark:</strong> The Control Unit coordinates CPU operations and controls the flow of data and instructions.</p>
+                        <p><strong>1 mark:</strong> It decodes instructions and sends control signals so the correct CPU components act at the correct time.</p>
+                    </div>
+                </aside>
+                <aside class="think-lightbox" id="mdr-acc-difference-answer-lightbox" role="dialog" aria-modal="true" aria-labelledby="mdr-acc-difference-answer-title" hidden>
+                    <div class="think-lightbox-backdrop" data-think-lightbox-close></div>
+                    <div class="think-lightbox-panel">
+                        <button class="think-lightbox-close" type="button" data-think-lightbox-close aria-label="Close mark scheme">Close</button>
+                        <h3 id="mdr-acc-difference-answer-title">Explain the difference between the MDR and the ACC. (2 marks)</h3>
+                        <p><strong>1 mark:</strong> The MDR stores data or instructions being transferred to or from memory.</p>
+                        <p><strong>1 mark:</strong> The ACC stores the result of arithmetic or logic calculations while the CPU is processing.</p>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <section data-slide="register-table" data-template="exam-practice-card-mark-scheme-preview">
+            <div class="hinge-template stacked-exam-questions">
+                <header class="panel-header">
+                    <span class="panel-kicker">Part 2 - CPU Components &amp; FDE Cycle</span>
+                    <h2 class="panel-title SlideTitle">Exam questions</h2>
+                </header>
+                <div class="stacked-question-list">
+                    <div class="exam-grid question-linked-mark-scheme">
+                        <article class="question-panel">
+                            <button class="exam-question-box exam-question-link" type="button" data-think-lightbox-open="mar-mdr-answer-lightbox" aria-haspopup="dialog" aria-label="Open mark scheme: State what is stored in the MAR and what is stored in the MDR.">
+                                <div class="question-topline"><span class="question-number">Q5</span><span class="exam-question QuestionPrompt">State what is stored in the MAR and what is stored in the MDR.</span><span class="marks-badge">2 marks</span></div>
+                            </button>
+                        </article>
+                    </div>
+                    <div class="exam-grid question-linked-mark-scheme">
+                        <article class="question-panel">
+                            <button class="exam-question-box exam-question-link" type="button" data-think-lightbox-open="cir-role-answer-lightbox" aria-haspopup="dialog" aria-label="Open mark scheme: Describe the role of the CIR during the fetch-decode-execute cycle.">
+                                <div class="question-topline"><span class="question-number">Q6</span><span class="exam-question QuestionPrompt">Describe the role of the CIR during the fetch-decode-execute cycle.</span><span class="marks-badge">2 marks</span></div>
+                            </button>
+                        </article>
+                    </div>
+                    <div class="exam-grid question-linked-mark-scheme">
+                        <article class="question-panel">
+                            <button class="exam-question-box exam-question-link" type="button" data-think-lightbox-open="address-data-bus-answer-lightbox" aria-haspopup="dialog" aria-label="Open mark scheme: Explain the difference between the address bus and the data bus during the FDE cycle.">
+                                <div class="question-topline"><span class="question-number">Q7</span><span class="exam-question QuestionPrompt">Explain the difference between the address bus and the data bus during the FDE cycle.</span><span class="marks-badge">2 marks</span></div>
+                            </button>
+                        </article>
+                    </div>
+                </div>
+                <aside class="think-lightbox" id="mar-mdr-answer-lightbox" role="dialog" aria-modal="true" aria-labelledby="mar-mdr-answer-title" hidden>
+                    <div class="think-lightbox-backdrop" data-think-lightbox-close></div>
+                    <div class="think-lightbox-panel">
+                        <button class="think-lightbox-close" type="button" data-think-lightbox-close aria-label="Close mark scheme">Close</button>
+                        <h3 id="mar-mdr-answer-title">State what is stored in the MAR and what is stored in the MDR. (2 marks)</h3>
+                        <p><strong>1 mark:</strong> The MAR stores the address of a memory location.</p>
+                        <p><strong>1 mark:</strong> The MDR stores data being transferred to or from memory.</p>
+                    </div>
+                </aside>
+                <aside class="think-lightbox" id="cir-role-answer-lightbox" role="dialog" aria-modal="true" aria-labelledby="cir-role-answer-title" hidden>
+                    <div class="think-lightbox-backdrop" data-think-lightbox-close></div>
+                    <div class="think-lightbox-panel">
+                        <button class="think-lightbox-close" type="button" data-think-lightbox-close aria-label="Close mark scheme">Close</button>
+                        <h3 id="cir-role-answer-title">Describe the role of the CIR during the fetch-decode-execute cycle. (2 marks)</h3>
+                        <p><strong>1 mark:</strong> The CIR stores the current instruction.</p>
+                        <p><strong>1 mark:</strong> It holds the instruction while it is being decoded and executed by the CPU.</p>
+                    </div>
+                </aside>
+                <aside class="think-lightbox" id="address-data-bus-answer-lightbox" role="dialog" aria-modal="true" aria-labelledby="address-data-bus-answer-title" hidden>
+                    <div class="think-lightbox-backdrop" data-think-lightbox-close></div>
+                    <div class="think-lightbox-panel">
+                        <button class="think-lightbox-close" type="button" data-think-lightbox-close aria-label="Close mark scheme">Close</button>
+                        <h3 id="address-data-bus-answer-title">Explain the difference between the address bus and the data bus during the FDE cycle. (2 marks)</h3>
+                        <p><strong>1 mark:</strong> The address bus carries the memory address of the location the CPU needs to access.</p>
+                        <p><strong>1 mark:</strong> The data bus carries the actual data or instruction between memory and the CPU.</p>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <section data-slide="register-hinge" data-template="hinge-point-question-card-preview" data-clickable-hinge>
+            <div class="hinge-template">
+                <header class="panel-header">
+                    <span class="panel-kicker">Part 2 - CPU Components &amp; FDE Cycle</span>
+                    <h2 class="panel-title SlideTitle">Multiple choice question</h2>
+                </header>
+                <div class="exam-grid">
+                    <article class="question-panel">
+                        <div class="exam-question-box">
+                            <div class="question-topline"><span class="question-number">Q8</span><p class="exam-question QuestionPrompt">Which pair both store addresses?</p><span class="marks-badge">1 mark</span></div>
+                        </div>
+                        <div class="answer-option-list" aria-label="Answer options">
+                            <button class="answer-option-card" type="button" data-hinge-option="A" data-correct="true" data-feedback="Both are address registers: MAR stores the address currently being accessed, and the Program Counter stores the address of the next instruction." aria-pressed="false"><span class="option-letter">A</span><span>MAR and Program Counter</span></button>
+                            <button class="answer-option-card" type="button" data-hinge-option="B" data-feedback="MDR stores data being transferred. The Accumulator stores a value or result, so this pair does not both store addresses." aria-pressed="false"><span class="option-letter">B</span><span>MDR and Accumulator</span></button>
+                            <button class="answer-option-card" type="button" data-hinge-option="C" data-feedback="The ALU performs calculations and logic. The Control Unit coordinates CPU operations; neither is an address register." aria-pressed="false"><span class="option-letter">C</span><span>ALU and Control Unit</span></button>
+                            <button class="answer-option-card" type="button" data-hinge-option="D" data-feedback="Cache stores frequently used data and instructions. MDR stores data being transferred, not an address." aria-pressed="false"><span class="option-letter">D</span><span>Cache and MDR</span></button>
+                        </div>
+                    </article>
+                    <aside class="mark-panel clickable-answer-panel" id="register-hinge-panel" aria-label="Answer feedback">
+                        <div class="mark-content">
+                            <div class="mark-placeholder" data-clickable-hinge-placeholder>Choose an option to check your answer.</div>
+                            <div class="mark-scheme" data-clickable-hinge-result hidden>
+                                <p class="clickable-hinge-status" data-clickable-hinge-status></p>
+                                <div class="model-answer-box"><span class="model-label">Why</span><p data-clickable-hinge-reason>Both are address registers: MAR stores the address currently being accessed, and the Program Counter stores the address of the next instruction.</p></div>
+                            </div>
+                            <div class="answer-reset-actions">
+                                <button class="secondary-action-button" type="button" data-clickable-hinge-reset>Reset</button>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <section data-slide="fetch-execute-cycle" data-template="hinge-point-question-card-preview" class="fetch-cycle-slide" data-clickable-hinge>
+            <div class="hinge-template">
+                <header class="panel-header">
+                    <span class="panel-kicker">Part 2 - CPU Components &amp; FDE Cycle</span>
+                    <h2 class="panel-title SlideTitle">Multiple choice question</h2>
+                </header>
+                <div class="exam-grid">
+                    <article class="question-panel">
+                        <div class="exam-question-box">
+                            <div class="question-topline"><span class="question-number">Q9</span><p class="exam-question QuestionPrompt">Which CPU component carries out arithmetic and logic operations?</p><span class="marks-badge">1 mark</span></div>
+                        </div>
+                        <div class="answer-option-list" aria-label="Answer options">
+                            <button class="answer-option-card" type="button" data-hinge-option="A" data-feedback="The Control Unit coordinates the CPU and manages control signals; it does not carry out the calculations." aria-pressed="false"><span class="option-letter">A</span><span>Control Unit</span></button>
+                            <button class="answer-option-card" type="button" data-hinge-option="B" data-correct="true" data-feedback="Correct. The ALU carries out arithmetic operations, logic operations and comparisons." aria-pressed="false"><span class="option-letter">B</span><span>Arithmetic Logic Unit</span></button>
+                            <button class="answer-option-card" type="button" data-hinge-option="C" data-feedback="The Program Counter stores the address of the next instruction; it does not carry out arithmetic or logic." aria-pressed="false"><span class="option-letter">C</span><span>Program Counter</span></button>
+                            <button class="answer-option-card" type="button" data-hinge-option="D" data-feedback="The Memory Data Register stores data or instructions being transferred to or from memory; it does not perform calculations." aria-pressed="false"><span class="option-letter">D</span><span>Memory Data Register</span></button>
+                        </div>
+                    </article>
+                    <aside class="mark-panel clickable-answer-panel" aria-label="Answer feedback">
+                        <div class="mark-content">
+                            <div class="mark-placeholder" data-clickable-hinge-placeholder>Choose an option to check your answer.</div>
+                            <div class="mark-scheme" data-clickable-hinge-result hidden>
+                                <p class="clickable-hinge-status" data-clickable-hinge-status></p>
+                                <div class="model-answer-box"><span class="model-label">Why</span><p data-clickable-hinge-reason>Correct. The ALU carries out arithmetic operations, logic operations and comparisons.</p></div>
+                            </div>
+                            <div class="answer-reset-actions">
+                                <button class="secondary-action-button" type="button" data-clickable-hinge-reset>Reset</button>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </div>
+        </section>
+
+        <section data-slide="fetch-sequence-activity" data-template="activity-application-card-preview" class="sequence-activity-slide">
+            <div class="slide-grid ContentGrid">
+                <div class="slide-copy TextPanel">
+                    <p class="slide-kicker ActivityBadge">Part 2 - CPU Components &amp; FDE Cycle</p>
+                    <h2 class="SlideTitle">Move each stage into the correct position</h2>
+                </div>
+                <div class="sequence-sorter VisualCard" data-sequence-sorter aria-labelledby="sequence-sorter-title">
+                    <ol class="sequence-sorter-list" data-sequence-list>
+                        <li class="sequence-position-row"><span class="sequence-position-label">First:</span><div class="sequence-card-slot"><div class="sequence-sorter-card is-execute" draggable="true" data-sequence-card data-stage="execute" tabindex="-1"><span class="sequence-stage-name">Execute</span><div class="sequence-move-controls"><button type="button" data-sequence-move="up" aria-label="Move Execute up">Up</button><button type="button" data-sequence-move="down" aria-label="Move Execute down">Down</button></div></div></div></li>
+                        <li class="sequence-position-row"><span class="sequence-position-label">Second:</span><div class="sequence-card-slot"><div class="sequence-sorter-card is-fetch" draggable="true" data-sequence-card data-stage="fetch" tabindex="-1"><span class="sequence-stage-name">Fetch</span><div class="sequence-move-controls"><button type="button" data-sequence-move="up" aria-label="Move Fetch up">Up</button><button type="button" data-sequence-move="down" aria-label="Move Fetch down">Down</button></div></div></div></li>
+                        <li class="sequence-position-row"><span class="sequence-position-label">Third:</span><div class="sequence-card-slot"><div class="sequence-sorter-card is-repeat" draggable="true" data-sequence-card data-stage="repeat" tabindex="-1"><span class="sequence-stage-name">Repeat</span><div class="sequence-move-controls"><button type="button" data-sequence-move="up" aria-label="Move Repeat up">Up</button><button type="button" data-sequence-move="down" aria-label="Move Repeat down">Down</button></div></div></div></li>
+                        <li class="sequence-position-row"><span class="sequence-position-label">Fourth:</span><div class="sequence-card-slot"><div class="sequence-sorter-card is-decode" draggable="true" data-sequence-card data-stage="decode" tabindex="-1"><span class="sequence-stage-name">Decode</span><div class="sequence-move-controls"><button type="button" data-sequence-move="up" aria-label="Move Decode up">Up</button><button type="button" data-sequence-move="down" aria-label="Move Decode down">Down</button></div></div></div></li>
+                    </ol>
+                    <div id="sequence-feedback" class="mark-scheme sequence-feedback is-incorrect" data-sequence-feedback aria-live="polite"><p class="clickable-hinge-status sequence-feedback-status">You have 0 of 4 correct.</p></div>
+                    <div class="answer-reset-actions">
+                        <button class="secondary-action-button" type="button" data-sequence-reset>Reset</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section data-slide="part-3-stored-program-von-neumann" data-template="subsection-divider" class="subsection-divider-slide">
+            <h2 class="SlideTitle">Part 3 - The Stored program concept and Von Neumann architecture</h2>
+        </section>
+
+        <section data-slide="calculator-scenario" data-template="teaching-explanation-key-point-with-diagram-preview" class="stored-program-origin-slide single-column-slide">
+            <div class="slide-grid ContentGrid">
+                <div class="slide-copy TextPanel">
+                    <p class="slide-kicker ActivityBadge">Part 3 - The Stored program concept &amp; Von Neumann</p>
+                    <h2 class="SlideTitle">Early computers used separate memories</h2>
+                    <article class="teaching-explanation-card TextPanel stored-program-origin-explanation">
+                        <p>Early computers often kept instructions and data in different memory areas. The instructions told the machine what job to do, and the data was the information it worked on. This suited machines built for one special job, but it made computers harder to change. To run a different program, engineers often had to change the instruction setup instead of just loading new instructions into memory.</p>
+                    </article>
+                </div>
+                <figure class="slide-visual-panel VisualCard stored-program-origin-diagram">
+                    <svg viewBox="0 0 820 360" role="img" aria-labelledby="stored-program-origin-title stored-program-origin-desc">
+                        <title id="stored-program-origin-title">Early computer design with separate instruction and data memories</title>
+                        <desc id="stored-program-origin-desc">A CPU connects to two different memory areas: one stores instructions and the other stores data.</desc>
+                        <defs>
+                            <marker id="stored-program-arrow" markerWidth="7" markerHeight="7" refX="6.2" refY="3.5" orient="auto">
+                                <path d="M0,0 L7,3.5 L0,7 Z" fill="#2f57d6"></path>
+                            </marker>
+                            <marker id="stored-program-data-arrow" markerWidth="7" markerHeight="7" refX="6.2" refY="3.5" orient="auto">
+                                <path d="M0,0 L7,3.5 L0,7 Z" fill="#00856f"></path>
+                            </marker>
+                        </defs>
+                        <rect x="48" y="78" width="190" height="205" rx="24" class="svg-memory"></rect>
+                        <text x="143" y="126" text-anchor="middle" class="svg-node-title-small">Instruction</text>
+                        <text x="143" y="158" text-anchor="middle" class="svg-node-title-small">memory</text>
+                        <text x="143" y="210" text-anchor="middle" class="svg-muted-label">ADD</text>
+                        <text x="143" y="238" text-anchor="middle" class="svg-muted-label">STORE</text>
+
+                        <rect x="580" y="78" width="190" height="205" rx="24" class="svg-component-register"></rect>
+                        <text x="675" y="126" text-anchor="middle" class="svg-node-title-small">Data</text>
+                        <text x="675" y="158" text-anchor="middle" class="svg-node-title-small">memory</text>
+                        <text x="675" y="210" text-anchor="middle" class="svg-muted-label">5, 8, 12</text>
+                        <text x="675" y="238" text-anchor="middle" class="svg-muted-label">values</text>
+
+                        <rect x="350" y="126" width="120" height="108" rx="24" class="svg-cpu-shell"></rect>
+                        <text x="410" y="188" text-anchor="middle" class="svg-cpu-heading">CPU</text>
+                        <line x1="246" y1="158" x2="338" y2="158" class="svg-arrow" marker-end="url(#stored-program-arrow)"></line>
+                        <line x1="474" y1="152" x2="568" y2="152" class="svg-bus-line" marker-end="url(#stored-program-data-arrow)"></line>
+                        <line x1="568" y1="224" x2="474" y2="224" class="svg-bus-line" marker-end="url(#stored-program-data-arrow)"></line>
+                        <text x="292" y="126" text-anchor="middle" class="svg-group-label">instructions</text>
+                        <text x="521" y="121" text-anchor="middle" class="svg-group-label-green">data</text>
+                        <text x="521" y="259" text-anchor="middle" class="svg-group-label-green">results</text>
+                    </svg>
+                </figure>
+            </div>
+        </section>
+
+        <section data-slide="von-neumann-profile" data-template="teaching-explanation-key-point-with-diagram-preview" class="von-neumann-profile-slide single-column-slide">
+            <div class="slide-grid ContentGrid">
+                <div class="slide-copy TextPanel">
+                    <p class="slide-kicker ActivityBadge">Part 3 - The Stored program concept &amp; Von Neumann</p>
+                    <h2 class="SlideTitle">Stored Program Concept</h2>
+                    <article class="teaching-explanation-card TextPanel von-neumann-explanation">
+                        <p>John von Neumann helped explain the stored program concept in 1945. This means program instructions are stored in memory along with the data. Before this, many computers had to be physically rewired or reset to do a different job. This was an improvement because a computer could run a new program by loading new instructions into memory.</p>
+                    </article>
+                </div>
+                <figure class="slide-visual-panel VisualCard von-neumann-portrait-panel">
+                    <img src="../../../assets/images/john-von-neumann-stored-program.webp" alt="Illustrated portrait of John von Neumann with binary code and computing imagery in the background.">
+                </figure>
+            </div>
+        </section>
+
+        <section data-slide="von-neumann-architecture" data-template="animated-flow-diagram-preview" class="von-neumann-architecture-slide single-column-slide">
+            <div class="slide-grid ContentGrid">
+                <div class="slide-copy TextPanel">
+                    <p class="slide-kicker ActivityBadge">Part 3 - The Stored program concept &amp; Von Neumann</p>
+                    <h2 class="SlideTitle">Von Neumann architecture</h2>
+                    <article class="teaching-explanation-card TextPanel von-neumann-explanation">
+                        <p>Von Neumann architecture uses the stored program concept. It has one main memory that stores both instructions and data. The CPU fetches what it needs from that memory, so the same computer can run lots of different programs. This design is still common because it is flexible, simpler for general purpose computers, and makes software easy to load and change.</p>
+                    </article>
+                </div>
+                <figure class="slide-visual-panel VisualCard von-neumann-architecture-panel">
+                    <svg viewBox="0 0 960 470" role="img" aria-labelledby="von-neumann-architecture-title von-neumann-architecture-desc">
+                        <title id="von-neumann-architecture-title">Von Neumann architecture with one memory for instructions and data</title>
+                        <desc id="von-neumann-architecture-desc">A CPU, input, output and one shared memory are connected by buses. Animated chips show instructions and data moving between the CPU and memory.</desc>
+                        <defs>
+                            <marker id="vn-blue-arrow" markerWidth="7" markerHeight="7" refX="6.2" refY="3.5" orient="auto">
+                                <path d="M0,0 L7,3.5 L0,7 Z" fill="#2f57d6"></path>
+                            </marker>
+                            <marker id="vn-green-arrow" markerWidth="7" markerHeight="7" refX="6.2" refY="3.5" orient="auto">
+                                <path d="M0,0 L7,3.5 L0,7 Z" fill="#00856f"></path>
+                            </marker>
+                            <path id="vn-memory-to-cpu" d="M585 166 H420"></path>
+                            <path id="vn-cpu-to-memory" d="M420 236 H585"></path>
+                            <path id="vn-input-to-cpu" d="M154 166 H300"></path>
+                            <path id="vn-cpu-to-output" d="M300 258 H154"></path>
+                        </defs>
+
+                        <rect x="300" y="128" width="120" height="164" rx="24" class="vn-cpu-node"></rect>
+                        <text x="360" y="190" text-anchor="middle" class="vn-node-title">CPU</text>
+                        <text x="360" y="226" text-anchor="middle" class="vn-node-small">fetches</text>
+                        <text x="360" y="252" text-anchor="middle" class="vn-node-small">executes</text>
+
+                        <rect x="585" y="78" width="230" height="260" rx="24" class="vn-memory-node"></rect>
+                        <text x="700" y="128" text-anchor="middle" class="vn-node-title">Memory</text>
+                        <rect x="628" y="158" width="144" height="48" rx="10" class="vn-instruction-cell"></rect>
+                        <text x="700" y="188" text-anchor="middle" class="vn-node-small">instructions</text>
+                        <rect x="628" y="228" width="144" height="48" rx="10" class="vn-data-cell"></rect>
+                        <text x="700" y="258" text-anchor="middle" class="vn-node-small">data</text>
+
+                        <rect x="62" y="128" width="92" height="76" rx="18" class="vn-io-node"></rect>
+                        <text x="108" y="160" text-anchor="middle" class="vn-node-small">Input</text>
+                        <text x="108" y="186" text-anchor="middle" class="vn-node-small">devices</text>
+
+                        <rect x="62" y="220" width="92" height="76" rx="18" class="vn-io-node"></rect>
+                        <text x="108" y="252" text-anchor="middle" class="vn-node-small">Output</text>
+                        <text x="108" y="278" text-anchor="middle" class="vn-node-small">devices</text>
+
+                        <line x1="585" y1="166" x2="420" y2="166" class="vn-bus-line vn-bus-blue" marker-end="url(#vn-blue-arrow)"></line>
+                        <line x1="420" y1="236" x2="585" y2="236" class="vn-bus-line vn-bus-green" marker-end="url(#vn-green-arrow)"></line>
+                        <line x1="154" y1="166" x2="300" y2="166" class="vn-bus-line vn-bus-green" marker-end="url(#vn-green-arrow)"></line>
+                        <line x1="300" y1="258" x2="154" y2="258" class="vn-bus-line vn-bus-blue" marker-end="url(#vn-blue-arrow)"></line>
+
+                        <text x="502" y="145" text-anchor="middle" class="vn-flow-label">instruction fetch</text>
+                        <text x="502" y="265" text-anchor="middle" class="vn-flow-label-green">data read/write</text>
+                        <text x="480" y="430" text-anchor="middle" class="vn-shared-memory-label">One shared memory stores both program instructions and data</text>
+
+                        <circle r="8" opacity="0" class="vn-moving-chip vn-chip-instruction">
+                            <animateMotion dur="3.6s" repeatCount="indefinite">
+                                <mpath href="#vn-memory-to-cpu"></mpath>
+                            </animateMotion>
+                            <animate attributeName="opacity" dur="3.6s" repeatCount="indefinite" values="0;1;1;0" keyTimes="0;0.08;0.92;1"></animate>
+                        </circle>
+                        <circle r="8" opacity="0" class="vn-moving-chip vn-chip-data">
+                            <animateMotion dur="3.6s" repeatCount="indefinite" begin="0.9s">
+                                <mpath href="#vn-cpu-to-memory"></mpath>
+                            </animateMotion>
+                            <animate attributeName="opacity" dur="3.6s" repeatCount="indefinite" begin="0.9s" values="0;1;1;0" keyTimes="0;0.08;0.92;1"></animate>
+                        </circle>
+                        <circle r="7" opacity="0" class="vn-moving-chip vn-chip-input">
+                            <animateMotion dur="4s" repeatCount="indefinite" begin="0.4s">
+                                <mpath href="#vn-input-to-cpu"></mpath>
+                            </animateMotion>
+                            <animate attributeName="opacity" dur="4s" repeatCount="indefinite" begin="0.4s" values="0;1;1;0" keyTimes="0;0.08;0.92;1"></animate>
+                        </circle>
+                        <circle r="7" opacity="0" class="vn-moving-chip vn-chip-output">
+                            <animateMotion dur="4s" repeatCount="indefinite" begin="1.2s">
+                                <mpath href="#vn-cpu-to-output"></mpath>
+                            </animateMotion>
+                            <animate attributeName="opacity" dur="4s" repeatCount="indefinite" begin="1.2s" values="0;1;1;0" keyTimes="0;0.08;0.92;1"></animate>
+                        </circle>
+                    </svg>
+                </figure>
+            </div>
+        </section>
+
+        <section data-slide="architecture-comparison" data-template="teaching-explanation-key-point-with-diagram-preview" class="architecture-comparison-slide single-column-slide">
+            <div class="slide-grid ContentGrid">
+                <div class="slide-copy TextPanel">
+                    <p class="slide-kicker ActivityBadge">Part 3 - The Stored program concept &amp; Von Neumann</p>
+                    <h2 class="SlideTitle">Before Vs Now</h2>
+                    <article class="teaching-explanation-card TextPanel architecture-comparison-explanation">
+                        <p>Before, many computers kept instructions and data in different memory areas. Now, Von Neumann architecture uses one shared main memory for both, so the computer can load different programs without changing the hardware.</p>
+                    </article>
+                </div>
+                <figure class="slide-visual-panel VisualCard architecture-comparison-panel">
+                    <svg viewBox="40 0 1040 430" role="img" aria-labelledby="architecture-comparison-title architecture-comparison-desc">
+                        <title id="architecture-comparison-title">Earlier computer design compared with Von Neumann architecture</title>
+                        <desc id="architecture-comparison-desc">A comparison diagram showing an earlier design with separate instruction and data memories and a Von Neumann design with one shared memory for both instructions and data.</desc>
+                        <defs>
+                            <marker id="architecture-comparison-blue-arrow" markerWidth="5" markerHeight="5" refX="4.4" refY="2.5" orient="auto">
+                                <path d="M0,0 L5,2.5 L0,5 Z" fill="#2f57d6"></path>
+                            </marker>
+                            <marker id="architecture-comparison-green-arrow" markerWidth="5" markerHeight="5" refX="4.4" refY="2.5" orient="auto">
+                                <path d="M0,0 L5,2.5 L0,5 Z" fill="#00856f"></path>
+                            </marker>
+                        </defs>
+
+                        <g class="architecture-comparison-side">
+                            <text x="280" y="48" text-anchor="middle" class="architecture-comparison-side-title">Before</text>
+                            <rect x="62" y="92" width="218" height="132" rx="16" class="architecture-comparison-instruction-memory"></rect>
+                            <text x="171" y="144" text-anchor="middle" class="architecture-comparison-node-title">Instruction</text>
+                            <text x="171" y="180" text-anchor="middle" class="architecture-comparison-node-title">memory</text>
+                            <text x="171" y="210" text-anchor="middle" class="architecture-comparison-node-small">program steps</text>
+
+                            <rect x="318" y="92" width="218" height="132" rx="16" class="architecture-comparison-data-memory"></rect>
+                            <text x="427" y="144" text-anchor="middle" class="architecture-comparison-node-title">Data</text>
+                            <text x="427" y="180" text-anchor="middle" class="architecture-comparison-node-title">memory</text>
+                            <text x="427" y="210" text-anchor="middle" class="architecture-comparison-node-small">values</text>
+
+                            <rect x="172" y="318" width="256" height="88" rx="18" class="architecture-comparison-cpu"></rect>
+                            <text x="300" y="374" text-anchor="middle" class="architecture-comparison-cpu-title">CPU</text>
+
+                            <path d="M171 224 V318" class="architecture-comparison-line architecture-comparison-line-blue" marker-end="url(#architecture-comparison-blue-arrow)"></path>
+                            <path d="M427 224 V318" class="architecture-comparison-line architecture-comparison-line-green" marker-end="url(#architecture-comparison-green-arrow)"></path>
+                            <text x="104" y="270" text-anchor="middle" class="architecture-comparison-flow-label">instructions</text>
+                            <text x="477" y="275" text-anchor="middle" class="architecture-comparison-flow-label-green">data</text>
+                        </g>
+
+                        <line x1="560" y1="62" x2="560" y2="408" class="architecture-comparison-divider"></line>
+
+                        <g class="architecture-comparison-side">
+                            <text x="840" y="48" text-anchor="middle" class="architecture-comparison-side-title">Now</text>
+                            <rect x="676" y="92" width="328" height="174" rx="20" class="architecture-comparison-shared-memory"></rect>
+                            <text x="840" y="144" text-anchor="middle" class="architecture-comparison-node-title">Main memory</text>
+                            <rect x="730" y="168" width="220" height="40" rx="9" class="architecture-comparison-instruction-cell"></rect>
+                            <text x="840" y="194" text-anchor="middle" class="architecture-comparison-node-small">instructions</text>
+                            <rect x="730" y="214" width="220" height="40" rx="9" class="architecture-comparison-data-cell"></rect>
+                            <text x="840" y="240" text-anchor="middle" class="architecture-comparison-node-small">data</text>
+
+                            <rect x="720" y="318" width="240" height="88" rx="18" class="architecture-comparison-cpu"></rect>
+                            <text x="840" y="374" text-anchor="middle" class="architecture-comparison-cpu-title">CPU</text>
+
+                            <path d="M795 266 V318" class="architecture-comparison-line architecture-comparison-line-blue" marker-end="url(#architecture-comparison-blue-arrow)"></path>
+                            <path d="M885 318 V266" class="architecture-comparison-line architecture-comparison-line-green" marker-end="url(#architecture-comparison-green-arrow)"></path>
+                            <text x="715" y="296" text-anchor="middle" class="architecture-comparison-flow-label">instructions</text>
+                            <text x="955" y="296" text-anchor="middle" class="architecture-comparison-flow-label-green">data</text>
+                        </g>
+                    </svg>
+                </figure>
+            </div>
+        </section>
+
+        <section data-slide="part3-exam-questions" data-template="exam-practice-card-mark-scheme-preview">
+            <div class="hinge-template stacked-exam-questions">
+                <header class="panel-header">
+                    <span class="panel-kicker">Part 3 - The Stored program concept &amp; Von Neumann</span>
+                    <h2 class="panel-title SlideTitle">Exam questions</h2>
+                </header>
+                <div class="stacked-question-list">
+                    <div class="exam-grid question-linked-mark-scheme">
+                        <article class="question-panel">
+                            <button class="exam-question-box exam-question-link" type="button" data-think-lightbox-open="separate-memories-reason-answer-lightbox" aria-haspopup="dialog" aria-label="Open mark scheme: Explain why early computers used separate instruction and data memories.">
+                                <div class="question-topline"><span class="question-number">Q10</span><span class="exam-question QuestionPrompt">Explain why early computers used separate instruction and data memories.</span><span class="marks-badge">2 marks</span></div>
+                            </button>
+                        </article>
+                    </div>
+                    <div class="exam-grid question-linked-mark-scheme">
+                        <article class="question-panel">
+                            <button class="exam-question-box exam-question-link" type="button" data-think-lightbox-open="stored-program-concept-answer-lightbox" aria-haspopup="dialog" aria-label="Open mark scheme: State what the stored program concept means.">
+                                <div class="question-topline"><span class="question-number">Q11</span><span class="exam-question QuestionPrompt">State what the stored program concept means.</span><span class="marks-badge">2 marks</span></div>
+                            </button>
+                        </article>
+                    </div>
+                    <div class="exam-grid question-linked-mark-scheme">
+                        <article class="question-panel">
+                            <button class="exam-question-box exam-question-link" type="button" data-think-lightbox-open="von-neumann-used-today-answer-lightbox" aria-haspopup="dialog" aria-label="Open mark scheme: Explain why Von Neumann architecture is mainly used today.">
+                                <div class="question-topline"><span class="question-number">Q12</span><span class="exam-question QuestionPrompt">Explain why Von Neumann architecture is mainly used today.</span><span class="marks-badge">2 marks</span></div>
+                            </button>
+                        </article>
+                    </div>
+                </div>
+                <aside class="think-lightbox" id="separate-memories-reason-answer-lightbox" role="dialog" aria-modal="true" aria-labelledby="separate-memories-reason-answer-title" hidden>
+                    <div class="think-lightbox-backdrop" data-think-lightbox-close></div>
+                    <div class="think-lightbox-panel">
+                        <button class="think-lightbox-close" type="button" data-think-lightbox-close aria-label="Close mark scheme">Close</button>
+                        <h3 id="separate-memories-reason-answer-title">Explain why early computers used separate instruction and data memories. (2 marks)</h3>
+                        <p><strong>1 mark:</strong> Instructions were often treated as a fixed part of the machine.</p>
+                        <p><strong>1 mark:</strong> Data was the information being worked on, so it was stored separately from the instructions.</p>
+                    </div>
+                </aside>
+                <aside class="think-lightbox" id="stored-program-concept-answer-lightbox" role="dialog" aria-modal="true" aria-labelledby="stored-program-concept-answer-title" hidden>
+                    <div class="think-lightbox-backdrop" data-think-lightbox-close></div>
+                    <div class="think-lightbox-panel">
+                        <button class="think-lightbox-close" type="button" data-think-lightbox-close aria-label="Close mark scheme">Close</button>
+                        <h3 id="stored-program-concept-answer-title">State what the stored program concept means. (2 marks)</h3>
+                        <p><strong>1 mark:</strong> Program instructions are stored in memory.</p>
+                        <p><strong>1 mark:</strong> Instructions and data can be stored together so different programs can be loaded and run.</p>
+                    </div>
+                </aside>
+                <aside class="think-lightbox" id="von-neumann-used-today-answer-lightbox" role="dialog" aria-modal="true" aria-labelledby="von-neumann-used-today-answer-title" hidden>
+                    <div class="think-lightbox-backdrop" data-think-lightbox-close></div>
+                    <div class="think-lightbox-panel">
+                        <button class="think-lightbox-close" type="button" data-think-lightbox-close aria-label="Close mark scheme">Close</button>
+                        <h3 id="von-neumann-used-today-answer-title">Explain why Von Neumann architecture is mainly used today. (2 marks)</h3>
+                        <p><strong>1 mark:</strong> It uses one shared memory for instructions and data, which makes computers flexible.</p>
+                        <p><strong>1 mark:</strong> It is simpler for general purpose computers because software can be loaded, changed and run without rewiring the hardware.</p>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <section data-slide="misconceptions" data-template="misconception-cards-preview" class="misconceptions-slide">
+            <div class="wide-copy">
+                <p class="slide-kicker ActivityBadge">Misconception check</p>
+                <h2 class="SlideTitle">Correct the common mistakes</h2>
+                <div class="misconception-grid">
+                    <article class="misconception-card"><div class="misconception-statement"><span class="card-label">Misconception</span><p>The MAR stores the instruction.</p></div><div class="misconception-correction"><span class="card-label">Correction</span><p>The MAR stores an address. The MDR stores the data or instruction.</p></div></article>
+                    <article class="misconception-card"><div class="misconception-statement"><span class="card-label">Misconception</span><p>The CIR stores the next address.</p></div><div class="misconception-correction"><span class="card-label">Correction</span><p>The PC stores the next address. The CIR stores the current instruction.</p></div></article>
+                    <article class="misconception-card"><div class="misconception-statement"><span class="card-label">Misconception</span><p>The ALU controls the CPU.</p></div><div class="misconception-correction"><span class="card-label">Correction</span><p>The ALU calculates and compares. The Control Unit sends control signals.</p></div></article>
+                    <article class="misconception-card"><div class="misconception-statement"><span class="card-label">Misconception</span><p>Von Neumann architecture uses separate memories.</p></div><div class="misconception-correction"><span class="card-label">Correction</span><p>Von Neumann architecture uses one shared memory. This is the stored program concept.</p></div></article>
+                </div>
+            </div>
+        </section>
+
+        <section data-slide="exam-practice" data-template="exam-practice-card-mark-scheme-preview">
+            <div class="hinge-template stacked-exam-questions">
+                <header class="panel-header">
+                    <span class="panel-kicker">Exam practice</span>
+                    <h2 class="panel-title SlideTitle">Exam questions</h2>
+                </header>
+                <div class="stacked-question-list">
+                    <div class="exam-grid question-linked-mark-scheme">
+                        <article class="question-panel">
+                            <button class="exam-question-box exam-question-link" type="button" data-think-lightbox-open="calculator-cpu-answer-lightbox" aria-haspopup="dialog" aria-label="Open mark scheme: A calculator program adds two numbers. Explain how the ALU, Accumulator and Control Unit are involved.">
+                                <div class="question-topline"><span class="question-number">Q13</span><span class="exam-question QuestionPrompt">A calculator program adds two numbers. Explain how the ALU, Accumulator and Control Unit are involved.</span><span class="marks-badge">4 marks</span></div>
+                            </button>
+                        </article>
+                    </div>
+                    <div class="exam-grid question-linked-mark-scheme">
+                        <article class="question-panel">
+                            <button class="exam-question-box exam-question-link" type="button" data-think-lightbox-open="fde-registers-answer-lightbox" aria-haspopup="dialog" aria-label="Open mark scheme: Explain how the CPU fetches and prepares an instruction to be executed using registers.">
+                                <div class="question-topline"><span class="question-number">Q14</span><span class="exam-question QuestionPrompt">Explain how the CPU fetches and prepares an instruction to be executed using registers.</span><span class="marks-badge">4 marks</span></div>
+                            </button>
+                        </article>
+                    </div>
+                    <div class="exam-grid question-linked-mark-scheme">
+                        <article class="question-panel">
+                            <button class="exam-question-box exam-question-link" type="button" data-think-lightbox-open="stored-program-flexibility-answer-lightbox" aria-haspopup="dialog" aria-label="Open mark scheme: Explain how Von Neumann architecture uses the stored program concept and why this is useful.">
+                                <div class="question-topline"><span class="question-number">Q15</span><span class="exam-question QuestionPrompt">Explain how Von Neumann architecture uses the stored program concept and why this is useful.</span><span class="marks-badge">4 marks</span></div>
+                            </button>
+                        </article>
+                    </div>
+                </div>
+                <aside class="think-lightbox" id="calculator-cpu-answer-lightbox" role="dialog" aria-modal="true" aria-labelledby="calculator-cpu-answer-title" hidden>
+                    <div class="think-lightbox-backdrop" data-think-lightbox-close></div>
+                    <div class="think-lightbox-panel">
+                        <button class="think-lightbox-close" type="button" data-think-lightbox-close aria-label="Close mark scheme">Close</button>
+                        <h3 id="calculator-cpu-answer-title">A calculator program adds two numbers. Explain how the ALU, Accumulator and Control Unit are involved. (4 marks)</h3>
+                        <p><strong>1 mark:</strong> The ALU performs the addition because it carries out arithmetic and logic operations.</p>
+                        <p><strong>1 mark:</strong> The Accumulator can store the result of the calculation temporarily while the CPU is processing.</p>
+                        <p><strong>1 mark:</strong> The Control Unit coordinates the process by controlling which part of the CPU acts and when.</p>
+                        <p><strong>1 mark:</strong> Link the answer to the calculator scenario: the correct add instruction is carried out in the correct order.</p>
+                    </div>
+                </aside>
+                <aside class="think-lightbox" id="fde-registers-answer-lightbox" role="dialog" aria-modal="true" aria-labelledby="fde-registers-answer-title" hidden>
+                    <div class="think-lightbox-backdrop" data-think-lightbox-close></div>
+                    <div class="think-lightbox-panel">
+                        <button class="think-lightbox-close" type="button" data-think-lightbox-close aria-label="Close mark scheme">Close</button>
+                        <h3 id="fde-registers-answer-title">Explain how the CPU fetches and prepares an instruction to be executed using registers. (4 marks)</h3>
+                        <p><strong>1 mark:</strong> The Program Counter stores the address of the next instruction.</p>
+                        <p><strong>1 mark:</strong> The address is copied into the MAR so the CPU can access that memory location.</p>
+                        <p><strong>1 mark:</strong> The instruction is copied from memory into the MDR.</p>
+                        <p><strong>1 mark:</strong> The instruction is copied into the CIR, where it is held while it is decoded and prepared for execution.</p>
+                    </div>
+                </aside>
+                <aside class="think-lightbox" id="stored-program-flexibility-answer-lightbox" role="dialog" aria-modal="true" aria-labelledby="stored-program-flexibility-answer-title" hidden>
+                    <div class="think-lightbox-backdrop" data-think-lightbox-close></div>
+                    <div class="think-lightbox-panel">
+                        <button class="think-lightbox-close" type="button" data-think-lightbox-close aria-label="Close mark scheme">Close</button>
+                        <h3 id="stored-program-flexibility-answer-title">Explain how Von Neumann architecture uses the stored program concept and why this is useful. (4 marks)</h3>
+                        <p><strong>1 mark:</strong> Von Neumann architecture stores program instructions and data in the same main memory.</p>
+                        <p><strong>1 mark:</strong> The CPU fetches instructions and data from this shared memory through buses.</p>
+                        <p><strong>1 mark:</strong> This is useful because the same hardware can run different programs loaded into memory.</p>
+                        <p><strong>1 mark:</strong> It makes general purpose computers flexible because software can be changed without rewiring the machine.</p>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <section data-slide="completion-resources" data-template="finish-self-assess-preview" class="completion-resources-slide">
+            <div class="hinge-template completion-template">
+                <header class="panel-header">
+                    <span class="panel-kicker">End of lesson</span>
+                    <h2 class="panel-title SlideTitle">Ready for the next step?</h2>
+                    <p class="panel-intro completion-intro">Use the follow-up resources to practise the topic, check exam-style understanding and test recall.</p>
+                </header>
+                <div class="completion-resource-grid">
+                    <a class="completion-resource-card completion-resource-card-tasks" href="../tasks/1-1-1.html">
+                        <span class="completion-resource-title">Tasks</span>
+                        <span class="completion-resource-copy">Practise the key ideas from this lesson.</span>
+                    </a>
+                    <a class="completion-resource-card completion-resource-card-exam" href="../exams/1-1-1.html">
+                        <span class="completion-resource-title">Exam</span>
+                        <span class="completion-resource-copy">Try exam-style questions for this topic.</span>
+                    </a>
+                    <a class="completion-resource-card completion-resource-card-quiz" href="../quizzes/1-1-1.html">
+                        <span class="completion-resource-title">Quiz</span>
+                        <span class="completion-resource-copy">Check recall with quick questions.</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+    <footer id="site-footer"></footer>
+    <script src="../../../routes.js?v=6"></script>
+    <script src="../../../assets/js/site-layout.js?v=1"></script>
+    <script src="../../../assets/js/lesson-left-panel.js?v=5"></script>
+    <script src="../../../assets/js/lesson-components.js?v=3"></script>
+    <script src="../../../assets/js/lesson-countdown.js?v=1"></script>
+    <script src="../../../assets/js/lesson-stopwatch.js?v=1"></script>
+    <script src="../../../assets/js/lesson-draw-board.js?v=1"></script>
+    <script src="../../../assets/vendor/d3/d3.min.js?v=1"></script>
+    <script src="../../../assets/js/lesson-shell.js?v=176"></script>
+    <script src="1-1-1.js?v=91"></script>
+    <script src="../../../site.js?v=56"></script>
+</body>
+</html>
+
+
+
+

@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1.2.10 Sound</title>
+    <link rel="stylesheet" href="../../../assets/css/single-page-lesson.css?v=22">
+    <link rel="stylesheet" href="../../../assets/css/sound-lesson.css?v=45">
+</head>
+<body class="single-lesson-body sound-lesson-body" data-page-type="single-lesson" data-course="gcse-j277" data-topic-id="1-2-10">
+    <div class="single-lesson-page single-lesson-shell sound-lesson-page">
+        <header class="single-lesson-topbar">
+            <a class="single-lesson-brand" href="../index.html" aria-label="Back to GCSE J277 dashboard">
+                <span class="single-lesson-brand-mark" aria-hidden="true">J277</span>
+                <span>Computer Systems</span>
+            </a>
+            <nav class="single-lesson-breadcrumb" aria-label="Breadcrumb">
+                <span>1.2 Memory and storage</span>
+                <span aria-hidden="true">&gt;</span>
+                <strong>1.2.10 Sound</strong>
+            </nav>
+            <a class="single-lesson-save-link" href="../index.html">Back to topics</a>
+        </header>
+
+        <div class="single-lesson-layout">
+            <aside class="single-lesson-sidebar" aria-label="Lesson navigation">
+                <div class="single-lesson-sidebar-header">
+                    <p class="single-lesson-topic-code">1.2.10 Sound</p>
+                    <h1>Sound</h1>
+                </div>
+                <p class="single-lesson-panel-title">Lesson navigation</p>
+                <nav class="single-lesson-nav" aria-label="Single-page lesson sections">
+                    <a class="single-lesson-nav-link is-active" href="#introduction"><span>1</span><strong>Introduction</strong></a>
+                    <a class="single-lesson-nav-link" href="#learning-objectives"><span>2</span><strong>Learning objectives</strong></a>
+                    <a class="single-lesson-nav-link" href="#part-1-what-is-sound"><span>3</span><strong>Part 1 - What is sound?</strong></a>
+                    <a class="single-lesson-nav-link" href="#understanding-sound"><span>4</span><strong>Understanding sound</strong></a>
+                    <a class="single-lesson-nav-link" href="#sound-wave"><span>5</span><strong>Sound wave</strong></a>
+                    <a class="single-lesson-nav-link" href="#adc"><span>6</span><strong>Analog-to-Digital Converter</strong></a>
+                    <a class="single-lesson-nav-link" href="#adc-visual"><span>7</span><strong>ADC visual</strong></a>
+                    <a class="single-lesson-nav-link" href="#part-1-mcq"><span>8</span><strong>Multiple choice questions</strong></a>
+                    <a class="single-lesson-nav-link" href="#part-2-sound-sample"><span>9</span><strong>Part 2 - Sound samples</strong></a>
+                    <a class="single-lesson-nav-link" href="#what-is-sound-sample"><span>10</span><strong>What is a sound sample?</strong></a>
+                    <a class="single-lesson-nav-link" href="#sound-sampling"><span>11</span><strong>Sound sampling</strong></a>
+                    <a class="single-lesson-nav-link" href="#part-2-mcq"><span>12</span><strong>Multiple choice questions</strong></a>
+                    <a class="single-lesson-nav-link" href="#part-3-bit-depth"><span>13</span><strong>Part 3 - Bit depth</strong></a>
+                    <a class="single-lesson-nav-link" href="#what-is-bit-depth"><span>14</span><strong>What is sample bit depth?</strong></a>
+                    <a class="single-lesson-nav-link" href="#understanding-bit-depth"><span>15</span><strong>Understanding bit depth</strong></a>
+                    <a class="single-lesson-nav-link" href="#why-bits-matter"><span>16</span><strong>Why the number of bits matters</strong></a>
+                    <a class="single-lesson-nav-link" href="#bit-depth-quality-size"><span>17</span><strong>Bit depth, quality and file size</strong></a>
+                    <a class="single-lesson-nav-link" href="#bit-depth-exam"><span>18</span><strong>Exam questions</strong></a>
+                    <a class="single-lesson-nav-link" href="#part-4-sample-rate"><span>19</span><strong>Part 4 - Sample rate</strong></a>
+                    <a class="single-lesson-nav-link" href="#what-is-sample-rate"><span>20</span><strong>What is sample rate?</strong></a>
+                    <a class="single-lesson-nav-link" href="#sample-rate-visual"><span>21</span><strong>Sample rate</strong></a>
+                    <a class="single-lesson-nav-link" href="#sample-rate-quality-size"><span>22</span><strong>Sample rate, quality and file size</strong></a>
+                    <a class="single-lesson-nav-link" href="#sample-rate-comparison"><span>23</span><strong>Sample rate comparison</strong></a>
+                    <a class="single-lesson-nav-link" href="#sample-rate-exam"><span>24</span><strong>Exam questions</strong></a>
+                    <a class="single-lesson-nav-link" href="#part-5-file-size"><span>25</span><strong>Part 5 - File size</strong></a>
+                    <a class="single-lesson-nav-link" href="#why-file-size-matters"><span>26</span><strong>Why file size matters</strong></a>
+                    <a class="single-lesson-nav-link" href="#file-size-formula"><span>27</span><strong>File size formula</strong></a>
+                    <a class="single-lesson-nav-link" href="#calculation-1"><span>28</span><strong>Calculation 1</strong></a>
+                    <a class="single-lesson-nav-link" href="#calculation-2"><span>29</span><strong>Calculation 2</strong></a>
+                    <a class="single-lesson-nav-link" href="#calculation-3"><span>30</span><strong>Calculation 3</strong></a>
+                    <a class="single-lesson-nav-link" href="#file-size-exam"><span>31</span><strong>Exam questions</strong></a>
+                    <a class="single-lesson-nav-link" href="#lesson-summary"><span>32</span><strong>Lesson summary</strong></a>
+                    <a class="single-lesson-nav-link" href="#end-of-lesson"><span>33</span><strong>Ready for the next step?</strong></a>
+                </nav>
+                <div class="single-lesson-sidebar-actions">
+                    <a href="../index.html">Back to topics</a>
+                </div>
+            </aside>
+
+            <main class="single-lesson-content single-lesson-main" tabindex="-1">
+                <section class="single-lesson-section sound-section" id="introduction" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">1.2.10 Sound</p>
+                        <h2 class="single-lesson-title">Introduction</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <div class="sound-stack">
+                                <article class="single-lesson-card single-lesson-explanation-card">
+                                    <p>Every second, your phone, laptop or headphones turns invisible vibrations in the air into numbers a computer can store. A voice note, a song and a notification sound all begin as analogue waves, but computers cannot store waves directly. They must turn sound into binary. In this lesson, you will learn how that conversion happens and why changing the settings can improve sound quality but increase file size.</p>
+                                </article>
+                                <figure class="sound-reference-image sound-intro-reference">
+                                    <img src="../../../assets/images/sound-intro.png" alt="A sound wave is sampled and stored as binary data.">
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section" id="learning-objectives" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">1.2.10 Sound</p>
+                        <h2 class="single-lesson-title">Learning objectives</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap is-medium">
+                            <p class="sound-objective-intro">By the end of this lesson, you should be able to:</p>
+                            <div class="single-lesson-objectives">
+                                <article><span>1</span><p><strong>Describe</strong> how analogue sound is stored in digital form.</p></article>
+                                <article><span>2</span><p><strong>Explain</strong> the purpose of an Analog-to-Digital Converter.</p></article>
+                                <article><span>3</span><p><strong>Describe</strong> what a sound sample is.</p></article>
+                                <article><span>4</span><p><strong>Explain</strong> how sample rate and bit depth affect sound quality and file size.</p></article>
+                                <article><span>5</span><p><strong>Calculate</strong> sound file size using sample rate, duration and bit depth.</p></article>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section single-lesson-segment-section" id="part-1-what-is-sound" data-single-lesson-section>
+                    <div class="single-lesson-section-inner single-lesson-segment-inner">
+                        <h2 class="single-lesson-segment-title">Part 1 - What is Sound?</h2>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section" id="understanding-sound" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 1 - What is Sound?</p>
+                        <h2 class="single-lesson-title">Understanding sound</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <div class="sound-stack">
+                                <article class="single-lesson-card single-lesson-explanation-card">
+                                    <p>Sound is made when something vibrates. These vibrations travel through the air as waves. A microphone can detect these waves, but a computer cannot store the original analogue wave directly. To store sound, the computer must represent the sound wave using binary values.</p>
+                                </article>
+                                <figure class="sound-diagram">
+                                    <svg viewBox="0 0 900 300" role="img" aria-label="A speaker vibrates, a smooth wave travels through the air, and a microphone detects it.">
+                                        <rect x="40" y="95" width="100" height="110" rx="10" fill="#eef5ff" stroke="#365fd0" stroke-width="5"></rect>
+                                        <polygon points="140,125 205,90 205,210 140,175" fill="#365fd0"></polygon>
+                                        <text x="90" y="245" text-anchor="middle" class="sound-svg-label">speaker</text>
+                                        <path class="sound-wave-line" d="M245 150 C290 80 335 220 380 150 S470 80 515 150 S605 220 650 150"></path>
+                                        <text x="450" y="245" text-anchor="middle" class="sound-svg-label">smooth analogue sound wave</text>
+                                        <rect x="725" y="70" width="54" height="120" rx="24" fill="#ffffff" stroke="#08a978" stroke-width="5"></rect>
+                                        <path d="M752 190 L752 235 M720 235 H784" stroke="#08a978" stroke-width="8" stroke-linecap="round"></path>
+                                        <text x="752" y="265" text-anchor="middle" class="sound-svg-label">microphone</text>
+                                    </svg>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section" id="sound-wave" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 1 - What is Sound?</p>
+                        <h2 class="single-lesson-title">Sound wave</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <div class="sound-stack">
+                                <article class="single-lesson-card single-lesson-explanation-card">
+                                    <p>The wave shows how sound changes over time. Higher points on the wave represent stronger vibrations. Lower points represent weaker vibrations. The computer needs to capture enough information from this wave to recreate the sound later.</p>
+                                </article>
+                                <figure class="sound-diagram">
+                                    <svg viewBox="0 0 900 340" role="img" aria-label="A source sends a sound wave to a microphone.">
+                                        <defs>
+                                            <marker id="sound-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+                                                <path d="M0 0 L10 5 L0 10 Z" fill="#365fd0"></path>
+                                            </marker>
+                                        </defs>
+                                        <text x="90" y="65" text-anchor="middle" class="sound-svg-heading">source</text>
+                                        <circle cx="90" cy="170" r="48" fill="#fff9df" stroke="#dca311" stroke-width="5"></circle>
+                                        <path d="M78 145 H96 L120 122 V218 L96 195 H78 Z" fill="#dca311"></path>
+                                        <path class="sound-wave-line" d="M190 170 C245 70 300 270 355 170 S465 70 520 170 S630 270 685 170"></path>
+                                        <path d="M205 280 H680" stroke="#365fd0" stroke-width="5" marker-end="url(#sound-arrow)"></path>
+                                        <text x="440" y="315" text-anchor="middle" class="sound-svg-label">time</text>
+                                        <line x1="350" y1="42" x2="350" y2="300" stroke="#b8c8f7" stroke-dasharray="8 8"></line>
+                                        <text x="350" y="35" text-anchor="middle" class="sound-svg-label">stronger vibration</text>
+                                        <text x="745" y="65" text-anchor="middle" class="sound-svg-heading">microphone</text>
+                                        <rect x="718" y="110" width="54" height="120" rx="24" fill="#ffffff" stroke="#08a978" stroke-width="5"></rect>
+                                        <path d="M745 230 L745 275 M713 275 H777" stroke="#08a978" stroke-width="8" stroke-linecap="round"></path>
+                                    </svg>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section" id="adc" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 1 - What is Sound?</p>
+                        <h2 class="single-lesson-title">Analog-to-Digital Converter (ADC)</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <div class="sound-stack">
+                                <article class="single-lesson-card single-lesson-explanation-card">
+                                    <p>An Analog-to-Digital Converter, or ADC, changes analogue sound into digital data. The ADC measures the sound wave at regular intervals and converts each measurement into a binary value. This allows the sound to be stored, processed and played back by a computer.</p>
+                                </article>
+                                <div class="sound-process" role="img" aria-label="Analogue sound wave goes into an ADC and becomes binary values.">
+                                    <div class="sound-process-node">Analogue<br>sound wave</div>
+                                    <div class="sound-process-arrow" aria-hidden="true"></div>
+                                    <div class="sound-process-node is-adc">ADC</div>
+                                    <div class="sound-process-arrow" aria-hidden="true"></div>
+                                    <div class="sound-process-node">Binary<br>values</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section" id="adc-visual" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 1 - What is Sound?</p>
+                        <h2 class="single-lesson-title">Analog-to-Digital Converter (ADC)</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <div class="sound-stack">
+                                <article class="single-lesson-card single-lesson-explanation-card">
+                                    <p>The visual shows the ADC taking measurements from the analogue wave and turning each measurement into a binary value. The smooth wave becomes a set of separate digital values that the computer can store.</p>
+                                </article>
+                                <figure class="sound-diagram">
+                                    <svg viewBox="0 0 900 360" role="img" aria-label="Sample points on a sound wave become binary values.">
+                                        <path class="sound-wave-line" d="M55 130 C115 40 175 220 235 130 S355 40 415 130 S535 220 595 130 S715 40 775 130 S855 205 875 130"></path>
+                                        <g class="sound-sample-points">
+                                            <circle cx="115" cy="110" r="9"></circle><circle cx="235" cy="130" r="9"></circle><circle cx="355" cy="70" r="9"></circle><circle cx="475" cy="190" r="9"></circle><circle cx="595" cy="130" r="9"></circle><circle cx="715" cy="70" r="9"></circle><circle cx="835" cy="192" r="9"></circle>
+                                        </g>
+                                        <g class="sound-binary-values">
+                                            <text x="115" y="265" text-anchor="middle">1011</text><text x="235" y="265" text-anchor="middle">1000</text><text x="355" y="265" text-anchor="middle">0101</text><text x="475" y="265" text-anchor="middle">1011</text><text x="595" y="265" text-anchor="middle">1000</text><text x="715" y="265" text-anchor="middle">1011</text><text x="835" y="265" text-anchor="middle">0111</text>
+                                        </g>
+                                        <text x="450" y="320" text-anchor="middle" class="sound-svg-label">each point is measured and stored as binary</text>
+                                    </svg>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section" id="part-1-mcq" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 1 - What is Sound?</p>
+                        <h2 class="single-lesson-title">Multiple Choice Questions</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <div class="sound-mcq-list" data-sound-mcq-set>
+                                <div class="sound-mcq-table" role="group" aria-label="Multiple choice questions about sound">
+                                    <p class="sound-mcq-instruction"><strong>Questions</strong> - Select the correct option for each question. (3 marks)</p>
+                                    <div class="sound-mcq-head" aria-hidden="true">
+                                        <span>Question</span><span>Option A</span><span>Option B</span><span>Option C</span><span>Option D</span>
+                                    </div>
+                                    <article class="sound-mcq-row">
+                                        <h3><span class="sound-question-badge">Q1</span><span class="sound-question-text">What causes sound?</span></h3>
+                                        <button type="button" data-sound-choice="correct" data-feedback="Correct. Sound is caused by vibrations."><span class="sound-option-label">A</span>Vibrations</button>
+                                        <button type="button" data-sound-choice="wrong" data-feedback="Pixels are used in images, not sound."><span class="sound-option-label">B</span>Pixels</button>
+                                        <button type="button" data-sound-choice="wrong" data-feedback="Packets are used in networking, not to cause sound."><span class="sound-option-label">C</span>Packets</button>
+                                        <button type="button" data-sound-choice="wrong" data-feedback="Logic gates process binary signals, but they do not cause sound."><span class="sound-option-label">D</span>Logic gates</button>
+                                        <p class="sound-feedback" data-sound-feedback>Choose an option.</p>
+                                    </article>
+                                    <article class="sound-mcq-row">
+                                        <h3><span class="sound-question-badge">Q2</span><span class="sound-question-text">Why must sound be converted before a computer can store it?</span></h3>
+                                        <button type="button" data-sound-choice="wrong" data-feedback="Computers store more than images. They can store sound once it is digital."><span class="sound-option-label">A</span>Computers only store images</button>
+                                        <button type="button" data-sound-choice="wrong" data-feedback="Compression can reduce file size, but conversion to binary comes first."><span class="sound-option-label">B</span>Sound must always be compressed</button>
+                                        <button type="button" data-sound-choice="correct" data-feedback="Correct. Computers store data in binary, so analogue sound must be converted."><span class="sound-option-label">C</span>Computers store data in binary</button>
+                                        <button type="button" data-sound-choice="wrong" data-feedback="Digital sound can be played through speakers after conversion back to analogue."><span class="sound-option-label">D</span>Sound cannot be played through speakers</button>
+                                        <p class="sound-feedback" data-sound-feedback>Choose an option.</p>
+                                    </article>
+                                    <article class="sound-mcq-row">
+                                        <h3><span class="sound-question-badge">Q3</span><span class="sound-question-text">What is the purpose of an ADC?</span></h3>
+                                        <button type="button" data-sound-choice="wrong" data-feedback="Image compression is a different process."><span class="sound-option-label">A</span>To compress images</button>
+                                        <button type="button" data-sound-choice="correct" data-feedback="Correct. An ADC converts analogue sound into digital data."><span class="sound-option-label">B</span>To convert analogue sound into digital data</button>
+                                        <button type="button" data-sound-choice="wrong" data-feedback="Screen resolution is about images on a display."><span class="sound-option-label">C</span>To increase screen resolution</button>
+                                        <button type="button" data-sound-choice="wrong" data-feedback="Sorting files is not the job of an ADC."><span class="sound-option-label">D</span>To sort files</button>
+                                        <p class="sound-feedback" data-sound-feedback>Choose an option.</p>
+                                    </article>
+                                </div>
+                                <div class="single-lesson-control-row"><button class="single-lesson-control-button" type="button" data-sound-reset>Reset</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section single-lesson-segment-section" id="part-2-sound-sample" data-single-lesson-section>
+                    <div class="single-lesson-section-inner single-lesson-segment-inner">
+                        <h2 class="single-lesson-segment-title">Part 2 - What is a Sound sample?</h2>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section" id="what-is-sound-sample" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 2 - What is a Sound sample?</p>
+                        <h2 class="single-lesson-title">What is a Sound sample?</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <div class="sound-stack">
+                                <article class="single-lesson-card single-lesson-explanation-card">
+                                    <p>A sound sample is one measurement taken from a sound wave at a specific point in time. To store sound digitally, the computer takes many samples from the wave. Each sample is stored as a binary value. More samples can give a more accurate copy of the original sound.</p>
+                                </article>
+                                <figure class="sound-diagram">
+                                    <svg viewBox="0 0 900 320" role="img" aria-label="One highlighted sample point on a sound wave.">
+                                        <path class="sound-wave-line" d="M50 150 C120 55 190 245 260 150 S400 55 470 150 S610 245 680 150 S820 55 880 150"></path>
+                                        <line x1="470" y1="150" x2="470" y2="255" stroke="#08a978" stroke-width="5" stroke-dasharray="8 8"></line>
+                                        <circle cx="470" cy="150" r="14" fill="#08a978" stroke="#ffffff" stroke-width="5"></circle>
+                                        <text x="470" y="292" text-anchor="middle" class="sound-svg-heading">one sample</text>
+                                    </svg>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section" id="sound-sampling" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 2 - What is a Sound sample?</p>
+                        <h2 class="single-lesson-title">Sound sampling</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <div class="sound-stack">
+                                <article class="single-lesson-card single-lesson-explanation-card">
+                                    <p>The diagram shows a sound wave being measured at regular points. Each point is a sample. The computer stores the height of each sample as a binary value so the sound can be recreated later.</p>
+                                </article>
+                                <figure class="sound-diagram sound-sampling-graph-card">
+                                    <svg viewBox="0 0 900 420" role="img" aria-label="Sound wave plotted on a graph with binary values on the y axis and seconds on the x axis.">
+                                        <g class="sound-graph-grid">
+                                            <line x1="110" y1="65" x2="835" y2="65"></line>
+                                            <line x1="110" y1="125" x2="835" y2="125"></line>
+                                            <line x1="110" y1="185" x2="835" y2="185"></line>
+                                            <line x1="110" y1="245" x2="835" y2="245"></line>
+                                            <line x1="110" y1="305" x2="835" y2="305"></line>
+                                            <line x1="110" y1="65" x2="110" y2="305"></line>
+                                            <line x1="255" y1="65" x2="255" y2="305"></line>
+                                            <line x1="400" y1="65" x2="400" y2="305"></line>
+                                            <line x1="545" y1="65" x2="545" y2="305"></line>
+                                            <line x1="690" y1="65" x2="690" y2="305"></line>
+                                            <line x1="835" y1="65" x2="835" y2="305"></line>
+                                        </g>
+                                        <g class="sound-axis">
+                                            <line x1="110" y1="305" x2="845" y2="305"></line>
+                                            <line x1="110" y1="305" x2="110" y2="55"></line>
+                                        </g>
+                                        <g class="sound-axis-ticks sound-y-binary-labels">
+                                            <text x="82" y="72">1111</text>
+                                            <text x="82" y="132">1011</text>
+                                            <text x="82" y="192">1000</text>
+                                            <text x="82" y="252">0101</text>
+                                            <text x="82" y="312">0000</text>
+                                        </g>
+                                        <g class="sound-axis-ticks sound-x-second-labels">
+                                            <text x="110" y="345">0</text>
+                                            <text x="255" y="345">0.25</text>
+                                            <text x="400" y="345">0.5</text>
+                                            <text x="545" y="345">0.75</text>
+                                            <text x="690" y="345">1.0</text>
+                                            <text x="835" y="345">1.25</text>
+                                        </g>
+                                        <text x="472" y="390" text-anchor="middle" class="sound-svg-label">seconds</text>
+                                        <text x="28" y="180" text-anchor="middle" class="sound-svg-label sound-y-axis-title" transform="rotate(-90 28 180)">binary value</text>
+                                        <path class="sound-wave-line sound-sampling-wave-line" d="M110 185 C125 150 145 132 160 132 C195 132 250 250 300 214 C340 178 385 86 440 112 C500 145 525 255 580 252 C620 250 655 116 700 118 C745 120 780 252 810 245 C830 240 850 210 865 185"></path>
+                                        <g class="sound-sample-stems">
+                                            <line x1="160" y1="132" x2="160" y2="305"></line>
+                                            <line x1="300" y1="214" x2="300" y2="305"></line>
+                                            <line x1="440" y1="112" x2="440" y2="305"></line>
+                                            <line x1="580" y1="252" x2="580" y2="305"></line>
+                                            <line x1="700" y1="118" x2="700" y2="305"></line>
+                                            <line x1="810" y1="245" x2="810" y2="305"></line>
+                                        </g>
+                                        <g class="sound-sample-points">
+                                            <circle cx="160" cy="132" r="9"></circle>
+                                            <circle cx="300" cy="214" r="9"></circle>
+                                            <circle cx="440" cy="112" r="9"></circle>
+                                            <circle cx="580" cy="252" r="9"></circle>
+                                            <circle cx="700" cy="118" r="9"></circle>
+                                            <circle cx="810" cy="245" r="9"></circle>
+                                        </g>
+                                    </svg>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section" id="part-2-mcq" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 2 - What is a Sound sample?</p>
+                        <h2 class="single-lesson-title">Multiple Choice Questions</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <div class="sound-mcq-list" data-sound-mcq-set>
+                                <div class="sound-mcq-table" role="group" aria-label="Multiple choice questions about sound samples">
+                                    <p class="sound-mcq-instruction"><strong>Questions</strong> - Select the correct option for each question. (3 marks)</p>
+                                    <div class="sound-mcq-head" aria-hidden="true">
+                                        <span>Question</span><span>Option A</span><span>Option B</span><span>Option C</span><span>Option D</span>
+                                    </div>
+                                    <article class="sound-mcq-row">
+                                        <h3><span class="sound-question-badge">Q4</span><span class="sound-question-text">What is a sound sample?</span></h3>
+                                        <button type="button" data-sound-choice="wrong" data-feedback="The whole song file contains many samples."><span class="sound-option-label">A</span>The whole song file</button>
+                                        <button type="button" data-sound-choice="wrong" data-feedback="Compression is a different idea."><span class="sound-option-label">B</span>A compression method</button>
+                                        <button type="button" data-sound-choice="wrong" data-feedback="A speaker plays sound; it is not a sample."><span class="sound-option-label">C</span>A type of speaker</button>
+                                        <button type="button" data-sound-choice="correct" data-feedback="Correct. A sample is one measurement taken from the wave."><span class="sound-option-label">D</span>One measurement taken from a sound wave</button>
+                                        <p class="sound-feedback" data-sound-feedback>Choose an option.</p>
+                                    </article>
+                                    <article class="sound-mcq-row">
+                                        <h3><span class="sound-question-badge">Q5</span><span class="sound-question-text">What is stored for each sample?</span></h3>
+                                        <button type="button" data-sound-choice="wrong" data-feedback="A colour code is used for images, not sound samples."><span class="sound-option-label">A</span>A colour code</button>
+                                        <button type="button" data-sound-choice="wrong" data-feedback="A web address is not stored for each sound sample."><span class="sound-option-label">B</span>A web address</button>
+                                        <button type="button" data-sound-choice="wrong" data-feedback="A file extension describes the file type, not each sample."><span class="sound-option-label">C</span>A file extension</button>
+                                        <button type="button" data-sound-choice="correct" data-feedback="Correct. Each sample is stored as a binary value."><span class="sound-option-label">D</span>A binary value</button>
+                                        <p class="sound-feedback" data-sound-feedback>Choose an option.</p>
+                                    </article>
+                                    <article class="sound-mcq-row">
+                                        <h3><span class="sound-question-badge">Q6</span><span class="sound-question-text">Why are many samples needed?</span></h3>
+                                        <button type="button" data-sound-choice="wrong" data-feedback="Sound still uses binary when stored digitally."><span class="sound-option-label">A</span>To stop all files using binary</button>
+                                        <button type="button" data-sound-choice="wrong" data-feedback="Speakers are still needed to play the sound."><span class="sound-option-label">B</span>To remove the need for speakers</button>
+                                        <button type="button" data-sound-choice="correct" data-feedback="Correct. More samples help recreate the original wave more accurately."><span class="sound-option-label">C</span>To recreate the sound wave more accurately</button>
+                                        <button type="button" data-sound-choice="wrong" data-feedback="Digital storage does not make sound analogue again."><span class="sound-option-label">D</span>To make the sound analogue again</button>
+                                        <p class="sound-feedback" data-sound-feedback>Choose an option.</p>
+                                    </article>
+                                </div>
+                                <div class="single-lesson-control-row"><button class="single-lesson-control-button" type="button" data-sound-reset>Reset</button></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section single-lesson-segment-section" id="part-3-bit-depth" data-single-lesson-section>
+                    <div class="single-lesson-section-inner single-lesson-segment-inner">
+                        <h2 class="single-lesson-segment-title">Part 3 - What is Sample bit depth?</h2>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section" id="what-is-bit-depth" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 3 - What is Sample bit depth?</p>
+                        <h2 class="single-lesson-title">What is sample bit depth?</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <div class="sound-stack">
+                                <article class="single-lesson-card single-lesson-explanation-card">
+                                    <p>Sample bit depth is the number of bits used to store each sound sample. More bits allow more possible values for each sample. This means the computer can store the height of the sound wave more accurately.</p>
+                                </article>
+                                <figure class="sound-diagram sound-bit-depth-intro" role="img" aria-label="Bit depth controls how many binary values are available for each sound sample.">
+                                    <div class="sound-bit-depth-level-cards">
+                                        <article>
+                                            <span class="sound-level-count">2 bits</span>
+                                            <strong>4 values</strong>
+                                            <code>00 01 10 11</code>
+                                    <p>Few possible heights, so the stored value is rough.</p>
+                                        </article>
+                                        <article>
+                                            <span class="sound-level-count">3 bits</span>
+                                            <strong>8 values</strong>
+                                            <code>000 ... 111</code>
+                                    <p>More heights are available, so the sample can be closer.</p>
+                                        </article>
+                                        <article>
+                                            <span class="sound-level-count">4 bits</span>
+                                            <strong>16 values</strong>
+                                            <code>0000 ... 1111</code>
+                                    <p>Even more heights are available, so the stored wave is more accurate.</p>
+                                        </article>
+                                    </div>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section" id="understanding-bit-depth" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 3 - What is Sample bit depth?</p>
+                        <h2 class="single-lesson-title">Understanding bit depth</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <div class="sound-stack">
+                                <article class="single-lesson-card single-lesson-explanation-card">
+                                    <p>The graph shows how sample measurements are matched to binary values. With a low bit depth, there are fewer possible values, so the measurement is less precise. With a higher bit depth, there are more possible values, so the sound can be stored more accurately.</p>
+                                </article>
+                                <figure class="sound-diagram sound-bit-depth-detail">
+                                    <article class="sound-bit-depth-panel">
+                                        <h3>3 bits = 8 amplitude levels</h3>
+                                        <svg class="sound-bit-depth-graph" viewBox="0 0 920 360" role="img" aria-label="Three bit sound has eight amplitude levels and sample points on the wave.">
+                                            <g class="sound-graph-grid">
+                                                <line x1="80" y1="44" x2="80" y2="284"></line><line x1="180" y1="44" x2="180" y2="284"></line><line x1="280" y1="44" x2="280" y2="284"></line><line x1="380" y1="44" x2="380" y2="284"></line><line x1="480" y1="44" x2="480" y2="284"></line><line x1="580" y1="44" x2="580" y2="284"></line><line x1="680" y1="44" x2="680" y2="284"></line><line x1="780" y1="44" x2="780" y2="284"></line>
+                                                <line x1="80" y1="44" x2="820" y2="44"></line><line x1="80" y1="78" x2="820" y2="78"></line><line x1="80" y1="112" x2="820" y2="112"></line><line x1="80" y1="146" x2="820" y2="146"></line><line x1="80" y1="180" x2="820" y2="180"></line><line x1="80" y1="214" x2="820" y2="214"></line><line x1="80" y1="248" x2="820" y2="248"></line><line x1="80" y1="284" x2="820" y2="284"></line>
+                                            </g>
+                                            <g class="sound-axis">
+                                                <line x1="80" y1="44" x2="80" y2="284"></line><line x1="80" y1="284" x2="820" y2="284"></line>
+                                                <text x="48" y="288">0</text><text x="48" y="254">1</text><text x="48" y="220">2</text><text x="48" y="186">3</text><text x="48" y="152">4</text><text x="48" y="118">5</text><text x="48" y="84">6</text><text x="48" y="50">7</text>
+                                                <text x="80" y="322">0</text><text x="326" y="322">1</text><text x="574" y="322">2</text><text x="820" y="322">3</text>
+                                                <text x="450" y="344">Time (seconds)</text>
+                                            </g>
+                                            <path class="sound-analogue-line" d="M80 112 C120 42 160 214 200 146 S280 44 320 112 S400 284 440 146 S520 44 560 112 S640 284 680 146 S760 44 820 112"></path>
+                                            <g class="sound-sample-marks">
+                                                <circle cx="80" cy="112" r="8"></circle><circle cx="120" cy="104.8" r="8"></circle><circle cx="160" cy="151.9" r="8"></circle><circle cx="200" cy="146" r="8"></circle><circle cx="240" cy="91.9" r="8"></circle><circle cx="280" cy="75.5" r="8"></circle><circle cx="320" cy="112" r="8"></circle><circle cx="360" cy="181.7" r="8"></circle><circle cx="400" cy="213.6" r="8"></circle><circle cx="440" cy="146" r="8"></circle><circle cx="480" cy="60.7" r="8"></circle><circle cx="520" cy="59.9" r="8"></circle><circle cx="560" cy="112" r="8"></circle><circle cx="600" cy="181.7" r="8"></circle><circle cx="640" cy="213.6" r="8"></circle><circle cx="680" cy="146" r="8"></circle><circle cx="720" cy="61.4" r="8"></circle><circle cx="760" cy="56.5" r="8"></circle>
+                                            </g>
+                                        </svg>
+                                        <p class="sound-file-size-note">18 samples x 3 bits = <strong>54 bits</strong></p>
+                                    </article>
+                                    <article class="sound-bit-depth-panel">
+                                        <h3>4 bits = 16 amplitude levels</h3>
+                                        <svg class="sound-bit-depth-graph" viewBox="0 0 920 360" role="img" aria-label="Four bit sound has sixteen amplitude levels and sample points on the wave.">
+                                            <g class="sound-graph-grid is-finer">
+                                                <line x1="80" y1="44" x2="80" y2="284"></line><line x1="180" y1="44" x2="180" y2="284"></line><line x1="280" y1="44" x2="280" y2="284"></line><line x1="380" y1="44" x2="380" y2="284"></line><line x1="480" y1="44" x2="480" y2="284"></line><line x1="580" y1="44" x2="580" y2="284"></line><line x1="680" y1="44" x2="680" y2="284"></line><line x1="780" y1="44" x2="780" y2="284"></line>
+                                                <line x1="80" y1="44" x2="820" y2="44"></line><line x1="80" y1="60" x2="820" y2="60"></line><line x1="80" y1="76" x2="820" y2="76"></line><line x1="80" y1="92" x2="820" y2="92"></line><line x1="80" y1="108" x2="820" y2="108"></line><line x1="80" y1="124" x2="820" y2="124"></line><line x1="80" y1="140" x2="820" y2="140"></line><line x1="80" y1="156" x2="820" y2="156"></line><line x1="80" y1="172" x2="820" y2="172"></line><line x1="80" y1="188" x2="820" y2="188"></line><line x1="80" y1="204" x2="820" y2="204"></line><line x1="80" y1="220" x2="820" y2="220"></line><line x1="80" y1="236" x2="820" y2="236"></line><line x1="80" y1="252" x2="820" y2="252"></line><line x1="80" y1="268" x2="820" y2="268"></line><line x1="80" y1="284" x2="820" y2="284"></line>
+                                            </g>
+                                            <g class="sound-axis">
+                                                <line x1="80" y1="44" x2="80" y2="284"></line><line x1="80" y1="284" x2="820" y2="284"></line>
+                                                <text x="48" y="288">0</text><text x="40" y="224">4</text><text x="40" y="160">8</text><text x="34" y="96">12</text><text x="34" y="50">15</text>
+                                                <text x="80" y="322">0</text><text x="326" y="322">1</text><text x="574" y="322">2</text><text x="820" y="322">3</text>
+                                                <text x="450" y="344">Time (seconds)</text>
+                                            </g>
+                                            <path class="sound-analogue-line" d="M80 108 C120 36 160 206 200 140 S280 38 320 108 S400 276 440 140 S520 38 560 108 S640 276 680 140 S760 38 820 108"></path>
+                                            <g class="sound-sample-marks">
+                                                <circle cx="80" cy="108" r="8"></circle><circle cx="120" cy="99" r="8"></circle><circle cx="160" cy="145" r="8"></circle><circle cx="200" cy="140" r="8"></circle><circle cx="240" cy="86.8" r="8"></circle><circle cx="280" cy="70.5" r="8"></circle><circle cx="320" cy="108" r="8"></circle><circle cx="360" cy="177.6" r="8"></circle><circle cx="400" cy="207.7" r="8"></circle><circle cx="440" cy="140" r="8"></circle><circle cx="480" cy="55.7" r="8"></circle><circle cx="520" cy="55" r="8"></circle><circle cx="560" cy="108" r="8"></circle><circle cx="600" cy="177.6" r="8"></circle><circle cx="640" cy="207.7" r="8"></circle><circle cx="680" cy="140" r="8"></circle><circle cx="720" cy="56.4" r="8"></circle><circle cx="760" cy="51.6" r="8"></circle>
+                                            </g>
+                                        </svg>
+                                        <p class="sound-file-size-note">18 samples x 4 bits = <strong>72 bits</strong></p>
+                                    </article>
+                                    <p class="sound-bit-depth-summary">The 4-bit version has more amplitude levels, so the stepped digital wave can follow the original wave more closely. The trade-off is that every sample uses more bits, so the file size increases.</p>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section" id="why-bits-matter" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 3 - What is Sample bit depth?</p>
+                        <h2 class="single-lesson-title">Why the number of bits matters</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <div class="sound-stack">
+                                <article class="single-lesson-card single-lesson-explanation-card">
+                                    <p>The number of bits matters because it controls how many different values can be used to store each sound sample. Each extra bit gives the computer more possible levels for the wave height, so an 8-bit sample can store many more values than a 1-bit or 2-bit sample. More possible values means the digital sound can be a more accurate copy of the original wave.</p>
+                                </article>
+                                <table class="sound-table sound-large-table">
+                                    <thead><tr><th>Bits per sample</th><th>Possible amplitude levels</th></tr></thead>
+                                    <tbody><tr><td>1 bit</td><td>2 levels</td></tr><tr><td>2 bits</td><td>4 levels</td></tr><tr><td>3 bits</td><td>8 levels</td></tr><tr><td>4 bits</td><td>16 levels</td></tr><tr><td>8 bits</td><td>256 levels</td></tr><tr><td>16 bits</td><td>65,536 levels</td></tr></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section" id="bit-depth-quality-size" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 3 - What is Sample bit depth?</p>
+                        <h2 class="single-lesson-title">The relationship between bit depth, sound quality and file size</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <div class="sound-stack">
+                                <article class="single-lesson-card single-lesson-explanation-card">
+                                    <p>Increasing bit depth usually improves sound quality because each sample can be stored more accurately. However, it also increases file size because more bits are stored for every sample. Lower bit depth gives a smaller file, but the sound may be less accurate.</p>
+                                </article>
+                                <figure class="sound-reference-image sound-bit-depth-reference">
+                                    <img src="../../../assets/images/sound-bit-depth.png" alt="Comparison of higher and lower bit depth showing sound accuracy and file size trade-offs.">
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section" id="bit-depth-exam" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 3 - What is Sample bit depth?</p>
+                        <h2 class="single-lesson-title">Exam questions</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <div class="single-lesson-exam-list">
+                                <button class="single-lesson-exam-card" type="button" data-sound-modal-open="modal-sound-q1"><span class="single-lesson-exam-number">Q1</span><span class="single-lesson-exam-question">Define bit depth.</span><span class="single-lesson-exam-marks">1 mark</span></button>
+                                <button class="single-lesson-exam-card" type="button" data-sound-modal-open="modal-sound-q2"><span class="single-lesson-exam-number">Q2</span><span class="single-lesson-exam-question">Explain one effect of increasing bit depth on sound quality.</span><span class="single-lesson-exam-marks">2 marks</span></button>
+                                <button class="single-lesson-exam-card" type="button" data-sound-modal-open="modal-sound-q3"><span class="single-lesson-exam-number">Q3</span><span class="single-lesson-exam-question">Explain one effect of increasing bit depth on file size.</span><span class="single-lesson-exam-marks">2 marks</span></button>
+                                <button class="single-lesson-exam-card" type="button" data-sound-modal-open="modal-sound-q4"><span class="single-lesson-exam-number">Q4</span><span class="single-lesson-exam-question">A sound file uses 16-bit samples instead of 8-bit samples. Explain why this may improve the stored sound.</span><span class="single-lesson-exam-marks">2 marks</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section single-lesson-segment-section" id="part-4-sample-rate" data-single-lesson-section>
+                    <div class="single-lesson-section-inner single-lesson-segment-inner">
+                        <h2 class="single-lesson-segment-title">Part 4 - What is sample rate?</h2>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section" id="what-is-sample-rate" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 4 - What is sample rate?</p>
+                        <h2 class="single-lesson-title">What is sample rate?</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <div class="sound-stack">
+                                <article class="single-lesson-card single-lesson-explanation-card">
+                                    <p>Sample rate is the number of sound samples taken every second. It is measured in Hertz, written as Hz. A sample rate of 44,100 Hz means 44,100 samples are taken every second.</p>
+                                </article>
+                                <figure class="sound-diagram sound-sample-rate-intro-graph">
+                                    <svg viewBox="0 0 900 420" role="img" aria-label="One second of sound shown on a graph with sample points measured across the wave.">
+                                        <g class="sound-graph-grid">
+                                            <line x1="110" y1="70" x2="835" y2="70"></line>
+                                            <line x1="110" y1="130" x2="835" y2="130"></line>
+                                            <line x1="110" y1="190" x2="835" y2="190"></line>
+                                            <line x1="110" y1="250" x2="835" y2="250"></line>
+                                            <line x1="110" y1="310" x2="835" y2="310"></line>
+                                            <line x1="110" y1="70" x2="110" y2="310"></line>
+                                            <line x1="255" y1="70" x2="255" y2="310"></line>
+                                            <line x1="400" y1="70" x2="400" y2="310"></line>
+                                            <line x1="545" y1="70" x2="545" y2="310"></line>
+                                            <line x1="690" y1="70" x2="690" y2="310"></line>
+                                            <line x1="835" y1="70" x2="835" y2="310"></line>
+                                        </g>
+                                        <g class="sound-axis">
+                                            <line x1="110" y1="310" x2="845" y2="310"></line>
+                                            <line x1="110" y1="310" x2="110" y2="60"></line>
+                                        </g>
+                                        <g class="sound-axis-ticks sound-y-binary-labels">
+                                            <text x="82" y="78">high</text>
+                                            <text x="82" y="198">middle</text>
+                                            <text x="82" y="318">low</text>
+                                        </g>
+                                        <g class="sound-axis-ticks sound-x-second-labels">
+                                            <text x="110" y="350">0</text>
+                                            <text x="255" y="350">0.25</text>
+                                            <text x="400" y="350">0.5</text>
+                                            <text x="545" y="350">0.75</text>
+                                            <text x="690" y="350">1.0</text>
+                                            <text x="835" y="350">1.25</text>
+                                        </g>
+                                        <text x="472" y="390" text-anchor="middle" class="sound-svg-label">seconds</text>
+                                        <text x="30" y="190" text-anchor="middle" class="sound-svg-label sound-y-axis-title" transform="rotate(-90 30 190)">wave height</text>
+                                        <path class="sound-wave-line sound-sampling-wave-line" d="M110 190 C125 150 145 132 160 132 C195 132 250 250 300 214 C340 178 385 86 440 112 C500 145 525 255 580 252 C620 250 655 116 700 118 C745 120 780 252 810 245 C830 240 850 210 865 185"></path>
+                                        <g class="sound-sample-stems">
+                                            <line x1="160" y1="132" x2="160" y2="310"></line>
+                                            <line x1="300" y1="214" x2="300" y2="310"></line>
+                                            <line x1="440" y1="112" x2="440" y2="310"></line>
+                                            <line x1="580" y1="252" x2="580" y2="310"></line>
+                                            <line x1="700" y1="118" x2="700" y2="310"></line>
+                                            <line x1="810" y1="245" x2="810" y2="310"></line>
+                                        </g>
+                                        <g class="sound-sample-points">
+                                            <circle cx="160" cy="132" r="9"></circle>
+                                            <circle cx="300" cy="214" r="9"></circle>
+                                            <circle cx="440" cy="112" r="9"></circle>
+                                            <circle cx="580" cy="252" r="9"></circle>
+                                            <circle cx="700" cy="118" r="9"></circle>
+                                            <circle cx="810" cy="245" r="9"></circle>
+                                        </g>
+                                        <text x="472" y="34" text-anchor="middle" class="sound-svg-heading">samples taken in 1 second</text>
+                                    </svg>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section" id="sample-rate-visual" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 4 - What is sample rate?</p>
+                        <h2 class="single-lesson-title">Sample rate</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <div class="sound-stack">
+                                <article class="single-lesson-card single-lesson-explanation-card">
+                                    <p>The visual compares a low sample rate with a high sample rate. The low sample rate takes fewer measurements, so it misses more detail from the wave. The high sample rate takes more measurements, so it can recreate the original wave more accurately.</p>
+                                </article>
+                                <div class="sound-sample-rate-panels">
+                                    <figure class="sound-diagram sound-sample-rate-compare-graph">
+                                        <figcaption>Low sample rate</figcaption>
+                                        <svg viewBox="0 0 900 420" role="img" aria-label="Low sample rate graph with three samples taken over one second.">
+                                            <g class="sound-graph-grid">
+                                                <line x1="110" y1="70" x2="835" y2="70"></line><line x1="110" y1="130" x2="835" y2="130"></line><line x1="110" y1="190" x2="835" y2="190"></line><line x1="110" y1="250" x2="835" y2="250"></line><line x1="110" y1="310" x2="835" y2="310"></line>
+                                                <line x1="110" y1="70" x2="110" y2="310"></line><line x1="255" y1="70" x2="255" y2="310"></line><line x1="400" y1="70" x2="400" y2="310"></line><line x1="545" y1="70" x2="545" y2="310"></line><line x1="690" y1="70" x2="690" y2="310"></line><line x1="835" y1="70" x2="835" y2="310"></line>
+                                            </g>
+                                            <g class="sound-axis"><line x1="110" y1="310" x2="845" y2="310"></line><line x1="110" y1="310" x2="110" y2="60"></line></g>
+                                            <g class="sound-axis-ticks sound-y-binary-labels"><text x="82" y="78">high</text><text x="82" y="198">middle</text><text x="82" y="318">low</text></g>
+                                            <g class="sound-axis-ticks sound-x-second-labels"><text x="110" y="350">0</text><text x="255" y="350">0.25</text><text x="400" y="350">0.5</text><text x="545" y="350">0.75</text><text x="690" y="350">1.0</text><text x="835" y="350">1.25</text></g>
+                                            <text x="472" y="390" text-anchor="middle" class="sound-svg-label">seconds</text>
+                                            <text x="30" y="190" text-anchor="middle" class="sound-svg-label sound-y-axis-title" transform="rotate(-90 30 190)">wave height</text>
+                                            <path class="sound-wave-line sound-sampling-wave-line" d="M110 190 C125 150 145 132 160 132 C195 132 250 250 300 214 C340 178 385 86 440 112 C500 145 525 255 580 252 C620 250 655 116 700 118 C745 120 780 252 810 245 C830 240 850 210 865 185"></path>
+                                            <g class="sound-sample-stems"><line x1="160" y1="132" x2="160" y2="310"></line><line x1="440" y1="112" x2="440" y2="310"></line><line x1="580" y1="252" x2="580" y2="310"></line></g>
+                                            <g class="sound-sample-points"><circle cx="160" cy="132" r="9"></circle><circle cx="440" cy="112" r="9"></circle><circle cx="580" cy="252" r="9"></circle></g>
+                                            <text x="472" y="34" text-anchor="middle" class="sound-svg-heading">3 samples in 1 second</text>
+                                        </svg>
+                                    </figure>
+                                    <figure class="sound-diagram sound-sample-rate-compare-graph">
+                                        <figcaption>High sample rate</figcaption>
+                                        <svg viewBox="0 0 900 420" role="img" aria-label="High sample rate graph with twelve samples taken over one second.">
+                                            <g class="sound-graph-grid">
+                                                <line x1="110" y1="70" x2="835" y2="70"></line><line x1="110" y1="130" x2="835" y2="130"></line><line x1="110" y1="190" x2="835" y2="190"></line><line x1="110" y1="250" x2="835" y2="250"></line><line x1="110" y1="310" x2="835" y2="310"></line>
+                                                <line x1="110" y1="70" x2="110" y2="310"></line><line x1="255" y1="70" x2="255" y2="310"></line><line x1="400" y1="70" x2="400" y2="310"></line><line x1="545" y1="70" x2="545" y2="310"></line><line x1="690" y1="70" x2="690" y2="310"></line><line x1="835" y1="70" x2="835" y2="310"></line>
+                                            </g>
+                                            <g class="sound-axis"><line x1="110" y1="310" x2="845" y2="310"></line><line x1="110" y1="310" x2="110" y2="60"></line></g>
+                                            <g class="sound-axis-ticks sound-y-binary-labels"><text x="82" y="78">high</text><text x="82" y="198">middle</text><text x="82" y="318">low</text></g>
+                                            <g class="sound-axis-ticks sound-x-second-labels"><text x="110" y="350">0</text><text x="255" y="350">0.25</text><text x="400" y="350">0.5</text><text x="545" y="350">0.75</text><text x="690" y="350">1.0</text><text x="835" y="350">1.25</text></g>
+                                            <text x="472" y="390" text-anchor="middle" class="sound-svg-label">seconds</text>
+                                            <text x="30" y="190" text-anchor="middle" class="sound-svg-label sound-y-axis-title" transform="rotate(-90 30 190)">wave height</text>
+                                            <path class="sound-wave-line sound-sampling-wave-line" d="M110 190 C125 150 145 132 160 132 C195 132 250 250 300 214 C340 178 385 86 440 112 C500 145 525 255 580 252 C620 250 655 116 700 118 C745 120 780 252 810 245 C830 240 850 210 865 185"></path>
+                                            <g class="sound-sample-stems"><line x1="120" y1="164" x2="120" y2="310"></line><line x1="160" y1="132" x2="160" y2="310"></line><line x1="230" y1="202" x2="230" y2="310"></line><line x1="300" y1="214" x2="300" y2="310"></line><line x1="370" y1="135" x2="370" y2="310"></line><line x1="440" y1="112" x2="440" y2="310"></line><line x1="510" y1="167" x2="510" y2="310"></line><line x1="580" y1="252" x2="580" y2="310"></line><line x1="650" y1="185" x2="650" y2="310"></line><line x1="700" y1="118" x2="700" y2="310"></line><line x1="760" y1="180" x2="760" y2="310"></line><line x1="810" y1="245" x2="810" y2="310"></line></g>
+                                            <g class="sound-sample-points"><circle cx="120" cy="164" r="7"></circle><circle cx="160" cy="132" r="7"></circle><circle cx="230" cy="202" r="7"></circle><circle cx="300" cy="214" r="7"></circle><circle cx="370" cy="135" r="7"></circle><circle cx="440" cy="112" r="7"></circle><circle cx="510" cy="167" r="7"></circle><circle cx="580" cy="252" r="7"></circle><circle cx="650" cy="185" r="7"></circle><circle cx="700" cy="118" r="7"></circle><circle cx="760" cy="180" r="7"></circle><circle cx="810" cy="245" r="7"></circle></g>
+                                            <text x="472" y="34" text-anchor="middle" class="sound-svg-heading">12 samples in 1 second</text>
+                                        </svg>
+                                    </figure>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section" id="sample-rate-quality-size" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 4 - What is sample rate?</p>
+                        <h2 class="single-lesson-title">The relationship between sample rate, sound quality and file size</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <div class="sound-stack">
+                                <article class="single-lesson-card single-lesson-explanation-card">
+                                    <p>Increasing sample rate usually improves sound quality because more measurements are taken every second. However, it also increases file size because more sample values must be stored. A lower sample rate gives a smaller file, but the sound may lose detail.</p>
+                                </article>
+                                <figure class="sound-reference-image sound-sample-rate-reference">
+                                    <img src="../../../assets/images/sound-sample-rate.png" alt="Comparison of higher and lower sample rates showing sound accuracy and file size trade-offs.">
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section" id="sample-rate-comparison" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 4 - What is sample rate?</p>
+                        <h2 class="single-lesson-title">The relationship between sample rate, sound quality and file size</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <div class="sound-stack">
+                                <article class="single-lesson-card single-lesson-explanation-card">
+                                    <p>The visual shows that as sample rate increases, the digital version follows the original wave more closely. It also shows that more samples per second means more data is stored.</p>
+                                </article>
+                                <figure class="sound-diagram sound-sample-rate-tradeoff" role="img" aria-label="Higher sample rate takes more measurements of the same wave and increases file size.">
+                                    <div class="sound-rate-capture-list">
+                                        <article class="sound-rate-capture-card">
+                                            <div class="sound-rate-capture-copy">
+                                                <strong>Low sample rate</strong>
+                                                <span>3 samples per second</span>
+                                    <p>Big gaps mean more of the wave shape is missed.</p>
+                                            </div>
+                                            <svg viewBox="0 0 900 220" aria-hidden="true">
+                                                <path class="sound-wave-line" d="M40 110 C120 20 200 200 280 110 S440 20 520 110 S680 200 760 110 S860 45 880 110"></path>
+                                                <g class="sound-sample-stems"><line x1="160" y1="110" x2="160" y2="188"></line><line x1="400" y1="42" x2="400" y2="188"></line><line x1="640" y1="177" x2="640" y2="188"></line></g>
+                                                <g class="sound-sample-points"><circle cx="160" cy="110" r="9"></circle><circle cx="400" cy="42" r="9"></circle><circle cx="640" cy="177" r="9"></circle></g>
+                                                <line x1="40" y1="188" x2="880" y2="188" class="sound-time-line"></line>
+                                            </svg>
+                                            <div class="sound-rate-file-meter"><span>File size</span><i style="--fill: 28%"></i></div>
+                                        </article>
+                                        <article class="sound-rate-capture-card">
+                                            <div class="sound-rate-capture-copy">
+                                                <strong>Medium sample rate</strong>
+                                                <span>6 samples per second</span>
+                                    <p>More measurements capture more detail from the wave.</p>
+                                            </div>
+                                            <svg viewBox="0 0 900 220" aria-hidden="true">
+                                                <path class="sound-wave-line" d="M40 110 C120 20 200 200 280 110 S440 20 520 110 S680 200 760 110 S860 45 880 110"></path>
+                                                <g class="sound-sample-stems"><line x1="100" y1="85" x2="100" y2="188"></line><line x1="220" y1="135" x2="220" y2="188"></line><line x1="340" y1="59" x2="340" y2="188"></line><line x1="460" y1="59" x2="460" y2="188"></line><line x1="580" y1="161" x2="580" y2="188"></line><line x1="700" y1="161" x2="700" y2="188"></line></g>
+                                                <g class="sound-sample-points"><circle cx="100" cy="85" r="8"></circle><circle cx="220" cy="135" r="8"></circle><circle cx="340" cy="59" r="8"></circle><circle cx="460" cy="59" r="8"></circle><circle cx="580" cy="161" r="8"></circle><circle cx="700" cy="161" r="8"></circle></g>
+                                                <line x1="40" y1="188" x2="880" y2="188" class="sound-time-line"></line>
+                                            </svg>
+                                            <div class="sound-rate-file-meter"><span>File size</span><i style="--fill: 56%"></i></div>
+                                        </article>
+                                        <article class="sound-rate-capture-card">
+                                            <div class="sound-rate-capture-copy">
+                                                <strong>High sample rate</strong>
+                                                <span>12 samples per second</span>
+                                    <p>The digital copy follows the original wave much more closely.</p>
+                                            </div>
+                                            <svg viewBox="0 0 900 220" aria-hidden="true">
+                                                <path class="sound-wave-line" d="M40 110 C120 20 200 200 280 110 S440 20 520 110 S680 200 760 110 S860 45 880 110"></path>
+                                                <g class="sound-sample-stems"><line x1="100" y1="85" x2="100" y2="188"></line><line x1="160" y1="110" x2="160" y2="188"></line><line x1="220" y1="135" x2="220" y2="188"></line><line x1="280" y1="110" x2="280" y2="188"></line><line x1="340" y1="59" x2="340" y2="188"></line><line x1="400" y1="42" x2="400" y2="188"></line><line x1="460" y1="59" x2="460" y2="188"></line><line x1="520" y1="110" x2="520" y2="188"></line><line x1="580" y1="161" x2="580" y2="188"></line><line x1="640" y1="177" x2="640" y2="188"></line><line x1="700" y1="161" x2="700" y2="188"></line><line x1="760" y1="110" x2="760" y2="188"></line></g>
+                                                <g class="sound-sample-points"><circle cx="100" cy="85" r="7"></circle><circle cx="160" cy="110" r="7"></circle><circle cx="220" cy="135" r="7"></circle><circle cx="280" cy="110" r="7"></circle><circle cx="340" cy="59" r="7"></circle><circle cx="400" cy="42" r="7"></circle><circle cx="460" cy="59" r="7"></circle><circle cx="520" cy="110" r="7"></circle><circle cx="580" cy="161" r="7"></circle><circle cx="640" cy="177" r="7"></circle><circle cx="700" cy="161" r="7"></circle><circle cx="760" cy="110" r="7"></circle></g>
+                                                <line x1="40" y1="188" x2="880" y2="188" class="sound-time-line"></line>
+                                            </svg>
+                                            <div class="sound-rate-file-meter"><span>File size</span><i style="--fill: 88%"></i></div>
+                                        </article>
+                                    </div>
+                                    <p class="sound-rate-tradeoff-summary">Higher sample rate means more measurements every second. That can improve sound quality, but every extra measurement has to be stored.</p>
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section" id="sample-rate-exam" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 4 - What is sample rate?</p>
+                        <h2 class="single-lesson-title">Exam questions</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <div class="single-lesson-exam-list">
+                                <button class="single-lesson-exam-card" type="button" data-sound-modal-open="modal-sound-q5"><span class="single-lesson-exam-number">Q5</span><span class="single-lesson-exam-question">State the unit used to measure sample rate.</span><span class="single-lesson-exam-marks">1 mark</span></button>
+                                <button class="single-lesson-exam-card" type="button" data-sound-modal-open="modal-sound-q6"><span class="single-lesson-exam-number">Q6</span><span class="single-lesson-exam-question">Define sample rate.</span><span class="single-lesson-exam-marks">1 mark</span></button>
+                                <button class="single-lesson-exam-card" type="button" data-sound-modal-open="modal-sound-q7"><span class="single-lesson-exam-number">Q7</span><span class="single-lesson-exam-question">Explain one effect of increasing sample rate on sound quality.</span><span class="single-lesson-exam-marks">2 marks</span></button>
+                                <button class="single-lesson-exam-card" type="button" data-sound-modal-open="modal-sound-q8"><span class="single-lesson-exam-number">Q8</span><span class="single-lesson-exam-question">Explain one effect of increasing sample rate on file size.</span><span class="single-lesson-exam-marks">2 marks</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section single-lesson-segment-section" id="part-5-file-size" data-single-lesson-section>
+                    <div class="single-lesson-section-inner single-lesson-segment-inner">
+                        <h2 class="single-lesson-segment-title">Part 5 - How to calculate Sound file size</h2>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section" id="why-file-size-matters" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 5 - How to calculate Sound file size</p>
+                        <h2 class="single-lesson-title">What is file size and why is it important?</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <div class="sound-stack">
+                                <article class="single-lesson-card single-lesson-explanation-card">
+                                    <p>File size is the amount of storage space needed to store a file. Sound files can become large because they may contain thousands of samples every second, and each sample uses several bits. File size matters because larger files take more storage space and may take longer to transfer.</p>
+                                </article>
+                                <figure class="sound-reference-image sound-file-size-reference">
+                                    <img src="../../../assets/images/sound-file-size.png" alt="A sound file with a file size is transferred from one computer to another.">
+                                </figure>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section" id="file-size-formula" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 5 - How to calculate Sound file size</p>
+                        <h2 class="single-lesson-title">How to calculate Sound file size</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <div class="sound-stack">
+                                <article class="single-lesson-card single-lesson-explanation-card">
+                                    <p>Sound file size in bits can be calculated using sample rate x duration in seconds x bit depth. Sample rate is the number of samples per second. Duration is how many seconds the audio lasts. Bit depth is the number of bits used for each sample.</p>
+                                </article>
+                                <div class="sound-formula-card">sound file size = sample rate x duration (s) x bit depth</div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section" id="calculation-1" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 5 - How to calculate Sound file size</p>
+                        <h2 class="single-lesson-title">Sound file size calculation 1</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <article class="sound-calculation-card" data-sound-stepper>
+                                <p>A sound file has a sample rate of 8,000 Hz, a duration of 10 seconds and a bit depth of 8 bits.</p>
+                                <ol class="sound-step-list">
+                                    <li data-sound-step>Formula: sample rate x duration x bit depth.</li>
+                                    <li data-sound-step>Substitute the values: 8,000 x 10 x 8.</li>
+                                    <li data-sound-step>Multiply: 8,000 x 10 x 8 = 640,000 bits.</li>
+                                    <li data-sound-step>Convert to bytes: 640,000 / 8 = 80,000 bytes.</li>
+                                </ol>
+                                <div class="single-lesson-control-row">
+                                    <button class="single-lesson-control-button" type="button" data-sound-prev>Previous step</button>
+                                    <button class="single-lesson-control-button" type="button" data-sound-reset-stepper>Reset</button>
+                                    <button class="single-lesson-control-button" type="button" data-sound-next>Next step</button>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section" id="calculation-2" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 5 - How to calculate Sound file size</p>
+                        <h2 class="single-lesson-title">Sound file size calculation 2</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <article class="sound-calculation-card" data-sound-stepper>
+                                <p>A sound file has a sample rate of 44,100 Hz, a duration of 5 seconds and a bit depth of 16 bits.</p>
+                                <ol class="sound-step-list">
+                                    <li data-sound-step>Formula: sample rate x duration x bit depth.</li>
+                                    <li data-sound-step>Substitute the values: 44,100 x 5 x 16.</li>
+                                    <li data-sound-step>Multiply: 44,100 x 5 x 16 = 3,528,000 bits.</li>
+                                    <li data-sound-step>Convert to bytes: 3,528,000 / 8 = 441,000 bytes.</li>
+                                </ol>
+                                <div class="single-lesson-control-row">
+                                    <button class="single-lesson-control-button" type="button" data-sound-prev>Previous step</button>
+                                    <button class="single-lesson-control-button" type="button" data-sound-reset-stepper>Reset</button>
+                                    <button class="single-lesson-control-button" type="button" data-sound-next>Next step</button>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section" id="calculation-3" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 5 - How to calculate Sound file size</p>
+                        <h2 class="single-lesson-title">Sound file size calculation 3</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <article class="sound-calculation-card" data-sound-stepper>
+                                <p>A sound file has a sample rate of 22,050 Hz, a duration of 20 seconds and a bit depth of 8 bits.</p>
+                                <ol class="sound-step-list">
+                                    <li data-sound-step>Formula: sample rate x duration x bit depth.</li>
+                                    <li data-sound-step>Substitute the values: 22,050 x 20 x 8.</li>
+                                    <li data-sound-step>Multiply: 22,050 x 20 x 8 = 3,528,000 bits.</li>
+                                    <li data-sound-step>Convert to bytes: 3,528,000 / 8 = 441,000 bytes.</li>
+                                </ol>
+                                <div class="single-lesson-control-row">
+                                    <button class="single-lesson-control-button" type="button" data-sound-prev>Previous step</button>
+                                    <button class="single-lesson-control-button" type="button" data-sound-reset-stepper>Reset</button>
+                                    <button class="single-lesson-control-button" type="button" data-sound-next>Next step</button>
+                                </div>
+                            </article>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section" id="file-size-exam" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Part 5 - How to calculate Sound file size</p>
+                        <h2 class="single-lesson-title">Exam questions</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <div class="single-lesson-exam-list">
+                                <button class="single-lesson-exam-card" type="button" data-sound-modal-open="modal-sound-q9"><span class="single-lesson-exam-number">Q9</span><span class="single-lesson-exam-question">Calculate the file size in bits for a 12 second sound file with a sample rate of 8,000 Hz and a bit depth of 8 bits.</span><span class="single-lesson-exam-marks">2 marks</span></button>
+                                <button class="single-lesson-exam-card" type="button" data-sound-modal-open="modal-sound-q10"><span class="single-lesson-exam-number">Q10</span><span class="single-lesson-exam-question">Calculate the file size in bytes for a 4 second sound file with a sample rate of 44,100 Hz and a bit depth of 16 bits.</span><span class="single-lesson-exam-marks">3 marks</span></button>
+                                <button class="single-lesson-exam-card" type="button" data-sound-modal-open="modal-sound-q11"><span class="single-lesson-exam-number">Q11</span><span class="single-lesson-exam-question">A sound file has a sample rate of 22,050 Hz, duration of 6 seconds and bit depth of 8 bits. Calculate the file size in bits.</span><span class="single-lesson-exam-marks">2 marks</span></button>
+                                <button class="single-lesson-exam-card" type="button" data-sound-modal-open="modal-sound-q12"><span class="single-lesson-exam-number">Q12</span><span class="single-lesson-exam-question">Explain why increasing the duration increases the file size.</span><span class="single-lesson-exam-marks">2 marks</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section sound-summary-section" id="lesson-summary" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">Lesson Summary</p>
+                        <h2 class="single-lesson-title">Lesson Summary</h2>
+                        <div class="single-lesson-rule" aria-hidden="true"></div>
+                        <div class="single-lesson-content-wrap sound-content-wrap">
+                            <article class="single-lesson-card single-lesson-explanation-card">
+                                <p>In this lesson, you covered how analogue sound is converted into digital data, the role of an Analog-to-Digital Converter, what sound samples are, how bit depth affects accuracy and file size, how sample rate affects quality and file size, and how to calculate sound file size using sample rate, duration and bit depth.</p>
+                            </article>
+                            <div class="sound-summary-flip-grid" aria-label="Key sound terms">
+                                <button class="sound-summary-flip-card" type="button" aria-pressed="false" data-sound-flip-card>
+                                    <span class="sound-summary-flip-inner">
+                                        <span class="sound-summary-flip-face is-front"><small>Key term</small><strong>analogue to digital</strong></span>
+                                        <span class="sound-summary-flip-face is-back"><strong>Definition</strong><span>Changing a continuous sound wave into binary data that a computer can store.</span></span>
+                                    </span>
+                                </button>
+                                <button class="sound-summary-flip-card" type="button" aria-pressed="false" data-sound-flip-card>
+                                    <span class="sound-summary-flip-inner">
+                                        <span class="sound-summary-flip-face is-front"><small>Key term</small><strong>ADC</strong></span>
+                                        <span class="sound-summary-flip-face is-back"><strong>Definition</strong><span>An Analog-to-Digital Converter changes analogue sound signals into digital values.</span></span>
+                                    </span>
+                                </button>
+                                <button class="sound-summary-flip-card" type="button" aria-pressed="false" data-sound-flip-card>
+                                    <span class="sound-summary-flip-inner">
+                                        <span class="sound-summary-flip-face is-front"><small>Key term</small><strong>samples</strong></span>
+                                        <span class="sound-summary-flip-face is-back"><strong>Definition</strong><span>Measurements taken from a sound wave at specific points in time.</span></span>
+                                    </span>
+                                </button>
+                                <button class="sound-summary-flip-card" type="button" aria-pressed="false" data-sound-flip-card>
+                                    <span class="sound-summary-flip-inner">
+                                        <span class="sound-summary-flip-face is-front"><small>Key term</small><strong>bit depth</strong></span>
+                                        <span class="sound-summary-flip-face is-back"><strong>Definition</strong><span>The number of bits used to store each sound sample. More bits allow more possible values.</span></span>
+                                    </span>
+                                </button>
+                                <button class="sound-summary-flip-card" type="button" aria-pressed="false" data-sound-flip-card>
+                                    <span class="sound-summary-flip-inner">
+                                        <span class="sound-summary-flip-face is-front"><small>Key term</small><strong>sample rate</strong></span>
+                                        <span class="sound-summary-flip-face is-back"><strong>Definition</strong><span>The number of sound samples taken each second. It is measured in Hertz.</span></span>
+                                    </span>
+                                </button>
+                                <button class="sound-summary-flip-card" type="button" aria-pressed="false" data-sound-flip-card>
+                                    <span class="sound-summary-flip-inner">
+                                        <span class="sound-summary-flip-face is-front"><small>Key term</small><strong>file size formula</strong></span>
+                                        <span class="sound-summary-flip-face is-back"><strong>Definition</strong><span>sample rate x duration in seconds x bit depth gives the sound file size in bits.</span></span>
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="single-lesson-section sound-section single-lesson-end-section" id="end-of-lesson" data-single-lesson-section>
+                    <div class="single-lesson-section-inner">
+                        <p class="single-lesson-badge">End of lesson</p>
+                        <h2 class="single-lesson-title">Ready for the next step?</h2>
+                        <div class="single-lesson-content-wrap is-wide">
+                            <div class="single-lesson-end-grid">
+                                <a class="single-lesson-end-card is-tasks" href="../tasks/1-2-10.html"><span class="single-lesson-end-card-title">Tasks</span><span class="single-lesson-end-card-copy">Practise the key ideas from this lesson.</span></a>
+                                <a class="single-lesson-end-card is-exam" href="../exams/1-2-10.html"><span class="single-lesson-end-card-title">Exam</span><span class="single-lesson-end-card-copy">Try exam-style questions for this topic.</span></a>
+                                <a class="single-lesson-end-card is-quiz" href="../quizzes/1-2-10.html"><span class="single-lesson-end-card-title">Quiz</span><span class="single-lesson-end-card-copy">Check recall with quick questions.</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <div class="single-lesson-lightbox sound-modal" id="modal-sound-q1" hidden data-sound-modal><div class="single-lesson-lightbox-backdrop sound-modal-backdrop" data-sound-modal-close></div><div class="single-lesson-lightbox-panel sound-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-sound-q1-title"><button class="single-lesson-lightbox-close sound-modal-close" type="button" data-sound-modal-close aria-label="Close mark scheme">Got it</button><h3 id="modal-sound-q1-title">Define bit depth. (1 mark)</h3><p><strong>Mark scheme:</strong> 1 mark for stating that bit depth is the number of bits used to store each sound sample.</p><p><strong>Model answer:</strong> Bit depth is the number of bits used to store one sound sample.</p></div></div>
+    <div class="single-lesson-lightbox sound-modal" id="modal-sound-q2" hidden data-sound-modal><div class="single-lesson-lightbox-backdrop sound-modal-backdrop" data-sound-modal-close></div><div class="single-lesson-lightbox-panel sound-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-sound-q2-title"><button class="single-lesson-lightbox-close sound-modal-close" type="button" data-sound-modal-close aria-label="Close mark scheme">Got it</button><h3 id="modal-sound-q2-title">Increasing bit depth and sound quality. (2 marks)</h3><p><strong>Mark scheme:</strong> 1 mark for more possible sample values. 1 mark for a more accurate representation of the wave. Accept any other valid point.</p><p><strong>Model answer:</strong> Increasing bit depth gives more possible values for each sample, so the height of the sound wave can be stored more accurately.</p></div></div>
+    <div class="single-lesson-lightbox sound-modal" id="modal-sound-q3" hidden data-sound-modal><div class="single-lesson-lightbox-backdrop sound-modal-backdrop" data-sound-modal-close></div><div class="single-lesson-lightbox-panel sound-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-sound-q3-title"><button class="single-lesson-lightbox-close sound-modal-close" type="button" data-sound-modal-close aria-label="Close mark scheme">Got it</button><h3 id="modal-sound-q3-title">Explain one effect of increasing bit depth on file size. (2 marks)</h3><p><strong>Mark scheme:</strong> 1 mark for each sample using more bits. 1 mark for the total file size increasing. Accept any other valid point.</p><p><strong>Model answer:</strong> Increasing bit depth means more bits are stored for every sample, so the file size increases.</p></div></div>
+    <div class="single-lesson-lightbox sound-modal" id="modal-sound-q4" hidden data-sound-modal><div class="single-lesson-lightbox-backdrop sound-modal-backdrop" data-sound-modal-close></div><div class="single-lesson-lightbox-panel sound-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-sound-q4-title"><button class="single-lesson-lightbox-close sound-modal-close" type="button" data-sound-modal-close aria-label="Close mark scheme">Got it</button><h3 id="modal-sound-q4-title">16-bit samples instead of 8-bit samples. (2 marks)</h3><p><strong>Mark scheme:</strong> 1 mark for 16-bit samples giving more possible values than 8-bit samples. 1 mark for the sound wave being represented more accurately.</p><p><strong>Model answer:</strong> A 16-bit sample can store more possible values than an 8-bit sample, so each sample can be closer to the original wave height.</p></div></div>
+    <div class="single-lesson-lightbox sound-modal" id="modal-sound-q5" hidden data-sound-modal><div class="single-lesson-lightbox-backdrop sound-modal-backdrop" data-sound-modal-close></div><div class="single-lesson-lightbox-panel sound-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-sound-q5-title"><button class="single-lesson-lightbox-close sound-modal-close" type="button" data-sound-modal-close aria-label="Close mark scheme">Got it</button><h3 id="modal-sound-q5-title">Sample rate unit. (1 mark)</h3><p><strong>Mark scheme:</strong> 1 mark for Hertz or Hz.</p><p><strong>Model answer:</strong> Sample rate is measured in Hertz, written as Hz.</p></div></div>
+    <div class="single-lesson-lightbox sound-modal" id="modal-sound-q6" hidden data-sound-modal><div class="single-lesson-lightbox-backdrop sound-modal-backdrop" data-sound-modal-close></div><div class="single-lesson-lightbox-panel sound-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-sound-q6-title"><button class="single-lesson-lightbox-close sound-modal-close" type="button" data-sound-modal-close aria-label="Close mark scheme">Got it</button><h3 id="modal-sound-q6-title">Define sample rate. (1 mark)</h3><p><strong>Mark scheme:</strong> 1 mark for the number of samples taken per second.</p><p><strong>Model answer:</strong> Sample rate is the number of sound samples taken every second.</p></div></div>
+    <div class="single-lesson-lightbox sound-modal" id="modal-sound-q7" hidden data-sound-modal><div class="single-lesson-lightbox-backdrop sound-modal-backdrop" data-sound-modal-close></div><div class="single-lesson-lightbox-panel sound-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-sound-q7-title"><button class="single-lesson-lightbox-close sound-modal-close" type="button" data-sound-modal-close aria-label="Close mark scheme">Got it</button><h3 id="modal-sound-q7-title">Increasing sample rate and quality. (2 marks)</h3><p><strong>Mark scheme:</strong> 1 mark for more samples being taken every second. 1 mark for capturing more detail or recreating the wave more accurately.</p><p><strong>Model answer:</strong> A higher sample rate takes more measurements each second, so more detail from the original wave is captured.</p></div></div>
+    <div class="single-lesson-lightbox sound-modal" id="modal-sound-q8" hidden data-sound-modal><div class="single-lesson-lightbox-backdrop sound-modal-backdrop" data-sound-modal-close></div><div class="single-lesson-lightbox-panel sound-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-sound-q8-title"><button class="single-lesson-lightbox-close sound-modal-close" type="button" data-sound-modal-close aria-label="Close mark scheme">Got it</button><h3 id="modal-sound-q8-title">Increasing sample rate and file size. (2 marks)</h3><p><strong>Mark scheme:</strong> 1 mark for more samples being stored. 1 mark for the total file size increasing. Accept any other valid point.</p><p><strong>Model answer:</strong> Increasing sample rate stores more samples every second, so more data is stored and the file size increases.</p></div></div>
+    <div class="single-lesson-lightbox sound-modal" id="modal-sound-q9" hidden data-sound-modal><div class="single-lesson-lightbox-backdrop sound-modal-backdrop" data-sound-modal-close></div><div class="single-lesson-lightbox-panel sound-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-sound-q9-title"><button class="single-lesson-lightbox-close sound-modal-close" type="button" data-sound-modal-close aria-label="Close mark scheme">Got it</button><h3 id="modal-sound-q9-title">Calculate file size in bits. (2 marks)</h3><p><strong>Mark scheme:</strong> 1 mark for using sample rate x duration x bit depth. 1 mark for 768,000 bits.</p><p><strong>Working:</strong> 8,000 x 12 x 8 = 768,000 bits.</p></div></div>
+    <div class="single-lesson-lightbox sound-modal" id="modal-sound-q10" hidden data-sound-modal><div class="single-lesson-lightbox-backdrop sound-modal-backdrop" data-sound-modal-close></div><div class="single-lesson-lightbox-panel sound-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-sound-q10-title"><button class="single-lesson-lightbox-close sound-modal-close" type="button" data-sound-modal-close aria-label="Close mark scheme">Got it</button><h3 id="modal-sound-q10-title">Calculate file size in bytes. (3 marks)</h3><p><strong>Mark scheme:</strong> 1 mark for correct formula. 1 mark for 2,822,400 bits. 1 mark for 352,800 bytes.</p><p><strong>Working:</strong> 44,100 x 4 x 16 = 2,822,400 bits. 2,822,400 / 8 = 352,800 bytes.</p></div></div>
+    <div class="single-lesson-lightbox sound-modal" id="modal-sound-q11" hidden data-sound-modal><div class="single-lesson-lightbox-backdrop sound-modal-backdrop" data-sound-modal-close></div><div class="single-lesson-lightbox-panel sound-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-sound-q11-title"><button class="single-lesson-lightbox-close sound-modal-close" type="button" data-sound-modal-close aria-label="Close mark scheme">Got it</button><h3 id="modal-sound-q11-title">Calculate file size in bits. (2 marks)</h3><p><strong>Mark scheme:</strong> 1 mark for correct method. 1 mark for 1,058,400 bits.</p><p><strong>Working:</strong> 22,050 x 6 x 8 = 1,058,400 bits.</p></div></div>
+    <div class="single-lesson-lightbox sound-modal" id="modal-sound-q12" hidden data-sound-modal><div class="single-lesson-lightbox-backdrop sound-modal-backdrop" data-sound-modal-close></div><div class="single-lesson-lightbox-panel sound-modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-sound-q12-title"><button class="single-lesson-lightbox-close sound-modal-close" type="button" data-sound-modal-close aria-label="Close mark scheme">Got it</button><h3 id="modal-sound-q12-title">Duration and file size. (2 marks)</h3><p><strong>Mark scheme:</strong> 1 mark for longer duration meaning more seconds of audio. 1 mark for more samples being stored, increasing file size.</p><p><strong>Model answer:</strong> Increasing duration means sound is stored for more seconds. This means more samples are stored, so the file size increases.</p></div></div>
+
+    <script src="../../../assets/js/single-page-lesson.js?v=3"></script>
+    <script src="1-2-10.js?v=3"></script>
+</body>
+</html>
