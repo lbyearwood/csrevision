@@ -51,6 +51,41 @@ Notes:
 - The branch was created through a temporary clone because this workspace was not a valid Git checkout.
 - Keep the live GitHub Pages setup on `main` untouched until launch approval.
 
+## Git Add Fails On Very Long Old Planning Paths
+
+Confirmed on 2026-06-21.
+
+Symptoms:
+
+- Force-adding the whole old `app/` folder fails with:
+
+```text
+Filename too long
+fatal: adding files failed
+```
+
+- The failing path is inside:
+
+```text
+app/planning & quality assurance/
+```
+
+Cause:
+
+- The old planning archive contains deeply nested Windows paths.
+- Including those files in the shared branch may also make cloning harder for Laptop Codex on Windows.
+
+Working solution:
+
+1. Upload the old site material needed for migration: `app/courses/`, `app/assets/`, `app/data/`, root old-site HTML/CSS/JS files, `app/read me.md` and `app/slide-wire-frames.pdf`.
+2. Do not upload the nested `app/.git/` directory.
+3. Leave `app/planning & quality assurance/` out of the shared branch unless the user explicitly asks for that archive.
+4. If that archive is ever required, either shorten paths before committing or enable long path support and test a fresh Windows clone.
+
+Limitation:
+
+- Laptop Codex can continue lesson migration from the uploaded old site reference, but it will not have the excluded planning archive unless it is added later.
+
 ## Vite/esbuild Dependency Optimisation Fails
 
 Confirmed on 2026-06-20.

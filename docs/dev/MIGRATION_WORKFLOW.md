@@ -12,6 +12,7 @@ Do not bulk migrate. Migrate one lesson or resource set at a time.
 2. Keep `app/` read-only unless the user explicitly requests changes to the old site.
 3. Inspect old lesson pages, scripts, styles, assets, tasks, quizzes and exam pages in `app/` before rebuilding the equivalent Astro content.
 4. Do not assume the Astro page is complete until the relevant old `app/` material has been checked or intentionally ruled out.
+5. The old `app/planning & quality assurance/` archive is not required for lesson migration and is not part of the shared branch because it contains very long Windows paths.
 
 ## GitHub Safety
 

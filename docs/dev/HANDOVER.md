@@ -7,6 +7,7 @@ This is the living handover for future Codex sessions. Update it when the projec
 - The active rebuild is in `astro-site/`.
 - The old reference site is in `app/`.
 - The `app/` folder is included on the remote `astro-site` branch so Laptop Codex can continue migrations.
+- The old `app/planning & quality assurance/` archive is intentionally not shared because it contains very long Windows paths and is not required for lesson migration.
 - Active Codex-maintained dev docs are in `docs/dev/`.
 - The dev server should run at `http://127.0.0.1:4321/`.
 - The project has been moved out of OneDrive, fixing the Vite/esbuild optimisation issue.
@@ -46,6 +47,7 @@ npm.cmd run dev -- --host 127.0.0.1 --port 4321
 4. Update this handover when a Codex changes project state, branch state, environment setup or major UI/component status.
 5. Keep generated files out of Git: `node_modules/`, `.astro/`, `dist/`, nested `.git/`, `*.log`, `*.pid` and `.env*`.
 6. Treat `app/` as migration reference only unless the user explicitly asks to change the old site.
+7. Use the old `app/courses/`, `app/assets/`, `app/data/`, scripts and styles for migration audits.
 
 ## Current Architecture Direction
 

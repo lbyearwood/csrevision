@@ -37,8 +37,10 @@ Use this document before creating branches, pushing code, or changing GitHub Pag
 2. The Astro rebuild source should live in the `astro-site/` folder on that branch.
 3. The old working/reference site should live in the `app/` folder on that branch.
 4. `app/` is required for migration reference and must be treated as read-only unless the user explicitly requests old-site changes.
-5. This local PC workspace is not currently a valid Git checkout because `.git/` is empty.
-6. Future uploads should be done from a proper clone of `lbyearwood/csrevision`, then switched to `astro-site`.
+5. The shared `app/` reference includes the old site courses, assets, data, scripts, styles, readme and wireframe PDF.
+6. The old `app/planning & quality assurance/` archive is not part of the shared branch because it contains very long Windows paths and is not required for lesson migration.
+7. This local PC workspace is not currently a valid Git checkout because `.git/` is empty.
+8. Future uploads should be done from a proper clone of `lbyearwood/csrevision`, then switched to `astro-site`.
 
 ## Two-Codex Coordination
 
