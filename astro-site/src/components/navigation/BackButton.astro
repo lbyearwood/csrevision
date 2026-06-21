@@ -1,0 +1,15 @@
+---
+import ArrowLeftIcon from "../icons/ArrowLeftIcon.astro";
+
+interface Props {
+  href: string;
+  label: string;
+}
+
+const { href, label } = Astro.props;
+---
+
+<a href={href} class="lesson-back-button">
+  <ArrowLeftIcon />
+  <span>{label}</span>
+</a>

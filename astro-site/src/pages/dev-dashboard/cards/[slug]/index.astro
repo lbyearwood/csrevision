@@ -1,0 +1,814 @@
+---
+import LessonLayout from "../../../../components/layout/LessonLayout.astro";
+import LessonSlideShell from "../../../../components/lesson/LessonSlideShell.astro";
+import AnswerCard from "../../../../components/lesson/cards/AnswerCard.astro";
+import DiagramCard from "../../../../components/lesson/cards/DiagramCard.astro";
+import ExamPracticeCard from "../../../../components/lesson/cards/ExamPracticeCard.astro";
+import ExplanationCard from "../../../../components/lesson/cards/ExplanationCard.astro";
+import FlashCard from "../../../../components/lesson/cards/FlashCard.astro";
+import ImageCard from "../../../../components/lesson/cards/ImageCard.astro";
+import InstructionCard from "../../../../components/lesson/cards/InstructionCard.astro";
+import InteractiveDiagramCard from "../../../../components/lesson/cards/InteractiveDiagramCard.astro";
+import InteractiveTableCard from "../../../../components/lesson/cards/InteractiveTableCard.astro";
+import MarkSchemeCard from "../../../../components/lesson/cards/MarkSchemeCard.astro";
+import MisconceptionCard from "../../../../components/lesson/cards/MisconceptionCard.astro";
+import ModellingCard from "../../../../components/lesson/cards/ModellingCard.astro";
+import PromptCard from "../../../../components/lesson/cards/PromptCard.astro";
+import QuestionCard from "../../../../components/lesson/cards/QuestionCard.astro";
+import SummaryCard from "../../../../components/lesson/cards/SummaryCard.astro";
+import SupportCard from "../../../../components/lesson/cards/SupportCard.astro";
+import TableCard from "../../../../components/lesson/cards/TableCard.astro";
+import LessonSideNav from "../../../../components/navigation/LessonSideNav.astro";
+import cpuChipExample from "../../../../assets/dev/cpu-chip-example.png";
+import { devCardDefinitions, type DevCardDefinition } from "../../../../data/devCards";
+import { routes } from "../../../../data/routes";
+
+interface Props {
+  card: DevCardDefinition;
+}
+
+export function getStaticPaths() {
+  return devCardDefinitions.map((card) => ({
+    params: { slug: card.slug },
+    props: { card },
+  }));
+}
+
+const { card } = Astro.props;
+const cardNumber = devCardDefinitions.findIndex((definition) => definition.slug === card.slug) + 1;
+const numberedCardTitle = `${cardNumber}. ${card.title}`;
+const navSections = [
+  { id: "brief", title: "Brief" },
+  { id: "example", title: "Example" },
+];
+const modellingSteps = [
+  "Step 1 of 3: Fetch the instruction.",
+  "Step 2 of 3: Decode the instruction.",
+  "Step 3 of 3: Execute the instruction.",
+];
+
+const briefBySlug: Record<string, string[]> = {
+  "explanation-card": [
+    "Purpose: Present one focused explanation, definition, setup or short worked teaching idea inside a slide layout.",
+    "Design requirements: Use a green title, calm white card surface, clear paragraph spacing and no competing decorative elements.",
+    "Functionality: Accept normal teaching copy and remain reusable across layouts without taking ownership of the whole slide structure.",
+  ],
+  "diagram-card": [
+    "Purpose: Show a labelled diagram or visual model where spatial structure explains the concept better than paragraphs.",
+    "Design requirements: Keep labels readable, use real vector or image shapes for connectors, and avoid duplicate slide titles inside the card.",
+    "Functionality: Support static diagrams with captions so the visual and teaching note work together.",
+  ],
+  "interactive-diagram-card": [
+    "Purpose: Allow labelled parts of a diagram to be selected so accurate teaching detail can be inspected.",
+    "Design requirements: Use real vector shapes for arrows and connectors, keep hover colour different from selected colour, and make the detail/support panel follow the dominant colour of the selected diagram object.",
+    "Functionality: Support keyboard and pointer selection, update aria-pressed state, and replace the detail title and text without changing layout size.",
+  ],
+  "image-card": [
+    "Purpose: Present a real bitmap image that carries a clear teaching point.",
+    "Design requirements: Use useful alternative text, preserve image proportions and include a caption when it improves understanding.",
+    "Functionality: Render imported image assets reliably inside reusable lesson layouts.",
+  ],
+  "support-card": [
+    "Purpose: Add a short check, reminder, reinforcement prompt or extension beneath the main teaching area.",
+    "Design requirements: Keep the card visually lighter than the main teaching cards and use a clear themed accent rather than a full background wash.",
+    "Functionality: Accept concise support copy while staying reusable in layouts that reserve a dedicated support region.",
+  ],
+  "table-card": [
+    "Purpose: Present structured comparisons or data where a real table is the clearest format.",
+    "Design requirements: Use semantic table markup, readable headers and enough spacing for scanning.",
+    "Functionality: Support normal table content without turning the card into an interactive activity.",
+  ],
+  "interactive-table-card": [
+    "Purpose: Allow table rows, reveal states or step-by-step data to be inspected.",
+    "Design requirements: Make row hover, focus and selected states visually distinct and readable.",
+    "Functionality: Support pointer and keyboard row selection with live feedback text.",
+  ],
+  "modelling-card": [
+    "Purpose: Help a visual model or process be inspected, manipulated or traced.",
+    "Design requirements: Keep the model stage stable and use clear active states for the part being modelled.",
+    "Functionality: Support controls, states or prompts that make the model teachable rather than purely decorative.",
+  ],
+  "question-card": [
+    "Purpose: Present one multiple-choice question with a short set of options.",
+    "Design requirements: Use the question as the black title, show A-D option markers, use thick blue option borders and keep a reset control available.",
+    "Functionality: Let each option be selected, then show a green tick for the correct answer, a red cross for an incorrect answer, and clear the choice with reset.",
+  ],
+  "several-multiple-choice-card": [
+    "Purpose: Present several related multiple-choice questions in one reusable card.",
+    "Design requirements: Use Q-number badges, one question row per prompt, thick bordered A-D options and a bottom-right reset control.",
+    "Functionality: Support independent option selection for each question and clear every selected answer with reset.",
+  ],
+  "answer-card": [
+    "Purpose: Reveal the answer after a question when a clear result and short explanation are needed.",
+    "Design requirements: Use a green title, a focused answer lead, ordered reasoning steps and a contained modal/lightbox presentation.",
+    "Functionality: Work inside lightbox or reveal flows without duplicating the original question content.",
+  ],
+  "prompt-card": [
+    "Purpose: Present one clear thinking, discussion or noticing prompt.",
+    "Design requirements: Use large readable prompt text with minimal supporting copy.",
+    "Functionality: Remain static and lightweight so the slide layout controls the activity around it.",
+  ],
+  "exam-practice-card": [
+    "Purpose: Present a short exam-style question inside a lesson slide.",
+    "Design requirements: Append the bold mark allocation to the end of the question text and keep command words, question text and success cues easy to identify.",
+    "Functionality: Support question copy and brief guidance without replacing full assessment pages.",
+  ],
+  "summary-card": [
+    "Purpose: Consolidate key points at the end of a teaching moment.",
+    "Design requirements: Lead with a short introductory sentence, use concise numbered points and avoid dense dashboard-style layouts.",
+    "Functionality: Support short recap lists that can sit inside normal lesson layouts.",
+  ],
+  "instruction-card": [
+    "Purpose: Present concise task instructions or process steps.",
+    "Design requirements: Use numbered steps when order matters and keep each step short enough to act on.",
+    "Functionality: Support task instructions without needing custom layout code.",
+  ],
+  "matching-area-card": [
+    "Purpose: Present multiple keywords on flashcards and reveal each definition on the back.",
+    "Design requirements: Arrange cards in a 2 by 2 grid, keep each card focused on one keyword and one clear definition, and avoid badges on the keyword face.",
+    "Functionality: Flip each card independently when clicked, update aria-pressed state and keep card dimensions stable.",
+  ],
+  "mark-scheme-card": [
+    "Purpose: Reveal mark points, model answers or assessment guidance after an exam-style response.",
+    "Design requirements: Use a green title, clear mark-point grouping, and a contained modal/lightbox presentation.",
+    "Functionality: Work inside lightbox or reveal flows and separate mark criteria from exemplary answer text.",
+  ],
+  "misconception-card": [
+    "Purpose: Surface an incorrect idea and replace it with an accurate one.",
+    "Design requirements: Use red styling for the misconception and green styling for the correction so the contrast is immediate.",
+    "Functionality: Support paired explanation content without adding unnecessary interaction.",
+  ],
+};
+
+// Developer review notes for future Codex work:
+// - Keep card review pages to two visible slides: Brief and Example.
+// - Do not render developer checklists or implementation notes as visible UI.
+// - Card examples must be concrete: table cards use tables, diagram cards use diagrams, image cards use bitmap images.
+// - Layout examples should import card components from this card set rather than inventing one-off card markup.
+---
+
+<LessonLayout
+  title={numberedCardTitle}
+  courseTitle="Reusable modules"
+  breadcrumb={["Cards", numberedCardTitle]}
+  backHref={routes.devDashboard}
+  backLabel="Back to Dev dashboard"
+>
+  <div class="lesson-shell">
+    <LessonSideNav title={numberedCardTitle} sections={navSections} />
+    <main class="lesson-main min-w-0 px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <LessonSlideShell id="brief" label="Card" heading="Brief" slideNumber={1}>
+          <div class="dev-layout-review-panel">
+            <h3>{numberedCardTitle}</h3>
+            <ol class="dev-card-brief-list">
+              {briefBySlug[card.slug].map((briefItem) => <li>{briefItem}</li>)}
+            </ol>
+          </div>
+        </LessonSlideShell>
+
+        <LessonSlideShell id="example" label="Card" heading="Example" slideNumber={2}>
+          <div class="dev-card-example-stage">
+            {card.slug === "explanation-card" && (
+              <ExplanationCard title="One clear teaching idea">
+                <p>
+                  This card introduces or explains one focused idea. It should use direct paragraphs rather than
+                  trying to act as a whole slide layout by itself.
+                </p>
+                <p>
+                  It can sit inside different slide layouts, such as a two-column teaching layout, as long as
+                  the layout still owns the overall slide arrangement.
+                </p>
+              </ExplanationCard>
+            )}
+
+            {card.slug === "diagram-card" && (
+              <DiagramCard title="Diagram - set A and set B">
+                <figure class="lesson-card-venn-diagram" aria-label="Venn diagram with set A shaded blue and set B unshaded">
+                  <svg viewBox="0 0 620 340" role="img" aria-labelledby="venn-title venn-desc">
+                    <title id="venn-title">Venn diagram showing set A and set B</title>
+                    <desc id="venn-desc">Set A is the left circle and is shaded blue. Set B is the right circle and is unshaded. The overlapping region is shaded blue because it belongs to set A.</desc>
+                    <text x="84" y="54" class="lesson-card-venn-label">A</text>
+                    <text x="520" y="54" class="lesson-card-venn-label">B</text>
+                    <circle cx="230" cy="178" r="142" class="lesson-card-venn-circle lesson-card-venn-circle--a"></circle>
+                    <circle cx="390" cy="178" r="142" class="lesson-card-venn-circle lesson-card-venn-circle--b"></circle>
+                  </svg>
+                  <figcaption class="lesson-card-caption">
+                    Set A is shaded blue, while set B is unshaded. The overlap shows values that are in both sets.
+                  </figcaption>
+                </figure>
+              </DiagramCard>
+            )}
+
+            {card.slug === "interactive-diagram-card" && (
+              <InteractiveDiagramCard title="Interactive diagram - class dependency">
+                <p>Select a class or the dependency arrow to inspect what the diagram is showing.</p>
+                <div class="lesson-card-interactive-diagram lesson-card-class-diagram" data-interactive-diagram>
+                  <div
+                    class="lesson-card-interactive-diagram-map lesson-card-interactive-diagram-map--class"
+                    aria-label="Interactive class diagram showing a dependency relationship from Coach to Player"
+                  >
+                    <button
+                      type="button"
+                      class="lesson-card-diagram-hotspot lesson-card-class-node is-selected"
+                      data-title="Coach class"
+                      data-detail="The Coach class represents an object that stores a coach name, role and experience. Its methods train the team and create a strategy."
+                      data-detail-tone="coach"
+                      aria-pressed="true"
+                    >
+                      <span class="lesson-card-class-title lesson-card-class-title--coach">Coach</span>
+                      <span class="lesson-card-class-section">
+                        <span>+name: string</span>
+                        <span>+role: string</span>
+                        <span>+experience: int</span>
+                      </span>
+                      <span class="lesson-card-class-section">
+                        <span>+trainTeam()</span>
+                        <span>+makeStrategy()</span>
+                      </span>
+                    </button>
+                    <button
+                      type="button"
+                      class="lesson-card-diagram-hotspot lesson-card-class-dependency"
+                      data-title="Dependency relationship"
+                      data-detail="The dashed arrow shows a dependency: Coach uses or relies on Player, but Player is still a separate class."
+                      data-detail-tone="dependency"
+                      aria-pressed="false"
+                      aria-label="Dependency relationship from Coach to Player"
+                    >
+                      <span class="lesson-card-class-dependency-surface">
+                        <svg
+                          class="lesson-card-class-arrow"
+                          viewBox="0 0 360 48"
+                          aria-hidden="true"
+                          focusable="false"
+                        >
+                          <line x1="4" y1="24" x2="320" y2="24"></line>
+                          <path d="M318 8 L344 24 L318 40"></path>
+                        </svg>
+                      </span>
+                    </button>
+                    <button
+                      type="button"
+                      class="lesson-card-diagram-hotspot lesson-card-class-node"
+                      data-title="Player class"
+                      data-detail="The Player class represents an object that stores player details. Its methods describe behaviours such as playing a game or training."
+                      data-detail-tone="player"
+                      aria-pressed="false"
+                    >
+                      <span class="lesson-card-class-title lesson-card-class-title--player">Player</span>
+                      <span class="lesson-card-class-section">
+                        <span>+name: string</span>
+                        <span>+position: string</span>
+                        <span>+jerseyNumber: int</span>
+                      </span>
+                      <span class="lesson-card-class-section">
+                        <span>+playGame()</span>
+                        <span>+train()</span>
+                      </span>
+                    </button>
+                  </div>
+                  <div class="lesson-card-interactive-diagram-detail lesson-card-interactive-diagram-detail--coach" aria-live="polite">
+                    <strong>Coach class</strong>
+                    <p>The Coach class represents an object that stores a coach name, role and experience. Its methods train the team and create a strategy.</p>
+                  </div>
+                </div>
+              </InteractiveDiagramCard>
+            )}
+
+            {card.slug === "image-card" && (
+              <ImageCard
+                title="Image - CPU chip"
+                src={cpuChipExample.src}
+                alt="Close-up of a computer processor chip with gold contact pins on a circuit board."
+                caption="A close-up of the underside of a CPU chip, showing the gold contact pins that connect the processor to the motherboard."
+              />
+            )}
+
+            {card.slug === "support-card" && (
+              <SupportCard title="Remember">
+                <p>The support card reinforces the main learning point without becoming another full teaching area.</p>
+                <p>It can be used for a short check, reminder, extension or useful question.</p>
+              </SupportCard>
+            )}
+
+            {card.slug === "table-card" && (
+              <TableCard title="Table - memory comparison">
+                <table>
+                  <thead>
+                    <tr>
+                      <th scope="col">Memory type</th>
+                      <th scope="col">Purpose</th>
+                      <th scope="col">Volatile?</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row">RAM</th>
+                      <td>Stores programs and data currently in use.</td>
+                      <td>Yes</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">ROM</th>
+                      <td>Stores startup instructions.</td>
+                      <td>No</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Cache</th>
+                      <td>Stores frequently used data close to the CPU.</td>
+                      <td>Yes</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <p class="lesson-card-caption">
+                  This table compares memory types so you can see each purpose and whether the memory is volatile.
+                </p>
+              </TableCard>
+            )}
+
+            {card.slug === "interactive-table-card" && (
+              <InteractiveTableCard title="Interactive table - register trace">
+                <p>Select a row to inspect the CPU state at that point in the sequence.</p>
+                <div class="lesson-card-interactive-table" data-interactive-table>
+                  <div class="lesson-card-table-wrap">
+                    <table>
+                      <thead>
+                        <tr>
+                          <th scope="col">Step</th>
+                          <th scope="col">PC</th>
+                          <th scope="col">MAR</th>
+                          <th scope="col">MDR</th>
+                          <th scope="col">Instruction</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr data-feedback="The Program Counter stores the address of the next instruction before the fetch begins.">
+                          <th scope="row">Fetch address</th>
+                          <td>204</td>
+                          <td>204</td>
+                          <td>-</td>
+                          <td>-</td>
+                        </tr>
+                        <tr data-feedback="The instruction at address 204 is copied into the Memory Data Register.">
+                          <th scope="row">Read memory</th>
+                          <td>204</td>
+                          <td>204</td>
+                          <td>LOAD 19</td>
+                          <td>-</td>
+                        </tr>
+                        <tr data-feedback="The instruction is decoded so the CPU knows which operation to carry out.">
+                          <th scope="row">Decode</th>
+                          <td>205</td>
+                          <td>204</td>
+                          <td>LOAD 19</td>
+                          <td>LOAD 19</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <p class="lesson-card-table-feedback" aria-live="polite">
+                    Select a row to understand what that step shows.
+                  </p>
+                </div>
+              </InteractiveTableCard>
+            )}
+
+            {card.slug === "modelling-card" && (
+              <>
+                <ModellingCard title="Fetch-decode-execute cycle">
+                  <div class="lesson-card-model-stage" aria-label="Fetch decode execute model" data-model-stage>
+                    <div class="lesson-card-model-node is-active" data-model-step>
+                      <strong>Fetch</strong>
+                      <span>Copy the next instruction from memory.</span>
+                    </div>
+                    <span class="lesson-card-model-connector" aria-hidden="true"></span>
+                    <div class="lesson-card-model-node" data-model-step>
+                      <strong>Decode</strong>
+                      <span>Work out which operation is needed.</span>
+                    </div>
+                    <span class="lesson-card-model-connector" aria-hidden="true"></span>
+                    <div class="lesson-card-model-node" data-model-step>
+                      <strong>Execute</strong>
+                      <span>Carry out the instruction.</span>
+                    </div>
+                  </div>
+                </ModellingCard>
+                <div class="lesson-card-model-controls" data-model-card-controls data-steps={JSON.stringify(modellingSteps)}>
+                  <button type="button" class="lesson-card-model-button" data-model-action="previous">
+                    Previous step
+                  </button>
+                  <button type="button" class="lesson-card-model-button" data-model-action="next">
+                    Next step
+                  </button>
+                  <button type="button" class="lesson-card-model-button lesson-card-model-button--secondary" data-model-action="reset">
+                    Reset
+                  </button>
+                  <p class="lesson-card-model-status" aria-live="polite" data-model-status>
+                    {modellingSteps[0]}
+                  </p>
+                </div>
+              </>
+            )}
+
+            {card.slug === "question-card" && (
+              <QuestionCard title="Which CPU component carries out arithmetic and logic operations?" class="lesson-card-single-choice">
+                <ol class="lesson-card-option-list" data-single-choice type="A">
+                  <li>
+                    <button type="button" class="lesson-card-choice-button" data-choice-option>
+                      Control Unit
+                    </button>
+                  </li>
+                  <li data-correct="true">
+                    <button type="button" class="lesson-card-choice-button" data-choice-option>
+                      ALU
+                    </button>
+                  </li>
+                  <li>
+                    <button type="button" class="lesson-card-choice-button" data-choice-option>
+                      Cache
+                    </button>
+                  </li>
+                  <li>
+                    <button type="button" class="lesson-card-choice-button" data-choice-option>
+                      Program Counter
+                    </button>
+                  </li>
+                </ol>
+                <div class="lesson-card-choice-actions">
+                  <button type="button" class="lesson-card-choice-reset" data-choice-reset>
+                    Reset
+                  </button>
+                </div>
+              </QuestionCard>
+            )}
+
+            {card.slug === "several-multiple-choice-card" && (
+              <QuestionCard title="Several multiple choice questions" class="lesson-card-several-choice">
+                <div class="lesson-card-question-set">
+                  <article class="lesson-card-question-row">
+                    <div class="lesson-card-question-heading">
+                      <span>Q1</span>
+                      <strong>What causes sound?</strong>
+                    </div>
+                    <ol class="lesson-card-option-list lesson-card-question-options" data-single-choice type="A">
+                      <li data-correct="true">
+                        <button type="button" class="lesson-card-choice-button" data-choice-option>
+                          Vibrations
+                        </button>
+                      </li>
+                      <li>
+                        <button type="button" class="lesson-card-choice-button" data-choice-option>
+                          Pixels
+                        </button>
+                      </li>
+                      <li>
+                        <button type="button" class="lesson-card-choice-button" data-choice-option>
+                          Packets
+                        </button>
+                      </li>
+                      <li>
+                        <button type="button" class="lesson-card-choice-button" data-choice-option>
+                          Logic gates
+                        </button>
+                      </li>
+                    </ol>
+                  </article>
+                  <article class="lesson-card-question-row">
+                    <div class="lesson-card-question-heading">
+                      <span>Q2</span>
+                      <strong>Why must sound be converted before a computer can store it?</strong>
+                    </div>
+                    <ol class="lesson-card-option-list lesson-card-question-options" data-single-choice type="A">
+                      <li>
+                        <button type="button" class="lesson-card-choice-button" data-choice-option>
+                          Computers only store images
+                        </button>
+                      </li>
+                      <li>
+                        <button type="button" class="lesson-card-choice-button" data-choice-option>
+                          Sound must always be compressed
+                        </button>
+                      </li>
+                      <li data-correct="true">
+                        <button type="button" class="lesson-card-choice-button" data-choice-option>
+                          Computers store data in binary
+                        </button>
+                      </li>
+                      <li>
+                        <button type="button" class="lesson-card-choice-button" data-choice-option>
+                          Sound cannot be played through speakers
+                        </button>
+                      </li>
+                    </ol>
+                  </article>
+                  <article class="lesson-card-question-row">
+                    <div class="lesson-card-question-heading">
+                      <span>Q3</span>
+                      <strong>What is the purpose of an ADC?</strong>
+                    </div>
+                    <ol class="lesson-card-option-list lesson-card-question-options" data-single-choice type="A">
+                      <li>
+                        <button type="button" class="lesson-card-choice-button" data-choice-option>
+                          To compress images
+                        </button>
+                      </li>
+                      <li data-correct="true">
+                        <button type="button" class="lesson-card-choice-button" data-choice-option>
+                          To convert analogue sound into digital data
+                        </button>
+                      </li>
+                      <li>
+                        <button type="button" class="lesson-card-choice-button" data-choice-option>
+                          To increase screen resolution
+                        </button>
+                      </li>
+                      <li>
+                        <button type="button" class="lesson-card-choice-button" data-choice-option>
+                          To sort files
+                        </button>
+                      </li>
+                    </ol>
+                  </article>
+                  <div class="lesson-card-choice-actions">
+                    <button type="button" class="lesson-card-choice-reset" data-choice-reset>
+                      Reset
+                    </button>
+                  </div>
+                </div>
+              </QuestionCard>
+            )}
+
+            {card.slug === "answer-card" && (
+              <div class="lesson-card-lightbox-preview" aria-label="Lightbox modal answer preview">
+                <AnswerCard title="Answer">
+                  <p class="lesson-card-answer-lead">The correct answer is <strong>ALU</strong>.</p>
+                  <ol class="lesson-card-answer-steps">
+                    <li>The Arithmetic Logic Unit carries out arithmetic operations such as addition.</li>
+                    <li>It also carries out logic operations such as comparisons.</li>
+                    <li>The Control Unit coordinates the fetch-decode-execute cycle, but it does not do the calculation itself.</li>
+                  </ol>
+                  <p class="lesson-card-answer-note">Use this card inside a lightbox or reveal when a clear answer and a short explanation are needed.</p>
+                </AnswerCard>
+              </div>
+            )}
+
+            {card.slug === "prompt-card" && (
+              <PromptCard title="Think first">
+                <p class="lesson-card-large-prompt">What would happen if instructions and data had to be stored in separate memories?</p>
+                <p>Use this card when the slide needs one clear prompt rather than a full activity.</p>
+              </PromptCard>
+            )}
+
+            {card.slug === "exam-practice-card" && (
+              <ExamPracticeCard title="Exam question">
+                <p>Explain one advantage of storing instructions and data in the same memory. <strong>(3 marks)</strong></p>
+                <ul>
+                  <li>Identify the advantage.</li>
+                  <li>Link it to loading or changing programs.</li>
+                  <li>Use accurate technical vocabulary.</li>
+                </ul>
+              </ExamPracticeCard>
+            )}
+
+            {card.slug === "summary-card" && (
+              <SummaryCard title="Lesson summary">
+                <p>You have learnt the following in this lesson.</p>
+                <ol class="lesson-card-summary-list">
+                  <li>The CPU fetches, decodes and executes instructions.</li>
+                  <li>Registers are tiny, fast storage locations inside the CPU.</li>
+                  <li>Cache stores frequently used data close to the CPU.</li>
+                </ol>
+              </SummaryCard>
+            )}
+
+            {card.slug === "instruction-card" && (
+              <InstructionCard title="Task instructions">
+                <ol class="lesson-card-step-list">
+                  <li>Read the scenario carefully.</li>
+                  <li>Underline the key technical words.</li>
+                  <li>Write one sentence that answers the command word.</li>
+                </ol>
+              </InstructionCard>
+            )}
+
+            {card.slug === "matching-area-card" && (
+              <FlashCard title="Flash card">
+                <p class="lesson-card-flip-cta">
+                  Do you know the definition to each keyword? Click a card to reveal the definition.
+                </p>
+                <div class="lesson-card-flip-grid">
+                  {[
+                    ["Cache", "Fast memory that stores frequently used data close to the CPU."],
+                    ["RAM", "Volatile main memory that stores programs and data currently in use."],
+                    ["ROM", "Non-volatile memory that stores startup instructions."],
+                    ["Register", "Tiny, very fast storage inside the CPU for values being processed."],
+                  ].map(([keyword, definition]) => (
+                    <button
+                      type="button"
+                      class="lesson-card-flip-card"
+                      data-flash-card
+                      data-keyword={keyword}
+                      aria-pressed="false"
+                      aria-label={`Flip flash card for ${keyword} to show the definition`}
+                    >
+                      <span class="lesson-card-flip-card-inner">
+                        <span class="lesson-card-flip-card-face lesson-card-flip-card-face--front" data-flash-card-front>
+                          <strong>{keyword}</strong>
+                        </span>
+                        <span class="lesson-card-flip-card-face lesson-card-flip-card-face--back" data-flash-card-back aria-hidden="true">
+                          <strong>{definition}</strong>
+                        </span>
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </FlashCard>
+            )}
+
+            {card.slug === "mark-scheme-card" && (
+              <div class="lesson-card-lightbox-preview" aria-label="Lightbox modal mark scheme preview">
+                <MarkSchemeCard title="Mark scheme">
+                  <ul class="lesson-card-mark-list">
+                    <li><strong>1 mark</strong> for naming a valid advantage.</li>
+                    <li><strong>1 mark</strong> for explaining how programs can be loaded into memory.</li>
+                    <li><strong>1 mark</strong> for using accurate terms such as instructions, data and main memory.</li>
+                  </ul>
+                  <div class="lesson-card-exemplary-answer">
+                    <strong>Exemplary answer</strong>
+                    <p>
+                      One advantage is that programs can be loaded into main memory and changed without altering
+                      the hardware. This means the same computer can run different programs because instructions
+                      and data are both stored in memory.
+                    </p>
+                  </div>
+                </MarkSchemeCard>
+              </div>
+            )}
+
+            {card.slug === "misconception-card" && (
+              <MisconceptionCard title="Common misconception">
+                <div class="lesson-card-misconception-grid">
+                  <div class="lesson-card-misconception-item lesson-card-misconception-item--wrong">
+                    <strong>Misconception</strong>
+                    <p>The CPU stores all programs permanently.</p>
+                  </div>
+                  <div class="lesson-card-misconception-item lesson-card-misconception-item--right">
+                    <strong>Correction</strong>
+                    <p>The CPU processes instructions. Programs and data are stored in memory.</p>
+                  </div>
+                </div>
+              </MisconceptionCard>
+            )}
+          </div>
+        </LessonSlideShell>
+      </div>
+    </main>
+  </div>
+</LessonLayout>
+
+<script is:inline>
+  document.querySelectorAll("[data-interactive-table]").forEach((tableCard) => {
+    const feedback = tableCard.querySelector(".lesson-card-table-feedback");
+    tableCard.querySelectorAll("tbody tr").forEach((row) => {
+      row.tabIndex = 0;
+      row.setAttribute("role", "button");
+      row.addEventListener("click", () => {
+        tableCard.querySelectorAll("tbody tr").forEach((item) => item.classList.remove("is-selected"));
+        row.classList.add("is-selected");
+        if (feedback) {
+          feedback.textContent = row.getAttribute("data-feedback") || "";
+        }
+      });
+      row.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          row.click();
+        }
+      });
+    });
+  });
+
+  document.querySelectorAll("[data-interactive-diagram]").forEach((diagramCard) => {
+    const detail = diagramCard.querySelector(".lesson-card-interactive-diagram-detail");
+    const hotspots = diagramCard.querySelectorAll(".lesson-card-diagram-hotspot");
+
+    const selectHotspot = (hotspot) => {
+      hotspots.forEach((item) => {
+        item.classList.remove("is-selected");
+        item.setAttribute("aria-pressed", "false");
+      });
+
+      hotspot.classList.add("is-selected");
+      hotspot.setAttribute("aria-pressed", "true");
+
+      if (detail) {
+        const title = hotspot.getAttribute("data-title") || hotspot.textContent?.trim() || "";
+        const text = hotspot.getAttribute("data-detail") || "";
+        const tone = hotspot.getAttribute("data-detail-tone") || "dependency";
+        const detailTitle = detail.querySelector("strong");
+        const detailText = detail.querySelector("p");
+        detail.classList.remove(
+          "lesson-card-interactive-diagram-detail--coach",
+          "lesson-card-interactive-diagram-detail--player",
+          "lesson-card-interactive-diagram-detail--dependency",
+        );
+        detail.classList.add(`lesson-card-interactive-diagram-detail--${tone}`);
+        if (detailTitle) detailTitle.textContent = title;
+        if (detailText) detailText.textContent = text;
+      }
+    };
+
+    hotspots.forEach((hotspot) => {
+      hotspot.addEventListener("click", () => {
+        selectHotspot(hotspot);
+      });
+
+      hotspot.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          selectHotspot(hotspot);
+        }
+      });
+    });
+  });
+
+  document.querySelectorAll("[data-model-card-controls]").forEach((controls) => {
+    const card = controls.previousElementSibling?.matches(".modelling-card")
+      ? controls.previousElementSibling
+      : document.querySelector(".modelling-card");
+    const status = controls.querySelector("[data-model-status]");
+    const steps = JSON.parse(controls.getAttribute("data-steps") || "[]");
+    const modelNodes = card?.querySelectorAll("[data-model-step]") || [];
+    let currentStep = 0;
+
+    const updateModel = () => {
+      modelNodes.forEach((node, index) => {
+        node.classList.toggle("is-active", index === currentStep);
+      });
+
+      if (status && steps[currentStep]) {
+        status.textContent = steps[currentStep];
+      }
+    };
+
+    controls.querySelectorAll("[data-model-action]").forEach((button) => {
+      button.addEventListener("click", () => {
+        const action = button.getAttribute("data-model-action");
+        if (action === "previous") currentStep = Math.max(0, currentStep - 1);
+        if (action === "next") currentStep = Math.min(steps.length - 1, currentStep + 1);
+        if (action === "reset") currentStep = 0;
+        updateModel();
+      });
+    });
+  });
+
+  document.querySelectorAll("[data-flash-card]").forEach((card) => {
+    const front = card.querySelector("[data-flash-card-front]");
+    const back = card.querySelector("[data-flash-card-back]");
+
+    card.addEventListener("click", () => {
+      const isFlipped = !card.classList.contains("is-flipped");
+
+      card.classList.toggle("is-flipped", isFlipped);
+      card.setAttribute("aria-pressed", isFlipped ? "true" : "false");
+      const keyword = card.getAttribute("data-keyword") || "this keyword";
+      card.setAttribute(
+        "aria-label",
+        isFlipped
+          ? `Flip flash card for ${keyword} to show the keyword`
+          : `Flip flash card for ${keyword} to show the definition`,
+      );
+      front?.setAttribute("aria-hidden", isFlipped ? "true" : "false");
+      back?.setAttribute("aria-hidden", isFlipped ? "false" : "true");
+    });
+  });
+
+  document.querySelectorAll("[data-single-choice]").forEach((choiceList) => {
+    const options = choiceList.querySelectorAll("li");
+
+    options.forEach((option) => {
+      const button = option.querySelector("[data-choice-option]");
+      button?.setAttribute("aria-pressed", "false");
+      option.addEventListener("click", () => {
+        const isCorrect = option.getAttribute("data-correct") === "true";
+        options.forEach((item) => {
+          item.classList.remove("is-correct", "is-incorrect");
+          item.querySelector("[data-choice-option]")?.setAttribute("aria-pressed", "false");
+        });
+
+        option.classList.add(isCorrect ? "is-correct" : "is-incorrect");
+        button.setAttribute("aria-pressed", "true");
+      });
+    });
+  });
+
+  document.querySelectorAll("[data-choice-reset]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const card = button.closest(".lesson-card-module");
+      card?.querySelectorAll("[data-single-choice] li").forEach((option) => {
+        option.classList.remove("is-correct", "is-incorrect");
+        option.querySelector("[data-choice-option]")?.setAttribute("aria-pressed", "false");
+      });
+    });
+  });
+</script>

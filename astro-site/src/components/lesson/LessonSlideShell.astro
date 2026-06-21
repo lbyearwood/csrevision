@@ -1,0 +1,18 @@
+---
+import SectionHeader from "./SectionHeader.astro";
+
+interface Props {
+  id: string;
+  label: string;
+  heading: string;
+  slideNumber: number;
+}
+
+const { id, label, heading, slideNumber } = Astro.props;
+const displayHeading = `${slideNumber}. ${heading}`;
+---
+
+<section id={id} class="lesson-section-canvas" data-lesson-slide-shell>
+  <SectionHeader label={label} heading={displayHeading} />
+  <slot />
+</section>

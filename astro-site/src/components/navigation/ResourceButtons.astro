@@ -1,0 +1,30 @@
+---
+type ResourceButton = {
+  label: string;
+  href: string;
+  status?: "available" | "planned";
+};
+
+interface Props {
+  resources: ResourceButton[];
+}
+
+const { resources } = Astro.props;
+---
+
+<div class="flex flex-wrap gap-2">
+  {resources.map((resource) => (
+    <a
+      href={resource.href}
+      aria-disabled={resource.status === "planned" ? "true" : "false"}
+      class:list={[
+        "inline-flex min-h-10 items-center rounded-[8px] border px-3 text-sm font-black",
+        resource.status === "planned"
+          ? "border-slate-200 bg-slate-50 text-slate-500"
+          : "border-blue-200 bg-blue-50 text-[var(--color-primary)] hover:bg-blue-100",
+      ]}
+    >
+      {resource.label}
+    </a>
+  ))}
+</div>

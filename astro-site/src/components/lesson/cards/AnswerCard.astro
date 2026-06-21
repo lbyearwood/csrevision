@@ -1,0 +1,15 @@
+---
+import CardShell from "./CardShell.astro";
+
+interface Props {
+  title: string;
+  class?: string;
+}
+
+const { title, class: className } = Astro.props;
+const cardClass = ["answer-card", className].filter(Boolean).join(" ");
+---
+
+<CardShell title={title} dataCard="answer" class={cardClass}>
+  <slot />
+</CardShell>

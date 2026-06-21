@@ -1,0 +1,13 @@
+---
+import ExplanationCard from "./cards/ExplanationCard.astro";
+
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<ExplanationCard title={title}>
+  <slot />
+</ExplanationCard>

@@ -1,0 +1,35 @@
+---
+import SiteLayout from "./SiteLayout.astro";
+import BackButton from "../navigation/BackButton.astro";
+import LessonToolPad from "../navigation/LessonToolPad.astro";
+
+interface Props {
+  title: string;
+  courseTitle: string;
+  breadcrumb: string[];
+  backHref: string;
+  backLabel: string;
+}
+
+const { title, courseTitle, breadcrumb, backHref, backLabel } = Astro.props;
+---
+
+<SiteLayout title={`${title} | CS Revision`} description={`${courseTitle} lesson page.`}>
+  <header class="lesson-header">
+    <div class="lesson-header-bar">
+      <div class="lesson-header-back">
+        <BackButton href={backHref} label={backLabel} />
+      </div>
+      <div class="lesson-header-identity">
+        <div class="min-w-0">
+          <p class="text-base font-black sm:text-lg">{courseTitle}</p>
+          <p class="truncate text-sm text-blue-100">{breadcrumb.join(" > ")}</p>
+        </div>
+      </div>
+      <div class="lesson-header-tools">
+        <LessonToolPad />
+      </div>
+    </div>
+  </header>
+  <slot />
+</SiteLayout>

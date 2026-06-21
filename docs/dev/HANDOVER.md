@@ -12,6 +12,8 @@ This is the living handover for future Codex sessions. Update it when the projec
 - The remote GitHub branch for the Astro rebuild is `astro-site` in `lbyearwood/csrevision`.
 - The live `main` branch and GitHub Pages setup must not be changed for preview work.
 - This local workspace has an empty `.git/` directory, so it is not currently a valid Git checkout.
+- There are two Codex sessions working on the project: PC Codex on this PC, and Laptop Codex on the user's laptop.
+- Both Codexes should coordinate through the remote `astro-site` branch.
 
 ## Current Useful Routes
 
@@ -34,6 +36,14 @@ Run from `astro-site/`:
 npm.cmd run build
 npm.cmd run dev -- --host 127.0.0.1 --port 4321
 ```
+
+## Two-Codex Workflow
+
+1. PC Codex and Laptop Codex must pull `astro-site` before starting development.
+2. PC Codex and Laptop Codex must push only to `astro-site` until the user approves launch.
+3. Do not overwrite the other Codex's changes. Inspect conflicts and merge deliberately.
+4. Update this handover when a Codex changes project state, branch state, environment setup or major UI/component status.
+5. Keep generated files out of Git: `node_modules/`, `.astro/`, `dist/`, `*.log`, `*.pid` and `.env*`.
 
 ## Current Architecture Direction
 

@@ -34,6 +34,33 @@ Use this document before creating branches, pushing code, or changing GitHub Pag
 ## Current Status
 
 1. The remote `astro-site` branch was created from `main` on 2026-06-21.
-2. This local workspace is not currently a valid Git checkout because `.git/` is empty.
-3. Future uploads should be done from a proper clone of `lbyearwood/csrevision`, then switched to `astro-site`.
+2. The Astro rebuild source should live in the `astro-site/` folder on that branch.
+3. This local PC workspace is not currently a valid Git checkout because `.git/` is empty.
+4. Future uploads should be done from a proper clone of `lbyearwood/csrevision`, then switched to `astro-site`.
 
+## Two-Codex Coordination
+
+1. PC Codex is the Codex session working from this PC workspace: `C:\Users\Max\Documents\Development\csrevision`.
+2. Laptop Codex is the separate Codex session working from the user's laptop.
+3. Both Codexes must use the same remote branch: `astro-site`.
+4. Before starting work, each Codex should pull the latest `astro-site` branch.
+5. Before pushing, each Codex should check what it changed and update `docs/dev/HANDOVER.md` if the project state changed materially.
+6. Do not overwrite the other Codex's work. If the same file changed in both places, inspect and merge intentionally.
+7. Keep generated folders and machine-local files out of Git: `node_modules/`, `.astro/`, `dist/`, `*.log`, `*.pid` and `.env*`.
+
+## Laptop Codex Start
+
+1. Clone the repo.
+2. Switch to `astro-site`.
+3. Install dependencies from `astro-site/package-lock.json`.
+4. Run build and dev commands from `astro-site/`.
+
+```powershell
+git clone https://github.com/lbyearwood/csrevision.git
+cd csrevision
+git switch astro-site
+cd astro-site
+npm.cmd install
+npm.cmd run build
+npm.cmd run dev -- --host 127.0.0.1 --port 4321
+```

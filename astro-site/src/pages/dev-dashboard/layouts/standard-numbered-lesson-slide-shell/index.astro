@@ -1,0 +1,63 @@
+---
+import LessonLayout from "../../../../components/layout/LessonLayout.astro";
+import LessonSlideShell from "../../../../components/lesson/LessonSlideShell.astro";
+import LessonSideNav from "../../../../components/navigation/LessonSideNav.astro";
+import { routes } from "../../../../data/routes";
+
+const navSections = [
+  { id: "purpose", title: "Purpose" },
+  { id: "example", title: "Example" },
+];
+
+// Developer review notes for future Codex work:
+// - Keep this page to two visible slides: Purpose and Example.
+// - Do not render review checks or implementation notes as visible UI.
+// - The example should prove numbering, clean source headings, scroll target spacing,
+//   desktop sidebar usability, and no tablet/mobile horizontal scrolling.
+// - This shell must be agreed before approving inner slide layouts.
+---
+
+<LessonLayout
+  title="Standard numbered lesson slide shell"
+  courseTitle="Reusable modules"
+  breadcrumb={["Layouts", "Standard numbered lesson slide shell"]}
+  backHref={routes.devDashboard}
+  backLabel="Back to Dev dashboard"
+>
+  <div class="lesson-shell">
+    <LessonSideNav title="Standard numbered lesson slide shell" sections={navSections} />
+    <main class="lesson-main min-w-0 px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <LessonSlideShell id="purpose" label="Slide shell" heading="Purpose" slideNumber={1}>
+          <div class="dev-layout-review-panel">
+            <h3>Standard numbered lesson slide shell</h3>
+            <p>The default outer wrapper for every numbered lesson slide.</p>
+          </div>
+        </LessonSlideShell>
+
+        <LessonSlideShell id="example" label="Slide shell" heading="Example" slideNumber={2}>
+          <div class="lesson-shell-demo-grid">
+            <article class="lesson-shell-demo-block">
+              <h3>The shell owns</h3>
+              <ul>
+                <li>the numbered slide title</li>
+                <li>the section ID and scroll target</li>
+                <li>the label and heading position</li>
+                <li>the slide canvas spacing</li>
+              </ul>
+            </article>
+            <article class="lesson-shell-demo-block">
+              <h3>The shell does not own</h3>
+              <ul>
+                <li>the teaching layout inside the slide</li>
+                <li>the cards used by that layout</li>
+                <li>the topic-specific lesson content</li>
+                <li>the activity or diagram behaviour</li>
+              </ul>
+            </article>
+          </div>
+        </LessonSlideShell>
+      </div>
+    </main>
+  </div>
+</LessonLayout>

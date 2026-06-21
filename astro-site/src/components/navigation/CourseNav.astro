@@ -1,0 +1,22 @@
+---
+type CourseNavItem = {
+  label: string;
+  href: string;
+  status?: string;
+};
+
+interface Props {
+  items: CourseNavItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav aria-label="Course topics" class="grid gap-3">
+  {items.map((item) => (
+    <a href={item.href} class="panel-card flex items-center justify-between gap-4 p-4 transition hover:-translate-y-0.5 hover:border-blue-300">
+      <span class="font-black text-slate-950">{item.label}</span>
+      {item.status && <span class="rounded-full bg-blue-50 px-3 py-1 text-xs font-black uppercase text-[var(--color-primary)]">{item.status}</span>}
+    </a>
+  ))}
+</nav>

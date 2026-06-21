@@ -1,0 +1,20 @@
+---
+import CardShell from "./CardShell.astro";
+
+interface Props {
+  title: string;
+  src: string;
+  alt: string;
+  caption?: string;
+  class?: string;
+}
+
+const { title, src, alt, caption, class: className } = Astro.props;
+---
+
+<CardShell title={title} dataCard="image" class={className}>
+  <figure class="lesson-card-image">
+    <img src={src} alt={alt} loading="lazy" />
+    {caption && <figcaption>{caption}</figcaption>}
+  </figure>
+</CardShell>

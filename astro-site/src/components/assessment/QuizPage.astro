@@ -1,0 +1,123 @@
+---
+import AssessmentLayout from "../layout/AssessmentLayout.astro";
+import { routes } from "../../data/routes";
+import type { QuizQuestion } from "../../data/cpuArchitectureAssessments";
+
+interface Props {
+  quiz: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    questions: QuizQuestion[];
+  };
+}
+
+const { quiz } = Astro.props;
+---
+
+<AssessmentLayout
+  title={quiz.title}
+  description={quiz.description}
+  eyebrow={quiz.eyebrow}
+  backHref={routes.gcse}
+  backLabel="Back to topics"
+>
+  <form class="grid gap-4" aria-label={quiz.title} data-quiz-form>
+    {quiz.questions.map((question, index) => (
+      <article
+        class="assessment-card"
+        data-quiz-question
+        data-answers={JSON.stringify(question.answers)}
+        data-correct-feedback={question.correctFeedback}
+        data-incorrect-feedback={question.incorrectFeedback}
+      >
+        <h2 class="text-lg font-black leading-8 text-slate-950">{index + 1}) {question.question}</h2>
+        <div class="mt-4 grid gap-2">
+          {question.options.map((option, optionIndex) => {
+            const inputId = `${question.id}-${optionIndex}`;
+            const inputType = question.type === "single" ? "radio" : "checkbox";
+
+            return (
+              <label class="assessment-option" for={inputId}>
+                <input
+                  id={inputId}
+                  type={inputType}
+                  name={question.id}
+                  value={option}
+                />
+                <span>{option}</span>
+              </label>
+            );
+          })}
+        </div>
+        <p class="assessment-feedback mt-4" hidden aria-live="polite"></p>
+      </article>
+    ))}
+
+    <div class="assessment-controls">
+      <button class="assessment-primary-button" type="submit">Check answers</button>
+      <button class="assessment-secondary-button" type="reset">Reset quiz</button>
+      <p class="assessment-result" hidden aria-live="polite"></p>
+    </div>
+  </form>
+</AssessmentLayout>
+
+<script>
+  const quizForm = document.querySelector("[data-quiz-form]");
+
+  if (quizForm) {
+    const result = quizForm.querySelector(".assessment-result");
+
+    quizForm.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const questions = Array.from(quizForm.querySelectorAll("[data-quiz-question]"));
+      let score = 0;
+
+      questions.forEach((question) => {
+        const answers = JSON.parse(question.getAttribute("data-answers") ?? "[]");
+        const selected = Array.from(question.querySelectorAll("input:checked")).map(
+          (input) => (input as HTMLInputElement).value,
+        );
+        const feedback = question.querySelector(".assessment-feedback");
+        const isCorrect =
+          selected.length === answers.length &&
+          selected.every((answer) => answers.includes(answer));
+
+        question.classList.toggle("is-correct", isCorrect);
+        question.classList.toggle("is-incorrect", !isCorrect);
+
+        if (isCorrect) {
+          score += 1;
+        }
+
+        if (feedback) {
+          feedback.textContent = question.getAttribute(isCorrect ? "data-correct-feedback" : "data-incorrect-feedback") ?? "";
+          feedback.hidden = false;
+        }
+      });
+
+      if (result) {
+        result.textContent = `Score: ${score} out of ${questions.length}`;
+        result.hidden = false;
+      }
+    });
+
+    quizForm.addEventListener("reset", () => {
+      quizForm.querySelectorAll("[data-quiz-question]").forEach((question) => {
+        question.classList.remove("is-correct", "is-incorrect");
+        const feedback = question.querySelector(".assessment-feedback");
+
+        if (feedback) {
+          feedback.textContent = "";
+          feedback.hidden = true;
+        }
+      });
+
+      if (result) {
+        result.textContent = "";
+        result.hidden = true;
+      }
+    });
+  }
+</script>

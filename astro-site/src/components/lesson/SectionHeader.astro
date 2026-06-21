@@ -1,0 +1,15 @@
+---
+import SectionLabel from "./SectionLabel.astro";
+
+interface Props {
+  label: string;
+  heading: string;
+}
+
+const { label, heading } = Astro.props;
+---
+
+<header class="mx-auto max-w-5xl text-center">
+  <SectionLabel label={label} />
+  <h2 class="lesson-section-heading">{heading}</h2>
+</header>

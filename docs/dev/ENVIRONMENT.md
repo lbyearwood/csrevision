@@ -19,6 +19,21 @@ Do not run this project from OneDrive or another cloud-sync-managed folder. The 
 - npm
 - Installed dependencies in `astro-site/node_modules`
 
+## Fresh Clone Setup
+
+Use this on another machine, including Laptop Codex:
+
+```powershell
+git clone https://github.com/lbyearwood/csrevision.git
+cd csrevision
+git switch astro-site
+cd astro-site
+npm.cmd install
+npm.cmd run build
+```
+
+Do not commit `node_modules/`, `.astro/`, `dist/`, logs, PID files or `.env*` files.
+
 ## Commands
 
 Run these from `astro-site/`:

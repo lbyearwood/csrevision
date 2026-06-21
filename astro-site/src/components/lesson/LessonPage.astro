@@ -1,0 +1,33 @@
+---
+import type { LessonPageData } from "../../lib/lessonTypes";
+import LessonLayout from "../layout/LessonLayout.astro";
+import LessonSideNav from "../navigation/LessonSideNav.astro";
+import LessonSection from "./LessonSection.astro";
+
+interface Props {
+  lesson: LessonPageData;
+}
+
+const { lesson } = Astro.props;
+const navSections = lesson.sections.map((section) => ({
+  id: section.id,
+  title: section.heading,
+}));
+---
+
+<LessonLayout
+  title={lesson.lessonTitle}
+  courseTitle={lesson.courseTitle}
+  breadcrumb={lesson.breadcrumb}
+  backHref={lesson.backHref}
+  backLabel={lesson.backLabel}
+>
+  <div class="lesson-shell">
+    <LessonSideNav title={lesson.lessonTitle} sections={navSections} />
+    <main class="lesson-main min-w-0 px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        {lesson.sections.map((section, index) => <LessonSection section={section} slideNumber={index + 1} />)}
+      </div>
+    </main>
+  </div>
+</LessonLayout>

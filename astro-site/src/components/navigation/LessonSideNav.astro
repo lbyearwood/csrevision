@@ -1,0 +1,196 @@
+---
+import type { LessonNavSection } from "../../lib/lessonTypes";
+
+interface Props {
+  title: string;
+  sections: LessonNavSection[];
+  activeId?: string;
+}
+
+const { title, sections, activeId = sections[0]?.id } = Astro.props;
+---
+
+<aside class="lesson-sidebar">
+  <div class="lesson-sidebar-panel">
+    <h2 class="text-lg font-black text-[var(--color-primary)]">{title}</h2>
+    <p class="mt-5 text-base font-black text-slate-900">Lesson slides</p>
+    <nav class="mt-4 grid gap-2" aria-label="Lesson sections">
+      {sections.map((section, index) => (
+        <a
+          href={`#${section.id}`}
+          data-lesson-nav-link
+          data-section-id={section.id}
+          aria-current={section.id === activeId ? "location" : undefined}
+          class:list={[
+            "lesson-nav-link",
+            section.id === activeId && "is-active",
+          ]}
+        >
+          <span class="lesson-nav-number">{index + 1}</span>
+          <span>{section.title}</span>
+        </a>
+      ))}
+    </nav>
+  </div>
+</aside>
+
+<details class="lesson-mobile-nav">
+  <summary class="cursor-pointer text-base font-black text-[var(--color-primary)]">Lesson slides</summary>
+  <nav class="mt-3 grid gap-2" aria-label="Lesson sections">
+    {sections.map((section, index) => (
+      <a
+        href={`#${section.id}`}
+        data-lesson-nav-link
+        data-section-id={section.id}
+        aria-current={section.id === activeId ? "location" : undefined}
+        class:list={[
+          "lesson-nav-link lesson-nav-link--compact",
+          section.id === activeId && "is-active",
+        ]}
+      >
+        <span class="lesson-nav-number">{index + 1}</span>
+        <span>{section.title}</span>
+      </a>
+    ))}
+  </nav>
+</details>
+
+<script>
+  const setupLessonSlideState = () => {
+    const links = Array.from(document.querySelectorAll("[data-lesson-nav-link]"));
+    const scrollPanels = Array.from(document.querySelectorAll(".lesson-sidebar-panel, .lesson-mobile-nav"));
+    const sections = links
+      .map((link) => document.getElementById(link.getAttribute("data-section-id") ?? ""))
+      .filter((section) => section instanceof HTMLElement);
+
+    if (!links.length || !sections.length) {
+      return;
+    }
+
+    const setActiveSection = (id) => {
+      links.forEach((link) => {
+        const isActive = link.getAttribute("data-section-id") === id;
+        link.classList.toggle("is-active", isActive);
+
+        if (isActive) {
+          link.setAttribute("aria-current", "location");
+
+          if (link.closest(".lesson-sidebar")) {
+            link.scrollIntoView({ block: "nearest", inline: "nearest" });
+          }
+        } else {
+          link.removeAttribute("aria-current");
+        }
+      });
+    };
+
+    const getCurrentSectionId = () => {
+      const headerOffset = document.querySelector(".lesson-header")?.getBoundingClientRect().height ?? 0;
+      const referenceLine = headerOffset + Math.max(120, window.innerHeight * 0.32);
+      let currentId = sections[0].id;
+
+      sections.forEach((section) => {
+        if (section.getBoundingClientRect().top <= referenceLine) {
+          currentId = section.id;
+        }
+      });
+
+      return currentId;
+    };
+
+    const updateActiveSection = () => {
+      setActiveSection(getCurrentSectionId());
+    };
+
+    links.forEach((link) => {
+      link.addEventListener("click", (event) => {
+        const id = link.getAttribute("data-section-id");
+
+        if (id) {
+          setActiveSection(id);
+        }
+
+        const mobileNav = link.closest(".lesson-mobile-nav");
+
+        if (mobileNav instanceof HTMLDetailsElement) {
+          event.preventDefault();
+          mobileNav.open = false;
+
+          const targetSection = id ? document.getElementById(id) : null;
+
+          if (targetSection) {
+            window.history.pushState(null, "", `#${id}`);
+
+            window.requestAnimationFrame(() => {
+              const headerHeight = document.querySelector(".lesson-header")?.getBoundingClientRect().height ?? 0;
+              const top = targetSection.getBoundingClientRect().top + window.scrollY - headerHeight - 8;
+
+              window.scrollTo({ top: Math.max(0, top) });
+              setActiveSection(id);
+            });
+          }
+        }
+      });
+    });
+
+    if (window.location.hash) {
+      const hashId = window.location.hash.slice(1);
+
+      if (document.getElementById(hashId)) {
+        setActiveSection(hashId);
+      }
+    } else {
+      updateActiveSection();
+    }
+
+    let ticking = false;
+
+    window.addEventListener(
+      "scroll",
+      () => {
+        if (ticking) {
+          return;
+        }
+
+        ticking = true;
+        window.requestAnimationFrame(() => {
+          updateActiveSection();
+          ticking = false;
+        });
+      },
+      { passive: true },
+    );
+
+    window.addEventListener("hashchange", updateActiveSection);
+
+    scrollPanels.forEach((panel) => {
+      panel.addEventListener(
+        "wheel",
+        (event) => {
+          if (!(panel instanceof HTMLElement) || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) {
+            return;
+          }
+
+          if (panel.scrollHeight <= panel.clientHeight) {
+            return;
+          }
+
+          const isAtTop = panel.scrollTop <= 0;
+          const isAtBottom = Math.ceil(panel.scrollTop + panel.clientHeight) >= panel.scrollHeight;
+          const isScrollingUp = event.deltaY < 0;
+          const isScrollingDown = event.deltaY > 0;
+
+          if ((isScrollingUp && isAtTop) || (isScrollingDown && isAtBottom)) {
+            return;
+          }
+
+          event.preventDefault();
+          panel.scrollTop += event.deltaY;
+        },
+        { passive: false },
+      );
+    });
+  };
+
+  setupLessonSlideState();
+</script>

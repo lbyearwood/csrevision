@@ -1,0 +1,22 @@
+---
+import type { CardVariant } from "../../lib/lessonTypes";
+
+interface Props {
+  title: string;
+  prompt: string;
+  variant?: CardVariant;
+}
+
+const { title, prompt, variant = "modelling" } = Astro.props;
+---
+
+<article class="panel-card lesson-primary-card flex flex-col" data-variant={variant}>
+  <h3 class="mx-auto rounded-full bg-blue-100 px-5 py-2 text-center text-lg font-black text-[var(--color-primary)]">{title}</h3>
+  <div class="lesson-diagram-stage grid flex-1 place-items-center">
+    <slot />
+  </div>
+  <div class="flex items-start gap-4 rounded-[8px] bg-blue-50 p-4 text-slate-800">
+    <span class="grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[var(--color-primary)] text-lg font-black text-white">?</span>
+    <p class="text-base leading-7">{prompt}</p>
+  </div>
+</article>

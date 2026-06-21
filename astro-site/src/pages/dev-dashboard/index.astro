@@ -1,0 +1,45 @@
+---
+import DashboardLayout from "../../components/layout/DashboardLayout.astro";
+import { devModuleGroups } from "../../data/devModules";
+---
+
+<DashboardLayout title="Dev dashboard" description="Reusable lesson modules.">
+  <section class="mb-8 max-w-3xl">
+    <h1 class="text-3xl font-black text-slate-950 sm:text-4xl">Dev dashboard</h1>
+  </section>
+
+  <div class="grid gap-6">
+    {devModuleGroups.map((group) => (
+      <section class="dashboard-card p-5 sm:p-6" aria-labelledby={`${group.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-heading`}>
+        <h2 id={`${group.title.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-heading`} class="text-2xl font-black text-slate-950">
+          {group.title}
+        </h2>
+        <div class="mt-5 grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+          {group.items.map((item, index) => (
+            item.href ? (
+              <a
+                class:list={[
+                  "dashboard-module-card",
+                  "dashboard-module-card--link",
+                  item.complete && "dashboard-module-card--complete",
+                ]}
+                href={item.href}
+                aria-label={`Open ${group.title} ${index + 1}: ${item.title}${item.complete ? " complete" : ""}`}
+              >
+                <h3>
+                  {index + 1}. {item.title}
+                  {item.complete && <span class="dashboard-module-complete-mark" aria-hidden="true">&#10003;</span>}
+                </h3>
+                <span>Open</span>
+              </a>
+            ) : (
+              <article class="dashboard-module-card">
+                <h3>{index + 1}. {item.title}</h3>
+              </article>
+            )
+          ))}
+        </div>
+      </section>
+    ))}
+  </div>
+</DashboardLayout>

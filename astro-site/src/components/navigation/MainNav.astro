@@ -1,0 +1,24 @@
+---
+import MenuIcon from "../icons/MenuIcon.astro";
+import { routes } from "../../data/routes";
+---
+
+<header class="border-b border-blue-100 bg-white">
+  <nav class="mx-auto flex min-h-16 content-measure items-center justify-between gap-4 px-4 sm:px-6 lg:px-8" aria-label="Main navigation">
+    <a href={routes.home} class="flex items-center gap-3 font-black text-slate-950">
+      <span class="grid h-10 w-10 place-items-center rounded-[8px] bg-[var(--color-primary)] text-sm text-white">CS</span>
+      <span>CS Revision</span>
+    </a>
+    <div class="flex items-center gap-2 text-sm font-bold text-slate-700">
+      <details class="main-nav-menu">
+        <summary aria-label="Open site sections">
+          <MenuIcon />
+        </summary>
+        <div class="main-nav-menu-list">
+          <a href={routes.gcse}>GCSE</a>
+          <a href={routes.devDashboard}>Dev dashboard</a>
+        </div>
+      </details>
+    </div>
+  </nav>
+</header>

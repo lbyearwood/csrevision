@@ -1,0 +1,125 @@
+---
+import type { LessonSectionData } from "../../lib/lessonTypes";
+import LessonSlideShell from "./LessonSlideShell.astro";
+import SupportCard from "./SupportCard.astro";
+
+interface Props {
+  section: LessonSectionData;
+  slideNumber: number;
+}
+
+const { section, slideNumber } = Astro.props;
+
+const toneClasses = {
+  blue: "border-blue-700 bg-blue-50 text-blue-950",
+  green: "border-emerald-600 bg-emerald-50 text-emerald-950",
+  red: "border-rose-500 bg-rose-50 text-rose-950",
+  amber: "border-amber-500 bg-amber-50 text-amber-950",
+};
+
+const cardToneClasses = {
+  blue: "bg-blue-50 text-blue-950",
+  green: "bg-emerald-50 text-emerald-950",
+  red: "bg-rose-50 text-rose-950",
+  amber: "bg-amber-50 text-amber-950",
+};
+---
+
+<LessonSlideShell id={section.id} label={section.label} heading={section.heading} slideNumber={slideNumber}>
+  <div class="lesson-card-grid">
+    {section.cards.map((card) => (
+      <article class:list={["panel-card lesson-primary-card flex flex-col", card.kind === "callout" && cardToneClasses[card.tone ?? "blue"]]}>
+        <h3 class="text-2xl font-black leading-tight text-[var(--color-primary)]">{card.title}</h3>
+
+        <div class="lesson-card-body">
+          {card.body && <p>{card.body}</p>}
+
+          {card.kind === "list" && card.items && (
+            <ul class="lesson-plain-list">
+              {card.items.map((item) => <li>{item}</li>)}
+            </ul>
+          )}
+
+          {card.kind === "steps" && card.items && (
+            <ol class="lesson-step-list">
+              {card.items.map((item, index) => (
+                <li>
+                  <span>{index + 1}</span>
+                  <p>{item}</p>
+                </li>
+              ))}
+            </ol>
+          )}
+
+          {card.kind === "table" && card.table && (
+            <div class="lesson-table-wrap">
+              <table class="lesson-table">
+                <thead>
+                  <tr>
+                    {card.table.headers.map((header) => <th scope="col">{header}</th>)}
+                  </tr>
+                </thead>
+                <tbody>
+                  {card.table.rows.map((row) => (
+                    <tr>
+                      {row.map((cell) => <td>{cell}</td>)}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+
+          {card.kind === "process" && card.process && (
+            <div class="lesson-process" aria-label={card.title}>
+              {card.process.map((item, index) => (
+                <>
+                  <div class:list={["lesson-process-node", toneClasses[item.tone ?? "blue"]]}>
+                    <p>{item.label}</p>
+                    <span>{item.detail}</span>
+                  </div>
+                  {index < card.process.length - 1 && (
+                    <span class="lesson-process-arrow" aria-hidden="true"></span>
+                  )}
+                </>
+              ))}
+            </div>
+          )}
+
+          {card.kind === "grid" && card.items && (
+            <div class="lesson-term-grid">
+              {card.items.map((item) => {
+                const [term, detail] = item.split(": ");
+                return (
+                  <article>
+                    <strong>{term}</strong>
+                    <span>{detail ?? ""}</span>
+                  </article>
+                );
+              })}
+            </div>
+          )}
+
+          {card.kind === "question" && card.items && (
+            <div class="lesson-choice-list">
+              {card.items.map((item) => <p>{item}</p>)}
+            </div>
+          )}
+
+          {card.prompt && (
+            <div class="lesson-inline-prompt">
+              <strong>{card.prompt}</strong>
+              {card.answer && <p>{card.answer}</p>}
+            </div>
+          )}
+        </div>
+      </article>
+    ))}
+  </div>
+
+  <div class="lesson-support-slot">
+    <SupportCard title={section.support.title} prompt={section.support.prompt}>
+      <p>{section.support.detail}</p>
+    </SupportCard>
+  </div>
+</LessonSlideShell>

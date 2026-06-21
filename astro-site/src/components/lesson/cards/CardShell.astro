@@ -1,0 +1,16 @@
+---
+interface Props {
+  title: string;
+  dataCard: string;
+  class?: string;
+}
+
+const { title, dataCard, class: className } = Astro.props;
+---
+
+<article class:list={["lesson-card-module", className]} data-card={dataCard}>
+  <h3>{title}</h3>
+  <div class="lesson-card-module-body">
+    <slot />
+  </div>
+</article>

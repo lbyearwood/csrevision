@@ -1,0 +1,18 @@
+---
+import SiteLayout from "./SiteLayout.astro";
+import MainNav from "../navigation/MainNav.astro";
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<SiteLayout title={`${title} | CS Revision`} description={description}>
+  <MainNav />
+  <main class="mx-auto content-measure px-4 py-8 sm:px-6 lg:px-8">
+    <slot />
+  </main>
+</SiteLayout>

@@ -1,0 +1,40 @@
+---
+type ResourceLink = {
+  label: string;
+  href?: string;
+  sourceAvailable?: boolean;
+};
+
+interface Props {
+  code: string;
+  title: string;
+  resources?: ResourceLink[];
+}
+
+const { code, title, resources = [] } = Astro.props;
+---
+
+<article class="dashboard-topic-card p-4 sm:p-5">
+  <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+    <div class="min-w-0">
+      <h3 class="text-xl font-black text-[var(--color-primary)]">
+        <span>{code}</span> <span>{title}</span>
+      </h3>
+    </div>
+    {resources.length > 0 && (
+      <div class="flex shrink-0 flex-wrap gap-2 md:justify-end">
+      {resources.map((resource) => (
+        resource.href ? (
+          <a href={resource.href} class="dashboard-resource-button text-white">
+            {resource.label}
+          </a>
+        ) : (
+          <span class:list={["dashboard-resource-button text-white", !resource.sourceAvailable && "is-not-in-source"]} aria-disabled="true">
+            {resource.label}
+          </span>
+        )
+      ))}
+      </div>
+    )}
+  </div>
+</article>

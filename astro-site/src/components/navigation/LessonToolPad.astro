@@ -1,0 +1,28 @@
+<details class="lesson-tool-pad">
+  <summary aria-label="Open lesson tools">
+    <span>Tools</span>
+  </summary>
+  <div class="lesson-tool-menu">
+    <button type="button" data-lesson-tool-print>
+      <span aria-hidden="true">P</span>
+      <span>Print</span>
+    </button>
+  </div>
+</details>
+
+<script>
+  document.addEventListener("click", (event) => {
+    const target = event.target;
+    if (!(target instanceof Element)) return;
+
+    const printButton = target.closest("[data-lesson-tool-print]");
+    if (!printButton) return;
+
+    const menu = printButton.closest("details");
+    if (menu instanceof HTMLDetailsElement) {
+      menu.open = false;
+    }
+
+    window.print();
+  });
+</script>
