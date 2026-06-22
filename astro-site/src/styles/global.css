@@ -3733,7 +3733,7 @@ a {
 
   .dev-layout-zone {
     min-height: clamp(10rem, 24vh, 15rem);
-    border: 1px dashed #93c5fd;
+    border: 1px solid #93c5fd;
     border-radius: var(--radius-card);
     background: #ffffff;
     padding: clamp(1.25rem, 2vw, 1.75rem);
@@ -3773,7 +3773,7 @@ a {
 
   .dev-layout-zone--title h3 {
     max-width: 12ch;
-    font-size: clamp(4rem, 9vw, 7.5rem);
+    font-size: clamp(2rem, 4.5vw, 3.75rem);
     line-height: 0.95;
   }
 
@@ -4050,6 +4050,21 @@ a {
 
     .dev-layout-zone--cell {
       grid-column: span 1;
+    }
+
+    .dev-layout-zone-grid--two-left-cards-tall-right-card .dev-layout-zone--item-1 {
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .dev-layout-zone-grid--two-left-cards-tall-right-card .dev-layout-zone--item-2 {
+      grid-column: 1;
+      grid-row: 2;
+    }
+
+    .dev-layout-zone-grid--two-left-cards-tall-right-card .dev-layout-zone--item-3 {
+      grid-column: 2;
+      grid-row: 1 / span 2;
     }
 
     .dev-layout-zone--half {

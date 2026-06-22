@@ -10,6 +10,7 @@ export type DevLayoutDefinition = {
   label: string;
   brief: string;
   href: string;
+  complete?: boolean;
   zones: DevLayoutZone[];
   reviewPoints: string[];
   dependencies: string[];
@@ -24,6 +25,7 @@ export const devLayoutDefinitions: DevLayoutDefinition[] = [
     label: "Layout",
     brief: "One card spans the full 2 by 2 card area when a single idea, model or task needs the whole slide body.",
     href: layoutHref("one-full-span-card"),
+    complete: true,
     zones: [
       { title: "Card 1", detail: "One card spans two rows and two columns.", span: "full" },
     ],
@@ -40,6 +42,7 @@ export const devLayoutDefinitions: DevLayoutDefinition[] = [
     label: "Layout",
     brief: "Two cards sit side by side, each spanning one full column of the 2 by 2 card area.",
     href: layoutHref("two-vertical-cards"),
+    complete: true,
     zones: [
       { title: "Card 1", detail: "Left card spans both rows.", span: "column" },
       { title: "Card 2", detail: "Right card spans both rows.", span: "column" },
@@ -57,6 +60,7 @@ export const devLayoutDefinitions: DevLayoutDefinition[] = [
     label: "Layout",
     brief: "Two cards stack vertically, each spanning one full row of the 2 by 2 card area.",
     href: layoutHref("two-horizontal-cards"),
+    complete: true,
     zones: [
       { title: "Card 1", detail: "Top card spans both columns.", span: "row" },
       { title: "Card 2", detail: "Bottom card spans both columns.", span: "row" },
@@ -74,6 +78,7 @@ export const devLayoutDefinitions: DevLayoutDefinition[] = [
     label: "Layout",
     brief: "One top card spans both columns, with two smaller cards underneath.",
     href: layoutHref("wide-top-card-two-bottom-cards"),
+    complete: true,
     zones: [
       { title: "Card 1", detail: "Top card spans both columns.", span: "row" },
       { title: "Card 2", detail: "Bottom-left card.", span: "cell" },
@@ -92,6 +97,7 @@ export const devLayoutDefinitions: DevLayoutDefinition[] = [
     label: "Layout",
     brief: "Two smaller cards sit on the top row, with one bottom card spanning both columns.",
     href: layoutHref("two-top-cards-wide-bottom-card"),
+    complete: true,
     zones: [
       { title: "Card 1", detail: "Top-left card.", span: "cell" },
       { title: "Card 2", detail: "Top-right card.", span: "cell" },
@@ -110,6 +116,7 @@ export const devLayoutDefinitions: DevLayoutDefinition[] = [
     label: "Layout",
     brief: "One left card spans both rows, with two smaller cards stacked on the right.",
     href: layoutHref("tall-left-card-two-right-cards"),
+    complete: true,
     zones: [
       { title: "Card 1", detail: "Left card spans both rows.", span: "column" },
       { title: "Card 2", detail: "Top-right card.", span: "cell" },
@@ -128,6 +135,7 @@ export const devLayoutDefinitions: DevLayoutDefinition[] = [
     label: "Layout",
     brief: "Two smaller cards stack on the left, with one right card spanning both rows.",
     href: layoutHref("two-left-cards-tall-right-card"),
+    complete: true,
     zones: [
       { title: "Card 1", detail: "Top-left card.", span: "cell" },
       { title: "Card 2", detail: "Bottom-left card.", span: "cell" },
@@ -146,6 +154,7 @@ export const devLayoutDefinitions: DevLayoutDefinition[] = [
     label: "Layout",
     brief: "Four cards fill the 2 by 2 card area equally.",
     href: layoutHref("four-equal-cards"),
+    complete: true,
     zones: [
       { title: "Card 1", detail: "Top-left card.", span: "cell" },
       { title: "Card 2", detail: "Top-right card.", span: "cell" },
@@ -165,6 +174,7 @@ export const devLayoutDefinitions: DevLayoutDefinition[] = [
     label: "Segment",
     brief: "A title-only or title-led break slide used to introduce a new lesson segment outside the 2 by 2 card system.",
     href: layoutHref("title-segment-slide"),
+    complete: true,
     zones: [
       { title: "Segment title", detail: "", span: "title" },
     ],

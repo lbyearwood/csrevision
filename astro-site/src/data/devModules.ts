@@ -18,11 +18,11 @@ export type DevModuleGroup = {
 export const devModuleGroups: DevModuleGroup[] = [
   {
     title: "Shells",
-    items: devShellDefinitions.map(({ title, href }) => ({ title, href })),
+    items: devShellDefinitions.map(({ title, href, complete }) => ({ title, href, complete })),
   },
   {
     title: "Layouts",
-    items: devLayoutDefinitions.map(({ title, href }) => ({ title, href })),
+    items: devLayoutDefinitions.map(({ title, href, complete }) => ({ title, href, complete })),
   },
   {
     title: "Cards",

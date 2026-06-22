@@ -43,9 +43,9 @@ const navSections = [
     <main class="lesson-main min-w-0 px-4 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <LessonSlideShell id="example" label={layout.label} heading="Example" slideNumber={1}>
-          <div class:list={["dev-layout-zone-grid", layout.slug === "title-segment-slide" ? "dev-layout-zone-grid--title" : "dev-layout-zone-grid--two-by-two"]}>
-            {layout.zones.map((zone) => (
-              <article class:list={["dev-layout-zone", `dev-layout-zone--${zone.span}`]}>
+          <div class:list={["dev-layout-zone-grid", `dev-layout-zone-grid--${layout.slug}`, layout.slug === "title-segment-slide" ? "dev-layout-zone-grid--title" : "dev-layout-zone-grid--two-by-two"]}>
+            {layout.zones.map((zone, index) => (
+              <article class:list={["dev-layout-zone", `dev-layout-zone--${zone.span}`, `dev-layout-zone--item-${index + 1}`]}>
                 <h3>{zone.title}</h3>
                 {zone.detail && <p>{zone.detail}</p>}
               </article>
