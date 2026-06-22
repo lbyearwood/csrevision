@@ -41,8 +41,8 @@ const { card } = Astro.props;
 const cardNumber = devCardDefinitions.findIndex((definition) => definition.slug === card.slug) + 1;
 const numberedCardTitle = `${cardNumber}. ${card.title}`;
 const navSections = [
-  { id: "brief", title: "Brief" },
   { id: "example", title: "Example" },
+  { id: "brief", title: "Brief" },
 ];
 const modellingSteps = [
   "Step 1 of 3: Fetch the instruction.",
@@ -159,7 +159,7 @@ const briefBySlug: Record<string, string[]> = {
 };
 
 // Developer review notes for future Codex work:
-// - Keep card review pages to two visible slides: Brief and Example.
+// - Keep card review pages to two visible slides: Example and Brief.
 // - Do not render developer checklists or implementation notes as visible UI.
 // - Card examples must be concrete: table cards use tables, diagram cards use diagrams, image cards use bitmap images.
 // - Layout examples should import card components from this card set rather than inventing one-off card markup.
@@ -176,16 +176,7 @@ const briefBySlug: Record<string, string[]> = {
     <LessonSideNav title={numberedCardTitle} sections={navSections} />
     <main class="lesson-main min-w-0 px-4 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
-        <LessonSlideShell id="brief" label="Card" heading="Brief" slideNumber={1}>
-          <div class="dev-layout-review-panel">
-            <h3>{numberedCardTitle}</h3>
-            <ol class="dev-card-brief-list">
-              {briefBySlug[card.slug].map((briefItem) => <li>{briefItem}</li>)}
-            </ol>
-          </div>
-        </LessonSlideShell>
-
-        <LessonSlideShell id="example" label="Card" heading="Example" slideNumber={2}>
+        <LessonSlideShell id="example" label="Card" heading="Example" slideNumber={1}>
           <div class="dev-card-example-stage">
             {card.slug === "explanation-card" && (
               <ExplanationCard title="One clear teaching idea">
@@ -833,6 +824,15 @@ const briefBySlug: Record<string, string[]> = {
                 </div>
               </MisconceptionCard>
             )}
+          </div>
+        </LessonSlideShell>
+
+        <LessonSlideShell id="brief" label="Card" heading="Brief" slideNumber={2}>
+          <div class="dev-layout-review-panel">
+            <h3>{numberedCardTitle}</h3>
+            <ol class="dev-card-brief-list">
+              {briefBySlug[card.slug].map((briefItem) => <li>{briefItem}</li>)}
+            </ol>
           </div>
         </LessonSlideShell>
       </div>

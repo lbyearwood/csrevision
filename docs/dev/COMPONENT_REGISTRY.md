@@ -10,6 +10,10 @@ Status values:
 - `needs work`: known gaps remain.
 - `missing`: not built yet.
 
+Review page order:
+
+- Reusable module review routes should show `Example` as slide 1 and `Brief` as slide 2.
+
 ## Shells
 
 | No. | Shell | Status | Notes |

@@ -20,8 +20,8 @@ const { widget } = Astro.props;
 const widgetNumber = devWidgetDefinitions.findIndex((definition) => definition.slug === widget.slug) + 1;
 const numberedWidgetTitle = `${widgetNumber}. ${widget.title}`;
 const navSections = [
-  { id: "brief", title: "Brief" },
   { id: "example", title: "Example" },
+  { id: "brief", title: "Brief" },
 ];
 
 const briefBySlug: Record<string, string[]> = {
@@ -69,16 +69,7 @@ const briefBySlug: Record<string, string[]> = {
     <LessonSideNav title={numberedWidgetTitle} sections={navSections} />
     <main class="lesson-main min-w-0 px-4 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
-        <LessonSlideShell id="brief" label="Widget" heading="Brief" slideNumber={1}>
-          <div class="dev-layout-review-panel">
-            <h3>{numberedWidgetTitle}</h3>
-            <ol class="dev-card-brief-list">
-              {briefBySlug[widget.slug].map((briefItem) => <li>{briefItem}</li>)}
-            </ol>
-          </div>
-        </LessonSlideShell>
-
-        <LessonSlideShell id="example" label="Widget" heading="Example" slideNumber={2}>
+        <LessonSlideShell id="example" label="Widget" heading="Example" slideNumber={1}>
           <div class="dev-component-example-stage">
             {widget.slug === "timer-display" && (
               <section class="countdown-widget dev-widget-countdown-preview" data-dev-countdown aria-label="Count Down">
@@ -261,6 +252,15 @@ const briefBySlug: Record<string, string[]> = {
             )}
           </div>
         </LessonSlideShell>
+
+        <LessonSlideShell id="brief" label="Widget" heading="Brief" slideNumber={2}>
+          <div class="dev-layout-review-panel">
+            <h3>{numberedWidgetTitle}</h3>
+            <ol class="dev-card-brief-list">
+              {briefBySlug[widget.slug].map((briefItem) => <li>{briefItem}</li>)}
+            </ol>
+          </div>
+        </LessonSlideShell>
       </div>
     </main>
   </div>
@@ -305,8 +305,6 @@ const briefBySlug: Record<string, string[]> = {
       const handle = widget.querySelector(handleSelector);
       let dragging = null;
 
-      window.setTimeout(() => dockWidget(widget), 50);
-
       function drag(event) {
         if (!dragging) return;
         setWidgetPosition(widget, event.clientX - dragging.offsetX, event.clientY - dragging.offsetY);
@@ -323,6 +321,7 @@ const briefBySlug: Record<string, string[]> = {
         if (widget.classList.contains("is-fullscreen")) return;
         if (event.target.closest("button, input, label")) return;
         const rect = widget.getBoundingClientRect();
+        dockWidget(widget);
         dragging = {
           offsetX: event.clientX - rect.left,
           offsetY: event.clientY - rect.top,

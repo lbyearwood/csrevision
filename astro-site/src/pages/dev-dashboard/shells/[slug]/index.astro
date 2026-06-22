@@ -20,8 +20,8 @@ const { shell } = Astro.props;
 const shellNumber = devShellDefinitions.findIndex((definition) => definition.slug === shell.slug) + 1;
 const numberedShellTitle = `${shellNumber}. ${shell.title}`;
 const navSections = [
-  { id: "brief", title: "Brief" },
   { id: "example", title: "Example" },
+  { id: "brief", title: "Brief" },
 ];
 ---
 
@@ -36,14 +36,7 @@ const navSections = [
     <LessonSideNav title={numberedShellTitle} sections={navSections} />
     <main class="lesson-main min-w-0 px-4 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
-        <LessonSlideShell id="brief" label={shell.label} heading="Brief" slideNumber={1}>
-          <div class="dev-layout-review-panel">
-            <h3>{numberedShellTitle}</h3>
-            <p>{shell.brief}</p>
-          </div>
-        </LessonSlideShell>
-
-        <LessonSlideShell id="example" label={shell.label} heading="Example" slideNumber={2}>
+        <LessonSlideShell id="example" label={shell.label} heading="Example" slideNumber={1}>
           <div class="lesson-shell-demo-grid">
             <article class="lesson-shell-demo-block">
               <h3>The shell owns</h3>
@@ -63,6 +56,13 @@ const navSections = [
                 <li>the activity, model or diagram behaviour</li>
               </ul>
             </article>
+          </div>
+        </LessonSlideShell>
+
+        <LessonSlideShell id="brief" label={shell.label} heading="Brief" slideNumber={2}>
+          <div class="dev-layout-review-panel">
+            <h3>{numberedShellTitle}</h3>
+            <p>{shell.brief}</p>
           </div>
         </LessonSlideShell>
       </div>

@@ -20,8 +20,8 @@ const { component } = Astro.props;
 const componentNumber = devComponentDefinitions.findIndex((definition) => definition.slug === component.slug) + 1;
 const numberedComponentTitle = `${componentNumber}. ${component.title}`;
 const navSections = [
-  { id: "brief", title: "Brief" },
   { id: "example", title: "Example" },
+  { id: "brief", title: "Brief" },
 ];
 
 const briefBySlug: Record<string, string[]> = {
@@ -129,16 +129,7 @@ const briefBySlug: Record<string, string[]> = {
     <LessonSideNav title={numberedComponentTitle} sections={navSections} />
     <main class="lesson-main min-w-0 px-4 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
-        <LessonSlideShell id="brief" label="Component" heading="Brief" slideNumber={1}>
-          <div class="dev-layout-review-panel">
-            <h3>{numberedComponentTitle}</h3>
-            <ol class="dev-card-brief-list">
-              {briefBySlug[component.slug].map((briefItem) => <li>{briefItem}</li>)}
-            </ol>
-          </div>
-        </LessonSlideShell>
-
-        <LessonSlideShell id="example" label="Component" heading="Example" slideNumber={2}>
+        <LessonSlideShell id="example" label="Component" heading="Example" slideNumber={1}>
           <div class="dev-component-example-stage">
             {component.slug === "reveal-button" && (
               <button class="dev-component-reveal-button" type="button">
@@ -280,6 +271,15 @@ const briefBySlug: Record<string, string[]> = {
                 <p>Identifies the Control Unit as the CPU component that coordinates activity.</p>
               </div>
             )}
+          </div>
+        </LessonSlideShell>
+
+        <LessonSlideShell id="brief" label="Component" heading="Brief" slideNumber={2}>
+          <div class="dev-layout-review-panel">
+            <h3>{numberedComponentTitle}</h3>
+            <ol class="dev-card-brief-list">
+              {briefBySlug[component.slug].map((briefItem) => <li>{briefItem}</li>)}
+            </ol>
           </div>
         </LessonSlideShell>
       </div>

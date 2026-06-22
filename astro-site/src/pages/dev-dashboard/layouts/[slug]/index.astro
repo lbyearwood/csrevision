@@ -18,12 +18,12 @@ export function getStaticPaths() {
 
 const { layout } = Astro.props;
 const navSections = [
-  { id: "brief", title: "Brief" },
   { id: "example", title: "Example" },
+  { id: "brief", title: "Brief" },
 ];
 
 // Developer review notes for future Codex work:
-// - Keep this page to two visible slides: Brief and Example.
+// - Keep this page to two visible slides: Example and Brief.
 // - Do not render review checks, dependencies or implementation notes as visible UI.
 // - Use layout.reviewPoints and layout.dependencies as source guidance when refining this example.
 // - Layouts are structural 2 by 2 card arrangements, not teaching purposes.
@@ -40,14 +40,7 @@ const navSections = [
     <LessonSideNav title={layout.title} sections={navSections} />
     <main class="lesson-main min-w-0 px-4 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
-        <LessonSlideShell id="brief" label={layout.label} heading="Brief" slideNumber={1}>
-          <div class="dev-layout-review-panel">
-            <h3>{layout.title}</h3>
-            <p>{layout.brief}</p>
-          </div>
-        </LessonSlideShell>
-
-        <LessonSlideShell id="example" label={layout.label} heading="Example" slideNumber={2}>
+        <LessonSlideShell id="example" label={layout.label} heading="Example" slideNumber={1}>
           <div class:list={["dev-layout-zone-grid", layout.slug === "title-segment-slide" ? "dev-layout-zone-grid--title" : "dev-layout-zone-grid--two-by-two"]}>
             {layout.zones.map((zone) => (
               <article class:list={["dev-layout-zone", `dev-layout-zone--${zone.span}`]}>
@@ -55,6 +48,13 @@ const navSections = [
                 <p>{zone.detail}</p>
               </article>
             ))}
+          </div>
+        </LessonSlideShell>
+
+        <LessonSlideShell id="brief" label={layout.label} heading="Brief" slideNumber={2}>
+          <div class="dev-layout-review-panel">
+            <h3>{layout.title}</h3>
+            <p>{layout.brief}</p>
           </div>
         </LessonSlideShell>
       </div>
