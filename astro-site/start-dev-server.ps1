@@ -27,13 +27,18 @@ if ($existingListener) {
 Set-Content -Path $OutLog -Value ""
 Set-Content -Path $ErrLog -Value ""
 
-$npm = (Get-Command npm.cmd -ErrorAction Stop).Source
-$arguments = "/d /s /c ""cd /d ""$ProjectRoot"" && ""$npm"" run dev -- --host $HostName --port $Port 1> ""$OutLog"" 2> ""$ErrLog"""""
+$node = (Get-Command node.exe -ErrorAction Stop).Source
+$astroBin = Join-Path $ProjectRoot "node_modules\astro\bin\astro.mjs"
+if (-not (Test-Path -LiteralPath $astroBin)) {
+  throw "Astro executable not found at $astroBin. Run npm.cmd install from $ProjectRoot first."
+}
 
 $process = Start-Process `
-  -FilePath "$env:SystemRoot\System32\cmd.exe" `
-  -ArgumentList $arguments `
+  -FilePath $node `
+  -ArgumentList @($astroBin, "dev", "--host", $HostName, "--port", $Port) `
   -WorkingDirectory $ProjectRoot `
+  -RedirectStandardOutput $OutLog `
+  -RedirectStandardError $ErrLog `
   -WindowStyle Hidden `
   -PassThru
 

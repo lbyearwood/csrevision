@@ -140,6 +140,7 @@ Observed failed launch paths:
 - `Start-Process -FilePath npm.cmd ...` can fail with the duplicate `Path` / `PATH` environment error.
 - `Start-Process -UseNewEnvironment` may still hit the same duplicate-key error in the Codex-hosted PowerShell environment.
 - A hidden `cmd /k` launch via `WScript.Shell.Run(...)` can pass immediate `200` probes and then disappear after the tool call ends.
+- A hidden `cmd /c` launch through `npm.cmd run dev` can report Astro ready, serve one request, then disappear after the launcher returns.
 - In this host, .NET `ProcessStartInfo.Environment` / `EnvironmentVariables` cleanup attempts may be unavailable or null, so do not rely on them as a universal fix.
 
 Likely cause:
@@ -155,7 +156,7 @@ Working solution for a persistent server:
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\Users\Max\Documents\Development\csrevision\astro-site\start-dev-server.ps1
 ```
 
-- This script normalizes the Windows `Path` / `PATH` issue, writes logs to `astro-site/astro-dev.out.log` and `astro-site/astro-dev.err.log`, stores the launcher PID in `astro-site/astro-dev-server.pid`, and verifies `/dev-dashboard/`.
+- This script normalizes the Windows `Path` / `PATH` issue, starts Astro directly through `node node_modules/astro/bin/astro.mjs dev`, writes logs to `astro-site/astro-dev.out.log` and `astro-site/astro-dev.err.log`, stores the Node PID in `astro-site/astro-dev-server.pid`, and verifies `/dev-dashboard/`.
 - Start it outside the sandbox when the server must remain available to the user's in-app browser after the Codex tool call returns.
 - Alternative manual solution: start the dev server in a normal user-owned terminal and keep that terminal open:
 
