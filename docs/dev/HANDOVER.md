@@ -56,6 +56,8 @@ npm.cmd run dev -- --host 127.0.0.1 --port 4321
 - Single-page lesson model.
 - Shared lesson shell.
 - Dev dashboard for reusable layout/card/component review.
+- Dev dashboard separates Shells from Layouts: the standard numbered slide shell is not counted as a layout.
+- Layouts are now structural 2 by 2 card arrangements only, plus the title segment slide exception.
 - Structured content/data should drive future lesson creation.
 
 ## Current Priorities

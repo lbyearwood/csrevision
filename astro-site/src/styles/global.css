@@ -3722,6 +3722,15 @@ a {
     align-items: stretch;
   }
 
+  .dev-layout-zone-grid--two-by-two {
+    min-height: clamp(24rem, 56vh, 34rem);
+  }
+
+  .dev-layout-zone-grid--title {
+    align-content: center;
+    min-height: clamp(20rem, 46vh, 30rem);
+  }
+
   .dev-layout-zone {
     min-height: clamp(10rem, 24vh, 15rem);
     border: 1px dashed #93c5fd;
@@ -3753,6 +3762,12 @@ a {
     gap: 0.7rem;
     padding-left: 1.25rem;
     list-style: outside;
+  }
+
+  .dev-layout-zone--title {
+    display: grid;
+    place-items: center;
+    text-align: center;
   }
 
   .dev-layout-model-controls {
@@ -4004,8 +4019,30 @@ a {
       grid-template-columns: repeat(12, minmax(0, 1fr));
     }
 
+    .dev-layout-zone-grid--two-by-two {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-rows: repeat(2, minmax(0, 1fr));
+    }
+
+    .dev-layout-zone-grid--title {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
     .dev-layout-zone--full {
-      grid-column: span 12;
+      grid-column: 1 / -1;
+      grid-row: 1 / -1;
+    }
+
+    .dev-layout-zone--row {
+      grid-column: 1 / -1;
+    }
+
+    .dev-layout-zone--column {
+      grid-row: span 2;
+    }
+
+    .dev-layout-zone--cell {
+      grid-column: span 1;
     }
 
     .dev-layout-zone--half {
@@ -4018,6 +4055,10 @@ a {
 
     .dev-layout-zone--quarter {
       grid-column: span 3;
+    }
+
+    .dev-layout-zone--title {
+      grid-column: 1 / -1;
     }
 
     .lesson-term-grid {

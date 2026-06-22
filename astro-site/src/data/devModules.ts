@@ -1,3 +1,4 @@
+import { devShellDefinitions } from "./devShells";
 import { devLayoutDefinitions } from "./devLayouts";
 import { devCardDefinitions } from "./devCards";
 import { devComponentDefinitions } from "./devComponents";
@@ -15,6 +16,10 @@ export type DevModuleGroup = {
 };
 
 export const devModuleGroups: DevModuleGroup[] = [
+  {
+    title: "Shells",
+    items: devShellDefinitions.map(({ title, href }) => ({ title, href })),
+  },
   {
     title: "Layouts",
     items: devLayoutDefinitions.map(({ title, href }) => ({ title, href })),

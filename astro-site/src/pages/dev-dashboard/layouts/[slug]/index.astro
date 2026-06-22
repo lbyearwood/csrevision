@@ -2,7 +2,7 @@
 import LessonLayout from "../../../../components/layout/LessonLayout.astro";
 import LessonSlideShell from "../../../../components/lesson/LessonSlideShell.astro";
 import LessonSideNav from "../../../../components/navigation/LessonSideNav.astro";
-import { draftDevLayoutDefinitions, type DevLayoutDefinition } from "../../../../data/devLayouts";
+import { devLayoutDefinitions, type DevLayoutDefinition } from "../../../../data/devLayouts";
 import { routes } from "../../../../data/routes";
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 }
 
 export function getStaticPaths() {
-  return draftDevLayoutDefinitions.map((layout) => ({
+  return devLayoutDefinitions.map((layout) => ({
     params: { slug: layout.slug },
     props: { layout },
   }));
@@ -18,20 +18,15 @@ export function getStaticPaths() {
 
 const { layout } = Astro.props;
 const navSections = [
-  { id: "purpose", title: "Purpose" },
+  { id: "brief", title: "Brief" },
   { id: "example", title: "Example" },
-];
-const interactiveModelSteps = [
-  "Step 1 of 3: Fetch the instruction.",
-  "Step 2 of 3: Decode the instruction.",
-  "Step 3 of 3: Execute the instruction.",
 ];
 
 // Developer review notes for future Codex work:
-// - Keep this page to two visible slides: Purpose and Example.
+// - Keep this page to two visible slides: Brief and Example.
 // - Do not render review checks, dependencies or implementation notes as visible UI.
 // - Use layout.reviewPoints and layout.dependencies as source guidance when refining this example.
-// - Approve the whole-slide layout separately from final card and component designs.
+// - Layouts are structural 2 by 2 card arrangements, not teaching purposes.
 ---
 
 <LessonLayout
@@ -45,79 +40,24 @@ const interactiveModelSteps = [
     <LessonSideNav title={layout.title} sections={navSections} />
     <main class="lesson-main min-w-0 px-4 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
-        <LessonSlideShell id="purpose" label={layout.label} heading="Purpose" slideNumber={1}>
+        <LessonSlideShell id="brief" label={layout.label} heading="Brief" slideNumber={1}>
           <div class="dev-layout-review-panel">
             <h3>{layout.title}</h3>
-            <p>{layout.purpose}</p>
+            <p>{layout.brief}</p>
           </div>
         </LessonSlideShell>
 
         <LessonSlideShell id="example" label={layout.label} heading="Example" slideNumber={2}>
-          <div class="dev-layout-zone-grid">
+          <div class:list={["dev-layout-zone-grid", layout.slug === "title-segment-slide" ? "dev-layout-zone-grid--title" : "dev-layout-zone-grid--two-by-two"]}>
             {layout.zones.map((zone) => (
               <article class:list={["dev-layout-zone", `dev-layout-zone--${zone.span}`]}>
                 <h3>{zone.title}</h3>
                 <p>{zone.detail}</p>
               </article>
             ))}
-            {layout.slug === "interactive-model" && (
-              <div
-                class="dev-layout-model-controls"
-                data-interactive-model-controls
-                data-steps={JSON.stringify(interactiveModelSteps)}
-              >
-                <button type="button" class="dev-layout-model-button" data-model-action="previous">
-                  Previous step
-                </button>
-                <button type="button" class="dev-layout-model-button" data-model-action="next">
-                  Next step
-                </button>
-                <button type="button" class="dev-layout-model-button dev-layout-model-button--secondary" data-model-action="reset">
-                  Reset
-                </button>
-                <p class="dev-layout-model-status" aria-live="polite" data-model-status>
-                  {interactiveModelSteps[0]}
-                </p>
-              </div>
-            )}
           </div>
         </LessonSlideShell>
       </div>
     </main>
   </div>
 </LessonLayout>
-
-<script is:inline>
-  (() => {
-    const controls = document.querySelector("[data-interactive-model-controls]");
-    if (!controls) return;
-
-    const status = controls.querySelector("[data-model-status]");
-    const steps = JSON.parse(controls.getAttribute("data-steps") || "[]");
-    let currentStep = 0;
-
-    const updateStatus = () => {
-      if (!status || steps.length === 0) return;
-      status.textContent = steps[currentStep];
-    };
-
-    controls.querySelectorAll("[data-model-action]").forEach((button) => {
-      button.addEventListener("click", () => {
-        const action = button.getAttribute("data-model-action");
-        if (action === "previous") {
-          currentStep = Math.max(0, currentStep - 1);
-        }
-
-        if (action === "next") {
-          currentStep = Math.min(steps.length - 1, currentStep + 1);
-        }
-
-        if (action === "reset") {
-          currentStep = 0;
-        }
-
-        updateStatus();
-      });
-    });
-  })();
-</script>

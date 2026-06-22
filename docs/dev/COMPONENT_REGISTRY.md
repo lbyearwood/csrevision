@@ -1,6 +1,6 @@
 # Component Registry
 
-This registry tracks reusable layouts, cards and smaller components. Keep statuses current as modules are reviewed, amended and accepted.
+This registry tracks reusable shells, layouts, cards and smaller components. Keep statuses current as modules are reviewed, amended and accepted.
 
 Status values:
 
@@ -10,31 +10,27 @@ Status values:
 - `needs work`: known gaps remain.
 - `missing`: not built yet.
 
+## Shells
+
+| No. | Shell | Status | Notes |
+| --- | --- | --- | --- |
+| 1 | Standard numbered lesson slide shell | review | Shared outer wrapper for slide number, label, heading, scroll target spacing and canvas rhythm. Not a 2 by 2 card layout. |
+
 ## Layouts
+
+Layouts are structural 2 by 2 card arrangements only, except for the title segment slide. Teaching purposes such as comparison, recap, process, model or exam practice belong in cards, components or widgets placed inside these layouts.
 
 | No. | Layout | Status | Notes |
 | --- | --- | --- | --- |
-| 1 | Standard numbered lesson slide shell | review | Extracted as shared shell. |
-| 2 | Two-column teaching with support | review | Uses balanced main areas and full-width support area. |
-| 3 | Two-column teaching without support | draft | Needs review before lesson use. |
-| 4 | Single teaching-card | draft | Needs review before lesson use. |
-| 5 | Full-width visual/title | draft | Needs review before lesson use. |
-| 6 | Full-width visual with prompt | draft | Needs review before lesson use. |
-| 7 | Comparison/table | draft | Needs review before lesson use. |
-| 8 | Process/sequence | draft | Needs review before lesson use. |
-| 9 | Vocabulary/key terms | draft | Needs review before lesson use. |
-| 10 | Question/check | draft | Needs review before lesson use. |
-| 11 | Activity | draft | Needs review before lesson use. |
-| 12 | Summary/recap | draft | Needs review before lesson use. |
-| 13 | Apply-it scenario | draft | Needs review before lesson use. |
-| 14 | Minimal title/image | draft | Needs review before lesson use. |
-| 15 | End-of-lesson next steps | draft | Needs review before lesson use. |
-| 16 | Match activity | draft | Needs review before lesson use. |
-| 17 | Hinge question | draft | Needs review before lesson use. |
-| 18 | Misconception check | draft | Needs review before lesson use. |
-| 19 | Exam-practice | draft | Needs review before lesson use. |
-| 20 | Teacher-led discussion | draft | Needs review before lesson use. |
-| 21 | Interactive model | draft | Needs review before lesson use. |
+| 1 | One full-span card | draft | One card spans the full 2 by 2 card area. |
+| 2 | Two vertical cards | draft | Two cards side by side, each spanning a full column. |
+| 3 | Two horizontal cards | draft | Two cards stacked, each spanning a full row. |
+| 4 | Wide top card + two bottom cards | draft | One wide setup card over two smaller cards. |
+| 5 | Two top cards + wide bottom card | draft | Two smaller cards over one wide synthesis card. |
+| 6 | Tall left card + two right cards | draft | One tall left card with two stacked cards on the right. |
+| 7 | Two left cards + tall right card | draft | Two stacked cards on the left with one tall right card. |
+| 8 | Four equal cards | draft | Standard 2 by 2 card grid. |
+| 9 | Title segment slide | draft | Segment break slide outside the 2 by 2 card system. |
 
 ## Cards
 
@@ -70,21 +66,23 @@ Status values:
 | No. | Component | Status | Notes |
 | --- | --- | --- | --- |
 | 1 | Reveal button | review | New review route with blue reveal trigger design. |
-| 2 | Reset button | review | New review route plus existing use inside C9 and C10 multiple-choice cards. |
-| 3 | Multiple-choice option | review | New review route plus existing use inside C9 single multiple choice card. |
-| 4 | Correct marker | review | New review route plus existing use inside C9 single multiple choice card. |
-| 5 | Incorrect marker | review | New review route plus existing use inside C9 single multiple choice card. |
-| 6 | Feedback state | review | New review route with neutral, correct and incorrect variants. |
-| 7 | Hint toggle | review | New review route using native details disclosure. |
-| 8 | Expand/collapse panel | review | New review route using native details disclosure. |
-| 9 | Step connector | review | New review route with numbered process connector. |
-| 10 | Flow connector | review | New review route with elbow arrow connector. |
-| 11 | Label badge | review | New review route with default, success and warning variants. |
-| 12 | Tooltip | review | New review route with accessible icon help label. |
-| 13 | Diagram label | review | New review route with leader-line label pattern. |
-| 14 | Image hotspot | review | New review route with numbered hotspot marker. |
-| 15 | Drag handle | review | New review route with compact reorder handle. |
-| 16 | Mark scheme bullet | review | New review route with mark-value badge and point text. |
+| 2 | Previous button | review | New review route with rounded blue previous-step control. |
+| 3 | Next button | review | New review route with rounded blue next-step control in a different shade. |
+| 4 | Reset button | review | New review route plus existing use inside C9 and C10 multiple-choice cards. |
+| 5 | Multiple-choice option | review | New review route plus existing use inside C9 single multiple choice card. |
+| 6 | Correct marker | review | New review route plus existing use inside C9 single multiple choice card. |
+| 7 | Incorrect marker | review | New review route plus existing use inside C9 single multiple choice card. |
+| 8 | Feedback state | review | New review route with neutral, correct and incorrect variants. |
+| 9 | Hint toggle | review | New review route using native details disclosure. |
+| 10 | Expand/collapse panel | review | New review route using native details disclosure. |
+| 11 | Step connector | review | New review route with numbered process connector. |
+| 12 | Flow connector | review | New review route with elbow arrow connector. |
+| 13 | Label badge | review | New review route with default, success and warning variants. |
+| 14 | Tooltip | review | New review route with accessible icon help label. |
+| 15 | Diagram label | review | New review route with leader-line label pattern. |
+| 16 | Image hotspot | review | New review route with numbered hotspot marker. |
+| 17 | Drag handle | review | New review route with compact reorder handle. |
+| 18 | Mark scheme bullet | review | New review route with mark-value badge and point text. |
 
 ## Widgets
 
@@ -99,7 +97,7 @@ Status values:
 
 ## Open Registry Work
 
-- Define which cards/components can appear in which slide layouts.
+- Define which cards/components can appear in each structural 2 by 2 layout.
 - Mark modules as `accepted` only after user review.
 - Widgets should be functional review sandboxes, not static visual-only previews.
 - Keep the Dev dashboard Cards list aligned with this registry.
