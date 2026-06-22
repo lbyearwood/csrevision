@@ -30,6 +30,16 @@ const briefBySlug: Record<string, string[]> = {
     "Design requirements: Use a clear blue button with a reveal icon area, strong focus state and concise action text.",
     "Functionality: Work as a trigger for reveal, lightbox or answer states without owning the revealed content.",
   ],
+  "previous-button": [
+    "Purpose: Move an interactive model, sequence or stepper back by one step.",
+    "Design requirements: Use a rounded blue control with a left chevron icon, readable text and a visible focus state.",
+    "Functionality: Decrease the current step without going below the first step, and keep the current state clear to the user.",
+  ],
+  "next-button": [
+    "Purpose: Move an interactive model, sequence or stepper forward by one step.",
+    "Design requirements: Use a rounded blue control in a different shade from the previous button, with a right chevron icon, readable text and a visible focus state.",
+    "Functionality: Increase the current step without going past the final step, and pair with status text that confirms the current step.",
+  ],
   "reset-button": [
     "Purpose: Return an interactive card or question to its starting state.",
     "Design requirements: Use a compact secondary button with a reset arrow symbol and restrained styling.",
@@ -134,6 +144,24 @@ const briefBySlug: Record<string, string[]> = {
               <button class="dev-component-reveal-button" type="button">
                 <span aria-hidden="true">?</span>
                 Reveal answer
+              </button>
+            )}
+
+            {component.slug === "previous-button" && (
+              <button class="dev-component-step-button dev-component-step-button--previous" type="button">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M15 6 9 12l6 6"></path>
+                </svg>
+                Previous step
+              </button>
+            )}
+
+            {component.slug === "next-button" && (
+              <button class="dev-component-step-button dev-component-step-button--next" type="button">
+                Next step
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="m9 6 6 6-6 6"></path>
+                </svg>
               </button>
             )}
 

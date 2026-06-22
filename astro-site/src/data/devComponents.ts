@@ -14,6 +14,16 @@ export const devComponentDefinitions: DevComponentDefinition[] = [
     href: componentHref("reveal-button"),
   },
   {
+    title: "Previous button",
+    slug: "previous-button",
+    href: componentHref("previous-button"),
+  },
+  {
+    title: "Next button",
+    slug: "next-button",
+    href: componentHref("next-button"),
+  },
+  {
     title: "Reset button",
     slug: "reset-button",
     href: componentHref("reset-button"),

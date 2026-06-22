@@ -1340,6 +1340,7 @@ a {
   }
 
   .dev-component-reveal-button,
+  .dev-component-step-button,
   .dev-component-reset-button,
   .dev-component-choice-option,
   .dev-component-audio-button {
@@ -1370,6 +1371,46 @@ a {
     border-radius: 999px;
     background: #ffffff;
     color: var(--color-primary);
+  }
+
+  .dev-component-step-button {
+    gap: 0.55rem;
+    border: 2px solid var(--color-primary);
+    background: var(--color-primary);
+    padding: 0.8rem 1rem;
+    color: #ffffff;
+    transition:
+      background 160ms ease,
+      border-color 160ms ease,
+      transform 160ms ease;
+  }
+
+  .dev-component-step-button:hover,
+  .dev-component-step-button:focus-visible {
+    border-color: #1d4ed8;
+    background: #1d4ed8;
+    transform: translateY(-1px);
+  }
+
+  .dev-component-step-button--next {
+    border-color: #2563eb;
+    background: #2563eb;
+  }
+
+  .dev-component-step-button--next:hover,
+  .dev-component-step-button--next:focus-visible {
+    border-color: #1e40af;
+    background: #1e40af;
+  }
+
+  .dev-component-step-button svg {
+    width: 1.15rem;
+    height: 1.15rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 3;
   }
 
   .dev-component-reset-button {

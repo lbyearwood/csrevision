@@ -377,7 +377,7 @@ export const devLayoutDefinitions: DevLayoutDefinition[] = [
       "Controls must be usable on mobile.",
       "The model should not be flattened into static text when interaction matters.",
     ],
-    dependencies: ["Interactive model component", "Reset button", "Feedback state"],
+    dependencies: ["Interactive model component", "Previous button", "Next button", "Reset button", "Feedback state"],
   },
 ];
 
