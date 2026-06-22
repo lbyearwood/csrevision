@@ -17,6 +17,8 @@ export function getStaticPaths() {
 }
 
 const { layout } = Astro.props;
+const layoutNumber = devLayoutDefinitions.findIndex((definition) => definition.slug === layout.slug) + 1;
+const numberedLayoutTitle = `${layoutNumber}. ${layout.title}`;
 const navSections = [
   { id: "example", title: "Example" },
   { id: "brief", title: "Brief" },
@@ -30,14 +32,14 @@ const navSections = [
 ---
 
 <LessonLayout
-  title={layout.title}
+  title={numberedLayoutTitle}
   courseTitle="Reusable modules"
-  breadcrumb={["Layouts", layout.title]}
+  breadcrumb={["Layouts", numberedLayoutTitle]}
   backHref={routes.devDashboard}
   backLabel="Back to Dev dashboard"
 >
   <div class="lesson-shell">
-    <LessonSideNav title={layout.title} sections={navSections} />
+    <LessonSideNav title={numberedLayoutTitle} sections={navSections} />
     <main class="lesson-main min-w-0 px-4 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
         <LessonSlideShell id="example" label={layout.label} heading="Example" slideNumber={1}>
@@ -53,7 +55,7 @@ const navSections = [
 
         <LessonSlideShell id="brief" label={layout.label} heading="Brief" slideNumber={2}>
           <div class="dev-layout-review-panel">
-            <h3>{layout.title}</h3>
+            <h3>{numberedLayoutTitle}</h3>
             <p>{layout.brief}</p>
           </div>
         </LessonSlideShell>
