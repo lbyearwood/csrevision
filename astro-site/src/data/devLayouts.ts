@@ -166,8 +166,7 @@ export const devLayoutDefinitions: DevLayoutDefinition[] = [
     brief: "A title-only or title-led break slide used to introduce a new lesson segment outside the 2 by 2 card system.",
     href: layoutHref("title-segment-slide"),
     zones: [
-      { title: "Segment title", detail: "Large title for the next lesson section.", span: "title" },
-      { title: "Optional cue", detail: "Short supporting line only when it adds useful context.", span: "title" },
+      { title: "Segment title", detail: "", span: "title" },
     ],
     reviewPoints: [
       "Use sparingly between lesson segments.",
@@ -177,4 +176,3 @@ export const devLayoutDefinitions: DevLayoutDefinition[] = [
     dependencies: ["Standard numbered lesson slide shell"],
   },
 ];
-

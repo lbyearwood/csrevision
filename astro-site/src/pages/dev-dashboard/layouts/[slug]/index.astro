@@ -47,7 +47,7 @@ const navSections = [
             {layout.zones.map((zone) => (
               <article class:list={["dev-layout-zone", `dev-layout-zone--${zone.span}`]}>
                 <h3>{zone.title}</h3>
-                <p>{zone.detail}</p>
+                {zone.detail && <p>{zone.detail}</p>}
               </article>
             ))}
           </div>

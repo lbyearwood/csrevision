@@ -3767,7 +3767,14 @@ a {
   .dev-layout-zone--title {
     display: grid;
     place-items: center;
+    min-height: clamp(16rem, 42vh, 27rem);
     text-align: center;
+  }
+
+  .dev-layout-zone--title h3 {
+    max-width: 12ch;
+    font-size: clamp(4rem, 9vw, 7.5rem);
+    line-height: 0.95;
   }
 
   .dev-layout-model-controls {
