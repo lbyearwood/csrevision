@@ -1,0 +1,260 @@
+---
+import LessonLayout from "../../../../components/layout/LessonLayout.astro";
+import LessonSlideShell from "../../../../components/lesson/LessonSlideShell.astro";
+import LessonSideNav from "../../../../components/navigation/LessonSideNav.astro";
+import { devComponentDefinitions, type DevComponentDefinition } from "../../../../data/devComponents";
+import { routes } from "../../../../data/routes";
+
+interface Props {
+  component: DevComponentDefinition;
+}
+
+export function getStaticPaths() {
+  return devComponentDefinitions.map((component) => ({
+    params: { slug: component.slug },
+    props: { component },
+  }));
+}
+
+const { component } = Astro.props;
+const componentNumber = devComponentDefinitions.findIndex((definition) => definition.slug === component.slug) + 1;
+const numberedComponentTitle = `${componentNumber}. ${component.title}`;
+const navSections = [
+  { id: "brief", title: "Brief" },
+  { id: "example", title: "Example" },
+];
+
+const briefBySlug: Record<string, string[]> = {
+  "reveal-button": [
+    "Purpose: Show hidden answer, hint or mark-scheme content when a learner is ready.",
+    "Design requirements: Use a clear blue button with a reveal icon area, strong focus state and concise action text.",
+    "Functionality: Work as a trigger for reveal, lightbox or answer states without owning the revealed content.",
+  ],
+  "reset-button": [
+    "Purpose: Return an interactive card or question to its starting state.",
+    "Design requirements: Use a compact secondary button with a reset arrow symbol and restrained styling.",
+    "Functionality: Clear selected answers, feedback and temporary interaction state.",
+  ],
+  "multiple-choice-option": [
+    "Purpose: Present one selectable answer option inside a question card.",
+    "Design requirements: Use an A-D marker, thick border, readable text and clear hover/focus affordance.",
+    "Functionality: Support selected, correct and incorrect states when used by question cards.",
+  ],
+  "correct-marker": [
+    "Purpose: Mark a chosen answer or item as correct.",
+    "Design requirements: Use a green circular tick that is readable at small sizes and does not resize the row.",
+    "Functionality: Pair with selected answer states and feedback copy.",
+  ],
+  "incorrect-marker": [
+    "Purpose: Mark a chosen answer or item as incorrect.",
+    "Design requirements: Use a red circular cross that is readable at small sizes and does not resize the row.",
+    "Functionality: Pair with selected answer states and corrective feedback copy.",
+  ],
+  "feedback-state": [
+    "Purpose: Present a short result message after an interaction.",
+    "Design requirements: Use coloured borders and calm copy so success and correction feel clear rather than noisy.",
+    "Functionality: Support neutral, correct and incorrect feedback variants.",
+  ],
+  "hint-toggle": [
+    "Purpose: Let learners open a hint without revealing the full answer.",
+    "Design requirements: Use a small toggle with a hint label and a contained hint panel.",
+    "Functionality: Expand or collapse hint copy while preserving layout width.",
+  ],
+  "expand-collapse-panel": [
+    "Purpose: Hide or reveal optional teaching detail.",
+    "Design requirements: Use a full-width summary row with a chevron and a bordered content area.",
+    "Functionality: Support keyboard-operable disclosure through native details markup.",
+  ],
+  "step-connector": [
+    "Purpose: Show a sequence relationship between neighbouring process steps.",
+    "Design requirements: Use a straight connector line with numbered nodes and clear active step styling.",
+    "Functionality: Sit inside process cards and layouts without requiring custom SVG.",
+  ],
+  "flow-connector": [
+    "Purpose: Connect two boxes in a flow or model diagram.",
+    "Design requirements: Use straight or elbowed connectors with arrowheads and stable spacing.",
+    "Functionality: Support static flow diagrams and simple model explanations.",
+  ],
+  "label-badge": [
+    "Purpose: Add a small status, category or command-word label.",
+    "Design requirements: Use compact text, high contrast and a restrained background.",
+    "Functionality: Work inline with headings, diagrams and activity metadata.",
+  ],
+  "tooltip": [
+    "Purpose: Provide a short explanation for an icon or compact control.",
+    "Design requirements: Use a small anchored label with strong contrast and no layout shift.",
+    "Functionality: Appear on hover or focus while keeping the trigger accessible.",
+  ],
+  "diagram-label": [
+    "Purpose: Label a part of a diagram without overpowering the visual.",
+    "Design requirements: Use a pill label connected by a straight leader line.",
+    "Functionality: Pair with SVG, image or model diagrams.",
+  ],
+  "image-hotspot": [
+    "Purpose: Mark an inspectable point on an image.",
+    "Design requirements: Use a numbered circular point with visible focus and enough contrast on images.",
+    "Functionality: Act as a trigger for captions, explanations or selection panels.",
+  ],
+  "drag-handle": [
+    "Purpose: Show that an item can be reordered or dragged.",
+    "Design requirements: Use a compact handle symbol and keep the row text readable.",
+    "Functionality: Pair with draggable list items when interactions are added.",
+  ],
+  "mark-scheme-bullet": [
+    "Purpose: Present one mark point inside a mark scheme.",
+    "Design requirements: Use a mark-value badge, concise text and clear separation between points.",
+    "Functionality: Compose into mark scheme cards and feedback panels.",
+  ],
+};
+---
+
+<LessonLayout
+  title={numberedComponentTitle}
+  courseTitle="Reusable modules"
+  breadcrumb={["Components", numberedComponentTitle]}
+  backHref={routes.devDashboard}
+  backLabel="Back to Dev dashboard"
+>
+  <div class="lesson-shell">
+    <LessonSideNav title={numberedComponentTitle} sections={navSections} />
+    <main class="lesson-main min-w-0 px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <LessonSlideShell id="brief" label="Component" heading="Brief" slideNumber={1}>
+          <div class="dev-layout-review-panel">
+            <h3>{numberedComponentTitle}</h3>
+            <ol class="dev-card-brief-list">
+              {briefBySlug[component.slug].map((briefItem) => <li>{briefItem}</li>)}
+            </ol>
+          </div>
+        </LessonSlideShell>
+
+        <LessonSlideShell id="example" label="Component" heading="Example" slideNumber={2}>
+          <div class="dev-component-example-stage">
+            {component.slug === "reveal-button" && (
+              <button class="dev-component-reveal-button" type="button">
+                <span aria-hidden="true">?</span>
+                Reveal answer
+              </button>
+            )}
+
+            {component.slug === "reset-button" && (
+              <button class="dev-component-reset-button" type="button" aria-label="Reset activity">
+                <span aria-hidden="true">&#8634;</span>
+                Reset
+              </button>
+            )}
+
+            {component.slug === "multiple-choice-option" && (
+              <button class="dev-component-choice-option" type="button">
+                <span>A</span>
+                The Arithmetic Logic Unit
+              </button>
+            )}
+
+            {component.slug === "correct-marker" && (
+              <div class="dev-component-marker-row">
+                <span class="dev-component-marker dev-component-marker--correct" aria-label="Correct">&#10003;</span>
+                <strong>Correct answer selected</strong>
+              </div>
+            )}
+
+            {component.slug === "incorrect-marker" && (
+              <div class="dev-component-marker-row">
+                <span class="dev-component-marker dev-component-marker--incorrect" aria-label="Incorrect">&times;</span>
+                <strong>Try that one again</strong>
+              </div>
+            )}
+
+            {component.slug === "feedback-state" && (
+              <div class="dev-component-feedback-grid">
+                <p class="dev-component-feedback dev-component-feedback--neutral">Choose an option to check your understanding.</p>
+                <p class="dev-component-feedback dev-component-feedback--correct">Correct. The ALU performs arithmetic and logic operations.</p>
+                <p class="dev-component-feedback dev-component-feedback--incorrect">Not quite. The Control Unit coordinates the CPU.</p>
+              </div>
+            )}
+
+            {component.slug === "hint-toggle" && (
+              <details class="dev-component-hint-toggle">
+                <summary>Show hint</summary>
+                <p>Think about which CPU part performs calculations.</p>
+              </details>
+            )}
+
+            {component.slug === "expand-collapse-panel" && (
+              <details class="dev-component-disclosure" open>
+                <summary>Why this matters</summary>
+                <p>Registers are small, fast storage locations used while instructions are being processed.</p>
+              </details>
+            )}
+
+            {component.slug === "step-connector" && (
+              <div class="dev-component-step-connector" aria-label="Three connected steps">
+                <span>1</span>
+                <i></i>
+                <span class="is-active">2</span>
+                <i></i>
+                <span>3</span>
+              </div>
+            )}
+
+            {component.slug === "flow-connector" && (
+              <div class="dev-component-flow" aria-label="Fetch flows to decode">
+                <span>Fetch</span>
+                <svg viewBox="0 0 160 70" role="img" aria-label="Elbow connector arrow">
+                  <path d="M12 20 H80 V50 H138"></path>
+                  <path d="M126 38 L140 50 L126 62"></path>
+                </svg>
+                <span>Decode</span>
+              </div>
+            )}
+
+            {component.slug === "label-badge" && (
+              <div class="dev-component-badge-set">
+                <span class="dev-component-label-badge">Key term</span>
+                <span class="dev-component-label-badge dev-component-label-badge--success">Complete</span>
+                <span class="dev-component-label-badge dev-component-label-badge--warning">Exam tip</span>
+              </div>
+            )}
+
+            {component.slug === "tooltip" && (
+              <div class="dev-component-tooltip-demo">
+                <button type="button" aria-describedby="tooltip-example">i</button>
+                <span id="tooltip-example" role="tooltip">A register stores a value temporarily.</span>
+              </div>
+            )}
+
+            {component.slug === "diagram-label" && (
+              <svg class="dev-component-diagram-label" viewBox="0 0 520 190" role="img" aria-label="Diagram label with leader line">
+                <rect x="54" y="58" width="170" height="76" rx="8"></rect>
+                <path d="M224 96 H320"></path>
+                <foreignObject x="320" y="62" width="150" height="60">
+                  <div xmlns="http://www.w3.org/1999/xhtml">Control Unit</div>
+                </foreignObject>
+              </svg>
+            )}
+
+            {component.slug === "image-hotspot" && (
+              <div class="dev-component-hotspot-image" aria-label="CPU diagram with hotspot">
+                <span class="dev-component-hotspot" style="left: 58%; top: 42%;">1</span>
+              </div>
+            )}
+
+            {component.slug === "drag-handle" && (
+              <div class="dev-component-drag-row">
+                <span class="dev-component-drag-handle" aria-label="Drag handle">&#8942;&#8942;</span>
+                <strong>Move decode before execute</strong>
+              </div>
+            )}
+
+            {component.slug === "mark-scheme-bullet" && (
+              <div class="dev-component-mark-bullet">
+                <span>1 mark</span>
+                <p>Identifies the Control Unit as the CPU component that coordinates activity.</p>
+              </div>
+            )}
+          </div>
+        </LessonSlideShell>
+      </div>
+    </main>
+  </div>
+</LessonLayout>

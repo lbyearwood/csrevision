@@ -102,6 +102,25 @@ export const devCardDefinitions: DevCardDefinition[] = [
     title: "Flash card",
     slug: "matching-area-card",
     href: cardHref("matching-area-card"),
+    complete: true,
+  },
+  {
+    title: "Visual Flashcard",
+    slug: "visual-flashcard",
+    href: cardHref("visual-flashcard"),
+    complete: true,
+  },
+  {
+    title: "Logic gate card",
+    slug: "logic-gate-card",
+    href: cardHref("logic-gate-card"),
+    complete: true,
+  },
+  {
+    title: "Coding card",
+    slug: "coding-card",
+    href: cardHref("coding-card"),
+    complete: true,
   },
   {
     title: "Mark scheme card",

@@ -2,6 +2,7 @@
 import LessonLayout from "../../../../components/layout/LessonLayout.astro";
 import LessonSlideShell from "../../../../components/lesson/LessonSlideShell.astro";
 import AnswerCard from "../../../../components/lesson/cards/AnswerCard.astro";
+import CodingCard from "../../../../components/lesson/cards/CodingCard.astro";
 import DiagramCard from "../../../../components/lesson/cards/DiagramCard.astro";
 import ExamPracticeCard from "../../../../components/lesson/cards/ExamPracticeCard.astro";
 import ExplanationCard from "../../../../components/lesson/cards/ExplanationCard.astro";
@@ -10,6 +11,7 @@ import ImageCard from "../../../../components/lesson/cards/ImageCard.astro";
 import InstructionCard from "../../../../components/lesson/cards/InstructionCard.astro";
 import InteractiveDiagramCard from "../../../../components/lesson/cards/InteractiveDiagramCard.astro";
 import InteractiveTableCard from "../../../../components/lesson/cards/InteractiveTableCard.astro";
+import LogicGateCard from "../../../../components/lesson/cards/LogicGateCard.astro";
 import MarkSchemeCard from "../../../../components/lesson/cards/MarkSchemeCard.astro";
 import MisconceptionCard from "../../../../components/lesson/cards/MisconceptionCard.astro";
 import ModellingCard from "../../../../components/lesson/cards/ModellingCard.astro";
@@ -18,6 +20,7 @@ import QuestionCard from "../../../../components/lesson/cards/QuestionCard.astro
 import SummaryCard from "../../../../components/lesson/cards/SummaryCard.astro";
 import SupportCard from "../../../../components/lesson/cards/SupportCard.astro";
 import TableCard from "../../../../components/lesson/cards/TableCard.astro";
+import VisualFlashCard from "../../../../components/lesson/cards/VisualFlashCard.astro";
 import LessonSideNav from "../../../../components/navigation/LessonSideNav.astro";
 import cpuChipExample from "../../../../assets/dev/cpu-chip-example.png";
 import { devCardDefinitions, type DevCardDefinition } from "../../../../data/devCards";
@@ -127,6 +130,21 @@ const briefBySlug: Record<string, string[]> = {
     "Purpose: Present multiple keywords on flashcards and reveal each definition on the back.",
     "Design requirements: Arrange cards in a 2 by 2 grid, keep each card focused on one keyword and one clear definition, and avoid badges on the keyword face.",
     "Functionality: Flip each card independently when clicked, update aria-pressed state and keep card dimensions stable.",
+  ],
+  "visual-flashcard": [
+    "Purpose: Present a visual clue on the front of each flashcard and reveal the matching definition on the back.",
+    "Design requirements: Keep the visual large enough to inspect, label inputs and output clearly, and avoid title text on the visual face.",
+    "Functionality: Flip each card independently when clicked, update aria-pressed state and keep card dimensions stable.",
+  ],
+  "logic-gate-card": [
+    "Purpose: Present a Boolean logic expression as a readable gate diagram.",
+    "Design requirements: Label A, B, C and Q clearly, use only straight lines and elbow connectors, and avoid outer boxes around the diagram.",
+    "Functionality: Show the expression as a single static diagram without rule cards, subtitles or truth tables.",
+  ],
+  "coding-card": [
+    "Purpose: Present a short code example with a trace or prediction question.",
+    "Design requirements: Use a readable numbered code block with a margin line and colour-coded syntax.",
+    "Functionality: Support static lesson code snippets without adding a full coding environment.",
   ],
   "mark-scheme-card": [
     "Purpose: Reveal mark points, model answers or assessment guidance after an exam-style response.",
@@ -607,6 +625,7 @@ const briefBySlug: Record<string, string[]> = {
                       type="button"
                       class="lesson-card-flip-card"
                       data-flash-card
+                      data-flash-card-label="flash card"
                       data-keyword={keyword}
                       aria-pressed="false"
                       aria-label={`Flip flash card for ${keyword} to show the definition`}
@@ -623,6 +642,161 @@ const briefBySlug: Record<string, string[]> = {
                   ))}
                 </div>
               </FlashCard>
+            )}
+
+            {card.slug === "visual-flashcard" && (
+              <VisualFlashCard title="Visual Flashcard">
+                <p class="lesson-card-flip-cta">
+                  Describe the functionality of each logic gate, then flip the card to check the answer.
+                </p>
+                <div class="lesson-card-flip-grid lesson-card-visual-flip-grid">
+                  {[
+                    {
+                      keyword: "AND gate",
+                      definition: "An AND gate outputs 1 only when input A and input B are both 1.",
+                      gate: "and",
+                    },
+                    {
+                      keyword: "OR gate",
+                      definition: "An OR gate outputs 1 when input A, input B or both inputs are 1.",
+                      gate: "or",
+                    },
+                    {
+                      keyword: "NOT gate",
+                      definition: "A NOT gate inverts input A, so the output Q is the opposite value.",
+                      gate: "not",
+                    },
+                  ].map(({ keyword, definition, gate }) => (
+                    <button
+                      type="button"
+                      class="lesson-card-flip-card lesson-card-visual-flip-card"
+                      data-flash-card
+                      data-flash-card-label="visual flashcard"
+                      data-keyword={keyword}
+                      aria-pressed="false"
+                      aria-label={`Flip visual flashcard for ${keyword} to show the definition`}
+                    >
+                      <span class="lesson-card-flip-card-inner">
+                        <span class="lesson-card-flip-card-face lesson-card-flip-card-face--front" data-flash-card-front>
+                          <span class={`lesson-card-logic-gate-visual lesson-card-logic-gate-visual--${gate}`} aria-hidden="true">
+                            {gate === "and" && (
+                              <svg viewBox="0 0 420 230" role="img">
+                                <text x="18" y="72">A</text>
+                                <text x="18" y="158">B</text>
+                                <text x="374" y="116">Q</text>
+                                <line x1="54" y1="66" x2="142" y2="66"></line>
+                                <line x1="54" y1="152" x2="142" y2="152"></line>
+                                <path class="lesson-card-gate-body" d="M142 34 H230 A76 76 0 0 1 230 186 H142 Z"></path>
+                                <line x1="306" y1="110" x2="366" y2="110"></line>
+                              </svg>
+                            )}
+                            {gate === "or" && (
+                              <svg viewBox="0 0 420 230" role="img">
+                                <text x="18" y="72">A</text>
+                                <text x="18" y="158">B</text>
+                                <text x="374" y="116">Q</text>
+                                <line x1="54" y1="66" x2="139" y2="66"></line>
+                                <line x1="54" y1="152" x2="139" y2="152"></line>
+                                <path class="lesson-card-gate-body" d="M122 34 C176 44 236 44 304 110 C236 176 176 176 122 186 C151 142 151 78 122 34 Z"></path>
+                                <path d="M122 34 C151 78 151 142 122 186"></path>
+                                <line x1="304" y1="110" x2="366" y2="110"></line>
+                              </svg>
+                            )}
+                            {gate === "not" && (
+                              <svg viewBox="0 0 420 230" role="img">
+                                <text x="18" y="116">A</text>
+                                <text x="374" y="116">Q</text>
+                                <line x1="54" y1="110" x2="142" y2="110"></line>
+                                <path class="lesson-card-gate-body" d="M142 44 L142 176 L262 110 Z"></path>
+                                <circle class="lesson-card-gate-body" cx="284" cy="110" r="20"></circle>
+                                <line x1="304" y1="110" x2="366" y2="110"></line>
+                              </svg>
+                            )}
+                          </span>
+                        </span>
+                        <span class="lesson-card-flip-card-face lesson-card-flip-card-face--back" data-flash-card-back aria-hidden="true">
+                          <strong>{definition}</strong>
+                        </span>
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </VisualFlashCard>
+            )}
+
+            {card.slug === "logic-gate-card" && (
+              <LogicGateCard title="Q = A and B or NOT C">
+                <div class="lesson-card-logic-gate-reference">
+                  <figure class="lesson-card-logic-gate-panel">
+                    <svg viewBox="0 0 620 320" role="img" aria-labelledby="logic-expression-title logic-expression-desc">
+                      <title id="logic-expression-title">Logic circuit for Q equals A and B or not C</title>
+                      <desc id="logic-expression-desc">Inputs A and B pass through an AND gate. Input C passes through a NOT gate. Both results enter an OR gate, producing output Q.</desc>
+                      <text x="20" y="72">A</text>
+                      <text x="20" y="132">B</text>
+                      <text x="20" y="242">C</text>
+                      <text x="560" y="166">Q</text>
+
+                      <line x1="56" y1="66" x2="132" y2="66"></line>
+                      <line x1="56" y1="126" x2="132" y2="126"></line>
+                      <path class="lesson-card-gate-body" d="M132 36 H198 A60 60 0 0 1 198 156 H132 Z"></path>
+                      <text class="lesson-card-gate-label" x="184" y="104">AND</text>
+                      <polyline points="258,96 310,96 310,116 354,116"></polyline>
+
+                      <line x1="56" y1="236" x2="126" y2="236"></line>
+                      <path class="lesson-card-gate-body" d="M126 186 L126 286 L238 236 Z"></path>
+                      <text class="lesson-card-gate-label" x="166" y="244">NOT</text>
+                      <circle cx="256" cy="236" r="16"></circle>
+                      <polyline points="272,236 310,236 310,204 354,204"></polyline>
+
+                      <path class="lesson-card-gate-body" d="M354 86 C414 86 474 116 508 160 C474 204 414 234 354 234 C386 194 386 126 354 86 Z"></path>
+                      <path d="M354 86 C386 126 386 194 354 234"></path>
+                      <text class="lesson-card-gate-label" x="430" y="168">OR</text>
+                      <line x1="508" y1="160" x2="552" y2="160"></line>
+                    </svg>
+                  </figure>
+                </div>
+              </LogicGateCard>
+            )}
+
+            {card.slug === "coding-card" && (
+              <CodingCard title="Coding card">
+                <div class="lesson-card-code-example">
+                  <p>Trace the loop and predict the final value of <code>total</code>.</p>
+                  <ol class="lesson-card-code-lines" aria-label="Python code example">
+                    <li>
+                      <code>
+                        <span class="lesson-code-variable">total</span>
+                        <span class="lesson-code-operator">=</span>
+                        <span class="lesson-code-number">0</span>
+                      </code>
+                    </li>
+                    <li>
+                      <code>
+                        <span class="lesson-code-keyword">for</span>
+                        <span class="lesson-code-variable">number</span>
+                        <span class="lesson-code-keyword">in</span>
+                        <span class="lesson-code-punctuation">[</span><span class="lesson-code-number">2</span><span class="lesson-code-punctuation">,</span>
+                        <span class="lesson-code-number">4</span><span class="lesson-code-punctuation">,</span>
+                        <span class="lesson-code-number">6</span><span class="lesson-code-punctuation">]:</span>
+                      </code>
+                    </li>
+                    <li class="lesson-card-code-line--indent">
+                      <code>
+                        <span class="lesson-code-variable">total</span>
+                        <span class="lesson-code-operator">=</span>
+                        <span class="lesson-code-variable">total</span>
+                        <span class="lesson-code-operator">+</span>
+                        <span class="lesson-code-variable">number</span>
+                      </code>
+                    </li>
+                    <li>
+                      <code>
+                        <span class="lesson-code-function">print</span><span class="lesson-code-punctuation">(</span><span class="lesson-code-variable">total</span><span class="lesson-code-punctuation">)</span>
+                      </code>
+                    </li>
+                  </ol>
+                </div>
+              </CodingCard>
             )}
 
             {card.slug === "mark-scheme-card" && (
@@ -772,11 +946,12 @@ const briefBySlug: Record<string, string[]> = {
       card.classList.toggle("is-flipped", isFlipped);
       card.setAttribute("aria-pressed", isFlipped ? "true" : "false");
       const keyword = card.getAttribute("data-keyword") || "this keyword";
+      const cardLabel = card.getAttribute("data-flash-card-label") || "flash card";
       card.setAttribute(
         "aria-label",
         isFlipped
-          ? `Flip flash card for ${keyword} to show the keyword`
-          : `Flip flash card for ${keyword} to show the definition`,
+          ? `Flip ${cardLabel} for ${keyword} to show the keyword`
+          : `Flip ${cardLabel} for ${keyword} to show the definition`,
       );
       front?.setAttribute("aria-hidden", isFlipped ? "true" : "false");
       back?.setAttribute("aria-hidden", isFlipped ? "false" : "true");

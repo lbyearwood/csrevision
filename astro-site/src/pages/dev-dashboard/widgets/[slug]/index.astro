@@ -1,0 +1,1095 @@
+---
+import LessonLayout from "../../../../components/layout/LessonLayout.astro";
+import LessonSlideShell from "../../../../components/lesson/LessonSlideShell.astro";
+import LessonSideNav from "../../../../components/navigation/LessonSideNav.astro";
+import { devWidgetDefinitions, type DevWidgetDefinition } from "../../../../data/devWidgets";
+import { routes } from "../../../../data/routes";
+
+interface Props {
+  widget: DevWidgetDefinition;
+}
+
+export function getStaticPaths() {
+  return devWidgetDefinitions.map((widget) => ({
+    params: { slug: widget.slug },
+    props: { widget },
+  }));
+}
+
+const { widget } = Astro.props;
+const widgetNumber = devWidgetDefinitions.findIndex((definition) => definition.slug === widget.slug) + 1;
+const numberedWidgetTitle = `${widgetNumber}. ${widget.title}`;
+const navSections = [
+  { id: "brief", title: "Brief" },
+  { id: "example", title: "Example" },
+];
+
+const briefBySlug: Record<string, string[]> = {
+  "timer-display": [
+    "Purpose: Provide a countdown timer widget for timed classroom activities.",
+    "Design requirements: Use a compact window frame, top control bar, large tabular time display and clear minute/second controls.",
+    "Functionality: Show ready and running states with start, pause, reset and display-size controls.",
+  ],
+  "stopwatch": [
+    "Purpose: Provide a stopwatch widget for timing open-ended classroom activities.",
+    "Design requirements: Use the existing stopwatch tool frame with a top control bar, large tabular time display and clear status text.",
+    "Functionality: Show ready and running states with start, pause, reset and display-size controls.",
+  ],
+  "draw-board": [
+    "Purpose: Provide a lightweight drawing board for quick teacher modelling and annotation.",
+    "Design requirements: Use the existing draw-board tool frame, clear drawing tools, colour swatches and a custom colour control.",
+    "Functionality: Support pen, text, line, eraser, transparent board, background toggle, colour selection and clear-board actions.",
+  ],
+  "progress-indicator": [
+    "Purpose: Show progress through steps, questions or slides.",
+    "Design requirements: Use a labelled bar with readable percentage and stable dimensions.",
+    "Functionality: Support determinate progress values.",
+  ],
+  "score-counter": [
+    "Purpose: Track scores for classroom teams during games or quick challenges.",
+    "Design requirements: Use a floating window with a setup screen for choosing 1 to 5 teams, then a separate scores screen with clear team rows.",
+    "Functionality: Start each chosen team at 0, then support plus, minus, reset, change-teams and display-size controls.",
+  ],
+  "audio-play-button": [
+    "Purpose: Start or pause short audio content.",
+    "Design requirements: Use a familiar play symbol, compact label and visible disabled/loading-ready states.",
+    "Functionality: Act as a control shell for future audio playback.",
+  ],
+};
+---
+
+<LessonLayout
+  title={numberedWidgetTitle}
+  courseTitle="Reusable modules"
+  breadcrumb={["Widgets", numberedWidgetTitle]}
+  backHref={routes.devDashboard}
+  backLabel="Back to Dev dashboard"
+>
+  <div class="lesson-shell">
+    <LessonSideNav title={numberedWidgetTitle} sections={navSections} />
+    <main class="lesson-main min-w-0 px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-7xl">
+        <LessonSlideShell id="brief" label="Widget" heading="Brief" slideNumber={1}>
+          <div class="dev-layout-review-panel">
+            <h3>{numberedWidgetTitle}</h3>
+            <ol class="dev-card-brief-list">
+              {briefBySlug[widget.slug].map((briefItem) => <li>{briefItem}</li>)}
+            </ol>
+          </div>
+        </LessonSlideShell>
+
+        <LessonSlideShell id="example" label="Widget" heading="Example" slideNumber={2}>
+          <div class="dev-component-example-stage">
+            {widget.slug === "timer-display" && (
+              <section class="countdown-widget dev-widget-countdown-preview" data-dev-countdown aria-label="Count Down">
+                <header class="countdown-header" data-countdown-drag>
+                  <h2 class="countdown-title">Count Down</h2>
+                  <span class="countdown-header-time" data-countdown-header-display>00:00</span>
+                  <div class="countdown-window-controls">
+                    <button class="countdown-icon-button" type="button" data-countdown-minimise aria-label="Minimise Count Down">Min</button>
+                    <button class="countdown-icon-button" type="button" data-countdown-normal aria-label="Normal size Count Down">Normal</button>
+                    <button class="countdown-icon-button" type="button" data-countdown-fullscreen aria-label="Full screen Count Down">Full</button>
+                    <button class="countdown-icon-button" type="button" data-countdown-close aria-label="Reset Count Down">x</button>
+                  </div>
+                </header>
+                <div class="countdown-body">
+                  <output class="countdown-time" data-countdown-display aria-live="polite">00:00</output>
+                  <p class="countdown-status" data-countdown-status aria-live="polite"></p>
+                  <p class="dev-widget-countdown-cta">Set the time, then start the countdown.</p>
+                  <div class="countdown-inputs">
+                    <label class="countdown-field">Minutes
+                      <input type="number" min="0" max="99" step="1" value="0" inputmode="numeric" data-countdown-minutes />
+                    </label>
+                    <label class="countdown-field">Seconds
+                      <input type="number" min="0" max="59" step="1" value="0" inputmode="numeric" data-countdown-seconds />
+                    </label>
+                  </div>
+                  <div class="countdown-actions">
+                    <button class="countdown-button primary" type="button" data-countdown-start>Start</button>
+                    <button class="countdown-button" type="button" data-countdown-pause disabled>Pause</button>
+                    <button class="countdown-button" type="button" data-countdown-reset>Reset</button>
+                  </div>
+                </div>
+              </section>
+            )}
+
+            {widget.slug === "stopwatch" && (
+              <section class="stopwatch-widget dev-widget-stopwatch-preview" data-dev-stopwatch aria-label="Stopwatch">
+                <header class="stopwatch-header" data-stopwatch-drag>
+                  <h2 class="stopwatch-title">Stopwatch</h2>
+                  <span class="stopwatch-header-time" data-stopwatch-header-display>00:00.0</span>
+                  <div class="stopwatch-window-controls">
+                    <button class="stopwatch-icon-button" type="button" data-stopwatch-minimise aria-label="Minimise Stopwatch">Min</button>
+                    <button class="stopwatch-icon-button" type="button" data-stopwatch-normal aria-label="Normal size Stopwatch">Normal</button>
+                    <button class="stopwatch-icon-button" type="button" data-stopwatch-fullscreen aria-label="Full screen Stopwatch">Full</button>
+                    <button class="stopwatch-icon-button" type="button" data-stopwatch-close aria-label="Reset Stopwatch">x</button>
+                  </div>
+                </header>
+                <div class="stopwatch-body">
+                  <output class="stopwatch-time" data-stopwatch-display aria-live="polite">00:00.0</output>
+                  <p class="stopwatch-status" data-stopwatch-status aria-live="polite">Ready</p>
+                  <div class="stopwatch-actions">
+                    <button class="stopwatch-button primary" type="button" data-stopwatch-start>Start</button>
+                    <button class="stopwatch-button" type="button" data-stopwatch-pause disabled>Pause</button>
+                    <button class="stopwatch-button" type="button" data-stopwatch-reset>Reset</button>
+                  </div>
+                </div>
+              </section>
+            )}
+
+            {widget.slug === "draw-board" && (
+              <section class="draw-board-widget dev-widget-draw-board-preview" aria-label="Draw board preview">
+                <header class="draw-board-header" data-draw-drag>
+                  <h2 class="draw-board-title">Draw board</h2>
+                  <span class="draw-board-header-note">Pen</span>
+                  <div class="draw-board-window-controls">
+                    <button class="draw-board-icon-button" type="button" data-draw-minimise aria-label="Minimise Draw board">Min</button>
+                    <button class="draw-board-icon-button" type="button" data-draw-normal aria-label="Normal size Draw board">Normal</button>
+                    <button class="draw-board-icon-button" type="button" data-draw-fullscreen aria-label="Full screen Draw board">Full</button>
+                    <button class="draw-board-icon-button" type="button" data-draw-close aria-label="Reset Draw board">x</button>
+                  </div>
+                </header>
+                <div class="draw-board-body">
+                  <div class="draw-board-toolbar" aria-label="Draw board tools">
+                    <button class="draw-board-tool-button is-active" type="button" data-draw-tool="pen">Pen</button>
+                    <button class="draw-board-tool-button" type="button" data-draw-tool="text">Text</button>
+                    <button class="draw-board-tool-button" type="button" data-draw-tool="line">Line</button>
+                    <button class="draw-board-tool-button" type="button" data-draw-tool="eraser">Eraser</button>
+                    <button class="draw-board-tool-button" type="button" data-draw-paste>Paste image</button>
+                    <button class="draw-board-tool-button" type="button" data-draw-transparent aria-pressed="false">Transparent</button>
+                    <button class="draw-board-tool-button" type="button" data-draw-bg aria-label="Switch canvas background to black">Black bg</button>
+                    <button class="draw-board-clear-button" type="button" data-draw-clear>Clear board</button>
+                    <div class="draw-board-colour-tools">
+                      <div class="draw-board-palette" aria-label="Colour palette">
+                        {["#071638", "#ffffff", "#2f57d6", "#00856f", "#c56a00", "#a83b3b", "#7d4bc1"].map((colour, index) => (
+                          <button
+                            class:list={["draw-board-swatch", index === 0 && "is-active"]}
+                            type="button"
+                            data-draw-colour={colour}
+                            style={`background:${colour}`}
+                            aria-label={`Use colour ${colour}`}
+                          ></button>
+                        ))}
+                      </div>
+                      <label class="draw-board-custom-colour">
+                        Custom
+                        <input type="color" value="#ff2d55" aria-label="Choose custom drawing colour" />
+                      </label>
+                    </div>
+                  </div>
+                  <div class="draw-board-canvas-wrap">
+                    <canvas class="draw-board-canvas dev-widget-draw-board-canvas" data-draw-canvas tabindex="0" aria-label="Draw board canvas"></canvas>
+                  </div>
+                </div>
+              </section>
+            )}
+
+            {widget.slug === "progress-indicator" && (
+              <div class="dev-widget-control dev-component-progress" data-dev-progress aria-label="Progress 60 percent">
+                <div>
+                  <span>Progress</span>
+                  <strong data-progress-output>60%</strong>
+                </div>
+                <span class="dev-component-progress-track"><i data-progress-bar style="width: 60%;"></i></span>
+                <input type="range" min="0" max="100" value="60" step="10" data-progress-range aria-label="Set progress percentage" />
+                <div class="dev-widget-mini-actions">
+                  <button type="button" data-progress-step="-10">Back</button>
+                  <button type="button" data-progress-step="10">Next</button>
+                  <button type="button" data-progress-reset>Reset</button>
+                </div>
+              </div>
+            )}
+
+            {widget.slug === "score-counter" && (
+              <section class="score-widget dev-widget-control dev-component-score dev-widget-scoreboard" data-dev-score aria-label="Team score counter">
+                <header class="score-header" data-score-drag>
+                  <h2 class="score-title">Score counter</h2>
+                  <span class="score-header-note" data-score-header-note></span>
+                  <div class="score-window-controls">
+                    <button class="score-icon-button" type="button" data-score-minimise aria-label="Minimise Score counter">Min</button>
+                    <button class="score-icon-button" type="button" data-score-normal aria-label="Normal size Score counter">Normal</button>
+                    <button class="score-icon-button" type="button" data-score-fullscreen aria-label="Full screen Score counter">Full</button>
+                    <button class="score-icon-button" type="button" data-score-close aria-label="Reset Score counter">x</button>
+                  </div>
+                </header>
+                <div class="score-body">
+                  <section class="dev-widget-score-screen is-active" data-score-screen="setup" aria-label="Choose number of teams">
+                    <div class="dev-widget-scoreboard-header">
+                      <span>Choose the number of teams</span>
+                    </div>
+                    <div class="dev-widget-score-team-picker" aria-label="Choose number of teams">
+                      {[1, 2, 3, 4, 5].map((teamCount) => (
+                        <button
+                          class="dev-widget-score-team-count"
+                          type="button"
+                          data-score-teams={teamCount}
+                          aria-pressed="false"
+                        >
+                          {teamCount}
+                        </button>
+                      ))}
+                    </div>
+                  </section>
+                  <section class="dev-widget-score-screen" data-score-screen="scores" aria-label="Team scores" hidden>
+                    <div class="dev-widget-scoreboard-header">
+                      <span>Scores</span>
+                      <strong data-score-team-count>0 teams</strong>
+                    </div>
+                    <div class="dev-widget-score-team-list" data-score-list aria-live="polite"></div>
+                    <div class="dev-widget-score-footer">
+                      <button class="dev-widget-score-reset" type="button" data-score-reset>Reset scores</button>
+                      <button class="dev-widget-score-reset" type="button" data-score-change-teams>Change teams</button>
+                    </div>
+                  </section>
+                </div>
+              </section>
+            )}
+
+            {widget.slug === "audio-play-button" && (
+              <div class="dev-widget-control dev-widget-audio-demo" data-dev-audio>
+                <div class="dev-widget-audio-player">
+                  <button class="dev-component-audio-button" type="button" data-audio-toggle aria-pressed="false" aria-label="Play explanation">
+                    <span aria-hidden="true" data-audio-icon>&#9654;</span>
+                  </button>
+                  <div class="dev-widget-audio-copy">
+                    <strong data-audio-label>Play explanation</strong>
+                    <p data-audio-status>Ready</p>
+                  </div>
+                </div>
+                <span class="dev-widget-audio-meter" aria-hidden="true"><i data-audio-meter></i></span>
+              </div>
+            )}
+          </div>
+        </LessonSlideShell>
+      </div>
+    </main>
+  </div>
+</LessonLayout>
+
+<script>
+  (() => {
+    const pad = (value) => String(value).padStart(2, "0");
+    const clamp = (value, min, max) => {
+      const number = Number.parseInt(value, 10);
+      if (Number.isNaN(number)) return min;
+      return Math.min(max, Math.max(min, number));
+    };
+
+    function keepWidgetOnScreen(widget, left, top) {
+      const rect = widget.getBoundingClientRect();
+      const bottomInset = document.querySelector("astro-dev-toolbar") ? 72 : 8;
+      const maxLeft = Math.max(8, window.innerWidth - rect.width - 8);
+      const maxTop = Math.max(8, window.innerHeight - rect.height - bottomInset);
+      return {
+        left: Math.min(maxLeft, Math.max(8, left)),
+        top: Math.min(maxTop, Math.max(8, top)),
+      };
+    }
+
+    function setWidgetPosition(widget, left, top) {
+      const next = keepWidgetOnScreen(widget, left, top);
+      widget.classList.add("is-floating");
+      widget.style.left = `${next.left}px`;
+      widget.style.top = `${next.top}px`;
+      widget.style.right = "auto";
+    }
+
+    function dockWidget(widget) {
+      if (widget.dataset.floatingReady === "true") return;
+      const rect = widget.getBoundingClientRect();
+      setWidgetPosition(widget, rect.left, rect.top);
+      widget.dataset.floatingReady = "true";
+    }
+
+    function initFloatingWidget(widget, handleSelector, onResize) {
+      const handle = widget.querySelector(handleSelector);
+      let dragging = null;
+
+      window.setTimeout(() => dockWidget(widget), 50);
+
+      function drag(event) {
+        if (!dragging) return;
+        setWidgetPosition(widget, event.clientX - dragging.offsetX, event.clientY - dragging.offsetY);
+      }
+
+      function endDrag() {
+        dragging = null;
+        document.removeEventListener("mousemove", drag);
+        document.removeEventListener("mouseup", endDrag);
+      }
+
+      handle.addEventListener("mousedown", (event) => {
+        if (event.button !== 0) return;
+        if (widget.classList.contains("is-fullscreen")) return;
+        if (event.target.closest("button, input, label")) return;
+        const rect = widget.getBoundingClientRect();
+        dragging = {
+          offsetX: event.clientX - rect.left,
+          offsetY: event.clientY - rect.top,
+        };
+        event.preventDefault();
+        document.addEventListener("mousemove", drag);
+        document.addEventListener("mouseup", endDrag);
+      });
+
+      window.addEventListener("resize", () => {
+        if (!widget.classList.contains("is-floating") || widget.classList.contains("is-fullscreen")) return;
+        const rect = widget.getBoundingClientRect();
+        setWidgetPosition(widget, rect.left, rect.top);
+        if (onResize) onResize();
+      });
+    }
+
+    function initCountdown(widget) {
+      let intervalId = null;
+      let remainingSeconds = 0;
+      let running = false;
+      let complete = false;
+
+      const display = widget.querySelector("[data-countdown-display]");
+      const headerDisplay = widget.querySelector("[data-countdown-header-display]");
+      const status = widget.querySelector("[data-countdown-status]");
+      const minutesInput = widget.querySelector("[data-countdown-minutes]");
+      const secondsInput = widget.querySelector("[data-countdown-seconds]");
+      const startButton = widget.querySelector("[data-countdown-start]");
+      const pauseButton = widget.querySelector("[data-countdown-pause]");
+
+      function enteredSeconds() {
+        const minutes = clamp(minutesInput.value, 0, 99);
+        const seconds = clamp(secondsInput.value, 0, 59);
+        minutesInput.value = minutes;
+        secondsInput.value = seconds;
+        return (minutes * 60) + seconds;
+      }
+
+      function updateDisplay(seconds = remainingSeconds) {
+        const safeSeconds = Math.max(0, seconds);
+        const formatted = `${pad(Math.floor(safeSeconds / 60))}:${pad(safeSeconds % 60)}`;
+        display.textContent = formatted;
+        headerDisplay.textContent = formatted;
+      }
+
+      function setStatus(message = "") {
+        status.textContent = message;
+      }
+
+      function setPauseButton(label, disabled = false) {
+        pauseButton.textContent = label;
+        pauseButton.disabled = disabled;
+      }
+
+      function stopInterval() {
+        if (intervalId) window.clearInterval(intervalId);
+        intervalId = null;
+        running = false;
+      }
+
+      function syncFromInputs() {
+        if (running) return;
+        complete = false;
+        remainingSeconds = enteredSeconds();
+        setStatus("");
+        updateDisplay();
+      }
+
+      function finishCountdown() {
+        stopInterval();
+        complete = true;
+        remainingSeconds = 0;
+        updateDisplay();
+        setStatus("Time is up");
+        setPauseButton("Start");
+      }
+
+      function tick() {
+        remainingSeconds -= 1;
+        if (remainingSeconds <= 0) {
+          finishCountdown();
+          return;
+        }
+        updateDisplay();
+      }
+
+      function startCountdown() {
+        if (complete) {
+          complete = false;
+          setStatus("");
+        }
+        if (!running) remainingSeconds = remainingSeconds || enteredSeconds();
+        if (remainingSeconds <= 0) {
+          setStatus("Set a time first.");
+          updateDisplay(0);
+          return;
+        }
+        widget.classList.add("is-started");
+        widget.classList.remove("is-minimised");
+        running = true;
+        setStatus("");
+        setPauseButton("Pause");
+        if (intervalId) window.clearInterval(intervalId);
+        intervalId = window.setInterval(tick, 1000);
+      }
+
+      function pauseCountdown() {
+        stopInterval();
+        setPauseButton("Resume");
+        setStatus("Paused");
+      }
+
+      function resetCountdown() {
+        stopInterval();
+        complete = false;
+        remainingSeconds = enteredSeconds();
+        widget.classList.remove("is-started", "is-minimised", "is-fullscreen");
+        setStatus("");
+        setPauseButton("Pause", true);
+        updateDisplay();
+      }
+
+      minutesInput.addEventListener("input", syncFromInputs);
+      secondsInput.addEventListener("input", syncFromInputs);
+      startButton.addEventListener("click", startCountdown);
+      pauseButton.addEventListener("click", () => {
+        if (running) pauseCountdown();
+        else startCountdown();
+      });
+      widget.querySelector("[data-countdown-reset]").addEventListener("click", resetCountdown);
+      widget.querySelector("[data-countdown-close]").addEventListener("click", resetCountdown);
+      widget.querySelector("[data-countdown-minimise]").addEventListener("click", () => {
+        widget.classList.remove("is-fullscreen");
+        widget.classList.add("is-minimised");
+      });
+      widget.querySelector("[data-countdown-normal]").addEventListener("click", () => {
+        widget.classList.remove("is-minimised", "is-fullscreen");
+      });
+      widget.querySelector("[data-countdown-fullscreen]").addEventListener("click", () => {
+        widget.classList.remove("is-minimised");
+        widget.classList.add("is-fullscreen");
+      });
+
+      syncFromInputs();
+      initFloatingWidget(widget, "[data-countdown-drag]");
+    }
+
+    function initStopwatch(widget) {
+      let intervalId = null;
+      let running = false;
+      let elapsedMilliseconds = 0;
+      let startedAt = 0;
+
+      const display = widget.querySelector("[data-stopwatch-display]");
+      const headerDisplay = widget.querySelector("[data-stopwatch-header-display]");
+      const status = widget.querySelector("[data-stopwatch-status]");
+      const pauseButton = widget.querySelector("[data-stopwatch-pause]");
+
+      function formatTime(milliseconds) {
+        const totalSeconds = Math.floor(milliseconds / 1000);
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        const tenths = Math.floor((milliseconds % 1000) / 100);
+        return `${pad(minutes)}:${pad(seconds)}.${tenths}`;
+      }
+
+      function currentElapsed() {
+        return running ? elapsedMilliseconds + (Date.now() - startedAt) : elapsedMilliseconds;
+      }
+
+      function updateDisplay() {
+        const formatted = formatTime(currentElapsed());
+        display.textContent = formatted;
+        headerDisplay.textContent = formatted;
+      }
+
+      function stopInterval() {
+        if (intervalId) window.clearInterval(intervalId);
+        intervalId = null;
+      }
+
+      function startStopwatch() {
+        if (running) return;
+        widget.classList.add("is-started");
+        widget.classList.remove("is-minimised");
+        running = true;
+        startedAt = Date.now();
+        pauseButton.disabled = false;
+        pauseButton.textContent = "Pause";
+        status.textContent = "Running";
+        stopInterval();
+        intervalId = window.setInterval(updateDisplay, 100);
+        updateDisplay();
+      }
+
+      function pauseStopwatch() {
+        if (!running) return;
+        elapsedMilliseconds += Date.now() - startedAt;
+        running = false;
+        stopInterval();
+        pauseButton.textContent = "Resume";
+        status.textContent = "Paused";
+        updateDisplay();
+      }
+
+      function resetStopwatch() {
+        running = false;
+        elapsedMilliseconds = 0;
+        startedAt = 0;
+        stopInterval();
+        widget.classList.remove("is-started", "is-minimised", "is-fullscreen");
+        pauseButton.textContent = "Pause";
+        pauseButton.disabled = true;
+        status.textContent = "Ready";
+        updateDisplay();
+      }
+
+      widget.querySelector("[data-stopwatch-start]").addEventListener("click", startStopwatch);
+      pauseButton.addEventListener("click", () => {
+        if (running) pauseStopwatch();
+        else startStopwatch();
+      });
+      widget.querySelector("[data-stopwatch-reset]").addEventListener("click", resetStopwatch);
+      widget.querySelector("[data-stopwatch-close]").addEventListener("click", resetStopwatch);
+      widget.querySelector("[data-stopwatch-minimise]").addEventListener("click", () => {
+        widget.classList.remove("is-fullscreen");
+        widget.classList.add("is-minimised");
+      });
+      widget.querySelector("[data-stopwatch-normal]").addEventListener("click", () => {
+        widget.classList.remove("is-minimised", "is-fullscreen");
+      });
+      widget.querySelector("[data-stopwatch-fullscreen]").addEventListener("click", () => {
+        widget.classList.remove("is-minimised");
+        widget.classList.add("is-fullscreen");
+      });
+
+      updateDisplay();
+      initFloatingWidget(widget, "[data-stopwatch-drag]");
+    }
+
+    function initDrawBoard(widget) {
+      const canvas = widget.querySelector("[data-draw-canvas]");
+      const context = canvas.getContext("2d");
+      const colours = ["#071638", "#ffffff", "#2f57d6", "#00856f", "#c56a00", "#a83b3b", "#7d4bc1"];
+      let activeTool = "pen";
+      let activeColour = colours[0];
+      let drawing = false;
+      let startPoint = null;
+      let snapshot = null;
+      let transparentBoard = false;
+      let canvasBackground = "#ffffff";
+      let noteTimer = null;
+
+      function canvasPoint(event) {
+        const rect = canvas.getBoundingClientRect();
+        return {
+          x: event.clientX - rect.left,
+          y: event.clientY - rect.top,
+        };
+      }
+
+      function canvasCentrePoint() {
+        const rect = canvas.getBoundingClientRect();
+        return {
+          x: rect.width / 2,
+          y: rect.height / 2,
+        };
+      }
+
+      function activeToolLabel() {
+        return activeTool.charAt(0).toUpperCase() + activeTool.slice(1);
+      }
+
+      function setHeaderNote(message, temporary = false) {
+        const note = widget.querySelector(".draw-board-header-note");
+        note.textContent = message;
+        if (noteTimer) window.clearTimeout(noteTimer);
+        if (temporary) {
+          noteTimer = window.setTimeout(() => {
+            note.textContent = activeToolLabel();
+          }, 1800);
+        }
+      }
+
+      function resizeCanvas() {
+        const rect = canvas.getBoundingClientRect();
+        const previous = document.createElement("canvas");
+        previous.width = canvas.width || Math.max(1, Math.floor(rect.width));
+        previous.height = canvas.height || Math.max(1, Math.floor(rect.height));
+        previous.getContext("2d").drawImage(canvas, 0, 0);
+
+        const scale = window.devicePixelRatio || 1;
+        canvas.width = Math.max(1, Math.floor(rect.width * scale));
+        canvas.height = Math.max(1, Math.floor(rect.height * scale));
+        context.setTransform(scale, 0, 0, scale, 0, 0);
+        context.lineCap = "round";
+        context.lineJoin = "round";
+        context.clearRect(0, 0, rect.width, rect.height);
+        context.drawImage(previous, 0, 0, rect.width, rect.height);
+      }
+
+      function setTool(tool) {
+        activeTool = tool;
+        widget.querySelectorAll("[data-draw-tool]").forEach((button) => {
+          button.classList.toggle("is-active", button.dataset.drawTool === tool);
+        });
+        setHeaderNote(activeToolLabel());
+      }
+
+      function setColour(colour) {
+        activeColour = colour;
+        widget.querySelectorAll("[data-draw-colour]").forEach((button) => {
+          button.classList.toggle("is-active", button.dataset.drawColour === colour);
+        });
+      }
+
+      function setCanvasBackground(colour) {
+        canvasBackground = colour;
+        widget.style.setProperty("--draw-board-bg", canvasBackground);
+        const button = widget.querySelector("[data-draw-bg]");
+        button.textContent = canvasBackground === "#ffffff" ? "Black bg" : "White bg";
+        button.setAttribute("aria-label", `Switch canvas background to ${canvasBackground === "#ffffff" ? "black" : "white"}`);
+      }
+
+      function setTransparentBoard(enabled) {
+        transparentBoard = enabled;
+        widget.classList.toggle("is-transparent", transparentBoard);
+        const button = widget.querySelector("[data-draw-transparent]");
+        button.classList.toggle("is-active", transparentBoard);
+        button.setAttribute("aria-pressed", String(transparentBoard));
+        button.textContent = transparentBoard ? "Opaque" : "Transparent";
+      }
+
+      function beginDraw(event) {
+        event.preventDefault();
+        if (activeTool === "text") {
+          addTextInput(event);
+          return;
+        }
+        drawing = true;
+        startPoint = canvasPoint(event);
+        snapshot = context.getImageData(0, 0, canvas.width, canvas.height);
+        if (activeTool === "pen" || activeTool === "eraser") {
+          context.beginPath();
+          context.moveTo(startPoint.x, startPoint.y);
+        }
+      }
+
+      function moveDraw(event) {
+        if (!drawing || !startPoint) return;
+        const point = canvasPoint(event);
+
+        if (activeTool === "line") {
+          context.putImageData(snapshot, 0, 0);
+          context.beginPath();
+          context.strokeStyle = activeColour;
+          context.lineWidth = 4;
+          context.moveTo(startPoint.x, startPoint.y);
+          context.lineTo(point.x, point.y);
+          context.stroke();
+          return;
+        }
+
+        context.strokeStyle = activeColour;
+        context.lineWidth = activeTool === "eraser" ? 24 : 4;
+        context.globalCompositeOperation = activeTool === "eraser" ? "destination-out" : "source-over";
+        context.lineTo(point.x, point.y);
+        context.stroke();
+        context.globalCompositeOperation = "source-over";
+      }
+
+      function endDraw() {
+        drawing = false;
+        startPoint = null;
+        snapshot = null;
+      }
+
+      function loadImageFromBlob(blob) {
+        return new Promise((resolve, reject) => {
+          const image = new Image();
+          const url = URL.createObjectURL(blob);
+          image.addEventListener("load", () => {
+            URL.revokeObjectURL(url);
+            resolve(image);
+          }, { once: true });
+          image.addEventListener("error", () => {
+            URL.revokeObjectURL(url);
+            reject(new Error("Image could not be loaded."));
+          }, { once: true });
+          image.src = url;
+        });
+      }
+
+      async function drawImageBlob(blob, point = canvasCentrePoint()) {
+        const image = await loadImageFromBlob(blob);
+        const rect = canvas.getBoundingClientRect();
+        const maxWidth = Math.max(1, rect.width * 0.8);
+        const maxHeight = Math.max(1, rect.height * 0.8);
+        const scale = Math.min(1, maxWidth / image.naturalWidth, maxHeight / image.naturalHeight);
+        const width = image.naturalWidth * scale;
+        const height = image.naturalHeight * scale;
+        const x = Math.min(Math.max(0, point.x - (width / 2)), Math.max(0, rect.width - width));
+        const y = Math.min(Math.max(0, point.y - (height / 2)), Math.max(0, rect.height - height));
+        context.drawImage(image, x, y, width, height);
+        canvas.focus();
+        setHeaderNote("Image pasted", true);
+      }
+
+      async function pasteImageFromClipboardItem(item) {
+        const file = item.getAsFile ? item.getAsFile() : null;
+        if (file && file.type.startsWith("image/")) {
+          await drawImageBlob(file);
+          return true;
+        }
+        return false;
+      }
+
+      async function handlePaste(event) {
+        const target = event.target;
+        if (target instanceof Element && target.closest("input, textarea, [contenteditable='true']")) return;
+        if (target instanceof Element && !widget.contains(target)) return;
+        const items = Array.from(event.clipboardData?.items || []);
+        const imageItem = items.find((item) => item.type.startsWith("image/"));
+        if (!imageItem) {
+          setHeaderNote("No image found", true);
+          return;
+        }
+        event.preventDefault();
+        try {
+          await pasteImageFromClipboardItem(imageItem);
+        } catch {
+          setHeaderNote("Paste failed", true);
+        }
+      }
+
+      async function pasteImageFromClipboard() {
+        if (!navigator.clipboard?.read) {
+          setHeaderNote("Use Ctrl+V", true);
+          canvas.focus();
+          return;
+        }
+        try {
+          const clipboardItems = await navigator.clipboard.read();
+          for (const item of clipboardItems) {
+            const imageType = item.types.find((type) => type.startsWith("image/"));
+            if (imageType) {
+              await drawImageBlob(await item.getType(imageType));
+              return;
+            }
+          }
+          setHeaderNote("No image found", true);
+        } catch {
+          setHeaderNote("Use Ctrl+V", true);
+          canvas.focus();
+        }
+      }
+
+      function addTextInput(event) {
+        const wrap = widget.querySelector(".draw-board-canvas-wrap");
+        const point = canvasPoint(event);
+        const input = document.createElement("input");
+        input.className = "draw-board-text-input";
+        input.type = "text";
+        input.placeholder = "Type text";
+        input.style.left = `${point.x}px`;
+        input.style.top = `${point.y}px`;
+        input.style.color = activeColour;
+        wrap.appendChild(input);
+        window.setTimeout(() => input.focus(), 0);
+
+        let finished = false;
+        function commit() {
+          if (finished) return;
+          finished = true;
+          const text = input.value.trim();
+          if (text) {
+            context.fillStyle = activeColour;
+            context.font = "800 24px Arial, Helvetica, sans-serif";
+            context.fillText(text, point.x, point.y + 24);
+          }
+          input.remove();
+        }
+
+        input.addEventListener("pointerdown", (pointerEvent) => pointerEvent.stopPropagation());
+        input.addEventListener("blur", commit, { once: true });
+        input.addEventListener("keydown", (keyEvent) => {
+          if (keyEvent.key === "Enter") {
+            keyEvent.preventDefault();
+            input.blur();
+          }
+          if (keyEvent.key === "Escape") {
+            keyEvent.preventDefault();
+            finished = true;
+            input.remove();
+          }
+        });
+      }
+
+      function clearBoard() {
+        const rect = canvas.getBoundingClientRect();
+        context.clearRect(0, 0, rect.width, rect.height);
+      }
+
+      widget.querySelectorAll("[data-draw-tool]").forEach((button) => {
+        button.addEventListener("click", () => setTool(button.dataset.drawTool));
+      });
+      widget.querySelectorAll("[data-draw-colour]").forEach((button) => {
+        button.addEventListener("click", () => setColour(button.dataset.drawColour));
+      });
+      widget.querySelector(".draw-board-custom-colour input").addEventListener("input", (event) => {
+        setColour(event.target.value);
+      });
+      widget.querySelector("[data-draw-transparent]").addEventListener("click", () => setTransparentBoard(!transparentBoard));
+      widget.querySelector("[data-draw-bg]").addEventListener("click", () => {
+        setCanvasBackground(canvasBackground === "#ffffff" ? "#050816" : "#ffffff");
+      });
+      widget.querySelector("[data-draw-paste]").addEventListener("click", pasteImageFromClipboard);
+      widget.querySelector("[data-draw-clear]").addEventListener("click", clearBoard);
+      widget.querySelector("[data-draw-minimise]").addEventListener("click", () => {
+        widget.classList.remove("is-fullscreen");
+        widget.classList.add("is-minimised");
+      });
+      widget.querySelector("[data-draw-normal]").addEventListener("click", () => {
+        widget.classList.remove("is-minimised", "is-fullscreen");
+        window.setTimeout(resizeCanvas, 50);
+      });
+      widget.querySelector("[data-draw-fullscreen]").addEventListener("click", () => {
+        widget.classList.remove("is-minimised");
+        widget.classList.add("is-fullscreen");
+        window.setTimeout(resizeCanvas, 50);
+      });
+      widget.querySelector("[data-draw-close]").addEventListener("click", () => {
+        clearBoard();
+        widget.classList.remove("is-minimised", "is-fullscreen");
+        setTool("pen");
+        setColour(colours[0]);
+      });
+
+      canvas.addEventListener("pointerdown", (event) => {
+        if (activeTool !== "text") canvas.setPointerCapture(event.pointerId);
+        beginDraw(event);
+      });
+      canvas.addEventListener("pointermove", moveDraw);
+      canvas.addEventListener("pointerup", endDraw);
+      canvas.addEventListener("pointercancel", endDraw);
+      canvas.addEventListener("paste", handlePaste);
+      window.addEventListener("resize", resizeCanvas);
+
+      setCanvasBackground(canvasBackground);
+      window.setTimeout(resizeCanvas, 50);
+      initFloatingWidget(widget, "[data-draw-drag]", resizeCanvas);
+    }
+
+    function initProgress(widget) {
+      const range = widget.querySelector("[data-progress-range]");
+      const output = widget.querySelector("[data-progress-output]");
+      const bar = widget.querySelector("[data-progress-bar]");
+
+      function setProgress(value) {
+        const next = clamp(value, 0, 100);
+        range.value = next;
+        output.textContent = `${next}%`;
+        bar.style.width = `${next}%`;
+        widget.setAttribute("aria-label", `Progress ${next} percent`);
+      }
+
+      range.addEventListener("input", () => setProgress(range.value));
+      widget.querySelectorAll("[data-progress-step]").forEach((button) => {
+        button.addEventListener("click", () => setProgress(Number(range.value) + Number(button.dataset.progressStep)));
+      });
+      widget.querySelector("[data-progress-reset]").addEventListener("click", () => setProgress(0));
+      setProgress(range.value);
+    }
+
+    function initScore(widget) {
+      const teamCountLabel = widget.querySelector("[data-score-team-count]");
+      const scoreList = widget.querySelector("[data-score-list]");
+      const headerNote = widget.querySelector("[data-score-header-note]");
+      const setupScreen = widget.querySelector('[data-score-screen="setup"]');
+      const scoresScreen = widget.querySelector('[data-score-screen="scores"]');
+      const teamNames = ["Team A", "Team B", "Team C", "Team D", "Team E"];
+      let scores = [];
+
+      function keepScoreWindowVisible() {
+        if (!widget.classList.contains("is-floating") || widget.classList.contains("is-fullscreen")) return;
+        const rect = widget.getBoundingClientRect();
+        setWidgetPosition(widget, rect.left, rect.top);
+      }
+
+      function showSetup() {
+        widget.classList.remove("is-started");
+        setupScreen.hidden = false;
+        scoresScreen.hidden = true;
+        setupScreen.classList.add("is-active");
+        scoresScreen.classList.remove("is-active");
+        headerNote.textContent = "";
+        teamCountLabel.textContent = "(0 teams)";
+        widget.querySelectorAll("[data-score-teams]").forEach((button) => {
+          button.classList.remove("is-active");
+          button.setAttribute("aria-pressed", "false");
+        });
+        widget.setAttribute("aria-label", "Team score counter setup");
+        window.setTimeout(keepScoreWindowVisible, 0);
+      }
+
+      function showScores() {
+        widget.classList.add("is-started");
+        setupScreen.hidden = true;
+        scoresScreen.hidden = false;
+        setupScreen.classList.remove("is-active");
+        scoresScreen.classList.add("is-active");
+        headerNote.textContent = `(${scores.length} ${scores.length === 1 ? "team" : "teams"})`;
+        window.setTimeout(keepScoreWindowVisible, 0);
+      }
+
+      function renderScores() {
+        const teamCount = scores.length;
+        const teamCountText = `(${teamCount} ${teamCount === 1 ? "team" : "teams"})`;
+        teamCountLabel.textContent = teamCountText;
+        scoreList.innerHTML = scores.map((score, index) => `
+          <div class="dev-widget-score-team" data-score-team="${index}">
+            <span class="dev-widget-score-team-name">${teamNames[index]}</span>
+            <strong class="dev-widget-score-value" data-score-value="${index}">${score}</strong>
+            <div class="dev-widget-score-actions" aria-label="${teamNames[index]} score controls">
+              <button type="button" data-score-change="-1" data-score-index="${index}" aria-label="Decrease ${teamNames[index]} score">-</button>
+              <button type="button" data-score-change="1" data-score-index="${index}" aria-label="Increase ${teamNames[index]} score">+</button>
+            </div>
+          </div>
+        `).join("");
+        widget.setAttribute("aria-label", `${teamCountLabel.textContent} score counter`);
+      }
+
+      function resetScores() {
+        scores = Array.from({ length: scores.length }, () => 0);
+        renderScores();
+      }
+
+      function setTeamCount(teamCount) {
+        scores = Array.from({ length: teamCount }, () => 0);
+        widget.querySelectorAll("[data-score-teams]").forEach((button) => {
+          const isActive = Number(button.dataset.scoreTeams) === teamCount;
+          button.classList.toggle("is-active", isActive);
+          button.setAttribute("aria-pressed", String(isActive));
+        });
+        renderScores();
+        showScores();
+      }
+
+      scoreList.addEventListener("click", (event) => {
+        const target = event.target instanceof Element ? event.target : event.target.parentElement;
+        const button = target?.closest("[data-score-change]");
+        if (!button) return;
+        const index = Number(button.dataset.scoreIndex);
+        const change = Number(button.dataset.scoreChange);
+        scores[index] += change;
+        renderScores();
+      });
+
+      widget.querySelector("[data-score-reset]").addEventListener("click", (event) => {
+        event.preventDefault();
+        resetScores();
+      }, true);
+      widget.addEventListener("click", (event) => {
+        const target = event.target instanceof Element ? event.target : event.target.parentElement;
+        const teamButton = target?.closest("[data-score-teams]");
+        if (teamButton) {
+          setTeamCount(Number(teamButton.dataset.scoreTeams));
+          return;
+        }
+
+        const resetButton = target?.closest("[data-score-reset]");
+        if (resetButton) {
+          resetScores();
+          return;
+        }
+
+        const changeTeamsButton = target?.closest("[data-score-change-teams]");
+        if (changeTeamsButton) {
+          scores = [];
+          scoreList.innerHTML = "";
+          showSetup();
+        }
+      });
+      widget.querySelector("[data-score-minimise]").addEventListener("click", () => {
+        widget.classList.remove("is-fullscreen");
+        widget.classList.add("is-minimised");
+      });
+      widget.querySelector("[data-score-normal]").addEventListener("click", () => {
+        widget.classList.remove("is-minimised", "is-fullscreen");
+      });
+      widget.querySelector("[data-score-fullscreen]").addEventListener("click", () => {
+        widget.classList.remove("is-minimised");
+        widget.classList.add("is-fullscreen");
+      });
+      widget.querySelector("[data-score-close]").addEventListener("click", () => {
+        scores = [];
+        scoreList.innerHTML = "";
+        widget.classList.remove("is-minimised", "is-fullscreen");
+        showSetup();
+      });
+      showSetup();
+      initFloatingWidget(widget, "[data-score-drag]");
+    }
+
+    function initAudio(widget) {
+      const button = widget.querySelector("[data-audio-toggle]");
+      const icon = widget.querySelector("[data-audio-icon]");
+      const label = widget.querySelector("[data-audio-label]");
+      const status = widget.querySelector("[data-audio-status]");
+      const meter = widget.querySelector("[data-audio-meter]");
+      let audioContext = null;
+      let oscillator = null;
+      let gain = null;
+
+      function stopAudio() {
+        if (oscillator) {
+          oscillator.stop();
+          oscillator.disconnect();
+        }
+        if (gain) gain.disconnect();
+        oscillator = null;
+        gain = null;
+        button.setAttribute("aria-pressed", "false");
+        button.setAttribute("aria-label", "Play explanation");
+        icon.textContent = "\u25b6";
+        label.textContent = "Play explanation";
+        status.textContent = "Paused";
+        meter.style.width = "0%";
+      }
+
+      function startAudio() {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (!AudioContextClass) {
+          status.textContent = "Audio is not available in this browser.";
+          return;
+        }
+        audioContext = audioContext || new AudioContextClass();
+        oscillator = audioContext.createOscillator();
+        gain = audioContext.createGain();
+        oscillator.type = "sine";
+        oscillator.frequency.value = 440;
+        gain.gain.value = 0.035;
+        oscillator.connect(gain).connect(audioContext.destination);
+        oscillator.start();
+        button.setAttribute("aria-pressed", "true");
+        button.setAttribute("aria-label", "Pause explanation");
+        icon.textContent = "\u275a\u275a";
+        label.textContent = "Pause explanation";
+        status.textContent = "Playing sample tone";
+        meter.style.width = "100%";
+      }
+
+      button.addEventListener("click", () => {
+        if (oscillator) stopAudio();
+        else startAudio();
+      });
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden && oscillator) stopAudio();
+      });
+    }
+
+    document.querySelectorAll("[data-dev-countdown]").forEach(initCountdown);
+    document.querySelectorAll("[data-dev-stopwatch]").forEach(initStopwatch);
+    document.querySelectorAll(".dev-widget-draw-board-preview").forEach(initDrawBoard);
+    document.querySelectorAll("[data-dev-progress]").forEach(initProgress);
+    document.querySelectorAll("[data-dev-score]").forEach(initScore);
+    document.querySelectorAll("[data-dev-audio]").forEach(initAudio);
+  })();
+</script>

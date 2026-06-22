@@ -18,6 +18,7 @@ Do not run this project from OneDrive or another cloud-sync-managed folder. The 
 - Node.js `>=22.12.0`
 - npm
 - Installed dependencies in `astro-site/node_modules`
+- Test tooling installed from `astro-site/package.json`: Playwright (`@playwright/test`) and Vitest. A fresh Codex should normally get both by running `npm.cmd install` inside `astro-site/`.
 
 ## Fresh Clone Setup
 
@@ -30,6 +31,13 @@ git switch astro-site
 cd astro-site
 npm.cmd install
 npm.cmd run build
+npm.cmd test
+```
+
+If a partial install is missing the test tooling, run this from `astro-site/`:
+
+```powershell
+npm.cmd install -D @playwright/test vitest
 ```
 
 Do not commit `node_modules/`, `.astro/`, `dist/`, logs, PID files or `.env*` files.
@@ -40,9 +48,16 @@ Run these from `astro-site/`:
 
 ```powershell
 npm.cmd run build
+npm.cmd run test:unit
+npm.cmd run test:e2e
+npm.cmd test
 npm.cmd run dev -- --host 127.0.0.1 --port 4321
 npm.cmd run preview -- --host 127.0.0.1 --port 4321
 ```
+
+`npm.cmd run test:unit` runs Vitest. `npm.cmd run test:e2e` runs Playwright. `npm.cmd test` runs both.
+
+Playwright is configured in `astro-site/playwright.config.ts` to use installed Microsoft Edge with `channel: "msedge"`. Do not run `npx playwright install` by default unless Edge is unavailable or the Playwright config changes.
 
 Standard development URL:
 

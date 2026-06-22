@@ -23,6 +23,17 @@ cd C:\Users\Max\Documents\Development\csrevision\astro-site
 npm.cmd run build
 ```
 
+## Automated Test Check
+
+For behaviour, widget, route, interaction or shared-component changes:
+
+```powershell
+cd C:\Users\Max\Documents\Development\csrevision\astro-site
+npm.cmd test
+```
+
+Use `npm.cmd run test:unit` for Vitest-only checks and `npm.cmd run test:e2e` for Playwright-only browser checks. Playwright uses installed Microsoft Edge via the project config, so a separate Playwright browser install is not normally required.
+
 ## Route Checks
 
 Check relevant routes plus any common parent pages:

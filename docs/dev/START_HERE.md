@@ -6,6 +6,10 @@ This is the first document future Codex sessions should read before working on C
 
 Active development documents should use stable, undated filenames. Record dates inside the document for decisions, handovers and incidents. Do not create new dated handover files unless the user explicitly asks for an archive snapshot.
 
+## User Task Shorthand
+
+- When the user writes `Q.` at the start of a request or task, treat it as "add this to the queue of work to do". Add the item to the current task queue/backlog for project workers rather than treating `Q.` as a typo or question marker.
+
 ## Read Order
 
 1. `CODEX.md`
@@ -42,6 +46,10 @@ Active development documents should use stable, undated filenames. Record dates 
 - Dev dashboard: `http://127.0.0.1:4321/dev-dashboard/`
 - Build command: run `npm.cmd run build` from `astro-site/`
 - Dev command: run `npm.cmd run dev -- --host 127.0.0.1 --port 4321` from `astro-site/`
+- Test command: run `npm.cmd test` from `astro-site/`
+- Unit tests: run `npm.cmd run test:unit` from `astro-site/`
+- Browser tests: run `npm.cmd run test:e2e` from `astro-site/`
+- Test tooling: Playwright (`@playwright/test`) and Vitest are project dev dependencies. Run `npm.cmd install` in `astro-site/` on a fresh setup to install them.
 
 ## Core Rules
 

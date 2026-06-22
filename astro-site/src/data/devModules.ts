@@ -1,5 +1,7 @@
 import { devLayoutDefinitions } from "./devLayouts";
 import { devCardDefinitions } from "./devCards";
+import { devComponentDefinitions } from "./devComponents";
+import { devWidgetDefinitions } from "./devWidgets";
 
 export type DevModuleItem = {
   title: string;
@@ -12,8 +14,6 @@ export type DevModuleGroup = {
   items: DevModuleItem[];
 };
 
-const moduleItems = (items: string[]): DevModuleItem[] => items.map((title) => ({ title }));
-
 export const devModuleGroups: DevModuleGroup[] = [
   {
     title: "Layouts",
@@ -25,27 +25,10 @@ export const devModuleGroups: DevModuleGroup[] = [
   },
   {
     title: "Components",
-    items: moduleItems([
-      "Reveal button",
-      "Reset button",
-      "Multiple-choice option",
-      "Correct marker",
-      "Incorrect marker",
-      "Feedback state",
-      "Hint toggle",
-      "Expand/collapse panel",
-      "Step connector",
-      "Flow connector",
-      "Label badge",
-      "Tooltip",
-      "Diagram label",
-      "Image hotspot",
-      "Drag handle",
-      "Timer display",
-      "Progress indicator",
-      "Score counter",
-      "Audio play button",
-      "Mark scheme bullet",
-    ]),
+    items: devComponentDefinitions.map(({ title, href, complete }) => ({ title, href, complete })),
+  },
+  {
+    title: "Widgets",
+    items: devWidgetDefinitions.map(({ title, href, complete }) => ({ title, href, complete })),
   },
 ];

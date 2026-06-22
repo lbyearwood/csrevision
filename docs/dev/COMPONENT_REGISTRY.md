@@ -55,41 +55,52 @@ Status values:
 | 13 | Exam question card | accepted | Complete concrete example; marks are appended to the question text in bold. |
 | 14 | Summary card | accepted | Complete lesson summary example with introductory sentence and numbered points. |
 | 15 | Instruction card | accepted | Complete concrete numbered instruction example. |
-| 16 | Flash card | review | Replaces matching area card with a 2 by 2 keyword-front, definition-back flip interaction. |
-| 17 | Mark scheme card | review | Intended for lightbox/modal reveal contexts. |
-| 18 | Misconception card | accepted | Complete red misconception and green correction example. |
-| 19 | Hinge question card | missing | Still required. |
-| 20 | Process/sequence card | missing | Still required. |
-| 21 | Vocabulary card | missing | Still required. |
+| 16 | Flash card | accepted | Complete 2 by 2 keyword-front, definition-back flip interaction. |
+| 17 | Visual Flashcard | accepted | Complete logic-gate visual front, definition-back flip interaction. |
+| 18 | Logic gate card | accepted | Complete Boolean expression diagram card. |
+| 19 | Coding card | accepted | Complete numbered, colour-coded code snippet card. |
+| 20 | Mark scheme card | review | Intended for lightbox/modal reveal contexts. |
+| 21 | Misconception card | accepted | Complete red misconception and green correction example. |
+| 22 | Hinge question card | missing | Still required. |
+| 23 | Process/sequence card | missing | Still required. |
+| 24 | Vocabulary card | missing | Still required. |
 
 ## Components
 
 | No. | Component | Status | Notes |
 | --- | --- | --- | --- |
-| 1 | Reveal button | missing | Listed on Dev dashboard for future component work. |
-| 2 | Reset button | review | First implemented inside C9 and C10 multiple-choice cards. |
-| 3 | Multiple-choice option | review | First implemented inside C9 single multiple choice card. |
-| 4 | Correct marker | review | First implemented inside C9 single multiple choice card. |
-| 5 | Incorrect marker | review | First implemented inside C9 single multiple choice card. |
-| 6 | Feedback state | missing | Listed on Dev dashboard for future component work. |
-| 7 | Hint toggle | missing | Listed on Dev dashboard for future component work. |
-| 8 | Expand/collapse panel | missing | Listed on Dev dashboard for future component work. |
-| 9 | Step connector | missing | Listed on Dev dashboard for future component work. |
-| 10 | Flow connector | missing | Listed on Dev dashboard for future component work. |
-| 11 | Label badge | missing | Listed on Dev dashboard for future component work. |
-| 12 | Tooltip | missing | Listed on Dev dashboard for future component work. |
-| 13 | Diagram label | missing | Listed on Dev dashboard for future component work. |
-| 14 | Image hotspot | missing | Listed on Dev dashboard for future component work. |
-| 15 | Drag handle | missing | Listed on Dev dashboard for future component work. |
-| 16 | Timer display | missing | Listed on Dev dashboard for future component work. |
-| 17 | Progress indicator | missing | Listed on Dev dashboard for future component work. |
-| 18 | Score counter | missing | Listed on Dev dashboard for future component work. |
-| 19 | Audio play button | missing | Listed on Dev dashboard for future component work. |
-| 20 | Mark scheme bullet | missing | Listed on Dev dashboard for future component work. |
+| 1 | Reveal button | review | New review route with blue reveal trigger design. |
+| 2 | Reset button | review | New review route plus existing use inside C9 and C10 multiple-choice cards. |
+| 3 | Multiple-choice option | review | New review route plus existing use inside C9 single multiple choice card. |
+| 4 | Correct marker | review | New review route plus existing use inside C9 single multiple choice card. |
+| 5 | Incorrect marker | review | New review route plus existing use inside C9 single multiple choice card. |
+| 6 | Feedback state | review | New review route with neutral, correct and incorrect variants. |
+| 7 | Hint toggle | review | New review route using native details disclosure. |
+| 8 | Expand/collapse panel | review | New review route using native details disclosure. |
+| 9 | Step connector | review | New review route with numbered process connector. |
+| 10 | Flow connector | review | New review route with elbow arrow connector. |
+| 11 | Label badge | review | New review route with default, success and warning variants. |
+| 12 | Tooltip | review | New review route with accessible icon help label. |
+| 13 | Diagram label | review | New review route with leader-line label pattern. |
+| 14 | Image hotspot | review | New review route with numbered hotspot marker. |
+| 15 | Drag handle | review | New review route with compact reorder handle. |
+| 16 | Mark scheme bullet | review | New review route with mark-value badge and point text. |
+
+## Widgets
+
+| No. | Widget | Status | Notes |
+| --- | --- | --- | --- |
+| 1 | Timer display | functional review | Live countdown with editable time, start, pause/resume, reset and size controls. |
+| 2 | Stopwatch | functional review | Live stopwatch with start, pause/resume, reset and size controls. |
+| 3 | Draw board | functional review | Live canvas with pen, text, line, eraser, image paste, transparent mode, background toggle, swatches, custom colour and clear-board controls. |
+| 4 | Progress indicator | functional review | Live progress bar with range, next/back and reset controls. |
+| 5 | Score counter | functional review | Floating two-screen team scoreboard with setup screen, 1-5 teams, per-team increment/decrement controls, reset and size controls. |
+| 6 | Audio play button | functional review | Live play/pause control using a browser-generated sample tone. |
 
 ## Open Registry Work
 
 - Define which cards/components can appear in which slide layouts.
 - Mark modules as `accepted` only after user review.
+- Widgets should be functional review sandboxes, not static visual-only previews.
 - Keep the Dev dashboard Cards list aligned with this registry.
 - Avoid creating duplicate components when an existing card can be extended.
