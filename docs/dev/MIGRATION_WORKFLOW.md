@@ -25,10 +25,12 @@ Do not bulk migrate. Migrate one lesson or resource set at a time.
 
 1. Read `SITE_QA_AND_DEVELOPMENT_RULES.md`.
 2. Complete the Edge pre-amendment gate if the task affects rendered site output.
-3. Inspect the old reference page in `app/`.
-4. Inspect any related old JavaScript, CSS, assets, quizzes, tasks and exam pages.
-5. Identify the teaching purpose and important interactions.
-6. Decide whether each old item becomes lesson content, task content, quiz content, exam content, an interactive rebuild, or an intentional omission.
+3. Check whether an official specification is available locally in `docs/reference/specifications/`, online, or from the user.
+4. Use the specification to understand content requirements, but do not copy the specification order as the lesson order unless it is genuinely the clearest teaching sequence.
+5. Inspect the old reference page in `app/`.
+6. Inspect any related old JavaScript, CSS, assets, quizzes, tasks and exam pages.
+7. Identify the teaching purpose and important interactions.
+8. Decide whether each old item becomes lesson content, task content, quiz content, exam content, an interactive rebuild, or an intentional omission.
 
 ## Audit Fields
 

@@ -19,7 +19,7 @@ Not applicable for developer-only documentation, handover notes, troubleshooting
 For Astro implementation work:
 
 ```powershell
-cd C:\Users\Max\Documents\Development\csrevision\astro-site
+cd <repo>\astro-site
 npm.cmd run build
 ```
 
@@ -28,7 +28,7 @@ npm.cmd run build
 For behaviour, widget, route, interaction or shared-component changes:
 
 ```powershell
-cd C:\Users\Max\Documents\Development\csrevision\astro-site
+cd <repo>\astro-site
 npm.cmd test
 ```
 

@@ -1,0 +1,11 @@
+---
+const { class: className, label = "Next step", ...attrs } = Astro.props;
+const classes = ["dev-component-step-button", "dev-component-step-button--next", className].filter(Boolean).join(" ");
+---
+
+<button class={classes} type="button" {...attrs}>
+  <slot>{label}</slot>
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="m9 6 6 6-6 6"></path>
+  </svg>
+</button>

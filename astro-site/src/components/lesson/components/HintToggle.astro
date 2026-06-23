@@ -1,0 +1,9 @@
+---
+const { class: className, label = "Show hint", open = false, ...attrs } = Astro.props;
+const classes = ["dev-component-hint-toggle", className].filter(Boolean).join(" ");
+---
+
+<details class={classes} open={open} {...attrs}>
+  <summary>{label}</summary>
+  <p><slot /></p>
+</details>

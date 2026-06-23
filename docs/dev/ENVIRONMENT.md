@@ -4,10 +4,10 @@ This document explains how to run the CS Revision Astro rebuild locally.
 
 ## Workspace
 
-Current local workspace:
+Use a normal local workspace outside OneDrive or another cloud-sync-managed folder. Current known workspaces include the PC and laptop clones.
 
 ```powershell
-C:\Users\Max\Documents\Development\csrevision
+<repo>
 ```
 
 Do not run this project from OneDrive or another cloud-sync-managed folder. The previous Vite/esbuild dependency optimisation failures were caused by running the project inside OneDrive.
@@ -70,13 +70,13 @@ http://127.0.0.1:4321/
 Preferred Codex launcher:
 
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\Users\Max\Documents\Development\csrevision\astro-site\start-dev-server.ps1
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File <repo>\astro-site\start-dev-server.ps1
 ```
 
 Manual foreground server:
 
 ```powershell
-cd C:\Users\Max\Documents\Development\csrevision\astro-site
+cd <repo>\astro-site
 npm.cmd run dev -- --host 127.0.0.1 --port 4321
 ```
 

@@ -29,6 +29,7 @@ Active development documents should use stable, undated filenames. Record dates 
 - `app/` is the old working site and must be treated as a read-only reference unless the user explicitly asks for changes there.
 - `astro-site/` is the new Astro rebuild. New rebuild work belongs there.
 - Active project guidance belongs in `docs/dev/`.
+- Official specifications and reference PDFs belong in `docs/reference/specifications/`.
 - `astro-site/README.md` may remain as the package-level README beside `package.json`.
 
 ## GitHub Upload Boundary

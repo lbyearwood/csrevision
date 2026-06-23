@@ -1,6 +1,23 @@
 ---
 import LessonLayout from "../../../../components/layout/LessonLayout.astro";
 import LessonSlideShell from "../../../../components/lesson/LessonSlideShell.astro";
+import DiagramLabel from "../../../../components/lesson/components/DiagramLabel.astro";
+import DisclosurePanel from "../../../../components/lesson/components/DisclosurePanel.astro";
+import DragHandle from "../../../../components/lesson/components/DragHandle.astro";
+import FeedbackState from "../../../../components/lesson/components/FeedbackState.astro";
+import FlowConnector from "../../../../components/lesson/components/FlowConnector.astro";
+import HintToggle from "../../../../components/lesson/components/HintToggle.astro";
+import ImageHotspot from "../../../../components/lesson/components/ImageHotspot.astro";
+import LabelBadge from "../../../../components/lesson/components/LabelBadge.astro";
+import MarkSchemeBullet from "../../../../components/lesson/components/MarkSchemeBullet.astro";
+import MultipleChoiceOption from "../../../../components/lesson/components/MultipleChoiceOption.astro";
+import NextButton from "../../../../components/lesson/components/NextButton.astro";
+import PreviousButton from "../../../../components/lesson/components/PreviousButton.astro";
+import ResetButton from "../../../../components/lesson/components/ResetButton.astro";
+import ResultMarker from "../../../../components/lesson/components/ResultMarker.astro";
+import RevealButton from "../../../../components/lesson/components/RevealButton.astro";
+import StepConnector from "../../../../components/lesson/components/StepConnector.astro";
+import Tooltip from "../../../../components/lesson/components/Tooltip.astro";
 import LessonSideNav from "../../../../components/navigation/LessonSideNav.astro";
 import { devComponentDefinitions, type DevComponentDefinition } from "../../../../data/devComponents";
 import { routes } from "../../../../data/routes";
@@ -132,144 +149,92 @@ const briefBySlug: Record<string, string[]> = {
         <LessonSlideShell id="example" label="Component" heading="Example" slideNumber={1}>
           <div class="dev-component-example-stage">
             {component.slug === "reveal-button" && (
-              <button class="dev-component-reveal-button" type="button">
-                <span aria-hidden="true">?</span>
-                Reveal answer
-              </button>
+              <RevealButton />
             )}
 
             {component.slug === "previous-button" && (
-              <button class="dev-component-step-button dev-component-step-button--previous" type="button">
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="M15 6 9 12l6 6"></path>
-                </svg>
-                Previous step
-              </button>
+              <PreviousButton />
             )}
 
             {component.slug === "next-button" && (
-              <button class="dev-component-step-button dev-component-step-button--next" type="button">
-                Next step
-                <svg viewBox="0 0 24 24" aria-hidden="true">
-                  <path d="m9 6 6 6-6 6"></path>
-                </svg>
-              </button>
+              <NextButton />
             )}
 
             {component.slug === "reset-button" && (
-              <button class="dev-component-reset-button" type="button" aria-label="Reset activity">
-                <span aria-hidden="true">&#8634;</span>
-                Reset
-              </button>
+              <ResetButton aria-label="Reset activity" />
             )}
 
             {component.slug === "multiple-choice-option" && (
-              <button class="dev-component-choice-option" type="button">
-                <span>A</span>
-                The Arithmetic Logic Unit
-              </button>
+              <MultipleChoiceOption marker="A">The Arithmetic Logic Unit</MultipleChoiceOption>
             )}
 
             {component.slug === "correct-marker" && (
               <div class="dev-component-marker-row">
-                <span class="dev-component-marker dev-component-marker--correct" aria-label="Correct">&#10003;</span>
+                <ResultMarker tone="correct" />
                 <strong>Correct answer selected</strong>
               </div>
             )}
 
             {component.slug === "incorrect-marker" && (
               <div class="dev-component-marker-row">
-                <span class="dev-component-marker dev-component-marker--incorrect" aria-label="Incorrect">&times;</span>
+                <ResultMarker tone="incorrect" />
                 <strong>Try that one again</strong>
               </div>
             )}
 
             {component.slug === "feedback-state" && (
               <div class="dev-component-feedback-grid">
-                <p class="dev-component-feedback dev-component-feedback--neutral">Choose an option to check your understanding.</p>
-                <p class="dev-component-feedback dev-component-feedback--correct">Correct. The ALU performs arithmetic and logic operations.</p>
-                <p class="dev-component-feedback dev-component-feedback--incorrect">Not quite. The Control Unit coordinates the CPU.</p>
+                <FeedbackState>Choose an option to check your understanding.</FeedbackState>
+                <FeedbackState tone="correct">Correct. The ALU performs arithmetic and logic operations.</FeedbackState>
+                <FeedbackState tone="incorrect">Not quite. The Control Unit coordinates the CPU.</FeedbackState>
               </div>
             )}
 
             {component.slug === "hint-toggle" && (
-              <details class="dev-component-hint-toggle">
-                <summary>Show hint</summary>
-                <p>Think about which CPU part performs calculations.</p>
-              </details>
+              <HintToggle>Think about which CPU part performs calculations.</HintToggle>
             )}
 
             {component.slug === "expand-collapse-panel" && (
-              <details class="dev-component-disclosure" open>
-                <summary>Why this matters</summary>
-                <p>Registers are small, fast storage locations used while instructions are being processed.</p>
-              </details>
+              <DisclosurePanel>Registers are small, fast storage locations used while instructions are being processed.</DisclosurePanel>
             )}
 
             {component.slug === "step-connector" && (
-              <div class="dev-component-step-connector" aria-label="Three connected steps">
-                <span>1</span>
-                <i></i>
-                <span class="is-active">2</span>
-                <i></i>
-                <span>3</span>
-              </div>
+              <StepConnector />
             )}
 
             {component.slug === "flow-connector" && (
-              <div class="dev-component-flow" aria-label="Fetch flows to decode">
-                <span>Fetch</span>
-                <svg viewBox="0 0 160 70" role="img" aria-label="Elbow connector arrow">
-                  <path d="M12 20 H80 V50 H138"></path>
-                  <path d="M126 38 L140 50 L126 62"></path>
-                </svg>
-                <span>Decode</span>
-              </div>
+              <FlowConnector />
             )}
 
             {component.slug === "label-badge" && (
               <div class="dev-component-badge-set">
-                <span class="dev-component-label-badge">Key term</span>
-                <span class="dev-component-label-badge dev-component-label-badge--success">Complete</span>
-                <span class="dev-component-label-badge dev-component-label-badge--warning">Exam tip</span>
+                <LabelBadge>Key term</LabelBadge>
+                <LabelBadge tone="success">Complete</LabelBadge>
+                <LabelBadge tone="warning">Exam tip</LabelBadge>
               </div>
             )}
 
             {component.slug === "tooltip" && (
-              <div class="dev-component-tooltip-demo">
-                <button type="button" aria-describedby="tooltip-example">i</button>
-                <span id="tooltip-example" role="tooltip">A register stores a value temporarily.</span>
-              </div>
+              <Tooltip />
             )}
 
             {component.slug === "diagram-label" && (
-              <svg class="dev-component-diagram-label" viewBox="0 0 520 190" role="img" aria-label="Diagram label with leader line">
-                <rect x="54" y="58" width="170" height="76" rx="8"></rect>
-                <path d="M224 96 H320"></path>
-                <foreignObject x="320" y="62" width="150" height="60">
-                  <div xmlns="http://www.w3.org/1999/xhtml">Control Unit</div>
-                </foreignObject>
-              </svg>
+              <DiagramLabel />
             )}
 
             {component.slug === "image-hotspot" && (
-              <div class="dev-component-hotspot-image" aria-label="CPU diagram with hotspot">
-                <span class="dev-component-hotspot" style="left: 58%; top: 42%;">1</span>
-              </div>
+              <ImageHotspot />
             )}
 
             {component.slug === "drag-handle" && (
               <div class="dev-component-drag-row">
-                <span class="dev-component-drag-handle" aria-label="Drag handle">&#8942;&#8942;</span>
+                <DragHandle />
                 <strong>Move decode before execute</strong>
               </div>
             )}
 
             {component.slug === "mark-scheme-bullet" && (
-              <div class="dev-component-mark-bullet">
-                <span>1 mark</span>
-                <p>Identifies the Control Unit as the CPU component that coordinates activity.</p>
-              </div>
+              <MarkSchemeBullet>Identifies the Control Unit as the CPU component that coordinates activity.</MarkSchemeBullet>
             )}
           </div>
         </LessonSlideShell>

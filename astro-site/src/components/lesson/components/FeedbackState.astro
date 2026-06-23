@@ -1,0 +1,7 @@
+---
+const { class: className, tone = "neutral", ...attrs } = Astro.props;
+const toneClass = tone === "neutral" ? "" : `dev-component-feedback--${tone}`;
+const classes = ["dev-component-feedback", toneClass, className].filter(Boolean).join(" ");
+---
+
+<p class={classes} {...attrs}><slot /></p>

@@ -1,0 +1,9 @@
+---
+const { class: className, label = "Reset", icon = "&#8634;", ...attrs } = Astro.props;
+const classes = ["dev-component-reset-button", className].filter(Boolean).join(" ");
+---
+
+<button class={classes} type="button" {...attrs}>
+  <span aria-hidden="true" set:html={icon}></span>
+  <slot>{label}</slot>
+</button>

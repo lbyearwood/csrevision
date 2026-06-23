@@ -46,7 +46,7 @@ Reason:
 
 Decision:
 
-- The project should run from `C:\Users\Max\Documents\Development\csrevision`, not OneDrive.
+- The project should run from a normal local folder such as `<repo>`, not OneDrive.
 
 Reason:
 
@@ -89,3 +89,18 @@ Decision:
 Reason:
 
 - The rebuild must be gradual, component-led and safe.
+
+## 2026-06-23: Specifications Inform Content, Not Lesson Order
+
+Decision:
+
+- Where available, Codex should use official course specifications to understand content requirements, vocabulary and exam expectations.
+- If the specification is not available locally, Codex should search online or ask the user to provide it.
+- Specification bullet-point order must not automatically determine lesson order.
+- Lesson parts should be sequenced for student understanding and progression.
+- The user wants to practise the topic-to-lesson-parts workflow before documenting a final workflow.
+
+Reason:
+
+- Specifications are often not written in the most logical teaching order.
+- Lessons should be co-designed and checked with the user before detailed lesson content is built.

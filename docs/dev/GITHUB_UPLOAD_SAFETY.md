@@ -39,13 +39,13 @@ Use this document before creating branches, pushing code, or changing GitHub Pag
 4. `app/` is required for migration reference and must be treated as read-only unless the user explicitly requests old-site changes.
 5. The shared `app/` reference includes the old site courses, assets, data, scripts, styles, readme and wireframe PDF.
 6. The old `app/planning & quality assurance/` archive is not part of the shared branch because it contains very long Windows paths and is not required for lesson migration.
-7. This local PC workspace is not currently a valid Git checkout because `.git/` is empty.
-8. Future uploads should be done from a proper clone of `lbyearwood/csrevision`, then switched to `astro-site`.
+7. Future uploads should be done from a proper clone of `lbyearwood/csrevision`, then switched to `astro-site`.
+8. The laptop workspace at `C:\Users\Myron\Documents\Development\csrevision` is a valid `astro-site` checkout as of 2026-06-23.
 
 ## Two-Codex Coordination
 
-1. PC Codex is the Codex session working from this PC workspace: `C:\Users\Max\Documents\Development\csrevision`.
-2. Laptop Codex is the separate Codex session working from the user's laptop.
+1. PC Codex and Laptop Codex are separate Codex sessions working from separate local clones.
+2. Known workspace examples include `C:\Users\Max\Documents\Development\csrevision` on the PC and `C:\Users\Myron\Documents\Development\csrevision` on the laptop.
 3. Both Codexes must use the same remote branch: `astro-site`.
 4. Before starting work, each Codex should pull the latest `astro-site` branch.
 5. Before pushing, each Codex should check what it changed and update `docs/dev/HANDOVER.md` if the project state changed materially.

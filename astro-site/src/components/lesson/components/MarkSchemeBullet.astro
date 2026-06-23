@@ -1,0 +1,9 @@
+---
+const { class: className, mark = "1 mark", ...attrs } = Astro.props;
+const classes = ["dev-component-mark-bullet", className].filter(Boolean).join(" ");
+---
+
+<div class={classes} {...attrs}>
+  <span>{mark}</span>
+  <p><slot /></p>
+</div>

@@ -190,10 +190,24 @@ Temporary browser-control limitation:
 - Avoid page-specific CSS unless needed for a complex visual or model.
 - The visual style should feel like a polished educational platform: clear hierarchy, readable spacing, accessible contrast, calm colours and consistent cards.
 
+## QAP: Text Hierarchy In Cards
+
+- Card text hierarchy must be checked visually, not only by reading the CSS.
+- Body text, numbered-list text and command words must not overpower the card title or make the introductory sentence feel unrelated.
+- Bold command words such as `Describe`, `Explain` and `Calculate` should use weight for emphasis, not a larger font size than the rest of the objective sentence.
+- Number circles, badges and markers should support scanning. They must not feel like oversized buttons unless they are actually interactive controls.
+- Avoid viewport-scaled font sizes for compact card text. Use stable rem sizes and responsive layout changes instead.
+- Before accepting a card design, compare the rendered title, intro sentence, list text, bold text and markers as one hierarchy. If one layer shouts, rebalance the sizes before completion.
+
 ## Content and Migration Priorities
 
 - GCSE Computer Science is the first priority.
 - Rebuild GCSE structure from data or structured content, not hand-coded dashboard cards.
+- Where available, use the relevant course specification to understand content requirements, vocabulary and exam expectations.
+- If a specification is not already available locally, search online for it or ask the user to provide it.
+- Do not use specification bullet-point order as the default lesson order. Specifications are often not written in the most student-friendly teaching sequence.
+- Organise lesson content in the sequence that best supports student understanding and progression.
+- When the user gives a topic/spec, first agree a logical set of lesson parts with the user before building detailed lesson content. This workflow is still being practised and should not be formalised into a separate final workflow document until the user is happy with it.
 - After the GCSE foundation is stable, migrate BTEC content using tutorial-style components.
 - BTEC pages should use tutorial patterns such as steps, code examples, expected output, checkpoints, common mistakes, tasks and extensions.
 - Do not remove important teaching detail from the old site without a reason.

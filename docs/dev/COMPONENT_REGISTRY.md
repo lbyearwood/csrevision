@@ -54,39 +54,40 @@ Layouts are structural 2 by 2 card arrangements only, except for the title segme
 | 12 | Prompt card | accepted | Complete concrete prompt example. |
 | 13 | Exam question card | accepted | Complete concrete example; marks are appended to the question text in bold. |
 | 14 | Summary card | accepted | Complete lesson summary example with introductory sentence and numbered points. |
-| 15 | Instruction card | accepted | Complete concrete numbered instruction example. |
-| 16 | Flash card | accepted | Complete 2 by 2 keyword-front, definition-back flip interaction. |
-| 17 | Visual Flashcard | accepted | Complete logic-gate visual front, definition-back flip interaction. |
-| 18 | Logic gate card | accepted | Complete Boolean expression diagram card. |
-| 19 | Coding card | accepted | Complete numbered, colour-coded code snippet card. |
-| 20 | Mark scheme card | review | Intended for lightbox/modal reveal contexts. |
-| 21 | Misconception card | accepted | Complete red misconception and green correction example. |
-| 22 | Hinge question card | missing | Still required. |
-| 23 | Process/sequence card | missing | Still required. |
-| 24 | Vocabulary card | missing | Still required. |
+| 15 | Learning objectives card | accepted | Complete lesson objectives example matching the summary card structure with future-tense wording. |
+| 16 | Instruction card | accepted | Complete concrete numbered instruction example. |
+| 17 | Flash card | accepted | Complete 2 by 2 keyword-front, definition-back flip interaction. |
+| 18 | Visual Flashcard | accepted | Complete logic-gate visual front, definition-back flip interaction. |
+| 19 | Logic gate card | accepted | Complete Boolean expression diagram card. |
+| 20 | Coding card | accepted | Complete numbered, colour-coded code snippet card. |
+| 21 | Mark scheme card | review | Intended for lightbox/modal reveal contexts. |
+| 22 | Misconception card | accepted | Complete red misconception and green correction example. |
+| 23 | Hinge question card | missing | Still required. |
+| 24 | Process/sequence card | missing | Still required. |
+| 25 | Vocabulary card | missing | Still required. |
 
 ## Components
 
 | No. | Component | Status | Notes |
 | --- | --- | --- | --- |
-| 1 | Reveal button | review | New review route with blue reveal trigger design. |
-| 2 | Previous button | review | New review route with rounded blue previous-step control. |
-| 3 | Next button | review | New review route with rounded blue next-step control in a different shade. |
-| 4 | Reset button | review | New review route plus existing use inside C9 and C10 multiple-choice cards. |
-| 5 | Multiple-choice option | review | New review route plus existing use inside C9 single multiple choice card. |
-| 6 | Correct marker | review | New review route plus existing use inside C9 single multiple choice card. |
-| 7 | Incorrect marker | review | New review route plus existing use inside C9 single multiple choice card. |
-| 8 | Feedback state | review | New review route with neutral, correct and incorrect variants. |
-| 9 | Hint toggle | review | New review route using native details disclosure. |
-| 10 | Expand/collapse panel | review | New review route using native details disclosure. |
-| 11 | Step connector | review | New review route with numbered process connector. |
-| 12 | Flow connector | review | New review route with elbow arrow connector. |
-| 13 | Label badge | review | New review route with default, success and warning variants. |
-| 14 | Tooltip | review | New review route with accessible icon help label. |
-| 15 | Diagram label | review | New review route with leader-line label pattern. |
-| 16 | Image hotspot | review | New review route with numbered hotspot marker. |
-| 17 | Drag handle | review | New review route with compact reorder handle. |
-| 18 | Mark scheme bullet | review | New review route with mark-value badge and point text. |
+| 1 | Reveal button | accepted | Reusable component file with blue reveal trigger design. |
+| 2 | Previous button | accepted | Reusable component file with rounded blue previous-step control. |
+| 3 | Next button | accepted | Reusable component file with rounded blue next-step control in a different shade. |
+| 4 | Reset button | accepted | Reusable component file used by relevant card examples. |
+| 5 | Multiple-choice option | accepted | Reusable component file used by multiple-choice card examples. |
+| 6 | Correct marker | accepted | Reusable marker component supports correct state. |
+| 7 | Incorrect marker | accepted | Reusable marker component supports incorrect state. |
+| 8 | Feedback state | accepted | Reusable feedback component with neutral, correct and incorrect variants. |
+| 9 | Hint toggle | accepted | Reusable native details hint component. |
+| 10 | Expand/collapse panel | accepted | Reusable native details disclosure component. |
+| 11 | Step connector | accepted | Reusable numbered process connector component. |
+| 12 | Flow connector | accepted | Reusable elbow arrow connector component. |
+| 13 | Label badge | accepted | Reusable badge component with default, success and warning variants. |
+| 14 | Tooltip | accepted | Reusable accessible icon help label component. |
+| 15 | Diagram label | accepted | Reusable leader-line label component. |
+| 16 | Image hotspot | accepted | Reusable numbered hotspot component. |
+| 17 | Drag handle | accepted | Reusable compact reorder handle component. |
+| 18 | Mark scheme bullet | accepted | Reusable mark-value badge and point text component. |
 
 ## Widgets
 

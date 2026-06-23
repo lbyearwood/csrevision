@@ -1,0 +1,9 @@
+---
+const { class: className, id = "tooltip-example", label = "i", text = "A register stores a value temporarily.", ...attrs } = Astro.props;
+const classes = ["dev-component-tooltip-demo", className].filter(Boolean).join(" ");
+---
+
+<div class={classes} {...attrs}>
+  <button type="button" aria-describedby={id}>{label}</button>
+  <span id={id} role="tooltip">{text}</span>
+</div>

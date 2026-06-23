@@ -105,16 +105,16 @@ Cause:
 Solution:
 
 - Move the project out of OneDrive.
-- Current working path:
+- Current working path pattern:
 
 ```powershell
-C:\Users\Max\Documents\Development\csrevision
+<repo>
 ```
 
 Verification:
 
 ```powershell
-cd C:\Users\Max\Documents\Development\csrevision\astro-site
+cd <repo>\astro-site
 npm.cmd run build
 npm.cmd run dev -- --host 127.0.0.1 --port 4321
 ```
@@ -134,6 +134,7 @@ Symptoms:
 - `netstat -ano | Select-String ':4321'` shows no persistent `LISTENING` process.
 - No Vite/esbuild error appears in the log.
 - The in-app browser may already be open at `http://127.0.0.1:4321/dev-dashboard/`, but the page stops loading because the server process has exited.
+- The in-app browser may also stay on an old generated `ERR_CONNECTION_REFUSED` page even after the server has been restarted. In that case Windows route probes return `200`, but the stale tab still looks broken.
 
 Observed failed launch paths:
 
@@ -146,41 +147,44 @@ Observed failed launch paths:
 Likely cause:
 
 - Codex-launched background processes are not reliably owned by a normal user terminal and may be cleaned up when the tool call finishes.
-- The Windows process environment can contain both `Path` and `PATH`, which breaks some PowerShell process-launch paths.
+- The Windows process environment inside Codex can contain both `Path` and `PATH`, even when Windows' saved User and Machine environment variables only show `Path`. This breaks some PowerShell process-launch paths.
+- A stale in-app browser error tab is browser state, not proof that Astro is still down.
 
 Working solution for a persistent server:
 
 - Preferred Codex-side launcher:
 
 ```powershell
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\Users\Max\Documents\Development\csrevision\astro-site\start-dev-server.ps1
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File <repo>\astro-site\start-dev-server.ps1
 ```
 
 - This script normalizes the Windows `Path` / `PATH` issue, starts Astro directly through `node node_modules/astro/bin/astro.mjs dev`, writes logs to `astro-site/astro-dev.out.log` and `astro-site/astro-dev.err.log`, stores the Node PID in `astro-site/astro-dev-server.pid`, and verifies `/dev-dashboard/`.
-- Start it outside the sandbox when the server must remain available to the user's in-app browser after the Codex tool call returns.
+- Start it outside the sandbox / short-lived command session when the server must remain available to the user's in-app browser after the Codex tool call returns. In Codex, use an escalated persistent launch when necessary so the process is not cleaned up with the tool call.
 - Alternative manual solution: start the dev server in a normal user-owned terminal and keep that terminal open:
 
 ```powershell
-cd C:\Users\Max\Documents\Development\csrevision\astro-site
+cd <repo>\astro-site
 npm.cmd run dev -- --host 127.0.0.1 --port 4321
 ```
 
 - If `Start-Process` is needed from PowerShell, first normalize `Path` / `PATH` as described in the next section.
-- Do not claim the server is persistently running from Codex unless it is still reachable after the launch command has fully returned.
+- Do not claim the server is persistently running from Codex unless it is still reachable after the launch command has fully returned and after a short delayed re-check.
 - Keep the PID in `astro-site/astro-dev-server.pid`.
 - Re-check `/`, `/gcse/` and `/dev-dashboard/` after launch, and repeat the check after a short delay.
+- If the Windows probes return `200` but the in-app browser still shows `ERR_CONNECTION_REFUSED`, open a fresh in-app browser tab to `http://127.0.0.1:4321/dev-dashboard/` instead of trusting the stale error tab.
 
 Verification:
 
 ```powershell
 Invoke-WebRequest -UseBasicParsing -Uri 'http://127.0.0.1:4321/dev-dashboard/' -TimeoutSec 5
 netstat -ano | Select-String ':4321'
+Get-Content -Path astro-site\astro-dev-server.pid
 ```
 
 Codex limitation:
 
 - For short QA tasks, Codex can start and use the dev server inside a single command sequence.
-- For user browsing, prefer a user-owned terminal because the server must remain alive after Codex tool execution ends.
+- For user browsing, prefer either a user-owned terminal or an escalated persistent Codex launch because the server must remain alive after Codex tool execution ends.
 
 ## PowerShell Duplicate Path And PATH
 
@@ -191,6 +195,11 @@ Symptoms:
 ```text
 Item has already been added. Key in dictionary: 'Path' Key being added: 'PATH'
 ```
+
+Important:
+
+- The duplicate may be present only in the current process environment. Windows' Environment Variables UI can still show only `Path` under both User and Machine variables.
+- Do not tell the user to delete `PATH` from Windows unless a direct User/Machine environment check actually shows both `Path` and `PATH`.
 
 Solution:
 

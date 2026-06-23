@@ -1,0 +1,13 @@
+---
+const { class: className, from = "Fetch", to = "Decode", label = `${from} flows to ${to}`, ...attrs } = Astro.props;
+const classes = ["dev-component-flow", className].filter(Boolean).join(" ");
+---
+
+<div class={classes} aria-label={label} {...attrs}>
+  <span>{from}</span>
+  <svg viewBox="0 0 160 70" role="img" aria-label="Elbow connector arrow">
+    <path d="M12 20 H80 V50 H138"></path>
+    <path d="M126 38 L140 50 L126 62"></path>
+  </svg>
+  <span>{to}</span>
+</div>

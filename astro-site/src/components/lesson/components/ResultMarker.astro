@@ -1,0 +1,8 @@
+---
+const { class: className, tone = "correct", label, ...attrs } = Astro.props;
+const markerLabel = label || (tone === "incorrect" ? "Incorrect" : "Correct");
+const symbol = tone === "incorrect" ? "&times;" : "&#10003;";
+const classes = ["dev-component-marker", `dev-component-marker--${tone}`, className].filter(Boolean).join(" ");
+---
+
+<span class={classes} aria-label={markerLabel} set:html={symbol} {...attrs}></span>

@@ -1,0 +1,12 @@
+---
+const { class: className, label = "Control Unit", ariaLabel = "Diagram label with leader line", ...attrs } = Astro.props;
+const classes = ["dev-component-diagram-label", className].filter(Boolean).join(" ");
+---
+
+<svg class={classes} viewBox="0 0 520 190" role="img" aria-label={ariaLabel} {...attrs}>
+  <rect x="54" y="58" width="170" height="76" rx="8"></rect>
+  <path d="M224 96 H320"></path>
+  <foreignObject x="320" y="62" width="150" height="60">
+    <div xmlns="http://www.w3.org/1999/xhtml">{label}</div>
+  </foreignObject>
+</svg>

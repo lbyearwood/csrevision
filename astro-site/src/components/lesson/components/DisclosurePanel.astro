@@ -1,0 +1,9 @@
+---
+const { class: className, label = "Why this matters", open = true, ...attrs } = Astro.props;
+const classes = ["dev-component-disclosure", className].filter(Boolean).join(" ");
+---
+
+<details class={classes} open={open} {...attrs}>
+  <summary>{label}</summary>
+  <p><slot /></p>
+</details>

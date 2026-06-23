@@ -1,6 +1,11 @@
 ---
 import LessonLayout from "../../../../components/layout/LessonLayout.astro";
 import LessonSlideShell from "../../../../components/lesson/LessonSlideShell.astro";
+import MarkSchemeBullet from "../../../../components/lesson/components/MarkSchemeBullet.astro";
+import MultipleChoiceOption from "../../../../components/lesson/components/MultipleChoiceOption.astro";
+import NextButton from "../../../../components/lesson/components/NextButton.astro";
+import PreviousButton from "../../../../components/lesson/components/PreviousButton.astro";
+import ResetButton from "../../../../components/lesson/components/ResetButton.astro";
 import AnswerCard from "../../../../components/lesson/cards/AnswerCard.astro";
 import CodingCard from "../../../../components/lesson/cards/CodingCard.astro";
 import DiagramCard from "../../../../components/lesson/cards/DiagramCard.astro";
@@ -120,6 +125,11 @@ const briefBySlug: Record<string, string[]> = {
     "Purpose: Consolidate key points at the end of a teaching moment.",
     "Design requirements: Lead with a short introductory sentence, use concise numbered points and avoid dense dashboard-style layouts.",
     "Functionality: Support short recap lists that can sit inside normal lesson layouts.",
+  ],
+  "learning-objectives-card": [
+    "Purpose: Set out what pupils will learn during a teaching moment.",
+    "Design requirements: Match the lesson summary card pattern with a short introductory sentence, concise numbered points and future-tense wording. The intro sentence should match the size and weight of the normal objective text, with clear spacing before the first objective.",
+    "Functionality: Support short learning-objective lists that can sit inside normal lesson layouts.",
   ],
   "instruction-card": [
     "Purpose: Present concise task instructions or process steps.",
@@ -403,15 +413,9 @@ const briefBySlug: Record<string, string[]> = {
                   </div>
                 </ModellingCard>
                 <div class="lesson-card-model-controls" data-model-card-controls data-steps={JSON.stringify(modellingSteps)}>
-                  <button type="button" class="lesson-card-model-button" data-model-action="previous">
-                    Previous step
-                  </button>
-                  <button type="button" class="lesson-card-model-button" data-model-action="next">
-                    Next step
-                  </button>
-                  <button type="button" class="lesson-card-model-button lesson-card-model-button--secondary" data-model-action="reset">
-                    Reset
-                  </button>
+                  <PreviousButton data-model-action="previous" />
+                  <NextButton data-model-action="next" />
+                  <ResetButton data-model-action="reset" />
                   <p class="lesson-card-model-status" aria-live="polite" data-model-status>
                     {modellingSteps[0]}
                   </p>
@@ -423,30 +427,28 @@ const briefBySlug: Record<string, string[]> = {
               <QuestionCard title="Which CPU component carries out arithmetic and logic operations?" class="lesson-card-single-choice">
                 <ol class="lesson-card-option-list" data-single-choice type="A">
                   <li>
-                    <button type="button" class="lesson-card-choice-button" data-choice-option>
+                    <MultipleChoiceOption variant="lesson" data-choice-option>
                       Control Unit
-                    </button>
+                    </MultipleChoiceOption>
                   </li>
                   <li data-correct="true">
-                    <button type="button" class="lesson-card-choice-button" data-choice-option>
+                    <MultipleChoiceOption variant="lesson" data-choice-option>
                       ALU
-                    </button>
+                    </MultipleChoiceOption>
                   </li>
                   <li>
-                    <button type="button" class="lesson-card-choice-button" data-choice-option>
+                    <MultipleChoiceOption variant="lesson" data-choice-option>
                       Cache
-                    </button>
+                    </MultipleChoiceOption>
                   </li>
                   <li>
-                    <button type="button" class="lesson-card-choice-button" data-choice-option>
+                    <MultipleChoiceOption variant="lesson" data-choice-option>
                       Program Counter
-                    </button>
+                    </MultipleChoiceOption>
                   </li>
                 </ol>
                 <div class="lesson-card-choice-actions">
-                  <button type="button" class="lesson-card-choice-reset" data-choice-reset>
-                    Reset
-                  </button>
+                  <ResetButton data-choice-reset />
                 </div>
               </QuestionCard>
             )}
@@ -461,24 +463,24 @@ const briefBySlug: Record<string, string[]> = {
                     </div>
                     <ol class="lesson-card-option-list lesson-card-question-options" data-single-choice type="A">
                       <li data-correct="true">
-                        <button type="button" class="lesson-card-choice-button" data-choice-option>
+                        <MultipleChoiceOption variant="lesson" data-choice-option>
                           Vibrations
-                        </button>
+                        </MultipleChoiceOption>
                       </li>
                       <li>
-                        <button type="button" class="lesson-card-choice-button" data-choice-option>
+                        <MultipleChoiceOption variant="lesson" data-choice-option>
                           Pixels
-                        </button>
+                        </MultipleChoiceOption>
                       </li>
                       <li>
-                        <button type="button" class="lesson-card-choice-button" data-choice-option>
+                        <MultipleChoiceOption variant="lesson" data-choice-option>
                           Packets
-                        </button>
+                        </MultipleChoiceOption>
                       </li>
                       <li>
-                        <button type="button" class="lesson-card-choice-button" data-choice-option>
+                        <MultipleChoiceOption variant="lesson" data-choice-option>
                           Logic gates
-                        </button>
+                        </MultipleChoiceOption>
                       </li>
                     </ol>
                   </article>
@@ -489,24 +491,24 @@ const briefBySlug: Record<string, string[]> = {
                     </div>
                     <ol class="lesson-card-option-list lesson-card-question-options" data-single-choice type="A">
                       <li>
-                        <button type="button" class="lesson-card-choice-button" data-choice-option>
+                        <MultipleChoiceOption variant="lesson" data-choice-option>
                           Computers only store images
-                        </button>
+                        </MultipleChoiceOption>
                       </li>
                       <li>
-                        <button type="button" class="lesson-card-choice-button" data-choice-option>
+                        <MultipleChoiceOption variant="lesson" data-choice-option>
                           Sound must always be compressed
-                        </button>
+                        </MultipleChoiceOption>
                       </li>
                       <li data-correct="true">
-                        <button type="button" class="lesson-card-choice-button" data-choice-option>
+                        <MultipleChoiceOption variant="lesson" data-choice-option>
                           Computers store data in binary
-                        </button>
+                        </MultipleChoiceOption>
                       </li>
                       <li>
-                        <button type="button" class="lesson-card-choice-button" data-choice-option>
+                        <MultipleChoiceOption variant="lesson" data-choice-option>
                           Sound cannot be played through speakers
-                        </button>
+                        </MultipleChoiceOption>
                       </li>
                     </ol>
                   </article>
@@ -517,31 +519,29 @@ const briefBySlug: Record<string, string[]> = {
                     </div>
                     <ol class="lesson-card-option-list lesson-card-question-options" data-single-choice type="A">
                       <li>
-                        <button type="button" class="lesson-card-choice-button" data-choice-option>
+                        <MultipleChoiceOption variant="lesson" data-choice-option>
                           To compress images
-                        </button>
+                        </MultipleChoiceOption>
                       </li>
                       <li data-correct="true">
-                        <button type="button" class="lesson-card-choice-button" data-choice-option>
+                        <MultipleChoiceOption variant="lesson" data-choice-option>
                           To convert analogue sound into digital data
-                        </button>
+                        </MultipleChoiceOption>
                       </li>
                       <li>
-                        <button type="button" class="lesson-card-choice-button" data-choice-option>
+                        <MultipleChoiceOption variant="lesson" data-choice-option>
                           To increase screen resolution
-                        </button>
+                        </MultipleChoiceOption>
                       </li>
                       <li>
-                        <button type="button" class="lesson-card-choice-button" data-choice-option>
+                        <MultipleChoiceOption variant="lesson" data-choice-option>
                           To sort files
-                        </button>
+                        </MultipleChoiceOption>
                       </li>
                     </ol>
                   </article>
                   <div class="lesson-card-choice-actions">
-                    <button type="button" class="lesson-card-choice-reset" data-choice-reset>
-                      Reset
-                    </button>
+                    <ResetButton data-choice-reset />
                   </div>
                 </div>
               </QuestionCard>
@@ -586,6 +586,19 @@ const briefBySlug: Record<string, string[]> = {
                   <li>The CPU fetches, decodes and executes instructions.</li>
                   <li>Registers are tiny, fast storage locations inside the CPU.</li>
                   <li>Cache stores frequently used data close to the CPU.</li>
+                </ol>
+              </SummaryCard>
+            )}
+
+            {card.slug === "learning-objectives-card" && (
+              <SummaryCard title="Learning objectives" class="learning-objectives-card">
+                <p>By the end of this lesson, you should be able to:</p>
+                <ol class="lesson-card-objectives-list">
+                  <li><span><strong>Describe</strong> how analogue sound is stored in digital form.</span></li>
+                  <li><span><strong>Explain</strong> the purpose of an Analog-to-Digital Converter.</span></li>
+                  <li><span><strong>Describe</strong> what a sound sample is.</span></li>
+                  <li><span><strong>Explain</strong> how sample rate and bit depth affect sound quality and file size.</span></li>
+                  <li><span><strong>Calculate</strong> sound file size using sample rate, duration and bit depth.</span></li>
                 </ol>
               </SummaryCard>
             )}
@@ -793,11 +806,11 @@ const briefBySlug: Record<string, string[]> = {
             {card.slug === "mark-scheme-card" && (
               <div class="lesson-card-lightbox-preview" aria-label="Lightbox modal mark scheme preview">
                 <MarkSchemeCard title="Mark scheme">
-                  <ul class="lesson-card-mark-list">
-                    <li><strong>1 mark</strong> for naming a valid advantage.</li>
-                    <li><strong>1 mark</strong> for explaining how programs can be loaded into memory.</li>
-                    <li><strong>1 mark</strong> for using accurate terms such as instructions, data and main memory.</li>
-                  </ul>
+                  <div class="lesson-card-mark-list">
+                    <MarkSchemeBullet>For naming a valid advantage.</MarkSchemeBullet>
+                    <MarkSchemeBullet>For explaining how programs can be loaded into memory.</MarkSchemeBullet>
+                    <MarkSchemeBullet>For using accurate terms such as instructions, data and main memory.</MarkSchemeBullet>
+                  </div>
                   <div class="lesson-card-exemplary-answer">
                     <strong>Exemplary answer</strong>
                     <p>

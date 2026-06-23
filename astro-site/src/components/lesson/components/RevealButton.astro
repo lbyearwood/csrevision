@@ -1,0 +1,9 @@
+---
+const { class: className, icon = "?", label = "Reveal answer", ...attrs } = Astro.props;
+const classes = ["dev-component-reveal-button", className].filter(Boolean).join(" ");
+---
+
+<button class={classes} type="button" {...attrs}>
+  <span aria-hidden="true">{icon}</span>
+  <slot>{label}</slot>
+</button>

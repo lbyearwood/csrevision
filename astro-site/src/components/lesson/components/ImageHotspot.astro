@@ -1,0 +1,8 @@
+---
+const { class: className, number = "1", left = "58%", top = "42%", label = "CPU diagram with hotspot", ...attrs } = Astro.props;
+const classes = ["dev-component-hotspot-image", className].filter(Boolean).join(" ");
+---
+
+<div class={classes} aria-label={label} {...attrs}>
+  <span class="dev-component-hotspot" style={`left: ${left}; top: ${top};`}>{number}</span>
+</div>

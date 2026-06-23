@@ -1,0 +1,13 @@
+---
+const { class: className, steps = [1, 2, 3], active = 2, label = "Connected steps", ...attrs } = Astro.props;
+const classes = ["dev-component-step-connector", className].filter(Boolean).join(" ");
+---
+
+<div class={classes} aria-label={label} {...attrs}>
+  {steps.map((step, index) => (
+    <>
+      <span class:list={[step === active && "is-active"]}>{step}</span>
+      {index < steps.length - 1 && <i></i>}
+    </>
+  ))}
+</div>

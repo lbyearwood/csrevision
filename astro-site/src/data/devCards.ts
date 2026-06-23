@@ -93,6 +93,12 @@ export const devCardDefinitions: DevCardDefinition[] = [
     complete: true,
   },
   {
+    title: "Learning objectives card",
+    slug: "learning-objectives-card",
+    href: cardHref("learning-objectives-card"),
+    complete: true,
+  },
+  {
     title: "Instruction card",
     slug: "instruction-card",
     href: cardHref("instruction-card"),

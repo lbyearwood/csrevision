@@ -1,0 +1,6 @@
+---
+const { class: className, label = "Drag handle", ...attrs } = Astro.props;
+const classes = ["dev-component-drag-handle", className].filter(Boolean).join(" ");
+---
+
+<span class={classes} aria-label={label} {...attrs}>&#8942;&#8942;</span>

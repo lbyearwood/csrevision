@@ -1,0 +1,15 @@
+---
+const {
+  class: className,
+  marker,
+  variant = "component",
+  ...attrs
+} = Astro.props;
+const baseClass = variant === "lesson" ? "lesson-card-choice-button" : "dev-component-choice-option";
+const classes = [baseClass, className].filter(Boolean).join(" ");
+---
+
+<button class={classes} type="button" {...attrs}>
+  {marker && <span>{marker}</span>}
+  <slot />
+</button>

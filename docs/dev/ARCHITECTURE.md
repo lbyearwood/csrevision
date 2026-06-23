@@ -71,6 +71,8 @@ Draft layout routes are not approved teaching patterns until reviewed, amended a
 - Rebuild GCSE structure from data or structured content.
 - Do not bulk migrate old pages.
 - Inspect old `app/` pages before rebuilding.
+- Use official course specifications to understand required content where available, but choose lesson order for student understanding rather than copying specification order.
+- When the user provides a topic/spec, Codex should first propose and agree a sequence of lesson parts with the user before building the lesson.
 - Preserve teaching intent and important interactions.
 - Public pages must not show developer-only wording.
 
