@@ -8,4 +8,5 @@ export const routes = {
   cpuArchitectureLesson: "/gcse/computer-systems/cpu-architecture/",
   cpuArchitectureExam: "/gcse/computer-systems/cpu-architecture/exam/",
   cpuArchitectureQuiz: "/gcse/computer-systems/cpu-architecture/quiz/",
+  cpuPerformanceLesson: "/gcse/computer-systems/cpu-performance/",
 };

@@ -21,6 +21,7 @@ import ImageCard from "../../../../components/lesson/cards/ImageCard.astro";
 import InstructionCard from "../../../../components/lesson/cards/InstructionCard.astro";
 import InteractiveDiagramCard from "../../../../components/lesson/cards/InteractiveDiagramCard.astro";
 import InteractiveTableCard from "../../../../components/lesson/cards/InteractiveTableCard.astro";
+import LearningObjectivesCard from "../../../../components/lesson/cards/LearningObjectivesCard.astro";
 import LogicGateCard from "../../../../components/lesson/cards/LogicGateCard.astro";
 import MarkSchemeCard from "../../../../components/lesson/cards/MarkSchemeCard.astro";
 import MisconceptionCard from "../../../../components/lesson/cards/MisconceptionCard.astro";
@@ -616,7 +617,7 @@ const briefBySlug: Record<string, string[]> = {
             )}
 
             {card.slug === "learning-objectives-card" && (
-              <SummaryCard title="Learning objectives" class="learning-objectives-card">
+              <LearningObjectivesCard title="Learning objectives">
                 <p>By the end of this lesson, you should be able to:</p>
                 <ol class="lesson-card-objectives-list">
                   <li><span><strong>Describe</strong> how analogue sound is stored in digital form.</span></li>
@@ -625,7 +626,7 @@ const briefBySlug: Record<string, string[]> = {
                   <li><span><strong>Explain</strong> how sample rate and bit depth affect sound quality and file size.</span></li>
                   <li><span><strong>Calculate</strong> sound file size using sample rate, duration and bit depth.</span></li>
                 </ol>
-              </SummaryCard>
+              </LearningObjectivesCard>
             )}
 
             {card.slug === "instruction-card" && (

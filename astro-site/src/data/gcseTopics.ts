@@ -32,6 +32,9 @@ const migratedResourceRoutes: Partial<Record<string, Partial<Record<ResourceKind
     exam: routes.cpuArchitectureExam,
     quiz: routes.cpuArchitectureQuiz,
   },
+  "1-1-2": {
+    lesson: routes.cpuPerformanceLesson,
+  },
 };
 
 const rawTopicGroups = [

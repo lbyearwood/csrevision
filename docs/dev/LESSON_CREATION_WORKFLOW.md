@@ -21,6 +21,20 @@ Before proposing lesson content:
 5. If migrating, inspect the relevant old `app/` lesson, assets, scripts, styles, tasks, quiz and exam material.
 6. Identify any diagrams, models, images, tasks, comprehension checks, quiz items or exam questions that must be retained, rebuilt or intentionally omitted.
 
+Stage 0 output must include a source audit before any lesson plan is proposed:
+
+1. Topic, course, exam board and specification source.
+2. Specification scope in plain language.
+3. Old-site lesson route status.
+4. Old-site lesson script status.
+5. Old-site task route status.
+6. Old-site quiz material worth retaining or rebuilding.
+7. Old-site exam questions or mark schemes worth retaining or rebuilding.
+8. Old-site images, diagrams, models, scripts or styles worth retaining or rebuilding.
+9. Gaps, risks or intentional omissions.
+
+Do not assume an empty or placeholder old lesson means there is no reusable material. The quiz, exam, task and asset routes may contain the real content spine.
+
 Approval gate:
 
 - Confirm the topic scope and source material before planning the lesson.
@@ -42,24 +56,47 @@ Approval gate:
 - Ask the user to approve, amend or reorder the lesson plan.
 - Do not build detailed slide content before this is agreed.
 
-### Stage 2: Create The Slide Skeleton
+### Stage 2: Create The Detailed Slide Blueprint
 
-After the plan is agreed, create the full lesson skeleton.
+After the plan is agreed, create the full lesson blueprint.
 
-The skeleton must include:
+This stage must be detailed enough for the user to judge the teaching structure before Codex writes polished slide content or builds complex visuals.
+
+The blueprint must include:
 
 1. Slide numbers.
 2. Slide titles.
 3. Chosen layout codeNames.
 4. Chosen card/component/widget codeNames where known.
-5. Placeholders for text, diagrams, images, models and questions.
-6. Notes for any unresolved design or content decision.
+5. The lesson part each slide belongs to.
+6. The precise teaching purpose of each slide.
+7. The key idea the slide must communicate.
+8. Any vocabulary that must appear.
+9. Any misconception or exam trap the slide should address.
+10. Placeholders for text, diagrams, images, models and questions.
+11. A short brief for each placeholder, not just a label.
+12. The interaction expected on the slide, if any.
+13. The check for understanding or exam skill being tested, if any.
+14. Notes for any unresolved design or content decision.
 
-The skeleton should not contain polished final teaching text yet.
+The blueprint should not contain polished final teaching text yet, but it must contain enough detail to prevent generic slides.
+
+Use this per-slide format:
+
+1. Slide number and title.
+2. Lesson part.
+3. Layout codeName.
+4. Cards/components/widgets.
+5. Teaching purpose.
+6. Key idea.
+7. Placeholder briefs.
+8. Interaction or task.
+9. Check for understanding.
+10. Notes or risks.
 
 Approval gate:
 
-- Ask the user to approve the slide order, layout choices and placeholder structure.
+- Ask the user to approve the slide order, layout choices, placeholder briefs and teaching coverage.
 - Do not fill the whole lesson with final content before this is agreed.
 
 ### Stage 3: Build One Lesson Part At A Time

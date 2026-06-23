@@ -11,7 +11,7 @@ export const resourceLabels: Record<ResourceKind, string> = {
 
 export const gcseResourceStatus: Record<string, TopicResourceStatus> = {
   "1-1-1": { lesson: true, tasks: false, exam: true, quiz: true },
-  "1-1-2": { lesson: false, tasks: false, exam: true, quiz: true },
+  "1-1-2": { lesson: true, tasks: false, exam: true, quiz: true },
   "1-1-3": { lesson: false, tasks: false, exam: true, quiz: true },
   "1-2-1": { lesson: false, tasks: false, exam: true, quiz: true },
   "1-2-2": { lesson: false, tasks: false, exam: true, quiz: true },
