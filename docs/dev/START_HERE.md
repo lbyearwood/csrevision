@@ -21,8 +21,9 @@ Active development documents should use stable, undated filenames. Record dates 
 7. `docs/dev/TROUBLESHOOTING.md`
 8. `docs/dev/ARCHITECTURE.md`
 9. `docs/dev/COMPONENT_REGISTRY.md`
-10. `docs/dev/MIGRATION_WORKFLOW.md`
-11. `docs/dev/HANDOVER.md`
+10. `docs/dev/LESSON_CREATION_WORKFLOW.md`
+11. `docs/dev/MIGRATION_WORKFLOW.md`
+12. `docs/dev/HANDOVER.md`
 
 ## Project Boundary
 

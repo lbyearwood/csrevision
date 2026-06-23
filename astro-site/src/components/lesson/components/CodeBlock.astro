@@ -1,0 +1,11 @@
+---
+const { class: className, label = "Code example", prompt, ...attrs } = Astro.props;
+const classes = ["lesson-card-code-example", className].filter(Boolean).join(" ");
+---
+
+<div class={classes} {...attrs}>
+  {prompt && <p>{prompt}</p>}
+  <ol class="lesson-card-code-lines" aria-label={label}>
+    <slot />
+  </ol>
+</div>

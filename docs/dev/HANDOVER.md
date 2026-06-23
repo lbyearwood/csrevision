@@ -58,40 +58,35 @@ npm.cmd run dev -- --host 127.0.0.1 --port 4321
 - Dev dashboard for reusable layout/card/component review.
 - Dev dashboard separates Shells from Layouts: the standard numbered slide shell is not counted as a layout.
 - Layouts are now structural 2 by 2 card arrangements only, plus the title segment slide exception.
+- The reusable module catalogue is accepted as of 2026-06-23: 1 shell, 9 layouts, 25 cards, 20 components and 6 widgets.
+- Reusable card examples should compose smaller code-named components where practical. Current examples include InteractiveTableCard and MisconceptionCard using FeedbackState, ExamQuestionCard using LabelBadge, FlashCard and VisualFlashCard using FlipCard, and CodingCard using CodeBlock.
 - Structured content/data should drive future lesson creation.
+- Lesson creation must follow the staged approval workflow in `docs/dev/LESSON_CREATION_WORKFLOW.md`.
 
 ## Current Priorities
 
-1. Let the user review reusable card routes from the Dev dashboard.
-2. Amend and accept cards one by one.
-3. Review and accept needed layouts.
-4. Practise the topic-to-lesson-parts workflow with the user before documenting it as a final workflow.
-5. Define final lesson data shape.
-6. Create and use the migration audit template.
-7. Fully audit old `1.1.1 Architecture of the CPU`.
-8. Complete the full `1.1.1` lesson/resource migration.
+1. Use the staged lesson creation workflow with the user before building full lesson content.
+2. Define final lesson data shape.
+3. Create and use the migration audit template.
+4. Fully audit old `1.1.1 Architecture of the CPU`.
+5. Complete the full `1.1.1` lesson/resource migration.
 
-## Lesson Planning Conversation In Progress
+## Lesson Creation Workflow
 
-The user wants Codex to practise a planning workflow before writing a final workflow document.
+The user has approved a staged lesson creation process. Future Codex sessions must read and follow:
+
+```text
+docs/dev/LESSON_CREATION_WORKFLOW.md
+```
 
 Current understanding:
 
-1. The user provides a topic/spec.
-2. Codex should use any available course specification to understand content requirements.
-3. Codex should not use specification bullet-point order as the default lesson order.
-4. Codex should propose a logical sequence of lesson parts that supports student understanding and progression.
-5. The user should approve, amend or reorder the lesson parts before Codex builds detailed lesson content.
-6. Once agreed, each part should include:
-   - Part Number and Title
-   - Concept Introduction
-   - Visual Support
-   - Importance and Relevance
-   - Teacher Modelling where appropriate
-   - Comprehension Check
-   - Examination-Style Question
-   - Task Sheet Instruction
-   - Repeat for each part
+1. Codex must not build a whole lesson in one pass.
+2. Codex should understand the topic and source material first.
+3. Codex should plan the whole lesson arc and get agreement.
+4. Codex should create the slide skeleton with titles, layout codeNames, module codeNames and placeholders, then get agreement.
+5. Codex should build one lesson part at a time, including text, visuals, models and checks for that part, then get agreement.
+6. Codex should complete a whole-lesson coherence pass and Edge QA before marking the lesson complete.
 
 Reference specification added:
 
@@ -110,11 +105,9 @@ Practice proposal for Network hardware:
 5. Connecting Networks Together
 6. Choosing Hardware For A Scenario
 
-The next Codex should continue practising this with the user rather than immediately creating a final workflow document.
+The next Codex should use the formal workflow rather than improvising a new process.
 
 ## Known Limitations
 
-- Draft layout routes are not approved teaching patterns until reviewed and accepted.
-- Several reusable components remain missing, including hinge question, process/sequence and vocabulary cards.
 - Edge physical interaction QA must be proven per task; do not infer it from code or screenshots.
 - Future GitHub uploads should happen from a proper clone of `lbyearwood/csrevision` on the `astro-site` branch.

@@ -1508,6 +1508,13 @@ a {
     background: #fee2e2;
   }
 
+  .dev-component-feedback.lesson-card-table-feedback {
+    border-left: 4px solid #2563eb;
+    background: #dbeafe;
+    padding: 1rem;
+    line-height: 1.6;
+  }
+
   .dev-component-hint-toggle,
   .dev-component-disclosure {
     width: min(100%, 38rem);
@@ -3071,6 +3078,24 @@ a {
     margin-top: 1rem;
   }
 
+  .lesson-card-hinge-prompt {
+    margin: 0 auto 0.75rem;
+    max-width: 48rem;
+    color: #0f172a;
+    font-size: 1.1rem;
+    font-weight: 900;
+    line-height: 1.45;
+    text-align: center;
+  }
+
+  .lesson-card-hinge-feedback {
+    margin-top: 1rem;
+  }
+
+  .lesson-card-hinge-question .lesson-card-option-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .lesson-card-choice-reset {
     min-height: 2.5rem;
     border: 0;
@@ -3242,6 +3267,98 @@ a {
   .lesson-card-step-list li,
   .lesson-card-mark-list li {
     padding-left: 0.15rem;
+  }
+
+  .lesson-card-process-sequence {
+    counter-reset: process-step;
+    display: grid;
+    gap: 0;
+    width: min(100%, 48rem);
+    margin: 0 auto;
+    padding: 0;
+    list-style: none;
+  }
+
+  .lesson-card-process-sequence li {
+    counter-increment: process-step;
+    position: relative;
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 0.85rem 1rem;
+    align-items: start;
+    border: 2px solid #93c5fd;
+    border-radius: var(--radius-card);
+    background: #ffffff;
+    padding: 1rem;
+  }
+
+  .lesson-card-process-sequence li + li {
+    margin-top: 1.75rem;
+  }
+
+  .lesson-card-process-sequence li:not(:last-child)::after {
+    position: absolute;
+    bottom: -1.8rem;
+    left: 2rem;
+    width: 4px;
+    height: 1.8rem;
+    border-radius: 999px;
+    background: var(--color-primary);
+    content: "";
+  }
+
+  .lesson-card-process-sequence li::before {
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    border-radius: 999px;
+    background: var(--color-primary);
+    color: #ffffff;
+    content: counter(process-step);
+    font-weight: 900;
+  }
+
+  .lesson-card-process-sequence strong {
+    color: var(--color-primary);
+    font-size: 1.1rem;
+    font-weight: 900;
+  }
+
+  .lesson-card-process-sequence p {
+    grid-column: 2;
+    margin: -0.45rem 0 0;
+    color: #334155;
+    line-height: 1.55;
+  }
+
+  .lesson-card-vocabulary-list {
+    display: grid;
+    width: min(100%, 46rem);
+    margin: 0 auto;
+    gap: 0.85rem;
+  }
+
+  .lesson-card-vocabulary-list div {
+    display: grid;
+    grid-template-columns: minmax(8rem, 12rem) minmax(0, 1fr);
+    gap: 0.8rem;
+    align-items: center;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    background: #ffffff;
+    padding: 0.85rem;
+  }
+
+  .lesson-card-vocabulary-list dt,
+  .lesson-card-vocabulary-list dd {
+    margin: 0;
+  }
+
+  .lesson-card-vocabulary-list dd {
+    color: #0f172a;
+    font-weight: 700;
+    line-height: 1.5;
   }
 
   .learning-objectives-card .lesson-card-module-body > p:first-child {
@@ -3627,6 +3744,15 @@ a {
       grid-template-columns: 1fr;
     }
 
+    .lesson-card-hinge-question .lesson-card-option-list {
+      grid-template-columns: 1fr;
+    }
+
+    .lesson-card-vocabulary-list div {
+      grid-template-columns: 1fr;
+      justify-items: start;
+    }
+
     .lesson-card-logic-gate-visual {
       width: min(100%, 13rem);
     }
@@ -3725,6 +3851,7 @@ a {
   }
 
   .dev-layout-review-panel {
+    min-width: 0;
     margin-top: clamp(1rem, 1.8vh, 1.375rem);
     border: 1px solid var(--color-border);
     border-radius: var(--radius-card);
@@ -3737,6 +3864,7 @@ a {
     font-size: 1.5rem;
     font-weight: 900;
     line-height: 1.2;
+    overflow-wrap: anywhere;
   }
 
   .dev-layout-review-panel p {
@@ -3744,6 +3872,7 @@ a {
     color: #334155;
     font-size: 1.05rem;
     line-height: 1.7;
+    overflow-wrap: anywhere;
   }
 
   .dev-card-brief-list {

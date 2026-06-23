@@ -1,10 +1,12 @@
 ---
 import LessonLayout from "../../../../components/layout/LessonLayout.astro";
 import LessonSlideShell from "../../../../components/lesson/LessonSlideShell.astro";
+import CodeBlock from "../../../../components/lesson/components/CodeBlock.astro";
 import DiagramLabel from "../../../../components/lesson/components/DiagramLabel.astro";
 import DisclosurePanel from "../../../../components/lesson/components/DisclosurePanel.astro";
 import DragHandle from "../../../../components/lesson/components/DragHandle.astro";
 import FeedbackState from "../../../../components/lesson/components/FeedbackState.astro";
+import FlipCard from "../../../../components/lesson/components/FlipCard.astro";
 import FlowConnector from "../../../../components/lesson/components/FlowConnector.astro";
 import HintToggle from "../../../../components/lesson/components/HintToggle.astro";
 import ImageHotspot from "../../../../components/lesson/components/ImageHotspot.astro";
@@ -132,6 +134,16 @@ const briefBySlug: Record<string, string[]> = {
     "Design requirements: Use a mark-value badge, concise text and clear separation between points.",
     "Functionality: Compose into mark scheme cards and feedback panels.",
   ],
+  "flip-card": [
+    "Purpose: Present one item with a front prompt and a hidden back definition or explanation.",
+    "Design requirements: Use stable dimensions, a visible flip affordance, clear focus styling and a yellow back face.",
+    "Functionality: Flip independently when clicked, update aria-pressed state and keep front/back hidden states accessible.",
+  ],
+  "code-block": [
+    "Purpose: Present a short readable code snippet inside a lesson card.",
+    "Design requirements: Use numbered lines, a strong left line-number gutter, dark code surface and readable syntax colours.",
+    "Functionality: Accept code-line content from the parent card while preserving semantic ordered-list structure.",
+  ],
 };
 ---
 
@@ -236,6 +248,49 @@ const briefBySlug: Record<string, string[]> = {
             {component.slug === "mark-scheme-bullet" && (
               <MarkSchemeBullet>Identifies the Control Unit as the CPU component that coordinates activity.</MarkSchemeBullet>
             )}
+
+            {component.slug === "flip-card" && (
+              <div class="lesson-card-flip-grid">
+                <FlipCard
+                  keyword="Cache"
+                  definition="Fast memory that stores frequently used data close to the CPU."
+                />
+                <FlipCard
+                  keyword="Register"
+                  definition="Tiny, very fast storage inside the CPU for values being processed."
+                />
+              </div>
+            )}
+
+            {component.slug === "code-block" && (
+              <CodeBlock prompt="Trace the loop and predict the final value of total." label="Python code example">
+                <li>
+                  <code>
+                    <span class="lesson-code-variable">total</span>
+                    <span class="lesson-code-operator">=</span>
+                    <span class="lesson-code-number">0</span>
+                  </code>
+                </li>
+                <li>
+                  <code>
+                    <span class="lesson-code-keyword">for</span>
+                    <span class="lesson-code-variable">number</span>
+                    <span class="lesson-code-keyword">in</span>
+                    <span class="lesson-code-punctuation">[</span><span class="lesson-code-number">2</span><span class="lesson-code-punctuation">,</span>
+                    <span class="lesson-code-number">4</span><span class="lesson-code-punctuation">]:</span>
+                  </code>
+                </li>
+                <li class="lesson-card-code-line--indent">
+                  <code>
+                    <span class="lesson-code-variable">total</span>
+                    <span class="lesson-code-operator">=</span>
+                    <span class="lesson-code-variable">total</span>
+                    <span class="lesson-code-operator">+</span>
+                    <span class="lesson-code-variable">number</span>
+                  </code>
+                </li>
+              </CodeBlock>
+            )}
           </div>
         </LessonSlideShell>
 
@@ -251,3 +306,27 @@ const briefBySlug: Record<string, string[]> = {
     </main>
   </div>
 </LessonLayout>
+
+<script is:inline>
+  document.querySelectorAll("[data-flash-card]").forEach((card) => {
+    const front = card.querySelector("[data-flash-card-front]");
+    const back = card.querySelector("[data-flash-card-back]");
+
+    card.addEventListener("click", () => {
+      const isFlipped = !card.classList.contains("is-flipped");
+
+      card.classList.toggle("is-flipped", isFlipped);
+      card.setAttribute("aria-pressed", isFlipped ? "true" : "false");
+      const keyword = card.getAttribute("data-keyword") || "this keyword";
+      const cardLabel = card.getAttribute("data-flash-card-label") || "flash card";
+      card.setAttribute(
+        "aria-label",
+        isFlipped
+          ? `Flip ${cardLabel} for ${keyword} to show the keyword`
+          : `Flip ${cardLabel} for ${keyword} to show the definition`,
+      );
+      front?.setAttribute("aria-hidden", isFlipped ? "true" : "false");
+      back?.setAttribute("aria-hidden", isFlipped ? "false" : "true");
+    });
+  });
+</script>

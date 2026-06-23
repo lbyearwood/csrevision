@@ -12,7 +12,7 @@ const shellHref = (slug: string) => `/dev-dashboard/shells/${slug}/`;
 
 export const devShellDefinitions: DevShellDefinition[] = [
   {
-    title: "Standard numbered lesson slide shell",
+    title: "LessonSlideShell",
     slug: "standard-numbered-lesson-slide-shell",
     label: "Slide shell",
     brief: "The default outer wrapper for every numbered lesson slide. It owns the slide number, label, heading, scroll target spacing and consistent canvas rhythm, but not the card layout inside the slide.",

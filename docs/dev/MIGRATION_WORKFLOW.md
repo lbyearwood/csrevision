@@ -2,9 +2,13 @@
 
 Use this workflow when migrating old content from `app/` into `astro-site/`.
 
+For lesson planning and staged lesson development, also follow `docs/dev/LESSON_CREATION_WORKFLOW.md`.
+
 ## Rule
 
 Do not bulk migrate. Migrate one lesson or resource set at a time.
+
+Do not build a full lesson in one pass. Use the staged lesson creation workflow and get user agreement at each gate.
 
 ## Reference Source
 
@@ -55,6 +59,7 @@ Record these for each migration:
 ## Build Rules
 
 - Build from structured data and reusable components where practical.
+- Start each lesson with an interesting intro or hook, followed by the learning objectives, before the main teaching parts.
 - Do not copy old HTML blindly.
 - Do not create one-off layout code unless the teaching purpose genuinely needs it.
 - Preserve important reveal buttons, steppers, trace tables, quizzes, modals and diagrams.

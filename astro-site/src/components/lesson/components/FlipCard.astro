@@ -1,0 +1,36 @@
+---
+const {
+  class: className,
+  keyword,
+  definition,
+  label = "flash card",
+  ...attrs
+} = Astro.props;
+
+const classes = ["lesson-card-flip-card", className].filter(Boolean).join(" ");
+const accessibleKeyword = keyword || "this keyword";
+---
+
+<button
+  type="button"
+  class={classes}
+  data-flash-card
+  data-flash-card-label={label}
+  data-keyword={accessibleKeyword}
+  aria-pressed="false"
+  aria-label={`Flip ${label} for ${accessibleKeyword} to show the definition`}
+  {...attrs}
+>
+  <span class="lesson-card-flip-card-inner">
+    <span class="lesson-card-flip-card-face lesson-card-flip-card-face--front" data-flash-card-front>
+      <slot name="front">
+        <strong>{keyword}</strong>
+      </slot>
+    </span>
+    <span class="lesson-card-flip-card-face lesson-card-flip-card-face--back" data-flash-card-back aria-hidden="true">
+      <slot name="back">
+        <strong>{definition}</strong>
+      </slot>
+    </span>
+  </span>
+</button>

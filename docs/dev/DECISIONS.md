@@ -97,6 +97,7 @@ Decision:
 - Where available, Codex should use official course specifications to understand content requirements, vocabulary and exam expectations.
 - If the specification is not available locally, Codex should search online or ask the user to provide it.
 - Specification bullet-point order must not automatically determine lesson order.
+- Lessons should begin with an interesting intro or hook, followed by the learning objectives, before the main teaching sequence.
 - Lesson parts should be sequenced for student understanding and progression.
 - The user wants to practise the topic-to-lesson-parts workflow before documenting a final workflow.
 
@@ -104,3 +105,17 @@ Reason:
 
 - Specifications are often not written in the most logical teaching order.
 - Lessons should be co-designed and checked with the user before detailed lesson content is built.
+
+## 2026-06-23: Lessons Must Be Developed In Staged Approval Gates
+
+Decision:
+
+- Codex must not create an entire lesson in one implementation pass.
+- The required workflow is documented in `docs/dev/LESSON_CREATION_WORKFLOW.md`.
+- Codex should first understand the topic and sources, then plan the whole lesson, then create a slide skeleton, then build one lesson part at a time, then complete a whole-lesson coherence and QA pass.
+- Each stage requires user agreement before Codex moves to the next stage.
+
+Reason:
+
+- A whole-lesson single pass leads to generic content, weak visuals, disconnected checks and too much cleanup for the user.
+- Staged approval keeps the lesson arc visible while giving Codex enough focus to make each part high quality.

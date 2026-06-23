@@ -1,6 +1,10 @@
 ---
 import LessonLayout from "../../../../components/layout/LessonLayout.astro";
 import LessonSlideShell from "../../../../components/lesson/LessonSlideShell.astro";
+import CodeBlock from "../../../../components/lesson/components/CodeBlock.astro";
+import FeedbackState from "../../../../components/lesson/components/FeedbackState.astro";
+import FlipCard from "../../../../components/lesson/components/FlipCard.astro";
+import LabelBadge from "../../../../components/lesson/components/LabelBadge.astro";
 import MarkSchemeBullet from "../../../../components/lesson/components/MarkSchemeBullet.astro";
 import MultipleChoiceOption from "../../../../components/lesson/components/MultipleChoiceOption.astro";
 import NextButton from "../../../../components/lesson/components/NextButton.astro";
@@ -12,6 +16,7 @@ import DiagramCard from "../../../../components/lesson/cards/DiagramCard.astro";
 import ExamPracticeCard from "../../../../components/lesson/cards/ExamPracticeCard.astro";
 import ExplanationCard from "../../../../components/lesson/cards/ExplanationCard.astro";
 import FlashCard from "../../../../components/lesson/cards/FlashCard.astro";
+import HingeQuestionCard from "../../../../components/lesson/cards/HingeQuestionCard.astro";
 import ImageCard from "../../../../components/lesson/cards/ImageCard.astro";
 import InstructionCard from "../../../../components/lesson/cards/InstructionCard.astro";
 import InteractiveDiagramCard from "../../../../components/lesson/cards/InteractiveDiagramCard.astro";
@@ -21,10 +26,12 @@ import MarkSchemeCard from "../../../../components/lesson/cards/MarkSchemeCard.a
 import MisconceptionCard from "../../../../components/lesson/cards/MisconceptionCard.astro";
 import ModellingCard from "../../../../components/lesson/cards/ModellingCard.astro";
 import PromptCard from "../../../../components/lesson/cards/PromptCard.astro";
+import ProcessSequenceCard from "../../../../components/lesson/cards/ProcessSequenceCard.astro";
 import QuestionCard from "../../../../components/lesson/cards/QuestionCard.astro";
 import SummaryCard from "../../../../components/lesson/cards/SummaryCard.astro";
 import SupportCard from "../../../../components/lesson/cards/SupportCard.astro";
 import TableCard from "../../../../components/lesson/cards/TableCard.astro";
+import VocabularyCard from "../../../../components/lesson/cards/VocabularyCard.astro";
 import VisualFlashCard from "../../../../components/lesson/cards/VisualFlashCard.astro";
 import LessonSideNav from "../../../../components/navigation/LessonSideNav.astro";
 import cpuChipExample from "../../../../assets/dev/cpu-chip-example.png";
@@ -165,6 +172,21 @@ const briefBySlug: Record<string, string[]> = {
     "Purpose: Surface an incorrect idea and replace it with an accurate one.",
     "Design requirements: Use red styling for the misconception and green styling for the correction so the contrast is immediate.",
     "Functionality: Support paired explanation content without adding unnecessary interaction.",
+  ],
+  "hinge-question-card": [
+    "Purpose: Check whether a key idea is secure before moving on to the next part of the lesson.",
+    "Design requirements: Use one diagnostic question, concise A-D choices and a clear explanation of what each selected answer shows.",
+    "Functionality: Support clickable answer selection, correct/incorrect states, reset and live feedback copy.",
+  ],
+  "process-sequence-card": [
+    "Purpose: Show an ordered process where each step depends on the previous one.",
+    "Design requirements: Use numbered step blocks with solid connectors, concise labels and enough spacing for scanning.",
+    "Functionality: Present a static or interactive sequence without forcing it into a table or paragraph list.",
+  ],
+  "vocabulary-card": [
+    "Purpose: Present key terms with short definitions for a lesson part or recap.",
+    "Design requirements: Use compact keyword labels, readable definitions and grouped spacing that works in a 2 by 2 layout.",
+    "Functionality: Support static vocabulary review and can be paired with flashcards when reveal behaviour is needed.",
   ],
 };
 
@@ -385,9 +407,9 @@ const briefBySlug: Record<string, string[]> = {
                       </tbody>
                     </table>
                   </div>
-                  <p class="lesson-card-table-feedback" aria-live="polite">
+                  <FeedbackState class="lesson-card-table-feedback" aria-live="polite">
                     Select a row to understand what that step shows.
-                  </p>
+                  </FeedbackState>
                 </div>
               </InteractiveTableCard>
             )}
@@ -570,7 +592,10 @@ const briefBySlug: Record<string, string[]> = {
 
             {card.slug === "exam-practice-card" && (
               <ExamPracticeCard title="Exam question">
-                <p>Explain one advantage of storing instructions and data in the same memory. <strong>(3 marks)</strong></p>
+                <p>
+                  <LabelBadge tone="warning">Explain</LabelBadge> one advantage of storing instructions and data in
+                  the same memory. <strong>(3 marks)</strong>
+                </p>
                 <ul>
                   <li>Identify the advantage.</li>
                   <li>Link it to loading or changing programs.</li>
@@ -625,24 +650,7 @@ const briefBySlug: Record<string, string[]> = {
                     ["ROM", "Non-volatile memory that stores startup instructions."],
                     ["Register", "Tiny, very fast storage inside the CPU for values being processed."],
                   ].map(([keyword, definition]) => (
-                    <button
-                      type="button"
-                      class="lesson-card-flip-card"
-                      data-flash-card
-                      data-flash-card-label="flash card"
-                      data-keyword={keyword}
-                      aria-pressed="false"
-                      aria-label={`Flip flash card for ${keyword} to show the definition`}
-                    >
-                      <span class="lesson-card-flip-card-inner">
-                        <span class="lesson-card-flip-card-face lesson-card-flip-card-face--front" data-flash-card-front>
-                          <strong>{keyword}</strong>
-                        </span>
-                        <span class="lesson-card-flip-card-face lesson-card-flip-card-face--back" data-flash-card-back aria-hidden="true">
-                          <strong>{definition}</strong>
-                        </span>
-                      </span>
-                    </button>
+                    <FlipCard keyword={keyword} definition={definition} />
                   ))}
                 </div>
               </FlashCard>
@@ -671,58 +679,53 @@ const briefBySlug: Record<string, string[]> = {
                       gate: "not",
                     },
                   ].map(({ keyword, definition, gate }) => (
-                    <button
-                      type="button"
-                      class="lesson-card-flip-card lesson-card-visual-flip-card"
-                      data-flash-card
-                      data-flash-card-label="visual flashcard"
-                      data-keyword={keyword}
-                      aria-pressed="false"
-                      aria-label={`Flip visual flashcard for ${keyword} to show the definition`}
+                    <FlipCard
+                      keyword={keyword}
+                      definition={definition}
+                      label="visual flashcard"
+                      class="lesson-card-visual-flip-card"
                     >
-                      <span class="lesson-card-flip-card-inner">
-                        <span class="lesson-card-flip-card-face lesson-card-flip-card-face--front" data-flash-card-front>
-                          <span class={`lesson-card-logic-gate-visual lesson-card-logic-gate-visual--${gate}`} aria-hidden="true">
-                            {gate === "and" && (
-                              <svg viewBox="0 0 420 230" role="img">
-                                <text x="18" y="72">A</text>
-                                <text x="18" y="158">B</text>
-                                <text x="374" y="116">Q</text>
-                                <line x1="54" y1="66" x2="142" y2="66"></line>
-                                <line x1="54" y1="152" x2="142" y2="152"></line>
-                                <path class="lesson-card-gate-body" d="M142 34 H230 A76 76 0 0 1 230 186 H142 Z"></path>
-                                <line x1="306" y1="110" x2="366" y2="110"></line>
-                              </svg>
-                            )}
-                            {gate === "or" && (
-                              <svg viewBox="0 0 420 230" role="img">
-                                <text x="18" y="72">A</text>
-                                <text x="18" y="158">B</text>
-                                <text x="374" y="116">Q</text>
-                                <line x1="54" y1="66" x2="139" y2="66"></line>
-                                <line x1="54" y1="152" x2="139" y2="152"></line>
-                                <path class="lesson-card-gate-body" d="M122 34 C176 44 236 44 304 110 C236 176 176 176 122 186 C151 142 151 78 122 34 Z"></path>
-                                <path d="M122 34 C151 78 151 142 122 186"></path>
-                                <line x1="304" y1="110" x2="366" y2="110"></line>
-                              </svg>
-                            )}
-                            {gate === "not" && (
-                              <svg viewBox="0 0 420 230" role="img">
-                                <text x="18" y="116">A</text>
-                                <text x="374" y="116">Q</text>
-                                <line x1="54" y1="110" x2="142" y2="110"></line>
-                                <path class="lesson-card-gate-body" d="M142 44 L142 176 L262 110 Z"></path>
-                                <circle class="lesson-card-gate-body" cx="284" cy="110" r="20"></circle>
-                                <line x1="304" y1="110" x2="366" y2="110"></line>
-                              </svg>
-                            )}
-                          </span>
-                        </span>
-                        <span class="lesson-card-flip-card-face lesson-card-flip-card-face--back" data-flash-card-back aria-hidden="true">
-                          <strong>{definition}</strong>
-                        </span>
+                      <span
+                        slot="front"
+                        class={`lesson-card-logic-gate-visual lesson-card-logic-gate-visual--${gate}`}
+                        aria-hidden="true"
+                      >
+                        {gate === "and" && (
+                          <svg viewBox="0 0 420 230" role="img">
+                            <text x="18" y="72">A</text>
+                            <text x="18" y="158">B</text>
+                            <text x="374" y="116">Q</text>
+                            <line x1="54" y1="66" x2="142" y2="66"></line>
+                            <line x1="54" y1="152" x2="142" y2="152"></line>
+                            <path class="lesson-card-gate-body" d="M142 34 H230 A76 76 0 0 1 230 186 H142 Z"></path>
+                            <line x1="306" y1="110" x2="366" y2="110"></line>
+                          </svg>
+                        )}
+                        {gate === "or" && (
+                          <svg viewBox="0 0 420 230" role="img">
+                            <text x="18" y="72">A</text>
+                            <text x="18" y="158">B</text>
+                            <text x="374" y="116">Q</text>
+                            <line x1="54" y1="66" x2="139" y2="66"></line>
+                            <line x1="54" y1="152" x2="139" y2="152"></line>
+                            <path class="lesson-card-gate-body" d="M122 34 C176 44 236 44 304 110 C236 176 176 176 122 186 C151 142 151 78 122 34 Z"></path>
+                            <path d="M122 34 C151 78 151 142 122 186"></path>
+                            <line x1="304" y1="110" x2="366" y2="110"></line>
+                          </svg>
+                        )}
+                        {gate === "not" && (
+                          <svg viewBox="0 0 420 230" role="img">
+                            <text x="18" y="116">A</text>
+                            <text x="374" y="116">Q</text>
+                            <line x1="54" y1="110" x2="142" y2="110"></line>
+                            <path class="lesson-card-gate-body" d="M142 44 L142 176 L262 110 Z"></path>
+                            <circle class="lesson-card-gate-body" cx="284" cy="110" r="20"></circle>
+                            <line x1="304" y1="110" x2="366" y2="110"></line>
+                          </svg>
+                        )}
                       </span>
-                    </button>
+                      <strong slot="back">{definition}</strong>
+                    </FlipCard>
                   ))}
                 </div>
               </VisualFlashCard>
@@ -764,42 +767,42 @@ const briefBySlug: Record<string, string[]> = {
 
             {card.slug === "coding-card" && (
               <CodingCard title="Coding card">
-                <div class="lesson-card-code-example">
-                  <p>Trace the loop and predict the final value of <code>total</code>.</p>
-                  <ol class="lesson-card-code-lines" aria-label="Python code example">
-                    <li>
-                      <code>
-                        <span class="lesson-code-variable">total</span>
-                        <span class="lesson-code-operator">=</span>
-                        <span class="lesson-code-number">0</span>
-                      </code>
-                    </li>
-                    <li>
-                      <code>
-                        <span class="lesson-code-keyword">for</span>
-                        <span class="lesson-code-variable">number</span>
-                        <span class="lesson-code-keyword">in</span>
-                        <span class="lesson-code-punctuation">[</span><span class="lesson-code-number">2</span><span class="lesson-code-punctuation">,</span>
-                        <span class="lesson-code-number">4</span><span class="lesson-code-punctuation">,</span>
-                        <span class="lesson-code-number">6</span><span class="lesson-code-punctuation">]:</span>
-                      </code>
-                    </li>
-                    <li class="lesson-card-code-line--indent">
-                      <code>
-                        <span class="lesson-code-variable">total</span>
-                        <span class="lesson-code-operator">=</span>
-                        <span class="lesson-code-variable">total</span>
-                        <span class="lesson-code-operator">+</span>
-                        <span class="lesson-code-variable">number</span>
-                      </code>
-                    </li>
-                    <li>
-                      <code>
-                        <span class="lesson-code-function">print</span><span class="lesson-code-punctuation">(</span><span class="lesson-code-variable">total</span><span class="lesson-code-punctuation">)</span>
-                      </code>
-                    </li>
-                  </ol>
-                </div>
+                <CodeBlock
+                  prompt="Trace the loop and predict the final value of total."
+                  label="Python code example"
+                >
+                  <li>
+                    <code>
+                      <span class="lesson-code-variable">total</span>
+                      <span class="lesson-code-operator">=</span>
+                      <span class="lesson-code-number">0</span>
+                    </code>
+                  </li>
+                  <li>
+                    <code>
+                      <span class="lesson-code-keyword">for</span>
+                      <span class="lesson-code-variable">number</span>
+                      <span class="lesson-code-keyword">in</span>
+                      <span class="lesson-code-punctuation">[</span><span class="lesson-code-number">2</span><span class="lesson-code-punctuation">,</span>
+                      <span class="lesson-code-number">4</span><span class="lesson-code-punctuation">,</span>
+                      <span class="lesson-code-number">6</span><span class="lesson-code-punctuation">]:</span>
+                    </code>
+                  </li>
+                  <li class="lesson-card-code-line--indent">
+                    <code>
+                      <span class="lesson-code-variable">total</span>
+                      <span class="lesson-code-operator">=</span>
+                      <span class="lesson-code-variable">total</span>
+                      <span class="lesson-code-operator">+</span>
+                      <span class="lesson-code-variable">number</span>
+                    </code>
+                  </li>
+                  <li>
+                    <code>
+                      <span class="lesson-code-function">print</span><span class="lesson-code-punctuation">(</span><span class="lesson-code-variable">total</span><span class="lesson-code-punctuation">)</span>
+                    </code>
+                  </li>
+                </CodeBlock>
               </CodingCard>
             )}
 
@@ -826,16 +829,98 @@ const briefBySlug: Record<string, string[]> = {
             {card.slug === "misconception-card" && (
               <MisconceptionCard title="Common misconception">
                 <div class="lesson-card-misconception-grid">
-                  <div class="lesson-card-misconception-item lesson-card-misconception-item--wrong">
+                  <FeedbackState
+                    as="div"
+                    tone="incorrect"
+                    class="lesson-card-misconception-item lesson-card-misconception-item--wrong"
+                  >
                     <strong>Misconception</strong>
                     <p>The CPU stores all programs permanently.</p>
-                  </div>
-                  <div class="lesson-card-misconception-item lesson-card-misconception-item--right">
+                  </FeedbackState>
+                  <FeedbackState
+                    as="div"
+                    tone="correct"
+                    class="lesson-card-misconception-item lesson-card-misconception-item--right"
+                  >
                     <strong>Correction</strong>
                     <p>The CPU processes instructions. Programs and data are stored in memory.</p>
-                  </div>
+                  </FeedbackState>
                 </div>
               </MisconceptionCard>
+            )}
+
+            {card.slug === "hinge-question-card" && (
+              <HingeQuestionCard title="Hinge question" class="lesson-card-hinge-question">
+                <p class="lesson-card-hinge-prompt">
+                  Which statement best explains why cache memory can improve CPU performance?
+                </p>
+                <ol class="lesson-card-option-list" data-single-choice data-feedback-target="hinge-question-feedback" type="A">
+                  <li data-feedback="Not quite. Larger storage capacity is useful, but cache improves performance because it is faster and closer to the CPU.">
+                    <MultipleChoiceOption variant="lesson" data-choice-option>
+                      It stores more data than RAM.
+                    </MultipleChoiceOption>
+                  </li>
+                  <li data-correct="true" data-feedback="Correct. Cache keeps frequently used data close to the CPU, so the CPU can access it quickly.">
+                    <MultipleChoiceOption variant="lesson" data-choice-option>
+                      It stores frequently used data close to the CPU.
+                    </MultipleChoiceOption>
+                  </li>
+                  <li data-feedback="Not quite. Cache is volatile, so it does not keep data permanently when power is off.">
+                    <MultipleChoiceOption variant="lesson" data-choice-option>
+                      It keeps data permanently when power is off.
+                    </MultipleChoiceOption>
+                  </li>
+                  <li data-feedback="Not quite. The Control Unit coordinates instructions; cache stores frequently used data.">
+                    <MultipleChoiceOption variant="lesson" data-choice-option>
+                      It decodes every instruction before execution.
+                    </MultipleChoiceOption>
+                  </li>
+                </ol>
+                <FeedbackState id="hinge-question-feedback" class="lesson-card-hinge-feedback" aria-live="polite">
+                  Select an answer to understand whether the cache concept is secure.
+                </FeedbackState>
+                <div class="lesson-card-choice-actions">
+                  <ResetButton data-choice-reset />
+                </div>
+              </HingeQuestionCard>
+            )}
+
+            {card.slug === "process-sequence-card" && (
+              <ProcessSequenceCard title="Process sequence">
+                <ol class="lesson-card-process-sequence" aria-label="Fetch decode execute sequence">
+                  <li>
+                    <strong>Fetch</strong>
+                    <p>The CPU copies the next instruction from memory.</p>
+                  </li>
+                  <li>
+                    <strong>Decode</strong>
+                    <p>The Control Unit works out which operation is needed.</p>
+                  </li>
+                  <li>
+                    <strong>Execute</strong>
+                    <p>The CPU carries out the instruction and stores any result.</p>
+                  </li>
+                </ol>
+              </ProcessSequenceCard>
+            )}
+
+            {card.slug === "vocabulary-card" && (
+              <VocabularyCard title="Vocabulary">
+                <dl class="lesson-card-vocabulary-list">
+                  <div>
+                    <dt><LabelBadge>Register</LabelBadge></dt>
+                    <dd>A tiny, fast storage location inside the CPU.</dd>
+                  </div>
+                  <div>
+                    <dt><LabelBadge>Cache</LabelBadge></dt>
+                    <dd>Fast memory that stores frequently used data close to the CPU.</dd>
+                  </div>
+                  <div>
+                    <dt><LabelBadge>Clock speed</LabelBadge></dt>
+                    <dd>The number of instruction cycles the CPU can perform each second.</dd>
+                  </div>
+                </dl>
+              </VocabularyCard>
             )}
           </div>
         </LessonSlideShell>
@@ -973,6 +1058,8 @@ const briefBySlug: Record<string, string[]> = {
 
   document.querySelectorAll("[data-single-choice]").forEach((choiceList) => {
     const options = choiceList.querySelectorAll("li");
+    const feedbackId = choiceList.getAttribute("data-feedback-target");
+    const feedback = feedbackId ? document.getElementById(feedbackId) : null;
 
     options.forEach((option) => {
       const button = option.querySelector("[data-choice-option]");
@@ -986,6 +1073,11 @@ const briefBySlug: Record<string, string[]> = {
 
         option.classList.add(isCorrect ? "is-correct" : "is-incorrect");
         button.setAttribute("aria-pressed", "true");
+        if (feedback && option.getAttribute("data-feedback")) {
+          feedback.textContent = option.getAttribute("data-feedback");
+          feedback.classList.toggle("dev-component-feedback--correct", isCorrect);
+          feedback.classList.toggle("dev-component-feedback--incorrect", !isCorrect);
+        }
       });
     });
   });
@@ -996,6 +1088,14 @@ const briefBySlug: Record<string, string[]> = {
       card?.querySelectorAll("[data-single-choice] li").forEach((option) => {
         option.classList.remove("is-correct", "is-incorrect");
         option.querySelector("[data-choice-option]")?.setAttribute("aria-pressed", "false");
+      });
+      card?.querySelectorAll("[data-feedback-target]").forEach((choiceList) => {
+        const feedbackId = choiceList.getAttribute("data-feedback-target");
+        const feedback = feedbackId ? document.getElementById(feedbackId) : null;
+        if (feedback) {
+          feedback.textContent = "Select an answer to understand whether the cache concept is secure.";
+          feedback.classList.remove("dev-component-feedback--correct", "dev-component-feedback--incorrect");
+        }
       });
     });
   });

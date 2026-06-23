@@ -150,7 +150,8 @@ Temporary browser-control limitation:
 
 - Treat lesson design as layered: the lesson slide is the numbered section, the slide canvas is the available teaching area, the slide layout is the reusable arrangement inside that canvas, and reusable components are the cards, visuals, questions or activities placed inside the layout.
 - Use this naming standard: `Layout` means a whole slide pattern, `Card` means a reusable block inside a layout, and `Component` means a smaller reusable part inside a card or layout.
-- Card names must be one clear thing and must not use slash-separated names. Use names such as `Explanation card`, `Diagram card`, `Table card`, `Support card` and `Summary card`.
+- Card names must be one clear thing and must not use slash-separated names. Dev dashboard card names should use PascalCase identifiers such as `ExplanationCard`, `DiagramCard`, `TableCard`, `SupportCard` and `SummaryCard`.
+- Dev dashboard module names must use code-style PascalCase identifiers, such as `ExplanationCard`, `TwoVerticalCards` and `TimerDisplay`, so the user and Codex can refer to the same exact name without translating from friendly labels.
 - Answer cards and mark scheme cards should use a green theme so correct answers, model answers and assessment guidance are visually distinct from general teaching cards.
 - Dev dashboard layout pages are draft review routes until the user has reviewed and amended or accepted them. Do not treat a draft route as an approved teaching layout just because the route exists.
 - The standard numbered lesson slide shell is the default outer wrapper for lesson slides. It owns the section ID, scroll target, section label, generated slide number, title rendering, slide canvas spacing and responsive scroll behaviour.

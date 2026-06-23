@@ -9,7 +9,7 @@ const widgetHref = (slug: string) => `/dev-dashboard/widgets/${slug}/`;
 
 export const devWidgetDefinitions: DevWidgetDefinition[] = [
   {
-    title: "Timer display",
+    title: "TimerDisplay",
     slug: "timer-display",
     href: widgetHref("timer-display"),
     complete: true,
@@ -21,25 +21,25 @@ export const devWidgetDefinitions: DevWidgetDefinition[] = [
     complete: true,
   },
   {
-    title: "Draw board",
+    title: "DrawBoard",
     slug: "draw-board",
     href: widgetHref("draw-board"),
     complete: true,
   },
   {
-    title: "Progress indicator",
+    title: "ProgressIndicator",
     slug: "progress-indicator",
     href: widgetHref("progress-indicator"),
     complete: true,
   },
   {
-    title: "Score counter",
+    title: "ScoreCounter",
     slug: "score-counter",
     href: widgetHref("score-counter"),
     complete: true,
   },
   {
-    title: "Audio play button",
+    title: "AudioPlayButton",
     slug: "audio-play-button",
     href: widgetHref("audio-play-button"),
     complete: true,

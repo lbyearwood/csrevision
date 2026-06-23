@@ -20,7 +20,7 @@ const layoutHref = (slug: string) => `/dev-dashboard/layouts/${slug}/`;
 
 export const devLayoutDefinitions: DevLayoutDefinition[] = [
   {
-    title: "One full-span card",
+    title: "OneFullSpanCard",
     slug: "one-full-span-card",
     label: "Layout",
     brief: "One card spans the full 2 by 2 card area when a single idea, model or task needs the whole slide body.",
@@ -37,7 +37,7 @@ export const devLayoutDefinitions: DevLayoutDefinition[] = [
     dependencies: ["Any full-slide card"],
   },
   {
-    title: "Two vertical cards",
+    title: "TwoVerticalCards",
     slug: "two-vertical-cards",
     label: "Layout",
     brief: "Two cards sit side by side, each spanning one full column of the 2 by 2 card area.",
@@ -55,7 +55,7 @@ export const devLayoutDefinitions: DevLayoutDefinition[] = [
     dependencies: ["Any two cards"],
   },
   {
-    title: "Two horizontal cards",
+    title: "TwoHorizontalCards",
     slug: "two-horizontal-cards",
     label: "Layout",
     brief: "Two cards stack vertically, each spanning one full row of the 2 by 2 card area.",
@@ -73,7 +73,7 @@ export const devLayoutDefinitions: DevLayoutDefinition[] = [
     dependencies: ["Any two cards"],
   },
   {
-    title: "Wide top card + two bottom cards",
+    title: "WideTopCardTwoBottomCards",
     slug: "wide-top-card-two-bottom-cards",
     label: "Layout",
     brief: "One top card spans both columns, with two smaller cards underneath.",
@@ -92,7 +92,7 @@ export const devLayoutDefinitions: DevLayoutDefinition[] = [
     dependencies: ["Any three cards"],
   },
   {
-    title: "Two top cards + wide bottom card",
+    title: "TwoTopCardsWideBottomCard",
     slug: "two-top-cards-wide-bottom-card",
     label: "Layout",
     brief: "Two smaller cards sit on the top row, with one bottom card spanning both columns.",
@@ -111,7 +111,7 @@ export const devLayoutDefinitions: DevLayoutDefinition[] = [
     dependencies: ["Any three cards"],
   },
   {
-    title: "Tall left card + two right cards",
+    title: "TallLeftCardTwoRightCards",
     slug: "tall-left-card-two-right-cards",
     label: "Layout",
     brief: "One left card spans both rows, with two smaller cards stacked on the right.",
@@ -130,7 +130,7 @@ export const devLayoutDefinitions: DevLayoutDefinition[] = [
     dependencies: ["Any three cards"],
   },
   {
-    title: "Two left cards + tall right card",
+    title: "TwoLeftCardsTallRightCard",
     slug: "two-left-cards-tall-right-card",
     label: "Layout",
     brief: "Two smaller cards stack on the left, with one right card spanning both rows.",
@@ -149,7 +149,7 @@ export const devLayoutDefinitions: DevLayoutDefinition[] = [
     dependencies: ["Any three cards"],
   },
   {
-    title: "Four equal cards",
+    title: "FourEqualCards",
     slug: "four-equal-cards",
     label: "Layout",
     brief: "Four cards fill the 2 by 2 card area equally.",
@@ -169,7 +169,7 @@ export const devLayoutDefinitions: DevLayoutDefinition[] = [
     dependencies: ["Any four cards"],
   },
   {
-    title: "Title segment slide",
+    title: "TitleSegmentSlide",
     slug: "title-segment-slide",
     label: "Segment",
     brief: "A title-only or title-led break slide used to introduce a new lesson segment outside the 2 by 2 card system.",
@@ -183,6 +183,6 @@ export const devLayoutDefinitions: DevLayoutDefinition[] = [
       "Do not duplicate the numbered slide title.",
       "Keep the slide uncluttered.",
     ],
-    dependencies: ["Standard numbered lesson slide shell"],
+    dependencies: ["LessonSlideShell"],
   },
 ];
