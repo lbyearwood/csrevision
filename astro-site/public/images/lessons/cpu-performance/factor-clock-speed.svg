@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 360" role="img" aria-labelledby="title desc">
+  <title id="title">Clock speed symbol</title>
+  <desc id="desc">A CPU chip beside a speedometer and timing pulses.</desc>
+  <rect width="520" height="360" rx="28" fill="#eff6ff"/>
+  <circle cx="168" cy="162" r="82" fill="#ffffff" stroke="#0b4ac8" stroke-width="10"/>
+  <path d="M110 190a64 64 0 0 1 116 0" fill="none" stroke="#0b1b45" stroke-width="12" stroke-linecap="round"/>
+  <path d="M168 174l48-52" stroke="#ef4444" stroke-width="12" stroke-linecap="round"/>
+  <circle cx="168" cy="174" r="12" fill="#0b1b45"/>
+  <g transform="translate(314 100)">
+    <rect width="110" height="110" rx="18" fill="#0b4ac8"/>
+    <rect x="23" y="24" width="64" height="62" rx="10" fill="#bfdbfe"/>
+    <path d="M-18 24H0M-18 55H0M-18 86H0M110 24h18M110 55h18M110 86h18M28-18v18M55-18v18M82-18v18M28 110v18M55 110v18M82 110v18" stroke="#0b4ac8" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  <path d="M88 284h32l24-36 34 72 28-48h54" fill="none" stroke="#2563eb" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="290" y="302" fill="#0b1b45" font-family="Arial, sans-serif" font-size="28" font-weight="700">More ticks</text>
+</svg>

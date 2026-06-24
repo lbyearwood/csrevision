@@ -18,7 +18,7 @@ Review page order:
 
 | No. | Shell | Status | Notes |
 | --- | --- | --- | --- |
-| 1 | LessonSlideShell | accepted | Shared outer wrapper for slide number, label, heading, scroll target spacing and canvas rhythm. Not a 2 by 2 card layout. |
+| 1 | LessonSlideShell | accepted | Shared outer wrapper for slide number, label, heading, scroll target spacing and canvas rhythm. Visible badge/header labels are restricted to `Lesson introduction`, `Lesson summary`, or `Part [number] - [title]`; each part number can only have one title per lesson. Not a 2 by 2 card layout. |
 
 ## Layouts
 
@@ -33,8 +33,8 @@ Layouts are structural 2 by 2 card arrangements only, except for the title segme
 | 5 | TwoTopCardsWideBottomCard | accepted | Two smaller cards over one wide synthesis card. |
 | 6 | TallLeftCardTwoRightCards | accepted | One tall left card with two stacked cards on the right. |
 | 7 | TwoLeftCardsTallRightCard | accepted | Two stacked cards on the left with one tall right card. |
-| 8 | FourEqualCards | accepted | Standard 2 by 2 card grid. |
-| 9 | TitleSegmentSlide | accepted | Segment break slide outside the 2 by 2 card system. |
+| 8 | FourEqualCards | accepted | Specialist 2 by 2 quadrant/matrix/four-way comparison layout. Not a general-purpose default and not for ordinary groups of four cards. |
+| 9 | TitleSegmentSlide | accepted | Title-only slide outside the 2 by 2 card system. Use for the opening lesson title slide or between lesson parts. Part dividers must contain the full `Part [number] - [title]` label. |
 
 ## Cards
 
@@ -54,7 +54,7 @@ Layouts are structural 2 by 2 card arrangements only, except for the title segme
 | 12 | PromptCard | accepted | Complete concrete prompt example. |
 | 13 | ExamQuestionCard | accepted | Complete concrete example; marks are appended to the question text in bold. Uses LabelBadge for the command word. |
 | 14 | SummaryCard | accepted | Complete lesson summary example with introductory sentence and numbered points. |
-| 15 | LearningObjectivesCard | accepted | Complete lesson objectives example matching the summary card structure with future-tense wording. |
+| 15 | LearningObjectivesCard | accepted | Complete lesson objectives example matching the summary card structure with future-tense wording. Uses LearningObjectiveItem and CommandWord. |
 | 16 | InstructionCard | accepted | Complete concrete numbered instruction example. |
 | 17 | FlashCard | accepted | Complete 2 by 2 keyword-front, definition-back flip interaction. Uses FlipCard. |
 | 18 | VisualFlashCard | accepted | Complete logic-gate visual front, definition-back flip interaction. Uses FlipCard. |
@@ -90,6 +90,8 @@ Layouts are structural 2 by 2 card arrangements only, except for the title segme
 | 18 | MarkSchemeBullet | accepted | Reusable mark-value badge and point text component. |
 | 19 | FlipCard | accepted | Reusable front/back flip component used by FlashCard and VisualFlashCard examples. |
 | 20 | CodeBlock | accepted | Reusable numbered code block component used by CodingCard examples. |
+| 21 | CommandWord | accepted | Reusable inline command-word emphasis used in objectives, exam questions and task instructions. |
+| 22 | LearningObjectiveItem | accepted | Reusable numbered objective row with blue number marker and objective text. Uses CommandWord where appropriate. |
 
 ## Widgets
 
@@ -107,3 +109,6 @@ Layouts are structural 2 by 2 card arrangements only, except for the title segme
 - Define which cards/components can appear in each structural 2 by 2 layout.
 - Keep the Dev dashboard Cards list aligned with this registry.
 - Avoid creating duplicate components when an existing card can be extended.
+- Review the reusable CPU performance support components introduced during the page-specific-class cleanup:
+  `DisplayValue`, `ClockCycleComparison` and `InstructionThroughputModel`. They replace old page-local
+  `cpu-*` classes, but still need Dev dashboard examples before they should be treated as accepted general modules.

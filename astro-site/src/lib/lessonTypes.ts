@@ -1,3 +1,5 @@
+import type { LessonSlideShellLabel } from "./lessonSlideShellLabels";
+
 export type CardVariant =
   | "teaching"
   | "modelling"
@@ -36,7 +38,7 @@ export type LessonCardData = {
 
 export type LessonSectionData = {
   id: string;
-  label: string;
+  label: LessonSlideShellLabel;
   heading: string;
   cards: LessonCardData[];
   support: {

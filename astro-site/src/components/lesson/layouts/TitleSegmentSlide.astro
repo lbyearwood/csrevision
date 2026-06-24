@@ -1,0 +1,20 @@
+---
+import { isLessonPartLabel } from "../../../lib/lessonSlideShellLabels";
+
+interface Props {
+  kind: "lesson-title" | "part-title";
+  title: string;
+  lead?: string;
+}
+
+const { kind, title, lead } = Astro.props;
+if (kind === "part-title" && !isLessonPartLabel(title)) {
+  throw new Error(`TitleSegmentSlide part titles must use Part [number] - [title]. Received "${title}".`);
+}
+---
+
+<div class="title-segment-slide" data-lesson-layout="title-segment-slide">
+  <h2 class="title-segment-slide__title">{title}</h2>
+  {lead && <p class="title-segment-slide__lead">{lead}</p>}
+  <slot />
+</div>

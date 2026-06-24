@@ -5,6 +5,8 @@ import CodeBlock from "../../../../components/lesson/components/CodeBlock.astro"
 import FeedbackState from "../../../../components/lesson/components/FeedbackState.astro";
 import FlipCard from "../../../../components/lesson/components/FlipCard.astro";
 import LabelBadge from "../../../../components/lesson/components/LabelBadge.astro";
+import CommandWord from "../../../../components/lesson/components/CommandWord.astro";
+import LearningObjectiveItem from "../../../../components/lesson/components/LearningObjectiveItem.astro";
 import MarkSchemeBullet from "../../../../components/lesson/components/MarkSchemeBullet.astro";
 import MultipleChoiceOption from "../../../../components/lesson/components/MultipleChoiceOption.astro";
 import NextButton from "../../../../components/lesson/components/NextButton.astro";
@@ -209,7 +211,7 @@ const briefBySlug: Record<string, string[]> = {
     <LessonSideNav title={numberedCardTitle} sections={navSections} />
     <main class="lesson-main min-w-0 px-4 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
-        <LessonSlideShell id="example" label="Card" heading="Example" slideNumber={1}>
+        <LessonSlideShell id="example" label="Part 1 - Example" heading="Example" slideNumber={1}>
           <div class="dev-card-example-stage">
             {card.slug === "explanation-card" && (
               <ExplanationCard title="One clear teaching idea">
@@ -620,11 +622,11 @@ const briefBySlug: Record<string, string[]> = {
               <LearningObjectivesCard title="Learning objectives">
                 <p>By the end of this lesson, you should be able to:</p>
                 <ol class="lesson-card-objectives-list">
-                  <li><span><strong>Describe</strong> how analogue sound is stored in digital form.</span></li>
-                  <li><span><strong>Explain</strong> the purpose of an Analog-to-Digital Converter.</span></li>
-                  <li><span><strong>Describe</strong> what a sound sample is.</span></li>
-                  <li><span><strong>Explain</strong> how sample rate and bit depth affect sound quality and file size.</span></li>
-                  <li><span><strong>Calculate</strong> sound file size using sample rate, duration and bit depth.</span></li>
+                  <LearningObjectiveItem number={1}><CommandWord>Describe</CommandWord> how analogue sound is stored in digital form.</LearningObjectiveItem>
+                  <LearningObjectiveItem number={2}><CommandWord>Explain</CommandWord> the purpose of an Analog-to-Digital Converter.</LearningObjectiveItem>
+                  <LearningObjectiveItem number={3}><CommandWord>Describe</CommandWord> what a sound sample is.</LearningObjectiveItem>
+                  <LearningObjectiveItem number={4}><CommandWord>Explain</CommandWord> how sample rate and bit depth affect sound quality and file size.</LearningObjectiveItem>
+                  <LearningObjectiveItem number={5}><CommandWord>Calculate</CommandWord> sound file size using sample rate, duration and bit depth.</LearningObjectiveItem>
                 </ol>
               </LearningObjectivesCard>
             )}
@@ -926,7 +928,7 @@ const briefBySlug: Record<string, string[]> = {
           </div>
         </LessonSlideShell>
 
-        <LessonSlideShell id="brief" label="Card" heading="Brief" slideNumber={2}>
+        <LessonSlideShell id="brief" label="Part 2 - Brief" heading="Brief" slideNumber={2}>
           <div class="dev-layout-review-panel">
             <h3>{numberedCardTitle}</h3>
             <ol class="dev-card-brief-list">

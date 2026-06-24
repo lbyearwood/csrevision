@@ -4,27 +4,45 @@ import LessonSideNav from "../../../../components/navigation/LessonSideNav.astro
 import LessonSlideShell from "../../../../components/lesson/LessonSlideShell.astro";
 import ExplanationCard from "../../../../components/lesson/cards/ExplanationCard.astro";
 import HingeQuestionCard from "../../../../components/lesson/cards/HingeQuestionCard.astro";
+import ImageCard from "../../../../components/lesson/cards/ImageCard.astro";
 import LearningObjectivesCard from "../../../../components/lesson/cards/LearningObjectivesCard.astro";
 import MisconceptionCard from "../../../../components/lesson/cards/MisconceptionCard.astro";
 import ModellingCard from "../../../../components/lesson/cards/ModellingCard.astro";
-import PromptCard from "../../../../components/lesson/cards/PromptCard.astro";
 import QuestionCard from "../../../../components/lesson/cards/QuestionCard.astro";
 import SupportCard from "../../../../components/lesson/cards/SupportCard.astro";
 import FeedbackState from "../../../../components/lesson/components/FeedbackState.astro";
-import LabelBadge from "../../../../components/lesson/components/LabelBadge.astro";
+import CommandWord from "../../../../components/lesson/components/CommandWord.astro";
+import LearningObjectiveItem from "../../../../components/lesson/components/LearningObjectiveItem.astro";
 import MultipleChoiceOption from "../../../../components/lesson/components/MultipleChoiceOption.astro";
-import NextButton from "../../../../components/lesson/components/NextButton.astro";
-import PreviousButton from "../../../../components/lesson/components/PreviousButton.astro";
 import ResetButton from "../../../../components/lesson/components/ResetButton.astro";
+import InstructionThroughputModel from "../../../../components/lesson/components/InstructionThroughputModel.astro";
+import OneFullSpanCard from "../../../../components/lesson/layouts/OneFullSpanCard.astro";
+import TallLeftCardTwoRightCards from "../../../../components/lesson/layouts/TallLeftCardTwoRightCards.astro";
+import TitleSegmentSlide from "../../../../components/lesson/layouts/TitleSegmentSlide.astro";
+import TwoTopCardsWideBottomCard from "../../../../components/lesson/layouts/TwoTopCardsWideBottomCard.astro";
+import TwoVerticalCards from "../../../../components/lesson/layouts/TwoVerticalCards.astro";
+import { assertUniqueLessonPartTitles, type LessonSlideShellLabel } from "../../../../lib/lessonSlideShellLabels";
 
 const lessonTitle = "1.1.2 CPU performance";
+const shellLabels = {
+  introduction: "Lesson introduction",
+  clockSpeed: "Part 1 - Clock speed",
+  cacheSize: "Part 2 - Cache size",
+  numberOfCores: "Part 3 - Number of cores",
+  bestUpgrade: "Part 4 - Choosing the best CPU upgrade",
+  summary: "Lesson summary",
+} satisfies Record<string, LessonSlideShellLabel>;
+
+assertUniqueLessonPartTitles(Object.values(shellLabels));
+
 const navSections = [
   { id: "cpu-performance-title", title: "CPU performance" },
-  { id: "upgrade-challenge", title: "Upgrade challenge" },
+  { id: "upgrade-challenge", title: "Lesson starter" },
   { id: "learning-objectives", title: "Learning objectives" },
-  { id: "performance-factors", title: "Three factors" },
-  { id: "clock-speed-cycles", title: "Clock speed" },
-  { id: "clock-speed-instructions", title: "More instructions" },
+  { id: "performance-factors", title: "CPU factors" },
+  { id: "part-1-clock-speed", title: "Part 1 - Clock speed" },
+  { id: "clock-speed-cycles", title: "Clock speed (A)" },
+  { id: "clock-speed-instructions", title: "Clock speed (B)" },
 ];
 ---
 
@@ -35,77 +53,92 @@ const navSections = [
   backHref="/gcse/"
   backLabel="Back to GCSE topics"
 >
-  <div class="lesson-shell cpu-performance-lesson">
+  <div class="lesson-shell">
     <LessonSideNav title={lessonTitle} sections={navSections} />
     <main class="lesson-main min-w-0 px-4 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
-        <LessonSlideShell id="cpu-performance-title" label="Lesson" heading="CPU Performance" slideNumber={1}>
-          <section class="cpu-title-slide" aria-label="CPU performance lesson introduction">
-            <p class="cpu-title-kicker">1.1.2 Systems architecture</p>
-            <h2>CPU performance</h2>
-            <p>
-              A faster CPU is not just the biggest number on the advert. The best upgrade depends on the
-              task the computer is trying to complete.
-            </p>
-          </section>
+        <LessonSlideShell id="cpu-performance-title" label={shellLabels.introduction} heading="CPU Performance" slideNumber={1} hideHeader>
+          <TitleSegmentSlide
+            kind="lesson-title"
+            title="1.1.2 CPU performance"
+          />
         </LessonSlideShell>
 
-        <LessonSlideShell id="upgrade-challenge" label="Hook" heading="Upgrade Challenge" slideNumber={2}>
-          <div class="cpu-layout-two-top-wide-bottom">
-            <PromptCard title="Upgrade advert A">
-              <p class="cpu-upgrade-value">Higher GHz</p>
-              <p>More clock cycles can happen each second.</p>
-            </PromptCard>
-            <PromptCard title="Upgrade advert B">
-              <p class="cpu-upgrade-value">More cores</p>
-              <p>More processing units can share suitable work.</p>
-            </PromptCard>
-            <QuestionCard title="First prediction">
+        <LessonSlideShell id="upgrade-challenge" label={shellLabels.introduction} heading="Lesson starter" slideNumber={2}>
+          <TwoTopCardsWideBottomCard>
+            <ImageCard
+              title="Upgrade advert A"
+              src="/images/lessons/cpu-performance/upgrade-advert-ghz.svg"
+              alt="Advert for a turbo clock CPU upgrade with a speedometer and 3.8 GHz text"
+              caption="Higher GHz means more clock cycles can happen each second."
+              slot="top-left"
+            />
+            <ImageCard
+              title="Upgrade advert B"
+              src="/images/lessons/cpu-performance/upgrade-advert-cores.svg"
+              alt="Advert for an eight core CPU upgrade with multitasking app windows"
+              caption="More cores can help suitable tasks share work."
+              slot="top-right"
+            />
+            <QuestionCard title="First prediction" slot="bottom">
               <p>
                 Which upgrade would you choose for a single calculation-heavy program, and which would you choose
                 when several applications are open at the same time?
               </p>
-              <p class="cpu-teacher-note">Keep your prediction. We will come back to it after the clock speed model.</p>
+              <FeedbackState tone="neutral">
+                Keep your prediction. We will come back to it after the clock speed model.
+              </FeedbackState>
             </QuestionCard>
-          </div>
+          </TwoTopCardsWideBottomCard>
         </LessonSlideShell>
 
-        <LessonSlideShell id="learning-objectives" label="Objectives" heading="Learning Objectives" slideNumber={3}>
-          <div class="cpu-layout-full">
-            <LearningObjectivesCard title="By the end of this lesson you will be able to">
-              <ol>
-                <li>Define clock speed, cache size and number of cores.</li>
-                <li>Explain how each characteristic can affect CPU performance.</li>
-                <li>Choose the most relevant CPU characteristic for a given scenario.</li>
-                <li>Explain why one CPU upgrade does not always guarantee better performance.</li>
+        <LessonSlideShell id="learning-objectives" label={shellLabels.introduction} heading="Learning Objectives" slideNumber={3}>
+          <OneFullSpanCard>
+            <LearningObjectivesCard title="Learning objectives">
+              <p>By the end of this lesson, you should be able to:</p>
+              <ol class="lesson-card-objectives-list">
+                <LearningObjectiveItem number={1}><CommandWord>Define</CommandWord> clock speed, cache size and number of cores.</LearningObjectiveItem>
+                <LearningObjectiveItem number={2}><CommandWord>Explain</CommandWord> how each characteristic can affect CPU performance.</LearningObjectiveItem>
+                <LearningObjectiveItem number={3}><CommandWord>Choose</CommandWord> the most relevant CPU characteristic for a given scenario.</LearningObjectiveItem>
+                <LearningObjectiveItem number={4}><CommandWord>Explain</CommandWord> why one CPU upgrade does not always guarantee better performance.</LearningObjectiveItem>
               </ol>
             </LearningObjectivesCard>
-          </div>
+          </OneFullSpanCard>
         </LessonSlideShell>
 
-        <LessonSlideShell id="performance-factors" label="Overview" heading="The Three CPU Performance Factors" slideNumber={4}>
-          <div class="cpu-layout-four-equal">
-            <ExplanationCard title="Clock speed">
-              <p>The number of cycles the CPU can carry out each second.</p>
-              <p><LabelBadge>Measured in GHz</LabelBadge></p>
-            </ExplanationCard>
-            <ExplanationCard title="Cache size">
-              <p>The amount of fast memory close to the CPU for frequently used data and instructions.</p>
-              <p><LabelBadge>Reduces waiting</LabelBadge></p>
-            </ExplanationCard>
-            <ExplanationCard title="Number of cores">
-              <p>The number of processing units inside the CPU.</p>
-              <p><LabelBadge>Can help multitasking</LabelBadge></p>
-            </ExplanationCard>
-            <SupportCard title="Important idea">
-              <p>The best characteristic depends on the task, the software and the other CPU characteristics.</p>
-            </SupportCard>
-          </div>
+        <LessonSlideShell id="performance-factors" label={shellLabels.introduction} heading="What are three factors that impact CPU performance?" slideNumber={4}>
+          <TwoTopCardsWideBottomCard>
+            <ImageCard
+              title="Clock speed"
+              src="/images/lessons/cpu-performance/factor-clock-speed.svg"
+              alt="Speedometer, CPU chip and timing pulse symbol for clock speed"
+              caption="How quickly the CPU can tick through cycles."
+              slot="top-left"
+            />
+            <ImageCard
+              title="Cache size"
+              src="/images/lessons/cpu-performance/factor-cache.svg"
+              alt="CPU, nearby cache blocks and RAM showing cache close to the processor"
+              caption="Fast nearby memory can reduce waiting."
+              slot="top-right"
+            />
+            <ImageCard
+              title="Number of cores"
+              src="/images/lessons/cpu-performance/factor-cores.svg"
+              alt="CPU chip split into several cores with app tasks around it"
+              caption="Several cores can share suitable work."
+              slot="bottom"
+            />
+          </TwoTopCardsWideBottomCard>
         </LessonSlideShell>
 
-        <LessonSlideShell id="clock-speed-cycles" label="Part 1" heading="Clock Speed Means Cycles Per Second" slideNumber={5}>
-          <div class="cpu-layout-two-vertical">
-            <ExplanationCard title="What clock speed measures">
+        <LessonSlideShell id="part-1-clock-speed" label={shellLabels.clockSpeed} heading="Clock Speed" slideNumber={5} hideHeader>
+          <TitleSegmentSlide kind="part-title" title={shellLabels.clockSpeed} />
+        </LessonSlideShell>
+
+        <LessonSlideShell id="clock-speed-cycles" label={shellLabels.clockSpeed} heading="What is clock speed?" slideNumber={6}>
+          <TwoVerticalCards>
+            <ExplanationCard title="What clock speed measures" slot="left">
               <p>
                 Clock speed is the number of CPU cycles that can happen each second. It is commonly measured
                 in gigahertz, written as <strong>GHz</strong>.
@@ -117,102 +150,40 @@ const navSections = [
               </ul>
             </ExplanationCard>
 
-            <ExplanationCard title="Lower speed vs higher speed">
-              <div class="cpu-cycle-compare" aria-label="Clock speed comparison">
-                <article>
-                  <h4>1 GHz</h4>
-                  <div class="cpu-cycle-row" aria-hidden="true">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                  <p>Fewer cycles in the same time.</p>
-                </article>
-                <article>
-                  <h4>3 GHz</h4>
-                  <div class="cpu-cycle-row cpu-cycle-row--fast" aria-hidden="true">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                  <p>More cycles in the same time.</p>
-                </article>
-              </div>
-              <FeedbackState tone="neutral">
-                A higher GHz value means more CPU cycles can happen per second.
-              </FeedbackState>
-            </ExplanationCard>
-          </div>
+            <ImageCard
+              title="Cycles per second"
+              src="/images/lessons/cpu-performance/clock-speed-pulses.svg"
+              alt="Two one-second timelines comparing fewer pulses at 1 GHz with more pulses at 3 GHz"
+              caption="Higher GHz means more cycles can happen in the same amount of time."
+              slot="right"
+            />
+          </TwoVerticalCards>
         </LessonSlideShell>
 
-        <LessonSlideShell id="clock-speed-instructions" label="Part 1" heading="Faster Clock Speed Can Process More Instructions" slideNumber={6}>
-          <div class="cpu-layout-tall-left-two-right">
-            <ModellingCard title="Instruction throughput model" class="cpu-clock-model">
-              <p class="cpu-model-intro">
-                Step through the same one-second window and compare how many simple instructions each CPU can work through.
-              </p>
-              <div class="cpu-model-stage" data-clock-model aria-live="polite">
-                <div class="cpu-model-lane">
-                  <h4>Lower clock speed</h4>
-                  <div class="cpu-instruction-track" data-lane="slow">
-                    <span class="is-active">Fetch</span>
-                    <span>Decode</span>
-                    <span>Execute</span>
-                    <span>Write back</span>
-                  </div>
-                  <p data-slow-status>Step 1: one instruction has started.</p>
-                </div>
-                <div class="cpu-model-lane cpu-model-lane--fast">
-                  <h4>Higher clock speed</h4>
-                  <div class="cpu-instruction-track" data-lane="fast">
-                    <span class="is-active">Fetch</span>
-                    <span>Decode</span>
-                    <span>Execute</span>
-                    <span>Write back</span>
-                    <span>Fetch</span>
-                    <span>Decode</span>
-                    <span>Execute</span>
-                    <span>Write back</span>
-                  </div>
-                  <p data-fast-status>Step 1: a second instruction can begin sooner.</p>
-                </div>
-              </div>
-              <div class="cpu-model-controls" data-clock-controls>
-                <PreviousButton data-action="previous">Previous step</PreviousButton>
-                <NextButton data-action="next">Next step</NextButton>
-                <ResetButton data-action="reset">Reset</ResetButton>
-              </div>
-              <FeedbackState tone="neutral" data-clock-summary>
-                Step 1 of 4: both CPUs begin work, but the higher clock speed has more timing pulses available.
-              </FeedbackState>
+        <LessonSlideShell id="clock-speed-instructions" label={shellLabels.clockSpeed} heading="How does clock speed affect performance?" slideNumber={7}>
+          <TallLeftCardTwoRightCards>
+            <ModellingCard title="Instruction throughput model" slot="left">
+              <InstructionThroughputModel />
             </ModellingCard>
 
-            <SupportCard title="Why this can improve performance">
+            <SupportCard title="Why this can improve performance" slot="top-right">
               <p>
                 More cycles per second can allow more instructions to be processed per second. This can improve
                 performance for tasks that rely on fast sequential processing, such as repeated calculations.
               </p>
             </SupportCard>
 
-            <MisconceptionCard title="Misconception">
-              <div class="cpu-misconception-grid">
-                <FeedbackState tone="incorrect">
-                  Higher clock speed always makes every task faster.
-                </FeedbackState>
-                <FeedbackState tone="correct">
-                  Higher clock speed can help, but performance also depends on cache, cores, software and the task.
-                </FeedbackState>
-              </div>
+            <MisconceptionCard title="Misconception" slot="bottom-right">
+              <FeedbackState tone="incorrect">
+                Higher clock speed always makes every task faster.
+              </FeedbackState>
+              <FeedbackState tone="correct">
+                Higher clock speed can help, but performance also depends on cache, cores, software and the task.
+              </FeedbackState>
             </MisconceptionCard>
-          </div>
+          </TallLeftCardTwoRightCards>
 
-          <div class="cpu-hinge-row">
+          <OneFullSpanCard>
             <HingeQuestionCard title="Which task is most likely to benefit from higher clock speed?" class="lesson-card-hinge-question">
               <p class="lesson-card-hinge-prompt">
                 Choose the task where faster sequential instruction processing is likely to matter most.
@@ -246,7 +217,7 @@ const navSections = [
                 <ResetButton data-reset-choice>Reset</ResetButton>
               </div>
             </HingeQuestionCard>
-          </div>
+          </OneFullSpanCard>
         </LessonSlideShell>
       </div>
     </main>
@@ -375,269 +346,3 @@ const navSections = [
   setClockStep(0);
 </script>
 
-<style>
-  .cpu-performance-lesson .lesson-card-module {
-    min-height: 100%;
-  }
-
-  .cpu-performance-lesson .lesson-section-heading {
-    overflow-wrap: anywhere;
-    text-align: center;
-  }
-
-  .cpu-title-slide {
-    display: grid;
-    box-sizing: border-box;
-    width: 100%;
-    min-width: 0;
-    min-height: clamp(28rem, 62vh, 40rem);
-    align-content: center;
-    justify-items: center;
-    gap: 1rem;
-    border: 1px solid #bfdbfe;
-    border-radius: var(--radius-card);
-    background:
-      linear-gradient(#dbeafe 1px, transparent 1px),
-      linear-gradient(90deg, #dbeafe 1px, transparent 1px),
-      #ffffff;
-    background-size: 3rem 3rem;
-    padding: clamp(2rem, 5vw, 4rem);
-    text-align: center;
-  }
-
-  .cpu-title-slide > * {
-    max-width: 100%;
-    min-width: 0;
-  }
-
-  .cpu-title-kicker {
-    margin: 0;
-    color: var(--color-primary);
-    font-weight: 900;
-  }
-
-  .cpu-title-slide h2 {
-    margin: 0;
-    color: #0f172a;
-    font-size: clamp(3rem, 7vw, 6rem);
-    font-weight: 900;
-    line-height: 0.98;
-  }
-
-  .cpu-title-slide p:last-child {
-    max-width: 52rem;
-    margin: 0;
-    color: #334155;
-    font-size: clamp(1.2rem, 2vw, 1.6rem);
-    font-weight: 800;
-    line-height: 1.45;
-  }
-
-  .cpu-layout-full,
-  .cpu-layout-two-vertical,
-  .cpu-layout-two-top-wide-bottom,
-  .cpu-layout-four-equal,
-  .cpu-layout-tall-left-two-right {
-    display: grid;
-    gap: clamp(1rem, 2vw, 1.25rem);
-    margin-top: clamp(1rem, 1.8vh, 1.375rem);
-  }
-
-  .cpu-layout-two-vertical {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .cpu-layout-two-top-wide-bottom {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .cpu-layout-two-top-wide-bottom > :last-child {
-    grid-column: 1 / -1;
-  }
-
-  .cpu-layout-four-equal {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .cpu-layout-tall-left-two-right {
-    grid-template-columns: minmax(0, 1.45fr) minmax(18rem, 0.8fr);
-    grid-template-rows: repeat(2, minmax(0, auto));
-  }
-
-  .cpu-layout-tall-left-two-right > :first-child {
-    grid-row: 1 / span 2;
-  }
-
-  .cpu-hinge-row {
-    margin-top: clamp(1rem, 2vw, 1.25rem);
-  }
-
-  .cpu-upgrade-value {
-    margin: 0;
-    color: #0f172a;
-    font-size: clamp(2rem, 4vw, 3.5rem);
-    font-weight: 900;
-    line-height: 1;
-  }
-
-  .cpu-teacher-note {
-    border-left: 6px solid var(--color-primary);
-    border-radius: var(--radius-card);
-    background: var(--color-primary-soft);
-    padding: 0.9rem 1rem;
-    color: #0f172a;
-    font-weight: 800;
-  }
-
-  .cpu-cycle-compare {
-    display: grid;
-    gap: 1rem;
-  }
-
-  .cpu-cycle-compare article {
-    border: 1px solid #bfdbfe;
-    border-radius: var(--radius-card);
-    background: #f8fbff;
-    padding: 1rem;
-  }
-
-  .cpu-cycle-compare h4,
-  .cpu-model-lane h4 {
-    margin: 0 0 0.75rem;
-    color: #0f172a;
-    font-size: 1.1rem;
-    font-weight: 900;
-  }
-
-  .cpu-cycle-row {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 0.5rem;
-  }
-
-  .cpu-cycle-row--fast {
-    grid-template-columns: repeat(9, minmax(0, 1fr));
-  }
-
-  .cpu-cycle-row span {
-    display: block;
-    min-height: 2.5rem;
-    border-radius: 999px;
-    background: var(--color-primary);
-  }
-
-  .cpu-clock-model .lesson-card-module-body {
-    display: grid;
-    gap: 1rem;
-  }
-
-  .cpu-model-intro {
-    margin: 0;
-    text-align: center;
-  }
-
-  .cpu-model-stage {
-    display: grid;
-    gap: 1rem;
-  }
-
-  .cpu-model-lane {
-    border: 1px solid #bfdbfe;
-    border-radius: var(--radius-card);
-    background: #f8fbff;
-    padding: 1rem;
-  }
-
-  .cpu-model-lane--fast {
-    border-color: #93c5fd;
-    background: #eff6ff;
-  }
-
-  .cpu-instruction-track {
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0.5rem;
-  }
-
-  .cpu-model-lane--fast .cpu-instruction-track {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-
-  .cpu-instruction-track span {
-    display: grid;
-    min-height: 3rem;
-    place-items: center;
-    border: 2px solid #bfdbfe;
-    border-radius: var(--radius-card);
-    background: #ffffff;
-    color: #1e3a8a;
-    font-size: 0.9rem;
-    font-weight: 900;
-    text-align: center;
-  }
-
-  .cpu-instruction-track span.is-active {
-    border-color: var(--color-primary);
-    background: var(--color-primary);
-    color: #ffffff;
-  }
-
-  .cpu-model-controls {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.75rem;
-  }
-
-  .cpu-misconception-grid {
-    display: grid;
-    gap: 0.8rem;
-  }
-
-  @media (max-width: 64rem) {
-    .cpu-layout-two-vertical,
-    .cpu-layout-two-top-wide-bottom,
-    .cpu-layout-four-equal,
-    .cpu-layout-tall-left-two-right {
-      grid-template-columns: 1fr;
-    }
-
-    .cpu-layout-two-top-wide-bottom > :last-child,
-    .cpu-layout-tall-left-two-right > :first-child {
-      grid-column: auto;
-      grid-row: auto;
-    }
-  }
-
-  @media (max-width: 40rem) {
-    .cpu-performance-lesson .lesson-section-heading {
-      font-size: clamp(1.75rem, 8vw, 2.35rem);
-      line-height: 1.08;
-    }
-
-    .cpu-title-slide {
-      min-height: 26rem;
-      background-size: 2rem 2rem;
-    }
-
-    .cpu-title-slide h2 {
-      font-size: clamp(2rem, 10vw, 2.45rem);
-      overflow-wrap: anywhere;
-    }
-
-    .cpu-title-slide p:last-child {
-      font-size: 1.05rem;
-      line-height: 1.42;
-    }
-
-    .cpu-cycle-row,
-    .cpu-cycle-row--fast {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .cpu-instruction-track,
-    .cpu-model-lane--fast .cpu-instruction-track {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-  }
-</style>

@@ -155,13 +155,17 @@ Temporary browser-control limitation:
 - Answer cards and mark scheme cards should use a green theme so correct answers, model answers and assessment guidance are visually distinct from general teaching cards.
 - Dev dashboard layout pages are draft review routes until the user has reviewed and amended or accepted them. Do not treat a draft route as an approved teaching layout just because the route exists.
 - The standard numbered lesson slide shell is the default outer wrapper for lesson slides. It owns the section ID, scroll target, section label, generated slide number, title rendering, slide canvas spacing and responsive scroll behaviour.
+- The visible `LessonSlideShell` badge/header label is restricted to `Lesson introduction`, `Lesson summary`, or the pattern `Part [number] - [title]`, such as `Part 1 - Clock speed`. Do not use hook names, objective names or module-category labels as the shell badge.
+- Within one lesson, each part number must have exactly one title. Multiple slides may use `Part 1 - Clock speed`, but the same lesson must not also contain `Part 1 - CPU performance factors`.
 - The standard numbered lesson slide shell must not decide the inner teaching layout, the cards used by that layout, topic-specific content, diagrams or activity behaviour.
 - Do not force every lesson slide into the same two-column layout. Choose an agreed reusable slide layout that fits the teaching purpose.
 - Use the improved two-column teaching layout where appropriate.
 - The two-column teaching with support layout is a whole-slide layout. It owns the arrangement of two balanced main areas with one full-width support area beneath them.
 - The two-column teaching with support layout must not define the final card designs inside those areas. Teaching, diagram, question and support cards should still be agreed as separate card modules.
+- `FourEqualCards` is a specialist layout, not a typical or frequently used default. Use it only when the content naturally belongs in a true 2 by 2 quadrant, matrix or four-way comparison. Do not use it just because there are four cards; it is often less natural on the eye than the other accepted layouts.
 - Lesson layouts must use available card modules rather than one-off card markup. If a needed card has not been created or agreed, create and review that card first before treating the layout as approved.
 - The Dev dashboard Cards list is the source of visible available card modules. Layout routes should import those card components so future developers can trace which card a layout is using.
+- Do not create custom lesson layouts, custom cards or one-off card markup without explicit user authorisation. If the accepted registry cannot support the teaching purpose, ask for permission before creating the new reusable module.
 - Dev dashboard card examples must be concrete, not empty placeholders. Table card examples must contain a real table, Diagram card examples must contain a real diagram, Image card examples must use a real JPG or PNG asset, and activity-like cards must show their actual expected structure.
 - On desktop, the usual sequence is:
   - section label
@@ -178,10 +182,45 @@ Temporary browser-control limitation:
 - Support cards should reinforce, question or extend learning, and should span the main content width under the two cards.
 - Avoid narrow central lesson content on desktop when there is useful horizontal space available.
 
+## Hardline Lesson Development Protocols
+
+These are non-negotiable project protocols. Future development must adhere to them unless the user explicitly changes the protocol.
+
+- Before designing a lesson, define the target audience and use that profile to justify design decisions. Do not choose layouts, cards, visuals or interactions only because they are available components.
+- The default target audience for GCSE Computer Science lessons is learners aged 11 to 18, with the core GCSE audience usually aged 14 to 16. Assume mixed prior knowledge, mixed confidence, varied reading stamina and a need for concrete examples before abstraction.
+- Lessons for this audience must not look like adult business/data dashboards. They should feel like engaging teaching resources for young learners, using icons, symbols, diagrams, imagery, visual metaphors, relatable scenarios and interactive models where they support understanding.
+- Choose visual cards/components when the content implies a visual object, such as an advert, screenshot, poster, interface, diagram, product, device, icon, symbol, model or image. `ImageCard` or another visual card must be considered before defaulting to text-only cards.
+- If Codex chooses a text-only card where the content implies a visual object, it must explain the reason and get user approval before continuing.
+- For rich learner-facing lesson visuals, OpenAI image generation is the preferred default over hand-authored SVG. This applies to advert-style prompts, visual metaphors, concept illustrations, realistic/semi-realistic educational imagery and graphics intended to engage GCSE learners.
+- Use SVG/code-native drawing only when precision matters more than visual richness, such as logic gates, straight-line connectors, labelled diagrams, UI schematics, exact charts, reusable icons, or diagrams where text/geometry must be deterministic.
+- Generated lesson images must be copied into the project before being referenced. Do not leave a project-referenced image only in the local Codex generated-images cache.
+- Advert/poster-style lesson graphics must look intentionally designed, not like text panels with clip art. Use big symbols, short readable copy, clear A/B contrast and enough empty space for the eye to rest.
+- Visual assets must be checked at their rendered card size. Text and graphics inside the asset must not overlap, clip, crowd each other or rely on tiny wording. Put explanatory detail in the card caption or surrounding teaching text instead.
+- Do not create custom lesson layouts, custom cards, custom slide markup or page-specific card structures without explicit user authorisation before building them.
+- If a required teaching pattern does not exist, ask permission to create a reusable module, then add it to the Dev dashboard and component registry before using it as an accepted pattern.
+- Stage 2 blueprints must name exact accepted layout, card, component and widget codeNames. If a codeName does not exist, mark it as unresolved and ask the user rather than inventing it during build.
+- The Dev dashboard module examples are the visual contract. When building lesson slides, screenshot the agreed module and the final slide implementation, then compare them before treating the slide as acceptable.
+- `TitleSegmentSlide` must not show an extra shell badge or duplicated heading above the title segment.
+- `TitleSegmentSlide` may only be used for the opening lesson title slide or as a divider between lesson parts, not as a normal teaching slide, objective slide, summary slide or decorative break.
+- When `TitleSegmentSlide` is used between parts, it must contain the full part number and title as its visible title, for example `Part 1 - Clock speed`.
+- When `TitleSegmentSlide` is used for the opening lesson title slide, it must contain the lesson title as its visible title.
+- `LessonSlideShell` badge/header labels are restricted to `Lesson introduction`, `Lesson summary`, or `Part [number] - [title]`.
+- A lesson part number can only have one title in a lesson. If Part 1 is `Part 1 - Clock speed`, every Part 1 slide must use that exact badge.
+- Starter/introduction activity slides must use the fixed heading `Lesson starter`. Do not invent custom starter labels such as `Upgrade challenge`, `Hook`, `Warm-up` or topic-specific starter names.
+- When a lesson needs an overview/bridge into the main parts, use a segue slide immediately before the first part-title `TitleSegmentSlide`. This segue is still part of `Lesson introduction`, not Part 1.
+- Teaching slide headings must be written as questions, for example `What are three factors that impact CPU performance?`, `What is clock speed?` or `How does clock speed affect performance?`
+- Do not use statement-style teaching headings such as `Clock Speed Means Cycles Per Second` unless the slide is an opening lesson title, `Lesson starter`, a part-divider `TitleSegmentSlide`, learning objectives or lesson summary.
+- Lesson navigation labels must stay short. When multiple slides cover the same topic, use the topic plus a letter suffix, such as `Clock speed (A)` and `Clock speed (B)`, instead of inventing longer bespoke names.
+- `FourEqualCards` must not be used as a common fallback layout. It is reserved for specific quadrant/matrix/four-way comparison purposes where equal visual weight is the point.
+- Learning objective rows must use the reusable objective item pattern, and command words such as `Describe`, `Explain` and `Calculate` must use the reusable command word component.
+- In learning objective cards, the introductory sentence must be normal body text: same size and weight as the non-command-word objective text, with clear spacing before the first objective.
+- Do not make visible UI text or visual hierarchy changes by guesswork. Check rendered screenshots in Edge for text size, spacing, badges, card hierarchy and component fidelity.
+- Use shared reusable CSS/components for repeated decisions. Avoid page-specific CSS unless it is genuinely required for a complex visual or interaction and does not replace an accepted reusable module.
+
 ## Components and Styling
 
 - Build reusable Astro components for repeated lesson, dashboard, navigation, resource and assessment patterns.
-- Do not create one-off layouts for individual lessons unless there is a clear teaching reason.
+- Do not create one-off layouts for individual lessons. If there is a clear teaching reason that the accepted registry cannot meet, request user permission first and then make the result a reviewed reusable module.
 - If a pattern appears more than once, create or extend a shared component.
 - Do not use typed ASCII arrow sequences as visible UI arrows. Use shared SVG icon components for navigation arrows and CSS/SVG connectors for process flows.
 - Do not use letters or placeholder text, such as `v`, to impersonate iconography. Use a proper icon, a native browser affordance, or no visual indicator.
@@ -190,6 +229,7 @@ Temporary browser-control limitation:
 - Keep shared design decisions in shared components or shared CSS, not scattered through page-specific markup.
 - Avoid page-specific CSS unless needed for a complex visual or model.
 - The visual style should feel like a polished educational platform: clear hierarchy, readable spacing, accessible contrast, calm colours and consistent cards.
+- For 11-18 lesson resources, polished must not mean corporate. Add age-appropriate visual interest through purposeful icons, symbols, images, diagrams and interactive models rather than relying on text panels alone.
 
 ## QAP: Text Hierarchy In Cards
 

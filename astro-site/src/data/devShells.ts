@@ -14,7 +14,7 @@ export const devShellDefinitions: DevShellDefinition[] = [
   {
     title: "LessonSlideShell",
     slug: "standard-numbered-lesson-slide-shell",
-    label: "Slide shell",
+    label: "Part 1 - Example",
     brief: "The default outer wrapper for every numbered lesson slide. It owns the slide number, label, heading, scroll target spacing and consistent canvas rhythm, but not the card layout inside the slide.",
     href: shellHref("standard-numbered-lesson-slide-shell"),
     complete: true,

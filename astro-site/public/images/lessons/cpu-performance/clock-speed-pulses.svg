@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
+  <title id="title">Clock speed pulses</title>
+  <desc id="desc">Two one-second timelines compare fewer CPU cycles at 1 GHz with more CPU cycles at 3 GHz.</desc>
+  <rect width="640" height="420" rx="30" fill="#f8fbff"/>
+  <rect x="34" y="34" width="572" height="352" rx="26" fill="#ffffff" stroke="#bfdbfe" stroke-width="4"/>
+  <text x="70" y="86" fill="#0b1b45" font-family="Arial, sans-serif" font-size="28" font-weight="700">Same time: 1 second</text>
+  <text x="70" y="146" fill="#0b4ac8" font-family="Arial, sans-serif" font-size="26" font-weight="700">1 GHz</text>
+  <path d="M156 136h40l22-34 30 68 24-34h44" fill="none" stroke="#2563eb" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="356" y="146" fill="#334155" font-family="Arial, sans-serif" font-size="22" font-weight="700">fewer timing pulses</text>
+  <text x="70" y="244" fill="#0b4ac8" font-family="Arial, sans-serif" font-size="26" font-weight="700">3 GHz</text>
+  <path d="M156 234h24l16-28 20 56 18-28h24l16-28 20 56 18-28h24l16-28 20 56 18-28h34" fill="none" stroke="#2563eb" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="70" y="325" fill="#0b1b45" font-family="Arial, sans-serif" font-size="28" font-weight="700">More cycles in one second</text>
+  <circle cx="532" cy="94" r="36" fill="#dbeafe" stroke="#0b4ac8" stroke-width="6"/>
+  <path d="M532 94l20-22" stroke="#ef4444" stroke-width="8" stroke-linecap="round"/>
+</svg>

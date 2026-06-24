@@ -1,0 +1,14 @@
+---
+interface Props {
+  number: number | string;
+}
+
+const { number } = Astro.props;
+---
+
+<li class="learning-objective-item">
+  <span class="learning-objective-item__number" aria-hidden="true">{number}</span>
+  <span class="learning-objective-item__text">
+    <slot />
+  </span>
+</li>

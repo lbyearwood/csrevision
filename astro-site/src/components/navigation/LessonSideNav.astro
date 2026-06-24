@@ -13,7 +13,7 @@ const { title, sections, activeId = sections[0]?.id } = Astro.props;
 <aside class="lesson-sidebar">
   <div class="lesson-sidebar-panel">
     <h2 class="text-lg font-black text-[var(--color-primary)]">{title}</h2>
-    <p class="mt-5 text-base font-black text-slate-900">Lesson slides</p>
+    <p class="mt-5 text-base font-black text-slate-900">Lesson slide navigation</p>
     <nav class="mt-4 grid gap-2" aria-label="Lesson sections">
       {sections.map((section, index) => (
         <a
@@ -35,7 +35,7 @@ const { title, sections, activeId = sections[0]?.id } = Astro.props;
 </aside>
 
 <details class="lesson-mobile-nav">
-  <summary class="cursor-pointer text-base font-black text-[var(--color-primary)]">Lesson slides</summary>
+  <summary class="cursor-pointer text-base font-black text-[var(--color-primary)]">Lesson slide navigation</summary>
   <nav class="mt-3 grid gap-2" aria-label="Lesson sections">
     {sections.map((section, index) => (
       <a

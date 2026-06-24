@@ -1,5 +1,6 @@
 ---
 import type { LessonPageData } from "../../lib/lessonTypes";
+import { assertUniqueLessonPartTitles } from "../../lib/lessonSlideShellLabels";
 import LessonLayout from "../layout/LessonLayout.astro";
 import LessonSideNav from "../navigation/LessonSideNav.astro";
 import LessonSection from "./LessonSection.astro";
@@ -9,6 +10,7 @@ interface Props {
 }
 
 const { lesson } = Astro.props;
+assertUniqueLessonPartTitles(lesson.sections.map((section) => section.label));
 const navSections = lesson.sections.map((section) => ({
   id: section.id,
   title: section.heading,

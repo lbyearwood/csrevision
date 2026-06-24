@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 360" role="img" aria-labelledby="title desc">
+  <title id="title">Number of cores symbol</title>
+  <desc id="desc">A CPU chip split into several cores with app tasks around it.</desc>
+  <rect width="520" height="360" rx="28" fill="#fef3c7"/>
+  <rect x="160" y="70" width="200" height="200" rx="30" fill="#92400e"/>
+  <g fill="#fde68a">
+    <rect x="192" y="102" width="54" height="54" rx="12"/>
+    <rect x="274" y="102" width="54" height="54" rx="12"/>
+    <rect x="192" y="184" width="54" height="54" rx="12"/>
+    <rect x="274" y="184" width="54" height="54" rx="12"/>
+  </g>
+  <path d="M132 108h28M132 170h28M132 232h28M360 108h28M360 170h28M360 232h28M204 42v28M260 42v28M316 42v28M204 270v28M260 270v28M316 270v28" stroke="#92400e" stroke-width="10" stroke-linecap="round"/>
+  <g fill="#ffffff" stroke="#d97706" stroke-width="5">
+    <rect x="54" y="76" width="70" height="52" rx="10"/>
+    <rect x="54" y="216" width="70" height="52" rx="10"/>
+    <rect x="396" y="76" width="70" height="52" rx="10"/>
+    <rect x="396" y="216" width="70" height="52" rx="10"/>
+  </g>
+  <path d="M70 96h38M70 236h38M412 96h38M412 236h38" stroke="#0b1b45" stroke-width="6" stroke-linecap="round"/>
+  <text x="178" y="324" fill="#78350f" font-family="Arial, sans-serif" font-size="28" font-weight="700">More cores</text>
+</svg>

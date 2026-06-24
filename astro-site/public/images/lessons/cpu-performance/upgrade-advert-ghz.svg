@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
+  <title id="title">Higher GHz CPU upgrade advert</title>
+  <desc id="desc">A poster-style CPU advert promoting clock speed with a large 3.8 GHz label, speedometer and CPU chip.</desc>
+  <rect width="640" height="420" rx="34" fill="#eaf2ff"/>
+  <rect x="30" y="30" width="580" height="360" rx="30" fill="#ffffff" stroke="#1d4ed8" stroke-width="7"/>
+  <path d="M58 65h190" stroke="#facc15" stroke-width="18" stroke-linecap="round"/>
+  <path d="M58 98h112" stroke="#facc15" stroke-width="10" stroke-linecap="round"/>
+  <text x="60" y="148" fill="#0b4ac8" font-family="Arial, sans-serif" font-size="38" font-weight="700">SPEED BOOST</text>
+  <text x="60" y="240" fill="#07183f" font-family="Arial, sans-serif" font-size="92" font-weight="700">3.8</text>
+  <text x="245" y="240" fill="#07183f" font-family="Arial, sans-serif" font-size="56" font-weight="700">GHz</text>
+  <text x="66" y="294" fill="#334155" font-family="Arial, sans-serif" font-size="26" font-weight="700">faster clock ticks</text>
+  <g transform="translate(390 74)">
+    <circle cx="96" cy="96" r="76" fill="#dbeafe" stroke="#0b4ac8" stroke-width="9"/>
+    <path d="M41 121a62 62 0 0 1 110 0" fill="none" stroke="#07183f" stroke-width="13" stroke-linecap="round"/>
+    <path d="M96 105l45-46" stroke="#ef4444" stroke-width="13" stroke-linecap="round"/>
+    <circle cx="96" cy="105" r="13" fill="#07183f"/>
+    <path d="M16 42h-44M30 12h-32M36 178h-54" stroke="#2563eb" stroke-width="12" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(414 272)">
+    <rect x="0" y="0" width="136" height="84" rx="18" fill="#0b4ac8"/>
+    <rect x="24" y="18" width="88" height="48" rx="10" fill="#bfdbfe"/>
+    <path d="M-18 18H0M-18 42H0M-18 66H0M136 18h18M136 42h18M136 66h18M30-18v18M68-18v18M106-18v18M30 84v18M68 84v18M106 84v18" stroke="#0b4ac8" stroke-width="8" stroke-linecap="round"/>
+  </g>
+</svg>

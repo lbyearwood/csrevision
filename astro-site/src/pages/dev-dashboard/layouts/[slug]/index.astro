@@ -1,6 +1,7 @@
 ---
 import LessonLayout from "../../../../components/layout/LessonLayout.astro";
 import LessonSlideShell from "../../../../components/lesson/LessonSlideShell.astro";
+import TitleSegmentSlide from "../../../../components/lesson/layouts/TitleSegmentSlide.astro";
 import LessonSideNav from "../../../../components/navigation/LessonSideNav.astro";
 import { devLayoutDefinitions, type DevLayoutDefinition } from "../../../../data/devLayouts";
 import { routes } from "../../../../data/routes";
@@ -42,18 +43,22 @@ const navSections = [
     <LessonSideNav title={numberedLayoutTitle} sections={navSections} />
     <main class="lesson-main min-w-0 px-4 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
-        <LessonSlideShell id="example" label={layout.label} heading="Example" slideNumber={1}>
-          <div class:list={["dev-layout-zone-grid", `dev-layout-zone-grid--${layout.slug}`, layout.slug === "title-segment-slide" ? "dev-layout-zone-grid--title" : "dev-layout-zone-grid--two-by-two"]}>
-            {layout.zones.map((zone, index) => (
-              <article class:list={["dev-layout-zone", `dev-layout-zone--${zone.span}`, `dev-layout-zone--item-${index + 1}`]}>
-                <h3>{zone.title}</h3>
-                {zone.detail && <p>{zone.detail}</p>}
-              </article>
-            ))}
-          </div>
+        <LessonSlideShell id="example" label="Part 1 - Example" heading="Example" slideNumber={1} hideHeader={layout.slug === "title-segment-slide"}>
+          {layout.slug === "title-segment-slide" ? (
+            <TitleSegmentSlide kind="part-title" title="Part 1 - Example" />
+          ) : (
+            <div class:list={["dev-layout-zone-grid", `dev-layout-zone-grid--${layout.slug}`, "dev-layout-zone-grid--two-by-two"]}>
+              {layout.zones.map((zone, index) => (
+                <article class:list={["dev-layout-zone", `dev-layout-zone--${zone.span}`, `dev-layout-zone--item-${index + 1}`]}>
+                  <h3>{zone.title}</h3>
+                  {zone.detail && <p>{zone.detail}</p>}
+                </article>
+              ))}
+            </div>
+          )}
         </LessonSlideShell>
 
-        <LessonSlideShell id="brief" label={layout.label} heading="Brief" slideNumber={2}>
+        <LessonSlideShell id="brief" label="Part 2 - Brief" heading="Brief" slideNumber={2}>
           <div class="dev-layout-review-panel">
             <h3>{numberedLayoutTitle}</h3>
             <p>{layout.brief}</p>

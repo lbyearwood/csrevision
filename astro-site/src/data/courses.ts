@@ -28,7 +28,7 @@ export const cpuArchitectureLesson: LessonPageData = {
   sections: [
     {
       id: "learning-objectives",
-      label: "1.1.1 Architecture of the CPU",
+      label: "Lesson introduction",
       heading: "Learning objectives",
       cards: [
         {
@@ -185,7 +185,7 @@ export const cpuArchitectureLesson: LessonPageData = {
     },
     {
       id: "purpose-check",
-      label: "Part 1 - Check your understanding",
+      label: "Part 1 - Purpose of the CPU",
       heading: "Multiple choice question",
       cards: [
         {
@@ -415,7 +415,7 @@ export const cpuArchitectureLesson: LessonPageData = {
     },
     {
       id: "von-neumann",
-      label: "Part 3 - Von Neumann architecture",
+      label: "Part 4 - Von Neumann architecture",
       heading: "Von Neumann architecture",
       cards: [
         {
@@ -446,7 +446,7 @@ export const cpuArchitectureLesson: LessonPageData = {
     },
     {
       id: "summary",
-      label: "Summary",
+      label: "Lesson summary",
       heading: "What to remember",
       cards: [
         {

@@ -128,4 +128,16 @@ export const devComponentDefinitions: DevComponentDefinition[] = [
     href: componentHref("code-block"),
     complete: true,
   },
+  {
+    title: "CommandWord",
+    slug: "command-word",
+    href: componentHref("command-word"),
+    complete: true,
+  },
+  {
+    title: "LearningObjectiveItem",
+    slug: "learning-objective-item",
+    href: componentHref("learning-objective-item"),
+    complete: true,
+  },
 ];

@@ -56,14 +56,26 @@ npm.cmd run dev -- --host 127.0.0.1 --port 4321
 - Tailwind CSS.
 - Single-page lesson model.
 - Shared lesson shell.
+- Default GCSE target audience is 11-18, especially 14-16. Lesson design must serve young learners with purposeful icons, symbols, imagery, diagrams, relatable scenarios and interaction rather than adult business-dashboard styling.
 - Dev dashboard for reusable layout/card/component review.
 - Dev dashboard separates Shells from Layouts: the standard numbered slide shell is not counted as a layout.
+- Visible `LessonSlideShell` badge/header labels are restricted to `Lesson introduction`, `Lesson summary`, or `Part [number] - [title]`.
+- A single lesson must not reuse one part number with different titles.
+- `TitleSegmentSlide` is only for the opening lesson title slide or a between-parts divider. Part dividers must show the full `Part [number] - [title]` label.
+- Starter/introduction activity slides must use the fixed heading `Lesson starter`, not custom labels such as `Upgrade challenge`.
+- Segue/overview slides that bridge into the lesson parts sit immediately before the first part title and remain labelled as `Lesson introduction`.
+- Repeated lesson navigation topics should use short lettered labels, such as `Clock speed (A)` and `Clock speed (B)`.
+- `FourEqualCards` is reserved for true quadrant/matrix/four-way comparison content, not typical overview slides or ordinary groups of four cards.
 - Layouts are now structural 2 by 2 card arrangements only, plus the title segment slide exception.
 - The reusable module catalogue is accepted as of 2026-06-23: 1 shell, 9 layouts, 25 cards, 20 components and 6 widgets.
 - Reusable card examples should compose smaller code-named components where practical. Current examples include InteractiveTableCard and MisconceptionCard using FeedbackState, ExamQuestionCard using LabelBadge, FlashCard and VisualFlashCard using FlipCard, and CodingCard using CodeBlock.
 - LearningObjectivesCard now exists as a real wrapper component in `astro-site/src/components/lesson/cards/LearningObjectivesCard.astro`; use that codeName directly rather than treating the card as a SummaryCard variant.
 - Structured content/data should drive future lesson creation.
 - Lesson creation must follow the staged approval workflow in `docs/dev/LESSON_CREATION_WORKFLOW.md`.
+- User adjustments must be documented as hardline protocols in `SITE_QA_AND_DEVELOPMENT_RULES.md`, not left as informal thread context.
+- Stage 0 must define target audience and engagement needs before Stage 1 planning or component selection.
+- For rich learner-facing visuals, prefer OpenAI-generated bitmap images over hand-authored SVG. Keep SVG/code-native drawings for exact diagrams, labels, gates and connector work.
+- Advert/poster graphics must be visually checked at card size: no overlapping text/graphics, no cramped copy, and captions should carry explanation where possible.
 
 ## Current Priorities
 
@@ -120,16 +132,17 @@ Worker: PC Codex.
 User intent:
 
 - The user is testing the formal staged lesson creation workflow.
-- The user approved Stage 2 after it was strengthened into a detailed slide blueprint.
-- The user said the current Part 1 implementation needs improvements, but asked PC Codex to stop for now, update docs, write this handover and push so Laptop Codex can continue tomorrow.
+- The user approved the Stage 2 direction but found the Stage 3 implementation too far from the agreed teaching/resource design.
+- The user has been turning those corrections into hardline project protocols.
+- The user then asked to pause the OpenAI image-generation update and push the current checkpoint to Git.
 
 Workflow state:
 
 1. Stage 0 complete: OCR J277 spec checked and old `app/` lesson, task, quiz and exam routes audited.
 2. Stage 1 complete: lesson arc approved with an interesting intro, learning objectives, clock speed, cache, cores, application, summary and exam practice.
-3. Stage 2 complete: detailed 15-slide blueprint approved.
-4. Stage 3 started: only Part 1 has been built.
-5. Do not build the rest of the lesson in one pass. Continue part by part.
+3. Stage 2 needs to inform Stage 3 more tightly; future builds must name accepted layout/card/component/widget codeNames and graphic briefs before implementation.
+4. Stage 3 started: only the lesson opening, introduction, objectives, overview/segue and Part 1 clock-speed slides have been built.
+5. Do not build the rest of the lesson in one pass. Continue part by part after the user accepts the current part.
 
 Built in Astro:
 
@@ -145,57 +158,71 @@ http://127.0.0.1:4321/gcse/computer-systems/cpu-performance/
 
 Implemented slides:
 
-1. CPU Performance
-2. Upgrade Challenge
-3. Learning Objectives
-4. The Three CPU Performance Factors
-5. Clock Speed Means Cycles Per Second
-6. Faster Clock Speed Can Process More Instructions
+1. `CPU performance`
+2. `Lesson starter`
+3. `Learning objectives`
+4. `CPU factors`
+5. `Part 1 - Clock speed`
+6. `Clock speed (A)`
+7. `Clock speed (B)`
 
-Part 1 content includes:
+Current lesson structure:
 
-1. Clock speed definition.
-2. GHz as billions of cycles per second.
-3. More cycles per second can allow more instructions per second.
-4. Interactive instruction-throughput model with previous, next and reset controls.
-5. Misconception correction for "higher clock speed always makes every task faster".
-6. Hinge question with correct/incorrect feedback and reset.
+1. Opening title slide uses `TitleSegmentSlide` with no extra badge/header.
+2. Starter slide uses `Lesson starter`, `TwoTopCardsWideBottomCard`, two `ImageCard`s and a prediction `QuestionCard`.
+3. Learning objectives use `LearningObjectivesCard`, `LearningObjectiveItem` and `CommandWord`.
+4. Overview/segue slide uses ImageCards for clock speed, cache size and number of cores and remains labelled `Lesson introduction`.
+5. Part divider uses `TitleSegmentSlide` with `Part 1 - Clock speed`.
+6. Part 1 has two teaching slides: `What is clock speed?` and `How does clock speed affect performance?`.
 
 Important implementation notes:
 
-1. `1-1-2` lesson is now wired into GCSE topic routing via `astro-site/src/data/routes.ts`, `astro-site/src/data/gcseTopics.ts` and `astro-site/src/data/resourceStatus.ts`.
-2. `LearningObjectivesCard` was added as a real component and the Dev dashboard learning objectives example now uses it directly.
-3. The lesson page currently uses route-specific Astro composition with accepted reusable card/component codeNames. This was chosen because the older data-driven `LessonPage` renderer does not yet express the accepted 2 by 2 layout/card system strongly enough.
-4. Before continuing, Laptop Codex should open the route with the user and record the specific improvements requested for Part 1.
-5. Do not proceed to cache until the user accepts Part 1.
+1. `LessonSlideShell` badge/header labels are validated through `astro-site/src/lib/lessonSlideShellLabels.ts`.
+2. `LessonPage` now checks for duplicate part numbers with conflicting titles when data-driven lessons provide shell labels.
+3. `LessonSideNav` heading now says `Lesson slide navigation`.
+4. The CPU performance page currently references SVG visuals in `astro-site/public/images/lessons/cpu-performance/`.
+5. OpenAI image-generation work was started and then paused by the user before integration.
+6. Draft OpenAI bitmap images have been copied into the repo for review at `astro-site/public/images/lessons/cpu-performance/openai-drafts/`.
+7. Do not treat the OpenAI draft images as accepted final assets yet. Review them with the user, choose replacements, then update the lesson image paths.
+8. The current preferred direction is: OpenAI-generated bitmap images for rich learner-facing visuals; SVG/code-native visuals only for precise diagrams, gates, connectors or deterministic labels.
 
-QA already run for this work:
+OpenAI draft image files now available for review:
+
+```text
+astro-site/public/images/lessons/cpu-performance/openai-drafts/openai-clock-speed-advert-draft.png
+astro-site/public/images/lessons/cpu-performance/openai-drafts/openai-cores-advert-draft.png
+astro-site/public/images/lessons/cpu-performance/openai-drafts/openai-clock-speed-visual-draft.png
+astro-site/public/images/lessons/cpu-performance/openai-drafts/openai-cache-visual-draft.png
+astro-site/public/images/lessons/cpu-performance/openai-drafts/openai-cores-visual-draft.png
+astro-site/public/images/lessons/cpu-performance/openai-drafts/openai-clock-pulses-comparison-draft-a.png
+astro-site/public/images/lessons/cpu-performance/openai-drafts/openai-clock-pulses-comparison-draft-b.png
+```
+
+QA already run for the current checkpoint:
 
 ```powershell
 npm.cmd run build
-npm.cmd test
 ```
 
-Both passed from `astro-site/`.
+Build passed from `astro-site/`.
 
 Browser QA already performed:
 
-1. New route returned HTTP 200 on the local dev server.
-2. Desktop screenshot reviewed.
-3. Tablet screenshot reviewed.
-4. Mobile screenshot reviewed.
-5. The screenshot rule caught mobile title overflow; PC Codex fixed it and rechecked.
-6. Model next/reset interaction tested.
-7. Hinge question correct state tested.
-8. Browser console errors checked: 0.
+1. Current route returned HTTP 200 on the local dev server.
+2. Slide 2 was opened through the lesson navigation, not only by URL.
+3. Lesson starter advert section was visually checked.
+4. Target slide images loaded with 0 broken target images.
+5. Browser console warnings/errors checked for the slide section: 0.
 
 Known follow-up:
 
-1. User has not accepted Part 1 yet.
-2. User said improvements are needed but did not list them in this turn.
-3. Laptop Codex should start by asking/confirming the Part 1 improvement list, then amend Part 1 and re-run screenshot QA.
-4. After Part 1 is accepted, build Part 2: Cache Size and Cache Levels.
-5. Keep following `docs/dev/LESSON_CREATION_WORKFLOW.md`.
+1. Review the OpenAI draft images with the user.
+2. Replace the current SVG image references only after the user accepts the draft direction.
+3. After replacing images, run `npm.cmd run build` and Edge visual QA at card size.
+4. Re-check the lesson against the protocols in `SITE_QA_AND_DEVELOPMENT_RULES.md`.
+5. Do not proceed to Part 2 until the user accepts Part 1.
+6. After Part 1 is accepted, build Part 2: Cache Size and Cache Levels.
+7. Keep following `docs/dev/LESSON_CREATION_WORKFLOW.md`.
 
 ## Known Limitations
 

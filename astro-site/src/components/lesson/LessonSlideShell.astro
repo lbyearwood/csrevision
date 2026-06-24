@@ -1,18 +1,23 @@
 ---
 import SectionHeader from "./SectionHeader.astro";
+import { assertLessonSlideShellLabel, type LessonSlideShellLabel } from "../../lib/lessonSlideShellLabels";
 
 interface Props {
   id: string;
-  label: string;
+  label: LessonSlideShellLabel;
   heading: string;
   slideNumber: number;
+  hideHeader?: boolean;
 }
 
-const { id, label, heading, slideNumber } = Astro.props;
+const { id, label, heading, slideNumber, hideHeader = false } = Astro.props;
+if (!hideHeader) {
+  assertLessonSlideShellLabel(label);
+}
 const displayHeading = `${slideNumber}. ${heading}`;
 ---
 
 <section id={id} class="lesson-section-canvas" data-lesson-slide-shell>
-  <SectionHeader label={label} heading={displayHeading} />
+  {!hideHeader && <SectionHeader label={label} heading={displayHeading} />}
   <slot />
 </section>

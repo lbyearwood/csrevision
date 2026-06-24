@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 420" role="img" aria-labelledby="title desc">
+  <title id="title">More cores CPU upgrade advert</title>
+  <desc id="desc">A poster-style CPU advert promoting eight cores with a large chip and separate app windows.</desc>
+  <rect width="640" height="420" rx="34" fill="#eafaf2"/>
+  <rect x="30" y="30" width="580" height="360" rx="30" fill="#ffffff" stroke="#059669" stroke-width="7"/>
+  <text x="60" y="124" fill="#047857" font-family="Arial, sans-serif" font-size="34" font-weight="700">MULTITASK MODE</text>
+  <text x="60" y="220" fill="#07183f" font-family="Arial, sans-serif" font-size="90" font-weight="700">8</text>
+  <text x="138" y="220" fill="#07183f" font-family="Arial, sans-serif" font-size="56" font-weight="700">CORES</text>
+  <text x="66" y="276" fill="#334155" font-family="Arial, sans-serif" font-size="26" font-weight="700">share suitable work</text>
+  <g transform="translate(428 74)">
+    <rect x="0" y="0" width="156" height="156" rx="26" fill="#065f46"/>
+    <g fill="#a7f3d0">
+      <rect x="24" y="24" width="42" height="42" rx="10"/>
+      <rect x="90" y="24" width="42" height="42" rx="10"/>
+      <rect x="24" y="90" width="42" height="42" rx="10"/>
+      <rect x="90" y="90" width="42" height="42" rx="10"/>
+    </g>
+    <path d="M-22 32H0M-22 78H0M-22 124H0M156 32h22M156 78h22M156 124h22M32-22v22M78-22v22M124-22v22M32 156v22M78 156v22M124 156v22" stroke="#059669" stroke-width="8" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(350 270)" stroke-width="5">
+    <rect x="0" y="0" width="76" height="56" rx="11" fill="#dbeafe" stroke="#0b4ac8"/>
+    <rect x="92" y="0" width="76" height="56" rx="11" fill="#fef3c7" stroke="#d97706"/>
+    <rect x="184" y="0" width="76" height="56" rx="11" fill="#fee2e2" stroke="#dc2626"/>
+    <path d="M17 20h42M17 36h26M109 20h42M109 36h26M201 20h42M201 36h26" stroke="#07183f" stroke-width="6" stroke-linecap="round"/>
+  </g>
+</svg>

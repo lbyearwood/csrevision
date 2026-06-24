@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 360" role="img" aria-labelledby="title desc">
+  <title id="title">Cache size symbol</title>
+  <desc id="desc">A CPU, nearby cache blocks and RAM, showing cache close to the processor.</desc>
+  <rect width="520" height="360" rx="28" fill="#ecfdf5"/>
+  <rect x="64" y="118" width="112" height="112" rx="20" fill="#065f46"/>
+  <rect x="88" y="142" width="64" height="64" rx="10" fill="#a7f3d0"/>
+  <text x="85" y="280" fill="#064e3b" font-family="Arial, sans-serif" font-size="26" font-weight="700">CPU</text>
+  <g transform="translate(218 96)">
+    <rect x="0" y="0" width="70" height="70" rx="14" fill="#10b981"/>
+    <rect x="82" y="0" width="70" height="70" rx="14" fill="#10b981"/>
+    <rect x="0" y="82" width="70" height="70" rx="14" fill="#10b981"/>
+    <rect x="82" y="82" width="70" height="70" rx="14" fill="#10b981"/>
+    <text x="20" y="124" fill="#ffffff" font-family="Arial, sans-serif" font-size="44" font-weight="700">C</text>
+  </g>
+  <rect x="420" y="82" width="44" height="200" rx="12" fill="#bbf7d0" stroke="#059669" stroke-width="6"/>
+  <path d="M176 174h38M370 174h46" stroke="#0b1b45" stroke-width="10" stroke-linecap="round"/>
+  <path d="M190 154l24 20-24 20M392 154l24 20-24 20" fill="none" stroke="#0b1b45" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="218" y="280" fill="#064e3b" font-family="Arial, sans-serif" font-size="26" font-weight="700">Cache is close</text>
+</svg>

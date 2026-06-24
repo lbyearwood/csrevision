@@ -1,0 +1,44 @@
+---
+import FeedbackState from "./FeedbackState.astro";
+import NextButton from "./NextButton.astro";
+import PreviousButton from "./PreviousButton.astro";
+import ResetButton from "./ResetButton.astro";
+---
+
+<p class="lesson-component-model-intro">
+  Step through the same one-second window and compare how many simple instructions each CPU can work through.
+</p>
+<div class="lesson-component-instruction-model" data-clock-model aria-live="polite">
+  <div class="lesson-component-instruction-lane">
+    <h4>Lower clock speed</h4>
+    <div class="lesson-component-instruction-track" data-lane="slow">
+      <span class="is-active">Fetch</span>
+      <span>Decode</span>
+      <span>Execute</span>
+      <span>Write back</span>
+    </div>
+    <p data-slow-status>Step 1: one instruction has started.</p>
+  </div>
+  <div class="lesson-component-instruction-lane lesson-component-instruction-lane--fast">
+    <h4>Higher clock speed</h4>
+    <div class="lesson-component-instruction-track" data-lane="fast">
+      <span class="is-active">Fetch</span>
+      <span>Decode</span>
+      <span>Execute</span>
+      <span>Write back</span>
+      <span>Fetch</span>
+      <span>Decode</span>
+      <span>Execute</span>
+      <span>Write back</span>
+    </div>
+    <p data-fast-status>Step 1: a second instruction can begin sooner.</p>
+  </div>
+</div>
+<div class="lesson-component-model-controls" data-clock-controls>
+  <PreviousButton data-action="previous">Previous step</PreviousButton>
+  <NextButton data-action="next">Next step</NextButton>
+  <ResetButton data-action="reset">Reset</ResetButton>
+</div>
+<FeedbackState tone="neutral" data-clock-summary>
+  Step 1 of 4: both CPUs begin work, but the higher clock speed has more timing pulses available.
+</FeedbackState>

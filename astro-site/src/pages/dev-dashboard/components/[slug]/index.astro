@@ -2,6 +2,7 @@
 import LessonLayout from "../../../../components/layout/LessonLayout.astro";
 import LessonSlideShell from "../../../../components/lesson/LessonSlideShell.astro";
 import CodeBlock from "../../../../components/lesson/components/CodeBlock.astro";
+import CommandWord from "../../../../components/lesson/components/CommandWord.astro";
 import DiagramLabel from "../../../../components/lesson/components/DiagramLabel.astro";
 import DisclosurePanel from "../../../../components/lesson/components/DisclosurePanel.astro";
 import DragHandle from "../../../../components/lesson/components/DragHandle.astro";
@@ -11,6 +12,7 @@ import FlowConnector from "../../../../components/lesson/components/FlowConnecto
 import HintToggle from "../../../../components/lesson/components/HintToggle.astro";
 import ImageHotspot from "../../../../components/lesson/components/ImageHotspot.astro";
 import LabelBadge from "../../../../components/lesson/components/LabelBadge.astro";
+import LearningObjectiveItem from "../../../../components/lesson/components/LearningObjectiveItem.astro";
 import MarkSchemeBullet from "../../../../components/lesson/components/MarkSchemeBullet.astro";
 import MultipleChoiceOption from "../../../../components/lesson/components/MultipleChoiceOption.astro";
 import NextButton from "../../../../components/lesson/components/NextButton.astro";
@@ -144,6 +146,16 @@ const briefBySlug: Record<string, string[]> = {
     "Design requirements: Use numbered lines, a strong left line-number gutter, dark code surface and readable syntax colours.",
     "Functionality: Accept code-line content from the parent card while preserving semantic ordered-list structure.",
   ],
+  "command-word": [
+    "Purpose: Mark the command word at the start of an objective, exam question or task instruction.",
+    "Design requirements: Use bold text without increasing the surrounding sentence size.",
+    "Functionality: Work inline inside learning objectives, questions and instructions without adding layout.",
+  ],
+  "learning-objective-item": [
+    "Purpose: Present one numbered learning objective row.",
+    "Design requirements: Use the agreed blue number circle, consistent row spacing and normal body text after the command word.",
+    "Functionality: Compose with CommandWord inside LearningObjectivesCard.",
+  ],
 };
 ---
 
@@ -158,7 +170,7 @@ const briefBySlug: Record<string, string[]> = {
     <LessonSideNav title={numberedComponentTitle} sections={navSections} />
     <main class="lesson-main min-w-0 px-4 sm:px-6 lg:px-8">
       <div class="mx-auto max-w-7xl">
-        <LessonSlideShell id="example" label="Component" heading="Example" slideNumber={1}>
+        <LessonSlideShell id="example" label="Part 1 - Example" heading="Example" slideNumber={1}>
           <div class="dev-component-example-stage">
             {component.slug === "reveal-button" && (
               <RevealButton />
@@ -291,10 +303,24 @@ const briefBySlug: Record<string, string[]> = {
                 </li>
               </CodeBlock>
             )}
+
+            {component.slug === "command-word" && (
+              <p class="dev-component-inline-example">
+                <CommandWord>Explain</CommandWord> how cache size can affect CPU performance.
+              </p>
+            )}
+
+            {component.slug === "learning-objective-item" && (
+              <ol class="lesson-card-objectives-list dev-component-objective-example">
+                <LearningObjectiveItem number={1}>
+                  <CommandWord>Describe</CommandWord> how analogue sound is stored in digital form.
+                </LearningObjectiveItem>
+              </ol>
+            )}
           </div>
         </LessonSlideShell>
 
-        <LessonSlideShell id="brief" label="Component" heading="Brief" slideNumber={2}>
+        <LessonSlideShell id="brief" label="Part 2 - Brief" heading="Brief" slideNumber={2}>
           <div class="dev-layout-review-panel">
             <h3>{numberedComponentTitle}</h3>
             <ol class="dev-card-brief-list">
