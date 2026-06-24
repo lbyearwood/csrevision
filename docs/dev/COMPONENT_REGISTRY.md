@@ -48,7 +48,7 @@ Layouts are structural 2 by 2 card arrangements only, except for the title segme
 | 6 | TableCard | accepted | Complete real table, centered title and brief purpose explanation. |
 | 7 | InteractiveTableCard | accepted | Complete row-selection behaviour, centered intro text and blue hover/support state. Uses FeedbackState for the live row explanation. |
 | 8 | ModellingCard | accepted | Complete fetch-decode-execute model, previous/next/reset controls and live step status. |
-| 9 | SingleMultipleChoiceCard | accepted | Complete clickable A-D question with thick borders, green tick/red cross states and reset control. |
+| 9 | SingleMultipleChoiceCard | accepted | Complete clickable A-D question with normal-weight question/answer text, green tick/red cross states, feedback strip and reset control. |
 | 10 | SeveralMultipleChoiceCard | accepted | Complete reference-style Q1-Q3 structure with four-option rows and reset control. |
 | 11 | AnswerCard | accepted | Complete lightbox/modal reveal context example. |
 | 12 | PromptCard | accepted | Complete concrete prompt example. |
@@ -74,7 +74,7 @@ Layouts are structural 2 by 2 card arrangements only, except for the title segme
 | 2 | PreviousButton | accepted | Reusable component file with rounded blue previous-step control. |
 | 3 | NextButton | accepted | Reusable component file with rounded blue next-step control in a different shade. |
 | 4 | ResetButton | accepted | Reusable component file used by relevant card examples. |
-| 5 | MultipleChoiceOption | accepted | Reusable component file used by multiple-choice card examples. |
+| 5 | MultipleChoiceOption | accepted | Reusable component file used by multiple-choice card examples. Standalone Dev dashboard example uses four A-D options with normal-weight answer text and the current hover/focus styling. |
 | 6 | ResultMarkerCorrect | accepted | Reusable marker component supports correct state. |
 | 7 | ResultMarkerIncorrect | accepted | Reusable marker component supports incorrect state. |
 | 8 | FeedbackState | accepted | Reusable feedback component with neutral, correct and incorrect variants. |

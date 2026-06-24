@@ -10,6 +10,8 @@ Lessons must be developed in staged approval gates so Codex can focus on one lev
 
 Before building, read and follow the hardline lesson development protocols in `SITE_QA_AND_DEVELOPMENT_RULES.md`. They are mandatory project rules, not optional style guidance.
 
+When a lesson needs generated bitmap visuals, also read and follow `docs/dev/IMAGE_GENERATION_STANDARDS.md`. The CPU performance upgrade advert PNGs named in that document are the current accepted visual benchmark for OpenAI-generated advert-style images.
+
 ## Required Workflow
 
 ### Stage 0: Understand The Lesson
@@ -94,6 +96,8 @@ The blueprint must include:
 
 The blueprint should not contain polished final teaching text yet, but it must contain enough detail to prevent generic slides.
 
+Formal assessment content must be planned as its own slide. Do not place `ExamQuestionCard`, `SingleMultipleChoiceCard`, `SeveralMultipleChoiceCard` or `HingeQuestionCard` underneath teaching content on the same slide. Prefer one dedicated slide for several related exam questions where they assess the same idea or exam skill. Multiple-choice assessment slides may be single-question or several-question slides, but they should remain question-only. Use `Multiple choice` as the visible title for multiple-choice slides, and `Exam Questions` as the visible title for exam-question slides.
+
 Use this per-slide format:
 
 1. Slide number and title.
@@ -131,7 +135,9 @@ For each lesson part, complete the relevant items together:
 
 Do not write all lesson text first, then all diagrams, then all questions across the whole lesson. Visuals, models and checks often change what the text should say. Each part should become coherent before moving on.
 
-For rich learner-facing visuals, use OpenAI image generation as the preferred default. Use SVG/code-native diagrams only where exact labels, geometry, connectors or deterministic educational notation matter more than visual richness.
+When adding formal assessment to a part, create a separate assessment slide for it instead of attaching the question card below a teaching layout. Keep teaching explanation slides for teaching, and keep exam or multiple-choice slides focused on the question, options, feedback and reset/reveal controls. Title these slides `Multiple choice` or `Exam Questions` rather than inventing topic-specific check titles.
+
+For rich learner-facing visuals, use OpenAI image generation as the preferred default and follow `docs/dev/IMAGE_GENERATION_STANDARDS.md`. Use SVG/code-native diagrams only where exact labels, geometry, connectors or deterministic educational notation matter more than visual richness.
 
 Generated images must be copied into the project before use. Do not reference images directly from a local Codex cache path.
 
@@ -216,7 +222,10 @@ Rules:
 9. Do not use page-specific CSS or markup to imitate a reusable module when the accepted module already exists.
 10. Use `FourEqualCards` only for true quadrant, matrix or four-way comparison content where equal visual weight is the teaching purpose. Prefer the other accepted layouts for ordinary groups, overviews and segue slides.
 11. When content implies a visual object, such as an advert, screenshot, poster, interface, diagram, device, icon, symbol or model, choose a visual card/component such as `ImageCard` before considering text-only cards. If a text-only card is still chosen, explain why and ask the user to approve that choice.
-12. Advert/poster graphics must use big symbols, short readable copy, clear contrast and deliberate spacing. Inspect the rendered card and fix any overlapping, clipped, crowded or tiny in-graphic text before presenting it.
+12. Advert/poster graphics must follow `docs/dev/IMAGE_GENERATION_STANDARDS.md`: use modern raster educational card style, big symbols, short readable copy, clear contrast and deliberate spacing. Inspect the rendered card and fix any overlapping, clipped, crowded, artefacted or tiny in-graphic text before presenting it.
+13. Exam-question and multiple-choice cards must be placed on dedicated assessment slides, not mixed into teaching slides.
+14. Dedicated assessment slide titles must be `Multiple choice` for multiple-choice cards or `Exam Questions` for exam-question cards.
+15. Apply the hardline typography rule from `SITE_QA_AND_DEVELOPMENT_RULES.md`: unless text is a title or subtitle, it must be normal weight (`400`). Do not make question prompts, answer options, feedback, helper text, list text, captions, table text, button labels or normal card copy heavy.
 
 ## Lesson Slide Shell Badge Standard
 

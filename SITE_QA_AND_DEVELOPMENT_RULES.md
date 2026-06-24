@@ -139,6 +139,10 @@ Temporary browser-control limitation:
 - Lesson section titles must display their slide number as part of the title text, using the format `6. Multiple choice question`.
 - Keep lesson data headings clean and unnumbered where possible; add slide numbering through the shared lesson rendering layer so the standard is consistent across lessons.
 - Lesson navigation must reflect the currently visible slide as the user scrolls or follows a slide link.
+- Formal assessment content must sit on its own lesson slide. Do not embed exam-question cards, single multiple-choice cards, several multiple-choice cards or hinge multiple-choice questions underneath teaching cards on the same slide.
+- Prefer grouping related exam questions together on one dedicated exam-practice slide where they test the same taught idea or exam skill.
+- Multiple-choice assessment slides may contain either one multiple-choice question or several related multiple-choice questions, but they should still be question-only slides rather than mixed teaching-and-question slides.
+- Dedicated multiple-choice assessment slides should use the visible slide title `Multiple choice`. Dedicated exam-question assessment slides should use the visible slide title `Exam Questions`.
 - The active lesson navigation item must use `aria-current="location"` and should remain visible inside the desktop sidebar where practical.
 - Use shared lesson CSS standards for section scroll offset, card sizing, spacing and responsive behaviour. Do not fix lesson-canvas issues with one-off page tweaks.
 - For the lesson navigation issue, do not amend sticky or sidebar code until the Edge pre-amendment access check has passed.
@@ -191,11 +195,12 @@ These are non-negotiable project protocols. Future development must adhere to th
 - Lessons for this audience must not look like adult business/data dashboards. They should feel like engaging teaching resources for young learners, using icons, symbols, diagrams, imagery, visual metaphors, relatable scenarios and interactive models where they support understanding.
 - Choose visual cards/components when the content implies a visual object, such as an advert, screenshot, poster, interface, diagram, product, device, icon, symbol, model or image. `ImageCard` or another visual card must be considered before defaulting to text-only cards.
 - If Codex chooses a text-only card where the content implies a visual object, it must explain the reason and get user approval before continuing.
-- For rich learner-facing lesson visuals, OpenAI image generation is the preferred default over hand-authored SVG. This applies to advert-style prompts, visual metaphors, concept illustrations, realistic/semi-realistic educational imagery and graphics intended to engage GCSE learners.
+- For rich learner-facing lesson visuals, OpenAI image generation is the preferred default over hand-authored SVG. This applies to advert-style prompts, visual metaphors, concept illustrations, realistic/semi-realistic educational imagery and graphics intended to engage GCSE learners. Follow `docs/dev/IMAGE_GENERATION_STANDARDS.md` for prompt, style, asset and QA requirements.
 - Use SVG/code-native drawing only when precision matters more than visual richness, such as logic gates, straight-line connectors, labelled diagrams, UI schematics, exact charts, reusable icons, or diagrams where text/geometry must be deterministic.
 - Generated lesson images must be copied into the project before being referenced. Do not leave a project-referenced image only in the local Codex generated-images cache.
-- Advert/poster-style lesson graphics must look intentionally designed, not like text panels with clip art. Use big symbols, short readable copy, clear A/B contrast and enough empty space for the eye to rest.
-- Visual assets must be checked at their rendered card size. Text and graphics inside the asset must not overlap, clip, crowd each other or rely on tiny wording. Put explanatory detail in the card caption or surrounding teaching text instead.
+- The current accepted OpenAI image benchmark is the CPU performance starter advert pair: `upgrade-advert-ghz-openai.png` and `upgrade-advert-cores-openai.png`.
+- Advert/poster-style lesson graphics must look intentionally designed, not like text panels with clip art. Use modern raster educational card style, big symbols, short readable copy, clear A/B contrast and enough empty space for the eye to rest.
+- Visual assets must be checked at their rendered card size. Text and graphics inside the asset must not overlap, clip, crowd each other, show artefacts or rely on tiny wording. Put explanatory detail in the card caption or surrounding teaching text instead.
 - Do not create custom lesson layouts, custom cards, custom slide markup or page-specific card structures without explicit user authorisation before building them.
 - If a required teaching pattern does not exist, ask permission to create a reusable module, then add it to the Dev dashboard and component registry before using it as an accepted pattern.
 - Stage 2 blueprints must name exact accepted layout, card, component and widget codeNames. If a codeName does not exist, mark it as unresolved and ask the user rather than inventing it during build.
@@ -230,10 +235,14 @@ These are non-negotiable project protocols. Future development must adhere to th
 - Avoid page-specific CSS unless needed for a complex visual or model.
 - The visual style should feel like a polished educational platform: clear hierarchy, readable spacing, accessible contrast, calm colours and consistent cards.
 - For 11-18 lesson resources, polished must not mean corporate. Add age-appropriate visual interest through purposeful icons, symbols, images, diagrams and interactive models rather than relying on text panels alone.
+- Hardline typography rule: unless text is a title or subtitle, it must use normal font weight (`400`). Do not use heavy weights for question prompts, body copy, answer options, feedback text, helper text, captions, button labels, table text, list text, brief text or ordinary UI labels.
+- When a design reference uses thick text throughout, preserve the layout and spacing but reduce non-heading text to normal weight unless the user explicitly asks for heavy body text.
+- Existing heavy non-heading text should be corrected when the relevant component or card is next touched. Do not create new thick body/control text.
 
 ## QAP: Text Hierarchy In Cards
 
 - Card text hierarchy must be checked visually, not only by reading the CSS.
+- Unless the text is a title or subtitle, it must use normal font weight (`400`).
 - Body text, numbered-list text and command words must not overpower the card title or make the introductory sentence feel unrelated.
 - Bold command words such as `Describe`, `Explain` and `Calculate` should use weight for emphasis, not a larger font size than the rest of the objective sentence.
 - Number circles, badges and markers should support scanning. They must not feel like oversized buttons unless they are actually interactive controls.

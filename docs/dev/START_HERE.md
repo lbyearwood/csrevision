@@ -9,6 +9,7 @@ Active development documents should use stable, undated filenames. Record dates 
 ## User Task Shorthand
 
 - When the user writes `Q.` at the start of a request or task, treat it as "add this to the queue of work to do". Add the item to the current task queue/backlog for project workers rather than treating `Q.` as a typo or question marker.
+- When the user writes `s.` or `S.` at the start of a request, treat it as the standard startup routine: pull the latest `astro-site` branch, read all required dev docs in the read order below, then run the Astro site locally.
 
 ## Read Order
 
@@ -21,9 +22,10 @@ Active development documents should use stable, undated filenames. Record dates 
 7. `docs/dev/TROUBLESHOOTING.md`
 8. `docs/dev/ARCHITECTURE.md`
 9. `docs/dev/COMPONENT_REGISTRY.md`
-10. `docs/dev/LESSON_CREATION_WORKFLOW.md`
-11. `docs/dev/MIGRATION_WORKFLOW.md`
-12. `docs/dev/HANDOVER.md`
+10. `docs/dev/IMAGE_GENERATION_STANDARDS.md`
+11. `docs/dev/LESSON_CREATION_WORKFLOW.md`
+12. `docs/dev/MIGRATION_WORKFLOW.md`
+13. `docs/dev/HANDOVER.md`
 
 ## Project Boundary
 
@@ -60,5 +62,6 @@ Active development documents should use stable, undated filenames. Record dates 
 - Do not add a traditional backend.
 - Do not connect Supabase until explicitly requested.
 - Keep public pages free from developer-only wording.
+- Unless text is a title or subtitle, use normal font weight (`400`) in lesson and Dev dashboard UI. Do not make question prompts, answer options, feedback, helper text, captions, button labels, table text or normal card copy heavy.
 - Use Edge for required browser QA on user-facing changes.
 - Update `docs/dev/TROUBLESHOOTING.md` whenever a new development, build, server, browser-control, QA or tooling error is discovered.

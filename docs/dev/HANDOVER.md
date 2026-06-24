@@ -29,6 +29,7 @@ This is the living handover for future Codex sessions. Update it when the projec
 /dev-dashboard/
 /dev-dashboard/layouts/[slug]/
 /dev-dashboard/cards/[slug]/
+/dev-dashboard/components/[slug]/
 ```
 
 ## Current Commands
@@ -67,15 +68,17 @@ npm.cmd run dev -- --host 127.0.0.1 --port 4321
 - Repeated lesson navigation topics should use short lettered labels, such as `Clock speed (A)` and `Clock speed (B)`.
 - `FourEqualCards` is reserved for true quadrant/matrix/four-way comparison content, not typical overview slides or ordinary groups of four cards.
 - Layouts are now structural 2 by 2 card arrangements only, plus the title segment slide exception.
-- The reusable module catalogue is accepted as of 2026-06-23: 1 shell, 9 layouts, 25 cards, 20 components and 6 widgets.
+- The reusable module catalogue is accepted as of 2026-06-23: 1 shell, 9 layouts, 25 cards, 22 components and 6 widgets.
 - Reusable card examples should compose smaller code-named components where practical. Current examples include InteractiveTableCard and MisconceptionCard using FeedbackState, ExamQuestionCard using LabelBadge, FlashCard and VisualFlashCard using FlipCard, and CodingCard using CodeBlock.
 - LearningObjectivesCard now exists as a real wrapper component in `astro-site/src/components/lesson/cards/LearningObjectivesCard.astro`; use that codeName directly rather than treating the card as a SummaryCard variant.
 - Structured content/data should drive future lesson creation.
 - Lesson creation must follow the staged approval workflow in `docs/dev/LESSON_CREATION_WORKFLOW.md`.
 - User adjustments must be documented as hardline protocols in `SITE_QA_AND_DEVELOPMENT_RULES.md`, not left as informal thread context.
+- Hardline typography rule: unless text is a title or subtitle, use normal font weight (`400`). Question prompts, answer options, feedback, helper text, captions, button labels, table text, list text and normal card copy must not be heavy.
 - Stage 0 must define target audience and engagement needs before Stage 1 planning or component selection.
 - For rich learner-facing visuals, prefer OpenAI-generated bitmap images over hand-authored SVG. Keep SVG/code-native drawings for exact diagrams, labels, gates and connector work.
-- Advert/poster graphics must be visually checked at card size: no overlapping text/graphics, no cramped copy, and captions should carry explanation where possible.
+- OpenAI-generated lesson visuals must follow `docs/dev/IMAGE_GENERATION_STANDARDS.md`. The accepted benchmark style is the CPU performance starter advert pair: `upgrade-advert-ghz-openai.png` and `upgrade-advert-cores-openai.png`.
+- Advert/poster graphics must be visually checked at card size: no overlapping text/graphics, no cramped copy, no artefacts, and captions should carry explanation where possible.
 
 ## Current Priorities
 
@@ -125,24 +128,25 @@ The next Codex should use the formal workflow rather than improvising a new proc
 
 ## Active Lesson Handover: 1.1.2 CPU performance
 
-Date: 2026-06-24
+Date: 2026-06-25
 
 Worker: PC Codex.
 
 User intent:
 
-- The user is testing the formal staged lesson creation workflow.
-- The user approved the Stage 2 direction but found the Stage 3 implementation too far from the agreed teaching/resource design.
-- The user has been turning those corrections into hardline project protocols.
-- The user then asked to pause the OpenAI image-generation update and push the current checkpoint to Git.
+- The user is testing the formal staged lesson creation workflow and wants quality gates to prevent rushed, generic lesson output.
+- Part 1 is being refined before moving on to cache size/cache levels.
+- Rich lesson visuals should use accepted OpenAI-generated bitmap images rather than hand-authored SVG when the aim is engagement rather than deterministic geometry.
+- Multiple-choice and exam-question cards must sit on dedicated assessment slides.
+- Typography is now strict: only titles/subtitles should use heavy weight. Question prompts, options, helper text and feedback must be normal weight.
 
 Workflow state:
 
 1. Stage 0 complete: OCR J277 spec checked and old `app/` lesson, task, quiz and exam routes audited.
 2. Stage 1 complete: lesson arc approved with an interesting intro, learning objectives, clock speed, cache, cores, application, summary and exam practice.
-3. Stage 2 needs to inform Stage 3 more tightly; future builds must name accepted layout/card/component/widget codeNames and graphic briefs before implementation.
-4. Stage 3 started: only the lesson opening, introduction, objectives, overview/segue and Part 1 clock-speed slides have been built.
-5. Do not build the rest of the lesson in one pass. Continue part by part after the user accepts the current part.
+3. Stage 2 was improved after the user rejected the first version for lack of detail. Future Stage 2 outputs must be detailed enough to drive excellent implementation.
+4. Stage 3 is in progress part by part. Current implementation covers the opening, starter, objectives, CPU factors/segue and Part 1 clock-speed slides.
+5. Do not build the rest of the lesson in one pass. Continue only after the user accepts the current part.
 
 Built in Astro:
 
@@ -165,37 +169,42 @@ Implemented slides:
 5. `Part 1 - Clock speed`
 6. `Clock speed (A)`
 7. `Clock speed (B)`
+8. `Multiple choice`
 
 Current lesson structure:
 
 1. Opening title slide uses `TitleSegmentSlide` with no extra badge/header.
 2. Starter slide uses `Lesson starter`, `TwoTopCardsWideBottomCard`, two `ImageCard`s and a prediction `QuestionCard`.
 3. Learning objectives use `LearningObjectivesCard`, `LearningObjectiveItem` and `CommandWord`.
-4. Overview/segue slide uses ImageCards for clock speed, cache size and number of cores and remains labelled `Lesson introduction`.
+4. Overview/segue slide uses `ImageCard`s for clock speed, cache size and number of cores and remains labelled `Lesson introduction`.
 5. Part divider uses `TitleSegmentSlide` with `Part 1 - Clock speed`.
-6. Part 1 has two teaching slides: `What is clock speed?` and `How does clock speed affect performance?`.
+6. Part 1 teaching slide A explains clock speed and cycles per second.
+7. Part 1 teaching slide B explains that a higher clock speed can allow more sequential instructions to be processed per second.
+8. Slide 8 is a dedicated assessment slide titled `Multiple choice`; it uses `OneFullSpanCard`, `SingleMultipleChoiceCard` and four reusable `MultipleChoiceOption variant="lesson"` buttons.
 
 Important implementation notes:
 
 1. `LessonSlideShell` badge/header labels are validated through `astro-site/src/lib/lessonSlideShellLabels.ts`.
-2. `LessonPage` now checks for duplicate part numbers with conflicting titles when data-driven lessons provide shell labels.
-3. `LessonSideNav` heading now says `Lesson slide navigation`.
-4. The CPU performance page currently references SVG visuals in `astro-site/public/images/lessons/cpu-performance/`.
-5. OpenAI image-generation work was started and then paused by the user before integration.
-6. Draft OpenAI bitmap images have been copied into the repo for review at `astro-site/public/images/lessons/cpu-performance/openai-drafts/`.
-7. Do not treat the OpenAI draft images as accepted final assets yet. Review them with the user, choose replacements, then update the lesson image paths.
-8. The current preferred direction is: OpenAI-generated bitmap images for rich learner-facing visuals; SVG/code-native visuals only for precise diagrams, gates, connectors or deterministic labels.
+2. `LessonPage` checks for duplicate part numbers with conflicting titles when data-driven lessons provide shell labels.
+3. `LessonSideNav` heading says `Lesson slide navigation`.
+4. Current CPU performance rich visuals use accepted OpenAI PNG assets from `astro-site/public/images/lessons/cpu-performance/`.
+5. The original SVG versions still exist as fallback/reference assets but should not be preferred for rich learner-facing visuals.
+6. `WideTopCardTwoBottomCards` exists and is used for slide 7.
+7. `SingleMultipleChoiceCard` exists at `astro-site/src/components/lesson/cards/SingleMultipleChoiceCard.astro`.
+8. The standalone Dev dashboard route `http://127.0.0.1:4321/dev-dashboard/components/multiple-choice-option/` has been updated to show the current four-option style with normal-weight text.
+9. The accepted OpenAI image style benchmark remains `upgrade-advert-ghz-openai.png` and `upgrade-advert-cores-openai.png`; follow `docs/dev/IMAGE_GENERATION_STANDARDS.md`.
+10. Do not reintroduce heavy answer-option or question-prompt text.
 
-OpenAI draft image files now available for review:
+Accepted OpenAI lesson image files currently referenced or available:
 
 ```text
-astro-site/public/images/lessons/cpu-performance/openai-drafts/openai-clock-speed-advert-draft.png
-astro-site/public/images/lessons/cpu-performance/openai-drafts/openai-cores-advert-draft.png
-astro-site/public/images/lessons/cpu-performance/openai-drafts/openai-clock-speed-visual-draft.png
-astro-site/public/images/lessons/cpu-performance/openai-drafts/openai-cache-visual-draft.png
-astro-site/public/images/lessons/cpu-performance/openai-drafts/openai-cores-visual-draft.png
-astro-site/public/images/lessons/cpu-performance/openai-drafts/openai-clock-pulses-comparison-draft-a.png
-astro-site/public/images/lessons/cpu-performance/openai-drafts/openai-clock-pulses-comparison-draft-b.png
+astro-site/public/images/lessons/cpu-performance/upgrade-advert-ghz-openai.png
+astro-site/public/images/lessons/cpu-performance/upgrade-advert-cores-openai.png
+astro-site/public/images/lessons/cpu-performance/factor-clock-speed-openai.png
+astro-site/public/images/lessons/cpu-performance/factor-cache-openai.png
+astro-site/public/images/lessons/cpu-performance/factor-cores-openai.png
+astro-site/public/images/lessons/cpu-performance/clock-speed-pulses-openai.png
+astro-site/public/images/lessons/cpu-performance/clock-speed-instructions-openai.png
 ```
 
 QA already run for the current checkpoint:
@@ -206,23 +215,24 @@ npm.cmd run build
 
 Build passed from `astro-site/`.
 
-Browser QA already performed:
+Browser/visual QA already performed:
 
-1. Current route returned HTTP 200 on the local dev server.
-2. Slide 2 was opened through the lesson navigation, not only by URL.
-3. Lesson starter advert section was visually checked.
-4. Target slide images loaded with 0 broken target images.
-5. Browser console warnings/errors checked for the slide section: 0.
+1. Dev server route probes returned HTTP 200 for the checked surfaces.
+2. `SingleMultipleChoiceCard` was checked on the Dev dashboard and CPU performance slide 8.
+3. `MultipleChoiceOption` standalone component route was screenshot-reviewed on desktop, hover and mobile.
+4. Slide 8 screenshot confirmed it renders `SingleMultipleChoiceCard` with four reusable `MultipleChoiceOption` buttons.
+5. Computed font weights for the multiple-choice prompt, options and reset button were checked as `400`.
+6. Correct and incorrect answer states were checked: green tick/correct state and red cross/incorrect state.
+7. No relevant console errors or framework overlays were found during the Playwright/Edge checks.
 
 Known follow-up:
 
-1. Review the OpenAI draft images with the user.
-2. Replace the current SVG image references only after the user accepts the draft direction.
-3. After replacing images, run `npm.cmd run build` and Edge visual QA at card size.
-4. Re-check the lesson against the protocols in `SITE_QA_AND_DEVELOPMENT_RULES.md`.
-5. Do not proceed to Part 2 until the user accepts Part 1.
-6. After Part 1 is accepted, build Part 2: Cache Size and Cache Levels.
-7. Keep following `docs/dev/LESSON_CREATION_WORKFLOW.md`.
+1. Review Part 1 with the user before moving to Part 2.
+2. Do not proceed to Part 2 until the user accepts Part 1.
+3. After Part 1 is accepted, build Part 2: cache size, cache levels L1/L2/L3 and a cache scenario check.
+4. Keep following `docs/dev/LESSON_CREATION_WORKFLOW.md`.
+5. Re-check any touched UI with screenshot review before marking it complete.
+6. Known UI issue observed during automated hash navigation: the lesson side-nav active highlight can lag and still show slide 7 active while slide 8 is visible. Do not hide this if it appears again; either fix it as a focused task or report it as a remaining issue.
 
 ## Known Limitations
 

@@ -3,24 +3,20 @@ import LessonLayout from "../../../../components/layout/LessonLayout.astro";
 import LessonSideNav from "../../../../components/navigation/LessonSideNav.astro";
 import LessonSlideShell from "../../../../components/lesson/LessonSlideShell.astro";
 import ExplanationCard from "../../../../components/lesson/cards/ExplanationCard.astro";
-import HingeQuestionCard from "../../../../components/lesson/cards/HingeQuestionCard.astro";
 import ImageCard from "../../../../components/lesson/cards/ImageCard.astro";
 import LearningObjectivesCard from "../../../../components/lesson/cards/LearningObjectivesCard.astro";
 import MisconceptionCard from "../../../../components/lesson/cards/MisconceptionCard.astro";
-import ModellingCard from "../../../../components/lesson/cards/ModellingCard.astro";
 import QuestionCard from "../../../../components/lesson/cards/QuestionCard.astro";
-import SupportCard from "../../../../components/lesson/cards/SupportCard.astro";
+import SingleMultipleChoiceCard from "../../../../components/lesson/cards/SingleMultipleChoiceCard.astro";
 import FeedbackState from "../../../../components/lesson/components/FeedbackState.astro";
 import CommandWord from "../../../../components/lesson/components/CommandWord.astro";
 import LearningObjectiveItem from "../../../../components/lesson/components/LearningObjectiveItem.astro";
 import MultipleChoiceOption from "../../../../components/lesson/components/MultipleChoiceOption.astro";
-import ResetButton from "../../../../components/lesson/components/ResetButton.astro";
-import InstructionThroughputModel from "../../../../components/lesson/components/InstructionThroughputModel.astro";
 import OneFullSpanCard from "../../../../components/lesson/layouts/OneFullSpanCard.astro";
-import TallLeftCardTwoRightCards from "../../../../components/lesson/layouts/TallLeftCardTwoRightCards.astro";
 import TitleSegmentSlide from "../../../../components/lesson/layouts/TitleSegmentSlide.astro";
 import TwoTopCardsWideBottomCard from "../../../../components/lesson/layouts/TwoTopCardsWideBottomCard.astro";
 import TwoVerticalCards from "../../../../components/lesson/layouts/TwoVerticalCards.astro";
+import WideTopCardTwoBottomCards from "../../../../components/lesson/layouts/WideTopCardTwoBottomCards.astro";
 import { assertUniqueLessonPartTitles, type LessonSlideShellLabel } from "../../../../lib/lessonSlideShellLabels";
 
 const lessonTitle = "1.1.2 CPU performance";
@@ -43,6 +39,7 @@ const navSections = [
   { id: "part-1-clock-speed", title: "Part 1 - Clock speed" },
   { id: "clock-speed-cycles", title: "Clock speed (A)" },
   { id: "clock-speed-instructions", title: "Clock speed (B)" },
+  { id: "clock-speed-check", title: "Multiple choice" },
 ];
 ---
 
@@ -68,16 +65,18 @@ const navSections = [
           <TwoTopCardsWideBottomCard>
             <ImageCard
               title="Upgrade advert A"
-              src="/images/lessons/cpu-performance/upgrade-advert-ghz.svg"
-              alt="Advert for a turbo clock CPU upgrade with a speedometer and 3.8 GHz text"
+              src="/images/lessons/cpu-performance/upgrade-advert-ghz-openai.png"
+              alt="Advert for a 3.8 GHz CPU upgrade showing a speed boost and processor chip."
               caption="Higher GHz means more clock cycles can happen each second."
+              class="lesson-card-generated-image"
               slot="top-left"
             />
             <ImageCard
               title="Upgrade advert B"
-              src="/images/lessons/cpu-performance/upgrade-advert-cores.svg"
+              src="/images/lessons/cpu-performance/upgrade-advert-cores-openai.png"
               alt="Advert for an eight core CPU upgrade with multitasking app windows"
               caption="More cores can help suitable tasks share work."
+              class="lesson-card-generated-image"
               slot="top-right"
             />
             <QuestionCard title="First prediction" slot="bottom">
@@ -86,7 +85,7 @@ const navSections = [
                 when several applications are open at the same time?
               </p>
               <FeedbackState tone="neutral">
-                Keep your prediction. We will come back to it after the clock speed model.
+                Keep your prediction. We will come back to it after the clock speed explanation.
               </FeedbackState>
             </QuestionCard>
           </TwoTopCardsWideBottomCard>
@@ -110,23 +109,26 @@ const navSections = [
           <TwoTopCardsWideBottomCard>
             <ImageCard
               title="Clock speed"
-              src="/images/lessons/cpu-performance/factor-clock-speed.svg"
-              alt="Speedometer, CPU chip and timing pulse symbol for clock speed"
+              src="/images/lessons/cpu-performance/factor-clock-speed-openai.png"
+              alt="Clock speed visual card showing fast ticks, clock pulses, a speed gauge and a CPU chip."
               caption="How quickly the CPU can tick through cycles."
+              class="lesson-card-generated-image"
               slot="top-left"
             />
             <ImageCard
               title="Cache size"
-              src="/images/lessons/cpu-performance/factor-cache.svg"
-              alt="CPU, nearby cache blocks and RAM showing cache close to the processor"
+              src="/images/lessons/cpu-performance/factor-cache-openai.png"
+              alt="Cache size visual card showing fast nearby memory blocks around a CPU chip."
               caption="Fast nearby memory can reduce waiting."
+              class="lesson-card-generated-image"
               slot="top-right"
             />
             <ImageCard
               title="Number of cores"
-              src="/images/lessons/cpu-performance/factor-cores.svg"
-              alt="CPU chip split into several cores with app tasks around it"
+              src="/images/lessons/cpu-performance/factor-cores-openai.png"
+              alt="Number of cores visual card showing eight cores and task windows sharing work."
               caption="Several cores can share suitable work."
+              class="lesson-card-generated-image"
               slot="bottom"
             />
           </TwoTopCardsWideBottomCard>
@@ -152,26 +154,36 @@ const navSections = [
 
             <ImageCard
               title="Cycles per second"
-              src="/images/lessons/cpu-performance/clock-speed-pulses.svg"
-              alt="Two one-second timelines comparing fewer pulses at 1 GHz with more pulses at 3 GHz"
+              src="/images/lessons/cpu-performance/clock-speed-pulses-openai.png"
+              alt="Cycles per second visual card comparing fewer clock pulses with more clock pulses in the same time."
               caption="Higher GHz means more cycles can happen in the same amount of time."
+              class="lesson-card-generated-image"
               slot="right"
             />
           </TwoVerticalCards>
         </LessonSlideShell>
 
         <LessonSlideShell id="clock-speed-instructions" label={shellLabels.clockSpeed} heading="How does clock speed affect performance?" slideNumber={7}>
-          <TallLeftCardTwoRightCards>
-            <ModellingCard title="Instruction throughput model" slot="left">
-              <InstructionThroughputModel />
-            </ModellingCard>
+          <WideTopCardTwoBottomCards>
+            <ImageCard
+              title="Same second, more instructions"
+              src="/images/lessons/cpu-performance/clock-speed-instructions-openai.png"
+              alt="One-second comparison showing a lower clock speed with fewer instruction blocks and a higher clock speed with more instruction blocks."
+              caption="A higher clock speed can allow more instruction work to happen in the same amount of time."
+              class="lesson-card-generated-image"
+              slot="top"
+            />
 
-            <SupportCard title="Why this can improve performance" slot="top-right">
+            <ExplanationCard title="More cycles can mean more instructions" slot="bottom-left">
               <p>
-                More cycles per second can allow more instructions to be processed per second. This can improve
-                performance for tasks that rely on fast sequential processing, such as repeated calculations.
+                A CPU uses clock cycles to keep its work in time. When the clock speed is higher, more cycles can
+                happen each second, so the CPU may be able to process more instructions in the same amount of time.
               </p>
-            </SupportCard>
+              <ul>
+                <li>This can make calculation-heavy tasks finish sooner.</li>
+                <li>The benefit is strongest when the task depends on fast sequential processing.</li>
+              </ul>
+            </ExplanationCard>
 
             <MisconceptionCard title="Misconception" slot="bottom-right">
               <FeedbackState tone="incorrect">
@@ -181,168 +193,44 @@ const navSections = [
                 Higher clock speed can help, but performance also depends on cache, cores, software and the task.
               </FeedbackState>
             </MisconceptionCard>
-          </TallLeftCardTwoRightCards>
+          </WideTopCardTwoBottomCards>
+        </LessonSlideShell>
 
+        <LessonSlideShell id="clock-speed-check" label={shellLabels.clockSpeed} heading="Multiple choice" slideNumber={8}>
           <OneFullSpanCard>
-            <HingeQuestionCard title="Which task is most likely to benefit from higher clock speed?" class="lesson-card-hinge-question">
-              <p class="lesson-card-hinge-prompt">
-                Choose the task where faster sequential instruction processing is likely to matter most.
-              </p>
-              <ol class="lesson-card-option-list" data-single-choice data-feedback-target="clock-hinge-feedback" type="A">
-                <li>
-                  <MultipleChoiceOption variant="lesson" data-feedback="A higher clock speed is useful for repeated calculations because more cycles can allow more instructions to be processed each second.">
-                    A program performing many calculations one after another
-                  </MultipleChoiceOption>
-                </li>
-                <li>
-                  <MultipleChoiceOption variant="lesson" data-feedback="Running several applications at once is usually more directly linked to the number of cores.">
-                    Browser, presentation software and antivirus all running at the same time
-                  </MultipleChoiceOption>
-                </li>
-                <li data-correct="true">
-                  <MultipleChoiceOption variant="lesson" data-feedback="Correct. A calculation-heavy task is a good example because faster cycles can help the CPU work through instructions more quickly.">
-                    A single calculation-heavy program
-                  </MultipleChoiceOption>
-                </li>
-                <li>
-                  <MultipleChoiceOption variant="lesson" data-feedback="Repeated data often points towards cache because useful data can be kept close to the CPU.">
-                    A program repeatedly using the same image data
-                  </MultipleChoiceOption>
-                </li>
-              </ol>
-              <FeedbackState id="clock-hinge-feedback" class="lesson-card-hinge-feedback" aria-live="polite">
-                Select an answer to check whether the clock speed idea is secure.
-              </FeedbackState>
-              <div class="lesson-card-choice-actions">
-                <ResetButton data-reset-choice>Reset</ResetButton>
-              </div>
-            </HingeQuestionCard>
+            <SingleMultipleChoiceCard
+              question="Which task is most likely to benefit from higher clock speed?"
+              helperText="Select an answer to check whether the clock speed idea is secure."
+              feedbackId="clock-speed-choice-feedback"
+            >
+              <li
+                data-correct="true"
+                data-feedback="Correct. A task with many calculations one after another is likely to benefit because a higher clock speed can process more sequential instructions each second."
+              >
+                <MultipleChoiceOption variant="lesson" data-choice-option>
+                  A program performing many calculations one after another
+                </MultipleChoiceOption>
+              </li>
+              <li data-feedback="Not quite. Several applications running at the same time usually points more directly towards the number of cores.">
+                <MultipleChoiceOption variant="lesson" data-choice-option>
+                  Browser, presentation software and antivirus all running at the same time
+                </MultipleChoiceOption>
+              </li>
+              <li data-feedback="This could involve clock speed, but the strongest clue is the sequential calculations happening one after another.">
+                <MultipleChoiceOption variant="lesson" data-choice-option>
+                  A single calculation-heavy program
+                </MultipleChoiceOption>
+              </li>
+              <li data-feedback="Not quite. Repeatedly using the same data usually points more directly towards cache memory.">
+                <MultipleChoiceOption variant="lesson" data-choice-option>
+                  A program repeatedly using the same image data
+                </MultipleChoiceOption>
+              </li>
+            </SingleMultipleChoiceCard>
           </OneFullSpanCard>
         </LessonSlideShell>
       </div>
     </main>
   </div>
 </LessonLayout>
-
-<script>
-  const clockSteps = [
-    {
-      slow: "Step 1: one instruction has started.",
-      fast: "Step 1: a second instruction can begin sooner.",
-      summary: "Step 1 of 4: both CPUs begin work, but the higher clock speed has more timing pulses available.",
-      slowCount: 1,
-      fastCount: 1,
-    },
-    {
-      slow: "Step 2: the lower-speed CPU is still working through the first instruction.",
-      fast: "Step 2: the higher-speed CPU has already moved further through the queue.",
-      summary: "Step 2 of 4: more cycles per second means the instruction queue can move faster.",
-      slowCount: 2,
-      fastCount: 3,
-    },
-    {
-      slow: "Step 3: fewer instructions have been processed in the same second.",
-      fast: "Step 3: more instruction stages have completed in the same second.",
-      summary: "Step 3 of 4: higher clock speed can allow more instructions to be processed per second.",
-      slowCount: 3,
-      fastCount: 6,
-    },
-    {
-      slow: "Step 4: the lower-speed CPU completes fewer stages in this model.",
-      fast: "Step 4: the higher-speed CPU completes more stages in this model.",
-      summary: "Step 4 of 4: clock speed can improve performance, especially for fast sequential processing.",
-      slowCount: 4,
-      fastCount: 8,
-    },
-  ];
-
-  const clockModel = document.querySelector("[data-clock-model]");
-  const clockControls = document.querySelector("[data-clock-controls]");
-  const clockSummary = document.querySelector("[data-clock-summary]");
-  let clockStep = 0;
-
-  const setClockStep = (stepIndex) => {
-    if (!(clockModel instanceof HTMLElement) || !(clockSummary instanceof HTMLElement)) {
-      return;
-    }
-
-    clockStep = Math.max(0, Math.min(clockSteps.length - 1, stepIndex));
-    const step = clockSteps[clockStep];
-    const slowStatus = clockModel.querySelector("[data-slow-status]");
-    const fastStatus = clockModel.querySelector("[data-fast-status]");
-    const slowNodes = Array.from(clockModel.querySelectorAll('[data-lane="slow"] span'));
-    const fastNodes = Array.from(clockModel.querySelectorAll('[data-lane="fast"] span'));
-
-    if (slowStatus) {
-      slowStatus.textContent = step.slow;
-    }
-
-    if (fastStatus) {
-      fastStatus.textContent = step.fast;
-    }
-
-    slowNodes.forEach((node, index) => node.classList.toggle("is-active", index < step.slowCount));
-    fastNodes.forEach((node, index) => node.classList.toggle("is-active", index < step.fastCount));
-    clockSummary.textContent = step.summary;
-  };
-
-  clockControls?.addEventListener("click", (event) => {
-    const target = event.target instanceof HTMLElement ? event.target.closest("button") : null;
-    const action = target?.getAttribute("data-action");
-
-    if (action === "previous") {
-      setClockStep(clockStep - 1);
-    }
-
-    if (action === "next") {
-      setClockStep(clockStep + 1);
-    }
-
-    if (action === "reset") {
-      setClockStep(0);
-    }
-  });
-
-  document.querySelectorAll("[data-single-choice]").forEach((choiceList) => {
-    choiceList.addEventListener("click", (event) => {
-      const button = event.target instanceof HTMLElement ? event.target.closest("button") : null;
-      const option = button?.closest("li");
-
-      if (!(option instanceof HTMLElement)) {
-        return;
-      }
-
-      const feedbackTarget = choiceList.getAttribute("data-feedback-target");
-      const feedback = feedbackTarget ? document.getElementById(feedbackTarget) : null;
-      const isCorrect = option.hasAttribute("data-correct");
-
-      choiceList.querySelectorAll("li").forEach((item) => item.classList.remove("is-correct", "is-incorrect"));
-      option.classList.add(isCorrect ? "is-correct" : "is-incorrect");
-
-      if (feedback) {
-        feedback.textContent = button?.getAttribute("data-feedback") ?? "";
-        feedback.classList.toggle("dev-component-feedback--correct", isCorrect);
-        feedback.classList.toggle("dev-component-feedback--incorrect", !isCorrect);
-      }
-    });
-  });
-
-  document.querySelectorAll("[data-reset-choice]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const card = button.closest(".lesson-card-module");
-      card?.querySelectorAll("[data-single-choice] li").forEach((option) => {
-        option.classList.remove("is-correct", "is-incorrect");
-      });
-
-      const feedback = card?.querySelector(".lesson-card-hinge-feedback");
-
-      if (feedback) {
-        feedback.textContent = "Select an answer to check whether the clock speed idea is secure.";
-        feedback.classList.remove("dev-component-feedback--correct", "dev-component-feedback--incorrect");
-      }
-    });
-  });
-
-  setClockStep(0);
-</script>
 

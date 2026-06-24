@@ -68,7 +68,7 @@ const briefBySlug: Record<string, string[]> = {
   ],
   "multiple-choice-option": [
     "Purpose: Present one selectable answer option inside a question card.",
-    "Design requirements: Use an A-D marker, thick border, readable text and clear hover/focus affordance.",
+    "Design requirements: Use an A-D marker, normal-weight answer text, a clear blue border and distinct hover/focus affordance.",
     "Functionality: Support selected, correct and incorrect states when used by question cards.",
   ],
   "correct-marker": [
@@ -189,7 +189,12 @@ const briefBySlug: Record<string, string[]> = {
             )}
 
             {component.slug === "multiple-choice-option" && (
-              <MultipleChoiceOption marker="A">The Arithmetic Logic Unit</MultipleChoiceOption>
+              <div class="dev-component-choice-option-stack">
+                <MultipleChoiceOption marker="A">A program performing many calculations one after another</MultipleChoiceOption>
+                <MultipleChoiceOption marker="B">Browser, presentation software and antivirus all running at the same time</MultipleChoiceOption>
+                <MultipleChoiceOption marker="C">A single calculation-heavy program</MultipleChoiceOption>
+                <MultipleChoiceOption marker="D">A program repeatedly using the same image data</MultipleChoiceOption>
+              </div>
             )}
 
             {component.slug === "correct-marker" && (

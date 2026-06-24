@@ -823,6 +823,7 @@ a {
 
   .lesson-layout-one-full-span-card,
   .lesson-layout-two-vertical-cards,
+  .lesson-layout-wide-top-card-two-bottom-cards,
   .lesson-layout-two-top-cards-wide-bottom-card,
   .lesson-layout-four-equal-cards,
   .lesson-layout-tall-left-card-two-right-cards {
@@ -836,6 +837,7 @@ a {
   }
 
   .lesson-layout-two-vertical-cards,
+  .lesson-layout-wide-top-card-two-bottom-cards,
   .lesson-layout-two-top-cards-wide-bottom-card,
   .lesson-layout-four-equal-cards {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -978,6 +980,24 @@ a {
 
   .lesson-card-module[data-card="image"] h3 {
     text-align: center;
+  }
+
+  .lesson-card-module.lesson-card-generated-image h3,
+  .lesson-card-module.lesson-card-upgrade-advert h3 {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  .lesson-card-module.lesson-card-generated-image .lesson-card-module-body,
+  .lesson-card-module.lesson-card-upgrade-advert .lesson-card-module-body {
+    margin-top: 0;
   }
 
   .lesson-card-module[data-card="diagram"] h3,
@@ -1427,6 +1447,7 @@ a {
 
   @media (max-width: 48rem) {
     .lesson-layout-two-vertical-cards,
+    .lesson-layout-wide-top-card-two-bottom-cards,
     .lesson-layout-two-top-cards-wide-bottom-card,
     .lesson-layout-four-equal-cards,
     .lesson-layout-tall-left-card-two-right-cards {
@@ -1573,7 +1594,7 @@ a {
     justify-content: center;
     border-radius: var(--radius-card);
     font-family: Arial;
-    font-weight: 700;
+    font-weight: 400;
   }
 
   .dev-component-reveal-button,
@@ -1645,31 +1666,89 @@ a {
   }
 
   .dev-component-reset-button span {
+    display: inline-grid;
+    place-items: center;
     color: var(--color-primary);
     font-size: 1.25rem;
     line-height: 1;
   }
 
+  .dev-component-reset-button svg {
+    width: 1.25rem;
+    height: 1.25rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 2.5;
+  }
+
+  .dev-component-choice-option-stack {
+    display: grid;
+    width: min(100%, 60rem);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1rem, 2vw, 1.5rem);
+  }
+
   .dev-component-choice-option {
-    width: min(100%, 32rem);
+    width: 100%;
+    min-height: clamp(5.25rem, 9vw, 6.4rem);
     justify-content: flex-start;
-    gap: 0.85rem;
-    border: 4px solid var(--color-primary);
+    gap: clamp(1rem, 1.8vw, 1.5rem);
+    border: 2px solid #bfdbfe;
     background: #ffffff;
-    padding: 0.85rem 1rem;
-    color: #0f172a;
+    padding: clamp(1rem, 1.8vw, 1.35rem);
+    color: #07184c;
+    font-size: clamp(1.05rem, 1.45vw, 1.45rem);
+    line-height: 1.45;
     text-align: left;
+    box-shadow: 0 10px 22px rgb(30 64 175 / 0.08);
+    transition:
+      background 160ms ease,
+      border-color 160ms ease,
+      box-shadow 160ms ease,
+      transform 160ms ease;
   }
 
   .dev-component-choice-option span {
     display: inline-grid;
-    width: 2rem;
-    height: 2rem;
+    width: clamp(3rem, 5vw, 3.75rem);
+    height: clamp(3rem, 5vw, 3.75rem);
     flex: 0 0 auto;
     place-items: center;
     border-radius: 999px;
-    background: var(--color-primary);
+    background: linear-gradient(180deg, #2563eb 0%, #075de5 100%);
     color: #ffffff;
+    font-size: clamp(1.3rem, 2vw, 1.75rem);
+    font-weight: 400;
+    line-height: 1;
+    box-shadow: 0 8px 18px rgb(37 99 235 / 0.22);
+  }
+
+  .dev-component-choice-option:hover,
+  .dev-component-choice-option:focus-visible {
+    border-color: #2563eb;
+    background: #eff6ff;
+    box-shadow: 0 16px 30px rgb(30 64 175 / 0.14);
+    transform: translateY(-1px);
+  }
+
+  .dev-component-choice-option.is-correct {
+    border-color: #16a34a;
+    background: #dcfce7;
+  }
+
+  .dev-component-choice-option.is-correct span {
+    background: #16a34a;
+  }
+
+  .dev-component-choice-option.is-incorrect {
+    border-color: #dc2626;
+    background: #fee2e2;
+  }
+
+  .dev-component-choice-option.is-incorrect span {
+    background: #dc2626;
   }
 
   .dev-component-marker-row,
@@ -3129,6 +3208,237 @@ a {
     list-style: none;
   }
 
+  .lesson-card-single-multiple-choice-card {
+    min-height: auto;
+    border-color: #dbeafe;
+    background:
+      radial-gradient(circle at 0% 8%, rgb(219 234 254 / 0.45), transparent 18rem),
+      linear-gradient(180deg, #ffffff 0%, #fbfdff 100%);
+    padding: clamp(1.25rem, 3vw, 2.5rem);
+    color: #07184c;
+    font-family: Arial, Helvetica, sans-serif;
+    box-shadow: 0 18px 42px rgb(30 64 175 / 0.08);
+  }
+
+  .lesson-card-single-multiple-choice-question {
+    margin: 0;
+    color: #07184c;
+    font-size: clamp(1.35rem, 2.4vw, 2rem);
+    font-weight: 400;
+    line-height: 1.25;
+  }
+
+  .lesson-card-single-multiple-choice-options {
+    counter-reset: option;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(1rem, 2vw, 1.5rem);
+    margin: clamp(1.25rem, 2vw, 1.75rem) 0 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .lesson-card-single-multiple-choice-options li {
+    counter-increment: option;
+    display: grid;
+    min-height: clamp(5.25rem, 9vw, 6.4rem);
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: clamp(1rem, 1.8vw, 1.5rem);
+    border: 2px solid #bfdbfe;
+    border-radius: var(--radius-card);
+    background: #ffffff;
+    padding: clamp(1rem, 1.8vw, 1.35rem);
+    box-shadow: 0 10px 22px rgb(30 64 175 / 0.08);
+    transition:
+      background 160ms ease,
+      border-color 160ms ease,
+      box-shadow 160ms ease,
+      transform 160ms ease;
+  }
+
+  .lesson-card-single-multiple-choice-options li::before {
+    display: grid;
+    width: clamp(3rem, 5vw, 3.75rem);
+    height: clamp(3rem, 5vw, 3.75rem);
+    place-items: center;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #2563eb 0%, #075de5 100%);
+    color: #ffffff;
+    content: counter(option, upper-alpha);
+    font-size: clamp(1.3rem, 2vw, 1.75rem);
+    font-weight: 700;
+    line-height: 1;
+    box-shadow: 0 8px 18px rgb(37 99 235 / 0.22);
+  }
+
+  .lesson-card-single-multiple-choice-options li:hover,
+  .lesson-card-single-multiple-choice-options li:focus-within {
+    border-color: #2563eb;
+    background: #eff6ff;
+    box-shadow: 0 16px 30px rgb(30 64 175 / 0.14);
+    transform: translateY(-1px);
+  }
+
+  .lesson-card-single-multiple-choice-options .lesson-card-choice-button {
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    color: #07184c;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: clamp(1.05rem, 1.45vw, 1.45rem);
+    font-weight: 400;
+    line-height: 1.45;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .lesson-card-single-multiple-choice-options .lesson-card-choice-button:focus-visible {
+    outline: 3px solid #60a5fa;
+    outline-offset: 0.25rem;
+  }
+
+  .lesson-card-single-multiple-choice-options li.is-correct {
+    border-color: #16a34a;
+    background: #dcfce7;
+  }
+
+  .lesson-card-single-multiple-choice-options li.is-incorrect {
+    border-color: #dc2626;
+    background: #fee2e2;
+  }
+
+  .lesson-card-single-multiple-choice-options li.is-correct:hover,
+  .lesson-card-single-multiple-choice-options li.is-correct:focus-within {
+    border-color: #16a34a;
+    background: #dcfce7;
+  }
+
+  .lesson-card-single-multiple-choice-options li.is-incorrect:hover,
+  .lesson-card-single-multiple-choice-options li.is-incorrect:focus-within {
+    border-color: #dc2626;
+    background: #fee2e2;
+  }
+
+  .lesson-card-single-multiple-choice-options li.is-correct::before {
+    background: #16a34a;
+  }
+
+  .lesson-card-single-multiple-choice-options li.is-incorrect::before {
+    background: #dc2626;
+  }
+
+  .lesson-card-single-multiple-choice-options li.is-correct::after,
+  .lesson-card-single-multiple-choice-options li.is-incorrect::after {
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    border-radius: 999px;
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: 900;
+  }
+
+  .lesson-card-single-multiple-choice-options li.is-correct::after {
+    background: #16a34a;
+    content: "\2713";
+  }
+
+  .lesson-card-single-multiple-choice-options li.is-incorrect::after {
+    background: #dc2626;
+    content: "\00d7";
+  }
+
+  .lesson-card-single-multiple-choice-feedback {
+    display: grid;
+    grid-template-columns: auto auto minmax(0, 1fr);
+    gap: clamp(0.85rem, 1.8vw, 1.25rem);
+    align-items: center;
+    margin-top: clamp(1.25rem, 2vw, 1.75rem);
+    border: 1px solid transparent;
+    border-radius: var(--radius-card);
+    background: #f1f6ff;
+    padding: 1rem 1.25rem;
+    color: #07184c;
+    font-size: clamp(1rem, 1.35vw, 1.2rem);
+    font-weight: 400;
+    line-height: 1.45;
+  }
+
+  .lesson-card-single-multiple-choice-info-icon {
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    border-radius: 999px;
+    background: #0d6be8;
+    color: #ffffff;
+    font-size: 1.2rem;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .lesson-card-single-multiple-choice-divider {
+    width: 2px;
+    height: 2.4rem;
+    border-radius: 999px;
+    background: #bfdbfe;
+  }
+
+  .lesson-card-single-multiple-choice-feedback.is-correct {
+    border-color: #86efac;
+    background: #dcfce7;
+  }
+
+  .lesson-card-single-multiple-choice-feedback.is-correct .lesson-card-single-multiple-choice-info-icon {
+    background: #16a34a;
+  }
+
+  .lesson-card-single-multiple-choice-feedback.is-incorrect {
+    border-color: #fecaca;
+    background: #fee2e2;
+  }
+
+  .lesson-card-single-multiple-choice-feedback.is-incorrect .lesson-card-single-multiple-choice-info-icon {
+    background: #dc2626;
+  }
+
+  .lesson-card-single-multiple-choice-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: clamp(1rem, 1.8vw, 1.5rem);
+  }
+
+  .lesson-card-single-multiple-choice-reset {
+    min-height: 3.5rem;
+    min-width: 9rem;
+    gap: 0.75rem;
+    border-color: #bfdbfe;
+    border-radius: var(--radius-card);
+    padding-inline: 1.4rem;
+    color: #0d6be8;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    box-shadow: 0 10px 20px rgb(30 64 175 / 0.1);
+    transition:
+      background 160ms ease,
+      border-color 160ms ease,
+      box-shadow 160ms ease,
+      transform 160ms ease;
+  }
+
+  .lesson-card-single-multiple-choice-reset:hover,
+  .lesson-card-single-multiple-choice-reset:focus-visible {
+    border-color: #2563eb;
+    background: #eff6ff;
+    box-shadow: 0 14px 24px rgb(30 64 175 / 0.14);
+    transform: translateY(-1px);
+  }
+
   .lesson-card-single-choice h3 {
     color: #000000;
   }
@@ -3990,6 +4300,68 @@ a {
   }
 
   @media (max-width: 42rem) {
+    .dev-component-choice-option-stack {
+      grid-template-columns: 1fr;
+    }
+
+    .dev-component-choice-option {
+      min-height: auto;
+      gap: 0.85rem;
+      padding: 0.9rem;
+      font-size: 1rem;
+    }
+
+    .dev-component-choice-option span {
+      width: 2.6rem;
+      height: 2.6rem;
+      font-size: 1.15rem;
+    }
+
+    .lesson-card-single-multiple-choice-card {
+      padding: 1rem;
+    }
+
+    .lesson-card-single-multiple-choice-question {
+      font-size: 1.2rem;
+    }
+
+    .lesson-card-single-multiple-choice-options {
+      grid-template-columns: 1fr;
+    }
+
+    .lesson-card-single-multiple-choice-options li {
+      min-height: auto;
+      gap: 0.85rem;
+      padding: 0.9rem;
+    }
+
+    .lesson-card-single-multiple-choice-options li::before {
+      width: 2.6rem;
+      height: 2.6rem;
+      font-size: 1.15rem;
+    }
+
+    .lesson-card-single-multiple-choice-options .lesson-card-choice-button {
+      font-size: 1rem;
+    }
+
+    .lesson-card-single-multiple-choice-feedback {
+      grid-template-columns: auto minmax(0, 1fr);
+      font-size: 0.95rem;
+    }
+
+    .lesson-card-single-multiple-choice-divider {
+      display: none;
+    }
+
+    .lesson-card-single-multiple-choice-actions {
+      justify-content: stretch;
+    }
+
+    .lesson-card-single-multiple-choice-reset {
+      width: 100%;
+    }
+
     .lesson-card-flip-grid {
       grid-template-columns: 1fr;
     }

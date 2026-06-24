@@ -1,0 +1,115 @@
+---
+import ResetButton from "../components/ResetButton.astro";
+
+interface Props {
+  question: string;
+  helperText?: string;
+  feedbackId?: string;
+  class?: string;
+}
+
+const {
+  question,
+  helperText = "Select an answer to check whether the idea is secure.",
+  feedbackId,
+  class: className,
+} = Astro.props;
+const fallbackFeedbackId = `single-choice-feedback-${question
+  .toLowerCase()
+  .replace(/[^a-z0-9]+/g, "-")
+  .replace(/^-|-$/g, "")
+  .slice(0, 48) || "question"}`;
+const resolvedFeedbackId = feedbackId ?? fallbackFeedbackId;
+---
+
+<article
+  class:list={["lesson-card-module", "lesson-card-single-multiple-choice-card", className]}
+  data-card="single-multiple-choice"
+>
+  <p class="lesson-card-single-multiple-choice-question">{question}</p>
+  <ol
+    class="lesson-card-single-multiple-choice-options"
+    data-single-multiple-choice
+    data-feedback-target={resolvedFeedbackId}
+    type="A"
+  >
+    <slot />
+  </ol>
+  <div
+    id={resolvedFeedbackId}
+    class="lesson-card-single-multiple-choice-feedback"
+    data-single-multiple-choice-feedback
+    data-initial-feedback={helperText}
+    aria-live="polite"
+  >
+    <span class="lesson-card-single-multiple-choice-info-icon" aria-hidden="true">i</span>
+    <span class="lesson-card-single-multiple-choice-divider" aria-hidden="true"></span>
+    <span data-single-multiple-choice-feedback-text>{helperText}</span>
+  </div>
+  <div class="lesson-card-single-multiple-choice-actions">
+    <ResetButton class="lesson-card-single-multiple-choice-reset" data-single-multiple-choice-reset />
+  </div>
+</article>
+
+<script>
+  const updateSingleChoiceFeedback = (feedback, message, state) => {
+    if (!(feedback instanceof HTMLElement)) {
+      return;
+    }
+
+    const text = feedback.querySelector("[data-single-multiple-choice-feedback-text]");
+    if (text) {
+      text.textContent = message;
+    } else {
+      feedback.textContent = message;
+    }
+
+    feedback.classList.toggle("is-correct", state === "correct");
+    feedback.classList.toggle("is-incorrect", state === "incorrect");
+  };
+
+  document.querySelectorAll("[data-single-multiple-choice]").forEach((choiceList) => {
+    const options = Array.from(choiceList.querySelectorAll("li"));
+    const feedbackId = choiceList.getAttribute("data-feedback-target");
+    const feedback = feedbackId ? document.getElementById(feedbackId) : null;
+
+    options.forEach((option) => {
+      const button = option.querySelector("[data-choice-option]");
+      button?.setAttribute("aria-pressed", "false");
+
+      button?.addEventListener("click", () => {
+        const isCorrect = option.getAttribute("data-correct") === "true";
+        const message =
+          option.getAttribute("data-feedback") ||
+          button.getAttribute("data-feedback") ||
+          (isCorrect ? "Correct." : "Not quite.");
+
+        options.forEach((item) => {
+          item.classList.remove("is-correct", "is-incorrect");
+          item.querySelector("[data-choice-option]")?.setAttribute("aria-pressed", "false");
+        });
+
+        option.classList.add(isCorrect ? "is-correct" : "is-incorrect");
+        button.setAttribute("aria-pressed", "true");
+        updateSingleChoiceFeedback(feedback, message, isCorrect ? "correct" : "incorrect");
+      });
+    });
+  });
+
+  document.querySelectorAll("[data-single-multiple-choice-reset]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const card = button.closest(".lesson-card-single-multiple-choice-card");
+      const feedback = card?.querySelector("[data-single-multiple-choice-feedback]");
+      const initialFeedback =
+        feedback instanceof HTMLElement
+          ? feedback.getAttribute("data-initial-feedback") || "Select an answer to check whether the idea is secure."
+          : "Select an answer to check whether the idea is secure.";
+
+      card?.querySelectorAll("[data-single-multiple-choice] li").forEach((option) => {
+        option.classList.remove("is-correct", "is-incorrect");
+        option.querySelector("[data-choice-option]")?.setAttribute("aria-pressed", "false");
+      });
+      updateSingleChoiceFeedback(feedback, initialFeedback, "neutral");
+    });
+  });
+</script>

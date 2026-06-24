@@ -1,5 +1,7 @@
 ---
-const { class: className, label = "Reset", icon = "&#8634;", ...attrs } = Astro.props;
+const defaultIcon =
+  '<svg viewBox="0 0 24 24" role="img" aria-label="" focusable="false"><path d="M20 6v5h-5"></path><path d="M19.2 11a7.2 7.2 0 1 0-2.1 5.1"></path></svg>';
+const { class: className, label = "Reset", icon = defaultIcon, ...attrs } = Astro.props;
 const classes = ["dev-component-reset-button", className].filter(Boolean).join(" ");
 ---
 

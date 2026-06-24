@@ -31,6 +31,7 @@ import ModellingCard from "../../../../components/lesson/cards/ModellingCard.ast
 import PromptCard from "../../../../components/lesson/cards/PromptCard.astro";
 import ProcessSequenceCard from "../../../../components/lesson/cards/ProcessSequenceCard.astro";
 import QuestionCard from "../../../../components/lesson/cards/QuestionCard.astro";
+import SingleMultipleChoiceCard from "../../../../components/lesson/cards/SingleMultipleChoiceCard.astro";
 import SummaryCard from "../../../../components/lesson/cards/SummaryCard.astro";
 import SupportCard from "../../../../components/lesson/cards/SupportCard.astro";
 import TableCard from "../../../../components/lesson/cards/TableCard.astro";
@@ -107,9 +108,9 @@ const briefBySlug: Record<string, string[]> = {
     "Functionality: Support controls, states or prompts that make the model teachable rather than purely decorative.",
   ],
   "question-card": [
-    "Purpose: Present one multiple-choice question with a short set of options.",
-    "Design requirements: Use the question as the black title, show A-D option markers, use thick blue option borders and keep a reset control available.",
-    "Functionality: Let each option be selected, then show a green tick for the correct answer, a red cross for an incorrect answer, and clear the choice with reset.",
+    "Purpose: Present one multiple-choice question as a focused check for a single lesson idea.",
+    "Design requirements: Use an Arial-style font with normal-weight question and option text, dark navy copy, a two-by-two option grid, large blue A-D markers, a soft blue information strip and a bottom-right reset button.",
+    "Functionality: Let each option be selected, then show a green tick for the correct answer, a red cross for an incorrect answer, update the information strip with feedback and clear the choice with reset.",
   ],
   "several-multiple-choice-card": [
     "Purpose: Present several related multiple-choice questions in one reusable card.",
@@ -449,33 +450,35 @@ const briefBySlug: Record<string, string[]> = {
             )}
 
             {card.slug === "question-card" && (
-              <QuestionCard title="Which CPU component carries out arithmetic and logic operations?" class="lesson-card-single-choice">
-                <ol class="lesson-card-option-list" data-single-choice type="A">
-                  <li>
-                    <MultipleChoiceOption variant="lesson" data-choice-option>
-                      Control Unit
-                    </MultipleChoiceOption>
-                  </li>
-                  <li data-correct="true">
-                    <MultipleChoiceOption variant="lesson" data-choice-option>
-                      ALU
-                    </MultipleChoiceOption>
-                  </li>
-                  <li>
-                    <MultipleChoiceOption variant="lesson" data-choice-option>
-                      Cache
-                    </MultipleChoiceOption>
-                  </li>
-                  <li>
-                    <MultipleChoiceOption variant="lesson" data-choice-option>
-                      Program Counter
-                    </MultipleChoiceOption>
-                  </li>
-                </ol>
-                <div class="lesson-card-choice-actions">
-                  <ResetButton data-choice-reset />
-                </div>
-              </QuestionCard>
+              <SingleMultipleChoiceCard
+                question="Which task is most likely to benefit from higher clock speed?"
+                helperText="Select an answer to check whether the clock speed idea is secure."
+                feedbackId="single-choice-card-feedback"
+              >
+                <li
+                  data-correct="true"
+                  data-feedback="Correct. A task with many calculations one after another is likely to benefit because a higher clock speed can process more sequential instructions each second."
+                >
+                  <MultipleChoiceOption variant="lesson" data-choice-option>
+                    A program performing many calculations one after another
+                  </MultipleChoiceOption>
+                </li>
+                <li data-feedback="Not quite. Several applications running at the same time usually points more directly towards the number of cores.">
+                  <MultipleChoiceOption variant="lesson" data-choice-option>
+                    Browser, presentation software and antivirus all running at the same time
+                  </MultipleChoiceOption>
+                </li>
+                <li data-feedback="This could involve clock speed, but the strongest clue is the sequential calculations happening one after another.">
+                  <MultipleChoiceOption variant="lesson" data-choice-option>
+                    A single calculation-heavy program
+                  </MultipleChoiceOption>
+                </li>
+                <li data-feedback="Not quite. Repeatedly using the same data usually points more directly towards cache memory.">
+                  <MultipleChoiceOption variant="lesson" data-choice-option>
+                    A program repeatedly using the same image data
+                  </MultipleChoiceOption>
+                </li>
+              </SingleMultipleChoiceCard>
             )}
 
             {card.slug === "several-multiple-choice-card" && (

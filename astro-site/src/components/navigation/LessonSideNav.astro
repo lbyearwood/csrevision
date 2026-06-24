@@ -105,30 +105,42 @@ const { title, sections, activeId = sections[0]?.id } = Astro.props;
     links.forEach((link) => {
       link.addEventListener("click", (event) => {
         const id = link.getAttribute("data-section-id");
+        const targetSection = id ? document.getElementById(id) : null;
 
-        if (id) {
-          setActiveSection(id);
-        }
-
-        const mobileNav = link.closest(".lesson-mobile-nav");
-
-        if (mobileNav instanceof HTMLDetailsElement) {
+        if (id && targetSection) {
           event.preventDefault();
-          mobileNav.open = false;
+          setActiveSection(id);
 
-          const targetSection = id ? document.getElementById(id) : null;
+          const mobileNav = link.closest(".lesson-mobile-nav");
 
-          if (targetSection) {
-            window.history.pushState(null, "", `#${id}`);
-
-            window.requestAnimationFrame(() => {
-              const headerHeight = document.querySelector(".lesson-header")?.getBoundingClientRect().height ?? 0;
-              const top = targetSection.getBoundingClientRect().top + window.scrollY - headerHeight - 8;
-
-              window.scrollTo({ top: Math.max(0, top) });
-              setActiveSection(id);
-            });
+          if (mobileNav instanceof HTMLDetailsElement) {
+            mobileNav.open = false;
           }
+
+          window.history.pushState(null, "", `#${id}`);
+
+          const scrollToTargetSection = () => {
+            const headerBottom = document.querySelector(".lesson-header")?.getBoundingClientRect().bottom ?? 0;
+            const mobileNavElement = document.querySelector(".lesson-mobile-nav");
+            const mobileNavBottom =
+              mobileNavElement instanceof HTMLElement && getComputedStyle(mobileNavElement).display !== "none"
+                ? mobileNavElement.getBoundingClientRect().bottom
+                : 0;
+            const stickyBottom = Math.max(headerBottom, mobileNavBottom);
+            const top = targetSection.getBoundingClientRect().top + window.scrollY - stickyBottom - 8;
+            const html = document.documentElement;
+            const previousScrollBehavior = html.style.scrollBehavior;
+
+            html.style.scrollBehavior = "auto";
+            window.scrollTo(0, Math.max(0, top));
+            html.style.scrollBehavior = previousScrollBehavior;
+            setActiveSection(id);
+          };
+
+          window.requestAnimationFrame(() => {
+            scrollToTargetSection();
+            window.requestAnimationFrame(scrollToTargetSection);
+          });
         }
       });
     });

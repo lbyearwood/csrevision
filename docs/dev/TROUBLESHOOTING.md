@@ -361,3 +361,63 @@ Notes:
 - Use the local Astro URL, for example `http://127.0.0.1:4321/dev-dashboard/cards/instruction-card/`.
 - For card review pages, scroll to `document.getElementById("example")` before capturing the Example slide.
 - Review the resulting PNG with `view_image`; do not accept a command that only prints a path without creating the file.
+
+## In-App Browser Screenshot Times Out During Page.captureScreenshot
+
+Confirmed on 2026-06-24.
+
+Symptoms:
+
+- The in-app Browser can open the page, inspect DOM state and perform clicks.
+- Calling `tab.screenshot(...)` fails with:
+
+```text
+Timed out running CDP command "Page.captureScreenshot"
+```
+
+Cause:
+
+- Treat this as a browser-control screenshot capture failure, not proof that the page is broken.
+- DOM state and click proof can still be valid, but visual QA is not complete until another screenshot path succeeds.
+
+Working solution:
+
+1. Keep the in-app Browser state/click evidence if it succeeded.
+2. Capture the required screenshots through Playwright using Microsoft Edge:
+
+```powershell
+node -
+```
+
+from `astro-site/`, with a script that imports `playwright`, launches Chromium with `{ channel: "msedge" }`, navigates to the local URL, scrolls the target into view, captures screenshots and prints state.
+
+3. Review the generated PNGs with `view_image` before marking visual QA as passed.
+
+## `npm exec -- node -` Tries To Fetch A Package Named node
+
+Confirmed on 2026-06-24.
+
+Symptoms:
+
+- Running an inline Playwright script with `npm.cmd exec -- node -` fails before the script runs.
+- npm tries to fetch `https://registry.npmjs.org/node`.
+- In the restricted Codex environment this may fail with an npm cache/network error such as:
+
+```text
+npm error FetchError: Invalid response body while trying to fetch https://registry.npmjs.org/node
+```
+
+Cause:
+
+- `npm exec -- node -` treats `node` as an executable package candidate.
+- This can trigger registry/cache access even though Node.js is already installed.
+
+Working solution:
+
+- From `astro-site/`, run inline Node scripts directly with:
+
+```powershell
+node -
+```
+
+- This still resolves local dependencies such as `playwright` from `astro-site/node_modules` when the working directory is `astro-site/`.
