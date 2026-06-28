@@ -1,0 +1,63 @@
+---
+import CardShell from "./CardShell.astro";
+import ResetButton from "../components/ResetButton.astro";
+
+interface Props {
+  title?: string;
+  class?: string;
+}
+
+const { title = "Multiple choice", class: className } = Astro.props;
+const classes = ["lesson-card-several-choice", className].filter(Boolean).join(" ");
+---
+
+<CardShell title={title} dataCard="several-multiple-choice" class={classes}>
+  <div class="lesson-card-question-set" data-several-multiple-choice>
+    <slot />
+    <div class="lesson-card-choice-actions">
+      <ResetButton data-several-multiple-choice-reset />
+    </div>
+  </div>
+</CardShell>
+
+<script>
+  const setPressedState = (list, selectedOption) => {
+    list.querySelectorAll("li").forEach((option) => {
+      const button = option.querySelector("[data-choice-option]");
+      option.classList.remove("is-correct", "is-incorrect");
+      button?.classList.remove("is-correct", "is-incorrect");
+      button?.setAttribute("aria-pressed", "false");
+    });
+
+    const isCorrect = selectedOption.getAttribute("data-correct") === "true";
+    const selectedButton = selectedOption.querySelector("[data-choice-option]");
+    selectedButton?.classList.add(isCorrect ? "is-correct" : "is-incorrect");
+    selectedButton?.setAttribute("aria-pressed", "true");
+  };
+
+  document.querySelectorAll("[data-several-multiple-choice]").forEach((questionSet) => {
+    questionSet.querySelectorAll("[data-single-choice]").forEach((choiceList) => {
+      choiceList.querySelectorAll("li").forEach((option) => {
+        const button = option.querySelector("[data-choice-option]");
+        button?.setAttribute("aria-pressed", "false");
+
+        option.addEventListener("click", () => {
+          setPressedState(choiceList, option);
+        });
+      });
+    });
+  });
+
+  document.querySelectorAll("[data-several-multiple-choice-reset]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const card = button.closest("[data-several-multiple-choice]");
+
+      card?.querySelectorAll("[data-single-choice] li").forEach((option) => {
+        const choiceButton = option.querySelector("[data-choice-option]");
+        option.classList.remove("is-correct", "is-incorrect");
+        choiceButton?.classList.remove("is-correct", "is-incorrect");
+        choiceButton?.setAttribute("aria-pressed", "false");
+      });
+    });
+  });
+</script>

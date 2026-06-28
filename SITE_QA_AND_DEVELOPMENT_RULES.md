@@ -141,7 +141,10 @@ Temporary browser-control limitation:
 - Lesson navigation must reflect the currently visible slide as the user scrolls or follows a slide link.
 - Formal assessment content must sit on its own lesson slide. Do not embed exam-question cards, single multiple-choice cards, several multiple-choice cards or hinge multiple-choice questions underneath teaching cards on the same slide.
 - Prefer grouping related exam questions together on one dedicated exam-practice slide where they test the same taught idea or exam skill.
-- Multiple-choice assessment slides may contain either one multiple-choice question or several related multiple-choice questions, but they should still be question-only slides rather than mixed teaching-and-question slides.
+- Each lesson part should have a dedicated multiple-choice check with three questions that test what was taught in that part.
+- Lesson-part multiple-choice checks should use three separate `SingleMultipleChoiceCard` slides by default, with one question per slide. Do not use `SeveralMultipleChoiceCard` for lesson-part checks unless the user explicitly re-approves that card pattern.
+- Multiple-choice assessment slides should be question-only slides rather than mixed teaching-and-question slides.
+- Multiple-choice answer buttons must use the reusable `MultipleChoiceOption` component with explicit `marker` values such as `A`, `B`, `C` and `D`. Do not recreate A-D markers with list pseudo-elements or one-off button markup. Correct and incorrect states should be applied to the visible `MultipleChoiceOption` button.
 - Dedicated multiple-choice assessment slides should use the visible slide title `Multiple choice`. Dedicated exam-question assessment slides should use the visible slide title `Exam Questions`.
 - The active lesson navigation item must use `aria-current="location"` and should remain visible inside the desktop sidebar where practical.
 - Use shared lesson CSS standards for section scroll offset, card sizing, spacing and responsive behaviour. Do not fix lesson-canvas issues with one-off page tweaks.

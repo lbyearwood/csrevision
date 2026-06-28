@@ -66,7 +66,7 @@ export const devCardDefinitions: DevCardDefinition[] = [
     title: "SeveralMultipleChoiceCard",
     slug: "several-multiple-choice-card",
     href: cardHref("several-multiple-choice-card"),
-    complete: true,
+    complete: false,
   },
   {
     title: "AnswerCard",

@@ -31,6 +31,7 @@ import ModellingCard from "../../../../components/lesson/cards/ModellingCard.ast
 import PromptCard from "../../../../components/lesson/cards/PromptCard.astro";
 import ProcessSequenceCard from "../../../../components/lesson/cards/ProcessSequenceCard.astro";
 import QuestionCard from "../../../../components/lesson/cards/QuestionCard.astro";
+import SeveralMultipleChoiceCard from "../../../../components/lesson/cards/SeveralMultipleChoiceCard.astro";
 import SingleMultipleChoiceCard from "../../../../components/lesson/cards/SingleMultipleChoiceCard.astro";
 import SummaryCard from "../../../../components/lesson/cards/SummaryCard.astro";
 import SupportCard from "../../../../components/lesson/cards/SupportCard.astro";
@@ -113,9 +114,9 @@ const briefBySlug: Record<string, string[]> = {
     "Functionality: Let each option be selected, then show a green tick for the correct answer, a red cross for an incorrect answer, update the information strip with feedback and clear the choice with reset.",
   ],
   "several-multiple-choice-card": [
-    "Purpose: Present several related multiple-choice questions in one reusable card.",
-    "Design requirements: Use Q-number badges, one question row per prompt, thick bordered A-D options and a bottom-right reset control.",
-    "Functionality: Support independent option selection for each question and clear every selected answer with reset.",
+    "Purpose: Hold a previous several-question multiple-choice pattern for review only.",
+    "Design requirements: This card is no longer approved as the default lesson-part check and needs redesign before normal use.",
+    "Functionality: Do not use for lesson-part checks unless the user explicitly re-approves this pattern.",
   ],
   "answer-card": [
     "Purpose: Reveal the answer after a question when a clear result and short explanation are needed.",
@@ -459,22 +460,22 @@ const briefBySlug: Record<string, string[]> = {
                   data-correct="true"
                   data-feedback="Correct. A task with many calculations one after another is likely to benefit because a higher clock speed can process more sequential instructions each second."
                 >
-                  <MultipleChoiceOption variant="lesson" data-choice-option>
+                  <MultipleChoiceOption marker="A" data-choice-option>
                     A program performing many calculations one after another
                   </MultipleChoiceOption>
                 </li>
                 <li data-feedback="Not quite. Several applications running at the same time usually points more directly towards the number of cores.">
-                  <MultipleChoiceOption variant="lesson" data-choice-option>
+                  <MultipleChoiceOption marker="B" data-choice-option>
                     Browser, presentation software and antivirus all running at the same time
                   </MultipleChoiceOption>
                 </li>
                 <li data-feedback="This could involve clock speed, but the strongest clue is the sequential calculations happening one after another.">
-                  <MultipleChoiceOption variant="lesson" data-choice-option>
+                  <MultipleChoiceOption marker="C" data-choice-option>
                     A single calculation-heavy program
                   </MultipleChoiceOption>
                 </li>
                 <li data-feedback="Not quite. Repeatedly using the same data usually points more directly towards cache memory.">
-                  <MultipleChoiceOption variant="lesson" data-choice-option>
+                  <MultipleChoiceOption marker="D" data-choice-option>
                     A program repeatedly using the same image data
                   </MultipleChoiceOption>
                 </li>
@@ -482,97 +483,92 @@ const briefBySlug: Record<string, string[]> = {
             )}
 
             {card.slug === "several-multiple-choice-card" && (
-              <QuestionCard title="Several multiple choice questions" class="lesson-card-several-choice">
-                <div class="lesson-card-question-set">
-                  <article class="lesson-card-question-row">
-                    <div class="lesson-card-question-heading">
-                      <span>Q1</span>
-                      <strong>What causes sound?</strong>
-                    </div>
-                    <ol class="lesson-card-option-list lesson-card-question-options" data-single-choice type="A">
-                      <li data-correct="true">
-                        <MultipleChoiceOption variant="lesson" data-choice-option>
-                          Vibrations
-                        </MultipleChoiceOption>
-                      </li>
-                      <li>
-                        <MultipleChoiceOption variant="lesson" data-choice-option>
-                          Pixels
-                        </MultipleChoiceOption>
-                      </li>
-                      <li>
-                        <MultipleChoiceOption variant="lesson" data-choice-option>
-                          Packets
-                        </MultipleChoiceOption>
-                      </li>
-                      <li>
-                        <MultipleChoiceOption variant="lesson" data-choice-option>
-                          Logic gates
-                        </MultipleChoiceOption>
-                      </li>
-                    </ol>
-                  </article>
-                  <article class="lesson-card-question-row">
-                    <div class="lesson-card-question-heading">
-                      <span>Q2</span>
-                      <strong>Why must sound be converted before a computer can store it?</strong>
-                    </div>
-                    <ol class="lesson-card-option-list lesson-card-question-options" data-single-choice type="A">
-                      <li>
-                        <MultipleChoiceOption variant="lesson" data-choice-option>
-                          Computers only store images
-                        </MultipleChoiceOption>
-                      </li>
-                      <li>
-                        <MultipleChoiceOption variant="lesson" data-choice-option>
-                          Sound must always be compressed
-                        </MultipleChoiceOption>
-                      </li>
-                      <li data-correct="true">
-                        <MultipleChoiceOption variant="lesson" data-choice-option>
-                          Computers store data in binary
-                        </MultipleChoiceOption>
-                      </li>
-                      <li>
-                        <MultipleChoiceOption variant="lesson" data-choice-option>
-                          Sound cannot be played through speakers
-                        </MultipleChoiceOption>
-                      </li>
-                    </ol>
-                  </article>
-                  <article class="lesson-card-question-row">
-                    <div class="lesson-card-question-heading">
-                      <span>Q3</span>
-                      <strong>What is the purpose of an ADC?</strong>
-                    </div>
-                    <ol class="lesson-card-option-list lesson-card-question-options" data-single-choice type="A">
-                      <li>
-                        <MultipleChoiceOption variant="lesson" data-choice-option>
-                          To compress images
-                        </MultipleChoiceOption>
-                      </li>
-                      <li data-correct="true">
-                        <MultipleChoiceOption variant="lesson" data-choice-option>
-                          To convert analogue sound into digital data
-                        </MultipleChoiceOption>
-                      </li>
-                      <li>
-                        <MultipleChoiceOption variant="lesson" data-choice-option>
-                          To increase screen resolution
-                        </MultipleChoiceOption>
-                      </li>
-                      <li>
-                        <MultipleChoiceOption variant="lesson" data-choice-option>
-                          To sort files
-                        </MultipleChoiceOption>
-                      </li>
-                    </ol>
-                  </article>
-                  <div class="lesson-card-choice-actions">
-                    <ResetButton data-choice-reset />
+              <SeveralMultipleChoiceCard>
+                <article class="lesson-card-question-row">
+                  <div class="lesson-card-question-heading">
+                    <span>Q1</span>
+                    <strong>What causes sound?</strong>
                   </div>
-                </div>
-              </QuestionCard>
+                  <ol class="lesson-card-option-list lesson-card-question-options" data-single-choice type="A">
+                    <li data-correct="true">
+                      <MultipleChoiceOption marker="A" data-choice-option>
+                        Vibrations
+                      </MultipleChoiceOption>
+                    </li>
+                    <li>
+                      <MultipleChoiceOption marker="B" data-choice-option>
+                        Pixels
+                      </MultipleChoiceOption>
+                    </li>
+                    <li>
+                      <MultipleChoiceOption marker="C" data-choice-option>
+                        Packets
+                      </MultipleChoiceOption>
+                    </li>
+                    <li>
+                      <MultipleChoiceOption marker="D" data-choice-option>
+                        Logic gates
+                      </MultipleChoiceOption>
+                    </li>
+                  </ol>
+                </article>
+                <article class="lesson-card-question-row">
+                  <div class="lesson-card-question-heading">
+                    <span>Q2</span>
+                    <strong>Why must sound be converted before a computer can store it?</strong>
+                  </div>
+                  <ol class="lesson-card-option-list lesson-card-question-options" data-single-choice type="A">
+                    <li>
+                      <MultipleChoiceOption marker="A" data-choice-option>
+                        Computers only store images
+                      </MultipleChoiceOption>
+                    </li>
+                    <li>
+                      <MultipleChoiceOption marker="B" data-choice-option>
+                        Sound must always be compressed
+                      </MultipleChoiceOption>
+                    </li>
+                    <li data-correct="true">
+                      <MultipleChoiceOption marker="C" data-choice-option>
+                        Computers store data in binary
+                      </MultipleChoiceOption>
+                    </li>
+                    <li>
+                      <MultipleChoiceOption marker="D" data-choice-option>
+                        Sound cannot be played through speakers
+                      </MultipleChoiceOption>
+                    </li>
+                  </ol>
+                </article>
+                <article class="lesson-card-question-row">
+                  <div class="lesson-card-question-heading">
+                    <span>Q3</span>
+                    <strong>What is the purpose of an ADC?</strong>
+                  </div>
+                  <ol class="lesson-card-option-list lesson-card-question-options" data-single-choice type="A">
+                    <li>
+                      <MultipleChoiceOption marker="A" data-choice-option>
+                        To compress images
+                      </MultipleChoiceOption>
+                    </li>
+                    <li data-correct="true">
+                      <MultipleChoiceOption marker="B" data-choice-option>
+                        To convert analogue sound into digital data
+                      </MultipleChoiceOption>
+                    </li>
+                    <li>
+                      <MultipleChoiceOption marker="C" data-choice-option>
+                        To increase screen resolution
+                      </MultipleChoiceOption>
+                    </li>
+                    <li>
+                      <MultipleChoiceOption marker="D" data-choice-option>
+                        To sort files
+                      </MultipleChoiceOption>
+                    </li>
+                  </ol>
+                </article>
+              </SeveralMultipleChoiceCard>
             )}
 
             {card.slug === "answer-card" && (
@@ -862,22 +858,22 @@ const briefBySlug: Record<string, string[]> = {
                 </p>
                 <ol class="lesson-card-option-list" data-single-choice data-feedback-target="hinge-question-feedback" type="A">
                   <li data-feedback="Not quite. Larger storage capacity is useful, but cache improves performance because it is faster and closer to the CPU.">
-                    <MultipleChoiceOption variant="lesson" data-choice-option>
+                    <MultipleChoiceOption marker="A" data-choice-option>
                       It stores more data than RAM.
                     </MultipleChoiceOption>
                   </li>
                   <li data-correct="true" data-feedback="Correct. Cache keeps frequently used data close to the CPU, so the CPU can access it quickly.">
-                    <MultipleChoiceOption variant="lesson" data-choice-option>
+                    <MultipleChoiceOption marker="B" data-choice-option>
                       It stores frequently used data close to the CPU.
                     </MultipleChoiceOption>
                   </li>
                   <li data-feedback="Not quite. Cache is volatile, so it does not keep data permanently when power is off.">
-                    <MultipleChoiceOption variant="lesson" data-choice-option>
+                    <MultipleChoiceOption marker="C" data-choice-option>
                       It keeps data permanently when power is off.
                     </MultipleChoiceOption>
                   </li>
                   <li data-feedback="Not quite. The Control Unit coordinates instructions; cache stores frequently used data.">
-                    <MultipleChoiceOption variant="lesson" data-choice-option>
+                    <MultipleChoiceOption marker="D" data-choice-option>
                       It decodes every instruction before execution.
                     </MultipleChoiceOption>
                   </li>
@@ -1073,12 +1069,15 @@ const briefBySlug: Record<string, string[]> = {
       option.addEventListener("click", () => {
         const isCorrect = option.getAttribute("data-correct") === "true";
         options.forEach((item) => {
+          const itemButton = item.querySelector("[data-choice-option]");
           item.classList.remove("is-correct", "is-incorrect");
-          item.querySelector("[data-choice-option]")?.setAttribute("aria-pressed", "false");
+          itemButton?.classList.remove("is-correct", "is-incorrect");
+          itemButton?.setAttribute("aria-pressed", "false");
         });
 
         option.classList.add(isCorrect ? "is-correct" : "is-incorrect");
-        button.setAttribute("aria-pressed", "true");
+        button?.classList.add(isCorrect ? "is-correct" : "is-incorrect");
+        button?.setAttribute("aria-pressed", "true");
         if (feedback && option.getAttribute("data-feedback")) {
           feedback.textContent = option.getAttribute("data-feedback");
           feedback.classList.toggle("dev-component-feedback--correct", isCorrect);
@@ -1092,8 +1091,10 @@ const briefBySlug: Record<string, string[]> = {
     button.addEventListener("click", () => {
       const card = button.closest(".lesson-card-module");
       card?.querySelectorAll("[data-single-choice] li").forEach((option) => {
+        const choiceButton = option.querySelector("[data-choice-option]");
         option.classList.remove("is-correct", "is-incorrect");
-        option.querySelector("[data-choice-option]")?.setAttribute("aria-pressed", "false");
+        choiceButton?.classList.remove("is-correct", "is-incorrect");
+        choiceButton?.setAttribute("aria-pressed", "false");
       });
       card?.querySelectorAll("[data-feedback-target]").forEach((choiceList) => {
         const feedbackId = choiceList.getAttribute("data-feedback-target");

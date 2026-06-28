@@ -85,11 +85,14 @@ const resolvedFeedbackId = feedbackId ?? fallbackFeedbackId;
           (isCorrect ? "Correct." : "Not quite.");
 
         options.forEach((item) => {
+          const itemButton = item.querySelector("[data-choice-option]");
           item.classList.remove("is-correct", "is-incorrect");
-          item.querySelector("[data-choice-option]")?.setAttribute("aria-pressed", "false");
+          itemButton?.classList.remove("is-correct", "is-incorrect");
+          itemButton?.setAttribute("aria-pressed", "false");
         });
 
         option.classList.add(isCorrect ? "is-correct" : "is-incorrect");
+        button.classList.add(isCorrect ? "is-correct" : "is-incorrect");
         button.setAttribute("aria-pressed", "true");
         updateSingleChoiceFeedback(feedback, message, isCorrect ? "correct" : "incorrect");
       });
@@ -106,8 +109,10 @@ const resolvedFeedbackId = feedbackId ?? fallbackFeedbackId;
           : "Select an answer to check whether the idea is secure.";
 
       card?.querySelectorAll("[data-single-multiple-choice] li").forEach((option) => {
+        const choiceButton = option.querySelector("[data-choice-option]");
         option.classList.remove("is-correct", "is-incorrect");
-        option.querySelector("[data-choice-option]")?.setAttribute("aria-pressed", "false");
+        choiceButton?.classList.remove("is-correct", "is-incorrect");
+        choiceButton?.setAttribute("aria-pressed", "false");
       });
       updateSingleChoiceFeedback(feedback, initialFeedback, "neutral");
     });

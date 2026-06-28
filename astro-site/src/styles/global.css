@@ -3352,6 +3352,54 @@ a {
     content: "\00d7";
   }
 
+  .lesson-card-single-multiple-choice-options li:has(.dev-component-choice-option) {
+    display: block;
+    min-height: auto;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    box-shadow: none;
+  }
+
+  .lesson-card-single-multiple-choice-options li:has(.dev-component-choice-option)::before,
+  .lesson-card-single-multiple-choice-options li:has(.dev-component-choice-option)::after {
+    content: none;
+    display: none;
+  }
+
+  .lesson-card-single-multiple-choice-options li:has(.dev-component-choice-option):hover,
+  .lesson-card-single-multiple-choice-options li:has(.dev-component-choice-option):focus-within,
+  .lesson-card-single-multiple-choice-options li:has(.dev-component-choice-option).is-correct,
+  .lesson-card-single-multiple-choice-options li:has(.dev-component-choice-option).is-incorrect {
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+  }
+
+  .lesson-card-single-multiple-choice-options .dev-component-choice-option.is-correct::after,
+  .lesson-card-single-multiple-choice-options .dev-component-choice-option.is-incorrect::after {
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    place-items: center;
+    border-radius: 999px;
+    margin-left: auto;
+    color: #ffffff;
+    font-size: 1.2rem;
+    line-height: 1;
+  }
+
+  .lesson-card-single-multiple-choice-options .dev-component-choice-option.is-correct::after {
+    background: #16a34a;
+    content: "\2713";
+  }
+
+  .lesson-card-single-multiple-choice-options .dev-component-choice-option.is-incorrect::after {
+    background: #dc2626;
+    content: "\00d7";
+  }
+
   .lesson-card-single-multiple-choice-feedback {
     display: grid;
     grid-template-columns: auto auto minmax(0, 1fr);
@@ -3477,7 +3525,7 @@ a {
   .lesson-card-multiple-choice-item > p {
     margin: 0;
     color: #0f172a;
-    font-weight: 900;
+    font-weight: 400;
     line-height: 1.45;
   }
 
@@ -3510,7 +3558,7 @@ a {
     color: #1d4ed8;
     content: counter(option, upper-alpha);
     counter-increment: option;
-    font-weight: 900;
+    font-weight: 400;
   }
 
   .lesson-card-option-list[data-single-choice] li {
@@ -3536,7 +3584,7 @@ a {
     padding: 0;
     color: #ffffff;
     font: inherit;
-    font-weight: 800;
+    font-weight: 400;
     text-align: left;
     cursor: pointer;
   }
@@ -3605,6 +3653,52 @@ a {
     content: "\00d7";
   }
 
+  .lesson-card-option-list[data-single-choice] li:has(.dev-component-choice-option) {
+    display: block;
+    border: 0;
+    background: transparent;
+    padding: 0;
+    box-shadow: none;
+  }
+
+  .lesson-card-option-list[data-single-choice] li:has(.dev-component-choice-option)::before,
+  .lesson-card-option-list[data-single-choice] li:has(.dev-component-choice-option)::after {
+    content: none;
+    display: none;
+  }
+
+  .lesson-card-option-list[data-single-choice] li:has(.dev-component-choice-option):hover,
+  .lesson-card-option-list[data-single-choice] li:has(.dev-component-choice-option).is-correct,
+  .lesson-card-option-list[data-single-choice] li:has(.dev-component-choice-option).is-incorrect {
+    border-color: transparent;
+    background: transparent;
+    box-shadow: none;
+    transform: none;
+  }
+
+  .lesson-card-option-list[data-single-choice] .dev-component-choice-option.is-correct::after,
+  .lesson-card-option-list[data-single-choice] .dev-component-choice-option.is-incorrect::after {
+    display: grid;
+    width: 1.75rem;
+    height: 1.75rem;
+    place-items: center;
+    border-radius: 999px;
+    margin-left: auto;
+    color: #ffffff;
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+
+  .lesson-card-option-list[data-single-choice] .dev-component-choice-option.is-correct::after {
+    background: #16a34a;
+    content: "\2713";
+  }
+
+  .lesson-card-option-list[data-single-choice] .dev-component-choice-option.is-incorrect::after {
+    background: #dc2626;
+    content: "\00d7";
+  }
+
   .lesson-card-choice-actions {
     display: flex;
     justify-content: flex-end;
@@ -3637,7 +3731,7 @@ a {
     padding: 0.65rem 1.25rem;
     color: #ffffff;
     font: inherit;
-    font-weight: 900;
+    font-weight: 400;
     cursor: pointer;
     transition:
       background 160ms ease,
@@ -3679,11 +3773,11 @@ a {
     border-radius: var(--radius-card);
     background: #3446db;
     color: #ffffff;
-    font-weight: 900;
+    font-weight: 400;
   }
 
   .lesson-card-question-heading strong {
-    font-weight: 900;
+    font-weight: 400;
     line-height: 1.35;
   }
 
@@ -3692,14 +3786,68 @@ a {
     margin-top: 0;
   }
 
-  .lesson-card-question-options li {
-    min-height: 3.4rem;
-    padding: 0.75rem;
+  .lesson-card-several-choice .lesson-card-question-options {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .lesson-card-several-choice .lesson-card-choice-button {
-    font-weight: 500;
-    line-height: 1.35;
+  .lesson-card-several-choice .lesson-card-question-options li {
+    display: block;
+    min-height: 3.4rem;
+    border: 0;
+    background: transparent;
+    padding: 0;
+  }
+
+  .lesson-card-several-choice .lesson-card-question-options li::before,
+  .lesson-card-several-choice .lesson-card-question-options li::after,
+  .lesson-card-several-choice .lesson-card-question-options li.is-correct::after,
+  .lesson-card-several-choice .lesson-card-question-options li.is-incorrect::after {
+    content: none;
+    display: none;
+  }
+
+  .lesson-card-several-choice .dev-component-choice-option {
+    min-height: 3.9rem;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+  }
+
+  .lesson-card-several-choice .dev-component-choice-option:focus {
+    outline: none;
+  }
+
+  .lesson-card-several-choice .dev-component-choice-option:focus-visible {
+    outline: 3px solid #60a5fa;
+    outline-offset: 0.2rem;
+  }
+
+  .lesson-card-several-choice .dev-component-choice-option span {
+    width: 2.4rem;
+    height: 2.4rem;
+    font-size: 1.1rem;
+  }
+
+  .lesson-card-several-choice .dev-component-choice-option.is-correct::after,
+  .lesson-card-several-choice .dev-component-choice-option.is-incorrect::after {
+    display: grid;
+    width: 1.75rem;
+    height: 1.75rem;
+    place-items: center;
+    border-radius: 999px;
+    margin-left: auto;
+    color: #ffffff;
+    font-size: 1.1rem;
+    line-height: 1;
+  }
+
+  .lesson-card-several-choice .dev-component-choice-option.is-correct::after {
+    background: #16a34a;
+    content: "\2713";
+  }
+
+  .lesson-card-several-choice .dev-component-choice-option.is-incorrect::after {
+    background: #dc2626;
+    content: "\00d7";
   }
 
   @media (max-width: 64rem) {
@@ -3713,7 +3861,8 @@ a {
       align-items: flex-start;
     }
 
-    .lesson-card-question-options {
+    .lesson-card-question-options,
+    .lesson-card-several-choice .lesson-card-question-options {
       grid-template-columns: 1fr;
     }
   }

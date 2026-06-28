@@ -68,7 +68,7 @@ npm.cmd run dev -- --host 127.0.0.1 --port 4321
 - Repeated lesson navigation topics should use short lettered labels, such as `Clock speed (A)` and `Clock speed (B)`.
 - `FourEqualCards` is reserved for true quadrant/matrix/four-way comparison content, not typical overview slides or ordinary groups of four cards.
 - Layouts are now structural 2 by 2 card arrangements only, plus the title segment slide exception.
-- The reusable module catalogue is accepted as of 2026-06-23: 1 shell, 9 layouts, 25 cards, 22 components and 6 widgets.
+- The reusable module catalogue currently has 1 accepted shell, 9 accepted layouts, 24 accepted cards, 1 card needing work (`SeveralMultipleChoiceCard`), 22 accepted components and 6 accepted widgets.
 - Reusable card examples should compose smaller code-named components where practical. Current examples include InteractiveTableCard and MisconceptionCard using FeedbackState, ExamQuestionCard using LabelBadge, FlashCard and VisualFlashCard using FlipCard, and CodingCard using CodeBlock.
 - LearningObjectivesCard now exists as a real wrapper component in `astro-site/src/components/lesson/cards/LearningObjectivesCard.astro`; use that codeName directly rather than treating the card as a SummaryCard variant.
 - Structured content/data should drive future lesson creation.
@@ -128,7 +128,7 @@ The next Codex should use the formal workflow rather than improvising a new proc
 
 ## Active Lesson Handover: 1.1.2 CPU performance
 
-Date: 2026-06-25
+Date: 2026-06-28
 
 Worker: PC Codex.
 
@@ -137,7 +137,7 @@ User intent:
 - The user is testing the formal staged lesson creation workflow and wants quality gates to prevent rushed, generic lesson output.
 - Part 1 is being refined before moving on to cache size/cache levels.
 - Rich lesson visuals should use accepted OpenAI-generated bitmap images rather than hand-authored SVG when the aim is engagement rather than deterministic geometry.
-- Multiple-choice and exam-question cards must sit on dedicated assessment slides.
+- Multiple-choice and exam-question cards must sit on dedicated assessment slides. Lesson-part multiple-choice checks should use three separate `SingleMultipleChoiceCard` slides that directly test what was taught in that part.
 - Typography is now strict: only titles/subtitles should use heavy weight. Question prompts, options, helper text and feedback must be normal weight.
 
 Workflow state:
@@ -170,6 +170,8 @@ Implemented slides:
 6. `Clock speed (A)`
 7. `Clock speed (B)`
 8. `Multiple choice`
+9. `Multiple choice`
+10. `Multiple choice`
 
 Current lesson structure:
 
@@ -179,8 +181,8 @@ Current lesson structure:
 4. Overview/segue slide uses `ImageCard`s for clock speed, cache size and number of cores and remains labelled `Lesson introduction`.
 5. Part divider uses `TitleSegmentSlide` with `Part 1 - Clock speed`.
 6. Part 1 teaching slide A explains clock speed and cycles per second.
-7. Part 1 teaching slide B explains that a higher clock speed can allow more sequential instructions to be processed per second.
-8. Slide 8 is a dedicated assessment slide titled `Multiple choice`; it uses `OneFullSpanCard`, `SingleMultipleChoiceCard` and four reusable `MultipleChoiceOption variant="lesson"` buttons.
+7. Part 1 teaching slide B explains that a higher clock speed can allow more sequential instructions to be processed per second, using `TwoVerticalCards` with writing on the left and the instruction-throughput diagram on the right.
+8. Slides 8, 9 and 10 are dedicated assessment slides titled `Multiple choice`; each uses `OneFullSpanCard` with one `SingleMultipleChoiceCard`, and each answer uses visible `MultipleChoiceOption` buttons with A-D marker props.
 
 Important implementation notes:
 
@@ -189,11 +191,13 @@ Important implementation notes:
 3. `LessonSideNav` heading says `Lesson slide navigation`.
 4. Current CPU performance rich visuals use accepted OpenAI PNG assets from `astro-site/public/images/lessons/cpu-performance/`.
 5. The original SVG versions still exist as fallback/reference assets but should not be preferred for rich learner-facing visuals.
-6. `WideTopCardTwoBottomCards` exists and is used for slide 7.
+6. Slide 7 now uses `TwoVerticalCards`; do not reintroduce the misconception card there unless the user asks for it.
 7. `SingleMultipleChoiceCard` exists at `astro-site/src/components/lesson/cards/SingleMultipleChoiceCard.astro`.
-8. The standalone Dev dashboard route `http://127.0.0.1:4321/dev-dashboard/components/multiple-choice-option/` has been updated to show the current four-option style with normal-weight text.
-9. The accepted OpenAI image style benchmark remains `upgrade-advert-ghz-openai.png` and `upgrade-advert-cores-openai.png`; follow `docs/dev/IMAGE_GENERATION_STANDARDS.md`.
-10. Do not reintroduce heavy answer-option or question-prompt text.
+8. `SeveralMultipleChoiceCard` exists at `astro-site/src/components/lesson/cards/SeveralMultipleChoiceCard.astro`, but it is no longer approved as the default lesson-part check pattern.
+9. Multiple-choice answer buttons must use `MultipleChoiceOption` with explicit A-D `marker` props so selected, correct and incorrect states attach to the visible reusable button.
+10. The standalone Dev dashboard route `http://127.0.0.1:4321/dev-dashboard/components/multiple-choice-option/` has been updated to show the current four-option style with normal-weight text.
+11. The accepted OpenAI image style benchmark remains `upgrade-advert-ghz-openai.png` and `upgrade-advert-cores-openai.png`; follow `docs/dev/IMAGE_GENERATION_STANDARDS.md`.
+12. Do not reintroduce heavy answer-option or question-prompt text.
 
 Accepted OpenAI lesson image files currently referenced or available:
 
@@ -218,12 +222,13 @@ Build passed from `astro-site/`.
 Browser/visual QA already performed:
 
 1. Dev server route probes returned HTTP 200 for the checked surfaces.
-2. `SingleMultipleChoiceCard` was checked on the Dev dashboard and CPU performance slide 8.
+2. `SingleMultipleChoiceCard` was checked on the Dev dashboard, and CPU performance slides 8-10 now use one `SingleMultipleChoiceCard` each.
 3. `MultipleChoiceOption` standalone component route was screenshot-reviewed on desktop, hover and mobile.
-4. Slide 8 screenshot confirmed it renders `SingleMultipleChoiceCard` with four reusable `MultipleChoiceOption` buttons.
+4. Slide 8 screenshot confirmed it renders a multiple-choice check with reusable `MultipleChoiceOption` buttons.
 5. Computed font weights for the multiple-choice prompt, options and reset button were checked as `400`.
 6. Correct and incorrect answer states were checked: green tick/correct state and red cross/incorrect state.
-7. No relevant console errors or framework overlays were found during the Playwright/Edge checks.
+7. Slide 7 was Edge screenshot-reviewed on desktop, tablet and mobile after changing it to `TwoVerticalCards`; it now has exactly one explanation card and one image card, with no misconception card.
+8. No relevant console errors or framework overlays were found during the Playwright/Edge checks.
 
 Known follow-up:
 

@@ -5,7 +5,6 @@ import LessonSlideShell from "../../../../components/lesson/LessonSlideShell.ast
 import ExplanationCard from "../../../../components/lesson/cards/ExplanationCard.astro";
 import ImageCard from "../../../../components/lesson/cards/ImageCard.astro";
 import LearningObjectivesCard from "../../../../components/lesson/cards/LearningObjectivesCard.astro";
-import MisconceptionCard from "../../../../components/lesson/cards/MisconceptionCard.astro";
 import QuestionCard from "../../../../components/lesson/cards/QuestionCard.astro";
 import SingleMultipleChoiceCard from "../../../../components/lesson/cards/SingleMultipleChoiceCard.astro";
 import FeedbackState from "../../../../components/lesson/components/FeedbackState.astro";
@@ -16,7 +15,6 @@ import OneFullSpanCard from "../../../../components/lesson/layouts/OneFullSpanCa
 import TitleSegmentSlide from "../../../../components/lesson/layouts/TitleSegmentSlide.astro";
 import TwoTopCardsWideBottomCard from "../../../../components/lesson/layouts/TwoTopCardsWideBottomCard.astro";
 import TwoVerticalCards from "../../../../components/lesson/layouts/TwoVerticalCards.astro";
-import WideTopCardTwoBottomCards from "../../../../components/lesson/layouts/WideTopCardTwoBottomCards.astro";
 import { assertUniqueLessonPartTitles, type LessonSlideShellLabel } from "../../../../lib/lessonSlideShellLabels";
 
 const lessonTitle = "1.1.2 CPU performance";
@@ -39,7 +37,9 @@ const navSections = [
   { id: "part-1-clock-speed", title: "Part 1 - Clock speed" },
   { id: "clock-speed-cycles", title: "Clock speed (A)" },
   { id: "clock-speed-instructions", title: "Clock speed (B)" },
-  { id: "clock-speed-check", title: "Multiple choice" },
+  { id: "clock-speed-check-measure", title: "Multiple choice (A)" },
+  { id: "clock-speed-check-instructions", title: "Multiple choice (B)" },
+  { id: "clock-speed-check-limit", title: "Multiple choice (C)" },
 ];
 ---
 
@@ -164,17 +164,8 @@ const navSections = [
         </LessonSlideShell>
 
         <LessonSlideShell id="clock-speed-instructions" label={shellLabels.clockSpeed} heading="How does clock speed affect performance?" slideNumber={7}>
-          <WideTopCardTwoBottomCards>
-            <ImageCard
-              title="Same second, more instructions"
-              src="/images/lessons/cpu-performance/clock-speed-instructions-openai.png"
-              alt="One-second comparison showing a lower clock speed with fewer instruction blocks and a higher clock speed with more instruction blocks."
-              caption="A higher clock speed can allow more instruction work to happen in the same amount of time."
-              class="lesson-card-generated-image"
-              slot="top"
-            />
-
-            <ExplanationCard title="More cycles can mean more instructions" slot="bottom-left">
+          <TwoVerticalCards>
+            <ExplanationCard title="More cycles can mean more instructions" slot="left">
               <p>
                 A CPU uses clock cycles to keep its work in time. When the clock speed is higher, more cycles can
                 happen each second, so the CPU may be able to process more instructions in the same amount of time.
@@ -185,45 +176,104 @@ const navSections = [
               </ul>
             </ExplanationCard>
 
-            <MisconceptionCard title="Misconception" slot="bottom-right">
-              <FeedbackState tone="incorrect">
-                Higher clock speed always makes every task faster.
-              </FeedbackState>
-              <FeedbackState tone="correct">
-                Higher clock speed can help, but performance also depends on cache, cores, software and the task.
-              </FeedbackState>
-            </MisconceptionCard>
-          </WideTopCardTwoBottomCards>
+            <ImageCard
+              title="Instruction throughput diagram"
+              src="/images/lessons/cpu-performance/clock-speed-instructions-openai.png"
+              alt="One-second comparison showing a lower clock speed with fewer instruction blocks and a higher clock speed with more instruction blocks."
+              caption="A higher clock speed can allow more instruction work to happen in the same amount of time."
+              class="lesson-card-generated-image"
+              slot="right"
+            />
+          </TwoVerticalCards>
         </LessonSlideShell>
 
-        <LessonSlideShell id="clock-speed-check" label={shellLabels.clockSpeed} heading="Multiple choice" slideNumber={8}>
+        <LessonSlideShell id="clock-speed-check-measure" label={shellLabels.clockSpeed} heading="Multiple choice" slideNumber={8}>
           <OneFullSpanCard>
             <SingleMultipleChoiceCard
-              question="Which task is most likely to benefit from higher clock speed?"
-              helperText="Select an answer to check whether the clock speed idea is secure."
-              feedbackId="clock-speed-choice-feedback"
+              question="What does clock speed measure?"
+              helperText="Select an answer to check what clock speed measures."
+              feedbackId="clock-speed-measure-feedback"
             >
-              <li
-                data-correct="true"
-                data-feedback="Correct. A task with many calculations one after another is likely to benefit because a higher clock speed can process more sequential instructions each second."
-              >
-                <MultipleChoiceOption variant="lesson" data-choice-option>
-                  A program performing many calculations one after another
+              <li data-correct="true" data-feedback="Correct. Clock speed measures how many CPU cycles can happen each second.">
+                <MultipleChoiceOption marker="A" data-choice-option>
+                  The number of CPU cycles that can happen each second
                 </MultipleChoiceOption>
               </li>
-              <li data-feedback="Not quite. Several applications running at the same time usually points more directly towards the number of cores.">
-                <MultipleChoiceOption variant="lesson" data-choice-option>
-                  Browser, presentation software and antivirus all running at the same time
+              <li data-feedback="Not quite. The CPU stores permanent data elsewhere; clock speed is about cycles per second.">
+                <MultipleChoiceOption marker="B" data-choice-option>
+                  The amount of data the CPU can store permanently
                 </MultipleChoiceOption>
               </li>
-              <li data-feedback="This could involve clock speed, but the strongest clue is the sequential calculations happening one after another.">
-                <MultipleChoiceOption variant="lesson" data-choice-option>
-                  A single calculation-heavy program
+              <li data-feedback="Not quite. Installed programs do not tell you how quickly the CPU clock is ticking.">
+                <MultipleChoiceOption marker="C" data-choice-option>
+                  The number of programs installed on the computer
                 </MultipleChoiceOption>
               </li>
-              <li data-feedback="Not quite. Repeatedly using the same data usually points more directly towards cache memory.">
-                <MultipleChoiceOption variant="lesson" data-choice-option>
-                  A program repeatedly using the same image data
+              <li data-feedback="Not quite. Cache size is a different CPU performance factor.">
+                <MultipleChoiceOption marker="D" data-choice-option>
+                  The size of the CPU cache
+                </MultipleChoiceOption>
+              </li>
+            </SingleMultipleChoiceCard>
+          </OneFullSpanCard>
+        </LessonSlideShell>
+
+        <LessonSlideShell id="clock-speed-check-instructions" label={shellLabels.clockSpeed} heading="Multiple choice" slideNumber={9}>
+          <OneFullSpanCard>
+            <SingleMultipleChoiceCard
+              question="What can a higher clock speed allow a CPU to do?"
+              helperText="Select an answer to check how clock speed can affect instruction processing."
+              feedbackId="clock-speed-instructions-feedback"
+            >
+              <li data-feedback="Not quite. Secondary storage capacity is not controlled by the CPU clock speed.">
+                <MultipleChoiceOption marker="A" data-choice-option>
+                  Store more files on secondary storage
+                </MultipleChoiceOption>
+              </li>
+              <li data-correct="true" data-feedback="Correct. More clock cycles per second can allow more instructions to be processed in the same amount of time.">
+                <MultipleChoiceOption marker="B" data-choice-option>
+                  Process more instructions in the same amount of time
+                </MultipleChoiceOption>
+              </li>
+              <li data-feedback="Not quite. Clock speed does not automatically add more CPU cores.">
+                <MultipleChoiceOption marker="C" data-choice-option>
+                  Automatically add more CPU cores
+                </MultipleChoiceOption>
+              </li>
+              <li data-feedback="Not quite. Cache can still matter even when clock speed is higher.">
+                <MultipleChoiceOption marker="D" data-choice-option>
+                  Remove the need for cache memory
+                </MultipleChoiceOption>
+              </li>
+            </SingleMultipleChoiceCard>
+          </OneFullSpanCard>
+        </LessonSlideShell>
+
+        <LessonSlideShell id="clock-speed-check-limit" label={shellLabels.clockSpeed} heading="Multiple choice" slideNumber={10}>
+          <OneFullSpanCard>
+            <SingleMultipleChoiceCard
+              question="Which statement about clock speed is most accurate?"
+              helperText="Select an answer to check the limits of clock speed as a performance factor."
+              feedbackId="clock-speed-limit-feedback"
+            >
+              <li data-feedback="Not quite. Higher clock speed can help, but it does not always make every task faster.">
+                <MultipleChoiceOption marker="A" data-choice-option>
+                  Higher clock speed always makes every task faster
+                </MultipleChoiceOption>
+              </li>
+              <li data-feedback="Not quite. Clock speed is about cycles per second, not how much memory a CPU has.">
+                <MultipleChoiceOption marker="B" data-choice-option>
+                  Clock speed only affects how much memory a CPU has
+                </MultipleChoiceOption>
+              </li>
+              <li data-correct="true" data-feedback="Correct. Higher clock speed can help, but performance also depends on the task, cache, cores and software.">
+                <MultipleChoiceOption marker="C" data-choice-option>
+                  Higher clock speed can help, but the task and other CPU features still matter
+                </MultipleChoiceOption>
+              </li>
+              <li data-feedback="Not quite. Many applications at once points more directly towards cores, not only clock speed.">
+                <MultipleChoiceOption marker="D" data-choice-option>
+                  Clock speed is useful only when many applications run at once
                 </MultipleChoiceOption>
               </li>
             </SingleMultipleChoiceCard>
