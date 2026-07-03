@@ -7,14 +7,13 @@ import ImageCard from "../../../../components/lesson/cards/ImageCard.astro";
 import LearningObjectivesCard from "../../../../components/lesson/cards/LearningObjectivesCard.astro";
 import QuestionCard from "../../../../components/lesson/cards/QuestionCard.astro";
 import SingleMultipleChoiceCard from "../../../../components/lesson/cards/SingleMultipleChoiceCard.astro";
-import FeedbackState from "../../../../components/lesson/components/FeedbackState.astro";
 import CommandWord from "../../../../components/lesson/components/CommandWord.astro";
 import LearningObjectiveItem from "../../../../components/lesson/components/LearningObjectiveItem.astro";
 import MultipleChoiceOption from "../../../../components/lesson/components/MultipleChoiceOption.astro";
 import OneFullSpanCard from "../../../../components/lesson/layouts/OneFullSpanCard.astro";
+import Standard2 from "../../../../components/lesson/layouts/Standard2.astro";
+import Standard3 from "../../../../components/lesson/layouts/Standard3.astro";
 import TitleSegmentSlide from "../../../../components/lesson/layouts/TitleSegmentSlide.astro";
-import TwoTopCardsWideBottomCard from "../../../../components/lesson/layouts/TwoTopCardsWideBottomCard.astro";
-import TwoVerticalCards from "../../../../components/lesson/layouts/TwoVerticalCards.astro";
 import { assertUniqueLessonPartTitles, type LessonSlideShellLabel } from "../../../../lib/lessonSlideShellLabels";
 
 const lessonTitle = "1.1.2 CPU performance";
@@ -62,14 +61,21 @@ const navSections = [
         </LessonSlideShell>
 
         <LessonSlideShell id="upgrade-challenge" label={shellLabels.introduction} heading="Lesson starter" slideNumber={2}>
-          <TwoTopCardsWideBottomCard>
+          <Standard2>
+            <QuestionCard slot="top">
+              <p>
+                Which upgrade would you choose for a single calculation-heavy program, and which would you choose
+                when several applications are open at the same time?
+              </p>
+            </QuestionCard>
+
             <ImageCard
               title="Upgrade advert A"
               src="/images/lessons/cpu-performance/upgrade-advert-ghz-openai.png"
               alt="Advert for a 3.8 GHz CPU upgrade showing a speed boost and processor chip."
               caption="Higher GHz means more clock cycles can happen each second."
               class="lesson-card-generated-image"
-              slot="top-left"
+              slot="bottom-left"
             />
             <ImageCard
               title="Upgrade advert B"
@@ -77,18 +83,9 @@ const navSections = [
               alt="Advert for an eight core CPU upgrade with multitasking app windows"
               caption="More cores can help suitable tasks share work."
               class="lesson-card-generated-image"
-              slot="top-right"
+              slot="bottom-right"
             />
-            <QuestionCard title="First prediction" slot="bottom">
-              <p>
-                Which upgrade would you choose for a single calculation-heavy program, and which would you choose
-                when several applications are open at the same time?
-              </p>
-              <FeedbackState tone="neutral">
-                Keep your prediction. We will come back to it after the clock speed explanation.
-              </FeedbackState>
-            </QuestionCard>
-          </TwoTopCardsWideBottomCard>
+          </Standard2>
         </LessonSlideShell>
 
         <LessonSlideShell id="learning-objectives" label={shellLabels.introduction} heading="Learning Objectives" slideNumber={3}>
@@ -106,14 +103,21 @@ const navSections = [
         </LessonSlideShell>
 
         <LessonSlideShell id="performance-factors" label={shellLabels.introduction} heading="What are three factors that impact CPU performance?" slideNumber={4}>
-          <TwoTopCardsWideBottomCard>
+          <Standard3>
+            <ExplanationCard slot="top">
+              <p>
+                CPU performance can be affected by clock speed, cache size and the number of cores. Each factor
+                changes how efficiently the CPU can work through instructions.
+              </p>
+            </ExplanationCard>
+
             <ImageCard
               title="Clock speed"
               src="/images/lessons/cpu-performance/factor-clock-speed-openai.png"
               alt="Clock speed visual card showing fast ticks, clock pulses, a speed gauge and a CPU chip."
               caption="How quickly the CPU can tick through cycles."
               class="lesson-card-generated-image"
-              slot="top-left"
+              slot="bottom-left"
             />
             <ImageCard
               title="Cache size"
@@ -121,7 +125,7 @@ const navSections = [
               alt="Cache size visual card showing fast nearby memory blocks around a CPU chip."
               caption="Fast nearby memory can reduce waiting."
               class="lesson-card-generated-image"
-              slot="top-right"
+              slot="bottom-centre"
             />
             <ImageCard
               title="Number of cores"
@@ -129,9 +133,9 @@ const navSections = [
               alt="Number of cores visual card showing eight cores and task windows sharing work."
               caption="Several cores can share suitable work."
               class="lesson-card-generated-image"
-              slot="bottom"
+              slot="bottom-right"
             />
-          </TwoTopCardsWideBottomCard>
+          </Standard3>
         </LessonSlideShell>
 
         <LessonSlideShell id="part-1-clock-speed" label={shellLabels.clockSpeed} heading="Clock Speed" slideNumber={5} hideHeader>
@@ -139,11 +143,17 @@ const navSections = [
         </LessonSlideShell>
 
         <LessonSlideShell id="clock-speed-cycles" label={shellLabels.clockSpeed} heading="What is clock speed?" slideNumber={6}>
-          <TwoVerticalCards>
-            <ExplanationCard title="What clock speed measures" slot="left">
+          <Standard2>
+            <ExplanationCard slot="top">
               <p>
-                Clock speed is the number of CPU cycles that can happen each second. It is commonly measured
-                in gigahertz, written as <strong>GHz</strong>.
+                Clock speed tells us how quickly the CPU's internal timing pulse can tick. More ticks each second
+                can give the CPU more chances to work through instructions.
+              </p>
+            </ExplanationCard>
+
+            <ExplanationCard title="GHz examples" slot="bottom-left">
+              <p>
+                Clock speed is commonly measured in gigahertz, written as <strong>GHz</strong>.
               </p>
               <ul>
                 <li><strong>1 GHz</strong> means about one billion cycles per second.</li>
@@ -158,18 +168,21 @@ const navSections = [
               alt="Cycles per second visual card comparing fewer clock pulses with more clock pulses in the same time."
               caption="Higher GHz means more cycles can happen in the same amount of time."
               class="lesson-card-generated-image"
-              slot="right"
+              slot="bottom-right"
             />
-          </TwoVerticalCards>
+          </Standard2>
         </LessonSlideShell>
 
         <LessonSlideShell id="clock-speed-instructions" label={shellLabels.clockSpeed} heading="How does clock speed affect performance?" slideNumber={7}>
-          <TwoVerticalCards>
-            <ExplanationCard title="More cycles can mean more instructions" slot="left">
+          <Standard2>
+            <ExplanationCard slot="top">
               <p>
                 A CPU uses clock cycles to keep its work in time. When the clock speed is higher, more cycles can
                 happen each second, so the CPU may be able to process more instructions in the same amount of time.
               </p>
+            </ExplanationCard>
+
+            <ExplanationCard title="When it helps most" slot="bottom-left">
               <ul>
                 <li>This can make calculation-heavy tasks finish sooner.</li>
                 <li>The benefit is strongest when the task depends on fast sequential processing.</li>
@@ -182,9 +195,9 @@ const navSections = [
               alt="One-second comparison showing a lower clock speed with fewer instruction blocks and a higher clock speed with more instruction blocks."
               caption="A higher clock speed can allow more instruction work to happen in the same amount of time."
               class="lesson-card-generated-image"
-              slot="right"
+              slot="bottom-right"
             />
-          </TwoVerticalCards>
+          </Standard2>
         </LessonSlideShell>
 
         <LessonSlideShell id="clock-speed-check-measure" label={shellLabels.clockSpeed} heading="Multiple choice" slideNumber={8}>

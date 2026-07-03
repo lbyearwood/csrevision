@@ -119,3 +119,20 @@ Reason:
 
 - A whole-lesson single pass leads to generic content, weak visuals, disconnected checks and too much cleanup for the user.
 - Staged approval keeps the lesson arc visible while giving Codex enough focus to make each part high quality.
+
+## 2026-07-03: Standard Layouts And Narrative Lesson Writing
+
+Decision:
+
+- `Standard2`, `Standard3` and `Standard4` are accepted explanation/teaching layouts: a plain titleless intro over two, three or four support cards.
+- Standard layout top intros should behave like normal teacher narration text, not like padded card panels.
+- Do not add soft filled card surfaces to compensate for removed borders unless the user explicitly asks.
+- Generated image cards inside Standard layouts should use the available width confidently so visuals do not look like small images floating inside invisible boxes.
+- Lesson writing must follow the narrative QAP: slides should read like connected teacher narration, not independent flashcards.
+- Every teaching slide should connect to at least one of: previous learning, the current lesson question, a future slide, real-world relevance, historical context, wider Computer Science importance, a probing question, a rhetorical question, a prediction prompt or a misconception challenge.
+
+Reason:
+
+- The user judged the existing CPU performance lesson as too fragmented and keyword-led.
+- A lesson should inspire and guide 11-18 learners through a story of understanding, not merely present isolated facts to remember.
+- Removing borders reduced visual harshness, but layout rhythm still needs deliberate spacing, image scale and meaningful text flow.

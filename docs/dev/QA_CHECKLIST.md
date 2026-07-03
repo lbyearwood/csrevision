@@ -54,11 +54,26 @@ For user-facing changes, check:
 - DOM checks, computed styles and route status checks can support visual QA, but they do not replace screenshot review for QAP or UI design work.
 - No developer-only text is visible on public pages.
 - QAP and reusable lesson-card examples do not duplicate titles, subtitles or repeated explanatory information.
+- Lesson slide canvases use a plain white background, with no grey or blue-tinted slide backdrop behind the cards.
 - Directional relationships use vector/CSS/SVG arrow shapes, not typed arrow text.
 - Text does not overlap or clip.
 - Cards, diagrams, tables and controls are readable.
 - Contrast and spacing are usable.
 - Desktop, tablet and mobile widths are checked where relevant.
+
+## Lesson Narrative QA
+
+For lesson content changes, check:
+
+- The lesson reads like a teacher is narrating a connected journey, not like separate flashcards.
+- Each teaching slide connects to at least one of: previous learning, the current lesson question, a future slide, a real-world scenario, historical context, or the wider Computer Science topic.
+- Each main lesson part explains why the subtopic matters and why students need to learn it.
+- Teaching text includes purposeful probing questions, rhetorical questions, prediction prompts or misconception challenges where they support thinking.
+- Definitions and keywords are embedded in explanation, examples, scenarios, models or consequences rather than presented as isolated memory items.
+- The lesson uses age-appropriate concrete references for 11-18 learners: real devices, photos/screenshots, recognisable contexts, human problems, games, phones, school/work scenarios, or current technology where useful.
+- Slides build towards later understanding and do not reset the explanation as if the previous slide never happened.
+- Visuals are not only decorative. They should help tell the story, ground the concept, show a real object/system, or make an abstract idea concrete.
+- The final coherence pass identifies and fixes any slide that feels boring, generic, disconnected or purely keyword-led.
 
 ## Physical Interaction QA
 

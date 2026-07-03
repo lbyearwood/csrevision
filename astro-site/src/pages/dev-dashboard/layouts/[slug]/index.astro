@@ -20,6 +20,8 @@ export function getStaticPaths() {
 const { layout } = Astro.props;
 const layoutNumber = devLayoutDefinitions.findIndex((definition) => definition.slug === layout.slug) + 1;
 const numberedLayoutTitle = `${layoutNumber}. ${layout.title}`;
+const usesTwoByTwoPreview = !["standard2", "standard3", "standard4"].includes(layout.slug);
+const usesTitlelessTopPreview = ["standard2", "standard3", "standard4"].includes(layout.slug);
 const navSections = [
   { id: "example", title: "Example" },
   { id: "brief", title: "Brief" },
@@ -29,7 +31,7 @@ const navSections = [
 // - Keep this page to two visible slides: Example and Brief.
 // - Do not render review checks, dependencies or implementation notes as visible UI.
 // - Use layout.reviewPoints and layout.dependencies as source guidance when refining this example.
-// - Layouts are structural 2 by 2 card arrangements, not teaching purposes.
+// - Layouts are structural card arrangements, not teaching purposes.
 ---
 
 <LessonLayout
@@ -47,10 +49,10 @@ const navSections = [
           {layout.slug === "title-segment-slide" ? (
             <TitleSegmentSlide kind="part-title" title="Part 1 - Example" />
           ) : (
-            <div class:list={["dev-layout-zone-grid", `dev-layout-zone-grid--${layout.slug}`, "dev-layout-zone-grid--two-by-two"]}>
+            <div class:list={["dev-layout-zone-grid", `dev-layout-zone-grid--${layout.slug}`, usesTwoByTwoPreview && "dev-layout-zone-grid--two-by-two"]}>
               {layout.zones.map((zone, index) => (
                 <article class:list={["dev-layout-zone", `dev-layout-zone--${zone.span}`, `dev-layout-zone--item-${index + 1}`]}>
-                  <h3>{zone.title}</h3>
+                  {!(usesTitlelessTopPreview && index === 0) && <h3>{zone.title}</h3>}
                   {zone.detail && <p>{zone.detail}</p>}
                 </article>
               ))}

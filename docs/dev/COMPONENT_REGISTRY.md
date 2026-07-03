@@ -18,23 +18,25 @@ Review page order:
 
 | No. | Shell | Status | Notes |
 | --- | --- | --- | --- |
-| 1 | LessonSlideShell | accepted | Shared outer wrapper for slide number, label, heading, scroll target spacing and canvas rhythm. Visible badge/header labels are restricted to `Lesson introduction`, `Lesson summary`, or `Part [number] - [title]`; each part number can only have one title per lesson. Not a 2 by 2 card layout. |
+| 1 | LessonSlideShell | accepted | Shared outer wrapper for slide number, label, heading, scroll target spacing and canvas rhythm. Visible badge/header labels are restricted to `Lesson introduction`, `Lesson summary`, or `Part [number] - [title]`; each part number can only have one title per lesson. Not a card layout. |
 
 ## Layouts
 
-Layouts are structural 2 by 2 card arrangements only, except for the title segment slide. Teaching purposes such as comparison, recap, process, model or exam practice belong in cards, components or widgets placed inside these layouts.
+Layouts are structural card arrangements, except for the title segment slide. Teaching purposes such as comparison, recap, process, model or exam practice belong in cards, components or widgets placed inside these layouts.
 
 | No. | Layout | Status | Notes |
 | --- | --- | --- | --- |
 | 1 | OneFullSpanCard | accepted | One card spans the full 2 by 2 card area. |
 | 2 | TwoVerticalCards | accepted | Two cards side by side, each spanning a full column. |
-| 3 | TwoHorizontalCards | accepted | Two cards stacked, each spanning a full row. |
-| 4 | WideTopCardTwoBottomCards | accepted | One wide setup card over two smaller cards. |
-| 5 | TwoTopCardsWideBottomCard | accepted | Two smaller cards over one wide synthesis card. |
-| 6 | TallLeftCardTwoRightCards | accepted | One tall left card with two stacked cards on the right. |
-| 7 | TwoLeftCardsTallRightCard | accepted | Two stacked cards on the left with one tall right card. |
-| 8 | FourEqualCards | accepted | Specialist 2 by 2 quadrant/matrix/four-way comparison layout. Not a general-purpose default and not for ordinary groups of four cards. |
-| 9 | TitleSegmentSlide | accepted | Title-only slide outside the 2 by 2 card system. Use for the opening lesson title slide or between lesson parts. Part dividers must contain the full `Part [number] - [title]` label. |
+| 3 | TwoHorizontalCards | accepted | Two cards stacked, each spanning a full row. Use for intro plus modelling, where the modelling card sits below the intro. |
+| 4 | Standard2 | accepted | One plain titleless intro over two smaller support cards. Use for lesson starters and explanation/teaching slides that need an intro followed by two supports. The wide top card must behave like normal slide text: no heading, no padded panel feel and only as tall as its content. |
+| 5 | Standard3 | accepted | One plain titleless intro over three smaller support cards. Use when three bottom supports are genuinely needed. Keep the intro text compact and avoid soft filled card surfaces. |
+| 6 | Standard4 | accepted | One plain titleless intro over four smaller support cards. Use sparingly; bottom cards must stay very concise and avoid heavy spacing or soft filled card surfaces. |
+| 7 | TwoTopCardsWideBottomCard | accepted | Two smaller cards over one wide synthesis card. |
+| 8 | TallLeftCardTwoRightCards | accepted | One tall left card with two stacked cards on the right. |
+| 9 | TwoLeftCardsTallRightCard | accepted | Two stacked cards on the left with one tall right card. |
+| 10 | FourEqualCards | accepted | Specialist 2 by 2 quadrant/matrix/four-way comparison layout. Not a general-purpose default and not for ordinary groups of four cards. |
+| 11 | TitleSegmentSlide | accepted | Title-only slide outside the card layout system. Use for the opening lesson title slide or between lesson parts. Part dividers must contain the full `Part [number] - [title]` label. |
 
 ## Cards
 
@@ -106,7 +108,7 @@ Layouts are structural 2 by 2 card arrangements only, except for the title segme
 
 ## Open Registry Work
 
-- Define which cards/components can appear in each structural 2 by 2 layout.
+- Define which cards/components can appear in each structural card layout.
 - Keep the Dev dashboard Cards list aligned with this registry.
 - Avoid creating duplicate components when an existing card can be extended.
 - Review the reusable CPU performance support components introduced during the page-specific-class cleanup:

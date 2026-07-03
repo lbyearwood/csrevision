@@ -1,7 +1,7 @@
 export type DevLayoutZone = {
   title: string;
   detail: string;
-  span: "full" | "row" | "column" | "cell" | "title";
+  span: "full" | "row" | "column" | "cell" | "half" | "third" | "quarter" | "title";
 };
 
 export type DevLayoutDefinition = {
@@ -73,23 +73,66 @@ export const devLayoutDefinitions: DevLayoutDefinition[] = [
     dependencies: ["Any two cards"],
   },
   {
-    title: "WideTopCardTwoBottomCards",
-    slug: "wide-top-card-two-bottom-cards",
+    title: "Standard2",
+    slug: "standard2",
     label: "Layout",
-    brief: "One top card spans both columns, with two smaller cards underneath.",
-    href: layoutHref("wide-top-card-two-bottom-cards"),
+    brief: "One concise top setup card spans the slide width, with two smaller support cards underneath.",
+    href: layoutHref("standard2"),
     complete: true,
     zones: [
-      { title: "Card 1", detail: "Top card spans both columns.", span: "row" },
-      { title: "Card 2", detail: "Bottom-left card.", span: "cell" },
-      { title: "Card 3", detail: "Bottom-right card.", span: "cell" },
+      { title: "Card 1", detail: "Top setup card spans both columns.", span: "row" },
+      { title: "Card 2", detail: "Bottom-left card.", span: "half" },
+      { title: "Card 3", detail: "Bottom-right card.", span: "half" },
     ],
     reviewPoints: [
       "Use when one setup card introduces two follow-up cards.",
+      "Keep the top card titleless and only as tall as its content.",
       "The bottom cards should clearly relate to the top card.",
-      "Avoid making the top card a repeated title area.",
     ],
     dependencies: ["Any three cards"],
+  },
+  {
+    title: "Standard3",
+    slug: "standard3",
+    label: "Layout",
+    brief: "One concise top setup card spans the slide width, with three smaller support cards underneath.",
+    href: layoutHref("standard3"),
+    complete: true,
+    zones: [
+      { title: "Card 1", detail: "Top setup card spans all three columns.", span: "row" },
+      { title: "Card 2", detail: "Bottom-left card.", span: "third" },
+      { title: "Card 3", detail: "Bottom-centre card.", span: "third" },
+      { title: "Card 4", detail: "Bottom-right card.", span: "third" },
+    ],
+    reviewPoints: [
+      "Use when one setup card introduces three related supports.",
+      "Keep the top card titleless and only as tall as its content.",
+      "Use only when three bottom cards are genuinely needed; otherwise prefer the two-bottom version.",
+      "Check that the three bottom cards remain readable at desktop and tablet widths.",
+    ],
+    dependencies: ["Any four cards"],
+  },
+  {
+    title: "Standard4",
+    slug: "standard4",
+    label: "Layout",
+    brief: "One concise top setup card spans the slide width, with four smaller support cards underneath.",
+    href: layoutHref("standard4"),
+    complete: true,
+    zones: [
+      { title: "Card 1", detail: "Top setup card spans all four columns.", span: "row" },
+      { title: "Card 2", detail: "Bottom-left card.", span: "quarter" },
+      { title: "Card 3", detail: "Bottom-centre-left card.", span: "quarter" },
+      { title: "Card 4", detail: "Bottom-centre-right card.", span: "quarter" },
+      { title: "Card 5", detail: "Bottom-right card.", span: "quarter" },
+    ],
+    reviewPoints: [
+      "Use sparingly when a single setup card must introduce four short supports.",
+      "Keep the top card titleless and only as tall as its content.",
+      "Keep each bottom card very concise so the layout does not become crowded.",
+      "If the four supports need equal visual comparison, consider whether FourEqualCards is a better fit.",
+    ],
+    dependencies: ["Any five cards"],
   },
   {
     title: "TwoTopCardsWideBottomCard",

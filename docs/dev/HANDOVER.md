@@ -64,15 +64,20 @@ npm.cmd run dev -- --host 127.0.0.1 --port 4321
 - A single lesson must not reuse one part number with different titles.
 - `TitleSegmentSlide` is only for the opening lesson title slide or a between-parts divider. Part dividers must show the full `Part [number] - [title]` label.
 - Starter/introduction activity slides must use the fixed heading `Lesson starter`, not custom labels such as `Upgrade challenge`.
+- Lesson starter slides must use `Standard2` by default: concise titleless prompt/setup intro on top, two visual or activity support cards underneath. Use `Standard3` or `Standard4` only when three or four bottom support cards are genuinely needed.
+- Standard layout top intros should behave like normal slide text: no heading, no padded panel feel and only as tall as the text. Do not add soft filled card surfaces to compensate for removed borders unless the user explicitly asks.
+- Generated image cards inside Standard layouts should use the available card width confidently so visuals do not look like small images floating in invisible boxes.
+- Lesson slide canvases must use a plain white background, not a grey or blue-tinted backdrop.
 - Segue/overview slides that bridge into the lesson parts sit immediately before the first part title and remain labelled as `Lesson introduction`.
 - Repeated lesson navigation topics should use short lettered labels, such as `Clock speed (A)` and `Clock speed (B)`.
 - `FourEqualCards` is reserved for true quadrant/matrix/four-way comparison content, not typical overview slides or ordinary groups of four cards.
-- Layouts are now structural 2 by 2 card arrangements only, plus the title segment slide exception.
-- The reusable module catalogue currently has 1 accepted shell, 9 accepted layouts, 24 accepted cards, 1 card needing work (`SeveralMultipleChoiceCard`), 22 accepted components and 6 accepted widgets.
+- Layouts are structural card arrangements, plus the title segment slide exception.
+- The reusable module catalogue currently has 1 accepted shell, 11 accepted layouts, 24 accepted cards, 1 card needing work (`SeveralMultipleChoiceCard`), 22 accepted components and 6 accepted widgets.
 - Reusable card examples should compose smaller code-named components where practical. Current examples include InteractiveTableCard and MisconceptionCard using FeedbackState, ExamQuestionCard using LabelBadge, FlashCard and VisualFlashCard using FlipCard, and CodingCard using CodeBlock.
 - LearningObjectivesCard now exists as a real wrapper component in `astro-site/src/components/lesson/cards/LearningObjectivesCard.astro`; use that codeName directly rather than treating the card as a SummaryCard variant.
 - Structured content/data should drive future lesson creation.
 - Lesson creation must follow the staged approval workflow in `docs/dev/LESSON_CREATION_WORKFLOW.md`.
+- Lesson writing must follow the narrative QAP: slides should read like connected teacher narration, not independent flashcards. Each teaching slide should connect backwards, forwards, to relevance/importance, to a real-world or historical context, or to a probing question.
 - User adjustments must be documented as hardline protocols in `SITE_QA_AND_DEVELOPMENT_RULES.md`, not left as informal thread context.
 - Hardline typography rule: unless text is a title or subtitle, use normal font weight (`400`). Question prompts, answer options, feedback, helper text, captions, button labels, table text, list text and normal card copy must not be heavy.
 - Stage 0 must define target audience and engagement needs before Stage 1 planning or component selection.
@@ -103,9 +108,9 @@ Current understanding:
 1. Codex must not build a whole lesson in one pass.
 2. Codex should understand the topic and source material first.
 3. Codex should plan the whole lesson arc and get agreement.
-4. Codex should create the slide skeleton with titles, layout codeNames, module codeNames and placeholders, then get agreement.
+4. Codex should create the slide skeleton with titles, layout codeNames, module codeNames, placeholders, narrative connections, relevance hooks and probing questions, then get agreement.
 5. Codex should build one lesson part at a time, including text, visuals, models and checks for that part, then get agreement.
-6. Codex should complete a whole-lesson coherence pass and Edge QA before marking the lesson complete.
+6. Codex should complete a whole-lesson coherence pass, narrative QA and Edge QA before marking the lesson complete.
 
 Reference specification added:
 
@@ -128,7 +133,7 @@ The next Codex should use the formal workflow rather than improvising a new proc
 
 ## Active Lesson Handover: 1.1.2 CPU performance
 
-Date: 2026-06-28
+Date: 2026-07-03
 
 Worker: PC Codex.
 
@@ -136,6 +141,7 @@ User intent:
 
 - The user is testing the formal staged lesson creation workflow and wants quality gates to prevent rushed, generic lesson output.
 - Part 1 is being refined before moving on to cache size/cache levels.
+- The user has explicitly rejected the current Codex writing style as too disjointed: slides feel like independent flashcards rather than a connected teacher-led lesson. Before accepting Part 1, run a narrative rewrite pass so slides connect backwards, forwards, to importance/relevance, to real-world or historical context, and to probing questions.
 - Rich lesson visuals should use accepted OpenAI-generated bitmap images rather than hand-authored SVG when the aim is engagement rather than deterministic geometry.
 - Multiple-choice and exam-question cards must sit on dedicated assessment slides. Lesson-part multiple-choice checks should use three separate `SingleMultipleChoiceCard` slides that directly test what was taught in that part.
 - Typography is now strict: only titles/subtitles should use heavy weight. Question prompts, options, helper text and feedback must be normal weight.
@@ -146,7 +152,8 @@ Workflow state:
 2. Stage 1 complete: lesson arc approved with an interesting intro, learning objectives, clock speed, cache, cores, application, summary and exam practice.
 3. Stage 2 was improved after the user rejected the first version for lack of detail. Future Stage 2 outputs must be detailed enough to drive excellent implementation.
 4. Stage 3 is in progress part by part. Current implementation covers the opening, starter, objectives, CPU factors/segue and Part 1 clock-speed slides.
-5. Do not build the rest of the lesson in one pass. Continue only after the user accepts the current part.
+5. The current visuals/layouts are much closer to the desired standard, but the lesson text now needs a narrative-teacher rewrite before Part 1 can be considered accepted.
+6. Do not build the rest of the lesson in one pass. Continue only after the user accepts the current part.
 
 Built in Astro:
 
@@ -176,12 +183,12 @@ Implemented slides:
 Current lesson structure:
 
 1. Opening title slide uses `TitleSegmentSlide` with no extra badge/header.
-2. Starter slide uses `Lesson starter`, `TwoTopCardsWideBottomCard`, two `ImageCard`s and a prediction `QuestionCard`.
+2. Starter slide uses `Lesson starter`, `Standard2`, a titleless prediction `QuestionCard` on top and two `ImageCard`s underneath.
 3. Learning objectives use `LearningObjectivesCard`, `LearningObjectiveItem` and `CommandWord`.
-4. Overview/segue slide uses `ImageCard`s for clock speed, cache size and number of cores and remains labelled `Lesson introduction`.
+4. Overview/segue slide uses `Standard3` with a plain titleless intro over three `ImageCard`s for clock speed, cache size and number of cores. It remains labelled `Lesson introduction`.
 5. Part divider uses `TitleSegmentSlide` with `Part 1 - Clock speed`.
-6. Part 1 teaching slide A explains clock speed and cycles per second.
-7. Part 1 teaching slide B explains that a higher clock speed can allow more sequential instructions to be processed per second, using `TwoVerticalCards` with writing on the left and the instruction-throughput diagram on the right.
+6. Part 1 teaching slide A uses `Standard2` and explains clock speed and cycles per second.
+7. Part 1 teaching slide B uses `Standard2` and explains that a higher clock speed can allow more sequential instructions to be processed per second.
 8. Slides 8, 9 and 10 are dedicated assessment slides titled `Multiple choice`; each uses `OneFullSpanCard` with one `SingleMultipleChoiceCard`, and each answer uses visible `MultipleChoiceOption` buttons with A-D marker props.
 
 Important implementation notes:
@@ -191,13 +198,17 @@ Important implementation notes:
 3. `LessonSideNav` heading says `Lesson slide navigation`.
 4. Current CPU performance rich visuals use accepted OpenAI PNG assets from `astro-site/public/images/lessons/cpu-performance/`.
 5. The original SVG versions still exist as fallback/reference assets but should not be preferred for rich learner-facing visuals.
-6. Slide 7 now uses `TwoVerticalCards`; do not reintroduce the misconception card there unless the user asks for it.
-7. `SingleMultipleChoiceCard` exists at `astro-site/src/components/lesson/cards/SingleMultipleChoiceCard.astro`.
-8. `SeveralMultipleChoiceCard` exists at `astro-site/src/components/lesson/cards/SeveralMultipleChoiceCard.astro`, but it is no longer approved as the default lesson-part check pattern.
-9. Multiple-choice answer buttons must use `MultipleChoiceOption` with explicit A-D `marker` props so selected, correct and incorrect states attach to the visible reusable button.
-10. The standalone Dev dashboard route `http://127.0.0.1:4321/dev-dashboard/components/multiple-choice-option/` has been updated to show the current four-option style with normal-weight text.
-11. The accepted OpenAI image style benchmark remains `upgrade-advert-ghz-openai.png` and `upgrade-advert-cores-openai.png`; follow `docs/dev/IMAGE_GENERATION_STANDARDS.md`.
-12. Do not reintroduce heavy answer-option or question-prompt text.
+6. `Standard2`, `Standard3` and `Standard4` are the accepted standard explanation layouts. Their top intro should behave like normal slide text, not a padded card panel.
+7. Slide 4 uses `Standard3`; slides 6 and 7 use `Standard2`.
+8. Standard layout generated `ImageCard`s have reduced invisible padding so the images use the available width confidently.
+9. Do not add soft filled card surfaces to compensate for removed card borders unless the user explicitly asks.
+10. Use `TwoHorizontalCards` for intro plus modelling only, where the model/worked example sits below the intro.
+11. `SingleMultipleChoiceCard` exists at `astro-site/src/components/lesson/cards/SingleMultipleChoiceCard.astro`.
+12. `SeveralMultipleChoiceCard` exists at `astro-site/src/components/lesson/cards/SeveralMultipleChoiceCard.astro`, but it is no longer approved as the default lesson-part check pattern.
+13. Multiple-choice answer buttons must use `MultipleChoiceOption` with explicit A-D `marker` props so selected, correct and incorrect states attach to the visible reusable button.
+14. The standalone Dev dashboard route `http://127.0.0.1:4321/dev-dashboard/components/multiple-choice-option/` has been updated to show the current four-option style with normal-weight text.
+15. The accepted OpenAI image style benchmark remains `upgrade-advert-ghz-openai.png` and `upgrade-advert-cores-openai.png`; follow `docs/dev/IMAGE_GENERATION_STANDARDS.md`.
+16. Do not reintroduce heavy answer-option or question-prompt text.
 
 Accepted OpenAI lesson image files currently referenced or available:
 
@@ -227,17 +238,19 @@ Browser/visual QA already performed:
 4. Slide 8 screenshot confirmed it renders a multiple-choice check with reusable `MultipleChoiceOption` buttons.
 5. Computed font weights for the multiple-choice prompt, options and reset button were checked as `400`.
 6. Correct and incorrect answer states were checked: green tick/correct state and red cross/incorrect state.
-7. Slide 7 was Edge screenshot-reviewed on desktop, tablet and mobile after changing it to `TwoVerticalCards`; it now has exactly one explanation card and one image card, with no misconception card.
-8. No relevant console errors or framework overlays were found during the Playwright/Edge checks.
+7. Slides 4, 6 and 7 were screenshot-reviewed after the Standard layout spacing pass. Slide 4 uses `Standard3`; slides 6 and 7 use `Standard2`.
+8. Standard layout top intros were checked visually after removing the padded-panel feel.
+9. No relevant console errors or framework overlays were found during the browser checks.
 
 Known follow-up:
 
-1. Review Part 1 with the user before moving to Part 2.
-2. Do not proceed to Part 2 until the user accepts Part 1.
-3. After Part 1 is accepted, build Part 2: cache size, cache levels L1/L2/L3 and a cache scenario check.
-4. Keep following `docs/dev/LESSON_CREATION_WORKFLOW.md`.
-5. Re-check any touched UI with screenshot review before marking it complete.
-6. Known UI issue observed during automated hash navigation: the lesson side-nav active highlight can lag and still show slide 7 active while slide 8 is visible. Do not hide this if it appears again; either fix it as a focused task or report it as a remaining issue.
+1. Rewrite the current CPU performance lesson text so it follows the narrative QAP before asking the user to accept Part 1.
+2. Review Part 1 with the user before moving to Part 2.
+3. Do not proceed to Part 2 until the user accepts Part 1.
+4. After Part 1 is accepted, build Part 2: cache size, cache levels L1/L2/L3 and a cache scenario check.
+5. Keep following `docs/dev/LESSON_CREATION_WORKFLOW.md`.
+6. Re-check any touched UI with screenshot review before marking it complete.
+7. Known UI issue observed during automated hash navigation: the lesson side-nav active highlight can lag and still show slide 7 active while slide 8 is visible. Do not hide this if it appears again; either fix it as a focused task or report it as a remaining issue.
 
 ## Known Limitations
 

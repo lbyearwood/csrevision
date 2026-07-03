@@ -1,15 +1,16 @@
 ---
 interface Props {
-  title: string;
+  title?: string;
   dataCard: string;
   class?: string;
 }
 
 const { title, dataCard, class: className } = Astro.props;
+const hasTitle = typeof title === "string" && title.trim().length > 0;
 ---
 
-<article class:list={["lesson-card-module", className]} data-card={dataCard}>
-  <h3>{title}</h3>
+<article class:list={["lesson-card-module", !hasTitle && "lesson-card-module--titleless", className]} data-card={dataCard}>
+  {hasTitle && <h3>{title}</h3>}
   <div class="lesson-card-module-body">
     <slot />
   </div>

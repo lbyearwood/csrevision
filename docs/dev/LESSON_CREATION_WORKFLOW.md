@@ -61,9 +61,12 @@ The plan must include:
 1. Lesson starter.
 2. Learning objectives.
 3. Main teaching parts in a logical order for understanding and progression.
-4. How the plan responds to the target audience profile.
-5. Any likely visual support, models, interactions or assessment moments.
-6. Any old-site material that will be retained, changed or omitted.
+4. The narrative spine of the lesson: what question, problem, scenario or curiosity thread carries students through the lesson.
+5. How each part connects to the previous part and prepares for the next part.
+6. Why the lesson matters: real-world relevance, Computer Science importance, historical context or future learning value.
+7. How the plan responds to the target audience profile.
+8. Any likely visual support, models, interactions or assessment moments.
+9. Any old-site material that will be retained, changed or omitted.
 
 Approval gate:
 
@@ -85,14 +88,17 @@ The blueprint must include:
 5. The lesson part each slide belongs to.
 6. The precise teaching purpose of each slide.
 7. The key idea the slide must communicate.
-8. Any vocabulary that must appear.
-9. Any misconception or exam trap the slide should address.
-10. Placeholders for text, diagrams, images, models and questions.
-11. A short brief for each placeholder, not just a label.
-12. The interaction expected on the slide, if any.
-13. The check for understanding or exam skill being tested, if any.
-14. Why the design choice fits the target audience.
-15. Notes for any unresolved design or content decision.
+8. The narrative connection: what this slide recalls from earlier, what it adds now, and what it prepares students for later.
+9. The relevance hook: why this idea matters, where students might see it, or what real-world/historical scenario makes it meaningful.
+10. Any probing question, rhetorical question, prediction prompt or misconception challenge.
+11. Any vocabulary that must appear.
+12. Any misconception or exam trap the slide should address.
+13. Placeholders for text, diagrams, images, models and questions.
+14. A short brief for each placeholder, not just a label.
+15. The interaction expected on the slide, if any.
+16. The check for understanding or exam skill being tested, if any.
+17. Why the design choice fits the target audience.
+18. Notes for any unresolved design or content decision.
 
 The blueprint should not contain polished final teaching text yet, but it must contain enough detail to prevent generic slides.
 
@@ -106,11 +112,14 @@ Use this per-slide format:
 4. Cards/components/widgets.
 5. Teaching purpose.
 6. Key idea.
-7. Placeholder briefs.
-8. Interaction or task.
-9. Check for understanding.
-10. Target audience fit.
-11. Notes or risks.
+7. Narrative connection.
+8. Relevance hook.
+9. Probing question or misconception challenge.
+10. Placeholder briefs.
+11. Interaction or task.
+12. Check for understanding.
+13. Target audience fit.
+14. Notes or risks.
 
 Approval gate:
 
@@ -134,6 +143,8 @@ For each lesson part, complete the relevant items together:
 7. Task sheet instruction, where relevant.
 
 Do not write all lesson text first, then all diagrams, then all questions across the whole lesson. Visuals, models and checks often change what the text should say. Each part should become coherent before moving on.
+
+Teaching text must be written as connected teacher narration. It should not read like independent revision cards. Each teaching slide should do at least one of these jobs: refer back to a previous slide, consolidate a previous point, raise a question students are likely to wonder about, explain why the current idea matters, connect to a real device/system/scenario, include a relevant historical or technological context, or foreshadow something that will be studied later in the lesson.
 
 When adding formal assessment to a part, create separate assessment slides instead of attaching question cards below a teaching layout. A lesson-part multiple-choice check should contain three questions that directly test the teaching from that part, implemented as three separate `SingleMultipleChoiceCard` slides by default. Keep teaching explanation slides for teaching, and keep exam or multiple-choice slides focused on the question, options, feedback and reset/reveal controls. Title these slides `Multiple choice` or `Exam Questions` rather than inventing topic-specific check titles.
 
@@ -160,6 +171,9 @@ Check for:
 6. Questions that do not test the intended understanding.
 7. Public pages showing developer-only wording.
 8. Slide titles, subtitles or card titles duplicating the same information.
+9. Slides that read as isolated mini-lessons rather than a connected teacher-led narrative.
+10. Missing references back to earlier ideas or forward to later ideas.
+11. Missing relevance, importance, real-world scenario, historical context, probing question or curiosity hook.
 
 Approval gate:
 
@@ -223,10 +237,15 @@ Rules:
 10. Use `FourEqualCards` only for true quadrant, matrix or four-way comparison content where equal visual weight is the teaching purpose. Prefer the other accepted layouts for ordinary groups, overviews and segue slides.
 11. When content implies a visual object, such as an advert, screenshot, poster, interface, diagram, device, icon, symbol or model, choose a visual card/component such as `ImageCard` before considering text-only cards. If a text-only card is still chosen, explain why and ask the user to approve that choice.
 12. Advert/poster graphics must follow `docs/dev/IMAGE_GENERATION_STANDARDS.md`: use modern raster educational card style, big symbols, short readable copy, clear contrast and deliberate spacing. Inspect the rendered card and fix any overlapping, clipped, crowded, artefacted or tiny in-graphic text before presenting it.
-13. Exam-question and multiple-choice cards must be placed on dedicated assessment slides, not mixed into teaching slides.
-14. Dedicated assessment slide titles must be `Multiple choice` for multiple-choice cards or `Exam Questions` for exam-question cards.
-15. Lesson-part multiple-choice checks should use three separate `SingleMultipleChoiceCard` slides that directly assess what was taught in that part.
-16. Apply the hardline typography rule from `SITE_QA_AND_DEVELOPMENT_RULES.md`: unless text is a title or subtitle, it must be normal weight (`400`). Do not make question prompts, answer options, feedback, helper text, list text, captions, table text, button labels or normal card copy heavy.
+13. Lesson starter slides must use `Standard2` by default: a concise titleless prompt/setup intro at the top and two visual or activity support cards underneath. Use `Standard3` or `Standard4` only when the user or agreed lesson structure needs three or four bottom support cards.
+14. Explanation/teaching slides that are not modelling slides should normally use `Standard2`, `Standard3` or `Standard4`: a short titleless intro at the top and two, three or four supporting cards underneath. The top intro must behave like normal slide text: no heading, no padded panel feel, no large empty area and only as tall as its content. Do not add soft filled card surfaces to compensate for removed borders unless the user explicitly asks for that.
+15. Generated `ImageCard` visuals inside Standard layouts should use the available card width confidently so images do not appear to float inside invisible padded boxes.
+16. Use `TwoHorizontalCards` for intro plus modelling only, where the model/worked example belongs under the intro.
+17. Exam-question and multiple-choice cards must be placed on dedicated assessment slides, not mixed into teaching slides.
+18. Dedicated assessment slide titles must be `Multiple choice` for multiple-choice cards or `Exam Questions` for exam-question cards.
+19. Lesson-part multiple-choice checks should use three separate `SingleMultipleChoiceCard` slides that directly assess what was taught in that part.
+20. Apply the hardline typography rule from `SITE_QA_AND_DEVELOPMENT_RULES.md`: unless text is a title or subtitle, it must be normal weight (`400`). Do not make question prompts, answer options, feedback, helper text, list text, captions, table text, button labels or normal card copy heavy.
+21. Lesson slide canvases must have a plain white background. Do not place lesson content on grey, blue-tinted or panel-style slide backgrounds unless the user explicitly approves a different slide background.
 
 ## Lesson Slide Shell Badge Standard
 

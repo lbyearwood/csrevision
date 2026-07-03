@@ -549,6 +549,7 @@ a {
   }
 
   .lesson-main {
+    background: #ffffff;
     padding-bottom: max(5rem, 28vh);
   }
 
@@ -556,6 +557,7 @@ a {
     display: grid;
     min-height: calc(100svh - 5rem);
     align-content: center;
+    background: #ffffff;
     scroll-margin-top: 5rem;
     padding-block: clamp(1rem, 1.8vh, 1.5rem);
   }
@@ -823,7 +825,7 @@ a {
 
   .lesson-layout-one-full-span-card,
   .lesson-layout-two-vertical-cards,
-  .lesson-layout-wide-top-card-two-bottom-cards,
+  .lesson-layout-two-horizontal-cards,
   .lesson-layout-two-top-cards-wide-bottom-card,
   .lesson-layout-four-equal-cards,
   .lesson-layout-tall-left-card-two-right-cards {
@@ -832,15 +834,35 @@ a {
     margin-top: clamp(1rem, 1.8vh, 1.375rem);
   }
 
+  .lesson-layout-standard2,
+  .lesson-layout-standard3,
+  .lesson-layout-standard4 {
+    display: grid;
+    gap: clamp(0.75rem, 1.35vw, 1rem);
+    margin-top: clamp(0.75rem, 1.4vh, 1rem);
+  }
+
   .lesson-layout-one-full-span-card {
     grid-template-columns: minmax(0, 1fr);
   }
 
+  .lesson-layout-two-horizontal-cards {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
   .lesson-layout-two-vertical-cards,
-  .lesson-layout-wide-top-card-two-bottom-cards,
+  .lesson-layout-standard2,
   .lesson-layout-two-top-cards-wide-bottom-card,
   .lesson-layout-four-equal-cards {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .lesson-layout-standard3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .lesson-layout-standard4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 
   .lesson-layout-tall-left-card-two-right-cards {
@@ -856,6 +878,21 @@ a {
     grid-column: 1 / -1;
   }
 
+  .lesson-layout-standard2 > .lesson-layout-slot--wide:first-child,
+  .lesson-layout-standard3 > .lesson-layout-slot--wide:first-child,
+  .lesson-layout-standard4 > .lesson-layout-slot--wide:first-child {
+    align-self: start;
+  }
+
+  .lesson-layout-standard2 > .lesson-layout-slot--wide:first-child > .lesson-card-module,
+  .lesson-layout-standard3 > .lesson-layout-slot--wide:first-child > .lesson-card-module,
+  .lesson-layout-standard4 > .lesson-layout-slot--wide:first-child > .lesson-card-module {
+    background: transparent;
+    height: auto;
+    min-height: auto;
+    padding: 0;
+  }
+
   .lesson-layout-slot--tall {
     grid-row: 1 / span 2;
   }
@@ -869,7 +906,7 @@ a {
     align-content: center;
     justify-items: center;
     gap: 0.85rem;
-    border: 1px solid #93c5fd;
+    border: 0;
     border-radius: var(--radius-card);
     background: #ffffff;
     padding: clamp(2rem, 5vw, 4rem);
@@ -908,7 +945,7 @@ a {
   .lesson-card-module {
     min-width: 0;
     min-height: clamp(15rem, 32vh, 19rem);
-    border: 1px solid #93c5fd;
+    border: 0;
     border-radius: var(--radius-card);
     background: #ffffff;
     height: 100%;
@@ -1000,6 +1037,11 @@ a {
     margin-top: 0;
   }
 
+  .lesson-card-module.lesson-card-generated-image {
+    min-height: auto;
+    padding: 0;
+  }
+
   .lesson-card-module[data-card="diagram"] h3,
   .lesson-card-module[data-card="diagram"] .lesson-card-caption {
     text-align: center;
@@ -1028,6 +1070,10 @@ a {
     margin-top: 1rem;
     color: #334155;
     line-height: 1.7;
+  }
+
+  .lesson-card-module--titleless .lesson-card-module-body {
+    margin-top: 0;
   }
 
   .lesson-component-display-value {
@@ -1447,7 +1493,10 @@ a {
 
   @media (max-width: 48rem) {
     .lesson-layout-two-vertical-cards,
-    .lesson-layout-wide-top-card-two-bottom-cards,
+    .lesson-layout-two-horizontal-cards,
+    .lesson-layout-standard2,
+    .lesson-layout-standard3,
+    .lesson-layout-standard4,
     .lesson-layout-two-top-cards-wide-bottom-card,
     .lesson-layout-four-equal-cards,
     .lesson-layout-tall-left-card-two-right-cards {
@@ -2968,6 +3017,8 @@ a {
   }
 
   .lesson-card-image {
+    display: grid;
+    justify-items: center;
     margin: 0;
   }
 
@@ -2976,6 +3027,10 @@ a {
     width: 100%;
     max-height: min(54vh, 28rem);
     object-fit: contain;
+  }
+
+  .lesson-card-module.lesson-card-generated-image .lesson-card-image img {
+    max-height: min(42vh, 22rem);
   }
 
   .lesson-card-image figcaption,
@@ -2987,6 +3042,7 @@ a {
   }
 
   .lesson-card-image figcaption {
+    max-width: 36rem;
     text-align: center;
   }
 
@@ -4725,6 +4781,12 @@ a {
     max-width: 12ch;
     font-size: clamp(2rem, 4.5vw, 3.75rem);
     line-height: 0.95;
+  }
+
+  .dev-layout-zone-grid--standard2 .dev-layout-zone--item-1,
+  .dev-layout-zone-grid--standard3 .dev-layout-zone--item-1,
+  .dev-layout-zone-grid--standard4 .dev-layout-zone--item-1 {
+    min-height: auto;
   }
 
   .dev-layout-model-controls {

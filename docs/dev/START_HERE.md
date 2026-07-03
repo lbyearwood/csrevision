@@ -63,5 +63,6 @@ Active development documents should use stable, undated filenames. Record dates 
 - Do not connect Supabase until explicitly requested.
 - Keep public pages free from developer-only wording.
 - Unless text is a title or subtitle, use normal font weight (`400`) in lesson and Dev dashboard UI. Do not make question prompts, answer options, feedback, helper text, captions, button labels, table text or normal card copy heavy.
+- Lesson writing must read like connected teacher narration, not independent flashcards. Teaching slides should connect backwards, forwards, to relevance/importance, to real-world or historical context, or to probing questions.
 - Use Edge for required browser QA on user-facing changes.
 - Update `docs/dev/TROUBLESHOOTING.md` whenever a new development, build, server, browser-control, QA or tooling error is discovered.

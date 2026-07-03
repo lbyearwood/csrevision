@@ -148,6 +148,7 @@ Temporary browser-control limitation:
 - Dedicated multiple-choice assessment slides should use the visible slide title `Multiple choice`. Dedicated exam-question assessment slides should use the visible slide title `Exam Questions`.
 - The active lesson navigation item must use `aria-current="location"` and should remain visible inside the desktop sidebar where practical.
 - Use shared lesson CSS standards for section scroll offset, card sizing, spacing and responsive behaviour. Do not fix lesson-canvas issues with one-off page tweaks.
+- Lesson slide canvases must use a plain white background. Do not use grey, blue-tinted or panel-style backgrounds behind the slide content; cards, images and interactive components can keep their own designed surfaces inside the white slide.
 - For the lesson navigation issue, do not amend sticky or sidebar code until the Edge pre-amendment access check has passed.
 - Before amending sticky or sidebar code, prove that Edge can open the lesson page and scroll the existing page.
 - After fixing lesson navigation, physically scroll through the lesson in Edge and confirm that the lesson navigation remains visible while scrolling, the `Back to topics` button text is visible, the sidebar does not overlap the lesson content, the page does not create awkward double scrollbars, and the layout works on desktop, tablet and mobile widths.
@@ -218,6 +219,10 @@ These are non-negotiable project protocols. Future development must adhere to th
 - When a lesson needs an overview/bridge into the main parts, use a segue slide immediately before the first part-title `TitleSegmentSlide`. This segue is still part of `Lesson introduction`, not Part 1.
 - Teaching slide headings must be written as questions, for example `What are three factors that impact CPU performance?`, `What is clock speed?` or `How does clock speed affect performance?`
 - Do not use statement-style teaching headings such as `Clock Speed Means Cycles Per Second` unless the slide is an opening lesson title, `Lesson starter`, a part-divider `TitleSegmentSlide`, learning objectives or lesson summary.
+- Lesson writing must read like a teacher narrating a connected lesson, not like separate flashcards. Each teaching slide must connect to the lesson story, either by recalling a previous idea, extending the current idea, setting up a later idea, explaining why the subtopic matters, or placing the concept in a real-world/historical context.
+- Avoid disconnected keyword-card writing. Definitions are allowed, but they must be embedded in a meaningful explanation, example, question, scenario, model or consequence.
+- Teaching text should regularly include purposeful hooks, probing questions, rhetorical questions, prediction prompts, real-world scenarios, concrete examples, historical references, authentic photos/screenshots or realistic visuals where they support understanding.
+- Every main lesson part must answer: why do students need to learn this, why is it important in Computer Science, and how does it connect to the larger topic or later learning?
 - Lesson navigation labels must stay short. When multiple slides cover the same topic, use the topic plus a letter suffix, such as `Clock speed (A)` and `Clock speed (B)`, instead of inventing longer bespoke names.
 - `FourEqualCards` must not be used as a common fallback layout. It is reserved for specific quadrant/matrix/four-way comparison purposes where equal visual weight is the point.
 - Learning objective rows must use the reusable objective item pattern, and command words such as `Describe`, `Explain` and `Calculate` must use the reusable command word component.
