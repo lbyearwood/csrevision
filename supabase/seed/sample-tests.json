@@ -1,0 +1,48 @@
+[
+  {
+    "subject_slug": "ocr-gcse-computer-science",
+    "unit_slug": "hardware",
+    "topic_slug": "cpu",
+    "test": {
+      "slug": "cpu-knowledge-check",
+      "title": "CPU Knowledge Check",
+      "description": "Checks knowledge of CPU components and the fetch-decode-execute cycle.",
+      "default_mode": "practice",
+      "time_limit_seconds": 900,
+      "randomise_questions": true,
+      "shuffle_options": true,
+      "version": {
+        "version_number": 1,
+        "status": "published",
+        "questions": [
+          {
+            "order": 1,
+            "type": "multiple_choice",
+            "text": "Which CPU component manages the execution of instructions?",
+            "max_marks": 1,
+            "options": [
+              { "text": "Control Unit", "is_correct": true },
+              { "text": "Hard Disk", "is_correct": false },
+              { "text": "RAM", "is_correct": false },
+              { "text": "Monitor", "is_correct": false }
+            ],
+            "explanation": "The Control Unit coordinates the fetching, decoding and execution of instructions."
+          },
+          {
+            "order": 2,
+            "type": "multiple_choice",
+            "text": "Which CPU component performs arithmetic and logic operations?",
+            "max_marks": 1,
+            "options": [
+              { "text": "Arithmetic Logic Unit", "is_correct": true },
+              { "text": "Cache", "is_correct": false },
+              { "text": "ROM", "is_correct": false },
+              { "text": "Address bus", "is_correct": false }
+            ],
+            "explanation": "The ALU performs arithmetic and logical comparisons."
+          }
+        ]
+      }
+    }
+  }
+]

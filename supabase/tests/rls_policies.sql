@@ -1,0 +1,13 @@
+-- RLS verification checklist for local Supabase/pgTAP follow-up.
+-- These cases should be run with seeded auth users before production launch.
+
+-- 1. Student A cannot select Student B from student_profiles.
+-- 2. Student A cannot select Student B answers from student_answers.
+-- 3. Student users cannot select rows from questions/question_options and therefore cannot read correct_answer, mark_scheme, or is_correct.
+-- 4. Student A cannot select unrelated classes or memberships.
+-- 5. Teacher A cannot select classes, students, attempts, or answers owned by Teacher B.
+-- 6. Teacher A cannot reset or edit students outside owned classes through Edge Functions.
+-- 7. Admin can read/manage permitted application data.
+-- 8. Unauthenticated anon users cannot access private data.
+-- 9. Assigned test second start is rejected unless the first attempt has been voided.
+-- 10. Updates/deletes to attempted test_versions/questions/question_options raise immutability errors.

@@ -1,0 +1,35 @@
+project_id = "csrevision"
+
+[api]
+enabled = true
+schemas = ["public"]
+extra_search_path = ["public", "extensions"]
+
+[auth]
+enabled = true
+site_url = "http://127.0.0.1:5173"
+additional_redirect_urls = ["https://example.github.io/csrevision/"]
+
+[functions.create-student-account]
+verify_jwt = true
+
+[functions.suggest-usernames]
+verify_jwt = true
+
+[functions.reset-student-password]
+verify_jwt = true
+
+[functions.start-test-attempt]
+verify_jwt = true
+
+[functions.save-answer]
+verify_jwt = true
+
+[functions.submit-test-attempt]
+verify_jwt = true
+
+[functions.log-attempt-event]
+verify_jwt = true
+
+[functions.reset-assigned-attempt]
+verify_jwt = true

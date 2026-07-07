@@ -1,0 +1,38 @@
+[
+  {
+    "slug": "ocr-gcse-computer-science",
+    "subject_name": "OCR GCSE Computer Science",
+    "exam_board": "OCR",
+    "course_code": "J277",
+    "description": "GCSE computer science revision and assessment content.",
+    "units": [
+      {
+        "slug": "hardware",
+        "unit_name": "Hardware",
+        "topics": [
+          {
+            "slug": "cpu",
+            "topic_name": "CPU",
+            "keywords": ["control unit", "ALU", "registers", "cache", "fetch-decode-execute"]
+          },
+          {
+            "slug": "memory",
+            "topic_name": "Memory",
+            "keywords": ["RAM", "ROM", "virtual memory"]
+          }
+        ]
+      },
+      {
+        "slug": "programming",
+        "unit_name": "Programming",
+        "topics": [
+          {
+            "slug": "searching-algorithms",
+            "topic_name": "Searching Algorithms",
+            "keywords": ["linear search", "binary search"]
+          }
+        ]
+      }
+    ]
+  }
+]
