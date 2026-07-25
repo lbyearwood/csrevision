@@ -34,7 +34,24 @@ const navItems = [
 ];
 
 export function StudentApp() {
-  const { currentStudent, pointsTotal, signOut, statusName } = useAppState();
+  const { currentStudent, dataError, isLoadingData, isSupabaseBacked, signOut } = useAppState();
+
+  if (isSupabaseBacked && (isLoadingData || dataError)) {
+    return (
+      <main className="min-h-screen bg-mist px-4 py-8 text-ink">
+        <Panel className="mx-auto max-w-md p-5">
+          <p className="font-bold">{dataError ? 'Local Supabase issue' : 'Loading local Supabase data'}</p>
+          <p className="mt-2 text-sm text-muted">
+            {dataError || 'Connecting to the local database, Auth profile, and seeded testing data.'}
+          </p>
+          <Button className="mt-4" variant="secondary" onClick={signOut}>
+            Back to sign in
+          </Button>
+        </Panel>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen bg-mist text-ink">
       <div className="mx-auto min-h-screen max-w-[430px] bg-mist shadow-panel md:my-6 md:min-h-[860px] md:rounded-[28px] md:border md:border-line lg:my-0 lg:grid lg:min-h-screen lg:max-w-7xl lg:grid-cols-[248px_minmax(0,1fr)] lg:gap-6 lg:border-0 lg:bg-transparent lg:p-6 lg:shadow-none">
@@ -63,11 +80,6 @@ export function StudentApp() {
               </NavLink>
             ))}
           </nav>
-          <div className="mt-auto rounded-app bg-white p-3 text-ink">
-            <p className="text-xs font-semibold text-muted">Status</p>
-            <p className="mt-1 font-bold">{statusName}</p>
-            <p className="mt-1 text-sm text-muted">{pointsTotal} points earned</p>
-          </div>
         </aside>
 
         <section className="min-w-0 lg:space-y-5">
@@ -126,20 +138,21 @@ export function StudentApp() {
 function StudentHome() {
   const state = useAppState();
   const navigate = useNavigate();
+  const [actionError, setActionError] = useState('');
   const assigned = state.assignments[0];
   const assignedVersion = state.testVersions.find((version) => version.id === assigned?.testVersionId);
   const assignedTest = state.tests.find((test) => test.id === assignedVersion?.testId);
-  const assignedQuestionCount = state.questions.filter((question) => question.testVersionId === assignedVersion?.id).length;
+  const assignedAttempt = findExistingAssignedAttempt(state, assigned?.id);
+  const assignedDisplay = getStudentTestDisplay(state, assignedTest?.id);
+  const assignedQuestionCount = Math.max(
+    state.questions.filter((question) => question.testVersionId === assignedVersion?.id).length,
+    assignedVersion?.totalMarks ?? 0,
+  );
   const recentAttempts = state.attempts.filter((attempt) => attempt.studentId === state.currentStudent.id);
   const flaggedCount = recentAttempts.reduce((total, attempt) => total + attempt.suspiciousEventCount, 0);
 
   return (
     <div className="space-y-5 px-4 py-5 lg:px-0 lg:py-0">
-      <section className="rounded-app border border-[#2a3a50] bg-[#14243a] p-4 text-white shadow-panel lg:p-5">
-        <p className="text-xs font-semibold text-[#b8c8d9]">{'Subject -> Unit -> Topic'}</p>
-        <p className="mt-2 text-sm font-bold lg:text-base">{'OCR GCSE Computer Science -> Hardware -> CPU'}</p>
-      </section>
-
       <div className="grid gap-5 lg:grid-cols-[minmax(0,1.35fr)_minmax(320px,0.85fr)] lg:items-start">
         <div className="space-y-5">
       <section>
@@ -150,23 +163,34 @@ function StudentHome() {
         {assigned && assignedTest ? (
           <button
             className="w-full rounded-app border border-[#2a3a50] bg-[#14243a] p-4 text-left text-white shadow-panel lg:p-5"
-            onClick={() => {
-              const attempt = state.beginAttempt({ testId: assignedTest.id, assignmentId: assigned.id });
-              navigate(`/student/test/${attempt.id}`);
+            onClick={async () => {
+              try {
+                setActionError('');
+                if (assignedAttempt && assignedAttempt.status !== 'in_progress') {
+                  setActionError('This assigned assessment has already been completed.');
+                  return;
+                }
+                const attempt = await state.beginAttempt({ testId: assignedTest.id, assignmentId: assigned.id });
+                navigate(`/student/test/${attempt.id}`);
+              } catch (caught) {
+                setActionError(getActionError(caught));
+              }
             }}
           >
             <div className="flex items-start justify-between gap-3">
               <div>
-                <p className="font-bold">{assignedTest.testTitle}</p>
+                <p className="font-bold">{assignedDisplay.title}</p>
+                {assignedDisplay.context ? <p className="mt-1 text-xs font-semibold text-[#b8c8d9]">{assignedDisplay.context}</p> : null}
                 <p className="mt-1 text-sm text-[#b8c8d9]">
-                  One attempt - {assignedQuestionCount} questions - {assignedVersion?.totalMarks ?? assignedQuestionCount} marks
+                  {assignedDisplay.resourceLabel} - One attempt - {assignedQuestionCount} questions - {assignedVersion?.totalMarks ?? assignedQuestionCount} marks
                 </p>
                 <p className="mt-3 text-sm">Due: {formatDate(assigned.dueAt)}, 11:59 PM</p>
               </div>
-              <StatusBadge tone="amber">Not Started</StatusBadge>
+              <StatusBadge tone={assignedAttempt ? 'blue' : 'amber'}>{assignedAttempt?.status === 'in_progress' ? 'Started' : assignedAttempt ? 'Completed' : 'Not Started'}</StatusBadge>
             </div>
           </button>
         ) : null}
+        {actionError ? <p className="mt-3 rounded-app bg-[#fff1f1] p-3 text-sm text-danger">{actionError}</p> : null}
       </section>
 
       <section>
@@ -223,6 +247,185 @@ function AlertRow({ icon, title, body, tone }: { icon: ReactNode; title: string;
   );
 }
 
+function getActionError(caught: unknown): string {
+  return caught instanceof Error ? caught.message : 'Action failed';
+}
+
+type StudentAppState = ReturnType<typeof useAppState>;
+type BadgeTone = 'green' | 'amber' | 'red' | 'blue' | 'neutral';
+
+function getStudentTestDisplay(state: StudentAppState, testId?: string) {
+  const test = state.tests.find((item) => item.id === testId);
+  const topic = state.topics.find((item) => item.id === test?.topicId);
+  const unit = state.units.find((item) => item.id === topic?.unitId);
+  const subject = state.subjects.find((item) => item.id === unit?.subjectId);
+  const contextParts = [subject?.subjectName, unit?.unitName].filter(Boolean);
+
+  return {
+    test,
+    title: topic?.topicName ?? test?.testTitle ?? 'Test',
+    context: contextParts.join(' - '),
+    fullPath: [...contextParts, topic?.topicName].filter(Boolean).join(' -> '),
+    resourceLabel: test?.testTitle ?? 'Test',
+  };
+}
+
+function sortAttemptsByStartedAt<T extends { startedAt: string }>(rows: T[]): T[] {
+  return [...rows].sort((first, second) => new Date(second.startedAt).getTime() - new Date(first.startedAt).getTime());
+}
+
+function findExistingAssignedAttempt(state: StudentAppState, assignmentId?: string) {
+  if (!assignmentId) return undefined;
+  return sortAttemptsByStartedAt(
+    state.attempts.filter(
+      (attempt) =>
+        attempt.studentId === state.currentStudent.id &&
+        attempt.assignmentId === assignmentId &&
+        attempt.status !== 'voided',
+    ),
+  )[0];
+}
+
+interface TopicResultSummary {
+  id: string;
+  topicName: string;
+  testId?: string;
+  assignmentId?: string;
+  bestScore?: number;
+  latestScore?: number;
+  latestAttemptType?: string;
+  isAssigned: boolean;
+  attemptCount: number;
+  lastTaken?: string;
+  statusLabel: string;
+  statusTone: BadgeTone;
+}
+
+interface UnitResultSummary {
+  id: string;
+  unitName: string;
+  topics: TopicResultSummary[];
+  triedCount: number;
+  totalTopics: number;
+  averageScore?: number;
+  bestScore?: number;
+  latestScore?: number;
+}
+
+interface CourseResultSummary {
+  units: UnitResultSummary[];
+  triedCount: number;
+  totalTopics: number;
+  averageScore?: number;
+  bestScore?: number;
+}
+
+function averageScore(values: number[]): number | undefined {
+  if (!values.length) return undefined;
+  return Math.round(values.reduce((total, value) => total + value, 0) / values.length);
+}
+
+function bestScore(values: number[]): number | undefined {
+  if (!values.length) return undefined;
+  return Math.round(Math.max(...values));
+}
+
+function formatScore(value?: number): string {
+  return typeof value === 'number' ? `${Math.round(value)}%` : '-';
+}
+
+function scoreTone(value?: number): string {
+  if (typeof value !== 'number') return 'text-muted';
+  if (value >= 80) return 'text-green';
+  if (value >= 50) return 'text-amber';
+  return 'text-danger';
+}
+
+function formatAttemptType(value?: string): string {
+  if (!value) return '-';
+  return value[0].toUpperCase() + value.slice(1);
+}
+
+function completionStatus(hasCompletedAttempt: boolean, isAssigned: boolean, hasCompletedAssignedAttempt: boolean): { label: string; tone: BadgeTone } {
+  const isComplete = isAssigned ? hasCompletedAssignedAttempt : hasCompletedAttempt;
+  if (isComplete) return { label: 'Completed', tone: 'green' };
+  return { label: 'Incomplete', tone: isAssigned ? 'red' : 'neutral' };
+}
+
+function buildCourseResults(state: StudentAppState, subjectId: string): CourseResultSummary {
+  const unitRows = state.units.filter((unit) => unit.subjectId === subjectId);
+  const studentAttempts = state.attempts.filter((attempt) => attempt.studentId === state.currentStudent.id && attempt.status !== 'voided');
+
+  const units = unitRows.map<UnitResultSummary>((unit) => {
+    const topics = state.topics
+      .filter((topic) => topic.unitId === unit.id)
+      .map<TopicResultSummary>((topic) => {
+        const topicTests = state.tests.filter((test) => test.topicId === topic.id);
+        const testIds = new Set(topicTests.map((test) => test.id));
+        const testVersionIds = new Set(state.testVersions.filter((version) => testIds.has(version.testId)).map((version) => version.id));
+        const topicAssignments = state.assignments.filter(
+          (assignment) => assignment.classId === state.currentStudent.classId && testVersionIds.has(assignment.testVersionId),
+        );
+        const assignmentIds = new Set(topicAssignments.map((assignment) => assignment.id));
+        const isAssigned = topicAssignments.length > 0;
+        const assignedVersion = state.testVersions.find((version) => version.id === topicAssignments[0]?.testVersionId);
+        const practiceTest = topicTests.find((test) => test.defaultMode === 'practice' && test.status === 'published') ?? topicTests[0];
+        const attempts = studentAttempts
+          .filter((attempt) => testIds.has(attempt.testId))
+          .sort((first, second) => new Date(second.startedAt).getTime() - new Date(first.startedAt).getTime());
+        const completedAttempts = attempts.filter((attempt) => typeof attempt.percentage === 'number');
+        const latestAttempt = attempts[0];
+        const latestCompleted = completedAttempts[0];
+        const completedScores = completedAttempts.map((attempt) => attempt.percentage as number);
+        const hasCompletedAssignedAttempt = completedAttempts.some((attempt) => Boolean(attempt.assignmentId && assignmentIds.has(attempt.assignmentId)));
+        const status = completionStatus(Boolean(latestCompleted), isAssigned, hasCompletedAssignedAttempt);
+
+        return {
+          id: topic.id,
+          topicName: topic.topicName,
+          testId: assignedVersion?.testId ?? practiceTest?.id,
+          assignmentId: topicAssignments[0]?.id,
+          bestScore: bestScore(completedScores),
+          latestScore: latestCompleted?.percentage,
+          latestAttemptType: latestCompleted?.attemptType ?? latestAttempt?.attemptType,
+          isAssigned,
+          attemptCount: attempts.length,
+          lastTaken: latestCompleted?.startedAt ?? latestAttempt?.startedAt,
+          statusLabel: status.label,
+          statusTone: status.tone,
+        };
+      });
+    const latestScores = topics.flatMap((topic) => (typeof topic.latestScore === 'number' ? [topic.latestScore] : []));
+    const latestTopic = topics
+      .filter((topic) => typeof topic.latestScore === 'number' && topic.lastTaken)
+      .sort((first, second) => new Date(second.lastTaken!).getTime() - new Date(first.lastTaken!).getTime())[0];
+
+    return {
+      id: unit.id,
+      unitName: unit.unitName,
+      topics,
+      triedCount: latestScores.length,
+      totalTopics: topics.length,
+      averageScore: averageScore(latestScores),
+      bestScore: bestScore(topics.flatMap((topic) => (typeof topic.bestScore === 'number' ? [topic.bestScore] : []))),
+      latestScore: latestTopic?.latestScore,
+    };
+  });
+  const courseLatestScores = units.flatMap((unit) =>
+    unit.topics.flatMap((topic) => (typeof topic.latestScore === 'number' ? [topic.latestScore] : [])),
+  );
+
+  return {
+    units,
+    triedCount: courseLatestScores.length,
+    totalTopics: units.reduce((total, unit) => total + unit.totalTopics, 0),
+    averageScore: averageScore(courseLatestScores),
+    bestScore: bestScore(
+      units.flatMap((unit) => unit.topics.flatMap((topic) => (typeof topic.bestScore === 'number' ? [topic.bestScore] : []))),
+    ),
+  };
+}
+
 type PracticeResourceType = 'test' | 'revision_lesson' | 'tutorial' | 'worksheet';
 
 interface PracticeResource {
@@ -235,18 +438,12 @@ interface PracticeResource {
   testId?: string;
 }
 
-const practiceResourceLabels: Record<PracticeResourceType, string> = {
-  test: 'Tests',
-  revision_lesson: 'Revision lessons',
-  tutorial: 'Tutorials',
-  worksheet: 'Worksheets',
-};
-
 function PracticePage() {
   const state = useAppState();
   const navigate = useNavigate();
   const [selectedSubjectId, setSelectedSubjectId] = useState<string | null>(null);
   const [selectedUnitId, setSelectedUnitId] = useState<string | null>(null);
+  const [actionError, setActionError] = useState('');
   const resources = useMemo<PracticeResource[]>(
     () =>
       state.tests
@@ -286,10 +483,15 @@ function PracticePage() {
     return resources.filter((resource) => topicIds.has(resource.topicId)).length;
   };
 
-  const startResource = (resource: PracticeResource) => {
+  const startResource = async (resource: PracticeResource) => {
     if (resource.type !== 'test' || !resource.testId) return;
-    const attempt = state.beginAttempt({ testId: resource.testId });
-    navigate(`/student/test/${attempt.id}`);
+    try {
+      setActionError('');
+      const attempt = await state.beginAttempt({ testId: resource.testId });
+      navigate(`/student/test/${attempt.id}`);
+    } catch (caught) {
+      setActionError(getActionError(caught));
+    }
   };
 
   const resetToCourses = () => {
@@ -314,11 +516,7 @@ function PracticePage() {
         ) : null}
       </div>
 
-      <div className="flex flex-wrap gap-2 text-xs font-semibold text-muted">
-        <span className="rounded-app border border-[#2a3a50] bg-[#14243a] px-3 py-2 text-white">Courses</span>
-        {selectedSubject ? <span className="rounded-app border border-[#2a3a50] bg-[#14243a] px-3 py-2 text-white">{selectedSubject.subjectName}</span> : null}
-        {selectedUnit ? <span className="rounded-app border border-[#2a3a50] bg-[#14243a] px-3 py-2 text-white">{selectedUnit.unitName}</span> : null}
-      </div>
+      {actionError ? <p className="rounded-app bg-[#fff1f1] p-3 text-sm text-danger">{actionError}</p> : null}
 
       {!selectedSubject ? (
         <div className="grid gap-4 lg:grid-cols-2">
@@ -394,13 +592,6 @@ function PracticePage() {
                 <Panel className="p-4 lg:p-5" key={topic.id}>
                   <p className="text-xs font-semibold text-[#b8c8d9]">Topic</p>
                   <h3 className="mt-2 font-bold">{topic.topicName}</h3>
-                  <div className="mt-4 rounded-app border border-line bg-white p-3 text-ink">
-                    <div className="flex items-center gap-2 text-muted">
-                      <ListChecks size={16} aria-hidden="true" />
-                      <span className="text-[11px] font-semibold">Tests</span>
-                    </div>
-                    <p className="mt-2 text-sm font-bold text-ink">{testResources.length ? `${testResources.length} ready` : 'None available'}</p>
-                  </div>
 
                   <div className="mt-4 space-y-3">
                     {testResources.length ? (
@@ -408,8 +599,7 @@ function PracticePage() {
                         <div className="rounded-app border border-line bg-white p-3 text-ink" key={resource.id}>
                           <div className="flex items-start justify-between gap-3">
                             <div>
-                              <p className="text-xs font-semibold text-blue">{practiceResourceLabels[resource.type]}</p>
-                              <h4 className="mt-1 text-sm font-bold">{resource.title}</h4>
+                              <h4 className="text-sm font-bold">{resource.title}</h4>
                               <p className="mt-1 text-xs text-muted">{resource.description}</p>
                             </div>
                             <StatusBadge tone={resource.status === 'available' ? 'green' : 'blue'}>
@@ -417,7 +607,7 @@ function PracticePage() {
                             </StatusBadge>
                           </div>
                           <Button className="mt-3 w-full" variant="dark" onClick={() => startResource(resource)}>
-                            Start practice
+                            start
                           </Button>
                         </div>
                       ))
@@ -440,30 +630,46 @@ function PracticePage() {
 function AssignedPage() {
   const state = useAppState();
   const navigate = useNavigate();
+  const [actionError, setActionError] = useState('');
   return (
     <div className="space-y-4 px-4 py-5 lg:px-0 lg:py-0">
-      <h2 className="text-xl font-bold">Assigned</h2>
+      <div>
+        <h2 className="text-xl font-bold">Assigned</h2>
+        <p className="mt-1 text-sm text-muted">Complete tests your teacher has set for your class.</p>
+      </div>
+      {actionError ? <p className="rounded-app bg-[#fff1f1] p-3 text-sm text-danger">{actionError}</p> : null}
       <div className="grid gap-4 lg:grid-cols-2">
         {state.assignments.map((assignment) => {
           const version = state.testVersions.find((item) => item.id === assignment.testVersionId);
           const test = state.tests.find((item) => item.id === version?.testId);
-          const consumed = state.attempts.find((attempt) => attempt.assignmentId === assignment.id && attempt.status !== 'voided');
+          const display = getStudentTestDisplay(state, test?.id);
+          const consumed = findExistingAssignedAttempt(state, assignment.id);
           return (
             <Panel className="p-4 lg:p-5" key={assignment.id}>
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-xs font-semibold text-muted">One-attempt assigned assessment</p>
-                  <h3 className="mt-2 font-bold">{test?.testTitle}</h3>
-                  <p className="mt-1 text-sm text-muted">Due {formatDate(assignment.dueAt)} - {formatDuration(assignment.timeLimitSeconds)}</p>
+                  <p className="text-xs font-semibold text-[#b8c8d9]">{display.resourceLabel} - One-attempt assigned assessment</p>
+                  <h3 className="mt-2 font-bold">{display.title}</h3>
+                  {display.context ? <p className="mt-1 text-sm text-[#b8c8d9]">{display.context}</p> : null}
+                  <p className="mt-1 text-sm text-[#b8c8d9]">Due {formatDate(assignment.dueAt)} - {formatDuration(assignment.timeLimitSeconds)}</p>
                 </div>
                 <StatusBadge tone={consumed ? 'blue' : 'amber'}>{consumed ? 'Started' : 'Ready'}</StatusBadge>
               </div>
               <Button
                 className="mt-4 w-full"
                 disabled={Boolean(consumed && consumed.status !== 'in_progress')}
-                onClick={() => {
-                  const attempt = state.beginAttempt({ testId: test!.id, assignmentId: assignment.id });
-                  navigate(`/student/test/${attempt.id}`);
+                onClick={async () => {
+                  try {
+                    setActionError('');
+                    if (consumed && consumed.status !== 'in_progress') {
+                      setActionError('This assigned assessment has already been completed.');
+                      return;
+                    }
+                    const attempt = await state.beginAttempt({ testId: test!.id, assignmentId: assignment.id });
+                    navigate(`/student/test/${attempt.id}`);
+                  } catch (caught) {
+                    setActionError(getActionError(caught));
+                  }
                 }}
               >
                 {consumed?.status === 'in_progress' ? 'Continue attempt' : consumed ? 'Attempt consumed' : 'Start assessment'}
@@ -482,9 +688,12 @@ function ActiveTestPage() {
   const state = useAppState();
   const attempt = state.attempts.find((row) => row.id === attemptId);
   const test = state.tests.find((row) => row.id === attempt?.testId);
+  const display = getStudentTestDisplay(state, test?.id);
   const attemptQuestions = state.questions.filter((question) => question.testVersionId === attempt?.testVersionId);
   const [index, setIndex] = useState(0);
   const [remaining, setRemaining] = useState(attempt?.timeLimitSeconds ?? 0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState('');
   const question = attemptQuestions[index];
   const answeredCount = state.answers.filter((answer) => answer.attemptId === attemptId && answer.answer).length;
   const selectedAnswer = state.answers.find((answer) => answer.attemptId === attemptId && answer.questionId === question?.id)?.answer;
@@ -496,19 +705,32 @@ function ActiveTestPage() {
   }, [attempt?.status, remaining]);
 
   useEffect(() => {
-    if (remaining === 0 && attempt?.status === 'in_progress') {
-      state.submitAttempt(attempt.id);
-      navigate('/student/results');
+    if (remaining === 0 && attempt?.status === 'in_progress' && !isSubmitting) {
+      setIsSubmitting(true);
+      void state
+        .submitAttempt(attempt.id)
+        .then(() => navigate('/student/results'))
+        .catch((caught: unknown) => {
+          setSubmitError(getActionError(caught));
+          setIsSubmitting(false);
+        });
     }
-  }, [attempt, navigate, remaining, state]);
+  }, [attempt, isSubmitting, navigate, remaining, state]);
 
   if (!attempt || !question) {
     return <div className="p-4">Attempt not found.</div>;
   }
 
-  const submit = () => {
-    state.submitAttempt(attempt.id);
-    navigate('/student/results');
+  const submit = async () => {
+    try {
+      setIsSubmitting(true);
+      setSubmitError('');
+      await state.submitAttempt(attempt.id);
+      navigate('/student/results');
+    } catch (caught) {
+      setSubmitError(getActionError(caught));
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -516,7 +738,7 @@ function ActiveTestPage() {
       <AntiCheatLayer attemptId={attempt.id} onLog={state.logAttemptEvent} />
       <div className="flex items-center justify-between">
         <button className="text-sm font-semibold text-blue" onClick={() => navigate('/student/assigned')}>Back</button>
-        <h2 className="max-w-[230px] truncate text-sm font-bold">{test?.testTitle}</h2>
+        <h2 className="max-w-[230px] truncate text-sm font-bold" title={display.fullPath || display.title}>{display.title}</h2>
         <span className="text-sm font-bold">{Math.round(((index + 1) / attemptQuestions.length) * 100)}%</span>
       </div>
       <div>
@@ -538,7 +760,7 @@ function ActiveTestPage() {
           <Button variant="secondary" className="min-h-10 px-3">Hide Timer</Button>
         </div>
         {attempt.attemptType === 'assigned' ? (
-          <p className="mt-4 rounded-app border border-[#cfe3ff] bg-[#eaf4ff] p-3 text-sm">
+          <p className="mt-4 rounded-app border border-[#cfe3ff] bg-[#eaf4ff] p-3 text-sm text-ink">
             One attempt only. Once submitted, you cannot retake this assessment.
           </p>
         ) : null}
@@ -578,11 +800,12 @@ function ActiveTestPage() {
       <div className="grid grid-cols-2 gap-3">
         <Button variant="secondary" disabled={index === 0} onClick={() => setIndex((value) => Math.max(0, value - 1))}>Previous</Button>
         {index === attemptQuestions.length - 1 ? (
-          <Button onClick={submit}>Submit</Button>
+          <Button disabled={isSubmitting} onClick={submit}>{isSubmitting ? 'Submitting...' : 'Submit'}</Button>
         ) : (
           <Button onClick={() => setIndex((value) => Math.min(attemptQuestions.length - 1, value + 1))}>Next</Button>
         )}
       </div>
+      {submitError ? <p className="rounded-app bg-[#fff1f1] p-3 text-sm text-danger">{submitError}</p> : null}
       <p className="text-xs text-[#a9bbcf]">
         All changes saved. The platform deters copying, printing and screenshot-based sharing through watermarking, randomised questions, shuffled answers, timers and activity logging. It cannot fully prevent external screenshots or photographs.
       </p>
@@ -592,27 +815,219 @@ function ActiveTestPage() {
 
 function ResultsPage() {
   const state = useAppState();
-  const rows = state.attempts.filter((attempt) => attempt.studentId === state.currentStudent.id);
-  return (
-    <div className="space-y-4 px-4 py-5 lg:px-0 lg:py-0">
-      <h2 className="text-xl font-bold">Results</h2>
-      <div className="grid gap-4 lg:grid-cols-2">
-        {rows.map((attempt) => {
-          const test = state.tests.find((item) => item.id === attempt.testId);
-          return (
-            <Panel className="p-4 lg:p-5" key={attempt.id}>
-              <div className="flex items-start justify-between gap-3">
-                <div>
-                  <h3 className="font-bold">{test?.testTitle}</h3>
-                  <p className="mt-1 text-sm text-muted">{attempt.attemptType} - {formatDate(attempt.startedAt)}</p>
-                  <p className="mt-2 text-sm">Score: {attempt.percentage ?? 'Pending'}%</p>
-                </div>
-                <StatusBadge tone={attempt.status === 'feedback_released' ? 'green' : 'blue'}>{attempt.status.replaceAll('_', ' ')}</StatusBadge>
-              </div>
-            </Panel>
-          );
-        })}
+  const navigate = useNavigate();
+  const [selectedSubjectId, setSelectedSubjectId] = useState(() => state.subjects[0]?.id ?? '');
+  const [actionError, setActionError] = useState('');
+  const [startingTopicId, setStartingTopicId] = useState('');
+
+  useEffect(() => {
+    if (state.subjects.some((subject) => subject.id === selectedSubjectId)) return;
+    setSelectedSubjectId(state.subjects[0]?.id ?? '');
+  }, [selectedSubjectId, state.subjects]);
+
+  const selectedSubject = state.subjects.find((subject) => subject.id === selectedSubjectId) ?? state.subjects[0];
+  const courseResults = selectedSubject ? buildCourseResults(state, selectedSubject.id) : null;
+
+  const startTopicTest = async (topic: TopicResultSummary) => {
+    if (!topic.testId) {
+      setActionError(`No test is available for ${topic.topicName}.`);
+      return;
+    }
+
+    try {
+      setActionError('');
+      setStartingTopicId(topic.id);
+      const existingAssignedAttempt = findExistingAssignedAttempt(state, topic.assignmentId);
+      if (existingAssignedAttempt && existingAssignedAttempt.status !== 'in_progress') {
+        setActionError('This assigned test has already been completed.');
+        setStartingTopicId('');
+        return;
+      }
+      const attempt = await state.beginAttempt({ testId: topic.testId, assignmentId: topic.assignmentId });
+      navigate(`/student/test/${attempt.id}`);
+    } catch (caught) {
+      setActionError(getActionError(caught));
+      setStartingTopicId('');
+    }
+  };
+
+  if (!selectedSubject || !courseResults) {
+    return (
+      <div className="space-y-4 px-4 py-5 lg:px-0 lg:py-0">
+        <h2 className="text-xl font-bold">Results</h2>
+        <Panel className="p-4 lg:p-5">
+          <p className="font-bold">No courses available</p>
+          <p className="mt-1 text-sm text-[#b8c8d9]">Results will appear once a course has been added.</p>
+        </Panel>
       </div>
+    );
+  }
+
+  return (
+    <div className="space-y-5 px-4 py-5 lg:px-0 lg:py-0">
+      <div>
+        <h2 className="text-xl font-bold">Results</h2>
+        <p className="mt-1 text-sm text-muted">Course, unit and topic performance use your latest completed result per topic.</p>
+      </div>
+      {actionError ? <p className="rounded-app bg-[#fff1f1] p-3 text-sm text-danger">{actionError}</p> : null}
+
+      <label className="block" htmlFor="student-results-course">
+        <span className="text-sm font-semibold">Course</span>
+        <select
+          className="mt-2 min-h-11 w-full rounded-app border border-line bg-white px-3 text-sm font-semibold text-ink outline-none transition focus:border-blue focus:ring-2 focus:ring-blue/20"
+          id="student-results-course"
+          onChange={(event) => setSelectedSubjectId(event.target.value)}
+          value={selectedSubject.id}
+        >
+          {state.subjects.map((subject) => (
+            <option key={subject.id} value={subject.id}>
+              {subject.subjectName}
+            </option>
+          ))}
+        </select>
+      </label>
+
+      <section aria-label={`${selectedSubject.subjectName} course performance`}>
+        <h3 className="mb-3 font-bold">Course performance</h3>
+        <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          <ResultMetric icon={<BookOpenCheck size={24} aria-hidden="true" />} label="Topics tried" value={`${courseResults.triedCount}/${courseResults.totalTopics}`} tone="teal" />
+          <ResultMetric icon={<BarChart3 size={24} aria-hidden="true" />} label="Average" score={courseResults.averageScore} tone="blue" />
+          <ResultMetric icon={<Trophy size={24} aria-hidden="true" />} label="Best" score={courseResults.bestScore} tone="amber" />
+          <ResultMetric icon={<Trophy size={24} aria-hidden="true" />} label="Points" value={state.pointsTotal} tone="teal" />
+        </div>
+      </section>
+
+      <div className="space-y-4">
+        {courseResults.units.map((unit) => (
+          <Panel className="overflow-hidden p-0" key={unit.id} tone="light">
+            <div className="px-4 py-4 lg:px-5">
+              <h3 className="text-lg font-bold">{unit.unitName}</h3>
+            </div>
+
+            <div className="grid gap-3 border-y border-line bg-mist px-4 py-3 text-sm sm:grid-cols-4 lg:px-5">
+              <UnitSummary label="Unit average" score={unit.averageScore} />
+              <UnitSummary label="Topics tried" value={`${unit.triedCount}/${unit.totalTopics}`} />
+              <UnitSummary label="Best" score={unit.bestScore} />
+              <UnitSummary label="Latest" score={unit.latestScore} />
+            </div>
+
+            <div className="hidden p-4 lg:block lg:p-5">
+              <div className="overflow-x-auto rounded-app border border-line">
+                <table className="min-w-[900px] w-full border-collapse bg-white text-sm">
+                  <thead className="bg-mist text-left text-xs font-semibold text-muted">
+                    <tr>
+                      <th className="min-w-[260px] px-3 py-3">Topic</th>
+                      <th className="whitespace-nowrap px-3 py-3">Best</th>
+                      <th className="whitespace-nowrap px-3 py-3">Latest</th>
+                      <th className="whitespace-nowrap px-3 py-3">Type</th>
+                      <th className="whitespace-nowrap px-3 py-3">Assigned</th>
+                      <th className="whitespace-nowrap px-3 py-3">Attempts</th>
+                      <th className="whitespace-nowrap px-3 py-3">Last taken</th>
+                      <th className="whitespace-nowrap px-3 py-3">Status</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-line">
+                    {unit.topics.map((topic) => (
+                      <tr key={topic.id}>
+                        <td className="px-3 py-3 font-semibold">
+                          <button
+                            aria-label={`Start ${topic.topicName}`}
+                            className="text-left font-bold text-blue underline-offset-2 hover:underline focus:outline-none focus:ring-2 focus:ring-blue/25 disabled:cursor-not-allowed disabled:text-muted"
+                            disabled={startingTopicId === topic.id || !topic.testId}
+                            onClick={() => void startTopicTest(topic)}
+                            type="button"
+                          >
+                            {startingTopicId === topic.id ? 'Starting...' : topic.topicName}
+                          </button>
+                        </td>
+                        <td className={`whitespace-nowrap px-3 py-3 font-bold ${scoreTone(topic.bestScore)}`}>{formatScore(topic.bestScore)}</td>
+                        <td className={`whitespace-nowrap px-3 py-3 font-bold ${scoreTone(topic.latestScore)}`}>{formatScore(topic.latestScore)}</td>
+                        <td className="whitespace-nowrap px-3 py-3">{formatAttemptType(topic.latestAttemptType)}</td>
+                        <td className="px-3 py-3">
+                          <StatusBadge tone={topic.isAssigned ? 'blue' : 'neutral'}>{topic.isAssigned ? 'Yes' : 'No'}</StatusBadge>
+                        </td>
+                        <td className="whitespace-nowrap px-3 py-3">{topic.attemptCount}</td>
+                        <td className="whitespace-nowrap px-3 py-3">{topic.lastTaken ? formatDate(topic.lastTaken) : '-'}</td>
+                        <td className="whitespace-nowrap px-3 py-3"><StatusBadge tone={topic.statusTone}>{topic.statusLabel}</StatusBadge></td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div className="divide-y divide-line lg:hidden">
+              {unit.topics.map((topic) => (
+                <div className="px-4 py-4" key={topic.id}>
+                  <div className="flex items-start justify-between gap-3">
+                    <button
+                      aria-label={`Start ${topic.topicName}`}
+                      className="text-left font-bold text-blue underline-offset-2 hover:underline focus:outline-none focus:ring-2 focus:ring-blue/25 disabled:cursor-not-allowed disabled:text-muted"
+                      disabled={startingTopicId === topic.id || !topic.testId}
+                      onClick={() => void startTopicTest(topic)}
+                      type="button"
+                    >
+                      {startingTopicId === topic.id ? 'Starting...' : topic.topicName}
+                    </button>
+                    <StatusBadge tone={topic.statusTone}>{topic.statusLabel}</StatusBadge>
+                  </div>
+                  <dl className="mt-3 grid grid-cols-2 gap-3 text-sm">
+                    <Info label="Best" value={formatScore(topic.bestScore)} valueClassName={scoreTone(topic.bestScore)} />
+                    <Info label="Latest" value={formatScore(topic.latestScore)} valueClassName={scoreTone(topic.latestScore)} />
+                    <Info label="Type" value={formatAttemptType(topic.latestAttemptType)} />
+                    <Info label="Assigned" value={topic.isAssigned ? 'Yes' : 'No'} />
+                    <Info label="Attempts" value={`${topic.attemptCount}`} />
+                    <Info label="Last taken" value={topic.lastTaken ? formatDate(topic.lastTaken) : '-'} />
+                  </dl>
+                </div>
+              ))}
+            </div>
+          </Panel>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ResultMetric({
+  icon,
+  label,
+  value,
+  score,
+  tone,
+}: {
+  icon: ReactNode;
+  label: string;
+  value?: string | number;
+  score?: number;
+  tone: 'amber' | 'blue' | 'teal';
+}) {
+  const toneClass = {
+    amber: 'text-amber',
+    blue: 'text-blue',
+    teal: 'text-teal',
+  }[tone];
+
+  return (
+    <div className="flex min-h-20 items-center gap-3 rounded-app border border-line bg-white p-4 shadow-panel">
+      <div className={toneClass}>{icon}</div>
+      <div className="min-w-0">
+        <p className="text-xs font-semibold text-muted">{label}</p>
+        <p className={`mt-1 text-2xl font-bold tracking-normal ${typeof score === 'number' ? scoreTone(score) : ''}`}>
+          {typeof score === 'number' ? formatScore(score) : value}
+        </p>
+      </div>
+    </div>
+  );
+}
+
+function UnitSummary({ label, value, score }: { label: string; value?: string; score?: number }) {
+  return (
+    <div>
+      <p className="text-xs font-semibold text-muted">{label}</p>
+      <p className={`mt-1 font-bold ${typeof score === 'number' ? scoreTone(score) : ''}`}>
+        {typeof score === 'number' ? formatScore(score) : value}
+      </p>
     </div>
   );
 }
@@ -672,11 +1087,11 @@ function StudentLeaderboardPage() {
   );
 }
 
-function Info({ label, value }: { label: string; value: string }) {
+function Info({ label, value, valueClassName = '' }: { label: string; value: string; valueClassName?: string }) {
   return (
     <div className="rounded-app border border-line bg-white p-3 text-ink">
       <dt className="text-xs text-muted">{label}</dt>
-      <dd className="mt-1 font-bold">{value}</dd>
+      <dd className={`mt-1 font-bold ${valueClassName}`}>{value}</dd>
     </div>
   );
 }

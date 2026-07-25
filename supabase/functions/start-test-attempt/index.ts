@@ -6,6 +6,14 @@ function shuffle<T>(values: T[]): T[] {
   return [...values].sort(() => Math.random() - 0.5);
 }
 
+type AttemptResumeRow = {
+  id: string;
+  started_at: string;
+  expires_at: string | null;
+  time_limit_seconds: number | null;
+  status: string;
+};
+
 Deno.serve(async (req) => {
   const options = handleOptions(req);
   if (options) return options;
@@ -39,6 +47,7 @@ Deno.serve(async (req) => {
       start_at: string | null;
     };
     let attemptType: 'practice' | 'assigned' = 'practice';
+    let resumeAttempt: AttemptResumeRow | null = null;
 
     if (assignmentId) {
       const { data, error } = await service
@@ -55,12 +64,16 @@ Deno.serve(async (req) => {
 
       const { data: existingAttempt } = await service
         .from('test_attempts')
-        .select('id')
+        .select('id, started_at, expires_at, time_limit_seconds, status')
         .eq('student_id', student.id)
         .eq('assignment_id', assignmentId)
         .is('voided_at', null)
         .maybeSingle();
-      if (existingAttempt) return errorResponse('This assigned assessment has already been started', 409);
+      if (existingAttempt?.status === 'in_progress') {
+        resumeAttempt = existingAttempt;
+      } else if (existingAttempt) {
+        return errorResponse('This assigned assessment has already been completed', 409);
+      }
 
       assignment = data;
       versionId = data.test_version_id;
@@ -79,9 +92,24 @@ Deno.serve(async (req) => {
 
     const timeLimitSeconds =
       assignment?.time_limit_seconds ?? (version.tests as { default_time_limit_seconds: number | null }).default_time_limit_seconds;
-    const expiresAt = timeLimitSeconds
+    const newExpiresAt = timeLimitSeconds
       ? new Date(Date.now() + timeLimitSeconds * 1000).toISOString()
       : null;
+
+    if (!resumeAttempt && !assignmentId) {
+      const { data: existingPracticeAttempt } = await service
+        .from('test_attempts')
+        .select('id, started_at, expires_at, time_limit_seconds, status')
+        .eq('student_id', student.id)
+        .eq('test_version_id', versionId)
+        .eq('attempt_type', 'practice')
+        .eq('status', 'in_progress')
+        .is('voided_at', null)
+        .order('started_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+      if (existingPracticeAttempt) resumeAttempt = existingPracticeAttempt;
+    }
 
     const { count } = await service
       .from('test_attempts')
@@ -89,22 +117,26 @@ Deno.serve(async (req) => {
       .eq('student_id', student.id)
       .eq('test_version_id', versionId);
 
-    const { data: attempt, error: attemptError } = await service
-      .from('test_attempts')
-      .insert({
-        student_id: student.id,
-        class_id_at_attempt: activeClassId,
-        test_id: (version.tests as { id: string }).id,
-        test_version_id: versionId,
-        assignment_id: assignment?.id,
-        attempt_type: attemptType,
-        attempt_number: (count ?? 0) + 1,
-        time_limit_seconds: timeLimitSeconds,
-        expires_at: expiresAt,
-      })
-      .select('id, started_at, expires_at')
-      .single();
-    if (attemptError || !attempt) throw attemptError ?? new Error('Attempt was not created');
+    let attempt = resumeAttempt;
+    if (!attempt) {
+      const { data: createdAttempt, error: attemptError } = await service
+        .from('test_attempts')
+        .insert({
+          student_id: student.id,
+          class_id_at_attempt: activeClassId,
+          test_id: (version.tests as { id: string }).id,
+          test_version_id: versionId,
+          assignment_id: assignment?.id,
+          attempt_type: attemptType,
+          attempt_number: (count ?? 0) + 1,
+          time_limit_seconds: timeLimitSeconds,
+          expires_at: newExpiresAt,
+        })
+        .select('id, started_at, expires_at, time_limit_seconds, status')
+        .single();
+      if (attemptError || !createdAttempt) throw attemptError ?? new Error('Attempt was not created');
+      attempt = createdAttempt;
+    }
 
     const { data: questions, error: questionsError } = await service
       .from('questions')
@@ -129,21 +161,23 @@ Deno.serve(async (req) => {
       };
     });
 
-    await Promise.all(
-      safeQuestions.map((question) =>
-        service.from('answer_display_orders').insert({
-          attempt_id: attempt.id,
-          question_id: question.id,
-          option_ids: question.options.map((option: { id: string }) => option.id),
-        }),
-      ),
-    );
+    if (!resumeAttempt) {
+      await Promise.all(
+        safeQuestions.map((question) =>
+          service.from('answer_display_orders').insert({
+            attempt_id: attempt.id,
+            question_id: question.id,
+            option_ids: question.options.map((option: { id: string }) => option.id),
+          }),
+        ),
+      );
+    }
 
     return jsonResponse({
       attemptId: attempt.id,
       startedAt: attempt.started_at,
       expiresAt: attempt.expires_at,
-      timeLimitSeconds,
+      timeLimitSeconds: attempt.time_limit_seconds ?? timeLimitSeconds,
       questions: safeQuestions,
     });
   } catch (error) {

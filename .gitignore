@@ -9,5 +9,7 @@ coverage/
 *.local
 *.tsbuildinfo
 *.pid
+site-dev.out
+site-dev.err
 supabase/.branches/
 supabase/.temp/

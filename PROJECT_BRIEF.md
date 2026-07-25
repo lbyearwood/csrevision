@@ -447,42 +447,52 @@ Students cannot:
 
 ### 5.2 Teacher
 
-Teachers can:
+Teachers in MVP v1 can:
 
-- Log in using teacher credentials.
-- Create classes.
-- Edit classes.
-- Archive classes.
-- Add students to classes.
-- Bulk import students.
+- Log in using teacher/admin credentials.
+- Create and manage their own classes.
+- Create student accounts for their own classes.
 - Edit student details.
-- Move students between classes.
+- Move students between their own classes.
 - Reset student passwords.
 - Deactivate/reactivate student accounts.
 - View student login details where appropriate.
-- View student progress.
-- View class progress.
-- Assign tests to classes.
-- Set test time limits.
-- Set attempt rules.
-- Set feedback visibility rules.
-- View test attempts.
-- View written answers.
-- View AI marking results.
-- Override AI marks.
-- Edit feedback.
-- Release feedback.
-- View suspicious activity logs.
-- View points, certificates, statuses, and leaderboard positions.
-- Export results to CSV.
-- View reports.
+- View student progress for students in their own classes.
+- View class progress for their own classes.
+- Assign existing published tests to classes.
+- Set assignment windows, due dates, time limits, and one-attempt rules.
+- View whether assigned tests are complete or incomplete.
+- View self-marked multiple-choice/true-false/fixed-answer attempts.
+- View suspicious activity logs for their own classes.
+- View points, status levels, and class leaderboard positions.
+- Void/reset assigned attempts where permitted.
 
-Teachers cannot:
+Teachers in MVP v1 cannot:
 
 - Access students outside their permitted classes unless given admin permissions.
+- Create or edit test content through the UI.
+- Bulk import students through the UI.
+- Export results to CSV through the UI.
+- Use AI marking.
+- Review written answers.
+- Override marks.
+- Edit or release feedback.
+- Manage certificates.
 - Access service-role keys.
 - Bypass RLS from the frontend.
 - Directly alter protected audit logs.
+
+Later versions may add:
+
+- Bulk student import.
+- Test/content management UI.
+- Written-answer review.
+- AI-assisted written-answer marking.
+- Teacher review/override.
+- Feedback release controls.
+- Certificates.
+- CSV export.
+- Advanced reports.
 
 ### 5.3 Admin
 

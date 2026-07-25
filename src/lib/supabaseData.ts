@@ -1,0 +1,489 @@
+import { leaderboardDisplay } from './identity';
+import { statusForPoints } from './points';
+import { supabase } from './supabaseClient';
+import type {
+  AttemptEvent,
+  ClassRecord,
+  LeaderboardRow,
+  PointsTransaction,
+  Question,
+  QuestionOption,
+  StudentAnswer,
+  StudentProfile,
+  Subject,
+  TeacherProfile,
+  Test,
+  TestAssignment,
+  TestAttempt,
+  TestVersion,
+} from '../types/domain';
+
+export interface SupabaseSnapshot {
+  teacher: TeacherProfile;
+  classes: ClassRecord[];
+  students: StudentProfile[];
+  subjects: Subject[];
+  units: import('../types/domain').Unit[];
+  topics: import('../types/domain').Topic[];
+  tests: Test[];
+  testVersions: TestVersion[];
+  questions: Question[];
+  assignments: TestAssignment[];
+  attempts: TestAttempt[];
+  answers: StudentAnswer[];
+  events: AttemptEvent[];
+  pointsTransactions: PointsTransaction[];
+  leaderboardRows: LeaderboardRow[];
+}
+
+function requireSupabase() {
+  if (!supabase) throw new Error('Supabase is not configured');
+  return supabase;
+}
+
+async function readTable<T>(tableName: string, query: PromiseLike<{ data: T | null; error: unknown }>): Promise<T> {
+  const { data, error } = await query;
+  if (error) {
+    const message =
+      error instanceof Error
+        ? error.message
+        : typeof error === 'object' && error && 'message' in error
+          ? String(error.message)
+          : `Unable to read ${tableName}`;
+    throw new Error(message);
+  }
+  return data as T;
+}
+
+function toNumber(value: unknown, fallback = 0): number {
+  const numberValue = Number(value);
+  return Number.isFinite(numberValue) ? numberValue : fallback;
+}
+
+function firstRelation<T>(value: T | T[] | null | undefined): T | undefined {
+  return Array.isArray(value) ? value[0] : value ?? undefined;
+}
+
+export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
+  const client = requireSupabase();
+
+  const [
+    teacherProfiles,
+    studentProfiles,
+    classes,
+    memberships,
+    subjects,
+    units,
+    topics,
+    tests,
+    testVersions,
+    questions,
+    assignments,
+    attempts,
+    answers,
+    events,
+    pointsTransactions,
+    leaderboardRows,
+  ] = await Promise.all([
+    readTable<
+      Array<{
+        id: string;
+        profile_id: string;
+        email: string;
+        profiles?: Array<{ display_name?: string | null }> | null;
+      }>
+    >(
+      'teacher_profiles',
+      client
+        .from('teacher_profiles')
+        .select('id, profile_id, email, profiles!teacher_profiles_profile_id_fkey(display_name)')
+        .order('created_at'),
+    ),
+    readTable<
+      Array<{
+        id: string;
+        profile_id: string;
+        first_name: string;
+        surname: string;
+        student_id: string;
+        account_status: StudentProfile['accountStatus'];
+        profiles?: Array<{ username?: string | null }> | null;
+      }>
+    >(
+      'student_profiles',
+      client
+        .from('student_profiles')
+        .select('id, profile_id, first_name, surname, student_id, account_status, profiles!student_profiles_profile_id_fkey(username)')
+        .order('surname'),
+    ),
+    readTable<
+      Array<{
+        id: string;
+        class_name: string;
+        academic_year: string | null;
+        year_group: string | null;
+        owner_teacher_id: string;
+        status: ClassRecord['status'];
+      }>
+    >('classes', client.from('classes').select('id, class_name, academic_year, year_group, owner_teacher_id, status').order('class_name')),
+    readTable<Array<{ class_id: string; student_id: string; status: string }>>(
+      'class_memberships',
+      client.from('class_memberships').select('class_id, student_id, status').eq('status', 'active'),
+    ),
+    readTable<
+      Array<{
+        id: string;
+        subject_name: string;
+        description: string | null;
+        display_order: number;
+      }>
+    >('subjects', client.from('subjects').select('id, subject_name, description, display_order').order('display_order')),
+    readTable<
+      Array<{
+        id: string;
+        subject_id: string;
+        unit_name: string;
+        display_order: number;
+      }>
+    >('units', client.from('units').select('id, subject_id, unit_name, display_order').order('display_order')),
+    readTable<
+      Array<{
+        id: string;
+        unit_id: string;
+        topic_name: string;
+        display_order: number;
+      }>
+    >('topics', client.from('topics').select('id, unit_id, topic_name, display_order').order('display_order')),
+    readTable<
+      Array<{
+        id: string;
+        topic_id: string;
+        test_title: string;
+        test_description: string | null;
+        default_mode: Test['defaultMode'];
+        default_time_limit_seconds: number | null;
+        randomise_questions: boolean;
+        shuffle_options: boolean;
+        status: Test['status'];
+      }>
+    >(
+      'tests',
+      client
+        .from('tests')
+        .select('id, topic_id, test_title, test_description, default_mode, default_time_limit_seconds, randomise_questions, shuffle_options, status')
+        .order('test_title'),
+    ),
+    readTable<
+      Array<{
+        id: string;
+        test_id: string;
+        version_number: number;
+        total_marks: number;
+        status: TestVersion['status'];
+      }>
+    >('test_versions', client.from('test_versions').select('id, test_id, version_number, total_marks, status').order('version_number')),
+    readTable<
+      Array<{
+        id: string;
+        test_version_id: string;
+        question_order: number;
+        question_type: Question['questionType'];
+        question_text: string;
+        max_marks: number;
+        student_explanation: string | null;
+        question_options?: Array<{ id: string; question_id: string; option_text: string; option_order: number }> | null;
+      }>
+    >(
+      'questions',
+      client
+        .from('questions')
+        .select('id, test_version_id, question_order, question_type, question_text, max_marks, student_explanation, question_options(id, question_id, option_text, option_order)')
+        .order('question_order'),
+    ),
+    readTable<
+      Array<{
+        id: string;
+        test_version_id: string;
+        class_id: string;
+        start_at: string | null;
+        due_at: string | null;
+        time_limit_seconds: number | null;
+        attempt_limit: number;
+        feedback_policy: TestAssignment['feedbackPolicy'];
+        status: TestAssignment['status'];
+      }>
+    >(
+      'test_assignments',
+      client
+        .from('test_assignments')
+        .select('id, test_version_id, class_id, start_at, due_at, time_limit_seconds, attempt_limit, feedback_policy, status')
+        .order('due_at'),
+    ),
+    readTable<
+      Array<{
+        id: string;
+        student_id: string;
+        class_id_at_attempt: string | null;
+        test_id: string;
+        test_version_id: string;
+        assignment_id: string | null;
+        attempt_type: TestAttempt['attemptType'];
+        attempt_number: number;
+        status: TestAttempt['status'];
+        started_at: string;
+        submitted_at: string | null;
+        duration_seconds: number | null;
+        time_limit_seconds: number | null;
+        score: number | null;
+        max_score: number | null;
+        percentage: number | null;
+        marking_status: TestAttempt['markingStatus'];
+        feedback_status: TestAttempt['feedbackStatus'];
+        points_awarded: number | null;
+        suspicious_event_count: number;
+        void_reason: string | null;
+      }>
+    >(
+      'test_attempts',
+      client
+        .from('test_attempts')
+        .select('id, student_id, class_id_at_attempt, test_id, test_version_id, assignment_id, attempt_type, attempt_number, status, started_at, submitted_at, duration_seconds, time_limit_seconds, score, max_score, percentage, marking_status, feedback_status, points_awarded, suspicious_event_count, void_reason')
+        .order('started_at', { ascending: false }),
+    ),
+    readTable<
+      Array<{
+        id: string;
+        attempt_id: string;
+        question_id: string;
+        answer: string | string[] | null;
+        answer_text: string | null;
+        marks_awarded: number | null;
+        max_marks: number | null;
+        feedback: string | null;
+      }>
+    >(
+      'student_answers',
+      client
+        .from('student_answers')
+        .select('id, attempt_id, question_id, answer, answer_text, marks_awarded, max_marks, feedback')
+        .order('last_saved_at', { ascending: false }),
+    ),
+    readTable<
+      Array<{
+        id: string;
+        attempt_id: string;
+        student_id: string;
+        event_type: AttemptEvent['eventType'];
+        created_at: string;
+        event_detail: Record<string, unknown> | null;
+      }>
+    >(
+      'attempt_events',
+      client.from('attempt_events').select('id, attempt_id, student_id, event_type, created_at, event_detail').order('created_at', { ascending: false }),
+    ),
+    readTable<
+      Array<{
+        id: string;
+        student_id: string;
+        related_attempt_id: string | null;
+        points: number;
+        reason: string;
+        created_at: string;
+      }>
+    >(
+      'points_transactions',
+      client.from('points_transactions').select('id, student_id, related_attempt_id, points, reason, created_at').order('created_at', { ascending: false }),
+    ),
+    readTable<
+      Array<{
+        rank: number;
+        student_id: string;
+        display_name: string;
+        student_public_id: string;
+        class_id: string | null;
+        points: number;
+        status_name: string;
+      }>
+    >(
+      'leaderboard_snapshots',
+      client
+        .from('leaderboard_snapshots')
+        .select('rank, student_id, display_name, student_public_id, class_id, points, status_name')
+        .eq('period_type', 'all_time')
+        .order('rank'),
+    ),
+  ]);
+
+  const activeClassForStudent = new Map(memberships.map((membership) => [membership.student_id, membership.class_id]));
+  const classNameById = new Map(classes.map((classRecord) => [classRecord.id, classRecord.class_name]));
+  const fallbackTeacher = teacherProfiles[0];
+
+  const mappedStudents: StudentProfile[] = studentProfiles.map((student) => ({
+    id: student.id,
+    profileId: student.profile_id,
+    firstName: student.first_name,
+    surname: student.surname,
+    username: firstRelation(student.profiles)?.username ?? '',
+    publicStudentId: student.student_id,
+    classId: activeClassForStudent.get(student.id) ?? '',
+    accountStatus: student.account_status,
+  }));
+
+  const mappedPoints: PointsTransaction[] = pointsTransactions.map((transaction) => ({
+    id: transaction.id,
+    studentId: transaction.student_id,
+    relatedAttemptId: transaction.related_attempt_id ?? undefined,
+    points: transaction.points,
+    reason: transaction.reason,
+    createdAt: transaction.created_at,
+  }));
+
+  return {
+    teacher: {
+      id: fallbackTeacher?.id ?? '',
+      profileId: fallbackTeacher?.profile_id ?? '',
+      displayName: firstRelation(fallbackTeacher?.profiles)?.display_name ?? 'Teacher',
+      email: fallbackTeacher?.email ?? '',
+    },
+    classes: classes.map((classRecord) => ({
+      id: classRecord.id,
+      className: classRecord.class_name,
+      academicYear: classRecord.academic_year ?? '',
+      yearGroup: classRecord.year_group ?? '',
+      ownerTeacherId: classRecord.owner_teacher_id,
+      status: classRecord.status,
+    })),
+    students: mappedStudents,
+    subjects: subjects.map((subject) => ({
+      id: subject.id,
+      subjectName: subject.subject_name,
+      description: subject.description ?? '',
+    })),
+    units: units.map((unit) => ({
+      id: unit.id,
+      subjectId: unit.subject_id,
+      unitName: unit.unit_name,
+    })),
+    topics: topics.map((topic) => ({
+      id: topic.id,
+      unitId: topic.unit_id,
+      topicName: topic.topic_name,
+    })),
+    tests: tests.map((test) => ({
+      id: test.id,
+      topicId: test.topic_id,
+      testTitle: test.test_title,
+      testDescription: test.test_description ?? '',
+      defaultMode: test.default_mode,
+      defaultTimeLimitSeconds: test.default_time_limit_seconds ?? 0,
+      randomiseQuestions: test.randomise_questions,
+      shuffleOptions: test.shuffle_options,
+      status: test.status,
+    })),
+    testVersions: testVersions.map((version) => ({
+      id: version.id,
+      testId: version.test_id,
+      versionNumber: version.version_number,
+      totalMarks: toNumber(version.total_marks),
+      status: version.status,
+    })),
+    questions: questions.map((question) => ({
+      id: question.id,
+      testVersionId: question.test_version_id,
+      questionOrder: question.question_order,
+      questionType: question.question_type,
+      questionText: question.question_text,
+      maxMarks: toNumber(question.max_marks, 1),
+      studentExplanation: question.student_explanation ?? undefined,
+      options: (question.question_options ?? [])
+        .sort((first, second) => first.option_order - second.option_order)
+        .map<QuestionOption>((option) => ({
+          id: option.id,
+          questionId: option.question_id,
+          optionText: option.option_text,
+          optionOrder: option.option_order,
+        })),
+    })),
+    assignments: assignments.map((assignment) => ({
+      id: assignment.id,
+      testVersionId: assignment.test_version_id,
+      classId: assignment.class_id,
+      startAt: assignment.start_at ?? '',
+      dueAt: assignment.due_at ?? '',
+      timeLimitSeconds: assignment.time_limit_seconds ?? 0,
+      attemptLimit: assignment.attempt_limit,
+      feedbackPolicy: assignment.feedback_policy,
+      status: assignment.status,
+    })),
+    attempts: attempts.map((attempt) => ({
+      id: attempt.id,
+      studentId: attempt.student_id,
+      classIdAtAttempt: attempt.class_id_at_attempt ?? '',
+      testId: attempt.test_id,
+      testVersionId: attempt.test_version_id,
+      assignmentId: attempt.assignment_id ?? undefined,
+      attemptType: attempt.attempt_type,
+      attemptNumber: attempt.attempt_number,
+      status: attempt.status,
+      startedAt: attempt.started_at,
+      submittedAt: attempt.submitted_at ?? undefined,
+      durationSeconds: attempt.duration_seconds ?? undefined,
+      timeLimitSeconds: attempt.time_limit_seconds ?? undefined,
+      score: attempt.score ?? undefined,
+      maxScore: attempt.max_score ?? undefined,
+      percentage: attempt.percentage ?? undefined,
+      markingStatus: attempt.marking_status,
+      feedbackStatus: attempt.feedback_status,
+      pointsAwarded: attempt.points_awarded ?? undefined,
+      suspiciousEventCount: attempt.suspicious_event_count,
+      voidReason: attempt.void_reason ?? undefined,
+    })),
+    answers: answers.map((answer) => ({
+      id: answer.id,
+      attemptId: answer.attempt_id,
+      questionId: answer.question_id,
+      answer: answer.answer ?? answer.answer_text ?? '',
+      marksAwarded: answer.marks_awarded ?? undefined,
+      maxMarks: answer.max_marks ?? 1,
+      feedback: answer.feedback ?? undefined,
+    })),
+    events: events.map((event) => ({
+      id: event.id,
+      attemptId: event.attempt_id,
+      studentId: event.student_id,
+      eventType: event.event_type,
+      createdAt: event.created_at,
+      eventDetail: event.event_detail ?? undefined,
+    })),
+    pointsTransactions: mappedPoints,
+    leaderboardRows: leaderboardRows.map((row) => ({
+      rank: row.rank,
+      studentId: row.student_id,
+      displayName: row.display_name,
+      publicStudentId: row.student_public_id,
+      className: row.class_id ? classNameById.get(row.class_id) ?? '' : '',
+      points: row.points,
+      status: row.status_name,
+    })),
+  };
+}
+
+export function buildLeaderboardFromPoints(students: StudentProfile[], classes: ClassRecord[], points: PointsTransaction[]): LeaderboardRow[] {
+  return [...students]
+    .map((student) => {
+      const total = points
+        .filter((transaction) => transaction.studentId === student.id)
+        .reduce((sum, transaction) => sum + transaction.points, 0);
+      return {
+        rank: 0,
+        studentId: student.id,
+        displayName: leaderboardDisplay(student),
+        publicStudentId: student.publicStudentId,
+        className: classes.find((classRecord) => classRecord.id === student.classId)?.className ?? '',
+        points: total,
+        status: statusForPoints(total).name,
+      };
+    })
+    .sort((first, second) => second.points - first.points)
+    .map((row, index) => ({ ...row, rank: index + 1 }));
+}

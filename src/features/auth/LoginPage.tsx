@@ -47,9 +47,10 @@ export function LoginPage() {
             </div>
           </div>
 
-          <div className="mb-5 grid grid-cols-2 rounded-app border border-line bg-mist p-1">
+          <div className="mb-5 grid grid-cols-2 rounded-app border border-[#3a4e68] bg-[#0f1d2e] p-1">
             <button
-              className={`rounded-[6px] px-3 py-2 text-sm font-semibold ${mode === 'student' ? 'bg-white text-ink shadow-sm' : 'text-muted'}`}
+              aria-pressed={mode === 'student'}
+              className={`rounded-[6px] px-3 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-blue/25 ${mode === 'student' ? 'bg-blue text-white shadow-sm' : 'text-[#b8c8d9] hover:bg-[#20344f] hover:text-white'}`}
               onClick={() => {
                 setMode('student');
                 setIdentifier('asingh5827');
@@ -60,7 +61,8 @@ export function LoginPage() {
               Student
             </button>
             <button
-              className={`rounded-[6px] px-3 py-2 text-sm font-semibold ${mode === 'staff' ? 'bg-white text-ink shadow-sm' : 'text-muted'}`}
+              aria-pressed={mode === 'staff'}
+              className={`rounded-[6px] px-3 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-blue/25 ${mode === 'staff' ? 'bg-blue text-white shadow-sm' : 'text-[#b8c8d9] hover:bg-[#20344f] hover:text-white'}`}
               onClick={() => {
                 setMode('staff');
                 setIdentifier('j.doe@school.example');

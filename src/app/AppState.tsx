@@ -1,22 +1,25 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useContext, useState, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import {
-  assignments,
-  attempts as initialAttempts,
-  classes,
-  leaderboardRows,
-  pointsForStudent,
-  questions,
-  students,
-  subjects,
-  teacher,
-  tests,
-  testVersions,
-  topics,
-  units,
+  assignments as demoAssignments,
+  attempts as demoAttempts,
+  classes as demoClasses,
+  leaderboardRows as demoLeaderboardRows,
+  pointsTransactions as demoPointsTransactions,
+  questions as demoQuestions,
+  students as demoStudents,
+  subjects as demoSubjects,
+  teacher as demoTeacher,
+  tests as demoTests,
+  testVersions as demoTestVersions,
+  topics as demoTopics,
+  units as demoUnits,
 } from '../data/demoData';
+import { signOut as signOutFromSupabase } from '../lib/auth';
 import { calculateAttemptPoints, statusForPoints } from '../lib/points';
-import type { AttemptEvent, PointsTransaction, StudentAnswer, TestAttempt, UserRole } from '../types/domain';
+import { buildLeaderboardFromPoints, loadSupabaseSnapshot, type SupabaseSnapshot } from '../lib/supabaseData';
+import { isSupabaseConfigured, supabase } from '../lib/supabaseClient';
+import type { AttemptEvent, PointsTransaction, Question, StudentAnswer, TestAttempt, UserRole } from '../types/domain';
 
 interface SessionState {
   role: UserRole | null;
@@ -28,53 +31,156 @@ interface BeginAttemptInput {
   assignmentId?: string;
 }
 
-interface AppStateValue {
+interface StartAttemptResponse {
+  attemptId: string;
+  startedAt: string;
+  expiresAt: string | null;
+  timeLimitSeconds: number | null;
+  questions: Array<{
+    id: string;
+    questionText: string;
+    questionType: Question['questionType'];
+    maxMarks: number;
+    displayOrder: number;
+    options: Array<{ id: string; optionText: string }>;
+  }>;
+}
+
+interface SubmitAttemptResponse {
+  score: number;
+  maxScore: number;
+  percentage: number;
+  pointsAwarded: number;
+  timedOut: boolean;
+}
+
+interface AppStateValue extends SupabaseSnapshot {
   session: SessionState;
   setSession: (session: SessionState) => void;
   signOut: () => void;
-  currentStudent: (typeof students)[number];
-  teacher: typeof teacher;
-  classes: typeof classes;
-  students: typeof students;
-  subjects: typeof subjects;
-  units: typeof units;
-  topics: typeof topics;
-  tests: typeof tests;
-  testVersions: typeof testVersions;
-  questions: typeof questions;
-  assignments: typeof assignments;
-  attempts: TestAttempt[];
-  answers: StudentAnswer[];
-  events: AttemptEvent[];
-  leaderboardRows: typeof leaderboardRows;
+  currentStudent: (typeof demoStudents)[number];
   pointsTotal: number;
   statusName: string;
-  beginAttempt: (input: BeginAttemptInput) => TestAttempt;
+  isSupabaseBacked: boolean;
+  isLoadingData: boolean;
+  dataError: string;
+  beginAttempt: (input: BeginAttemptInput) => Promise<TestAttempt>;
   saveAnswer: (attemptId: string, questionId: string, answer: string) => void;
-  submitAttempt: (attemptId: string) => TestAttempt;
+  submitAttempt: (attemptId: string) => Promise<TestAttempt>;
   logAttemptEvent: (attemptId: string, eventType: AttemptEvent['eventType']) => void;
   voidAssignedAttempt: (attemptId: string, reason: string) => void;
 }
 
+const demoSnapshot: SupabaseSnapshot = {
+  teacher: demoTeacher,
+  classes: demoClasses,
+  students: demoStudents,
+  subjects: demoSubjects,
+  units: demoUnits,
+  topics: demoTopics,
+  tests: demoTests,
+  testVersions: demoTestVersions,
+  questions: demoQuestions,
+  assignments: demoAssignments,
+  attempts: demoAttempts,
+  answers: [],
+  events: [],
+  pointsTransactions: demoPointsTransactions,
+  leaderboardRows: demoLeaderboardRows,
+};
+
 const AppStateContext = createContext<AppStateValue | null>(null);
 
+function hasFunctionError(value: unknown): value is { error: string } {
+  return Boolean(value && typeof value === 'object' && 'error' in value);
+}
+
+async function invokeFunction<T>(name: string, body: Record<string, unknown>): Promise<T> {
+  if (!supabase) throw new Error('Supabase is not configured');
+  const { data, error } = await supabase.functions.invoke<T | { error: string }>(name, { body });
+  if (error) throw error;
+  if (hasFunctionError(data)) throw new Error(data.error);
+  return data as T;
+}
+
+function totalPointsForStudent(studentId: string, points: PointsTransaction[]): number {
+  return points
+    .filter((transaction) => transaction.studentId === studentId)
+    .reduce((total, transaction) => total + transaction.points, 0);
+}
+
 export function AppStateProvider({ children }: { children: ReactNode }) {
-  const [session, setSession] = useState<SessionState>({ role: null, displayName: '' });
-  const [attempts, setAttempts] = useState<TestAttempt[]>(initialAttempts);
+  const [session, setSessionState] = useState<SessionState>({ role: null, displayName: '' });
+  const [snapshot, setSnapshot] = useState<SupabaseSnapshot>(demoSnapshot);
+  const [attempts, setAttempts] = useState<TestAttempt[]>(demoAttempts);
   const [answers, setAnswers] = useState<StudentAnswer[]>([]);
   const [events, setEvents] = useState<AttemptEvent[]>([]);
   const [earnedPoints, setEarnedPoints] = useState<PointsTransaction[]>([]);
-  const currentStudent = students[0];
+  const [isLoadingData, setIsLoadingData] = useState(false);
+  const [dataError, setDataError] = useState('');
 
-  const pointsTotal = pointsForStudent(currentStudent.id) + earnedPoints.reduce((total, row) => total + row.points, 0);
+  const isSupabaseBacked = Boolean(isSupabaseConfigured && supabase && session.role);
+
+  useEffect(() => {
+    let isActive = true;
+
+    if (!isSupabaseConfigured || !supabase || !session.role) {
+      setIsLoadingData(false);
+      setDataError('');
+      if (!session.role) {
+        setSnapshot(demoSnapshot);
+        setAttempts(demoAttempts);
+        setAnswers([]);
+        setEvents([]);
+        setEarnedPoints([]);
+      }
+      return () => {
+        isActive = false;
+      };
+    }
+
+    setIsLoadingData(true);
+    setDataError('');
+    loadSupabaseSnapshot()
+      .then((nextSnapshot) => {
+        if (!isActive) return;
+        setSnapshot(nextSnapshot);
+        setAttempts(nextSnapshot.attempts);
+        setAnswers(nextSnapshot.answers);
+        setEvents(nextSnapshot.events);
+        setEarnedPoints([]);
+      })
+      .catch((error: unknown) => {
+        if (!isActive) return;
+        setDataError(error instanceof Error ? error.message : 'Unable to load local Supabase data');
+      })
+      .finally(() => {
+        if (isActive) setIsLoadingData(false);
+      });
+
+    return () => {
+      isActive = false;
+    };
+  }, [session.displayName, session.role]);
+
+  const currentStudent = snapshot.students[0] ?? demoStudents[0];
+  const pointRows = [...snapshot.pointsTransactions, ...earnedPoints];
+  const pointsTotal = totalPointsForStudent(currentStudent.id, pointRows);
   const statusName = statusForPoints(pointsTotal).name;
+  const leaderboardRows = snapshot.leaderboardRows.length
+    ? snapshot.leaderboardRows
+    : buildLeaderboardFromPoints(snapshot.students, snapshot.classes, pointRows);
 
-  const beginAttempt = ({ testId, assignmentId }: BeginAttemptInput): TestAttempt => {
-    const test = tests.find((item) => item.id === testId);
+  const setSession = (nextSession: SessionState) => {
+    setSessionState(nextSession);
+  };
+
+  const beginDemoAttempt = ({ testId, assignmentId }: BeginAttemptInput): TestAttempt => {
+    const test = snapshot.tests.find((item) => item.id === testId);
     if (!test) throw new Error('Test not found');
-    const version = testVersions.find((item) => item.testId === test.id && item.status === 'published');
+    const version = snapshot.testVersions.find((item) => item.testId === test.id && item.status === 'published');
     if (!version) throw new Error('Published test version not found');
-    const assignment = assignmentId ? assignments.find((item) => item.id === assignmentId) : undefined;
+    const assignment = assignmentId ? snapshot.assignments.find((item) => item.id === assignmentId) : undefined;
 
     if (assignmentId) {
       const consumedAttempt = attempts.find(
@@ -111,7 +217,67 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     return attempt;
   };
 
+  const beginSupabaseAttempt = async ({ testId, assignmentId }: BeginAttemptInput): Promise<TestAttempt> => {
+    const test = snapshot.tests.find((item) => item.id === testId);
+    if (!test) throw new Error('Test not found');
+    const version = snapshot.testVersions.find((item) => item.testId === test.id && item.status === 'published');
+    if (!version) throw new Error('Published test version not found');
+
+    const started = await invokeFunction<StartAttemptResponse>(
+      'start-test-attempt',
+      assignmentId ? { assignmentId } : { testVersionId: version.id },
+    );
+    const priorAttempts = attempts.filter(
+      (attempt) => attempt.studentId === currentStudent.id && attempt.testVersionId === version.id,
+    );
+    const existingAttempt = attempts.find((attempt) => attempt.id === started.attemptId);
+    const safeQuestions: Question[] = started.questions.map((question) => ({
+      id: question.id,
+      testVersionId: version.id,
+      questionOrder: question.displayOrder,
+      questionType: question.questionType,
+      questionText: question.questionText,
+      maxMarks: Number(question.maxMarks),
+      options: question.options.map((option, index) => ({
+        id: option.id,
+        questionId: question.id,
+        optionText: option.optionText,
+        optionOrder: index + 1,
+      })),
+    }));
+    const attempt: TestAttempt = {
+      ...existingAttempt,
+      id: started.attemptId,
+      studentId: currentStudent.id,
+      classIdAtAttempt: currentStudent.classId,
+      testId: test.id,
+      testVersionId: version.id,
+      assignmentId: existingAttempt?.assignmentId ?? assignmentId,
+      attemptType: existingAttempt?.attemptType ?? (assignmentId ? 'assigned' : 'practice'),
+      attemptNumber: existingAttempt?.attemptNumber ?? priorAttempts.length + 1,
+      status: existingAttempt?.status === 'in_progress' ? existingAttempt.status : 'in_progress',
+      startedAt: started.startedAt,
+      timeLimitSeconds: started.timeLimitSeconds ?? test.defaultTimeLimitSeconds,
+      markingStatus: existingAttempt?.markingStatus ?? 'not_required',
+      feedbackStatus: existingAttempt?.feedbackStatus ?? 'hidden',
+      suspiciousEventCount: existingAttempt?.suspiciousEventCount ?? 0,
+    };
+
+    setSnapshot((current) => ({
+      ...current,
+      questions: [...current.questions.filter((question) => question.testVersionId !== version.id), ...safeQuestions],
+    }));
+    setAttempts((rows) => (rows.some((row) => row.id === attempt.id) ? rows.map((row) => (row.id === attempt.id ? attempt : row)) : [attempt, ...rows]));
+    return attempt;
+  };
+
+  const beginAttempt = async (input: BeginAttemptInput): Promise<TestAttempt> => {
+    if (isSupabaseBacked) return beginSupabaseAttempt(input);
+    return beginDemoAttempt(input);
+  };
+
   const saveAnswer = (attemptId: string, questionId: string, answer: string) => {
+    const maxMarks = snapshot.questions.find((question) => question.id === questionId)?.maxMarks ?? 1;
     setAnswers((rows) => {
       const existingIndex = rows.findIndex((row) => row.attemptId === attemptId && row.questionId === questionId);
       const nextAnswer: StudentAnswer = {
@@ -119,19 +285,25 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         attemptId,
         questionId,
         answer,
-        maxMarks: questions.find((question) => question.id === questionId)?.maxMarks ?? 1,
+        maxMarks,
       };
       if (existingIndex >= 0) {
         return rows.map((row, index) => (index === existingIndex ? nextAnswer : row));
       }
       return [nextAnswer, ...rows];
     });
+
+    if (isSupabaseBacked) {
+      void invokeFunction('save-answer', { attemptId, questionId, answer, maxMarks }).catch((error: unknown) => {
+        setDataError(error instanceof Error ? error.message : 'Unable to save answer');
+      });
+    }
   };
 
-  const submitAttempt = (attemptId: string): TestAttempt => {
+  const submitDemoAttempt = (attemptId: string): TestAttempt => {
     const attempt = attempts.find((row) => row.id === attemptId);
     if (!attempt) throw new Error('Attempt not found');
-    const attemptQuestions = questions.filter((question) => question.testVersionId === attempt.testVersionId);
+    const attemptQuestions = snapshot.questions.filter((question) => question.testVersionId === attempt.testVersionId);
     const answeredCount = answers.filter((answer) => answer.attemptId === attemptId && answer.answer).length;
     const maxScore = attemptQuestions.reduce((total, question) => total + question.maxMarks, 0);
     const simulatedServerScore = Math.min(answeredCount, Math.max(maxScore - 1, 0));
@@ -181,6 +353,52 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     return completedAttempt;
   };
 
+  const submitSupabaseAttempt = async (attemptId: string): Promise<TestAttempt> => {
+    const attempt = attempts.find((row) => row.id === attemptId);
+    if (!attempt) throw new Error('Attempt not found');
+    const submittedAnswers = answers
+      .filter((answer) => answer.attemptId === attemptId)
+      .map((answer) => ({ questionId: answer.questionId, answer: answer.answer }));
+    const result = await invokeFunction<SubmitAttemptResponse>('submit-test-attempt', {
+      attemptId,
+      answers: submittedAnswers,
+    });
+    const submittedAt = new Date();
+    const durationSeconds = Math.round((submittedAt.getTime() - new Date(attempt.startedAt).getTime()) / 1000);
+    const completedAttempt: TestAttempt = {
+      ...attempt,
+      status: result.timedOut ? 'timed_out' : 'feedback_released',
+      submittedAt: submittedAt.toISOString(),
+      durationSeconds,
+      score: result.score,
+      maxScore: result.maxScore,
+      percentage: result.percentage,
+      markingStatus: 'marked',
+      feedbackStatus: 'released',
+      pointsAwarded: result.pointsAwarded,
+    };
+    setAttempts((rows) => rows.map((row) => (row.id === attemptId ? completedAttempt : row)));
+    if (result.pointsAwarded > 0) {
+      setEarnedPoints((rows) => [
+        {
+          id: `points-${crypto.randomUUID()}`,
+          studentId: currentStudent.id,
+          points: result.pointsAwarded,
+          reason: 'Server-marked attempt',
+          relatedAttemptId: attemptId,
+          createdAt: submittedAt.toISOString(),
+        },
+        ...rows,
+      ]);
+    }
+    return completedAttempt;
+  };
+
+  const submitAttempt = async (attemptId: string): Promise<TestAttempt> => {
+    if (isSupabaseBacked) return submitSupabaseAttempt(attemptId);
+    return submitDemoAttempt(attemptId);
+  };
+
   const logAttemptEvent = (attemptId: string, eventType: AttemptEvent['eventType']) => {
     const attempt = attempts.find((row) => row.id === attemptId);
     if (!attempt || attempt.status !== 'in_progress') return;
@@ -206,39 +424,64 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         row.id === attemptId ? { ...row, suspiciousEventCount: row.suspiciousEventCount + 1 } : row,
       ),
     );
+
+    if (isSupabaseBacked) {
+      void invokeFunction('log-attempt-event', { attemptId, eventType, route: window.location.hash }).catch((error: unknown) => {
+        setDataError(error instanceof Error ? error.message : 'Unable to log attempt event');
+      });
+    }
   };
 
-  const voidAssignedAttempt = (attemptId: string, reason: string) => {
+  const markAssignedAttemptVoided = (attemptId: string, reason: string) => {
     setAttempts((rows) =>
       rows.map((row) =>
         row.id === attemptId && row.attemptType === 'assigned'
-          ? { ...row, status: 'voided', feedbackStatus: 'hidden', suspiciousEventCount: row.suspiciousEventCount, voidReason: reason } as TestAttempt
+          ? ({ ...row, status: 'voided', feedbackStatus: 'hidden', suspiciousEventCount: row.suspiciousEventCount, voidReason: reason } as TestAttempt)
           : row,
       ),
     );
   };
 
+  const voidAssignedAttempt = (attemptId: string, reason: string) => {
+    if (isSupabaseBacked) {
+      void invokeFunction('reset-assigned-attempt', { attemptId, reason })
+        .then(() => markAssignedAttemptVoided(attemptId, reason))
+        .catch((error: unknown) => {
+          setDataError(error instanceof Error ? error.message : 'Unable to void assigned attempt');
+        });
+      return;
+    }
+    markAssignedAttemptVoided(attemptId, reason);
+  };
+
+  const signOut = () => {
+    if (isSupabaseConfigured) {
+      void signOutFromSupabase();
+    }
+    setSessionState({ role: null, displayName: '' });
+    setSnapshot(demoSnapshot);
+    setAttempts(demoAttempts);
+    setAnswers([]);
+    setEvents([]);
+    setEarnedPoints([]);
+    setDataError('');
+  };
+
   const value: AppStateValue = {
+    ...snapshot,
     session,
     setSession,
-    signOut: () => setSession({ role: null, displayName: '' }),
+    signOut,
     currentStudent,
-    teacher,
-    classes,
-    students,
-    subjects,
-    units,
-    topics,
-    tests,
-    testVersions,
-    questions,
-    assignments,
     attempts,
     answers,
     events,
     leaderboardRows,
     pointsTotal,
     statusName,
+    isSupabaseBacked,
+    isLoadingData,
+    dataError,
     beginAttempt,
     saveAnswer,
     submitAttempt,

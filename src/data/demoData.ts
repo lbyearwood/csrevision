@@ -363,8 +363,8 @@ export const topics: Topic[] = topicRows.map((topic) => ({
 export const tests: Test[] = topicRows.map((topic) => ({
   id: topic.testId,
   topicId: topic.id,
-  testTitle: `${topic.topicName} Check`,
-  testDescription: `Placeholder five-question multiple choice check for ${topic.topicName}.`,
+  testTitle: 'Test',
+  testDescription: `A short multiple-choice test covering the key ideas and vocabulary for ${topic.topicName}.`,
   defaultMode: 'practice',
   defaultTimeLimitSeconds: 900,
   randomiseQuestions: true,

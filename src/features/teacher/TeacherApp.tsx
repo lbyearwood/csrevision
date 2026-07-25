@@ -39,7 +39,24 @@ const nestedTableFrame = 'overflow-x-auto rounded-app border border-line bg-whit
 const nestedTableHead = 'border-b border-line bg-mist text-xs text-muted';
 
 export function TeacherApp() {
-  const { signOut } = useAppState();
+  const { dataError, isLoadingData, isSupabaseBacked, signOut } = useAppState();
+
+  if (isSupabaseBacked && (isLoadingData || dataError)) {
+    return (
+      <main className="min-h-screen bg-mist px-4 py-8 text-ink">
+        <Panel className="mx-auto max-w-md p-5">
+          <p className="font-bold">{dataError ? 'Local Supabase issue' : 'Loading local Supabase data'}</p>
+          <p className="mt-2 text-sm text-muted">
+            {dataError || 'Connecting to the local database, Auth profile, and seeded testing data.'}
+          </p>
+          <Button className="mt-4" variant="secondary" onClick={signOut}>
+            Back to sign in
+          </Button>
+        </Panel>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen bg-mist p-3 text-ink lg:p-6">
       <div className="mx-auto grid min-h-[860px] max-w-7xl overflow-hidden rounded-[18px] border border-[#d9e3ee] bg-mist shadow-panel lg:grid-cols-[220px_1fr]">

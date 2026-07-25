@@ -20,6 +20,15 @@ Included in MVP v1:
 - Points ledger and status levels.
 - Class leaderboard.
 
+Teacher capabilities in MVP v1:
+
+- Teachers can create/manage their own classes.
+- Teachers can create, edit, move, deactivate/reactivate, and reset passwords for students in their own classes.
+- Teachers can assign existing published tests to classes with due dates, time limits, and one-attempt rules.
+- Teachers can view class/student progress, completed/incomplete assigned tests, self-marked results, suspicious activity, points/status, and class leaderboard positions.
+- Teachers cannot author test content in the MVP UI.
+- Teachers cannot use AI marking, written-answer review, feedback release, certificates, CSV import, or CSV export in MVP v1.
+
 Not included in MVP v1:
 
 - AI written-answer marking.

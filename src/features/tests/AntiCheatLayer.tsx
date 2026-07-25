@@ -13,7 +13,7 @@ export function AntiCheatLayer({
   onLog,
 }: {
   attemptId: string;
-  onLog: (attemptId: string, eventType: AttemptEvent['eventType']) => void;
+  onLog: (attemptId: string, eventType: AttemptEvent['eventType']) => void | Promise<void>;
 }) {
   useEffect(() => {
     const blockEvent = (event: Event) => {
