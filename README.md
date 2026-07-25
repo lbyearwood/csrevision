@@ -44,3 +44,13 @@ Do not put service-role keys or AI keys in frontend env files.
 MVP v1 includes account/class foundations, student-safe test flows, assigned/practice attempt rules, server-side Edge Function contracts, suspicious activity logging, points/status, and basic leaderboards.
 
 Deferred to later versions: AI written-answer marking, certificates, CSV import/export UI, advanced analytics, notifications, parent accounts, public marketing pages, and self-registration.
+
+## Codex Handoff
+
+Future Codex agents should start with:
+
+- [docs/PROJECT_TASKS.md](docs/PROJECT_TASKS.md) for live state, current tasks, and blockers.
+- [PROJECT_BRIEF.md](PROJECT_BRIEF.md) for product rules and long-term architecture constraints.
+- [docs/SUPABASE_SETUP.md](docs/SUPABASE_SETUP.md) before any local or cloud Supabase work.
+
+Keep `docs/PROJECT_TASKS.md` updated as work is completed, started, blocked, or deferred.

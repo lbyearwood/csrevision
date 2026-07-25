@@ -1,12 +1,42 @@
-# Project Initiation Document: Student Knowledge Testing Platform
+# Project Brief: Student Knowledge Testing Platform
 
-**Document type:** Project Initiation Document (PID)  
+**Document type:** Project Brief  
 **Prepared for:** Codex project build  
 **Prepared by:** ChatGPT  
 **Date:** 07 July 2026  
+**Current brief version:** 0.2  
 **Recommended project name:** Student Knowledge Testing Platform  
 **Primary deployment model:** GitHub Pages frontend + Supabase backend  
+**Primary local development model:** Docker Desktop + local Supabase/Postgres via pinned Supabase CLI  
 **Primary design rule:** Mobile-first, tablet-second, desktop-adapted  
+**Codex audience note:** Future agents should treat this as product constraints and decision history. Read `docs/PROJECT_TASKS.md` first for live state.
+
+---
+
+## Change Log
+
+This section records material project direction changes, architecture decisions, and major feature-scope changes. Routine implementation progress belongs in `docs/PROJECT_TASKS.md`; exact file history belongs in Git.
+
+| Date | Version | Change | Reason |
+| --- | --- | --- | --- |
+| 2026-07-07 | 0.1 | Initial project brief created. | Establish MVP scope, architecture, roles, testing model, and security boundaries. |
+| 2026-07-25 | 0.2 | Renamed this document from `PROJECT_INITIATION_DOCUMENT.md` to `PROJECT_BRIEF.md`. | Make the document easier to understand and maintain as the long-term product brief. |
+| 2026-07-25 | 0.2 | Added `docs/PROJECT_TASKS.md` as the active running task tracker. | Separate day-to-day delivery tracking from the long-term project brief. |
+| 2026-07-25 | 0.2 | Confirmed local Supabase/Postgres development as the backend source-of-truth workflow. | Reduce reliance on cloud-only schema management and make the backend reproducible from Git-tracked migrations. |
+| 2026-07-25 | 0.2 | Installed and verified Docker Desktop, pinned Supabase CLI, and local Supabase stack. | Allow local database, Auth, API, Studio, migrations, and RLS testing before cloud deployment. |
+| 2026-07-25 | 0.2 | Updated student Practice architecture to Course -> Unit -> Topic -> Test, while reserving space for future resource types. | Support tests now and future `revision_lesson`, `tutorial`, and `worksheet` resources later without showing unavailable student UI. |
+| 2026-07-25 | 0.2 | Moved student leaderboard out of Profile into its own page and menu item. | Keep Profile focused on account information and give leaderboard its own navigation surface. |
+| 2026-07-25 | 0.2 | Established the current visual theme rule: light page background, dark top-level cards/chrome, light nested rows/cards. | Improve contrast and visual consistency across student and teacher/admin pages. |
+| 2026-07-25 | 0.2 | Reframed project docs for Codex handoff rather than user reading. | User explicitly wants persistent docs to guide future Codex agents. |
+
+## Change Control Process
+
+- Update this Change Log for material scope, architecture, security, data model, deployment, or feature-direction changes.
+- Update `docs/PROJECT_TASKS.md` for day-to-day work, status, blockers, and next actions.
+- Write updates as decisions, constraints, verified state, commands, blockers, and next actions for future Codex agents.
+- Use Git commits as the exact technical version history.
+- Avoid dashboard-only database schema changes. Database structure changes should be captured in SQL migrations under `supabase/migrations`.
+- Real student data must be protected by backups; migrations recreate structure, not production records.
 
 ---
 
@@ -3229,7 +3259,7 @@ Add later:
 ```text
 student-knowledge-testing-platform/
   README.md
-  PROJECT_INITIATION_DOCUMENT.md
+  PROJECT_BRIEF.md
   package.json
   vite.config.ts
   index.html
@@ -3489,7 +3519,9 @@ Codex must not:
 Codex should maintain:
 
 - `README.md`.
-- `PROJECT_INITIATION_DOCUMENT.md`.
+- `PROJECT_BRIEF.md`.
+- `docs/PROJECT_TASKS.md`.
+- `docs/SUPABASE_SETUP.md`.
 - `docs/DATA_MODEL.md`.
 - `docs/RLS_POLICIES.md`.
 - `docs/TEST_CONTENT_FORMAT.md`.

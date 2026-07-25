@@ -11,7 +11,7 @@ export function LoginPage() {
   const { setSession } = useAppState();
   const [mode, setMode] = useState<'student' | 'staff'>('student');
   const [identifier, setIdentifier] = useState('asingh5827');
-  const [password, setPassword] = useState('Learn2587!');
+  const [password, setPassword] = useState('Localdev1!');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -43,7 +43,7 @@ export function LoginPage() {
             </div>
             <div>
               <h1 className="text-2xl font-bold tracking-normal">csrevision</h1>
-              <p className="text-sm text-muted">Sign in to continue.</p>
+              <p className="text-sm text-[#b8c8d9]">Sign in to continue.</p>
             </div>
           </div>
 
@@ -53,6 +53,7 @@ export function LoginPage() {
               onClick={() => {
                 setMode('student');
                 setIdentifier('asingh5827');
+                setPassword('Localdev1!');
               }}
               type="button"
             >
@@ -63,6 +64,7 @@ export function LoginPage() {
               onClick={() => {
                 setMode('staff');
                 setIdentifier('j.doe@school.example');
+                setPassword('Localdev1!');
               }}
               type="button"
             >
@@ -76,7 +78,7 @@ export function LoginPage() {
                 {mode === 'student' ? 'Username' : 'Email'}
               </label>
               <input
-                className="mt-2 h-12 w-full rounded-app border border-line bg-white px-3 text-base outline-none focus:border-blue focus:ring-2 focus:ring-blue/15"
+                className="mt-2 h-12 w-full rounded-app border border-line bg-white px-3 text-base text-ink outline-none focus:border-blue focus:ring-2 focus:ring-blue/15"
                 id="identifier"
                 value={identifier}
                 onChange={(event) => setIdentifier(event.target.value)}
@@ -88,7 +90,7 @@ export function LoginPage() {
                 Password
               </label>
               <input
-                className="mt-2 h-12 w-full rounded-app border border-line bg-white px-3 text-base outline-none focus:border-blue focus:ring-2 focus:ring-blue/15"
+                className="mt-2 h-12 w-full rounded-app border border-line bg-white px-3 text-base text-ink outline-none focus:border-blue focus:ring-2 focus:ring-blue/15"
                 id="password"
                 type="password"
                 value={password}
@@ -100,7 +102,7 @@ export function LoginPage() {
             <Button className="w-full" disabled={isSubmitting}>
               {isSubmitting ? 'Signing in...' : 'Sign in'}
             </Button>
-            <p className="text-center text-xs leading-5 text-muted">
+            <p className="text-center text-xs leading-5 text-[#b8c8d9]">
               No self-registration is available. Student accounts are issued by a teacher or admin.
             </p>
           </form>

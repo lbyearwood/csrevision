@@ -34,19 +34,23 @@ const navItems = [
   { to: '/teacher/leaderboards', label: 'Leaderboards', icon: Trophy },
 ];
 
+const darkSubtleText = 'text-[#b8c8d9]';
+const nestedTableFrame = 'overflow-x-auto rounded-app border border-line bg-white text-ink';
+const nestedTableHead = 'border-b border-line bg-mist text-xs text-muted';
+
 export function TeacherApp() {
   const { signOut } = useAppState();
   return (
     <main className="min-h-screen bg-mist p-3 text-ink lg:p-6">
-      <div className="mx-auto grid min-h-[860px] max-w-7xl overflow-hidden rounded-[18px] border border-[#c8d3df] bg-white shadow-panel lg:grid-cols-[220px_1fr]">
-        <aside className="hidden border-r border-line bg-white p-4 lg:block">
+      <div className="mx-auto grid min-h-[860px] max-w-7xl overflow-hidden rounded-[18px] border border-[#d9e3ee] bg-mist shadow-panel lg:grid-cols-[220px_1fr]">
+        <aside className="hidden border-r border-[#2a3a50] bg-[#14243a] p-4 text-white lg:block">
           <div className="mb-8 flex items-center gap-3">
             <div className="grid h-10 w-10 place-items-center rounded-app bg-teal text-white">
               <BookOpenCheck size={22} aria-hidden="true" />
             </div>
             <div>
               <p className="font-bold">csrevision</p>
-              <p className="text-xs text-muted">Teacher console</p>
+              <p className="text-xs text-[#a9bbcf]">Teacher console</p>
             </div>
           </div>
           <nav className="space-y-1">
@@ -56,7 +60,7 @@ export function TeacherApp() {
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
-                  `flex min-h-11 items-center gap-3 rounded-app px-3 text-sm font-semibold ${isActive ? 'bg-[#e5f4f5] text-teal' : 'text-ink hover:bg-mist'}`
+                  `flex min-h-11 items-center gap-3 rounded-app px-3 text-sm font-semibold ${isActive ? 'bg-white text-[#0f1d2e]' : 'text-[#a9bbcf] hover:bg-[#20344f] hover:text-white'}`
                 }
               >
                 <item.icon size={18} aria-hidden="true" />
@@ -66,24 +70,24 @@ export function TeacherApp() {
           </nav>
         </aside>
 
-        <section className="min-w-0">
-          <header className="flex items-center justify-between border-b border-line px-4 py-3">
-            <div className="flex items-center gap-3">
-              <button className="grid h-10 w-10 place-items-center rounded-app border border-line lg:hidden">
+        <section className="min-w-0 bg-mist text-ink">
+          <header className="flex items-center justify-between border-b border-[#2a3a50] bg-[#14243a] px-4 py-3 text-white">
+            <div className="flex min-w-0 items-center gap-3">
+              <button className="grid h-10 w-10 place-items-center rounded-app border border-[#3a4e68] bg-[#0f1d2e] lg:hidden">
                 <Menu size={20} />
               </button>
-              <div>
+              <div className="min-w-0">
                 <p className="font-bold">csrevision</p>
-                <p className="text-xs text-muted">All times shown in your local time zone.</p>
+                <p className="truncate text-xs text-[#a9bbcf]">All times shown in your local time zone.</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
               <div className="hidden text-right sm:block">
                 <p className="text-sm font-bold">J. Doe</p>
-                <p className="text-xs text-muted">Teacher</p>
+                <p className="text-xs text-[#a9bbcf]">Teacher</p>
               </div>
-              <button className="grid h-10 w-10 place-items-center rounded-full bg-line font-bold">JD</button>
-              <button className="grid h-10 w-10 place-items-center rounded-app border border-line" onClick={signOut} title="Sign out">
+              <button className="grid h-10 w-10 place-items-center rounded-full bg-white font-bold text-[#0f1d2e]">JD</button>
+              <button className="grid h-10 w-10 place-items-center rounded-app border border-[#3a4e68] bg-[#0f1d2e]" onClick={signOut} title="Sign out">
                 <LogOut size={18} aria-hidden="true" />
               </button>
             </div>
@@ -118,17 +122,17 @@ function TeacherDashboard() {
           <p className="text-sm text-muted">Class progress, assigned tests, results and activity alerts.</p>
         </div>
         <div className="grid min-w-0 gap-2 sm:grid-cols-3">
-          <select className="h-12 min-w-0 rounded-app border border-line px-3 text-sm font-semibold">
+          <select className="h-12 min-w-0 rounded-app border border-[#2a3a50] bg-[#14243a] px-3 text-sm font-semibold text-white">
             <option>{classRecord.className}</option>
           </select>
-          <select className="h-12 min-w-0 rounded-app border border-line px-3 text-sm font-semibold">
+          <select className="h-12 min-w-0 rounded-app border border-[#2a3a50] bg-[#14243a] px-3 text-sm font-semibold text-white">
             <option>{'OCR GCSE CS -> Hardware -> CPU'}</option>
           </select>
-          <Button variant="secondary"><Settings size={16} /> Settings</Button>
+          <Button variant="dark"><Settings size={16} /> Settings</Button>
         </div>
       </div>
 
-      <Panel className="grid grid-cols-2 divide-x divide-y divide-line overflow-hidden sm:grid-cols-5 sm:divide-y-0">
+      <Panel className="grid grid-cols-2 overflow-hidden sm:grid-cols-5">
         <Metric label="Students" value={classStudents.length} />
         <Metric label="Tests Assigned" value={state.assignments.length} />
         <Metric label="Tests Completed" value={completed} />
@@ -142,27 +146,27 @@ function TeacherDashboard() {
             <h2 className="font-bold">Recent Test Activity</h2>
             <NavLink className="text-sm font-semibold text-blue" to="/teacher/results">View all</NavLink>
           </div>
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[600px] text-left text-sm">
-              <thead className="text-xs text-muted">
+          <div className={nestedTableFrame}>
+            <table className="w-full min-w-[540px] text-left text-sm">
+              <thead className={nestedTableHead}>
                 <tr>
-                  <th className="py-2">Test Name</th>
-                  <th>Assigned</th>
-                  <th>Completed</th>
-                  <th>Avg. Score</th>
-                  <th>Points</th>
-                  <th>Flagged</th>
+                  <th className="px-3 py-2">Test Name</th>
+                  <th className="px-3 py-2">Assigned</th>
+                  <th className="px-3 py-2">Completed</th>
+                  <th className="px-3 py-2">Avg. Score</th>
+                  <th className="px-3 py-2">Points</th>
+                  <th className="px-3 py-2">Flagged</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-line">
+              <tbody className="divide-y divide-line bg-white text-ink">
                 {state.tests.map((test, index) => (
                   <tr key={test.id}>
-                    <td className="py-3 font-semibold">{test.testTitle}</td>
-                    <td>{index === 0 ? 'Practice' : '8A'}</td>
-                    <td>{completed}/{classStudents.length}</td>
-                    <td>{index === 0 ? '76%' : '72%'}</td>
-                    <td>{index === 0 ? 320 : 420} pts</td>
-                    <td><StatusBadge tone={index === 0 ? 'amber' : 'red'}>{index + 1}</StatusBadge></td>
+                    <td className="px-3 py-3 font-semibold">{test.testTitle}</td>
+                    <td className="px-3 py-3">{index === 0 ? 'Practice' : '8A'}</td>
+                    <td className="px-3 py-3">{completed}/{classStudents.length}</td>
+                    <td className="px-3 py-3">{index === 0 ? '76%' : '72%'}</td>
+                    <td className="px-3 py-3">{index === 0 ? 320 : 420} pts</td>
+                    <td className="px-3 py-3"><StatusBadge tone={index === 0 ? 'amber' : 'red'}>{index + 1}</StatusBadge></td>
                   </tr>
                 ))}
               </tbody>
@@ -177,7 +181,7 @@ function TeacherDashboard() {
           </div>
           <div className="space-y-3">
             {state.students.slice(0, 3).map((student, index) => (
-              <div className="rounded-app border border-line p-3 text-sm" key={student.id}>
+              <div className="rounded-app border border-line bg-white p-3 text-sm text-ink" key={student.id}>
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <p className="font-bold">{leaderboardDisplay(student)}</p>
@@ -196,31 +200,31 @@ function TeacherDashboard() {
         <Panel className="p-4">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-bold">Student Performance Overview</h2>
-            <Search className="text-muted" size={18} />
+            <Search className={darkSubtleText} size={18} />
           </div>
-          <div className="overflow-x-auto">
+          <div className={nestedTableFrame}>
             <table className="w-full min-w-[760px] text-left text-sm">
-              <thead className="text-xs text-muted">
+              <thead className={nestedTableHead}>
                 <tr>
-                  <th className="py-2">#</th>
-                  <th>Student (ID)</th>
-                  <th>Tests Completed</th>
-                  <th>Average Score</th>
-                  <th>Points Earned</th>
-                  <th>Last Active</th>
-                  <th>Status</th>
+                  <th className="px-3 py-2">#</th>
+                  <th className="px-3 py-2">Student (ID)</th>
+                  <th className="px-3 py-2">Tests Completed</th>
+                  <th className="px-3 py-2">Average Score</th>
+                  <th className="px-3 py-2">Points Earned</th>
+                  <th className="px-3 py-2">Last Active</th>
+                  <th className="px-3 py-2">Status</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-line">
+              <tbody className="divide-y divide-line bg-white text-ink">
                 {state.leaderboardRows.map((row) => (
                   <tr key={row.studentId}>
-                    <td className="py-3">{row.rank}</td>
-                    <td className="font-semibold">{row.displayName}</td>
-                    <td>4/4</td>
-                    <td className="font-bold text-green">{row.rank === 1 ? '84%' : row.rank === 2 ? '78%' : '72%'}</td>
-                    <td>{row.points} pts</td>
-                    <td>16 May, 10:12 AM</td>
-                    <td><StatusBadge tone={row.rank <= 3 ? 'green' : 'amber'}>{row.rank <= 3 ? 'On Track' : 'Needs Support'}</StatusBadge></td>
+                    <td className="px-3 py-3">{row.rank}</td>
+                    <td className="px-3 py-3 font-semibold">{row.displayName}</td>
+                    <td className="px-3 py-3">4/4</td>
+                    <td className="px-3 py-3 font-bold text-green">{row.rank === 1 ? '84%' : row.rank === 2 ? '78%' : '72%'}</td>
+                    <td className="px-3 py-3">{row.points} pts</td>
+                    <td className="px-3 py-3">16 May, 10:12 AM</td>
+                    <td className="px-3 py-3"><StatusBadge tone={row.rank <= 3 ? 'green' : 'amber'}>{row.rank <= 3 ? 'On Track' : 'Needs Support'}</StatusBadge></td>
                   </tr>
                 ))}
               </tbody>
@@ -244,8 +248,8 @@ function TeacherDashboard() {
 
 function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between border-b border-line py-3 text-sm last:border-b-0">
-      <span className="text-muted">{label}</span>
+    <div className="flex items-center justify-between border-b border-[#2a3a50] py-3 text-sm last:border-b-0">
+      <span className="text-[#b8c8d9]">{label}</span>
       <span className="font-bold">{value}</span>
     </div>
   );
@@ -261,7 +265,7 @@ function ClassesPage() {
             <div className="flex items-start justify-between gap-3">
               <div>
                 <h2 className="font-bold">{classRecord.className}</h2>
-                <p className="text-sm text-muted">{classRecord.academicYear} • Year {classRecord.yearGroup}</p>
+                <p className={`text-sm ${darkSubtleText}`}>{classRecord.academicYear} - Year {classRecord.yearGroup}</p>
               </div>
               <StatusBadge tone="green">{classRecord.status}</StatusBadge>
             </div>
@@ -277,31 +281,33 @@ function StudentsPage() {
   const state = useAppState();
   return (
     <TeacherPage title="Students">
-      <Panel className="overflow-hidden">
-        <table className="w-full min-w-[720px] text-left text-sm">
-          <thead className="border-b border-line bg-mist text-xs text-muted">
+      <Panel className="p-4">
+        <div className={nestedTableFrame}>
+          <table className="w-full min-w-[720px] text-left text-sm">
+          <thead className={nestedTableHead}>
             <tr>
               <th className="px-4 py-3">Full name</th>
-              <th>Username</th>
-              <th>Student ID</th>
-              <th>Class</th>
-              <th>Status</th>
-              <th>Password</th>
+              <th className="px-3 py-3">Username</th>
+              <th className="px-3 py-3">Student ID</th>
+              <th className="px-3 py-3">Class</th>
+              <th className="px-3 py-3">Status</th>
+              <th className="px-3 py-3">Password</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-line">
             {state.students.map((student) => (
               <tr key={student.id}>
                 <td className="px-4 py-3 font-semibold">{student.firstName} {student.surname}</td>
-                <td>{student.username}</td>
-                <td>{student.publicStudentId}</td>
-                <td>{state.classes.find((item) => item.id === student.classId)?.className}</td>
-                <td><StatusBadge tone="green">{student.accountStatus}</StatusBadge></td>
-                <td><Button variant="secondary" className="min-h-9 px-3">Reset</Button></td>
+                <td className="px-3 py-3">{student.username}</td>
+                <td className="px-3 py-3">{student.publicStudentId}</td>
+                <td className="px-3 py-3">{state.classes.find((item) => item.id === student.classId)?.className}</td>
+                <td className="px-3 py-3"><StatusBadge tone="green">{student.accountStatus}</StatusBadge></td>
+                <td className="px-3 py-3"><Button variant="secondary" className="min-h-9 px-3">Reset</Button></td>
               </tr>
             ))}
           </tbody>
         </table>
+        </div>
       </Panel>
     </TeacherPage>
   );
@@ -314,9 +320,9 @@ function TestsPage() {
       <div className="grid gap-4 lg:grid-cols-2">
         {state.tests.map((test) => (
           <Panel className="p-4" key={test.id}>
-            <p className="text-xs font-semibold text-muted">{'Subject -> Unit -> Topic'}</p>
+            <p className={`text-xs font-semibold ${darkSubtleText}`}>{'Subject -> Unit -> Topic'}</p>
             <h2 className="mt-2 font-bold">{test.testTitle}</h2>
-            <p className="mt-1 text-sm text-muted">{test.testDescription}</p>
+            <p className={`mt-1 text-sm ${darkSubtleText}`}>{test.testDescription}</p>
             <p className="mt-3 text-sm">Published versions are immutable once attempts exist.</p>
           </Panel>
         ))}
@@ -334,14 +340,14 @@ function AssignmentsPage() {
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h2 className="font-bold">CPU Timed Assessment</h2>
-              <p className="text-sm text-muted">One attempt consumed at start • Due {formatDate(assignment.dueAt)}</p>
+              <p className={`text-sm ${darkSubtleText}`}>One attempt consumed at start - Due {formatDate(assignment.dueAt)}</p>
             </div>
             <StatusBadge tone="blue">{assignment.status}</StatusBadge>
           </div>
           <div className="mt-4 space-y-2">
             {state.attempts.filter((attempt) => attempt.assignmentId === assignment.id).map((attempt) => (
-              <div className="flex items-center justify-between rounded-app border border-line p-3 text-sm" key={attempt.id}>
-                <span>{leaderboardDisplay(state.currentStudent)} • {attempt.status}</span>
+              <div className="flex items-center justify-between rounded-app border border-line bg-white p-3 text-sm text-ink" key={attempt.id}>
+                <span>{leaderboardDisplay(state.currentStudent)} - {attempt.status}</span>
                 <Button variant="danger" className="min-h-9 px-3" onClick={() => state.voidAssignedAttempt(attempt.id, 'Teacher reset for technical issue')}>
                   <RotateCcw size={15} /> Void
                 </Button>
@@ -358,16 +364,17 @@ function ResultsPage() {
   const state = useAppState();
   return (
     <TeacherPage title="Results">
-      <Panel className="overflow-hidden">
-        <table className="w-full min-w-[720px] text-left text-sm">
-          <thead className="border-b border-line bg-mist text-xs text-muted">
+      <Panel className="p-4">
+        <div className={nestedTableFrame}>
+          <table className="w-full min-w-[720px] text-left text-sm">
+          <thead className={nestedTableHead}>
             <tr>
               <th className="px-4 py-3">Student</th>
-              <th>Test</th>
-              <th>Status</th>
-              <th>Score</th>
-              <th>Duration</th>
-              <th>Suspicious Events</th>
+              <th className="px-3 py-3">Test</th>
+              <th className="px-3 py-3">Status</th>
+              <th className="px-3 py-3">Score</th>
+              <th className="px-3 py-3">Duration</th>
+              <th className="px-3 py-3">Suspicious Events</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-line">
@@ -377,16 +384,17 @@ function ResultsPage() {
               return (
                 <tr key={attempt.id}>
                   <td className="px-4 py-3 font-semibold">{leaderboardDisplay(student)}</td>
-                  <td>{test?.testTitle}</td>
-                  <td>{attempt.status}</td>
-                  <td>{attempt.percentage ?? '-'}%</td>
-                  <td>{attempt.durationSeconds ? formatDate(attempt.startedAt) : 'In progress'}</td>
-                  <td>{attempt.suspiciousEventCount}</td>
+                  <td className="px-3 py-3">{test?.testTitle}</td>
+                  <td className="px-3 py-3">{attempt.status}</td>
+                  <td className="px-3 py-3">{attempt.percentage ?? '-'}%</td>
+                  <td className="px-3 py-3">{attempt.durationSeconds ? formatDate(attempt.startedAt) : 'In progress'}</td>
+                  <td className="px-3 py-3">{attempt.suspiciousEventCount}</td>
                 </tr>
               );
             })}
           </tbody>
         </table>
+        </div>
       </Panel>
     </TeacherPage>
   );
@@ -398,10 +406,10 @@ function LeaderboardsPage() {
     <TeacherPage title="Leaderboards">
       <Panel className="p-4">
         <h2 className="font-bold">Class leaderboard</h2>
-        <p className="mb-4 text-sm text-muted">Whole-site leaderboard is disabled by default in MVP v1.</p>
+        <p className={`mb-4 text-sm ${darkSubtleText}`}>Whole-site leaderboard is disabled by default in MVP v1.</p>
         <div className="space-y-2">
           {state.leaderboardRows.map((row) => (
-            <div className="grid grid-cols-[48px_1fr_90px_90px] items-center gap-3 rounded-app border border-line p-3 text-sm" key={row.studentId}>
+            <div className="grid grid-cols-[48px_1fr_90px_90px] items-center gap-3 rounded-app border border-line bg-white p-3 text-sm text-ink" key={row.studentId}>
               <span className="font-bold">#{row.rank}</span>
               <span className="font-semibold">{row.displayName}</span>
               <span>{row.points} pts</span>
