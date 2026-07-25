@@ -104,148 +104,353 @@ export const subjects: Subject[] = [
   },
 ];
 
-export const units: Unit[] = [
-  { id: 'unit-hardware', subjectId: 'subject-ocr-cs', unitName: 'Hardware' },
-  { id: 'unit-programming', subjectId: 'subject-ocr-cs', unitName: 'Programming' },
-];
+const ocrCourse = [
+  {
+    "unitCode": "1",
+    "unitTitle": "Programming",
+    "topics": [
+      {
+        "code": "1.1",
+        "title": "Programming fundamentals"
+      },
+      {
+        "code": "1.2",
+        "title": "Sequence and selection"
+      },
+      {
+        "code": "1.3",
+        "title": "Iteration"
+      },
+      {
+        "code": "1.4",
+        "title": "Arrays"
+      },
+      {
+        "code": "1.5",
+        "title": "Procedures and functions"
+      },
+      {
+        "code": "1.6",
+        "title": "Text files"
+      },
+      {
+        "code": "1.7",
+        "title": "Introduction to SQL"
+      },
+      {
+        "code": "1.8",
+        "title": "Defensive design"
+      },
+      {
+        "code": "1.9",
+        "title": "Errors and testing"
+      },
+      {
+        "code": "1.10",
+        "title": "Translators and facilities"
+      },
+      {
+        "code": "1.11",
+        "title": "IDEs"
+      }
+    ]
+  },
+  {
+    "unitCode": "2",
+    "unitTitle": "Hardware",
+    "topics": [
+      {
+        "code": "2.1",
+        "title": "Architecture of the CPU"
+      },
+      {
+        "code": "2.2",
+        "title": "CPU performance and Embedded systems"
+      },
+      {
+        "code": "2.3",
+        "title": "Primary Memory"
+      },
+      {
+        "code": "2.4",
+        "title": "Secondary storage"
+      }
+    ]
+  },
+  {
+    "unitCode": "3",
+    "unitTitle": "Software",
+    "topics": [
+      {
+        "code": "3.1",
+        "title": "Operating systems"
+      },
+      {
+        "code": "3.2",
+        "title": "Utility software"
+      }
+    ]
+  },
+  {
+    "unitCode": "4",
+    "unitTitle": "Data representation",
+    "topics": [
+      {
+        "code": "4.1",
+        "title": "Units and binary numbers"
+      },
+      {
+        "code": "4.2",
+        "title": "Binary arithmetic and hexadecimal"
+      },
+      {
+        "code": "4.3",
+        "title": "Logic gates and Truth tables"
+      },
+      {
+        "code": "4.4",
+        "title": "Characters"
+      },
+      {
+        "code": "4.5",
+        "title": "Images"
+      },
+      {
+        "code": "4.6",
+        "title": "Sound"
+      },
+      {
+        "code": "4.7",
+        "title": "Data compression, File Formats & Encryption"
+      }
+    ]
+  },
+  {
+    "unitCode": "5",
+    "unitTitle": "Networks",
+    "topics": [
+      {
+        "code": "5.1",
+        "title": "LAN"
+      },
+      {
+        "code": "5.2",
+        "title": "LAN Hardware"
+      },
+      {
+        "code": "5.3",
+        "title": "LAN Topologies"
+      },
+      {
+        "code": "5.4",
+        "title": "The Internet and WAN"
+      },
+      {
+        "code": "5.5",
+        "title": "Client-server and P2P networks"
+      },
+      {
+        "code": "5.6",
+        "title": "Network Protocols and Layers"
+      }
+    ]
+  },
+  {
+    "unitCode": "6",
+    "unitTitle": "Cyber security",
+    "topics": [
+      {
+        "code": "6.1",
+        "title": "Network threats"
+      },
+      {
+        "code": "6.2",
+        "title": "Preventing vulnerabilities"
+      }
+    ]
+  },
+  {
+    "unitCode": "7",
+    "unitTitle": "Algorithms",
+    "topics": [
+      {
+        "code": "7.1",
+        "title": "Computational thinking"
+      },
+      {
+        "code": "7.2",
+        "title": "Searching algorithms"
+      },
+      {
+        "code": "7.3",
+        "title": "Sorting algorithms"
+      },
+      {
+        "code": "7.4",
+        "title": "Flowcharts"
+      },
+      {
+        "code": "7.5",
+        "title": "Pseudocode"
+      },
+      {
+        "code": "7.6",
+        "title": "Interpreting algorithms"
+      }
+    ]
+  },
+  {
+    "unitCode": "8",
+    "unitTitle": "Societal implications of digital technology",
+    "topics": [
+      {
+        "code": "8.1",
+        "title": "Ethical and cultural issues"
+      },
+      {
+        "code": "8.2",
+        "title": "Environmental issues"
+      },
+      {
+        "code": "8.3",
+        "title": "Legislation & privacy"
+      }
+    ]
+  }
+] as const;
 
-export const topics: Topic[] = [
-  { id: 'topic-cpu', unitId: 'unit-hardware', topicName: 'CPU' },
-  { id: 'topic-storage', unitId: 'unit-hardware', topicName: 'Storage' },
-  { id: 'topic-linear-search', unitId: 'unit-programming', topicName: 'Searching Algorithms' },
-];
+interface TopicRow extends Topic {
+  topicSlug: string;
+  testId: string;
+  testVersionId: string;
+}
 
-export const tests: Test[] = [
-  {
-    id: 'test-cpu-check',
-    topicId: 'topic-cpu',
-    testTitle: 'CPU Knowledge Check',
-    testDescription: 'Checks CPU components and the fetch-decode-execute cycle.',
-    defaultMode: 'practice',
-    defaultTimeLimitSeconds: 900,
-    randomiseQuestions: true,
-    shuffleOptions: true,
-    status: 'published',
-  },
-  {
-    id: 'test-cpu-assessment',
-    topicId: 'topic-cpu',
-    testTitle: 'CPU Timed Assessment',
-    testDescription: 'One-attempt assessment for CPU topic understanding.',
-    defaultMode: 'assigned',
-    defaultTimeLimitSeconds: 1200,
-    randomiseQuestions: true,
-    shuffleOptions: true,
-    status: 'published',
-  },
-];
+function slugify(value: string): string {
+  return value
+    .toLowerCase()
+    .replace(/&/g, ' and ')
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+}
 
-export const testVersions: TestVersion[] = [
-  {
-    id: 'version-cpu-check-1',
-    testId: 'test-cpu-check',
-    versionNumber: 1,
-    totalMarks: 4,
-    status: 'published',
-  },
-  {
-    id: 'version-cpu-assessment-1',
-    testId: 'test-cpu-assessment',
-    versionNumber: 1,
-    totalMarks: 4,
-    status: 'published',
-  },
-];
+const topicRows: TopicRow[] = ocrCourse.flatMap((unit) =>
+  unit.topics.map((topic) => {
+    const topicName = `${topic.code} ${topic.title}`;
+    const topicSlug = slugify(topicName);
+    return {
+      id: `topic-${topicSlug}`,
+      unitId: `unit-${unit.unitCode}`,
+      topicName,
+      topicSlug,
+      testId: `test-${topicSlug}`,
+      testVersionId: `version-${topicSlug}-1`,
+    };
+  }),
+);
 
-export const questions: Question[] = [
-  {
-    id: 'q-control-unit',
-    testVersionId: 'version-cpu-check-1',
-    questionOrder: 1,
-    questionType: 'multiple_choice',
-    questionText: 'Which CPU component manages the execution of instructions?',
-    maxMarks: 1,
-    studentExplanation: 'The Control Unit coordinates fetching, decoding and executing instructions.',
-    options: [
-      { id: 'opt-control-unit', questionId: 'q-control-unit', optionText: 'Control Unit', optionOrder: 1 },
-      { id: 'opt-hard-disk', questionId: 'q-control-unit', optionText: 'Hard Disk', optionOrder: 2 },
-      { id: 'opt-ram', questionId: 'q-control-unit', optionText: 'RAM', optionOrder: 3 },
-      { id: 'opt-monitor', questionId: 'q-control-unit', optionText: 'Monitor', optionOrder: 4 },
-    ],
-  },
-  {
-    id: 'q-alu',
-    testVersionId: 'version-cpu-check-1',
-    questionOrder: 2,
-    questionType: 'multiple_choice',
-    questionText: 'Which CPU component performs arithmetic and logic operations?',
-    maxMarks: 1,
-    studentExplanation: 'The ALU performs arithmetic and logical comparisons.',
-    options: [
-      { id: 'opt-alu', questionId: 'q-alu', optionText: 'Arithmetic Logic Unit', optionOrder: 1 },
-      { id: 'opt-cache', questionId: 'q-alu', optionText: 'Cache', optionOrder: 2 },
-      { id: 'opt-rom', questionId: 'q-alu', optionText: 'ROM', optionOrder: 3 },
-      { id: 'opt-bus', questionId: 'q-alu', optionText: 'Address bus', optionOrder: 4 },
-    ],
-  },
-  {
-    id: 'q-cache',
-    testVersionId: 'version-cpu-check-1',
-    questionOrder: 3,
-    questionType: 'true_false',
-    questionText: 'Cache memory is usually faster than main memory.',
-    maxMarks: 1,
-    options: [
-      { id: 'true', questionId: 'q-cache', optionText: 'True', optionOrder: 1 },
-      { id: 'false', questionId: 'q-cache', optionText: 'False', optionOrder: 2 },
-    ],
-  },
-  {
-    id: 'q-fde',
-    testVersionId: 'version-cpu-check-1',
-    questionOrder: 4,
-    questionType: 'short_fixed',
-    questionText: 'Name the cycle where the CPU fetches, decodes and executes instructions.',
-    maxMarks: 1,
-  },
-  {
-    id: 'q-assessment-cu',
-    testVersionId: 'version-cpu-assessment-1',
-    questionOrder: 1,
-    questionType: 'multiple_choice',
-    questionText: 'What is the main purpose of the Control Unit?',
-    maxMarks: 1,
-    options: [
-      { id: 'opt-cu-directs', questionId: 'q-assessment-cu', optionText: 'Directs the operation of the CPU', optionOrder: 1 },
-      { id: 'opt-cu-stores', questionId: 'q-assessment-cu', optionText: 'Stores long-term files', optionOrder: 2 },
-      { id: 'opt-cu-displays', questionId: 'q-assessment-cu', optionText: 'Displays output to the user', optionOrder: 3 },
-      { id: 'opt-cu-cools', questionId: 'q-assessment-cu', optionText: 'Cools the processor', optionOrder: 4 },
-    ],
-  },
-  {
-    id: 'q-assessment-clock',
-    testVersionId: 'version-cpu-assessment-1',
-    questionOrder: 2,
-    questionType: 'multiple_choice',
-    questionText: 'A higher clock speed usually means the CPU can...',
-    maxMarks: 1,
-    options: [
-      { id: 'opt-more-cycles', questionId: 'q-assessment-clock', optionText: 'Run more instruction cycles per second', optionOrder: 1 },
-      { id: 'opt-more-storage', questionId: 'q-assessment-clock', optionText: 'Store more files permanently', optionOrder: 2 },
-      { id: 'opt-more-screen', questionId: 'q-assessment-clock', optionText: 'Improve monitor resolution', optionOrder: 3 },
-      { id: 'opt-more-internet', questionId: 'q-assessment-clock', optionText: 'Increase internet bandwidth', optionOrder: 4 },
-    ],
-  },
-];
+export const units: Unit[] = ocrCourse.map((unit) => ({
+  id: `unit-${unit.unitCode}`,
+  subjectId: 'subject-ocr-cs',
+  unitName: `${unit.unitCode}. ${unit.unitTitle}`,
+}));
+
+export const topics: Topic[] = topicRows.map((topic) => ({
+  id: topic.id,
+  unitId: topic.unitId,
+  topicName: topic.topicName,
+}));
+
+export const tests: Test[] = topicRows.map((topic) => ({
+  id: topic.testId,
+  topicId: topic.id,
+  testTitle: `${topic.topicName} Check`,
+  testDescription: `Placeholder five-question multiple choice check for ${topic.topicName}.`,
+  defaultMode: 'practice',
+  defaultTimeLimitSeconds: 900,
+  randomiseQuestions: true,
+  shuffleOptions: true,
+  status: 'published',
+}));
+
+export const testVersions: TestVersion[] = topicRows.map((topic) => ({
+  id: topic.testVersionId,
+  testId: topic.testId,
+  versionNumber: 1,
+  totalMarks: 5,
+  status: 'published',
+}));
+
+function buildQuestions(topic: TopicRow): Question[] {
+  const prompts = [
+    `Which option best matches the focus of ${topic.topicName}?`,
+    `What should a student revise first for ${topic.topicName}?`,
+    `Which resource belongs with ${topic.topicName}?`,
+    `Which statement is safest to keep as a placeholder for ${topic.topicName}?`,
+    'What is this practice check for?',
+  ];
+  const correctOptions = [
+    `The key ideas and vocabulary for ${topic.topicName}`,
+    `The main definitions, examples and exam command words for ${topic.topicName}`,
+    `A short multiple choice check for ${topic.topicName}`,
+    'This question is dummy content and must be replaced before production',
+    topic.topicName,
+  ];
+
+  return prompts.map((questionText, questionIndex) => {
+    const questionOrder = questionIndex + 1;
+    const questionId = `q-${topic.topicSlug}-${questionOrder}`;
+    return {
+      id: questionId,
+      testVersionId: topic.testVersionId,
+      questionOrder,
+      questionType: 'multiple_choice',
+      questionText,
+      maxMarks: 1,
+      studentExplanation: `Placeholder explanation for ${topic.topicName}. Replace this when production questions are authored.`,
+      options: [
+        {
+          id: `opt-${topic.topicSlug}-${questionOrder}-a`,
+          questionId,
+          optionText: correctOptions[questionIndex],
+          optionOrder: 1,
+        },
+        {
+          id: `opt-${topic.topicSlug}-${questionOrder}-b`,
+          questionId,
+          optionText: 'A randomly chosen item from another course',
+          optionOrder: 2,
+        },
+        {
+          id: `opt-${topic.topicSlug}-${questionOrder}-c`,
+          questionId,
+          optionText: 'A teacher-only planning note',
+          optionOrder: 3,
+        },
+        {
+          id: `opt-${topic.topicSlug}-${questionOrder}-d`,
+          questionId,
+          optionText: 'A finished production question bank',
+          optionOrder: 4,
+        },
+      ],
+    };
+  });
+}
+
+export const questions: Question[] = topicRows.flatMap(buildQuestions);
+
+const assignedTopicSlug = '2-1-architecture-of-the-cpu';
+const assignedTestId = `test-${assignedTopicSlug}`;
+const assignedVersionId = `version-${assignedTopicSlug}-1`;
 
 export const assignments: TestAssignment[] = [
   {
-    id: 'assignment-cpu-8a',
-    testVersionId: 'version-cpu-assessment-1',
+    id: 'assignment-2-1-cpu-8a',
+    testVersionId: assignedVersionId,
     classId: 'class-8a',
-    startAt: '2026-07-07T08:00:00.000Z',
-    dueAt: '2026-07-24T22:59:00.000Z',
-    timeLimitSeconds: 1200,
+    startAt: '2026-07-25T08:00:00.000Z',
+    dueAt: '2026-08-31T22:59:00.000Z',
+    timeLimitSeconds: 900,
     attemptLimit: 1,
     feedbackPolicy: 'score_only',
     status: 'open',
@@ -257,8 +462,8 @@ export const attempts: TestAttempt[] = [
     id: 'attempt-1',
     studentId: 'student-1',
     classIdAtAttempt: 'class-8a',
-    testId: 'test-cpu-check',
-    testVersionId: 'version-cpu-check-1',
+    testId: assignedTestId,
+    testVersionId: assignedVersionId,
     attemptType: 'practice',
     attemptNumber: 1,
     status: 'feedback_released',
@@ -266,9 +471,9 @@ export const attempts: TestAttempt[] = [
     submittedAt: '2026-07-05T09:22:00.000Z',
     durationSeconds: 600,
     timeLimitSeconds: 900,
-    score: 3,
-    maxScore: 4,
-    percentage: 75,
+    score: 4,
+    maxScore: 5,
+    percentage: 80,
     markingStatus: 'marked',
     feedbackStatus: 'released',
     suspiciousEventCount: 1,
@@ -277,8 +482,8 @@ export const attempts: TestAttempt[] = [
     id: 'attempt-2',
     studentId: 'student-2',
     classIdAtAttempt: 'class-8a',
-    testId: 'test-cpu-check',
-    testVersionId: 'version-cpu-check-1',
+    testId: assignedTestId,
+    testVersionId: assignedVersionId,
     attemptType: 'practice',
     attemptNumber: 1,
     status: 'feedback_released',
@@ -286,8 +491,8 @@ export const attempts: TestAttempt[] = [
     submittedAt: '2026-07-04T10:08:00.000Z',
     durationSeconds: 480,
     timeLimitSeconds: 900,
-    score: 4,
-    maxScore: 4,
+    score: 5,
+    maxScore: 5,
     percentage: 100,
     markingStatus: 'marked',
     feedbackStatus: 'released',

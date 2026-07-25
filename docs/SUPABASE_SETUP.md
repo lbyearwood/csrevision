@@ -15,6 +15,13 @@ Audience: Codex agents. The user does not plan to read this. Keep updates direct
 - RLS must stay enabled on every table in the exposed `public` schema.
 - Do not run destructive remote Supabase commands without explicit user approval.
 
+## Dependency Requirement
+
+- Local Supabase requires Docker Desktop with Linux containers / WSL 2 enabled.
+- A second development computer does not need Supabase for frontend-only UI checks, because the app can fall back to demo login/data when `.env.local` is absent.
+- A second development computer does need local Supabase for Auth, RLS, seed data, Edge Function, attempt, account, or backend-security work.
+- Fresh-machine setup steps live in `docs/DEVELOPMENT_SETUP.md`.
+
 ## Verified Local Tooling
 
 - Docker Desktop installed and running.
@@ -37,6 +44,7 @@ Audience: Codex agents. The user does not plan to read this. Keep updates direct
 - There are 29 `public` RLS policies.
 - `.env.local` exists with frontend-safe local URL and publishable key. It is ignored by Git.
 - `supabase/seed.sql` exists and has been applied successfully.
+- `scripts/generate-placeholder-resources.mjs` generates the current placeholder OCR topic map for both `src/data/demoData.ts` and `supabase/seed.sql`.
 - Seeded Auth sign-in verified for teacher and student through `@supabase/supabase-js`.
 - Seeded teacher/student sessions can read the published OCR GCSE Computer Science course through RLS.
 - Frontend sign-in helpers now load role/display name from `public.profiles` after Supabase Auth succeeds.
@@ -167,12 +175,12 @@ profiles=6
 students=5
 classes=2
 subjects=1
-units=2
-topics=3
-tests=2
-versions=2
-questions=8
-options=20
+units=8
+topics=41
+tests=41
+versions=41
+questions=205
+options=820
 assignments=1
 leaderboard_rows=5
 ```

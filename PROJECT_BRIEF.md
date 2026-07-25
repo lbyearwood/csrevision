@@ -25,8 +25,10 @@ This section records material project direction changes, architecture decisions,
 | 2026-07-25 | 0.2 | Confirmed local Supabase/Postgres development as the backend source-of-truth workflow. | Reduce reliance on cloud-only schema management and make the backend reproducible from Git-tracked migrations. |
 | 2026-07-25 | 0.2 | Installed and verified Docker Desktop, pinned Supabase CLI, and local Supabase stack. | Allow local database, Auth, API, Studio, migrations, and RLS testing before cloud deployment. |
 | 2026-07-25 | 0.2 | Updated student Practice architecture to Course -> Unit -> Topic -> Test, while reserving space for future resource types. | Support tests now and future `revision_lesson`, `tutorial`, and `worksheet` resources later without showing unavailable student UI. |
+| 2026-07-25 | 0.2 | Added generated placeholder OCR GCSE Computer Science resource data for 8 units, 41 topics, and one 5-question MCQ practice test per topic. | Enable end-to-end UI and local Supabase testing before authored production question content is ready. |
 | 2026-07-25 | 0.2 | Moved student leaderboard out of Profile into its own page and menu item. | Keep Profile focused on account information and give leaderboard its own navigation surface. |
 | 2026-07-25 | 0.2 | Established the current visual theme rule: light page background, dark top-level cards/chrome, light nested rows/cards. | Improve contrast and visual consistency across student and teacher/admin pages. |
+| 2026-07-25 | 0.2 | Added fresh-machine development setup documentation for Codex, including dependency and local Supabase requirements. | Make the project reproducible when pulled onto another development computer. |
 | 2026-07-25 | 0.2 | Reframed project docs for Codex handoff rather than user reading. | User explicitly wants persistent docs to guide future Codex agents. |
 
 ## Change Control Process

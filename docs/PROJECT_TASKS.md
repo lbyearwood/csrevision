@@ -60,6 +60,8 @@ Codex update protocol:
 - `[x]` Verified seeded teacher and student sessions can read published course data through RLS.
 - `[x]` Updated frontend sign-in helpers to return the active Supabase profile role/display name when Supabase is configured.
 - `[x]` Updated local login defaults to use seeded development credentials.
+- `[x]` Added placeholder OCR resource data: 8 units, 41 numbered topics, 41 practice tests, and 205 five-option MCQs across frontend demo data and local Supabase seed.
+- `[x]` Added `docs/DEVELOPMENT_SETUP.md` with fresh-machine dependencies, frontend-only mode, full local Supabase setup, seed verification, and Codex run commands.
 
 ## Backend: Supabase And Postgres
 
@@ -74,6 +76,7 @@ Codex update protocol:
 - `[x]` Seed subjects, units, topics, tests, test versions, questions, and options.
 - `[x]` Seed assigned assessment data.
 - `[x]` Seed practice test data.
+- `[x]` Seed one placeholder five-question multiple-choice practice test for every confirmed OCR GCSE Computer Science topic.
 - `[ ]` Confirm seed data can be recreated from a clean local reset.
 - `[ ]` Convert `supabase/tests/rls_policies.sql` from checklist notes into executable pgTAP tests.
 - `[ ]` Test that students cannot read other students' data.
@@ -83,6 +86,7 @@ Codex update protocol:
 - `[ ]` Test test-version immutability after attempts exist.
 - `[ ]` Investigate `supabase_vector_csrevision` restart loop and decide whether to exclude it locally or fix Docker log access.
 - `[x]` Document local Supabase start/stop/reset workflow.
+- `[x]` Document when a second development computer needs local Supabase versus frontend-only demo mode.
 - `[ ]` Document backup and restore approach for production data.
 
 ## Backend: Edge Functions
@@ -187,11 +191,13 @@ Codex update protocol:
 
 ## Content
 
-- `[ ]` Confirm first live course: OCR GCSE Computer Science.
-- `[ ]` Confirm unit list.
-- `[ ]` Confirm topic list.
+- `[x]` Confirm first live course: OCR GCSE Computer Science.
+- `[x]` Confirm unit list.
+- `[x]` Confirm topic list.
+- `[x]` Create placeholder tests for every confirmed OCR topic: 41 tests, 5 MCQs each, non-production content.
 - `[ ]` Create first production-ready CPU test.
 - `[ ]` Create additional Hardware topic tests.
+- `[ ]` Replace placeholder tests with authored/reviewed production question content.
 - `[ ]` Define content import workflow for tests/questions/options.
 - `[ ]` Plan future resource types: revision lessons, tutorials, worksheets.
 

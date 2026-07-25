@@ -127,7 +127,9 @@ function StudentHome() {
   const state = useAppState();
   const navigate = useNavigate();
   const assigned = state.assignments[0];
-  const assignedTest = state.tests.find((test) => test.id === 'test-cpu-assessment');
+  const assignedVersion = state.testVersions.find((version) => version.id === assigned?.testVersionId);
+  const assignedTest = state.tests.find((test) => test.id === assignedVersion?.testId);
+  const assignedQuestionCount = state.questions.filter((question) => question.testVersionId === assignedVersion?.id).length;
   const recentAttempts = state.attempts.filter((attempt) => attempt.studentId === state.currentStudent.id);
   const flaggedCount = recentAttempts.reduce((total, attempt) => total + attempt.suspiciousEventCount, 0);
 
@@ -145,22 +147,26 @@ function StudentHome() {
           <h2 className="text-lg font-bold">Assigned Assessments</h2>
           <NavLink className="text-sm font-semibold text-blue" to="/student/assigned">View all</NavLink>
         </div>
-        <button
-          className="w-full rounded-app border border-[#2a3a50] bg-[#14243a] p-4 text-left text-white shadow-panel lg:p-5"
-          onClick={() => {
-            const attempt = state.beginAttempt({ testId: 'test-cpu-assessment', assignmentId: assigned.id });
-            navigate(`/student/test/${attempt.id}`);
-          }}
-        >
-          <div className="flex items-start justify-between gap-3">
-            <div>
-              <p className="font-bold">{assignedTest?.testTitle}</p>
-              <p className="mt-1 text-sm text-[#b8c8d9]">One attempt - 2 questions - 20 pts</p>
-              <p className="mt-3 text-sm">Due: {formatDate(assigned.dueAt)}, 11:59 PM</p>
+        {assigned && assignedTest ? (
+          <button
+            className="w-full rounded-app border border-[#2a3a50] bg-[#14243a] p-4 text-left text-white shadow-panel lg:p-5"
+            onClick={() => {
+              const attempt = state.beginAttempt({ testId: assignedTest.id, assignmentId: assigned.id });
+              navigate(`/student/test/${attempt.id}`);
+            }}
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="font-bold">{assignedTest.testTitle}</p>
+                <p className="mt-1 text-sm text-[#b8c8d9]">
+                  One attempt - {assignedQuestionCount} questions - {assignedVersion?.totalMarks ?? assignedQuestionCount} marks
+                </p>
+                <p className="mt-3 text-sm">Due: {formatDate(assigned.dueAt)}, 11:59 PM</p>
+              </div>
+              <StatusBadge tone="amber">Not Started</StatusBadge>
             </div>
-            <StatusBadge tone="amber">Not Started</StatusBadge>
-          </div>
-        </button>
+          </button>
+        ) : null}
       </section>
 
       <section>
