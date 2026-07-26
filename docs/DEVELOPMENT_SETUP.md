@@ -8,7 +8,7 @@ Audience: Codex agents bootstrapping this repository on a new machine. The user 
 
 1. `docs/HANDOVER.md` for the latest continuation state.
 2. `docs/CODEX_START_PROCESS.md` for the required pull/read/install/run/report startup sequence.
-3. `docs/CODEX_END_PROCESS.md` for the required update-docs/write-handover/commit/push finish sequence.
+3. `docs/CODEX_END_PROCESS.md` for the required update-docs/write-handover/commit-local finish sequence. Push only when explicitly requested.
 4. `docs/PROJECT_TASKS.md` for live tasks and blockers.
 5. `PROJECT_BRIEF.md` for product rules and architecture constraints.
 6. This file for machine setup.
@@ -132,7 +132,7 @@ mkhan7712
 
 ## Verification Commands
 
-Run these before committing or pushing functional changes:
+Run these before committing functional changes:
 
 ```powershell
 npm.cmd run typecheck

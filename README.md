@@ -52,7 +52,7 @@ Deferred to later versions: AI written-answer marking, certificates, CSV import/
 Future Codex agents should start with:
 
 - [docs/CODEX_START_PROCESS.md](docs/CODEX_START_PROCESS.md) for the required pull/read/install/run/report startup sequence.
-- [docs/CODEX_END_PROCESS.md](docs/CODEX_END_PROCESS.md) for the required update-docs/write-handover/commit/push finish sequence.
+- [docs/CODEX_END_PROCESS.md](docs/CODEX_END_PROCESS.md) for the required update-docs/write-handover/commit-local finish sequence. Push only when explicitly requested.
 - [docs/HANDOVER.md](docs/HANDOVER.md) for the current continuation state and fresh-PC bootstrap.
 - [docs/PROJECT_TASKS.md](docs/PROJECT_TASKS.md) for live state, current tasks, and blockers.
 - [PROJECT_BRIEF.md](PROJECT_BRIEF.md) for product rules and long-term architecture constraints.

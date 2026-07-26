@@ -5,6 +5,7 @@ MVP functions:
 - `create-student-account`
 - `suggest-usernames`
 - `reset-student-password`
+- `update-student-account`
 - `start-test-attempt`
 - `save-answer`
 - `submit-test-attempt`
@@ -33,3 +34,12 @@ Function rules:
 Assignment due dates are informational metadata only. `start-test-attempt` must validate assignment status, class membership, start time, and one-attempt/resume rules, but it must not reject a start because `due_at` has passed.
 
 `submit-test-attempt` performs marking server-side and records points/status effects.
+
+Student account management:
+
+- `reset-student-password` must use Supabase Auth Admin from the Edge Function only.
+- `reset-student-password` accepts a manual password with at least 8 characters or returns an exact 8-character generated temporary password.
+- `update-student-account` must verify staff role and teacher access to the student before using the service-role client for profile/student/membership writes.
+- `update-student-account` must verify the target class is active and owned by the requester unless the requester is admin.
+- `update-student-account` archives students instead of hard-deleting them: set profile/student status to `archived`, end active membership, keep attempts/answers/points/events/audit logs.
+- Required audit actions: `student_updated`, `student_class_changed`, `student_status_changed`, `student_archived`, `student_password_reset`.

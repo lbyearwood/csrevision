@@ -15,6 +15,7 @@ Teacher access:
 - Own profile.
 - Classes they own.
 - Students, attempts, answers, events, and reports for owned classes.
+- Direct writes to student profiles and class moves are not allowed through client RLS paths; they must go through audited Edge Functions.
 
 Admin access:
 

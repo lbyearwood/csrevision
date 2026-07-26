@@ -221,3 +221,24 @@ npx.cmd supabase status
 ```
 
 `supabase_imgproxy_csrevision` and `supabase_pooler_csrevision` may still be listed as stopped on this local setup. They did not block the current app QA. `supabase_edge_runtime_csrevision` must be running for active test flows.
+
+## New Local Edge Function Returns 502
+
+### Symptom
+
+After adding a new function under `supabase/functions`, calls through `http://127.0.0.1:54321/functions/v1/<function-name>` return 502 or a host-unreachable style error even though the function code is present.
+
+### Cause
+
+Restarting only the Edge Runtime container can leave Kong routing to stale local container state.
+
+### Fix
+
+Restart the whole local Supabase stack:
+
+```powershell
+npx.cmd supabase stop
+npx.cmd supabase start
+```
+
+Then retry the function call. Docker backup volumes preserve the local DB by default during `supabase stop`.

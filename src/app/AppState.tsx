@@ -34,6 +34,27 @@ interface UpdateClassInput {
   status: ClassRecord['status'];
 }
 
+interface UpdateStudentInput {
+  id: string;
+  firstName: string;
+  surname: string;
+  classId: string;
+  accountStatus: StudentProfile['accountStatus'];
+}
+
+interface ResetStudentPasswordInput {
+  studentId: string;
+  temporaryPassword?: string;
+}
+
+interface UpdateStudentResponse {
+  student: StudentProfile;
+}
+
+interface ResetStudentPasswordResponse {
+  temporaryPassword: string;
+}
+
 interface StartAttemptResponse {
   attemptId: string;
   startedAt: string;
@@ -95,6 +116,9 @@ interface AppStateValue extends SupabaseSnapshot {
   voidAssignedAttempt: (attemptId: string, reason: string) => void;
   createAssignments: (input: CreateAssignmentsInput) => Promise<TestAssignment[]>;
   updateClass: (input: UpdateClassInput) => Promise<ClassRecord>;
+  updateStudent: (input: UpdateStudentInput) => Promise<StudentProfile>;
+  archiveStudent: (studentId: string) => Promise<StudentProfile>;
+  resetStudentPassword: (input: ResetStudentPasswordInput) => Promise<string>;
 }
 
 const SUPABASE_REQUIRED_MESSAGE =
@@ -179,6 +203,25 @@ function mapClassRow(row: ClassRow): ClassRecord {
     ownerTeacherId: row.owner_teacher_id,
     status: row.status,
   };
+}
+
+function nextLeaderboardRows(
+  rows: SupabaseSnapshot['leaderboardRows'],
+  student: StudentProfile,
+  classes: ClassRecord[],
+): SupabaseSnapshot['leaderboardRows'] {
+  if (student.accountStatus === 'archived') {
+    return rows.filter((row) => row.studentId !== student.id);
+  }
+  return rows.map((row) =>
+    row.studentId === student.id
+      ? {
+          ...row,
+          displayName: `${student.firstName.slice(0, 1).toUpperCase()} ${student.surname} - ID ${student.publicStudentId}`,
+          className: classes.find((classRecord) => classRecord.id === student.classId)?.className ?? '',
+        }
+      : row,
+  );
 }
 
 export function AppStateProvider({ children }: { children: ReactNode }) {
@@ -397,6 +440,60 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     return updateSupabaseClass(input);
   };
 
+  const updateSupabaseStudent = async (input: UpdateStudentInput): Promise<StudentProfile> => {
+    const firstName = input.firstName.trim();
+    const surname = input.surname.trim();
+    if (!firstName || !surname) throw new Error('First name and surname are required');
+    if (input.accountStatus !== 'archived' && !input.classId) throw new Error('Class is required');
+
+    const result = await invokeFunction<UpdateStudentResponse>('update-student-account', {
+      studentId: input.id,
+      firstName,
+      surname,
+      classId: input.classId,
+      accountStatus: input.accountStatus,
+    });
+    const updatedStudent = result.student;
+    setSnapshot((current) => ({
+      ...current,
+      students:
+        updatedStudent.accountStatus === 'archived'
+          ? current.students.filter((student) => student.id !== updatedStudent.id)
+          : current.students.map((student) => (student.id === updatedStudent.id ? updatedStudent : student)),
+      leaderboardRows: nextLeaderboardRows(current.leaderboardRows, updatedStudent, current.classes),
+    }));
+    return updatedStudent;
+  };
+
+  const updateStudent = async (input: UpdateStudentInput): Promise<StudentProfile> => {
+    if (!isSupabaseBacked) throw new Error(SUPABASE_REQUIRED_MESSAGE);
+    return updateSupabaseStudent(input);
+  };
+
+  const archiveStudent = async (studentId: string): Promise<StudentProfile> => {
+    if (!isSupabaseBacked) throw new Error(SUPABASE_REQUIRED_MESSAGE);
+    const student = snapshot.students.find((row) => row.id === studentId);
+    if (!student) throw new Error('Student not found');
+    return updateSupabaseStudent({
+      id: student.id,
+      firstName: student.firstName,
+      surname: student.surname,
+      classId: student.classId,
+      accountStatus: 'archived',
+    });
+  };
+
+  const resetStudentPassword = async (input: ResetStudentPasswordInput): Promise<string> => {
+    if (!isSupabaseBacked) throw new Error(SUPABASE_REQUIRED_MESSAGE);
+    const password = input.temporaryPassword?.trim();
+    if (password && password.length < 8) throw new Error('Password must be at least 8 characters');
+    const result = await invokeFunction<ResetStudentPasswordResponse>('reset-student-password', {
+      studentId: input.studentId,
+      ...(password ? { temporaryPassword: password } : {}),
+    });
+    return result.temporaryPassword;
+  };
+
   const saveAnswer = (attemptId: string, questionId: string, answer: string) => {
     if (!isSupabaseBacked) {
       setDataError(SUPABASE_REQUIRED_MESSAGE);
@@ -564,6 +661,9 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     voidAssignedAttempt,
     createAssignments,
     updateClass,
+    updateStudent,
+    archiveStudent,
+    resetStudentPassword,
   };
 
   return <AppStateContext.Provider value={value}>{children}</AppStateContext.Provider>;

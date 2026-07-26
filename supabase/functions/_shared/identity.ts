@@ -18,7 +18,10 @@ export function randomFourDigits(): string {
   return Math.floor(1000 + Math.random() * 9000).toString();
 }
 
-export function generateTemporaryPassword(): string {
-  const suffix = Math.floor(1000 + Math.random() * 9000);
-  return `Learn${suffix}!`;
+const TEMPORARY_PASSWORD_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789';
+
+export function generateTemporaryPassword(length = 8): string {
+  const bytes = new Uint32Array(length);
+  crypto.getRandomValues(bytes);
+  return Array.from(bytes, (value) => TEMPORARY_PASSWORD_CHARS[value % TEMPORARY_PASSWORD_CHARS.length]).join('');
 }

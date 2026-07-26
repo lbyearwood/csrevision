@@ -23,6 +23,11 @@ The active branch is:
 agent/csrevision-accounts-mvp
 ```
 
+Current user instruction:
+
+- Commit completed work locally when appropriate.
+- Do not push unless the user explicitly says `push`.
+
 Clone and enter the branch:
 
 ```powershell
@@ -44,14 +49,19 @@ Current working mode is persist mode:
 
 Recent completed work:
 
-- `supabase/tests/rls_policies.sql` is now an executable pgTAP suite with 25 passing local database tests.
-- The RLS suite verifies student isolation, staff-only question/option protection, teacher ownership boundaries, teacher class-update ownership, anon denial, assigned-attempt uniqueness, and immutability after attempts exist.
+- `supabase/tests/rls_policies.sql` is now an executable pgTAP suite with 28 passing local database tests.
+- The RLS suite verifies student isolation, staff-only question/option protection, teacher ownership boundaries, teacher class-update ownership, teacher direct student-update denial, teacher direct cross-class student move denial, one-active-membership enforcement, anon denial, assigned-attempt uniqueness, and immutability after attempts exist.
+- Teacher Students now supports selected-student editing for first name, surname, current class, active/inactive status, server-side password reset, generated 8-character temporary password, and archive-style delete.
+- `supabase/functions/update-student-account` performs staff-only student updates, class moves, inactive/archive changes, active membership changes, and audit logs.
+- `supabase/functions/reset-student-password` is locally tested for manual and generated password resets through Supabase Auth Admin.
+- `supabase/migrations/20260726223830_add_student_account_management.sql` adds the one-active-class-membership-per-student invariant.
+- Teacher dashboard summaries and Results rows now use `test_attempts.class_id_at_attempt` for historical class reporting. Current rosters and default leaderboards use active class membership and hide archived students.
 - Teacher Classes now supports inline editing for class name, academic year, year group, and status. Saves go through local Supabase `public.classes`; no frontend-only fallback is allowed.
 - Frontend demo fallback was removed. `src/data/demoData.ts` was deleted, auth no longer returns fake users, and `scripts/generate-placeholder-resources.mjs` now writes only `supabase/seed.sql`.
 - Placeholder test resources now use `<topic> test 1` titles and `*-test-1` slugs. There should be zero generated `*-check` test slugs.
 - Teacher assignment creation has topic-level `Select all` / `Clear topic` controls for all tests under a topic.
 - Teacher Assignments contrast was fixed: light dropdowns/date inputs and light nested topic/test rows now explicitly use dark `text-ink` inside dark panels.
-- Codex start and end process docs now define the standard session lifecycle: pull/read/install/run/report at start, then update docs/write handover/commit/push at end.
+- Codex start and end process docs now define the standard session lifecycle: pull/read/install/run/report at start, then update docs/write handover/commit locally at end. Push only when explicitly requested.
 - Teacher Tests page is organized like the student Practice page.
 - Teacher Assignments page is split into `Create assignment` and `Existing assignments`.
 - Teachers can select a class, course, one or more published tests, and an optional due date.
@@ -60,6 +70,7 @@ Recent completed work:
 - Student Assigned page shows persisted assignments for the student's class.
 - Assignment due dates are planning metadata only. They do not block starting or completing a test.
 - `start-test-attempt` no longer checks `due_at`.
+- `update-student-account` archives students instead of hard-deleting. It ends active class memberships and keeps results/audit history.
 
 ## Fresh PC Bootstrap
 
@@ -160,6 +171,13 @@ This fixed `Edge Function returned a non-2xx status code` with response body:
 {"message":"name resolution failed"}
 ```
 
+After adding a new Edge Function, prefer a full local stack restart if Kong returns 502/host-unreachable errors:
+
+```powershell
+npx.cmd supabase stop
+npx.cmd supabase start
+```
+
 `supabase_imgproxy_csrevision` and `supabase_pooler_csrevision` being stopped did not block the app during the latest QA. Edge Runtime being stopped did block test starts.
 
 ## Validation Commands
@@ -176,10 +194,10 @@ npm.cmd run build
 Latest verified checks on this branch:
 
 ```text
-2026-07-26 class details editing update:
+2026-07-26 student account management update:
 npm.cmd run typecheck: passed
 npm.cmd run lint: passed
-npm.cmd run test: passed, 4 files / 11 tests
+npm.cmd run test: passed, 4 files / 12 tests
 npm.cmd run build: passed
 ```
 
@@ -192,8 +210,8 @@ git diff --check: passed
 Latest backend verification on 2026-07-26:
 
 ```text
-npx.cmd supabase test db --local supabase\tests: passed, 25 tests
-New class-update coverage: owned teacher class update allowed; unrelated teacher class update denied.
+npx.cmd supabase test db --local supabase\tests: passed, 28 tests
+Coverage includes one active membership per student, teacher direct student edit denial, and teacher direct cross-class move denial.
 ```
 
 Latest frontend visual QA on 2026-07-26:
@@ -201,6 +219,7 @@ Latest frontend visual QA on 2026-07-26:
 ```text
 Teacher Assignments in in-app Browser with local Supabase data: `1.1 Programming fundamentals test 1` rendered; topic `Select all` changed the summary to `1 tests selected`, topic state to `1/1 selected`, checkbox to checked, and the row to blue; `Clear topic` returned the summary to `0 tests selected`, topic state to `0/1 selected`, and create button to disabled; no console warnings/errors.
 Teacher Classes in in-app Browser with local Supabase data: editing `8A Computing` to temporary details saved, the edited value persisted after re-sign-in, and the seed values were restored to `8A Computing`, `2026/27`, Year `8`; no console warnings/errors.
+Teacher Students in in-app Browser with local Supabase data: page loaded with 5 visible students, selected edit panel rendered name inputs, active-class dropdown, status dropdown, password buttons, and delete button; no console errors. Earlier targeted QA verified class move, inactive login block, manual password login, generated 8-character password generation, and archive-style delete. Seed roster was restored after QA.
 ```
 
 Browser QA that passed:
@@ -229,6 +248,8 @@ The QA-created local rows are only in this machine's local Supabase database. Th
   - `supabase/migrations/20260707202000_mvp_v1_schema.sql`
   - `supabase/seed.sql`
 - Edge Functions:
+  - `supabase/functions/update-student-account/index.ts`
+  - `supabase/functions/reset-student-password/index.ts`
   - `supabase/functions/start-test-attempt/index.ts`
   - `supabase/functions/save-answer/index.ts`
   - `supabase/functions/submit-test-attempt/index.ts`
@@ -238,7 +259,7 @@ The QA-created local rows are only in this machine's local Supabase database. Th
 - Clean reset replay has not been reverified after the pgTAP conversion. Next backend check should run `npx.cmd supabase db reset --local`, then `npx.cmd supabase test db --local supabase\tests`.
 - Browser QA is targeted, not a full regression suite.
 - Student result detail, submit confirmation, timeout auto-submit, offline/interrupted-attempt handling, and accessibility pass are still open.
-- Teacher student creation/editing, password reset, class creation, result detail, and suspicious activity detail need more real backend wiring.
+- Teacher student creation, class creation, result detail, and suspicious activity detail need more real backend wiring.
 - Hard browser reload currently returns to the sign-in screen instead of restoring the existing Supabase auth session into `AppState`. This does not block the class-edit flow, but session restoration should be fixed before wider QA.
 - Placeholder tests are not production content. They exist to exercise the data shape.
 - Production Supabase setup, Edge Function deployment, GitHub Pages env wiring, and production smoke testing are not done.
@@ -252,6 +273,7 @@ Merge teacher `Tests` and `Assignments` into one `Resources` workflow, then plan
 - Use `npm.cmd` and `npx.cmd` in PowerShell.
 - Use local Supabase for backend/security/persistence work.
 - Do not reintroduce frontend-only/demo fallback data or demo login paths before launch.
+- Do not push unless the user explicitly says `push`.
 - Keep migrations as the schema source of truth.
 - Keep RLS enabled on all exposed `public` tables.
 - Do not authorize from user-editable metadata.

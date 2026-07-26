@@ -4,7 +4,7 @@
 **Prepared for:** Codex project build  
 **Prepared by:** ChatGPT  
 **Date:** 07 July 2026  
-**Current brief version:** 0.2  
+**Current brief version:** 0.3
 **Recommended project name:** Student Knowledge Testing Platform  
 **Primary deployment model:** GitHub Pages frontend + Supabase backend  
 **Primary local development model:** Docker Desktop + local Supabase/Postgres via pinned Supabase CLI  
@@ -31,11 +31,13 @@ This section records material project direction changes, architecture decisions,
 | 2026-07-25 | 0.2 | Added fresh-machine development setup documentation for Codex, including dependency and local Supabase requirements. | Make the project reproducible when pulled onto another development computer. |
 | 2026-07-25 | 0.2 | Reframed project docs for Codex handoff rather than user reading. | User explicitly wants persistent docs to guide future Codex agents. |
 | 2026-07-26 | 0.2 | Added a required Codex start process: sync Git, read docs, refresh dependencies, run the site, and report the next task. | Make every new Codex session begin from the same verified project state. |
-| 2026-07-26 | 0.2 | Added a required Codex end process: verify work, update docs, write handover, commit, push, and report next task. | Make every completed Codex session leave the repository and handover state ready for another computer. |
+| 2026-07-26 | 0.2 | Added a required Codex end process: verify work, update docs, write handover, commit locally, push when instructed, and report next task. | Make every completed Codex session leave the repository and handover state ready for another computer while preserving user control over remote updates. |
 | 2026-07-26 | 0.2 | Converted the local RLS checklist into executable pgTAP database tests. | Make student isolation, teacher ownership boundaries, staff-only content protection, assigned-attempt uniqueness, and attempted-content immutability repeatably verifiable. |
 | 2026-07-26 | 0.2 | Removed frontend demo fallback and made local Supabase mandatory for development and QA until launch. | Ensure every visible workflow uses Auth, RLS, seed data, Edge Functions, and persistent backend behaviour. |
 | 2026-07-26 | 0.2 | Adopted generated test naming as `<topic> test 1` and added topic-level bulk selection in teacher assignment creation. | Support multiple tests per topic without using `check` wording or forcing teachers to select each topic test one by one. |
 | 2026-07-26 | 0.2 | Added teacher class details editing backed by local Supabase and RLS tests for class update ownership. | Let teachers maintain class metadata from the Classes page while preserving teacher ownership boundaries. |
+| 2026-07-26 | 0.3 | Added teacher-side student account editing for name, current class, active/inactive status, server-side password reset, and archive-style delete. | Let teachers manage active rosters through local Supabase Edge Functions while preserving historical attempt/results data. |
+| 2026-07-26 | 0.3 | Updated the Codex end process to commit locally and push only when the user explicitly says `push`. | Preserve user control over when this branch updates the remote. |
 
 ## Change Control Process
 

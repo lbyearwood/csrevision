@@ -18,12 +18,15 @@ Deno.serve(async (req) => {
 
     const { data: student, error: studentError } = await service
       .from('student_profiles')
-      .select('id, profiles!inner(auth_user_id, username)')
+      .select('id, profiles!student_profiles_profile_id_fkey(auth_user_id, username)')
       .eq('id', studentId)
       .single();
     if (studentError || !student) throw studentError ?? new Error('Student not found');
 
-    const temporaryPassword = body.temporaryPassword ? String(body.temporaryPassword) : generateTemporaryPassword();
+    const suppliedPassword = typeof body.temporaryPassword === 'string' ? body.temporaryPassword.trim() : '';
+    const temporaryPassword = suppliedPassword || generateTemporaryPassword(8);
+    if (temporaryPassword.length < 8) return errorResponse('Password must be at least 8 characters', 422);
+
     const authUserId = (student.profiles as { auth_user_id: string }).auth_user_id;
     const { error: updateError } = await service.auth.admin.updateUserById(authUserId, {
       password: temporaryPassword,
@@ -35,7 +38,7 @@ Deno.serve(async (req) => {
       action: 'student_password_reset',
       target_type: 'student_profiles',
       target_id: studentId,
-      detail: {},
+      detail: { generated: !suppliedPassword },
     });
 
     return jsonResponse({ temporaryPassword });

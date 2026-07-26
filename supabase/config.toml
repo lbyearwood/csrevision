@@ -19,6 +19,9 @@ verify_jwt = true
 [functions.reset-student-password]
 verify_jwt = true
 
+[functions.update-student-account]
+verify_jwt = true
+
 [functions.start-test-attempt]
 verify_jwt = true
 

@@ -328,6 +328,7 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
     classId: activeClassForStudent.get(student.id) ?? '',
     accountStatus: student.account_status,
   }));
+  const mappedStudentById = new Map(mappedStudents.map((student) => [student.id, student]));
 
   const mappedPoints: PointsTransaction[] = pointsTransactions.map((transaction) => ({
     id: transaction.id,
@@ -456,20 +457,27 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
       eventDetail: event.event_detail ?? undefined,
     })),
     pointsTransactions: mappedPoints,
-    leaderboardRows: leaderboardRows.map((row) => ({
-      rank: row.rank,
-      studentId: row.student_id,
-      displayName: row.display_name,
-      publicStudentId: row.student_public_id,
-      className: row.class_id ? classNameById.get(row.class_id) ?? '' : '',
-      points: row.points,
-      status: row.status_name,
-    })),
+    leaderboardRows: leaderboardRows
+      .filter((row) => mappedStudentById.get(row.student_id)?.accountStatus !== 'archived')
+      .map((row) => {
+        const student = mappedStudentById.get(row.student_id);
+        const currentClassId = student?.classId ?? row.class_id ?? '';
+        return {
+          rank: row.rank,
+          studentId: row.student_id,
+          displayName: student ? leaderboardDisplay(student) : row.display_name,
+          publicStudentId: row.student_public_id,
+          className: currentClassId ? classNameById.get(currentClassId) ?? '' : '',
+          points: row.points,
+          status: row.status_name,
+        };
+      }),
   };
 }
 
 export function buildLeaderboardFromPoints(students: StudentProfile[], classes: ClassRecord[], points: PointsTransaction[]): LeaderboardRow[] {
   return [...students]
+    .filter((student) => student.accountStatus !== 'archived')
     .map((student) => {
       const total = points
         .filter((transaction) => transaction.studentId === student.id)

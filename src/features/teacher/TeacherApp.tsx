@@ -8,14 +8,17 @@ import {
   Download,
   GraduationCap,
   Home,
+  KeyRound,
   LogOut,
   Menu,
   Pencil,
+  RefreshCw,
   Save,
   Search,
   Settings,
   SquareCheck,
   SquareMinus,
+  Trash2,
   Trophy,
   UsersRound,
   X,
@@ -29,6 +32,7 @@ import { Panel } from '../../components/ui/Panel';
 import { StatusBadge } from '../../components/ui/StatusBadge';
 import { leaderboardDisplay } from '../../lib/identity';
 import { formatDate } from '../../lib/time';
+import type { StudentProfile } from '../../types/domain';
 
 const navItems = [
   { to: '/teacher', label: 'Dashboard', icon: Home },
@@ -44,6 +48,7 @@ const darkSubtleText = 'text-[#b8c8d9]';
 const nestedTableFrame = 'overflow-x-auto rounded-app border border-line bg-white text-ink';
 const nestedTableHead = 'border-b border-line bg-mist text-xs text-muted';
 const lightControlClass = 'h-11 w-full rounded-app border border-line bg-white px-3 text-sm text-ink [color-scheme:light]';
+const lightTextareaClass = 'min-h-11 w-full rounded-app border border-line bg-white px-3 py-2 text-sm text-ink [color-scheme:light]';
 
 export function TeacherApp() {
   const { dataError, isLoadingData, isSupabaseBacked, signOut } = useAppState();
@@ -134,9 +139,20 @@ export function TeacherApp() {
 function TeacherDashboard() {
   const state = useAppState();
   const classRecord = state.classes[0];
-  const classStudents = state.students.filter((student) => student.classId === classRecord.id);
-  const completed = state.attempts.filter((attempt) => attempt.status === 'feedback_released').length;
-  const flagged = state.attempts.reduce((total, attempt) => total + attempt.suspiciousEventCount, 0) + state.events.length;
+  if (!classRecord) {
+    return (
+      <div className="space-y-5 p-4 lg:p-6">
+        <Panel className="p-4">
+          <p className="font-bold">No classes available.</p>
+        </Panel>
+      </div>
+    );
+  }
+  const classStudents = state.students.filter((student) => student.classId === classRecord.id && student.accountStatus !== 'archived');
+  const classAttempts = state.attempts.filter((attempt) => attempt.classIdAtAttempt === classRecord.id && attempt.status !== 'voided');
+  const completed = completedAttemptCount(classAttempts);
+  const average = averageAttemptPercentage(classAttempts);
+  const flagged = classAttempts.reduce((total, attempt) => total + attempt.suspiciousEventCount, 0) + state.events.filter((event) => classAttempts.some((attempt) => attempt.id === event.attemptId)).length;
 
   return (
     <div className="space-y-5 p-4 lg:p-6">
@@ -160,7 +176,7 @@ function TeacherDashboard() {
         <Metric label="Students" value={classStudents.length} />
         <Metric label="Tests Assigned" value={state.assignments.length} />
         <Metric label="Tests Completed" value={completed} />
-        <Metric label="Average Score" value="72%" tone="green" />
+        <Metric label="Average Score" value={average === undefined ? '-' : `${average}%`} tone="green" />
         <Metric label="Suspicious Activity" value={flagged} tone="red" />
       </Panel>
 
@@ -183,16 +199,23 @@ function TeacherDashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-line bg-white text-ink">
-                {state.tests.map((test, index) => (
-                  <tr key={test.id}>
-                    <td className="px-3 py-3 font-semibold">{test.testTitle}</td>
-                    <td className="px-3 py-3">{index === 0 ? 'Practice' : '8A'}</td>
-                    <td className="px-3 py-3">{completed}/{classStudents.length}</td>
-                    <td className="px-3 py-3">{index === 0 ? '76%' : '72%'}</td>
-                    <td className="px-3 py-3">{index === 0 ? 320 : 420} pts</td>
-                    <td className="px-3 py-3"><StatusBadge tone={index === 0 ? 'amber' : 'red'}>{index + 1}</StatusBadge></td>
-                  </tr>
-                ))}
+                {state.tests.map((test) => {
+                  const testAttempts = classAttempts.filter((attempt) => attempt.testId === test.id);
+                  const testCompleted = completedAttemptCount(testAttempts);
+                  const testAverage = averageAttemptPercentage(testAttempts);
+                  const points = testAttempts.reduce((total, attempt) => total + (attempt.pointsAwarded ?? 0), 0);
+                  const testFlagged = testAttempts.reduce((total, attempt) => total + attempt.suspiciousEventCount, 0);
+                  return (
+                    <tr key={test.id}>
+                      <td className="px-3 py-3 font-semibold">{test.testTitle}</td>
+                      <td className="px-3 py-3">{test.defaultMode === 'practice' ? 'Practice' : classRecord.className}</td>
+                      <td className="px-3 py-3">{testCompleted}/{classStudents.length}</td>
+                      <td className="px-3 py-3">{testAverage === undefined ? '-' : `${testAverage}%`}</td>
+                      <td className="px-3 py-3">{points} pts</td>
+                      <td className="px-3 py-3"><StatusBadge tone={testFlagged ? 'amber' : 'neutral'}>{testFlagged}</StatusBadge></td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>
@@ -204,7 +227,7 @@ function TeacherDashboard() {
             <AlertTriangle className="text-amber" size={20} />
           </div>
           <div className="space-y-3">
-            {state.students.slice(0, 3).map((student, index) => (
+            {state.students.filter((student) => student.accountStatus !== 'archived').slice(0, 3).map((student, index) => (
               <div className="rounded-app border border-line bg-white p-3 text-sm text-ink" key={student.id}>
                 <div className="flex items-start justify-between gap-3">
                   <div>
@@ -262,7 +285,7 @@ function TeacherDashboard() {
           <SummaryRow label="Active This Week" value="25 (89%)" />
           <SummaryRow label="Tests Assigned" value={state.assignments.length.toString()} />
           <SummaryRow label="Tests Completed" value={`${completed} (${Math.round((completed / Math.max(classStudents.length, 1)) * 100)}%)`} />
-          <SummaryRow label="Average Score" value="72%" />
+          <SummaryRow label="Average Score" value={average === undefined ? '-' : `${average}%`} />
           <Button className="mt-4 w-full" variant="secondary"><Download size={16} /> Export Report</Button>
         </Panel>
       </div>
@@ -277,6 +300,24 @@ function SummaryRow({ label, value }: { label: string; value: string }) {
       <span className="font-bold">{value}</span>
     </div>
   );
+}
+
+function accountStatusTone(status: StudentProfile['accountStatus']): 'green' | 'amber' | 'neutral' {
+  if (status === 'active') return 'green';
+  if (status === 'inactive') return 'amber';
+  return 'neutral';
+}
+
+function completedAttemptCount(attempts: ReturnType<typeof useAppState>['attempts']): number {
+  return attempts.filter((attempt) => ['feedback_released', 'marked', 'submitted', 'timed_out'].includes(attempt.status)).length;
+}
+
+function averageAttemptPercentage(attempts: ReturnType<typeof useAppState>['attempts']): number | undefined {
+  const scores = attempts
+    .map((attempt) => attempt.percentage)
+    .filter((score): score is number => typeof score === 'number');
+  if (!scores.length) return undefined;
+  return Math.round(scores.reduce((total, score) => total + score, 0) / scores.length);
 }
 
 function ClassesPage() {
@@ -340,7 +381,7 @@ function ClassesPage() {
       <div className="grid gap-4 lg:grid-cols-2">
         {state.classes.map((classRecord) => {
           const isEditing = editingClassId === classRecord.id;
-          const activeStudentCount = state.students.filter((student) => student.classId === classRecord.id).length;
+          const activeStudentCount = state.students.filter((student) => student.classId === classRecord.id && student.accountStatus !== 'archived').length;
           return (
             <Panel className="p-4" key={classRecord.id}>
               <div className="flex items-start justify-between gap-3">
@@ -426,36 +467,282 @@ function ClassesPage() {
 
 function StudentsPage() {
   const state = useAppState();
+  const visibleStudents = useMemo(
+    () => state.students.filter((student) => student.accountStatus !== 'archived'),
+    [state.students],
+  );
+  const activeClasses = useMemo(() => state.classes.filter((classRecord) => classRecord.status === 'active'), [state.classes]);
+  const [selectedStudentId, setSelectedStudentId] = useState('');
+  const selectedStudent = visibleStudents.find((student) => student.id === selectedStudentId) ?? null;
+  const [draft, setDraft] = useState({
+    firstName: '',
+    surname: '',
+    classId: '',
+    accountStatus: 'active' as StudentProfile['accountStatus'],
+  });
+  const [manualPassword, setManualPassword] = useState('');
+  const [temporaryPassword, setTemporaryPassword] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    if (!visibleStudents.length) {
+      setSelectedStudentId('');
+      return;
+    }
+    if (!selectedStudentId || !visibleStudents.some((student) => student.id === selectedStudentId)) {
+      setSelectedStudentId(visibleStudents[0].id);
+    }
+  }, [selectedStudentId, visibleStudents]);
+
+  useEffect(() => {
+    if (!selectedStudent) return;
+    setDraft({
+      firstName: selectedStudent.firstName,
+      surname: selectedStudent.surname,
+      classId: selectedStudent.classId || activeClasses[0]?.id || '',
+      accountStatus: selectedStudent.accountStatus,
+    });
+    setManualPassword('');
+    setTemporaryPassword('');
+    setMessage('');
+    setError('');
+  }, [activeClasses, selectedStudent]);
+
+  const selectStudent = (studentId: string) => {
+    setSelectedStudentId(studentId);
+  };
+
+  const saveStudent = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!selectedStudent) return;
+    try {
+      setIsSaving(true);
+      setMessage('');
+      setError('');
+      const updatedStudent = await state.updateStudent({
+        id: selectedStudent.id,
+        firstName: draft.firstName,
+        surname: draft.surname,
+        classId: draft.classId,
+        accountStatus: draft.accountStatus,
+      });
+      setMessage(`${updatedStudent.firstName} ${updatedStudent.surname} updated.`);
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : 'Unable to update student');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const resetPassword = async (useGeneratedPassword: boolean) => {
+    if (!selectedStudent) return;
+    try {
+      setIsSaving(true);
+      setMessage('');
+      setError('');
+      const newPassword = await state.resetStudentPassword({
+        studentId: selectedStudent.id,
+        temporaryPassword: useGeneratedPassword ? undefined : manualPassword,
+      });
+      setTemporaryPassword(newPassword);
+      setManualPassword('');
+      setMessage(`Password reset for ${selectedStudent.firstName} ${selectedStudent.surname}.`);
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : 'Unable to reset password');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const archiveStudent = async () => {
+    if (!selectedStudent) return;
+    const confirmed = window.confirm(`Delete ${selectedStudent.firstName} ${selectedStudent.surname} from active students? Their past results will be kept.`);
+    if (!confirmed) return;
+    try {
+      setIsSaving(true);
+      setMessage('');
+      setError('');
+      await state.archiveStudent(selectedStudent.id);
+      setMessage(`${selectedStudent.firstName} ${selectedStudent.surname} deleted from active students.`);
+      setSelectedStudentId('');
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : 'Unable to delete student');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   return (
     <TeacherPage title="Students">
-      <Panel className="p-4">
-        <div className={nestedTableFrame}>
-          <table className="w-full min-w-[720px] text-left text-sm">
-          <thead className={nestedTableHead}>
-            <tr>
-              <th className="px-4 py-3">Full name</th>
-              <th className="px-3 py-3">Username</th>
-              <th className="px-3 py-3">Student ID</th>
-              <th className="px-3 py-3">Class</th>
-              <th className="px-3 py-3">Status</th>
-              <th className="px-3 py-3">Password</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-line">
-            {state.students.map((student) => (
-              <tr key={student.id}>
-                <td className="px-4 py-3 font-semibold">{student.firstName} {student.surname}</td>
-                <td className="px-3 py-3">{student.username}</td>
-                <td className="px-3 py-3">{student.publicStudentId}</td>
-                <td className="px-3 py-3">{state.classes.find((item) => item.id === student.classId)?.className}</td>
-                <td className="px-3 py-3"><StatusBadge tone="green">{student.accountStatus}</StatusBadge></td>
-                <td className="px-3 py-3"><Button variant="secondary" className="min-h-9 px-3">Reset</Button></td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        </div>
-      </Panel>
+      {message ? <p className="rounded-app bg-[#e7f7ef] p-3 text-sm font-semibold text-green">{message}</p> : null}
+      {error ? <p className="rounded-app bg-[#fff1f1] p-3 text-sm font-semibold text-danger">{error}</p> : null}
+      <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_420px]">
+        <Panel className="p-4">
+          <div className={nestedTableFrame}>
+            <table className="w-full table-fixed text-left text-sm">
+              <colgroup>
+                <col className="w-[28%]" />
+                <col className="w-[20%]" />
+                <col className="w-[13%]" />
+                <col className="w-[25%]" />
+                <col className="w-[14%]" />
+              </colgroup>
+              <thead className={nestedTableHead}>
+                <tr>
+                  <th className="px-3 py-3">Full name</th>
+                  <th className="px-2 py-3">Username</th>
+                  <th className="px-2 py-3">ID</th>
+                  <th className="px-2 py-3">Class</th>
+                  <th className="px-2 py-3">Status</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-line bg-white text-ink">
+                {visibleStudents.map((student) => {
+                  const isSelected = selectedStudent?.id === student.id;
+                  return (
+                    <tr
+                      aria-selected={isSelected}
+                      className={`cursor-pointer transition ${isSelected ? 'bg-[#eef6ff]' : 'hover:bg-mist'}`}
+                      key={student.id}
+                      onClick={() => selectStudent(student.id)}
+                      onKeyDown={(event) => {
+                        if (event.key === 'Enter' || event.key === ' ') selectStudent(student.id);
+                      }}
+                      role="button"
+                      tabIndex={0}
+                    >
+                      <td className="truncate px-3 py-3 font-semibold">{student.firstName} {student.surname}</td>
+                      <td className="truncate px-2 py-3">{student.username}</td>
+                      <td className="truncate px-2 py-3">{student.publicStudentId}</td>
+                      <td className="truncate px-2 py-3">{state.classes.find((item) => item.id === student.classId)?.className ?? '-'}</td>
+                      <td className="px-2 py-3"><StatusBadge tone={accountStatusTone(student.accountStatus)}>{student.accountStatus}</StatusBadge></td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          </div>
+          {!visibleStudents.length ? (
+            <p className="mt-4 rounded-app border border-line bg-white p-3 text-sm text-ink">No active or inactive students are available.</p>
+          ) : null}
+        </Panel>
+
+        <Panel className="p-4">
+          {selectedStudent ? (
+            <form className="space-y-4" onSubmit={saveStudent}>
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-normal text-[#b8c8d9]">Selected student</p>
+                <h2 className="mt-1 text-xl font-bold">{selectedStudent.firstName} {selectedStudent.surname}</h2>
+                <p className="mt-1 text-sm text-[#b8c8d9]">ID {selectedStudent.publicStudentId} - {selectedStudent.username}</p>
+              </div>
+
+              <div className="rounded-app border border-line bg-white p-3 text-ink">
+                <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
+                  <label className="space-y-2 text-sm font-semibold">
+                    <span>First name</span>
+                    <input
+                      className={lightControlClass}
+                      value={draft.firstName}
+                      onChange={(event) => setDraft((current) => ({ ...current, firstName: event.target.value }))}
+                      required
+                    />
+                  </label>
+                  <label className="space-y-2 text-sm font-semibold">
+                    <span>Surname</span>
+                    <input
+                      className={lightControlClass}
+                      value={draft.surname}
+                      onChange={(event) => setDraft((current) => ({ ...current, surname: event.target.value }))}
+                      required
+                    />
+                  </label>
+                  <label className="space-y-2 text-sm font-semibold">
+                    <span>Class</span>
+                    <select
+                      className={lightControlClass}
+                      value={draft.classId}
+                      onChange={(event) => setDraft((current) => ({ ...current, classId: event.target.value }))}
+                      required
+                    >
+                      {activeClasses.map((classRecord) => (
+                        <option key={classRecord.id} value={classRecord.id}>
+                          {classRecord.className}
+                        </option>
+                      ))}
+                    </select>
+                  </label>
+                  <label className="space-y-2 text-sm font-semibold">
+                    <span>Status</span>
+                    <select
+                      className={lightControlClass}
+                      value={draft.accountStatus}
+                      onChange={(event) =>
+                        setDraft((current) => ({ ...current, accountStatus: event.target.value as StudentProfile['accountStatus'] }))
+                      }
+                    >
+                      <option value="active">Active</option>
+                      <option value="inactive">Inactive</option>
+                    </select>
+                  </label>
+                </div>
+                <Button className="mt-4 w-full" disabled={isSaving} type="submit">
+                  <Save size={16} aria-hidden="true" />
+                  {isSaving ? 'Saving...' : 'Save student'}
+                </Button>
+              </div>
+
+              <div className="rounded-app border border-line bg-white p-3 text-ink">
+                <div className="flex items-center gap-2">
+                  <KeyRound size={18} aria-hidden="true" />
+                  <h3 className="font-bold">Password</h3>
+                </div>
+                <label className="mt-3 block space-y-2 text-sm font-semibold">
+                  <span>New password</span>
+                  <input
+                    className={lightControlClass}
+                    minLength={8}
+                    onChange={(event) => setManualPassword(event.target.value)}
+                    placeholder="8 characters minimum"
+                    type="text"
+                    value={manualPassword}
+                  />
+                </label>
+                <div className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-1">
+                  <Button disabled={isSaving || manualPassword.trim().length < 8} type="button" variant="secondary" onClick={() => resetPassword(false)}>
+                    <KeyRound size={16} aria-hidden="true" />
+                    Set password
+                  </Button>
+                  <Button disabled={isSaving} type="button" variant="secondary" onClick={() => resetPassword(true)}>
+                    <RefreshCw size={16} aria-hidden="true" />
+                    Generate 8 chars
+                  </Button>
+                </div>
+                {temporaryPassword ? (
+                  <label className="mt-3 block space-y-2 text-sm font-semibold">
+                    <span>Temporary password</span>
+                    <textarea className={lightTextareaClass} readOnly value={temporaryPassword} />
+                  </label>
+                ) : null}
+              </div>
+
+              <div className="rounded-app border border-[#ffd2d2] bg-[#fff7f7] p-3 text-ink">
+                <h3 className="font-bold text-danger">Delete student</h3>
+                <p className="mt-1 text-sm text-muted">The account is archived and past results stay in reports.</p>
+                <Button className="mt-3 w-full" disabled={isSaving} type="button" variant="danger" onClick={archiveStudent}>
+                  <Trash2 size={16} aria-hidden="true" />
+                  Delete student
+                </Button>
+              </div>
+            </form>
+          ) : (
+            <div className="rounded-app border border-line bg-white p-4 text-ink">
+              <p className="font-bold">Select a student</p>
+            </div>
+          )}
+        </Panel>
+      </div>
     </TeacherPage>
   );
 }
@@ -1017,6 +1304,7 @@ function ResultsPage() {
           <thead className={nestedTableHead}>
             <tr>
               <th className="px-4 py-3">Student</th>
+              <th className="px-3 py-3">Class at attempt</th>
               <th className="px-3 py-3">Test</th>
               <th className="px-3 py-3">Status</th>
               <th className="px-3 py-3">Score</th>
@@ -1028,9 +1316,11 @@ function ResultsPage() {
             {state.attempts.map((attempt) => {
               const student = state.students.find((item) => item.id === attempt.studentId) ?? state.currentStudent;
               const test = state.tests.find((item) => item.id === attempt.testId);
+              const attemptClass = state.classes.find((item) => item.id === attempt.classIdAtAttempt);
               return (
                 <tr key={attempt.id}>
                   <td className="px-4 py-3 font-semibold">{leaderboardDisplay(student)}</td>
+                  <td className="px-3 py-3">{attemptClass?.className ?? '-'}</td>
                   <td className="px-3 py-3">{test?.testTitle}</td>
                   <td className="px-3 py-3">{attempt.status}</td>
                   <td className="px-3 py-3">{attempt.percentage ?? '-'}%</td>

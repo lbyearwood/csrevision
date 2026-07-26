@@ -5,7 +5,7 @@ create extension if not exists pgtap with schema extensions;
 grant usage on schema extensions to authenticated, anon;
 grant execute on all functions in schema extensions to authenticated, anon;
 
-select plan(25);
+select plan(28);
 
 create temp table rls_test_refs as
 select
@@ -284,6 +284,18 @@ select ok(
   'teacher can read students in their owned class'
 );
 
+with updated as (
+  update public.student_profiles
+  set first_name = 'Direct'
+  where id = '30000000-0000-4000-8000-000000000101'
+  returning id
+)
+select is(
+  (select count(*)::integer from updated),
+  0,
+  'teacher cannot update student profiles directly'
+);
+
 select ok(
   (select count(*) from public.questions) > 0,
   'teacher can read staff-only questions'
@@ -310,6 +322,18 @@ select is(
   (select count(*)::integer from updated),
   0,
   'teacher cannot update another teacher class'
+);
+
+with updated as (
+  update public.class_memberships
+  set class_id = '40000000-0000-4000-8000-000000000201'
+  where id = '41000000-0000-4000-8000-000000000101'
+  returning id
+)
+select is(
+  (select count(*)::integer from updated),
+  0,
+  'teacher cannot directly move a student into another teacher class'
 );
 
 select is(
@@ -342,6 +366,21 @@ select throws_ok(
 );
 
 reset role;
+
+select throws_ok(
+  $$
+    insert into public.class_memberships (id, class_id, student_id, status)
+    values (
+      '41000000-0000-4000-8000-000000000901',
+      '40000000-0000-4000-8000-000000000002',
+      '30000000-0000-4000-8000-000000000101',
+      'active'
+    )
+  $$,
+  '23505'::char(5),
+  null,
+  'one active class membership per student is enforced'
+);
 
 insert into public.test_attempts (
   id,

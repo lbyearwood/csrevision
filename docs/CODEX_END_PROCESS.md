@@ -2,7 +2,7 @@
 
 Last updated: 2026-07-26
 
-Audience: every Codex agent finishing work on this repository. The user does not plan to read this. Follow this before ending a session after any project/code/doc changes, unless the user explicitly asks not to commit or push.
+Audience: every Codex agent finishing work on this repository. The user does not plan to read this. Follow this before ending a session after any project/code/doc changes, unless the user explicitly asks not to commit.
 
 ## Required End Sequence
 
@@ -107,7 +107,7 @@ git diff --cached --stat
 git status --short
 ```
 
-### 6. Commit And Push
+### 6. Commit Locally
 
 Commit with a short, accurate message:
 
@@ -115,13 +115,15 @@ Commit with a short, accurate message:
 git commit -m "<short summary>"
 ```
 
-Push the active branch:
+Do not push by default. Push only when the latest user instruction explicitly says `push`.
+
+When pushing is explicitly requested, push the active branch:
 
 ```powershell
 git push -u origin agent/csrevision-accounts-mvp
 ```
 
-If there are no changes, do not create an empty commit. Report that there was nothing to push.
+If there are no changes, do not create an empty commit. Report that there was nothing to commit.
 
 If push fails, write the failure and recovery action in the final response. Do not pretend the remote is updated.
 
@@ -132,7 +134,7 @@ The final response must include:
 - what changed
 - checks run and whether they passed
 - commit hash if committed
-- push status
+- push status, explicitly `not pushed` unless a push was requested and succeeded
 - whether the working tree is clean
 - next recommended task
 
@@ -147,7 +149,7 @@ docs/PROJECT_TASKS.md
 docs/HANDOVER.md
 ```
 
-Then commit and push the active branch unless the user explicitly says not to.
+Then commit the active branch locally. Push only when the user explicitly says `push`.
 
 ## Do Not Skip
 
