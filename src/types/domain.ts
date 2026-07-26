@@ -115,8 +115,8 @@ export interface TestAssignment {
   dueAt: string;
   timeLimitSeconds: number;
   attemptLimit: number;
-  feedbackPolicy: 'score_only' | 'full_review' | 'delayed' | 'hidden';
-  status: 'scheduled' | 'open' | 'closed';
+  feedbackPolicy: 'score_only' | 'score_and_summary' | 'full_review' | 'delayed' | 'teacher_released' | 'hidden';
+  status: 'scheduled' | 'open' | 'closed' | 'archived';
 }
 
 export interface TestAttempt {

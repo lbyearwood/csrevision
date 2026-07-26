@@ -1,21 +1,22 @@
 import {
   AlertTriangle,
+  ArrowLeft,
   BarChart3,
   BookOpenCheck,
+  ChevronRight,
   ClipboardList,
   Download,
   GraduationCap,
   Home,
   LogOut,
   Menu,
-  RotateCcw,
   Search,
   Settings,
   Trophy,
   UsersRound,
 } from 'lucide-react';
 import { Route, Routes, NavLink } from 'react-router-dom';
-import type { ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import { useAppState } from '../../app/AppState';
 import { Button } from '../../components/ui/Button';
 import { Metric } from '../../components/ui/Metric';
@@ -332,47 +333,509 @@ function StudentsPage() {
 
 function TestsPage() {
   const state = useAppState();
+  const [selectedSubjectId, setSelectedSubjectId] = useState<string | null>(null);
+  const [selectedUnitId, setSelectedUnitId] = useState<string | null>(null);
+  const testResources = useMemo(
+    () =>
+      state.tests.map((test) => ({
+        ...test,
+        version: state.testVersions.find((version) => version.testId === test.id && version.status === 'published') ?? state.testVersions.find((version) => version.testId === test.id),
+      })),
+    [state.testVersions, state.tests],
+  );
+  const selectedSubject = state.subjects.find((subject) => subject.id === selectedSubjectId);
+  const selectedUnit = state.units.find((unit) => unit.id === selectedUnitId);
+  const subjectUnits = state.units.filter((unit) => unit.subjectId === selectedSubjectId);
+  const unitTopics = state.topics.filter((topic) => topic.unitId === selectedUnitId);
+
+  const countTopicsForSubject = (subjectId: string) => {
+    const unitIds = new Set(state.units.filter((unit) => unit.subjectId === subjectId).map((unit) => unit.id));
+    return state.topics.filter((topic) => unitIds.has(topic.unitId)).length;
+  };
+
+  const countTestsForSubject = (subjectId: string) => {
+    const unitIds = new Set(state.units.filter((unit) => unit.subjectId === subjectId).map((unit) => unit.id));
+    const topicIds = new Set(state.topics.filter((topic) => unitIds.has(topic.unitId)).map((topic) => topic.id));
+    return testResources.filter((test) => topicIds.has(test.topicId)).length;
+  };
+
+  const countTestsForUnit = (unitId: string) => {
+    const topicIds = new Set(state.topics.filter((topic) => topic.unitId === unitId).map((topic) => topic.id));
+    return testResources.filter((test) => topicIds.has(test.topicId)).length;
+  };
+
+  const resetToCourses = () => {
+    setSelectedSubjectId(null);
+    setSelectedUnitId(null);
+  };
+
   return (
     <TeacherPage title="Tests">
-      <div className="grid gap-4 lg:grid-cols-2">
-        {state.tests.map((test) => (
-          <Panel className="p-4" key={test.id}>
-            <p className={`text-xs font-semibold ${darkSubtleText}`}>{'Subject -> Unit -> Topic'}</p>
-            <h2 className="mt-2 font-bold">{test.testTitle}</h2>
-            <p className={`mt-1 text-sm ${darkSubtleText}`}>{test.testDescription}</p>
-            <p className="mt-3 text-sm">Published versions are immutable once attempts exist.</p>
-          </Panel>
-        ))}
+      <div className="flex items-start justify-between gap-3">
+        <p className="text-sm text-muted">Browse courses, then choose a unit, topic and test resource.</p>
+        {selectedSubject ? (
+          <Button className="min-h-10 px-3" variant="dark" onClick={resetToCourses}>
+            <ArrowLeft size={17} aria-hidden="true" />
+            Courses
+          </Button>
+        ) : null}
       </div>
+
+      {!selectedSubject ? (
+        <div className="grid gap-4 lg:grid-cols-2">
+          {state.subjects.map((subject) => {
+            const testCount = countTestsForSubject(subject.id);
+            return (
+              <button
+                className="rounded-app border border-[#2a3a50] bg-[#14243a] p-4 text-left text-white shadow-panel transition hover:border-blue hover:shadow-none lg:p-5"
+                key={subject.id}
+                onClick={() => setSelectedSubjectId(subject.id)}
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-semibold text-[#b8c8d9]">Course</p>
+                    <h2 className="mt-2 font-bold">{subject.subjectName}</h2>
+                    <p className="mt-1 text-sm text-[#b8c8d9]">{subject.description}</p>
+                  </div>
+                  <ChevronRight className="mt-1 text-blue" size={20} aria-hidden="true" />
+                </div>
+                <div className="mt-4 grid grid-cols-2 gap-2 text-xs font-semibold text-[#b8c8d9]">
+                  <span>{state.units.filter((unit) => unit.subjectId === subject.id).length} units</span>
+                  <span>{countTopicsForSubject(subject.id)} topics</span>
+                  <span className="col-span-2 text-white">{testCount} test resources</span>
+                </div>
+              </button>
+            );
+          })}
+        </div>
+      ) : null}
+
+      {selectedSubject && !selectedUnit ? (
+        <div className="space-y-4">
+          <h2 className="font-bold">Units in {selectedSubject.subjectName}</h2>
+          <div className="grid gap-4 lg:grid-cols-2">
+            {subjectUnits.map((unit) => (
+              <button
+                className="rounded-app border border-[#2a3a50] bg-[#14243a] p-4 text-left text-white shadow-panel transition hover:border-blue hover:shadow-none lg:p-5"
+                key={unit.id}
+                onClick={() => setSelectedUnitId(unit.id)}
+              >
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-semibold text-[#b8c8d9]">Unit</p>
+                    <h2 className="mt-2 font-bold">{unit.unitName}</h2>
+                    <p className="mt-1 text-sm text-[#b8c8d9]">
+                      {state.topics.filter((topic) => topic.unitId === unit.id).length} topics - {countTestsForUnit(unit.id)} test resources
+                    </p>
+                  </div>
+                  <ChevronRight className="mt-1 text-blue" size={20} aria-hidden="true" />
+                </div>
+              </button>
+            ))}
+          </div>
+        </div>
+      ) : null}
+
+      {selectedSubject && selectedUnit ? (
+        <div className="space-y-4">
+          <div className="flex items-center justify-between gap-3">
+            <h2 className="font-bold">Topics in {selectedUnit.unitName}</h2>
+            <Button className="min-h-10 px-3" variant="ghost" onClick={() => setSelectedUnitId(null)}>
+              <ArrowLeft size={17} aria-hidden="true" />
+              Units
+            </Button>
+          </div>
+          <div className="grid gap-4 lg:grid-cols-2">
+            {unitTopics.map((topic) => {
+              const topicTests = testResources.filter((test) => test.topicId === topic.id);
+              return (
+                <Panel className="p-4 lg:p-5" key={topic.id}>
+                  <p className="text-xs font-semibold text-[#b8c8d9]">Topic</p>
+                  <h2 className="mt-2 font-bold">{topic.topicName}</h2>
+
+                  <div className="mt-4 space-y-3">
+                    {topicTests.length ? (
+                      topicTests.map((test) => {
+                        const questionCount = test.version ? state.questions.filter((question) => question.testVersionId === test.version?.id).length : 0;
+                        return (
+                          <div className="rounded-app border border-line bg-white p-3 text-ink" key={test.id}>
+                            <div className="flex items-start justify-between gap-3">
+                              <div>
+                                <p className="text-xs font-semibold text-blue">Test</p>
+                                <h3 className="mt-1 text-sm font-bold">{test.testTitle}</h3>
+                                <p className="mt-1 text-xs text-muted">{test.testDescription}</p>
+                              </div>
+                              <StatusBadge tone={test.status === 'published' ? 'green' : test.status === 'draft' ? 'amber' : 'neutral'}>
+                                {test.status === 'published' ? 'Published' : test.status === 'draft' ? 'Draft' : 'Archived'}
+                              </StatusBadge>
+                            </div>
+                            <div className="mt-3 grid grid-cols-3 gap-2 text-xs text-muted">
+                              <span>{test.version ? `v${test.version.versionNumber}` : 'No version'}</span>
+                              <span>{questionCount} questions</span>
+                              <span>{Math.round(test.defaultTimeLimitSeconds / 60)} min</span>
+                            </div>
+                          </div>
+                        );
+                      })
+                    ) : (
+                      <p className="rounded-app border border-dashed border-line bg-white p-3 text-sm text-muted">
+                        No tests are available for this topic yet.
+                      </p>
+                    )}
+                  </div>
+                </Panel>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
     </TeacherPage>
   );
 }
 
+type AssignmentTab = 'create' | 'existing';
+
+function dueDateInputToIso(value: string): string | undefined {
+  if (!value) return undefined;
+  return new Date(`${value}T23:59:00`).toISOString();
+}
+
+function assignmentSortTime(value: string): number {
+  return value ? new Date(value).getTime() : 0;
+}
+
 function AssignmentsPage() {
   const state = useAppState();
+  const [activeTab, setActiveTab] = useState<AssignmentTab>('create');
+  const [createClassId, setCreateClassId] = useState(() => state.classes[0]?.id ?? '');
+  const [createSubjectId, setCreateSubjectId] = useState(() => state.subjects[0]?.id ?? '');
+  const [historyClassId, setHistoryClassId] = useState('');
+  const [historySubjectId, setHistorySubjectId] = useState(() => state.subjects[0]?.id ?? '');
+  const dueDateInputRef = useRef<HTMLInputElement>(null);
+  const [selectedVersionIds, setSelectedVersionIds] = useState<string[]>([]);
+  const [isSaving, setIsSaving] = useState(false);
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const firstClassId = state.classes[0]?.id ?? '';
+    const firstSubjectId = state.subjects[0]?.id ?? '';
+    if ((!createClassId && firstClassId) || (createClassId && !state.classes.some((classRecord) => classRecord.id === createClassId))) {
+      setCreateClassId(firstClassId);
+    }
+    if (historyClassId && !state.classes.some((classRecord) => classRecord.id === historyClassId)) {
+      setHistoryClassId('');
+    }
+    if ((!createSubjectId && firstSubjectId) || (createSubjectId && !state.subjects.some((subject) => subject.id === createSubjectId))) {
+      setCreateSubjectId(firstSubjectId);
+      setSelectedVersionIds([]);
+    }
+    if ((!historySubjectId && firstSubjectId) || (historySubjectId && !state.subjects.some((subject) => subject.id === historySubjectId))) {
+      setHistorySubjectId(firstSubjectId);
+    }
+  }, [createClassId, createSubjectId, historyClassId, historySubjectId, state.classes, state.subjects]);
+
+  const publishedTests = useMemo(
+    () =>
+      state.tests.flatMap((test) => {
+        const version = state.testVersions.find((row) => row.testId === test.id && row.status === 'published');
+        return test.status === 'published' && version ? [{ ...test, version }] : [];
+      }),
+    [state.testVersions, state.tests],
+  );
+  const createUnits = state.units.filter((unit) => unit.subjectId === createSubjectId);
+  const historyUnits = state.units.filter((unit) => unit.subjectId === historySubjectId);
+  const selectedVersions = useMemo(() => new Set(selectedVersionIds), [selectedVersionIds]);
+  const selectedClass = state.classes.find((classRecord) => classRecord.id === createClassId);
+
+  const toggleVersion = (versionId: string) => {
+    setSelectedVersionIds((current) =>
+      current.includes(versionId) ? current.filter((id) => id !== versionId) : [...current, versionId],
+    );
+    setMessage('');
+    setError('');
+  };
+
+  const createAssignments = async () => {
+    try {
+      setError('');
+      setMessage('');
+      setIsSaving(true);
+      const created = await state.createAssignments({
+        classId: createClassId,
+        testVersionIds: selectedVersionIds,
+        dueAt: dueDateInputToIso(dueDateInputRef.current?.value ?? ''),
+      });
+      setSelectedVersionIds([]);
+      setHistoryClassId(createClassId);
+      setHistorySubjectId(createSubjectId);
+      setActiveTab('existing');
+      setMessage(`${created.length} assignment${created.length === 1 ? '' : 's'} created for ${selectedClass?.className ?? 'class'}.`);
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : 'Unable to create assignments');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const historyRows = useMemo(
+    () =>
+      historyUnits.flatMap((unit) =>
+        state.topics
+          .filter((topic) => topic.unitId === unit.id)
+          .map((topic) => {
+            const topicTests = publishedTests.filter((test) => test.topicId === topic.id);
+            const versionIds = new Set(topicTests.map((test) => test.version.id));
+            const assignments = state.assignments
+              .filter((assignment) => assignment.classId === historyClassId && versionIds.has(assignment.testVersionId))
+              .sort((first, second) => assignmentSortTime(second.dueAt || second.startAt) - assignmentSortTime(first.dueAt || first.startAt));
+            const dueDates = assignments
+              .filter((assignment) => assignment.dueAt)
+              .sort((first, second) => assignmentSortTime(second.dueAt) - assignmentSortTime(first.dueAt))
+              .slice(0, 5)
+              .map((assignment) => formatDate(assignment.dueAt));
+            return {
+              unitName: unit.unitName,
+              topicName: topic.topicName,
+              testTitle: topicTests.map((test) => test.testTitle).join(', ') || '-',
+              assignmentCount: assignments.length,
+              dueDates,
+            };
+          }),
+      ),
+    [historyClassId, historyUnits, publishedTests, state.assignments, state.topics],
+  );
+
   return (
     <TeacherPage title="Assignments">
-      {state.assignments.map((assignment) => (
-        <Panel className="mb-4 p-4" key={assignment.id}>
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-wrap gap-2 rounded-app border border-line bg-white p-1">
+        {[
+          ['create', 'Create assignment'],
+          ['existing', 'Existing assignments'],
+        ].map(([id, label]) => (
+          <button
+            className={`min-h-10 rounded-[6px] px-4 text-sm font-semibold transition ${
+              activeTab === id ? 'bg-[#14243a] text-white' : 'text-muted hover:bg-mist hover:text-ink'
+            }`}
+            key={id}
+            onClick={() => setActiveTab(id as AssignmentTab)}
+          >
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {message ? <p className="rounded-app bg-[#e7f7ef] p-3 text-sm font-semibold text-green">{message}</p> : null}
+      {error ? <p className="rounded-app bg-[#fff1f1] p-3 text-sm font-semibold text-danger">{error}</p> : null}
+
+      {activeTab === 'create' ? (
+        <div className="space-y-5">
+          <Panel className="grid gap-4 p-4 lg:grid-cols-3">
+            <label className="space-y-2 text-sm font-semibold">
+              <span>Class</span>
+              <select
+                className="h-11 w-full rounded-app border border-line bg-white px-3 text-sm"
+                value={createClassId}
+                onChange={(event) => {
+                  setCreateClassId(event.target.value);
+                  setMessage('');
+                  setError('');
+                }}
+              >
+                {state.classes.map((classRecord) => (
+                  <option key={classRecord.id} value={classRecord.id}>
+                    {classRecord.className}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="space-y-2 text-sm font-semibold">
+              <span>Course</span>
+              <select
+                className="h-11 w-full rounded-app border border-line bg-white px-3 text-sm"
+                value={createSubjectId}
+                onChange={(event) => {
+                  setCreateSubjectId(event.target.value);
+                  setSelectedVersionIds([]);
+                  setMessage('');
+                  setError('');
+                }}
+              >
+                {state.subjects.map((subject) => (
+                  <option key={subject.id} value={subject.id}>
+                    {subject.subjectName}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="space-y-2 text-sm font-semibold">
+              <span>Due date</span>
+              <input
+                className="h-11 w-full rounded-app border border-line bg-white px-3 text-sm"
+                ref={dueDateInputRef}
+                type="date"
+              />
+            </label>
+          </Panel>
+
+          <div className="flex flex-col gap-3 rounded-app border border-line bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="font-bold">CPU Timed Assessment</h2>
-              <p className={`text-sm ${darkSubtleText}`}>One attempt consumed at start - Due {formatDate(assignment.dueAt)}</p>
+              <p className="font-bold">{selectedVersionIds.length} tests selected</p>
+              <p className="text-sm text-muted">Each selected test creates one assignment for {selectedClass?.className ?? 'the selected class'}.</p>
             </div>
-            <StatusBadge tone="blue">{assignment.status}</StatusBadge>
+            <Button disabled={!createClassId || !selectedVersionIds.length || isSaving} onClick={createAssignments}>
+              {isSaving ? 'Creating...' : 'Create assignments'}
+            </Button>
           </div>
-          <div className="mt-4 space-y-2">
-            {state.attempts.filter((attempt) => attempt.assignmentId === assignment.id).map((attempt) => (
-              <div className="flex items-center justify-between rounded-app border border-line bg-white p-3 text-sm text-ink" key={attempt.id}>
-                <span>{leaderboardDisplay(state.currentStudent)} - {attempt.status}</span>
-                <Button variant="danger" className="min-h-9 px-3" onClick={() => state.voidAssignedAttempt(attempt.id, 'Teacher reset for technical issue')}>
-                  <RotateCcw size={15} /> Void
-                </Button>
+
+          <div className="space-y-4">
+            {createUnits.map((unit) => {
+              const unitTopics = state.topics.filter((topic) => topic.unitId === unit.id);
+              return (
+                <Panel className="p-4" key={unit.id}>
+                  <h2 className="font-bold">{unit.unitName}</h2>
+                  <div className="mt-4 space-y-3">
+                    {unitTopics.map((topic) => {
+                      const topicTests = publishedTests.filter((test) => test.topicId === topic.id);
+                      return (
+                        <div className="rounded-app border border-line bg-white p-3" key={topic.id}>
+                          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                            <div>
+                              <p className="text-xs font-semibold text-muted">Topic</p>
+                              <h3 className="mt-1 font-bold">{topic.topicName}</h3>
+                            </div>
+                            <StatusBadge tone={topicTests.length ? 'green' : 'neutral'}>
+                              {topicTests.length ? `${topicTests.length} test${topicTests.length === 1 ? '' : 's'}` : 'No tests'}
+                            </StatusBadge>
+                          </div>
+                          <div className="mt-3 space-y-2">
+                            {topicTests.map((test) => {
+                              const checked = selectedVersions.has(test.version.id);
+                              const questionCount = state.questions.filter((question) => question.testVersionId === test.version.id).length;
+                              return (
+                                <label
+                                  className={`flex cursor-pointer items-start gap-3 rounded-app border p-3 transition ${
+                                    checked ? 'border-blue bg-[#eef6ff]' : 'border-line bg-mist hover:border-blue'
+                                  }`}
+                                  key={test.id}
+                                >
+                                  <input
+                                    checked={checked}
+                                    className="mt-1 h-4 w-4 accent-blue"
+                                    onChange={() => toggleVersion(test.version.id)}
+                                    type="checkbox"
+                                  />
+                                  <span className="min-w-0 flex-1">
+                                    <span className="block text-sm font-bold">{test.testTitle}</span>
+                                    <span className="mt-1 block text-xs text-muted">{test.testDescription}</span>
+                                    <span className="mt-2 flex flex-wrap gap-3 text-xs text-muted">
+                                      <span>v{test.version.versionNumber}</span>
+                                      <span>{questionCount} questions</span>
+                                      <span>{Math.round(test.defaultTimeLimitSeconds / 60)} min</span>
+                                    </span>
+                                  </span>
+                                </label>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </Panel>
+              );
+            })}
+          </div>
+        </div>
+      ) : null}
+
+      {activeTab === 'existing' ? (
+        <div className="space-y-5">
+          <Panel className="grid gap-4 p-4 lg:grid-cols-2">
+            <label className="space-y-2 text-sm font-semibold">
+              <span>Class</span>
+              <select
+                className="h-11 w-full rounded-app border border-line bg-white px-3 text-sm"
+                value={historyClassId}
+                onChange={(event) => setHistoryClassId(event.target.value)}
+              >
+                <option value="">Select a class</option>
+                {state.classes.map((classRecord) => (
+                  <option key={classRecord.id} value={classRecord.id}>
+                    {classRecord.className}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="space-y-2 text-sm font-semibold">
+              <span>Course</span>
+              <select
+                className="h-11 w-full rounded-app border border-line bg-white px-3 text-sm"
+                value={historySubjectId}
+                onChange={(event) => setHistorySubjectId(event.target.value)}
+              >
+                {state.subjects.map((subject) => (
+                  <option key={subject.id} value={subject.id}>
+                    {subject.subjectName}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </Panel>
+
+          {!historyClassId ? (
+            <Panel className="p-4">
+              <p className="font-bold">Select a class to view existing assignments.</p>
+              <p className="mt-1 text-sm text-muted">Assignment history is class-specific.</p>
+            </Panel>
+          ) : (
+            <Panel className="p-4">
+              <div className="mb-4 flex flex-col gap-1">
+                <h2 className="font-bold">Assignment history</h2>
+                <p className="text-sm text-muted">Last five assigned dates use saved due dates and do not affect student access.</p>
               </div>
-            ))}
-          </div>
-        </Panel>
-      ))}
+              <div className={nestedTableFrame}>
+                <table className="w-full min-w-[860px] text-left text-sm">
+                  <thead className={nestedTableHead}>
+                    <tr>
+                      <th className="px-3 py-3">Unit</th>
+                      <th className="px-3 py-3">Topic</th>
+                      <th className="px-3 py-3">Available test</th>
+                      <th className="px-3 py-3">Times assigned</th>
+                      <th className="px-3 py-3">Last five assigned dates</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-line bg-white">
+                    {historyRows.map((row) => (
+                      <tr key={`${row.unitName}-${row.topicName}`}>
+                        <td className="px-3 py-3 font-semibold">{row.unitName}</td>
+                        <td className="px-3 py-3">{row.topicName}</td>
+                        <td className="px-3 py-3">{row.testTitle}</td>
+                        <td className="px-3 py-3">{row.assignmentCount}</td>
+                        <td className="px-3 py-3">
+                          {row.dueDates.length ? (
+                            <div className="flex flex-wrap gap-2">
+                              {row.dueDates.map((date, index) => (
+                                <StatusBadge key={`${row.topicName}-${date}-${index}`} tone="blue">
+                                  {date}
+                                </StatusBadge>
+                              ))}
+                            </div>
+                          ) : row.assignmentCount ? (
+                            <span className="text-muted">No due dates set</span>
+                          ) : (
+                            <span className="text-muted">-</span>
+                          )}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </Panel>
+          )}
+        </div>
+      ) : null}
     </TeacherPage>
   );
 }

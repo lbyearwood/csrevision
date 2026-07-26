@@ -1156,7 +1156,8 @@ Assigned assessments:
 
 - Are assigned by a teacher to a class or selected students.
 - Can have a start date/time.
-- Can have a deadline.
+- Can have an informational due date for teacher planning.
+- Must not block student completion because the due date has passed.
 - Can have a time limit.
 - Are limited to one attempt per student.
 - Must store every attempt and status.
@@ -1210,7 +1211,6 @@ The frontend can hide the button, but the backend must reject attempts where:
 
 - The assignment has already been submitted by that student.
 - The assignment has timed out and been submitted.
-- The assignment deadline has passed and late starts are not allowed.
 - The student is not in the assigned class.
 
 ### 10.7 Practice retakes
@@ -2855,7 +2855,7 @@ Responsibilities:
 - Verify attempt belongs to current student.
 - Verify attempt is active.
 - Enforce assigned one-attempt rule.
-- Enforce timer and deadline rules.
+- Enforce timer rules.
 - Save final answers.
 - Mark self-marking questions.
 - Queue written-answer AI marking.

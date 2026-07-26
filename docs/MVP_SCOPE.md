@@ -24,7 +24,8 @@ Teacher capabilities in MVP v1:
 
 - Teachers can create/manage their own classes.
 - Teachers can create, edit, move, deactivate/reactivate, and reset passwords for students in their own classes.
-- Teachers can assign existing published tests to classes with due dates, time limits, and one-attempt rules.
+- Teachers can assign existing published tests to classes with informational due dates, time limits, and one-attempt rules.
+- Assignment due dates are planning metadata only and do not block student completion.
 - Teachers can view class/student progress, completed/incomplete assigned tests, self-marked results, suspicious activity, points/status, and class leaderboard positions.
 - Teachers cannot author test content in the MVP UI.
 - Teachers cannot use AI marking, written-answer review, feedback release, certificates, CSV import, or CSV export in MVP v1.

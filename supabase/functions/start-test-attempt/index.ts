@@ -43,7 +43,6 @@ Deno.serve(async (req) => {
       test_version_id: string;
       class_id: string;
       time_limit_seconds: number | null;
-      due_at: string | null;
       start_at: string | null;
     };
     let attemptType: 'practice' | 'assigned' = 'practice';
@@ -52,7 +51,7 @@ Deno.serve(async (req) => {
     if (assignmentId) {
       const { data, error } = await service
         .from('test_assignments')
-        .select('id, test_version_id, class_id, time_limit_seconds, due_at, start_at, status')
+        .select('id, test_version_id, class_id, time_limit_seconds, start_at, status')
         .eq('id', assignmentId)
         .single();
       if (error || !data) throw error ?? new Error('Assignment not found');
@@ -60,7 +59,6 @@ Deno.serve(async (req) => {
       if (data.status !== 'open') return errorResponse('Assignment is not open', 403);
       const now = Date.now();
       if (data.start_at && new Date(data.start_at).getTime() > now) return errorResponse('Assignment has not started', 403);
-      if (data.due_at && new Date(data.due_at).getTime() < now) return errorResponse('Assignment deadline has passed', 403);
 
       const { data: existingAttempt } = await service
         .from('test_attempts')

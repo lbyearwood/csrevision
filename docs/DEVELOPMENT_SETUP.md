@@ -9,7 +9,8 @@ Audience: Codex agents bootstrapping this repository on a new machine. The user 
 1. `docs/PROJECT_TASKS.md` for live state and current blockers.
 2. `PROJECT_BRIEF.md` for product rules and architecture constraints.
 3. This file for machine setup.
-4. `docs/SUPABASE_SETUP.md` before any backend, Auth, RLS, seed, or Edge Function work.
+4. `docs/TROUBLESHOOTING.md` if local commands fail or Windows/Codex behaves oddly.
+5. `docs/SUPABASE_SETUP.md` before any backend, Auth, RLS, seed, or Edge Function work.
 
 ## Required Dependencies
 
@@ -180,7 +181,9 @@ The generated questions are not production content. They exist so the UI and loc
 
 ## Known Machine Issues
 
+- For detailed fixes, see `docs/TROUBLESHOOTING.md`.
 - If Docker Desktop reports virtualization support missing, enable virtualization in BIOS/UEFI and ensure WSL 2 / Linux containers are available.
 - If PowerShell blocks `npm.ps1` or `npx.ps1`, use `npm.cmd` and `npx.cmd`.
+- If `Start-Process` fails with duplicate `Path` / `PATH` keys, normalize the current process environment using the command in `docs/TROUBLESHOOTING.md`.
 - `supabase_vector_csrevision` may restart locally because the Vector log collector cannot access Docker logs. Core local services have still worked while API, Studio, DB, Auth, and Inbucket are healthy.
 - Do not commit `.env.local`, service-role keys, AI keys, or production credentials.

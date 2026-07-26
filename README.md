@@ -11,7 +11,7 @@ Mobile-first student knowledge testing platform for teacher-created accounts, cl
 
 ## Local Development
 
-For a new computer or Codex environment, read [docs/DEVELOPMENT_SETUP.md](docs/DEVELOPMENT_SETUP.md) first. The frontend can run without Supabase for UI-only checks, but full account/backend work requires Docker Desktop and the local Supabase stack.
+For a new computer or Codex environment, read [docs/DEVELOPMENT_SETUP.md](docs/DEVELOPMENT_SETUP.md) first. If local commands behave oddly, check [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md). The frontend can run without Supabase for UI-only checks, but full account/backend work requires Docker Desktop and the local Supabase stack.
 
 ```bash
 npm.cmd install
@@ -54,6 +54,7 @@ Future Codex agents should start with:
 - [docs/PROJECT_TASKS.md](docs/PROJECT_TASKS.md) for live state, current tasks, and blockers.
 - [PROJECT_BRIEF.md](PROJECT_BRIEF.md) for product rules and long-term architecture constraints.
 - [docs/DEVELOPMENT_SETUP.md](docs/DEVELOPMENT_SETUP.md) for fresh-machine dependencies and bootstrap.
+- [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) for Windows/Codex local development fixes.
 - [docs/SUPABASE_SETUP.md](docs/SUPABASE_SETUP.md) before any local or cloud Supabase work.
 
 Keep `docs/PROJECT_TASKS.md` updated as work is completed, started, blocked, or deferred.

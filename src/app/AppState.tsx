@@ -19,7 +19,7 @@ import { signOut as signOutFromSupabase } from '../lib/auth';
 import { calculateAttemptPoints, statusForPoints } from '../lib/points';
 import { buildLeaderboardFromPoints, loadSupabaseSnapshot, type SupabaseSnapshot } from '../lib/supabaseData';
 import { isSupabaseConfigured, supabase } from '../lib/supabaseClient';
-import type { AttemptEvent, PointsTransaction, Question, StudentAnswer, TestAttempt, UserRole } from '../types/domain';
+import type { AttemptEvent, PointsTransaction, Question, StudentAnswer, TestAssignment, TestAttempt, UserRole } from '../types/domain';
 
 interface SessionState {
   role: UserRole | null;
@@ -29,6 +29,16 @@ interface SessionState {
 interface BeginAttemptInput {
   testId: string;
   assignmentId?: string;
+}
+
+interface CreateAssignmentsInput {
+  classId: string;
+  testVersionIds: string[];
+  dueAt?: string;
+  timeLimitSeconds?: number;
+  attemptLimit?: number;
+  feedbackPolicy?: TestAssignment['feedbackPolicy'];
+  status?: TestAssignment['status'];
 }
 
 interface StartAttemptResponse {
@@ -54,6 +64,18 @@ interface SubmitAttemptResponse {
   timedOut: boolean;
 }
 
+interface AssignmentRow {
+  id: string;
+  test_version_id: string;
+  class_id: string;
+  start_at: string | null;
+  due_at: string | null;
+  time_limit_seconds: number | null;
+  attempt_limit: number;
+  feedback_policy: TestAssignment['feedbackPolicy'];
+  status: TestAssignment['status'];
+}
+
 interface AppStateValue extends SupabaseSnapshot {
   session: SessionState;
   setSession: (session: SessionState) => void;
@@ -69,6 +91,7 @@ interface AppStateValue extends SupabaseSnapshot {
   submitAttempt: (attemptId: string) => Promise<TestAttempt>;
   logAttemptEvent: (attemptId: string, eventType: AttemptEvent['eventType']) => void;
   voidAssignedAttempt: (attemptId: string, reason: string) => void;
+  createAssignments: (input: CreateAssignmentsInput) => Promise<TestAssignment[]>;
 }
 
 const demoSnapshot: SupabaseSnapshot = {
@@ -107,6 +130,20 @@ function totalPointsForStudent(studentId: string, points: PointsTransaction[]): 
   return points
     .filter((transaction) => transaction.studentId === studentId)
     .reduce((total, transaction) => total + transaction.points, 0);
+}
+
+function mapAssignmentRow(row: AssignmentRow): TestAssignment {
+  return {
+    id: row.id,
+    testVersionId: row.test_version_id,
+    classId: row.class_id,
+    startAt: row.start_at ?? '',
+    dueAt: row.due_at ?? '',
+    timeLimitSeconds: row.time_limit_seconds ?? 0,
+    attemptLimit: row.attempt_limit,
+    feedbackPolicy: row.feedback_policy,
+    status: row.status,
+  };
 }
 
 export function AppStateProvider({ children }: { children: ReactNode }) {
@@ -274,6 +311,71 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const beginAttempt = async (input: BeginAttemptInput): Promise<TestAttempt> => {
     if (isSupabaseBacked) return beginSupabaseAttempt(input);
     return beginDemoAttempt(input);
+  };
+
+  const defaultTimeLimitForVersion = (testVersionId: string): number => {
+    const version = snapshot.testVersions.find((item) => item.id === testVersionId);
+    const test = snapshot.tests.find((item) => item.id === version?.testId);
+    return test?.defaultTimeLimitSeconds ?? 900;
+  };
+
+  const createDemoAssignments = (input: CreateAssignmentsInput): TestAssignment[] => {
+    const uniqueVersionIds = Array.from(new Set(input.testVersionIds));
+    if (!input.classId) throw new Error('Class is required');
+    if (!uniqueVersionIds.length) throw new Error('Select at least one test');
+    const now = new Date().toISOString();
+    const assignments: TestAssignment[] = uniqueVersionIds.map((testVersionId) => ({
+      id: `assignment-${crypto.randomUUID()}`,
+      testVersionId,
+      classId: input.classId,
+      startAt: now,
+      dueAt: input.dueAt ?? '',
+      timeLimitSeconds: input.timeLimitSeconds ?? defaultTimeLimitForVersion(testVersionId),
+      attemptLimit: input.attemptLimit ?? 1,
+      feedbackPolicy: input.feedbackPolicy ?? 'score_only',
+      status: input.status ?? 'open',
+    }));
+    setSnapshot((current) => ({
+      ...current,
+      assignments: [...assignments, ...current.assignments],
+    }));
+    return assignments;
+  };
+
+  const createSupabaseAssignments = async (input: CreateAssignmentsInput): Promise<TestAssignment[]> => {
+    if (!supabase) throw new Error('Supabase is not configured');
+    const uniqueVersionIds = Array.from(new Set(input.testVersionIds));
+    if (!input.classId) throw new Error('Class is required');
+    if (!uniqueVersionIds.length) throw new Error('Select at least one test');
+    if (!snapshot.teacher.profileId) throw new Error('Teacher profile is not loaded');
+    const now = new Date().toISOString();
+    const rows = uniqueVersionIds.map((testVersionId) => ({
+      test_version_id: testVersionId,
+      assigned_by: snapshot.teacher.profileId,
+      class_id: input.classId,
+      start_at: now,
+      due_at: input.dueAt ?? null,
+      time_limit_seconds: input.timeLimitSeconds ?? defaultTimeLimitForVersion(testVersionId),
+      attempt_limit: input.attemptLimit ?? 1,
+      feedback_policy: input.feedbackPolicy ?? 'score_only',
+      status: input.status ?? 'open',
+    }));
+    const { data, error } = await supabase
+      .from('test_assignments')
+      .insert(rows)
+      .select('id, test_version_id, class_id, start_at, due_at, time_limit_seconds, attempt_limit, feedback_policy, status');
+    if (error) throw error;
+    const assignments = ((data ?? []) as AssignmentRow[]).map(mapAssignmentRow);
+    setSnapshot((current) => ({
+      ...current,
+      assignments: [...assignments, ...current.assignments],
+    }));
+    return assignments;
+  };
+
+  const createAssignments = async (input: CreateAssignmentsInput): Promise<TestAssignment[]> => {
+    if (isSupabaseBacked) return createSupabaseAssignments(input);
+    return createDemoAssignments(input);
   };
 
   const saveAnswer = (attemptId: string, questionId: string, answer: string) => {
@@ -487,6 +589,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     submitAttempt,
     logAttemptEvent,
     voidAssignedAttempt,
+    createAssignments,
   };
 
   return <AppStateContext.Provider value={value}>{children}</AppStateContext.Provider>;

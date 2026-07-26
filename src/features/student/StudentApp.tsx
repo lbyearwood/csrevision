@@ -184,7 +184,7 @@ function StudentHome() {
                 <p className="mt-1 text-sm text-[#b8c8d9]">
                   {assignedDisplay.resourceLabel} - One attempt - {assignedQuestionCount} questions - {assignedVersion?.totalMarks ?? assignedQuestionCount} marks
                 </p>
-                <p className="mt-3 text-sm">Due: {formatDate(assigned.dueAt)}, 11:59 PM</p>
+                <p className="mt-3 text-sm">{assigned.dueAt ? `Due: ${formatDate(assigned.dueAt)}` : 'No due date set'}</p>
               </div>
               <StatusBadge tone={assignedAttempt ? 'blue' : 'amber'}>{assignedAttempt?.status === 'in_progress' ? 'Started' : assignedAttempt ? 'Completed' : 'Not Started'}</StatusBadge>
             </div>
@@ -651,7 +651,9 @@ function AssignedPage() {
                   <p className="text-xs font-semibold text-[#b8c8d9]">{display.resourceLabel} - One-attempt assigned assessment</p>
                   <h3 className="mt-2 font-bold">{display.title}</h3>
                   {display.context ? <p className="mt-1 text-sm text-[#b8c8d9]">{display.context}</p> : null}
-                  <p className="mt-1 text-sm text-[#b8c8d9]">Due {formatDate(assignment.dueAt)} - {formatDuration(assignment.timeLimitSeconds)}</p>
+                  <p className="mt-1 text-sm text-[#b8c8d9]">
+                    {assignment.dueAt ? `Due ${formatDate(assignment.dueAt)}` : 'No due date set'} - {formatDuration(assignment.timeLimitSeconds)}
+                  </p>
                 </div>
                 <StatusBadge tone={consumed ? 'blue' : 'amber'}>{consumed ? 'Started' : 'Ready'}</StatusBadge>
               </div>
