@@ -25,7 +25,7 @@ Codex update protocol:
 ## Current Focus
 
 - `[~]` Build the local Supabase/Postgres backend into the source of truth for the project.
-- `[~]` Move the frontend from demo/in-memory data toward real Supabase-backed flows.
+- `[x]` Keep development and QA Supabase-only until launch; no frontend demo fallback.
 - `[ ]` Confirm seed data can be recreated from a clean local reset.
 - `[ ]` Continue backend wiring beyond assignments: student creation, password reset, result detail, suspicious activity detail, answer save/submit hardening, and full regression QA.
 
@@ -61,8 +61,8 @@ Codex update protocol:
 - `[x]` Verified seeded teacher and student sessions can read published course data through RLS.
 - `[x]` Updated frontend sign-in helpers to return the active Supabase profile role/display name when Supabase is configured.
 - `[x]` Updated local login defaults to use seeded development credentials.
-- `[x]` Added placeholder OCR resource data: 8 units, 41 numbered topics, 41 practice tests, and 205 five-option MCQs across frontend demo data and local Supabase seed.
-- `[x]` Added `docs/DEVELOPMENT_SETUP.md` with fresh-machine dependencies, frontend-only mode, full local Supabase setup, seed verification, and Codex run commands.
+- `[x]` Added placeholder OCR resource data: 8 units, 41 numbered topics, 41 practice tests, and 205 five-option MCQs in local Supabase seed data.
+- `[x]` Added `docs/DEVELOPMENT_SETUP.md` with fresh-machine dependencies, local Supabase setup, seed verification, and Codex run commands.
 - `[x]` Added `docs/HANDOVER.md` for continuing on a different PC.
 - `[x]` Added `docs/CODEX_START_PROCESS.md` defining the required Codex startup sequence: sync Git, read docs, install dependencies, run the site, and report the next task.
 - `[x]` Added `docs/CODEX_END_PROCESS.md` defining the required Codex finish sequence: verify, update dev docs, write handover, commit, push, and report next task.
@@ -76,6 +76,7 @@ Codex update protocol:
 - `[x]` Converted `supabase/tests/rls_policies.sql` from checklist notes into an executable pgTAP suite.
 - `[x]` Verified 22 local RLS/integrity database tests pass with `npx.cmd supabase test db --local supabase\tests`.
 - `[x]` Fixed teacher Assignments contrast so light dropdowns, date inputs, topic cards, and test rows reset to dark text inside dark panels.
+- `[x]` Removed frontend demo fallback: deleted `src/data/demoData.ts`, removed fake auth returns, and made missing Supabase config block sign-in.
 
 ## Backend: Supabase And Postgres
 
@@ -100,7 +101,7 @@ Codex update protocol:
 - `[x]` Test test-version/question/option immutability after attempts exist.
 - `[ ]` Investigate `supabase_vector_csrevision` restart loop and decide whether to exclude it locally or fix Docker log access.
 - `[x]` Document local Supabase start/stop/reset workflow.
-- `[x]` Document when a second development computer needs local Supabase versus frontend-only demo mode.
+- `[x]` Document that every development computer needs local Supabase until launch.
 - `[ ]` Document backup and restore approach for production data.
 
 ## Backend: Edge Functions
@@ -122,6 +123,7 @@ Codex update protocol:
 - `[x]` Point local frontend env to local Supabase.
 - `[x]` Replace demo student login with Supabase Auth.
 - `[x]` Replace demo teacher/admin login with Supabase Auth.
+- `[x]` Remove frontend demo fallback data and fake sign-in paths.
 - `[x]` Load current profile from Supabase after login.
 - `[ ]` Load student navigation/dashboard data from Supabase.
 - `[ ]` Load Practice courses, units, topics, and available tests from Supabase.

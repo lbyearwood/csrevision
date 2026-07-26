@@ -23,9 +23,6 @@ Install these on any development computer that needs to run the project:
 - Node.js 22 LTS or newer. Current verified machine uses Node.js `24.16.0`.
 - npm from the Node.js install. On Windows PowerShell, use `npm.cmd` and `npx.cmd`, not `npm` or `npx`, because script execution policy can block `.ps1` shims.
 - A Chromium-based browser for local visual QA.
-
-Required for full local backend work:
-
 - Docker Desktop.
 - WSL 2 / Linux containers enabled in Docker Desktop.
 - Virtualization enabled in BIOS/UEFI and Windows features.
@@ -52,19 +49,9 @@ Install project packages:
 npm.cmd install
 ```
 
-Run frontend-only mode:
+## Local Supabase Bootstrap
 
-```powershell
-npm.cmd run dev
-```
-
-Frontend-only mode works without `.env.local`. In that mode the app uses in-memory/demo login behaviour and generated placeholder resource data. It is acceptable for basic UI checks, but it does not test Supabase Auth, RLS, database seed data, Edge Functions, or backend attempt security.
-
-Current development expectation is persist mode. If the task touches accounts, assignments, attempts, answers, results, points, or security, configure local Supabase and do not rely on demo mode.
-
-## Full Local Backend Bootstrap
-
-Use this path for any real backend/account/test-attempt work.
+Use this path for all development and QA until launch. The app has no frontend-only/demo fallback.
 
 1. Start Docker Desktop and wait until Docker Engine is running.
 2. Start local Supabase:
@@ -87,7 +74,7 @@ VITE_APP_NAME=csrevision
 npx.cmd supabase db reset --local
 ```
 
-5. If the stack is already running and only the seed needs reapplying, use the current fallback documented in `docs/SUPABASE_SETUP.md`:
+5. If the stack is already running and only the seed needs reapplying, use the direct seed apply command documented in `docs/SUPABASE_SETUP.md`:
 
 ```powershell
 docker cp supabase\seed.sql supabase_db_csrevision:/tmp/csrevision_seed.sql
@@ -178,10 +165,9 @@ The current OCR placeholder content is generated from:
 scripts/generate-placeholder-resources.mjs
 ```
 
-That script writes both:
+That script writes:
 
 ```text
-src/data/demoData.ts
 supabase/seed.sql
 ```
 

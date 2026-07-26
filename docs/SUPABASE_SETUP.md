@@ -18,8 +18,8 @@ Audience: Codex agents. The user does not plan to read this. Keep updates direct
 ## Dependency Requirement
 
 - Local Supabase requires Docker Desktop with Linux containers / WSL 2 enabled.
-- A second development computer does not need Supabase for frontend-only UI checks, because the app can fall back to demo login/data when `.env.local` is absent.
-- A second development computer does need local Supabase for Auth, RLS, seed data, Edge Function, attempt, account, or backend-security work.
+- Every development computer needs local Supabase until launch.
+- The app no longer supports frontend-only/demo fallback data or demo login when `.env.local` is absent.
 - Fresh-machine setup steps live in `docs/DEVELOPMENT_SETUP.md`.
 
 ## Verified Local Tooling
@@ -45,7 +45,7 @@ Audience: Codex agents. The user does not plan to read this. Keep updates direct
 - There are 29 `public` RLS policies.
 - `.env.local` exists with frontend-safe local URL and publishable key. It is ignored by Git.
 - `supabase/seed.sql` exists and has been applied successfully.
-- `scripts/generate-placeholder-resources.mjs` generates the current placeholder OCR topic map for both `src/data/demoData.ts` and `supabase/seed.sql`.
+- `scripts/generate-placeholder-resources.mjs` generates the current placeholder OCR topic map into `supabase/seed.sql`.
 - Seeded Auth sign-in verified for teacher and student through `@supabase/supabase-js`.
 - Seeded teacher/student sessions can read the published OCR GCSE Computer Science course through RLS.
 - Frontend sign-in helpers now load role/display name from `public.profiles` after Supabase Auth succeeds.

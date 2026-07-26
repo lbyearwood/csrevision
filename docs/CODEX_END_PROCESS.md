@@ -73,7 +73,7 @@ Refresh `docs/HANDOVER.md` so another Codex can continue without reading the ful
 Handover must include:
 
 - active branch
-- current working mode, especially frontend-only vs local Supabase persist mode
+- current local Supabase-only working mode
 - latest completed work
 - latest verification commands and results
 - important local-only state that is not in Git

@@ -7,6 +7,9 @@ export interface SignInResult {
   displayName: string;
 }
 
+const SUPABASE_REQUIRED_MESSAGE =
+  'Local Supabase is required. Start Supabase, create .env.local with local values, then sign in again.';
+
 async function loadSignedInProfile(expectedRoles: UserRole[]): Promise<SignInResult> {
   if (!supabase) throw new Error('Supabase is not configured');
 
@@ -32,26 +35,22 @@ async function loadSignedInProfile(expectedRoles: UserRole[]): Promise<SignInRes
 }
 
 export async function signInStudent(username: string, password: string): Promise<SignInResult> {
-  if (isSupabaseConfigured && supabase) {
-    const { error } = await supabase.auth.signInWithPassword({
-      email: studentUsernameToEmail(username),
-      password,
-    });
-    if (error) throw error;
-    return loadSignedInProfile(['student']);
-  }
+  if (!isSupabaseConfigured || !supabase) throw new Error(SUPABASE_REQUIRED_MESSAGE);
 
-  return { role: 'student', displayName: 'A. Singh' };
+  const { error } = await supabase.auth.signInWithPassword({
+    email: studentUsernameToEmail(username),
+    password,
+  });
+  if (error) throw error;
+  return loadSignedInProfile(['student']);
 }
 
 export async function signInStaff(email: string, password: string): Promise<SignInResult> {
-  if (isSupabaseConfigured && supabase) {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) throw error;
-    return loadSignedInProfile(['teacher', 'admin']);
-  }
+  if (!isSupabaseConfigured || !supabase) throw new Error(SUPABASE_REQUIRED_MESSAGE);
 
-  return { role: 'teacher', displayName: 'J. Doe' };
+  const { error } = await supabase.auth.signInWithPassword({ email, password });
+  if (error) throw error;
+  return loadSignedInProfile(['teacher', 'admin']);
 }
 
 export async function signOut(): Promise<void> {

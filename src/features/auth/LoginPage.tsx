@@ -8,7 +8,7 @@ import { useAppState } from '../../app/AppState';
 
 export function LoginPage() {
   const navigate = useNavigate();
-  const { setSession } = useAppState();
+  const { dataError, setSession } = useAppState();
   const [mode, setMode] = useState<'student' | 'staff'>('student');
   const [identifier, setIdentifier] = useState('asingh5827');
   const [password, setPassword] = useState('Localdev1!');
@@ -100,6 +100,7 @@ export function LoginPage() {
                 autoComplete="current-password"
               />
             </div>
+            {dataError ? <p className="rounded-app bg-[#fff7e8] p-3 text-sm font-semibold text-amber">{dataError}</p> : null}
             {error ? <p className="rounded-app bg-[#fff1f1] p-3 text-sm text-danger">{error}</p> : null}
             <Button className="w-full" disabled={isSubmitting}>
               {isSubmitting ? 'Signing in...' : 'Sign in'}

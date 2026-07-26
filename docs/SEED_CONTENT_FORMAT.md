@@ -19,4 +19,4 @@ Subject
 
 Seed files may include correct answers because they are backend import material. The frontend must not import backend seed files or bundle answer keys.
 
-Frontend demo data intentionally omits correct answers and `is_correct` flags.
+There is no frontend demo seed. Runtime development and QA must use local Supabase seed data only.

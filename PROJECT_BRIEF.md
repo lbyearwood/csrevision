@@ -33,6 +33,7 @@ This section records material project direction changes, architecture decisions,
 | 2026-07-26 | 0.2 | Added a required Codex start process: sync Git, read docs, refresh dependencies, run the site, and report the next task. | Make every new Codex session begin from the same verified project state. |
 | 2026-07-26 | 0.2 | Added a required Codex end process: verify work, update docs, write handover, commit, push, and report next task. | Make every completed Codex session leave the repository and handover state ready for another computer. |
 | 2026-07-26 | 0.2 | Converted the local RLS checklist into executable pgTAP database tests. | Make student isolation, teacher ownership boundaries, staff-only content protection, assigned-attempt uniqueness, and attempted-content immutability repeatably verifiable. |
+| 2026-07-26 | 0.2 | Removed frontend demo fallback and made local Supabase mandatory for development and QA until launch. | Ensure every visible workflow uses Auth, RLS, seed data, Edge Functions, and persistent backend behaviour. |
 
 ## Change Control Process
 
@@ -3524,8 +3525,8 @@ Codex must not:
 - Allow students to self-register.
 - Show usernames on student-facing leaderboards.
 - Use username suffix as Student ID.
-- Trust frontend-only attempt limits.
-- Trust frontend-only timers.
+- Trust client-side-only attempt limits.
+- Trust client-side-only timers.
 - Mark assigned attempts client-side.
 - Allow RLS-free exposed tables.
 

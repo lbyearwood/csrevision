@@ -1,25 +1,10 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
-import {
-  assignments as demoAssignments,
-  attempts as demoAttempts,
-  classes as demoClasses,
-  leaderboardRows as demoLeaderboardRows,
-  pointsTransactions as demoPointsTransactions,
-  questions as demoQuestions,
-  students as demoStudents,
-  subjects as demoSubjects,
-  teacher as demoTeacher,
-  tests as demoTests,
-  testVersions as demoTestVersions,
-  topics as demoTopics,
-  units as demoUnits,
-} from '../data/demoData';
 import { signOut as signOutFromSupabase } from '../lib/auth';
-import { calculateAttemptPoints, statusForPoints } from '../lib/points';
+import { statusForPoints } from '../lib/points';
 import { buildLeaderboardFromPoints, loadSupabaseSnapshot, type SupabaseSnapshot } from '../lib/supabaseData';
 import { isSupabaseConfigured, supabase } from '../lib/supabaseClient';
-import type { AttemptEvent, PointsTransaction, Question, StudentAnswer, TestAssignment, TestAttempt, UserRole } from '../types/domain';
+import type { AttemptEvent, PointsTransaction, Question, StudentAnswer, StudentProfile, TeacherProfile, TestAssignment, TestAttempt, UserRole } from '../types/domain';
 
 interface SessionState {
   role: UserRole | null;
@@ -80,7 +65,7 @@ interface AppStateValue extends SupabaseSnapshot {
   session: SessionState;
   setSession: (session: SessionState) => void;
   signOut: () => void;
-  currentStudent: (typeof demoStudents)[number];
+  currentStudent: StudentProfile;
   pointsTotal: number;
   statusName: string;
   isSupabaseBacked: boolean;
@@ -94,22 +79,43 @@ interface AppStateValue extends SupabaseSnapshot {
   createAssignments: (input: CreateAssignmentsInput) => Promise<TestAssignment[]>;
 }
 
-const demoSnapshot: SupabaseSnapshot = {
-  teacher: demoTeacher,
-  classes: demoClasses,
-  students: demoStudents,
-  subjects: demoSubjects,
-  units: demoUnits,
-  topics: demoTopics,
-  tests: demoTests,
-  testVersions: demoTestVersions,
-  questions: demoQuestions,
-  assignments: demoAssignments,
-  attempts: demoAttempts,
+const SUPABASE_REQUIRED_MESSAGE =
+  'Local Supabase is required. Start Supabase, create .env.local with local values, then sign in again.';
+
+const emptyTeacher: TeacherProfile = {
+  id: '',
+  profileId: '',
+  displayName: '',
+  email: '',
+};
+
+const emptyStudent: StudentProfile = {
+  id: '',
+  profileId: '',
+  firstName: 'Student',
+  surname: '',
+  username: '',
+  publicStudentId: '',
+  classId: '',
+  accountStatus: 'active',
+};
+
+const emptySnapshot: SupabaseSnapshot = {
+  teacher: emptyTeacher,
+  classes: [],
+  students: [],
+  subjects: [],
+  units: [],
+  topics: [],
+  tests: [],
+  testVersions: [],
+  questions: [],
+  assignments: [],
+  attempts: [],
   answers: [],
   events: [],
-  pointsTransactions: demoPointsTransactions,
-  leaderboardRows: demoLeaderboardRows,
+  pointsTransactions: [],
+  leaderboardRows: [],
 };
 
 const AppStateContext = createContext<AppStateValue | null>(null);
@@ -148,8 +154,8 @@ function mapAssignmentRow(row: AssignmentRow): TestAssignment {
 
 export function AppStateProvider({ children }: { children: ReactNode }) {
   const [session, setSessionState] = useState<SessionState>({ role: null, displayName: '' });
-  const [snapshot, setSnapshot] = useState<SupabaseSnapshot>(demoSnapshot);
-  const [attempts, setAttempts] = useState<TestAttempt[]>(demoAttempts);
+  const [snapshot, setSnapshot] = useState<SupabaseSnapshot>(emptySnapshot);
+  const [attempts, setAttempts] = useState<TestAttempt[]>([]);
   const [answers, setAnswers] = useState<StudentAnswer[]>([]);
   const [events, setEvents] = useState<AttemptEvent[]>([]);
   const [earnedPoints, setEarnedPoints] = useState<PointsTransaction[]>([]);
@@ -161,16 +167,27 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let isActive = true;
 
-    if (!isSupabaseConfigured || !supabase || !session.role) {
+    if (!isSupabaseConfigured || !supabase) {
+      setIsLoadingData(false);
+      setDataError(SUPABASE_REQUIRED_MESSAGE);
+      setSnapshot(emptySnapshot);
+      setAttempts([]);
+      setAnswers([]);
+      setEvents([]);
+      setEarnedPoints([]);
+      return () => {
+        isActive = false;
+      };
+    }
+
+    if (!session.role) {
       setIsLoadingData(false);
       setDataError('');
-      if (!session.role) {
-        setSnapshot(demoSnapshot);
-        setAttempts(demoAttempts);
-        setAnswers([]);
-        setEvents([]);
-        setEarnedPoints([]);
-      }
+      setSnapshot(emptySnapshot);
+      setAttempts([]);
+      setAnswers([]);
+      setEvents([]);
+      setEarnedPoints([]);
       return () => {
         isActive = false;
       };
@@ -200,7 +217,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     };
   }, [session.displayName, session.role]);
 
-  const currentStudent = snapshot.students[0] ?? demoStudents[0];
+  const currentStudent = snapshot.students[0] ?? emptyStudent;
   const pointRows = [...snapshot.pointsTransactions, ...earnedPoints];
   const pointsTotal = totalPointsForStudent(currentStudent.id, pointRows);
   const statusName = statusForPoints(pointsTotal).name;
@@ -210,48 +227,6 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   const setSession = (nextSession: SessionState) => {
     setSessionState(nextSession);
-  };
-
-  const beginDemoAttempt = ({ testId, assignmentId }: BeginAttemptInput): TestAttempt => {
-    const test = snapshot.tests.find((item) => item.id === testId);
-    if (!test) throw new Error('Test not found');
-    const version = snapshot.testVersions.find((item) => item.testId === test.id && item.status === 'published');
-    if (!version) throw new Error('Published test version not found');
-    const assignment = assignmentId ? snapshot.assignments.find((item) => item.id === assignmentId) : undefined;
-
-    if (assignmentId) {
-      const consumedAttempt = attempts.find(
-        (attempt) =>
-          attempt.assignmentId === assignmentId &&
-          attempt.studentId === currentStudent.id &&
-          attempt.status !== 'voided',
-      );
-      if (consumedAttempt) return consumedAttempt;
-    }
-
-    const priorAttempts = attempts.filter(
-      (attempt) => attempt.studentId === currentStudent.id && attempt.testVersionId === version.id,
-    );
-    const now = new Date();
-    const timeLimitSeconds = assignment?.timeLimitSeconds ?? test.defaultTimeLimitSeconds;
-    const attempt: TestAttempt = {
-      id: `attempt-${crypto.randomUUID()}`,
-      studentId: currentStudent.id,
-      classIdAtAttempt: currentStudent.classId,
-      testId: test.id,
-      testVersionId: version.id,
-      assignmentId,
-      attemptType: assignmentId ? 'assigned' : 'practice',
-      attemptNumber: priorAttempts.length + 1,
-      status: 'in_progress',
-      startedAt: now.toISOString(),
-      timeLimitSeconds,
-      markingStatus: 'not_required',
-      feedbackStatus: 'hidden',
-      suspiciousEventCount: 0,
-    };
-    setAttempts((rows) => [attempt, ...rows]);
-    return attempt;
   };
 
   const beginSupabaseAttempt = async ({ testId, assignmentId }: BeginAttemptInput): Promise<TestAttempt> => {
@@ -309,37 +284,14 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   };
 
   const beginAttempt = async (input: BeginAttemptInput): Promise<TestAttempt> => {
-    if (isSupabaseBacked) return beginSupabaseAttempt(input);
-    return beginDemoAttempt(input);
+    if (!isSupabaseBacked) throw new Error(SUPABASE_REQUIRED_MESSAGE);
+    return beginSupabaseAttempt(input);
   };
 
   const defaultTimeLimitForVersion = (testVersionId: string): number => {
     const version = snapshot.testVersions.find((item) => item.id === testVersionId);
     const test = snapshot.tests.find((item) => item.id === version?.testId);
     return test?.defaultTimeLimitSeconds ?? 900;
-  };
-
-  const createDemoAssignments = (input: CreateAssignmentsInput): TestAssignment[] => {
-    const uniqueVersionIds = Array.from(new Set(input.testVersionIds));
-    if (!input.classId) throw new Error('Class is required');
-    if (!uniqueVersionIds.length) throw new Error('Select at least one test');
-    const now = new Date().toISOString();
-    const assignments: TestAssignment[] = uniqueVersionIds.map((testVersionId) => ({
-      id: `assignment-${crypto.randomUUID()}`,
-      testVersionId,
-      classId: input.classId,
-      startAt: now,
-      dueAt: input.dueAt ?? '',
-      timeLimitSeconds: input.timeLimitSeconds ?? defaultTimeLimitForVersion(testVersionId),
-      attemptLimit: input.attemptLimit ?? 1,
-      feedbackPolicy: input.feedbackPolicy ?? 'score_only',
-      status: input.status ?? 'open',
-    }));
-    setSnapshot((current) => ({
-      ...current,
-      assignments: [...assignments, ...current.assignments],
-    }));
-    return assignments;
   };
 
   const createSupabaseAssignments = async (input: CreateAssignmentsInput): Promise<TestAssignment[]> => {
@@ -374,11 +326,16 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   };
 
   const createAssignments = async (input: CreateAssignmentsInput): Promise<TestAssignment[]> => {
-    if (isSupabaseBacked) return createSupabaseAssignments(input);
-    return createDemoAssignments(input);
+    if (!isSupabaseBacked) throw new Error(SUPABASE_REQUIRED_MESSAGE);
+    return createSupabaseAssignments(input);
   };
 
   const saveAnswer = (attemptId: string, questionId: string, answer: string) => {
+    if (!isSupabaseBacked) {
+      setDataError(SUPABASE_REQUIRED_MESSAGE);
+      return;
+    }
+
     const maxMarks = snapshot.questions.find((question) => question.id === questionId)?.maxMarks ?? 1;
     setAnswers((rows) => {
       const existingIndex = rows.findIndex((row) => row.attemptId === attemptId && row.questionId === questionId);
@@ -395,64 +352,9 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       return [nextAnswer, ...rows];
     });
 
-    if (isSupabaseBacked) {
-      void invokeFunction('save-answer', { attemptId, questionId, answer, maxMarks }).catch((error: unknown) => {
-        setDataError(error instanceof Error ? error.message : 'Unable to save answer');
-      });
-    }
-  };
-
-  const submitDemoAttempt = (attemptId: string): TestAttempt => {
-    const attempt = attempts.find((row) => row.id === attemptId);
-    if (!attempt) throw new Error('Attempt not found');
-    const attemptQuestions = snapshot.questions.filter((question) => question.testVersionId === attempt.testVersionId);
-    const answeredCount = answers.filter((answer) => answer.attemptId === attemptId && answer.answer).length;
-    const maxScore = attemptQuestions.reduce((total, question) => total + question.maxMarks, 0);
-    const simulatedServerScore = Math.min(answeredCount, Math.max(maxScore - 1, 0));
-    const percentage = maxScore === 0 ? 0 : Math.round((simulatedServerScore / maxScore) * 100);
-    const submittedAt = new Date();
-    const durationSeconds = Math.round((submittedAt.getTime() - new Date(attempt.startedAt).getTime()) / 1000);
-    const timedOut = Boolean(attempt.timeLimitSeconds && durationSeconds > attempt.timeLimitSeconds);
-    const previousBest = Math.max(
-      0,
-      ...attempts
-        .filter((row) => row.studentId === currentStudent.id && row.testId === attempt.testId && row.percentage)
-        .map((row) => row.percentage ?? 0),
-    );
-    const points = calculateAttemptPoints({
-      attemptType: attempt.attemptType,
-      percentage,
-      isFirstPracticeAttempt: attempt.attemptType === 'practice' && attempt.attemptNumber === 1,
-      previousBestPercentage: previousBest || undefined,
-      completedWithinLimit: !timedOut,
+    void invokeFunction('save-answer', { attemptId, questionId, answer, maxMarks }).catch((error: unknown) => {
+      setDataError(error instanceof Error ? error.message : 'Unable to save answer');
     });
-    const completedAttempt: TestAttempt = {
-      ...attempt,
-      status: timedOut ? 'timed_out' : 'feedback_released',
-      submittedAt: submittedAt.toISOString(),
-      durationSeconds,
-      score: simulatedServerScore,
-      maxScore,
-      percentage,
-      markingStatus: 'marked',
-      feedbackStatus: 'released',
-      pointsAwarded: points.points,
-    };
-    setAttempts((rows) => rows.map((row) => (row.id === attemptId ? completedAttempt : row)));
-    if (points.points > 0) {
-      setEarnedPoints((rows) => [
-        {
-          id: `points-${crypto.randomUUID()}`,
-          studentId: currentStudent.id,
-          points: points.points,
-          reason: points.reasons.join('; '),
-          relatedAttemptId: attemptId,
-          createdAt: submittedAt.toISOString(),
-        },
-        ...rows,
-      ]);
-    }
-    return completedAttempt;
   };
 
   const submitSupabaseAttempt = async (attemptId: string): Promise<TestAttempt> => {
@@ -497,11 +399,16 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   };
 
   const submitAttempt = async (attemptId: string): Promise<TestAttempt> => {
-    if (isSupabaseBacked) return submitSupabaseAttempt(attemptId);
-    return submitDemoAttempt(attemptId);
+    if (!isSupabaseBacked) throw new Error(SUPABASE_REQUIRED_MESSAGE);
+    return submitSupabaseAttempt(attemptId);
   };
 
   const logAttemptEvent = (attemptId: string, eventType: AttemptEvent['eventType']) => {
+    if (!isSupabaseBacked) {
+      setDataError(SUPABASE_REQUIRED_MESSAGE);
+      return;
+    }
+
     const attempt = attempts.find((row) => row.id === attemptId);
     if (!attempt || attempt.status !== 'in_progress') return;
     const recentDuplicate = events.some(
@@ -527,11 +434,9 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       ),
     );
 
-    if (isSupabaseBacked) {
-      void invokeFunction('log-attempt-event', { attemptId, eventType, route: window.location.hash }).catch((error: unknown) => {
-        setDataError(error instanceof Error ? error.message : 'Unable to log attempt event');
-      });
-    }
+    void invokeFunction('log-attempt-event', { attemptId, eventType, route: window.location.hash }).catch((error: unknown) => {
+      setDataError(error instanceof Error ? error.message : 'Unable to log attempt event');
+    });
   };
 
   const markAssignedAttemptVoided = (attemptId: string, reason: string) => {
@@ -545,15 +450,16 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   };
 
   const voidAssignedAttempt = (attemptId: string, reason: string) => {
-    if (isSupabaseBacked) {
-      void invokeFunction('reset-assigned-attempt', { attemptId, reason })
-        .then(() => markAssignedAttemptVoided(attemptId, reason))
-        .catch((error: unknown) => {
-          setDataError(error instanceof Error ? error.message : 'Unable to void assigned attempt');
-        });
+    if (!isSupabaseBacked) {
+      setDataError(SUPABASE_REQUIRED_MESSAGE);
       return;
     }
-    markAssignedAttemptVoided(attemptId, reason);
+
+    void invokeFunction('reset-assigned-attempt', { attemptId, reason })
+      .then(() => markAssignedAttemptVoided(attemptId, reason))
+      .catch((error: unknown) => {
+        setDataError(error instanceof Error ? error.message : 'Unable to void assigned attempt');
+      });
   };
 
   const signOut = () => {
@@ -561,12 +467,12 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       void signOutFromSupabase();
     }
     setSessionState({ role: null, displayName: '' });
-    setSnapshot(demoSnapshot);
-    setAttempts(demoAttempts);
+    setSnapshot(emptySnapshot);
+    setAttempts([]);
     setAnswers([]);
     setEvents([]);
     setEarnedPoints([]);
-    setDataError('');
+    setDataError(isSupabaseConfigured ? '' : SUPABASE_REQUIRED_MESSAGE);
   };
 
   const value: AppStateValue = {

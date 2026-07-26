@@ -55,9 +55,9 @@ async function readTable<T>(tableName: string, query: PromiseLike<{ data: T | nu
   return data as T;
 }
 
-function toNumber(value: unknown, fallback = 0): number {
+function toNumber(value: unknown, defaultValue = 0): number {
   const numberValue = Number(value);
-  return Number.isFinite(numberValue) ? numberValue : fallback;
+  return Number.isFinite(numberValue) ? numberValue : defaultValue;
 }
 
 function firstRelation<T>(value: T | T[] | null | undefined): T | undefined {
@@ -316,7 +316,7 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
 
   const activeClassForStudent = new Map(memberships.map((membership) => [membership.student_id, membership.class_id]));
   const classNameById = new Map(classes.map((classRecord) => [classRecord.id, classRecord.class_name]));
-  const fallbackTeacher = teacherProfiles[0];
+  const primaryTeacher = teacherProfiles[0];
 
   const mappedStudents: StudentProfile[] = studentProfiles.map((student) => ({
     id: student.id,
@@ -340,10 +340,10 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
 
   return {
     teacher: {
-      id: fallbackTeacher?.id ?? '',
-      profileId: fallbackTeacher?.profile_id ?? '',
-      displayName: firstRelation(fallbackTeacher?.profiles)?.display_name ?? 'Teacher',
-      email: fallbackTeacher?.email ?? '',
+      id: primaryTeacher?.id ?? '',
+      profileId: primaryTeacher?.profile_id ?? '',
+      displayName: firstRelation(primaryTeacher?.profiles)?.display_name ?? 'Teacher',
+      email: primaryTeacher?.email ?? '',
     },
     classes: classes.map((classRecord) => ({
       id: classRecord.id,

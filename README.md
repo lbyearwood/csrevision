@@ -11,7 +11,7 @@ Mobile-first student knowledge testing platform for teacher-created accounts, cl
 
 ## Local Development
 
-For a new computer or Codex environment, follow [docs/CODEX_START_PROCESS.md](docs/CODEX_START_PROCESS.md) first, then read [docs/HANDOVER.md](docs/HANDOVER.md) and [docs/DEVELOPMENT_SETUP.md](docs/DEVELOPMENT_SETUP.md). If local commands behave oddly, check [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md). The frontend can run without Supabase for UI-only checks, but full account/backend work requires Docker Desktop and the local Supabase stack.
+For a new computer or Codex environment, follow [docs/CODEX_START_PROCESS.md](docs/CODEX_START_PROCESS.md) first, then read [docs/HANDOVER.md](docs/HANDOVER.md) and [docs/DEVELOPMENT_SETUP.md](docs/DEVELOPMENT_SETUP.md). If local commands behave oddly, check [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md). Until launch, all development and QA require Docker Desktop and the local Supabase stack; there is no frontend-only/demo fallback.
 
 ```bash
 npm.cmd install

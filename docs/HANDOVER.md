@@ -40,12 +40,13 @@ Current working mode is persist mode:
 
 - Use local Supabase for Auth, Postgres, RLS, seed data, Edge Functions, assignments, attempts, answers, points, and results.
 - Do not treat teacher actions as UI-only mocks.
-- The app can still fall back to demo/in-memory data when Supabase env vars are absent, but that mode is only for light UI checks.
+- There is no frontend-only/demo fallback. Missing `.env.local` or local Supabase config must block sign-in and surface a local Supabase required message.
 
 Recent completed work:
 
 - `supabase/tests/rls_policies.sql` is now an executable pgTAP suite with 22 passing local database tests.
 - The RLS suite verifies student isolation, staff-only question/option protection, teacher ownership boundaries, anon denial, assigned-attempt uniqueness, and immutability after attempts exist.
+- Frontend demo fallback was removed. `src/data/demoData.ts` was deleted, auth no longer returns fake users, and `scripts/generate-placeholder-resources.mjs` now writes only `supabase/seed.sql`.
 - Teacher Assignments contrast was fixed: light dropdowns/date inputs and light nested topic/test rows now explicitly use dark `text-ink` inside dark panels.
 - Codex start and end process docs now define the standard session lifecycle: pull/read/install/run/report at start, then update docs/write handover/commit/push at end.
 - Teacher Tests page is organized like the student Practice page.
@@ -244,6 +245,7 @@ Run a clean local Supabase reset and test pass, then continue Edge Function hard
 
 - Use `npm.cmd` and `npx.cmd` in PowerShell.
 - Use local Supabase for backend/security/persistence work.
+- Do not reintroduce frontend-only/demo fallback data or demo login paths before launch.
 - Keep migrations as the schema source of truth.
 - Keep RLS enabled on all exposed `public` tables.
 - Do not authorize from user-editable metadata.
