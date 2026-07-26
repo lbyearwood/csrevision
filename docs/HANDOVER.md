@@ -9,12 +9,13 @@ Audience: a new Codex agent continuing `csrevision` on a different development c
 Read these files in order:
 
 1. `docs/CODEX_START_PROCESS.md`
-2. `docs/HANDOVER.md`
-3. `docs/PROJECT_TASKS.md`
-4. `PROJECT_BRIEF.md`
-5. `docs/DEVELOPMENT_SETUP.md`
-6. `docs/SUPABASE_SETUP.md`
-7. `docs/TROUBLESHOOTING.md`
+2. `docs/CODEX_END_PROCESS.md`
+3. `docs/HANDOVER.md`
+4. `docs/PROJECT_TASKS.md`
+5. `PROJECT_BRIEF.md`
+6. `docs/DEVELOPMENT_SETUP.md`
+7. `docs/SUPABASE_SETUP.md`
+8. `docs/TROUBLESHOOTING.md`
 
 The active branch is:
 
@@ -43,6 +44,7 @@ Current working mode is persist mode:
 
 Recent completed work:
 
+- Codex start and end process docs now define the standard session lifecycle: pull/read/install/run/report at start, then update docs/write handover/commit/push at end.
 - Teacher Tests page is organized like the student Practice page.
 - Teacher Assignments page is split into `Create assignment` and `Existing assignments`.
 - Teachers can select a class, course, one or more published tests, and an optional due date.
@@ -171,6 +173,13 @@ typecheck: passed
 lint: passed
 test: passed, 4 files / 11 tests
 build: passed
+```
+
+Latest docs-only process update verification on 2026-07-26:
+
+```text
+git diff --check: passed
+frontend tests/build: not rerun because only Codex process documentation changed
 ```
 
 Browser QA that passed:

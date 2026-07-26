@@ -31,6 +31,7 @@ This section records material project direction changes, architecture decisions,
 | 2026-07-25 | 0.2 | Added fresh-machine development setup documentation for Codex, including dependency and local Supabase requirements. | Make the project reproducible when pulled onto another development computer. |
 | 2026-07-25 | 0.2 | Reframed project docs for Codex handoff rather than user reading. | User explicitly wants persistent docs to guide future Codex agents. |
 | 2026-07-26 | 0.2 | Added a required Codex start process: sync Git, read docs, refresh dependencies, run the site, and report the next task. | Make every new Codex session begin from the same verified project state. |
+| 2026-07-26 | 0.2 | Added a required Codex end process: verify work, update docs, write handover, commit, push, and report next task. | Make every completed Codex session leave the repository and handover state ready for another computer. |
 
 ## Change Control Process
 

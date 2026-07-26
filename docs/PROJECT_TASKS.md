@@ -4,7 +4,7 @@ Last updated: 2026-07-26
 
 Audience: Codex agents. The user does not plan to read this. Keep this file terse, current, and action-oriented.
 
-This is the active project state file for `csrevision`. Future Codex agents should follow `docs/CODEX_START_PROCESS.md` first, then read this file, then `PROJECT_BRIEF.md`, then the specific docs for the area being changed.
+This is the active project state file for `csrevision`. Future Codex agents should follow `docs/CODEX_START_PROCESS.md` first, then read this file, then `PROJECT_BRIEF.md`, then the specific docs for the area being changed. Before ending after changes, follow `docs/CODEX_END_PROCESS.md`.
 
 Status key:
 
@@ -65,6 +65,7 @@ Codex update protocol:
 - `[x]` Added `docs/DEVELOPMENT_SETUP.md` with fresh-machine dependencies, frontend-only mode, full local Supabase setup, seed verification, and Codex run commands.
 - `[x]` Added `docs/HANDOVER.md` for continuing on a different PC.
 - `[x]` Added `docs/CODEX_START_PROCESS.md` defining the required Codex startup sequence: sync Git, read docs, install dependencies, run the site, and report the next task.
+- `[x]` Added `docs/CODEX_END_PROCESS.md` defining the required Codex finish sequence: verify, update dev docs, write handover, commit, push, and report next task.
 - `[x]` Implemented persistent teacher assignment creation in local Supabase.
 - `[x]` Split Teacher Assignments into `Create assignment` and `Existing assignments`.
 - `[x]` Added assignment history by selected class/course with unit/topic rows, available test, times assigned, and last five due dates.

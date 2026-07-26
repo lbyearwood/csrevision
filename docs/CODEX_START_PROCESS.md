@@ -38,12 +38,13 @@ If the working tree is dirty:
 Read these in order:
 
 1. `docs/CODEX_START_PROCESS.md`
-2. `docs/HANDOVER.md`
-3. `docs/PROJECT_TASKS.md`
-4. `PROJECT_BRIEF.md`
-5. `docs/DEVELOPMENT_SETUP.md`
-6. `docs/TROUBLESHOOTING.md`
-7. `docs/SUPABASE_SETUP.md` before any backend, Auth, RLS, seed, Edge Function, or persistence work
+2. `docs/CODEX_END_PROCESS.md`
+3. `docs/HANDOVER.md`
+4. `docs/PROJECT_TASKS.md`
+5. `PROJECT_BRIEF.md`
+6. `docs/DEVELOPMENT_SETUP.md`
+7. `docs/TROUBLESHOOTING.md`
+8. `docs/SUPABASE_SETUP.md` before any backend, Auth, RLS, seed, Edge Function, or persistence work
 
 Use `docs/PROJECT_TASKS.md` as the live source for current focus, open blockers, and next actions.
 
@@ -158,3 +159,4 @@ Continue backend wiring for save-answer, submit-test-attempt, result detail, sus
 - Do not run destructive local database resets unless needed for the task and clearly appropriate.
 - Do not expose service-role keys, correct answers, hidden mark schemes, or privileged marking logic to the frontend.
 - Do not leave docs stale after completing or changing project direction.
+- After making changes, follow `docs/CODEX_END_PROCESS.md` before the final response.
