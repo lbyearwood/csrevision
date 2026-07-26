@@ -11,7 +11,7 @@ Mobile-first student knowledge testing platform for teacher-created accounts, cl
 
 ## Local Development
 
-For a new computer or Codex environment, read [docs/HANDOVER.md](docs/HANDOVER.md) first, then [docs/DEVELOPMENT_SETUP.md](docs/DEVELOPMENT_SETUP.md). If local commands behave oddly, check [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md). The frontend can run without Supabase for UI-only checks, but full account/backend work requires Docker Desktop and the local Supabase stack.
+For a new computer or Codex environment, follow [docs/CODEX_START_PROCESS.md](docs/CODEX_START_PROCESS.md) first, then read [docs/HANDOVER.md](docs/HANDOVER.md) and [docs/DEVELOPMENT_SETUP.md](docs/DEVELOPMENT_SETUP.md). If local commands behave oddly, check [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md). The frontend can run without Supabase for UI-only checks, but full account/backend work requires Docker Desktop and the local Supabase stack.
 
 ```bash
 npm.cmd install
@@ -51,6 +51,7 @@ Deferred to later versions: AI written-answer marking, certificates, CSV import/
 
 Future Codex agents should start with:
 
+- [docs/CODEX_START_PROCESS.md](docs/CODEX_START_PROCESS.md) for the required pull/read/install/run/report startup sequence.
 - [docs/HANDOVER.md](docs/HANDOVER.md) for the current continuation state and fresh-PC bootstrap.
 - [docs/PROJECT_TASKS.md](docs/PROJECT_TASKS.md) for live state, current tasks, and blockers.
 - [PROJECT_BRIEF.md](PROJECT_BRIEF.md) for product rules and long-term architecture constraints.

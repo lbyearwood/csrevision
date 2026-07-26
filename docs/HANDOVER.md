@@ -8,12 +8,13 @@ Audience: a new Codex agent continuing `csrevision` on a different development c
 
 Read these files in order:
 
-1. `docs/HANDOVER.md`
-2. `docs/PROJECT_TASKS.md`
-3. `PROJECT_BRIEF.md`
-4. `docs/DEVELOPMENT_SETUP.md`
-5. `docs/SUPABASE_SETUP.md`
-6. `docs/TROUBLESHOOTING.md`
+1. `docs/CODEX_START_PROCESS.md`
+2. `docs/HANDOVER.md`
+3. `docs/PROJECT_TASKS.md`
+4. `PROJECT_BRIEF.md`
+5. `docs/DEVELOPMENT_SETUP.md`
+6. `docs/SUPABASE_SETUP.md`
+7. `docs/TROUBLESHOOTING.md`
 
 The active branch is:
 

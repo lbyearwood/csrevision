@@ -9,7 +9,7 @@
 **Primary deployment model:** GitHub Pages frontend + Supabase backend  
 **Primary local development model:** Docker Desktop + local Supabase/Postgres via pinned Supabase CLI  
 **Primary design rule:** Mobile-first, tablet-second, desktop-adapted  
-**Codex audience note:** Future agents should treat this as product constraints and decision history. Read `docs/PROJECT_TASKS.md` first for live state.
+**Codex audience note:** Future agents should treat this as product constraints and decision history. Follow `docs/CODEX_START_PROCESS.md` first, then read `docs/PROJECT_TASKS.md` for live state.
 
 ---
 
@@ -30,6 +30,7 @@ This section records material project direction changes, architecture decisions,
 | 2026-07-25 | 0.2 | Established the current visual theme rule: light page background, dark top-level cards/chrome, light nested rows/cards. | Improve contrast and visual consistency across student and teacher/admin pages. |
 | 2026-07-25 | 0.2 | Added fresh-machine development setup documentation for Codex, including dependency and local Supabase requirements. | Make the project reproducible when pulled onto another development computer. |
 | 2026-07-25 | 0.2 | Reframed project docs for Codex handoff rather than user reading. | User explicitly wants persistent docs to guide future Codex agents. |
+| 2026-07-26 | 0.2 | Added a required Codex start process: sync Git, read docs, refresh dependencies, run the site, and report the next task. | Make every new Codex session begin from the same verified project state. |
 
 ## Change Control Process
 

@@ -7,11 +7,12 @@ Audience: Codex agents bootstrapping this repository on a new machine. The user 
 ## Read Order
 
 1. `docs/HANDOVER.md` for the latest continuation state.
-2. `docs/PROJECT_TASKS.md` for live tasks and blockers.
-3. `PROJECT_BRIEF.md` for product rules and architecture constraints.
-4. This file for machine setup.
-5. `docs/TROUBLESHOOTING.md` if local commands fail or Windows/Codex behaves oddly.
-6. `docs/SUPABASE_SETUP.md` before any backend, Auth, RLS, seed, or Edge Function work.
+2. `docs/CODEX_START_PROCESS.md` for the required pull/read/install/run/report startup sequence.
+3. `docs/PROJECT_TASKS.md` for live tasks and blockers.
+4. `PROJECT_BRIEF.md` for product rules and architecture constraints.
+5. This file for machine setup.
+6. `docs/TROUBLESHOOTING.md` if local commands fail or Windows/Codex behaves oddly.
+7. `docs/SUPABASE_SETUP.md` before any backend, Auth, RLS, seed, or Edge Function work.
 
 ## Required Dependencies
 
