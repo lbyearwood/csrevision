@@ -51,6 +51,7 @@ Audience: Codex agents. The user does not plan to read this. Keep updates direct
 - Frontend sign-in helpers now load role/display name from `public.profiles` after Supabase Auth succeeds.
 - Local `start-test-attempt` was verified through Edge Runtime for an assigned assessment.
 - A past-due assigned assessment was verified to start successfully. Due dates are metadata only.
+- Local database pgTAP tests pass: `npx.cmd supabase test db --local supabase\tests` runs 22 RLS/integrity checks successfully.
 
 ## Current Known Issue
 
@@ -132,11 +133,21 @@ docker exec supabase_db_csrevision psql -v ON_ERROR_STOP=1 -U postgres -d postgr
 
 Do not use `npx.cmd supabase db query --local --file supabase\seed.sql` for this file. With CLI `2.109.1`, it currently treats the file as a prepared statement and rejects multi-statement SQL.
 
-## Current Database Test Caveat
+## Database Tests
 
-- `supabase/tests/rls_policies.sql` is currently a checklist/comment file, not executable pgTAP.
-- `npx.cmd supabase test db --local supabase\tests` fails until that file is converted to a real TAP-producing test.
-- Treat that failure as a test-suite implementation gap, not evidence that migrations failed.
+- `supabase/tests/rls_policies.sql` is executable pgTAP.
+- The suite seeds throwaway rows inside a transaction and rolls them back.
+- Current coverage:
+  - student self-profile access
+  - student isolation from other students' profiles, attempts, answers, and unrelated classes
+  - student denial from staff-only questions and question options
+  - teacher access to owned class/student/question data
+  - teacher denial from another teacher's class, student, attempt, and answer data
+  - anon denial from private student data
+  - one unvoided assigned attempt per student/assignment
+  - immutability for attempted test versions, questions, and question options
+- Latest result on 2026-07-26: 22 tests passed.
+- `grant_pg_cron_access` / `grant_pg_net_access` warnings can appear because the test transaction grants pgTAP function execution broadly to local roles. They did not fail the suite.
 
 ## Current Schema Snapshot
 
@@ -206,9 +217,8 @@ leaderboard_rows=5
 ## Next Backend Tasks
 
 - Confirm `supabase db reset --local` replays `supabase/seed.sql` cleanly from scratch.
-- Convert `supabase/tests/rls_policies.sql` to executable pgTAP.
-- Verify student isolation, teacher ownership boundaries, hidden-answer protection, and assigned-attempt enforcement.
 - Exercise Edge Functions locally against the local Supabase stack.
+- Expand database/Edge Function tests for answer save, submit, attempt event logging, reset-assigned-attempt, and student account management.
 
 ## Official Reference URLs
 

@@ -32,6 +32,7 @@ This section records material project direction changes, architecture decisions,
 | 2026-07-25 | 0.2 | Reframed project docs for Codex handoff rather than user reading. | User explicitly wants persistent docs to guide future Codex agents. |
 | 2026-07-26 | 0.2 | Added a required Codex start process: sync Git, read docs, refresh dependencies, run the site, and report the next task. | Make every new Codex session begin from the same verified project state. |
 | 2026-07-26 | 0.2 | Added a required Codex end process: verify work, update docs, write handover, commit, push, and report next task. | Make every completed Codex session leave the repository and handover state ready for another computer. |
+| 2026-07-26 | 0.2 | Converted the local RLS checklist into executable pgTAP database tests. | Make student isolation, teacher ownership boundaries, staff-only content protection, assigned-attempt uniqueness, and attempted-content immutability repeatably verifiable. |
 
 ## Change Control Process
 

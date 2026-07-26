@@ -26,7 +26,7 @@ Codex update protocol:
 
 - `[~]` Build the local Supabase/Postgres backend into the source of truth for the project.
 - `[~]` Move the frontend from demo/in-memory data toward real Supabase-backed flows.
-- `[ ]` Convert the RLS checklist into executable database tests.
+- `[ ]` Confirm seed data can be recreated from a clean local reset.
 - `[ ]` Continue backend wiring beyond assignments: student creation, password reset, result detail, suspicious activity detail, answer save/submit hardening, and full regression QA.
 
 ## Recently Completed
@@ -73,6 +73,8 @@ Codex update protocol:
 - `[x]` Removed due-date deadline enforcement from `start-test-attempt`; due dates are planning metadata only.
 - `[x]` Diagnosed stopped local Edge Runtime; `docker start supabase_edge_runtime_csrevision` restored function calls.
 - `[x]` Browser QA verified a past-due assigned assessment can start and load the active test screen.
+- `[x]` Converted `supabase/tests/rls_policies.sql` from checklist notes into an executable pgTAP suite.
+- `[x]` Verified 22 local RLS/integrity database tests pass with `npx.cmd supabase test db --local supabase\tests`.
 
 ## Backend: Supabase And Postgres
 
@@ -89,12 +91,12 @@ Codex update protocol:
 - `[x]` Seed practice test data.
 - `[x]` Seed one placeholder five-question multiple-choice practice test for every confirmed OCR GCSE Computer Science topic.
 - `[ ]` Confirm seed data can be recreated from a clean local reset.
-- `[ ]` Convert `supabase/tests/rls_policies.sql` from checklist notes into executable pgTAP tests.
-- `[ ]` Test that students cannot read other students' data.
-- `[ ]` Test that students cannot read correct answers, mark schemes, or hidden feedback.
-- `[ ]` Test that teachers cannot read classes/students/attempts outside their ownership.
-- `[ ]` Test assigned one-attempt enforcement at the database/function layer.
-- `[ ]` Test test-version immutability after attempts exist.
+- `[x]` Convert `supabase/tests/rls_policies.sql` from checklist notes into executable pgTAP tests.
+- `[x]` Test that students cannot read other students' data.
+- `[x]` Test that students cannot read staff-only question and option content.
+- `[x]` Test that teachers cannot read classes/students/attempts/answers outside their ownership.
+- `[x]` Test assigned one-attempt enforcement at the database layer.
+- `[x]` Test test-version/question/option immutability after attempts exist.
 - `[ ]` Investigate `supabase_vector_csrevision` restart loop and decide whether to exclude it locally or fix Docker log access.
 - `[x]` Document local Supabase start/stop/reset workflow.
 - `[x]` Document when a second development computer needs local Supabase versus frontend-only demo mode.
@@ -184,7 +186,7 @@ Codex update protocol:
 - `[x]` Frontend lint passes.
 - `[x]` Frontend unit tests pass.
 - `[x]` Frontend production build passes.
-- `[ ]` Database pgTAP tests pass.
+- `[x]` Database pgTAP tests pass.
 - `[ ]` Full Edge Function local test suite passes.
 - `[~]` Browser QA passes with local Supabase data. Targeted assignment persistence and past-due start QA passed; full regression remains open.
 - `[ ]` Regression checklist documented before deployment.
@@ -217,7 +219,7 @@ Codex update protocol:
 - `[!]` Decide whether local Supabase should exclude the Vector/log collector service if it keeps restarting.
 - `[!]` Decide seed-user password rules for local development.
 - `[!]` Decide whether teacher/admin accounts are manually seeded for MVP or created through admin-only UI first.
-- `[!]` Decide the minimum database test set required before connecting real student data.
+- `[!]` Decide the next database/Edge Function test set required before connecting real student data.
 
 ## Notes
 

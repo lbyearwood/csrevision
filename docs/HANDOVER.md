@@ -44,6 +44,8 @@ Current working mode is persist mode:
 
 Recent completed work:
 
+- `supabase/tests/rls_policies.sql` is now an executable pgTAP suite with 22 passing local database tests.
+- The RLS suite verifies student isolation, staff-only question/option protection, teacher ownership boundaries, anon denial, assigned-attempt uniqueness, and immutability after attempts exist.
 - Codex start and end process docs now define the standard session lifecycle: pull/read/install/run/report at start, then update docs/write handover/commit/push at end.
 - Teacher Tests page is organized like the student Practice page.
 - Teacher Assignments page is split into `Create assignment` and `Existing assignments`.
@@ -182,6 +184,12 @@ git diff --check: passed
 frontend tests/build: not rerun because only Codex process documentation changed
 ```
 
+Latest backend verification on 2026-07-26:
+
+```text
+npx.cmd supabase test db --local supabase\tests: passed, 22 tests
+```
+
 Browser QA that passed:
 
 - Teacher created assignments for `8A Computing`.
@@ -214,12 +222,16 @@ The QA-created local rows are only in this machine's local Supabase database. Th
 
 ## Current Known Gaps
 
-- RLS tests in `supabase/tests/rls_policies.sql` are still checklist notes, not executable pgTAP.
+- Clean reset replay has not been reverified after the pgTAP conversion. Next backend check should run `npx.cmd supabase db reset --local`, then `npx.cmd supabase test db --local supabase\tests`.
 - Browser QA is targeted, not a full regression suite.
 - Student result detail, submit confirmation, timeout auto-submit, offline/interrupted-attempt handling, and accessibility pass are still open.
 - Teacher student creation/editing, password reset, class editing, result detail, and suspicious activity detail need more real backend wiring.
 - Placeholder tests are not production content. They exist to exercise the data shape.
 - Production Supabase setup, Edge Function deployment, GitHub Pages env wiring, and production smoke testing are not done.
+
+## Next Recommended Task
+
+Run a clean local Supabase reset and test pass, then continue Edge Function hardening in this order: `save-answer`, `submit-test-attempt`, `log-attempt-event`, `reset-assigned-attempt`, then student account creation/password reset flows.
 
 ## Development Rules To Preserve
 
