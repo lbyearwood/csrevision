@@ -44,8 +44,9 @@ Current working mode is persist mode:
 
 Recent completed work:
 
-- `supabase/tests/rls_policies.sql` is now an executable pgTAP suite with 22 passing local database tests.
-- The RLS suite verifies student isolation, staff-only question/option protection, teacher ownership boundaries, anon denial, assigned-attempt uniqueness, and immutability after attempts exist.
+- `supabase/tests/rls_policies.sql` is now an executable pgTAP suite with 25 passing local database tests.
+- The RLS suite verifies student isolation, staff-only question/option protection, teacher ownership boundaries, teacher class-update ownership, anon denial, assigned-attempt uniqueness, and immutability after attempts exist.
+- Teacher Classes now supports inline editing for class name, academic year, year group, and status. Saves go through local Supabase `public.classes`; no frontend-only fallback is allowed.
 - Frontend demo fallback was removed. `src/data/demoData.ts` was deleted, auth no longer returns fake users, and `scripts/generate-placeholder-resources.mjs` now writes only `supabase/seed.sql`.
 - Placeholder test resources now use `<topic> test 1` titles and `*-test-1` slugs. There should be zero generated `*-check` test slugs.
 - Teacher assignment creation has topic-level `Select all` / `Clear topic` controls for all tests under a topic.
@@ -175,7 +176,7 @@ npm.cmd run build
 Latest verified checks on this branch:
 
 ```text
-2026-07-26 resource naming/topic bulk-select update:
+2026-07-26 class details editing update:
 npm.cmd run typecheck: passed
 npm.cmd run lint: passed
 npm.cmd run test: passed, 4 files / 11 tests
@@ -191,16 +192,15 @@ git diff --check: passed
 Latest backend verification on 2026-07-26:
 
 ```text
-docker cp supabase\seed.sql supabase_db_csrevision:/tmp/csrevision_seed.sql: passed
-docker exec supabase_db_csrevision psql -v ON_ERROR_STOP=1 -U postgres -d postgres -f /tmp/csrevision_seed.sql: passed
-seed naming query: test_1_slugs=41, check_slugs=0, sample_title="1.1 Programming fundamentals test 1"
-npx.cmd supabase test db --local supabase\tests: passed, 22 tests
+npx.cmd supabase test db --local supabase\tests: passed, 25 tests
+New class-update coverage: owned teacher class update allowed; unrelated teacher class update denied.
 ```
 
 Latest frontend visual QA on 2026-07-26:
 
 ```text
 Teacher Assignments in in-app Browser with local Supabase data: `1.1 Programming fundamentals test 1` rendered; topic `Select all` changed the summary to `1 tests selected`, topic state to `1/1 selected`, checkbox to checked, and the row to blue; `Clear topic` returned the summary to `0 tests selected`, topic state to `0/1 selected`, and create button to disabled; no console warnings/errors.
+Teacher Classes in in-app Browser with local Supabase data: editing `8A Computing` to temporary details saved, the edited value persisted after re-sign-in, and the seed values were restored to `8A Computing`, `2026/27`, Year `8`; no console warnings/errors.
 ```
 
 Browser QA that passed:
@@ -238,7 +238,8 @@ The QA-created local rows are only in this machine's local Supabase database. Th
 - Clean reset replay has not been reverified after the pgTAP conversion. Next backend check should run `npx.cmd supabase db reset --local`, then `npx.cmd supabase test db --local supabase\tests`.
 - Browser QA is targeted, not a full regression suite.
 - Student result detail, submit confirmation, timeout auto-submit, offline/interrupted-attempt handling, and accessibility pass are still open.
-- Teacher student creation/editing, password reset, class editing, result detail, and suspicious activity detail need more real backend wiring.
+- Teacher student creation/editing, password reset, class creation, result detail, and suspicious activity detail need more real backend wiring.
+- Hard browser reload currently returns to the sign-in screen instead of restoring the existing Supabase auth session into `AppState`. This does not block the class-edit flow, but session restoration should be fixed before wider QA.
 - Placeholder tests are not production content. They exist to exercise the data shape.
 - Production Supabase setup, Edge Function deployment, GitHub Pages env wiring, and production smoke testing are not done.
 

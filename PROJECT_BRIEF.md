@@ -35,6 +35,7 @@ This section records material project direction changes, architecture decisions,
 | 2026-07-26 | 0.2 | Converted the local RLS checklist into executable pgTAP database tests. | Make student isolation, teacher ownership boundaries, staff-only content protection, assigned-attempt uniqueness, and attempted-content immutability repeatably verifiable. |
 | 2026-07-26 | 0.2 | Removed frontend demo fallback and made local Supabase mandatory for development and QA until launch. | Ensure every visible workflow uses Auth, RLS, seed data, Edge Functions, and persistent backend behaviour. |
 | 2026-07-26 | 0.2 | Adopted generated test naming as `<topic> test 1` and added topic-level bulk selection in teacher assignment creation. | Support multiple tests per topic without using `check` wording or forcing teachers to select each topic test one by one. |
+| 2026-07-26 | 0.2 | Added teacher class details editing backed by local Supabase and RLS tests for class update ownership. | Let teachers maintain class metadata from the Classes page while preserving teacher ownership boundaries. |
 
 ## Change Control Process
 

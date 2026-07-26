@@ -77,11 +77,13 @@ Codex update protocol:
 - `[x]` Diagnosed stopped local Edge Runtime; `docker start supabase_edge_runtime_csrevision` restored function calls.
 - `[x]` Browser QA verified a past-due assigned assessment can start and load the active test screen.
 - `[x]` Converted `supabase/tests/rls_policies.sql` from checklist notes into an executable pgTAP suite.
-- `[x]` Verified 22 local RLS/integrity database tests pass with `npx.cmd supabase test db --local supabase\tests`.
+- `[x]` Verified 25 local RLS/integrity database tests pass with `npx.cmd supabase test db --local supabase\tests`.
 - `[x]` Fixed teacher Assignments contrast so light dropdowns, date inputs, topic cards, and test rows reset to dark text inside dark panels.
 - `[x]` Removed frontend demo fallback: deleted `src/data/demoData.ts`, removed fake auth returns, and made missing Supabase config block sign-in.
 - `[x]` Renamed generated placeholder tests from generic/check wording to `<topic> test 1` and changed generated slugs to `*-test-1`.
 - `[x]` Added topic-level `Select all` / `Clear topic` controls in teacher assignment creation.
+- `[x]` Added teacher Classes inline editing for class name, academic year, year group, and status, persisted through local Supabase.
+- `[x]` Expanded local pgTAP database tests to 25 checks, including teacher class update ownership.
 
 ## Backend: Supabase And Postgres
 
@@ -102,6 +104,7 @@ Codex update protocol:
 - `[x]` Test that students cannot read other students' data.
 - `[x]` Test that students cannot read staff-only question and option content.
 - `[x]` Test that teachers cannot read classes/students/attempts/answers outside their ownership.
+- `[x]` Test that teachers can update owned classes and cannot update classes owned by another teacher.
 - `[x]` Test assigned one-attempt enforcement at the database layer.
 - `[x]` Test test-version/question/option immutability after attempts exist.
 - `[ ]` Investigate `supabase_vector_csrevision` restart loop and decide whether to exclude it locally or fix Docker log access.
@@ -138,7 +141,7 @@ Codex update protocol:
 - `[ ]` Load student results from Supabase.
 - `[ ]` Load student leaderboard from Supabase.
 - `[ ]` Load teacher dashboard metrics from Supabase.
-- `[~]` Load teacher students/classes/tests/assignments/results from Supabase. Assignment create/history is now persisted; remaining teacher views still need deeper backend wiring.
+- `[~]` Load teacher students/classes/tests/assignments/results from Supabase. Assignment create/history and class editing are now persisted; remaining teacher views still need deeper backend wiring.
 - `[ ]` Add loading, empty, and error states for every Supabase-backed page.
 
 ## Frontend: Student Experience
@@ -170,7 +173,8 @@ Codex update protocol:
 - `[ ]` Student creation UI.
 - `[ ]` Student edit UI.
 - `[ ]` Password reset flow wired to backend.
-- `[ ]` Class creation/editing UI.
+- `[x]` Class editing UI for existing classes.
+- `[ ]` Class creation UI.
 - `[x]` Assignment creation UI.
 - `[x]` Topic-level bulk select/clear controls for assignment creation.
 - `[ ]` Single Resources workflow replacing separate Tests/Assignments navigation.
@@ -198,7 +202,7 @@ Codex update protocol:
 - `[x]` Frontend production build passes.
 - `[x]` Database pgTAP tests pass.
 - `[ ]` Full Edge Function local test suite passes.
-- `[~]` Browser QA passes with local Supabase data. Targeted assignment persistence and past-due start QA passed; full regression remains open.
+- `[~]` Browser QA passes with local Supabase data. Targeted assignment persistence, past-due start, topic bulk-select, and class editing QA passed; full regression remains open.
 - `[ ]` Regression checklist documented before deployment.
 
 ## Deployment

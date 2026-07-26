@@ -4,7 +4,7 @@ import { signOut as signOutFromSupabase } from '../lib/auth';
 import { statusForPoints } from '../lib/points';
 import { buildLeaderboardFromPoints, loadSupabaseSnapshot, type SupabaseSnapshot } from '../lib/supabaseData';
 import { isSupabaseConfigured, supabase } from '../lib/supabaseClient';
-import type { AttemptEvent, PointsTransaction, Question, StudentAnswer, StudentProfile, TeacherProfile, TestAssignment, TestAttempt, UserRole } from '../types/domain';
+import type { AttemptEvent, ClassRecord, PointsTransaction, Question, StudentAnswer, StudentProfile, TeacherProfile, TestAssignment, TestAttempt, UserRole } from '../types/domain';
 
 interface SessionState {
   role: UserRole | null;
@@ -24,6 +24,14 @@ interface CreateAssignmentsInput {
   attemptLimit?: number;
   feedbackPolicy?: TestAssignment['feedbackPolicy'];
   status?: TestAssignment['status'];
+}
+
+interface UpdateClassInput {
+  id: string;
+  className: string;
+  academicYear: string;
+  yearGroup: string;
+  status: ClassRecord['status'];
 }
 
 interface StartAttemptResponse {
@@ -61,6 +69,15 @@ interface AssignmentRow {
   status: TestAssignment['status'];
 }
 
+interface ClassRow {
+  id: string;
+  class_name: string;
+  academic_year: string | null;
+  year_group: string | null;
+  owner_teacher_id: string;
+  status: ClassRecord['status'];
+}
+
 interface AppStateValue extends SupabaseSnapshot {
   session: SessionState;
   setSession: (session: SessionState) => void;
@@ -77,6 +94,7 @@ interface AppStateValue extends SupabaseSnapshot {
   logAttemptEvent: (attemptId: string, eventType: AttemptEvent['eventType']) => void;
   voidAssignedAttempt: (attemptId: string, reason: string) => void;
   createAssignments: (input: CreateAssignmentsInput) => Promise<TestAssignment[]>;
+  updateClass: (input: UpdateClassInput) => Promise<ClassRecord>;
 }
 
 const SUPABASE_REQUIRED_MESSAGE =
@@ -148,6 +166,17 @@ function mapAssignmentRow(row: AssignmentRow): TestAssignment {
     timeLimitSeconds: row.time_limit_seconds ?? 0,
     attemptLimit: row.attempt_limit,
     feedbackPolicy: row.feedback_policy,
+    status: row.status,
+  };
+}
+
+function mapClassRow(row: ClassRow): ClassRecord {
+  return {
+    id: row.id,
+    className: row.class_name,
+    academicYear: row.academic_year ?? '',
+    yearGroup: row.year_group ?? '',
+    ownerTeacherId: row.owner_teacher_id,
     status: row.status,
   };
 }
@@ -330,6 +359,44 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     return createSupabaseAssignments(input);
   };
 
+  const updateSupabaseClass = async (input: UpdateClassInput): Promise<ClassRecord> => {
+    if (!supabase) throw new Error('Supabase is not configured');
+    const className = input.className.trim();
+    const academicYear = input.academicYear.trim();
+    const yearGroup = input.yearGroup.trim();
+    if (!className) throw new Error('Class name is required');
+
+    const { data, error } = await supabase
+      .from('classes')
+      .update({
+        class_name: className,
+        academic_year: academicYear || null,
+        year_group: yearGroup || null,
+        status: input.status,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', input.id)
+      .select('id, class_name, academic_year, year_group, owner_teacher_id, status')
+      .single();
+    if (error) throw error;
+
+    const updatedClass = mapClassRow(data as ClassRow);
+    setSnapshot((current) => ({
+      ...current,
+      classes: current.classes.map((classRecord) => (classRecord.id === updatedClass.id ? updatedClass : classRecord)),
+      leaderboardRows: current.leaderboardRows.map((row) => {
+        const student = current.students.find((studentRecord) => studentRecord.id === row.studentId);
+        return student?.classId === updatedClass.id ? { ...row, className: updatedClass.className } : row;
+      }),
+    }));
+    return updatedClass;
+  };
+
+  const updateClass = async (input: UpdateClassInput): Promise<ClassRecord> => {
+    if (!isSupabaseBacked) throw new Error(SUPABASE_REQUIRED_MESSAGE);
+    return updateSupabaseClass(input);
+  };
+
   const saveAnswer = (attemptId: string, questionId: string, answer: string) => {
     if (!isSupabaseBacked) {
       setDataError(SUPABASE_REQUIRED_MESSAGE);
@@ -496,6 +563,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     logAttemptEvent,
     voidAssignedAttempt,
     createAssignments,
+    updateClass,
   };
 
   return <AppStateContext.Provider value={value}>{children}</AppStateContext.Provider>;

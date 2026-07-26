@@ -5,7 +5,7 @@ create extension if not exists pgtap with schema extensions;
 grant usage on schema extensions to authenticated, anon;
 grant execute on all functions in schema extensions to authenticated, anon;
 
-select plan(22);
+select plan(25);
 
 create temp table rls_test_refs as
 select
@@ -257,6 +257,28 @@ select is(
   'teacher can read their owned class'
 );
 
+with updated as (
+  update public.classes
+  set
+    class_name = '8A Computing Edited',
+    academic_year = '2027/28',
+    year_group = '10',
+    updated_at = now()
+  where id = '40000000-0000-4000-8000-000000000001'
+  returning id
+)
+select is(
+  (select count(*)::integer from updated),
+  1,
+  'teacher can update their owned class'
+);
+
+select is(
+  (select class_name from public.classes where id = '40000000-0000-4000-8000-000000000001'),
+  '8A Computing Edited',
+  'teacher can read their owned class update'
+);
+
 select ok(
   (select count(*) from public.student_profiles) >= 5,
   'teacher can read students in their owned class'
@@ -276,6 +298,18 @@ select is(
   (select count(*)::integer from public.classes where id = '40000000-0000-4000-8000-000000000201'),
   0,
   'teacher cannot read another teacher class'
+);
+
+with updated as (
+  update public.classes
+  set class_name = 'Blocked Outside Class'
+  where id = '40000000-0000-4000-8000-000000000201'
+  returning id
+)
+select is(
+  (select count(*)::integer from updated),
+  0,
+  'teacher cannot update another teacher class'
 );
 
 select is(

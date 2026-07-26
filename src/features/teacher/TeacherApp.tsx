@@ -10,15 +10,18 @@ import {
   Home,
   LogOut,
   Menu,
+  Pencil,
+  Save,
   Search,
   Settings,
   SquareCheck,
   SquareMinus,
   Trophy,
   UsersRound,
+  X,
 } from 'lucide-react';
 import { Route, Routes, NavLink } from 'react-router-dom';
-import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { useAppState } from '../../app/AppState';
 import { Button } from '../../components/ui/Button';
 import { Metric } from '../../components/ui/Metric';
@@ -278,21 +281,144 @@ function SummaryRow({ label, value }: { label: string; value: string }) {
 
 function ClassesPage() {
   const state = useAppState();
+  const [editingClassId, setEditingClassId] = useState<string | null>(null);
+  const [draft, setDraft] = useState({
+    className: '',
+    academicYear: '',
+    yearGroup: '',
+    status: 'active' as (typeof state.classes)[number]['status'],
+  });
+  const [isSaving, setIsSaving] = useState(false);
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+
+  const startEditing = (classRecord: (typeof state.classes)[number]) => {
+    setEditingClassId(classRecord.id);
+    setDraft({
+      className: classRecord.className,
+      academicYear: classRecord.academicYear,
+      yearGroup: classRecord.yearGroup,
+      status: classRecord.status,
+    });
+    setMessage('');
+    setError('');
+  };
+
+  const cancelEditing = () => {
+    setEditingClassId(null);
+    setMessage('');
+    setError('');
+  };
+
+  const saveClass = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (!editingClassId) return;
+    try {
+      setIsSaving(true);
+      setMessage('');
+      setError('');
+      const updatedClass = await state.updateClass({
+        id: editingClassId,
+        className: draft.className,
+        academicYear: draft.academicYear,
+        yearGroup: draft.yearGroup,
+        status: draft.status,
+      });
+      setEditingClassId(null);
+      setMessage(`${updatedClass.className} updated.`);
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : 'Unable to update class');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
   return (
     <TeacherPage title="Classes">
+      {message ? <p className="rounded-app bg-[#e7f7ef] p-3 text-sm font-semibold text-green">{message}</p> : null}
+      {error ? <p className="rounded-app bg-[#fff1f1] p-3 text-sm font-semibold text-danger">{error}</p> : null}
       <div className="grid gap-4 lg:grid-cols-2">
-        {state.classes.map((classRecord) => (
-          <Panel className="p-4" key={classRecord.id}>
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <h2 className="font-bold">{classRecord.className}</h2>
-                <p className={`text-sm ${darkSubtleText}`}>{classRecord.academicYear} - Year {classRecord.yearGroup}</p>
+        {state.classes.map((classRecord) => {
+          const isEditing = editingClassId === classRecord.id;
+          const activeStudentCount = state.students.filter((student) => student.classId === classRecord.id).length;
+          return (
+            <Panel className="p-4" key={classRecord.id}>
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <h2 className="font-bold">{classRecord.className}</h2>
+                  <p className={`text-sm ${darkSubtleText}`}>{classRecord.academicYear || 'No academic year'} - Year {classRecord.yearGroup || '-'}</p>
+                </div>
+                <div className="flex flex-wrap justify-end gap-2">
+                  <StatusBadge tone={classRecord.status === 'active' ? 'green' : 'neutral'}>{classRecord.status}</StatusBadge>
+                  {!isEditing ? (
+                    <Button className="min-h-9 px-3" type="button" variant="secondary" onClick={() => startEditing(classRecord)}>
+                      <Pencil size={15} aria-hidden="true" />
+                      Edit details
+                    </Button>
+                  ) : null}
+                </div>
               </div>
-              <StatusBadge tone="green">{classRecord.status}</StatusBadge>
-            </div>
-            <p className="mt-4 text-sm">{state.students.filter((student) => student.classId === classRecord.id).length} active students</p>
-          </Panel>
-        ))}
+              <p className="mt-4 text-sm">{activeStudentCount} active students</p>
+
+              {isEditing ? (
+                <form className="mt-4 space-y-4 rounded-app border border-line bg-white p-3 text-ink" onSubmit={saveClass}>
+                  <div className="grid gap-3 sm:grid-cols-2">
+                    <label className="space-y-2 text-sm font-semibold">
+                      <span>Class name</span>
+                      <input
+                        className={lightControlClass}
+                        value={draft.className}
+                        onChange={(event) => setDraft((current) => ({ ...current, className: event.target.value }))}
+                        required
+                      />
+                    </label>
+                    <label className="space-y-2 text-sm font-semibold">
+                      <span>Academic year</span>
+                      <input
+                        className={lightControlClass}
+                        value={draft.academicYear}
+                        onChange={(event) => setDraft((current) => ({ ...current, academicYear: event.target.value }))}
+                        placeholder="2026/27"
+                      />
+                    </label>
+                    <label className="space-y-2 text-sm font-semibold">
+                      <span>Year group</span>
+                      <input
+                        className={lightControlClass}
+                        value={draft.yearGroup}
+                        onChange={(event) => setDraft((current) => ({ ...current, yearGroup: event.target.value }))}
+                        placeholder="8"
+                      />
+                    </label>
+                    <label className="space-y-2 text-sm font-semibold">
+                      <span>Status</span>
+                      <select
+                        className={lightControlClass}
+                        value={draft.status}
+                        onChange={(event) =>
+                          setDraft((current) => ({ ...current, status: event.target.value as typeof current.status }))
+                        }
+                      >
+                        <option value="active">Active</option>
+                        <option value="archived">Archived</option>
+                      </select>
+                    </label>
+                  </div>
+                  <div className="flex flex-wrap justify-end gap-2">
+                    <Button className="min-h-10 px-3" disabled={isSaving} type="button" variant="secondary" onClick={cancelEditing}>
+                      <X size={16} aria-hidden="true" />
+                      Cancel
+                    </Button>
+                    <Button className="min-h-10 px-3" disabled={isSaving} type="submit">
+                      <Save size={16} aria-hidden="true" />
+                      {isSaving ? 'Saving...' : 'Save changes'}
+                    </Button>
+                  </div>
+                </form>
+              ) : null}
+            </Panel>
+          );
+        })}
       </div>
     </TeacherPage>
   );

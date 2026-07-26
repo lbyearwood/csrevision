@@ -51,7 +51,7 @@ Audience: Codex agents. The user does not plan to read this. Keep updates direct
 - Frontend sign-in helpers now load role/display name from `public.profiles` after Supabase Auth succeeds.
 - Local `start-test-attempt` was verified through Edge Runtime for an assigned assessment.
 - A past-due assigned assessment was verified to start successfully. Due dates are metadata only.
-- Local database pgTAP tests pass: `npx.cmd supabase test db --local supabase\tests` runs 22 RLS/integrity checks successfully.
+- Local database pgTAP tests pass: `npx.cmd supabase test db --local supabase\tests` runs 25 RLS/integrity checks successfully.
 
 ## Current Known Issue
 
@@ -142,11 +142,13 @@ Do not use `npx.cmd supabase db query --local --file supabase\seed.sql` for this
   - student isolation from other students' profiles, attempts, answers, and unrelated classes
   - student denial from staff-only questions and question options
   - teacher access to owned class/student/question data
+  - teacher update access to owned classes
   - teacher denial from another teacher's class, student, attempt, and answer data
+  - teacher update denial for another teacher's class
   - anon denial from private student data
   - one unvoided assigned attempt per student/assignment
   - immutability for attempted test versions, questions, and question options
-- Latest result on 2026-07-26: 22 tests passed.
+- Latest result on 2026-07-26: 25 tests passed.
 - `grant_pg_cron_access` / `grant_pg_net_access` warnings can appear because the test transaction grants pgTAP function execution broadly to local roles. They did not fail the suite.
 
 ## Current Schema Snapshot
