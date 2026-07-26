@@ -1,6 +1,6 @@
 # Supabase Local Runbook For Codex
 
-Last updated: 2026-07-25
+Last updated: 2026-07-26
 
 Audience: Codex agents. The user does not plan to read this. Keep updates direct, stateful, and executable.
 
@@ -36,6 +36,7 @@ Audience: Codex agents. The user does not plan to read this. Keep updates direct
 - Local Supabase has started successfully on this machine.
 - Studio: `http://127.0.0.1:54323`
 - API: `http://127.0.0.1:54321`
+- Functions: `http://127.0.0.1:54321/functions/v1`
 - Postgres: `postgresql://postgres:postgres@127.0.0.1:54322/postgres`
 - Inbucket: `http://127.0.0.1:54324`
 - Migration history contains `20260707202000`.
@@ -48,9 +49,14 @@ Audience: Codex agents. The user does not plan to read this. Keep updates direct
 - Seeded Auth sign-in verified for teacher and student through `@supabase/supabase-js`.
 - Seeded teacher/student sessions can read the published OCR GCSE Computer Science course through RLS.
 - Frontend sign-in helpers now load role/display name from `public.profiles` after Supabase Auth succeeds.
+- Local `start-test-attempt` was verified through Edge Runtime for an assigned assessment.
+- A past-due assigned assessment was verified to start successfully. Due dates are metadata only.
 
 ## Current Known Issue
 
+- `supabase_edge_runtime_csrevision` can stop while the API, DB, and Studio remain healthy.
+- When this happens, assignment start buttons can show `Edge Function returned a non-2xx status code`; direct function output can include `{"message":"name resolution failed"}`.
+- `npx.cmd supabase status` should include `FUNCTIONS_URL`. If it does not, run `docker start supabase_edge_runtime_csrevision`.
 - `supabase_vector_csrevision` can restart repeatedly because the Vector log collector cannot reach Docker logs.
 - Core services were still usable when this was observed: API, Studio, DB, Auth, and Inbucket.
 - Next Codex action: decide whether to disable/exclude the Vector service locally or fix Docker log access.
@@ -79,6 +85,18 @@ Check local stack:
 
 ```powershell
 npx.cmd supabase status -o json
+```
+
+Check Edge Runtime specifically:
+
+```powershell
+docker ps --format "{{.Names}}`t{{.Status}}" | Select-String -Pattern "supabase_edge_runtime_csrevision"
+```
+
+Start Edge Runtime if stopped:
+
+```powershell
+docker start supabase_edge_runtime_csrevision
 ```
 
 Stop local stack:

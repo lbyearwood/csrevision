@@ -167,3 +167,57 @@ npx.cmd supabase db reset --local
 ```
 
 See `docs/SUPABASE_SETUP.md` for the full local backend runbook.
+
+## Edge Function Returns `name resolution failed`
+
+### Symptom
+
+Starting or continuing a test shows:
+
+```text
+Edge Function returned a non-2xx status code
+```
+
+Calling the function directly may reveal:
+
+```text
+{"message":"name resolution failed"}
+```
+
+### Cause
+
+The local Supabase API/database can be running while the Edge Runtime container is stopped. In that state the frontend can still sign in and read database rows, but Edge Functions such as `start-test-attempt`, `save-answer`, and `submit-test-attempt` fail.
+
+### Check
+
+```powershell
+npx.cmd supabase status
+```
+
+Healthy function output includes:
+
+```text
+FUNCTIONS_URL: http://127.0.0.1:54321/functions/v1
+```
+
+You can also check Docker directly:
+
+```powershell
+docker ps -a --format "{{.Names}}`t{{.Status}}" | Select-String -Pattern "supabase_edge_runtime_csrevision"
+```
+
+### Fix
+
+Start the stopped Edge Runtime container:
+
+```powershell
+docker start supabase_edge_runtime_csrevision
+```
+
+Then re-run:
+
+```powershell
+npx.cmd supabase status
+```
+
+`supabase_imgproxy_csrevision` and `supabase_pooler_csrevision` may still be listed as stopped on this local setup. They did not block the current app QA. `supabase_edge_runtime_csrevision` must be running for active test flows.

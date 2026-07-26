@@ -30,4 +30,6 @@ Function rules:
 - display order
 - permitted media reference
 
+Assignment due dates are informational metadata only. `start-test-attempt` must validate assignment status, class membership, start time, and one-attempt/resume rules, but it must not reject a start because `due_at` has passed.
+
 `submit-test-attempt` performs marking server-side and records points/status effects.

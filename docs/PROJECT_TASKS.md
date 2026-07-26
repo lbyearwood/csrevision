@@ -1,6 +1,6 @@
 # Project Tasks
 
-Last updated: 2026-07-25
+Last updated: 2026-07-26
 
 Audience: Codex agents. The user does not plan to read this. Keep this file terse, current, and action-oriented.
 
@@ -27,6 +27,7 @@ Codex update protocol:
 - `[~]` Build the local Supabase/Postgres backend into the source of truth for the project.
 - `[~]` Move the frontend from demo/in-memory data toward real Supabase-backed flows.
 - `[ ]` Convert the RLS checklist into executable database tests.
+- `[ ]` Continue backend wiring beyond assignments: student creation, password reset, result detail, suspicious activity detail, answer save/submit hardening, and full regression QA.
 
 ## Recently Completed
 
@@ -62,6 +63,14 @@ Codex update protocol:
 - `[x]` Updated local login defaults to use seeded development credentials.
 - `[x]` Added placeholder OCR resource data: 8 units, 41 numbered topics, 41 practice tests, and 205 five-option MCQs across frontend demo data and local Supabase seed.
 - `[x]` Added `docs/DEVELOPMENT_SETUP.md` with fresh-machine dependencies, frontend-only mode, full local Supabase setup, seed verification, and Codex run commands.
+- `[x]` Added `docs/HANDOVER.md` for continuing on a different PC.
+- `[x]` Implemented persistent teacher assignment creation in local Supabase.
+- `[x]` Split Teacher Assignments into `Create assignment` and `Existing assignments`.
+- `[x]` Added assignment history by selected class/course with unit/topic rows, available test, times assigned, and last five due dates.
+- `[x]` Verified newly created assignments appear on the student Assigned page.
+- `[x]` Removed due-date deadline enforcement from `start-test-attempt`; due dates are planning metadata only.
+- `[x]` Diagnosed stopped local Edge Runtime; `docker start supabase_edge_runtime_csrevision` restored function calls.
+- `[x]` Browser QA verified a past-due assigned assessment can start and load the active test screen.
 
 ## Backend: Supabase And Postgres
 
@@ -95,7 +104,7 @@ Codex update protocol:
 - `[ ]` Test `create-student-account` locally.
 - `[ ]` Test `suggest-usernames` locally.
 - `[ ]` Test `reset-student-password` locally.
-- `[ ]` Test `start-test-attempt` locally.
+- `[x]` Test `start-test-attempt` locally for assigned attempts, resume behaviour, and informational due dates.
 - `[ ]` Test `save-answer` locally.
 - `[ ]` Test `submit-test-attempt` locally.
 - `[ ]` Test `log-attempt-event` locally.
@@ -117,7 +126,7 @@ Codex update protocol:
 - `[ ]` Load student results from Supabase.
 - `[ ]` Load student leaderboard from Supabase.
 - `[ ]` Load teacher dashboard metrics from Supabase.
-- `[ ]` Load teacher students/classes/tests/assignments/results from Supabase.
+- `[~]` Load teacher students/classes/tests/assignments/results from Supabase. Assignment create/history is now persisted; remaining teacher views still need deeper backend wiring.
 - `[ ]` Add loading, empty, and error states for every Supabase-backed page.
 
 ## Frontend: Student Experience
@@ -150,7 +159,7 @@ Codex update protocol:
 - `[ ]` Student edit UI.
 - `[ ]` Password reset flow wired to backend.
 - `[ ]` Class creation/editing UI.
-- `[ ]` Assignment creation UI.
+- `[x]` Assignment creation UI.
 - `[ ]` Test/content management UI.
 - `[ ]` Teacher result detail view.
 - `[ ]` Suspicious activity detail view.
@@ -174,8 +183,8 @@ Codex update protocol:
 - `[x]` Frontend unit tests pass.
 - `[x]` Frontend production build passes.
 - `[ ]` Database pgTAP tests pass.
-- `[ ]` Edge Function local tests pass.
-- `[ ]` Browser QA passes with local Supabase data.
+- `[ ]` Full Edge Function local test suite passes.
+- `[~]` Browser QA passes with local Supabase data. Targeted assignment persistence and past-due start QA passed; full regression remains open.
 - `[ ]` Regression checklist documented before deployment.
 
 ## Deployment

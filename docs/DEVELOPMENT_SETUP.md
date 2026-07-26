@@ -1,16 +1,17 @@
 # Development Setup For Codex
 
-Last updated: 2026-07-25
+Last updated: 2026-07-26
 
 Audience: Codex agents bootstrapping this repository on a new machine. The user does not plan to read this. Keep this file operational and dependency-focused.
 
 ## Read Order
 
-1. `docs/PROJECT_TASKS.md` for live state and current blockers.
-2. `PROJECT_BRIEF.md` for product rules and architecture constraints.
-3. This file for machine setup.
-4. `docs/TROUBLESHOOTING.md` if local commands fail or Windows/Codex behaves oddly.
-5. `docs/SUPABASE_SETUP.md` before any backend, Auth, RLS, seed, or Edge Function work.
+1. `docs/HANDOVER.md` for the latest continuation state.
+2. `docs/PROJECT_TASKS.md` for live tasks and blockers.
+3. `PROJECT_BRIEF.md` for product rules and architecture constraints.
+4. This file for machine setup.
+5. `docs/TROUBLESHOOTING.md` if local commands fail or Windows/Codex behaves oddly.
+6. `docs/SUPABASE_SETUP.md` before any backend, Auth, RLS, seed, or Edge Function work.
 
 ## Required Dependencies
 
@@ -57,6 +58,8 @@ npm.cmd run dev
 
 Frontend-only mode works without `.env.local`. In that mode the app uses in-memory/demo login behaviour and generated placeholder resource data. It is acceptable for basic UI checks, but it does not test Supabase Auth, RLS, database seed data, Edge Functions, or backend attempt security.
 
+Current development expectation is persist mode. If the task touches accounts, assignments, attempts, answers, results, points, or security, configure local Supabase and do not rely on demo mode.
+
 ## Full Local Backend Bootstrap
 
 Use this path for any real backend/account/test-attempt work.
@@ -100,10 +103,19 @@ Default local URLs:
 ```text
 Frontend: http://127.0.0.1:5173/
 Supabase API: http://127.0.0.1:54321
+Supabase Functions: http://127.0.0.1:54321/functions/v1
 Supabase Studio: http://127.0.0.1:54323
 Postgres: postgresql://postgres:postgres@127.0.0.1:54322/postgres
 Inbucket: http://127.0.0.1:54324
 ```
+
+After `npx.cmd supabase start`, run:
+
+```powershell
+npx.cmd supabase status
+```
+
+The output must include `FUNCTIONS_URL` before testing active assessments. If it does not, see `docs/TROUBLESHOOTING.md`.
 
 ## Local Seed Accounts
 
