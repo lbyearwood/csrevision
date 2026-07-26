@@ -46,6 +46,7 @@ Recent completed work:
 
 - `supabase/tests/rls_policies.sql` is now an executable pgTAP suite with 22 passing local database tests.
 - The RLS suite verifies student isolation, staff-only question/option protection, teacher ownership boundaries, anon denial, assigned-attempt uniqueness, and immutability after attempts exist.
+- Teacher Assignments contrast was fixed: light dropdowns/date inputs and light nested topic/test rows now explicitly use dark `text-ink` inside dark panels.
 - Codex start and end process docs now define the standard session lifecycle: pull/read/install/run/report at start, then update docs/write handover/commit/push at end.
 - Teacher Tests page is organized like the student Practice page.
 - Teacher Assignments page is split into `Create assignment` and `Existing assignments`.
@@ -188,6 +189,12 @@ Latest backend verification on 2026-07-26:
 
 ```text
 npx.cmd supabase test db --local supabase\tests: passed, 22 tests
+```
+
+Latest frontend visual QA on 2026-07-26:
+
+```text
+Teacher Assignments in in-app Browser: dropdown values rendered as rgb(16, 32, 51) on white; selected test row title rendered as rgb(16, 32, 51) on rgb(238, 246, 255); no console warnings/errors.
 ```
 
 Browser QA that passed:

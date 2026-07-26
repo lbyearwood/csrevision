@@ -38,6 +38,7 @@ const navItems = [
 const darkSubtleText = 'text-[#b8c8d9]';
 const nestedTableFrame = 'overflow-x-auto rounded-app border border-line bg-white text-ink';
 const nestedTableHead = 'border-b border-line bg-mist text-xs text-muted';
+const lightControlClass = 'h-11 w-full rounded-app border border-line bg-white px-3 text-sm text-ink [color-scheme:light]';
 
 export function TeacherApp() {
   const { dataError, isLoadingData, isSupabaseBacked, signOut } = useAppState();
@@ -634,7 +635,7 @@ function AssignmentsPage() {
             <label className="space-y-2 text-sm font-semibold">
               <span>Class</span>
               <select
-                className="h-11 w-full rounded-app border border-line bg-white px-3 text-sm"
+                className={lightControlClass}
                 value={createClassId}
                 onChange={(event) => {
                   setCreateClassId(event.target.value);
@@ -652,7 +653,7 @@ function AssignmentsPage() {
             <label className="space-y-2 text-sm font-semibold">
               <span>Course</span>
               <select
-                className="h-11 w-full rounded-app border border-line bg-white px-3 text-sm"
+                className={lightControlClass}
                 value={createSubjectId}
                 onChange={(event) => {
                   setCreateSubjectId(event.target.value);
@@ -671,7 +672,7 @@ function AssignmentsPage() {
             <label className="space-y-2 text-sm font-semibold">
               <span>Due date</span>
               <input
-                className="h-11 w-full rounded-app border border-line bg-white px-3 text-sm"
+                className={lightControlClass}
                 ref={dueDateInputRef}
                 type="date"
               />
@@ -698,7 +699,7 @@ function AssignmentsPage() {
                     {unitTopics.map((topic) => {
                       const topicTests = publishedTests.filter((test) => test.topicId === topic.id);
                       return (
-                        <div className="rounded-app border border-line bg-white p-3" key={topic.id}>
+                        <div className="rounded-app border border-line bg-white p-3 text-ink" key={topic.id}>
                           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                             <div>
                               <p className="text-xs font-semibold text-muted">Topic</p>
@@ -714,7 +715,7 @@ function AssignmentsPage() {
                               const questionCount = state.questions.filter((question) => question.testVersionId === test.version.id).length;
                               return (
                                 <label
-                                  className={`flex cursor-pointer items-start gap-3 rounded-app border p-3 transition ${
+                                  className={`flex cursor-pointer items-start gap-3 rounded-app border p-3 text-ink transition ${
                                     checked ? 'border-blue bg-[#eef6ff]' : 'border-line bg-mist hover:border-blue'
                                   }`}
                                   key={test.id}
@@ -755,7 +756,7 @@ function AssignmentsPage() {
             <label className="space-y-2 text-sm font-semibold">
               <span>Class</span>
               <select
-                className="h-11 w-full rounded-app border border-line bg-white px-3 text-sm"
+                className={lightControlClass}
                 value={historyClassId}
                 onChange={(event) => setHistoryClassId(event.target.value)}
               >
@@ -770,7 +771,7 @@ function AssignmentsPage() {
             <label className="space-y-2 text-sm font-semibold">
               <span>Course</span>
               <select
-                className="h-11 w-full rounded-app border border-line bg-white px-3 text-sm"
+                className={lightControlClass}
                 value={historySubjectId}
                 onChange={(event) => setHistorySubjectId(event.target.value)}
               >

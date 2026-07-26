@@ -75,6 +75,7 @@ Codex update protocol:
 - `[x]` Browser QA verified a past-due assigned assessment can start and load the active test screen.
 - `[x]` Converted `supabase/tests/rls_policies.sql` from checklist notes into an executable pgTAP suite.
 - `[x]` Verified 22 local RLS/integrity database tests pass with `npx.cmd supabase test db --local supabase\tests`.
+- `[x]` Fixed teacher Assignments contrast so light dropdowns, date inputs, topic cards, and test rows reset to dark text inside dark panels.
 
 ## Backend: Supabase And Postgres
 
