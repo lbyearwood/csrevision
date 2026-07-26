@@ -26,6 +26,9 @@ Codex update protocol:
 
 - `[~]` Build the local Supabase/Postgres backend into the source of truth for the project.
 - `[x]` Keep development and QA Supabase-only until launch; no frontend demo fallback.
+- `[x]` Support multiple-tests-per-topic naming and topic-level bulk selection in teacher assignment creation.
+- `[ ]` Merge teacher `Tests` and `Assignments` into one `Resources` workflow for viewing resource contents and assigning to classes.
+- `[ ]` Plan class performance views by assigned resources, unit, and topic.
 - `[ ]` Confirm seed data can be recreated from a clean local reset.
 - `[ ]` Continue backend wiring beyond assignments: student creation, password reset, result detail, suspicious activity detail, answer save/submit hardening, and full regression QA.
 
@@ -77,6 +80,8 @@ Codex update protocol:
 - `[x]` Verified 22 local RLS/integrity database tests pass with `npx.cmd supabase test db --local supabase\tests`.
 - `[x]` Fixed teacher Assignments contrast so light dropdowns, date inputs, topic cards, and test rows reset to dark text inside dark panels.
 - `[x]` Removed frontend demo fallback: deleted `src/data/demoData.ts`, removed fake auth returns, and made missing Supabase config block sign-in.
+- `[x]` Renamed generated placeholder tests from generic/check wording to `<topic> test 1` and changed generated slugs to `*-test-1`.
+- `[x]` Added topic-level `Select all` / `Clear topic` controls in teacher assignment creation.
 
 ## Backend: Supabase And Postgres
 
@@ -167,6 +172,8 @@ Codex update protocol:
 - `[ ]` Password reset flow wired to backend.
 - `[ ]` Class creation/editing UI.
 - `[x]` Assignment creation UI.
+- `[x]` Topic-level bulk select/clear controls for assignment creation.
+- `[ ]` Single Resources workflow replacing separate Tests/Assignments navigation.
 - `[ ]` Test/content management UI.
 - `[ ]` Teacher result detail view.
 - `[ ]` Suspicious activity detail view.
@@ -211,8 +218,10 @@ Codex update protocol:
 - `[x]` Confirm unit list.
 - `[x]` Confirm topic list.
 - `[x]` Create placeholder tests for every confirmed OCR topic: 41 tests, 5 MCQs each, non-production content.
+- `[x]` Rename placeholder tests to `<topic> test 1` so additional tests can become `test 2`, `test 3`, etc.
 - `[ ]` Create first production-ready CPU test.
 - `[ ]` Create additional Hardware topic tests.
+- `[ ]` Add a second placeholder test under one topic to prove the multi-test-per-topic UI once the Resources workflow is merged.
 - `[ ]` Replace placeholder tests with authored/reviewed production question content.
 - `[ ]` Define content import workflow for tests/questions/options.
 - `[ ]` Plan future resource types: revision lessons, tutorials, worksheets.

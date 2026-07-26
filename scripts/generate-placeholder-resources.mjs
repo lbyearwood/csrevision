@@ -191,6 +191,7 @@ function flattenTopics() {
     unit.topics.map((topic, topicIndex) => {
       const topicName = `${topic.code} ${topic.title}`;
       const topicSlug = slugify(topicName);
+      const testNumber = 1;
       return {
         unitCode: unit.unitCode,
         unitTitle: unit.unitTitle,
@@ -203,6 +204,9 @@ function flattenTopics() {
         topicId: `topic-${topicSlug}`,
         testId: `test-${topicSlug}`,
         testVersionId: `version-${topicSlug}-1`,
+        testNumber,
+        testSlug: `${topicSlug}-test-${testNumber}`,
+        testTitle: `${topicName} test ${testNumber}`,
         displayOrder: topicIndex + 1,
       };
     }),
@@ -215,12 +219,12 @@ function buildQuestions(topic) {
     `What should a student revise first for ${topic.topicName}?`,
     `Which resource belongs with ${topic.topicName}?`,
     `Which statement is safest to keep as a placeholder for ${topic.topicName}?`,
-    `What is this practice check for?`,
+    `What is this practice test for?`,
   ];
   const correctOptions = [
     `The key ideas and vocabulary for ${topic.topicName}`,
     `The main definitions, examples and exam command words for ${topic.topicName}`,
-    `A short multiple choice check for ${topic.topicName}`,
+    `A short multiple choice test for ${topic.topicName}`,
     `This question is dummy content and must be replaced before production`,
     `${topic.topicName}`,
   ];
@@ -294,8 +298,8 @@ function generatedContentSql() {
   const testRows = topics.map((topic) => [
     sqlString(uuidFromSeed(`test:${topic.topicSlug}`)),
     sqlString(uuidFromSeed(`topic:${topic.topicSlug}`)),
-    sqlString(`${topic.topicSlug}-check`),
-    sqlString('Test'),
+    sqlString(topic.testSlug),
+    sqlString(topic.testTitle),
     sqlString(`A short multiple-choice test covering the key ideas and vocabulary for ${topic.topicName}.`),
     sqlString('practice'),
     '900',

@@ -212,6 +212,8 @@ questions=205
 options=820
 assignments=1
 leaderboard_rows=5
+test_1_slugs=41
+check_slugs=0
 ```
 
 ## Next Backend Tasks

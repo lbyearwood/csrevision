@@ -12,6 +12,8 @@ import {
   Menu,
   Search,
   Settings,
+  SquareCheck,
+  SquareMinus,
   Trophy,
   UsersRound,
 } from 'lucide-react';
@@ -557,6 +559,23 @@ function AssignmentsPage() {
     setError('');
   };
 
+  const toggleTopicVersions = (versionIds: string[]) => {
+    if (!versionIds.length) return;
+    setSelectedVersionIds((current) => {
+      const topicVersionSet = new Set(versionIds);
+      const currentSet = new Set(current);
+      const allSelected = versionIds.every((versionId) => currentSet.has(versionId));
+
+      if (allSelected) {
+        return current.filter((versionId) => !topicVersionSet.has(versionId));
+      }
+
+      return [...current, ...versionIds.filter((versionId) => !currentSet.has(versionId))];
+    });
+    setMessage('');
+    setError('');
+  };
+
   const createAssignments = async () => {
     try {
       setError('');
@@ -698,6 +717,9 @@ function AssignmentsPage() {
                   <div className="mt-4 space-y-3">
                     {unitTopics.map((topic) => {
                       const topicTests = publishedTests.filter((test) => test.topicId === topic.id);
+                      const topicVersionIds = topicTests.map((test) => test.version.id);
+                      const selectedTopicTestCount = topicVersionIds.filter((versionId) => selectedVersions.has(versionId)).length;
+                      const allTopicTestsSelected = Boolean(topicVersionIds.length && selectedTopicTestCount === topicVersionIds.length);
                       return (
                         <div className="rounded-app border border-line bg-white p-3 text-ink" key={topic.id}>
                           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -705,9 +727,27 @@ function AssignmentsPage() {
                               <p className="text-xs font-semibold text-muted">Topic</p>
                               <h3 className="mt-1 font-bold">{topic.topicName}</h3>
                             </div>
-                            <StatusBadge tone={topicTests.length ? 'green' : 'neutral'}>
-                              {topicTests.length ? `${topicTests.length} test${topicTests.length === 1 ? '' : 's'}` : 'No tests'}
-                            </StatusBadge>
+                            <div className="flex flex-wrap items-center gap-2">
+                              <StatusBadge tone={topicTests.length ? 'blue' : 'neutral'}>
+                                {topicTests.length ? `${topicTests.length} test${topicTests.length === 1 ? '' : 's'}` : 'No tests'}
+                              </StatusBadge>
+                              {topicTests.length ? (
+                                <>
+                                  <span className="text-xs font-semibold text-muted">
+                                    {selectedTopicTestCount}/{topicTests.length} selected
+                                  </span>
+                                  <Button
+                                    className="min-h-9 px-3"
+                                    type="button"
+                                    variant={allTopicTestsSelected ? 'secondary' : 'dark'}
+                                    onClick={() => toggleTopicVersions(topicVersionIds)}
+                                  >
+                                    {allTopicTestsSelected ? <SquareMinus size={16} aria-hidden="true" /> : <SquareCheck size={16} aria-hidden="true" />}
+                                    {allTopicTestsSelected ? 'Clear topic' : 'Select all'}
+                                  </Button>
+                                </>
+                              ) : null}
+                            </div>
                           </div>
                           <div className="mt-3 space-y-2">
                             {topicTests.map((test) => {
@@ -801,7 +841,7 @@ function AssignmentsPage() {
                     <tr>
                       <th className="px-3 py-3">Unit</th>
                       <th className="px-3 py-3">Topic</th>
-                      <th className="px-3 py-3">Available test</th>
+                      <th className="px-3 py-3">Available tests</th>
                       <th className="px-3 py-3">Times assigned</th>
                       <th className="px-3 py-3">Last five assigned dates</th>
                     </tr>

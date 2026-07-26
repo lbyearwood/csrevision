@@ -144,7 +144,7 @@ npm.cmd run build
 Database verification after seed:
 
 ```powershell
-docker exec supabase_db_csrevision psql -U postgres -d postgres -c "select (select count(*) from public.units where slug like 'unit-%') as units, (select count(*) from public.topics where slug ~ '^[0-9]-') as topics, (select count(*) from public.tests where slug like '%-check') as tests, (select count(*) from public.questions q join public.test_versions tv on tv.id = q.test_version_id join public.tests t on t.id = tv.test_id where t.slug like '%-check') as questions, (select count(*) from public.question_options qo join public.questions q on q.id = qo.question_id join public.test_versions tv on tv.id = q.test_version_id join public.tests t on t.id = tv.test_id where t.slug like '%-check') as options;"
+docker exec supabase_db_csrevision psql -U postgres -d postgres -c "select (select count(*) from public.units where slug like 'unit-%') as units, (select count(*) from public.topics where slug ~ '^[0-9]-') as topics, (select count(*) from public.tests where slug like '%-test-1') as tests, (select count(*) from public.questions q join public.test_versions tv on tv.id = q.test_version_id join public.tests t on t.id = tv.test_id where t.slug like '%-test-1') as questions, (select count(*) from public.question_options qo join public.questions q on q.id = qo.question_id join public.test_versions tv on tv.id = q.test_version_id join public.tests t on t.id = tv.test_id where t.slug like '%-test-1') as options;"
 ```
 
 Expected current seed counts:

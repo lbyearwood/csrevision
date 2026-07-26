@@ -137,19 +137,19 @@ Pick the next task from `Current Focus` first, then from the most relevant incom
 As of 2026-07-26, the next recommended task is:
 
 ```text
-Continue test naming and topic-level bulk selection on the local Supabase-backed Assignments flow.
+Merge teacher Tests and Assignments into one Resources workflow.
 ```
 
 Reason:
 
-- Runtime fallback/demo data has been removed.
-- Local Supabase is now mandatory until launch.
-- The product decision is to support multiple tests per topic and topic-level selection.
+- Placeholder tests now use `<topic> test 1` naming.
+- Topic-level select/clear controls now exist in the assignment picker.
+- The user's next product direction is one Resources area for viewing resource contents and assigning them to classes.
 
 Secondary task after that:
 
 ```text
-Continue backend wiring for save-answer, submit-test-attempt, result detail, suspicious activity detail, and student/account management flows.
+Plan and build Class views for assigned resources and class performance by unit/topic.
 ```
 
 ## Do Not Skip

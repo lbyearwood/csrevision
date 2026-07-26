@@ -47,13 +47,15 @@ Recent completed work:
 - `supabase/tests/rls_policies.sql` is now an executable pgTAP suite with 22 passing local database tests.
 - The RLS suite verifies student isolation, staff-only question/option protection, teacher ownership boundaries, anon denial, assigned-attempt uniqueness, and immutability after attempts exist.
 - Frontend demo fallback was removed. `src/data/demoData.ts` was deleted, auth no longer returns fake users, and `scripts/generate-placeholder-resources.mjs` now writes only `supabase/seed.sql`.
+- Placeholder test resources now use `<topic> test 1` titles and `*-test-1` slugs. There should be zero generated `*-check` test slugs.
+- Teacher assignment creation has topic-level `Select all` / `Clear topic` controls for all tests under a topic.
 - Teacher Assignments contrast was fixed: light dropdowns/date inputs and light nested topic/test rows now explicitly use dark `text-ink` inside dark panels.
 - Codex start and end process docs now define the standard session lifecycle: pull/read/install/run/report at start, then update docs/write handover/commit/push at end.
 - Teacher Tests page is organized like the student Practice page.
 - Teacher Assignments page is split into `Create assignment` and `Existing assignments`.
 - Teachers can select a class, course, one or more published tests, and an optional due date.
 - Assignment creation inserts real rows into `public.test_assignments`.
-- Existing assignments shows every unit/topic for the selected course, available test name, times assigned, and the last five saved due dates.
+- Existing assignments shows every unit/topic for the selected course, available test names, times assigned, and the last five saved due dates.
 - Student Assigned page shows persisted assignments for the student's class.
 - Assignment due dates are planning metadata only. They do not block starting or completing a test.
 - `start-test-attempt` no longer checks `due_at`.
@@ -173,29 +175,32 @@ npm.cmd run build
 Latest verified checks on this branch:
 
 ```text
-typecheck: passed
-lint: passed
-test: passed, 4 files / 11 tests
-build: passed
+2026-07-26 resource naming/topic bulk-select update:
+npm.cmd run typecheck: passed
+npm.cmd run lint: passed
+npm.cmd run test: passed, 4 files / 11 tests
+npm.cmd run build: passed
 ```
 
-Latest docs-only process update verification on 2026-07-26:
+Latest diff hygiene verification on 2026-07-26:
 
 ```text
 git diff --check: passed
-frontend tests/build: not rerun because only Codex process documentation changed
 ```
 
 Latest backend verification on 2026-07-26:
 
 ```text
+docker cp supabase\seed.sql supabase_db_csrevision:/tmp/csrevision_seed.sql: passed
+docker exec supabase_db_csrevision psql -v ON_ERROR_STOP=1 -U postgres -d postgres -f /tmp/csrevision_seed.sql: passed
+seed naming query: test_1_slugs=41, check_slugs=0, sample_title="1.1 Programming fundamentals test 1"
 npx.cmd supabase test db --local supabase\tests: passed, 22 tests
 ```
 
 Latest frontend visual QA on 2026-07-26:
 
 ```text
-Teacher Assignments in in-app Browser: dropdown values rendered as rgb(16, 32, 51) on white; selected test row title rendered as rgb(16, 32, 51) on rgb(238, 246, 255); no console warnings/errors.
+Teacher Assignments in in-app Browser with local Supabase data: `1.1 Programming fundamentals test 1` rendered; topic `Select all` changed the summary to `1 tests selected`, topic state to `1/1 selected`, checkbox to checked, and the row to blue; `Clear topic` returned the summary to `0 tests selected`, topic state to `0/1 selected`, and create button to disabled; no console warnings/errors.
 ```
 
 Browser QA that passed:
@@ -239,7 +244,7 @@ The QA-created local rows are only in this machine's local Supabase database. Th
 
 ## Next Recommended Task
 
-Run a clean local Supabase reset and test pass, then continue Edge Function hardening in this order: `save-answer`, `submit-test-attempt`, `log-attempt-event`, `reset-assigned-attempt`, then student account creation/password reset flows.
+Merge teacher `Tests` and `Assignments` into one `Resources` workflow, then plan/build Class views for assigned resources and class performance by unit/topic.
 
 ## Development Rules To Preserve
 
