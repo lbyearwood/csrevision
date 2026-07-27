@@ -166,10 +166,41 @@ function hasFunctionError(value: unknown): value is { error: string } {
   return Boolean(value && typeof value === 'object' && 'error' in value);
 }
 
+function hasMessage(value: unknown): value is { message: string } {
+  return Boolean(value && typeof value === 'object' && 'message' in value);
+}
+
+function responseFromFunctionError(error: unknown): Response | null {
+  if (!error || typeof error !== 'object' || !('context' in error)) return null;
+  const context = (error as { context?: unknown }).context;
+  return context instanceof Response ? context : null;
+}
+
+async function functionErrorMessage(error: unknown): Promise<string> {
+  const fallback = error instanceof Error ? error.message : 'Edge Function failed';
+  const response = responseFromFunctionError(error);
+  if (!response) return fallback;
+
+  try {
+    const payload: unknown = await response.clone().json();
+    if (hasFunctionError(payload)) return payload.error;
+    if (hasMessage(payload)) return payload.message;
+  } catch {
+    try {
+      const text = await response.clone().text();
+      if (text.trim()) return text.trim();
+    } catch {
+      return fallback;
+    }
+  }
+
+  return fallback;
+}
+
 async function invokeFunction<T>(name: string, body: Record<string, unknown>): Promise<T> {
   if (!supabase) throw new Error('Supabase is not configured');
   const { data, error } = await supabase.functions.invoke<T | { error: string }>(name, { body });
-  if (error) throw error;
+  if (error) throw new Error(await functionErrorMessage(error));
   if (hasFunctionError(data)) throw new Error(data.error);
   return data as T;
 }

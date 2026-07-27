@@ -1,6 +1,6 @@
 # Codex Handover
 
-Last updated: 2026-07-26
+Last updated: 2026-07-27
 
 Audience: a new Codex agent continuing `csrevision` on a different development computer.
 
@@ -71,6 +71,7 @@ Recent completed work:
 - Assignment due dates are planning metadata only. They do not block starting or completing a test.
 - `start-test-attempt` no longer checks `due_at`.
 - `update-student-account` archives students instead of hard-deleting. It ends active class memberships and keeps results/audit history.
+- Development/QA docs now require targeted behavioural testing before any functional task is marked complete. Static checks alone are not enough for feature work.
 
 ## Fresh PC Bootstrap
 
@@ -194,6 +195,10 @@ npm.cmd run build
 Latest verified checks on this branch:
 
 ```text
+2026-07-27 Development/QA rule update:
+git diff --check: passed
+npm.cmd run test: passed, 4 files / 12 tests
+
 2026-07-26 student account management update:
 npm.cmd run typecheck: passed
 npm.cmd run lint: passed
@@ -272,6 +277,7 @@ Merge teacher `Tests` and `Assignments` into one `Resources` workflow, then plan
 
 - Use `npm.cmd` and `npx.cmd` in PowerShell.
 - Use local Supabase for backend/security/persistence work.
+- Do not mark functional work complete until the changed workflow has been tested successfully with relevant browser, Edge Function, database/RLS, or persistence QA.
 - Do not reintroduce frontend-only/demo fallback data or demo login paths before launch.
 - Do not push unless the user explicitly says `push`.
 - Keep migrations as the schema source of truth.

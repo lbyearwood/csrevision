@@ -1,6 +1,6 @@
 # Codex End Process
 
-Last updated: 2026-07-26
+Last updated: 2026-07-27
 
 Audience: every Codex agent finishing work on this repository. The user does not plan to read this. Follow this before ending a session after any project/code/doc changes, unless the user explicitly asks not to commit.
 
@@ -22,6 +22,14 @@ If the worktree contains changes unrelated to the current task:
 - Ask the user only if unrelated changes make the requested commit/push ambiguous.
 
 ### 2. Run Relevant Verification
+
+Development / QA completion gate:
+
+- Do not mark functional work complete until the changed workflow has been tested in the way a real user or backend caller will use it.
+- Static checks are required, but they are not enough for behaviour changes. `typecheck`, `lint`, unit tests, and `build` prove the code shape; they do not prove the feature works.
+- For UI work, run targeted browser QA against local Supabase data.
+- For persistence or security work, run the relevant database, RLS, or Edge Function checks against local Supabase.
+- If the relevant functional QA cannot be run, record the task as blocked or partially verified in `docs/HANDOVER.md` and the final response. Do not call it complete.
 
 For frontend or shared TypeScript changes, run:
 

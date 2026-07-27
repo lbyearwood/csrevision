@@ -2,6 +2,20 @@
 
 Audience: Codex agents. Keep this file as executable verification state, not user-facing explanation.
 
+## Development / QA Completion Rule
+
+Functional work is not complete until the changed workflow has been tested successfully.
+
+Use automated checks and targeted manual/browser/backend QA together:
+
+- Static checks confirm code quality: typecheck, lint, unit tests, and build.
+- Behaviour checks confirm the feature works: browser QA, Edge Function calls, database/RLS tests, or direct local Supabase verification.
+- Test against local Supabase data until launch. Do not use frontend-only/demo assumptions.
+- Record the exact checks and result in `docs/HANDOVER.md` when completing work.
+- If a workflow cannot be tested, do not mark it complete. Mark it blocked or partially verified and explain the missing check.
+
+## Local Checks
+
 Local checks:
 
 ```powershell

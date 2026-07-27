@@ -1,6 +1,6 @@
 # Project Tasks
 
-Last updated: 2026-07-26
+Last updated: 2026-07-27
 
 Audience: Codex agents. The user does not plan to read this. Keep this file terse, current, and action-oriented.
 
@@ -90,6 +90,7 @@ Codex update protocol:
 - `[x]` Added migration enforcing one active class membership per student while preserving historical membership rows.
 - `[x]` Updated teacher dashboard/results logic so class summaries use `test_attempts.class_id_at_attempt`; current rosters and leaderboards use active class membership.
 - `[x]` Expanded local pgTAP database tests to 28 checks and frontend unit tests to 12 checks.
+- `[x]` Added a Development/QA completion gate: functional work cannot be marked complete until the changed workflow is tested and the result is recorded.
 
 ## Backend: Supabase And Postgres
 
