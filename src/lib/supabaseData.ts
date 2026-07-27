@@ -124,8 +124,17 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
         year_group: string | null;
         owner_teacher_id: string;
         status: ClassRecord['status'];
+        join_code: string | null;
+        accepting_students: boolean;
+        is_system: boolean;
       }>
-    >('classes', client.from('classes').select('id, class_name, academic_year, year_group, owner_teacher_id, status').order('class_name')),
+    >(
+      'classes',
+      client
+        .from('classes')
+        .select('id, class_name, academic_year, year_group, owner_teacher_id, status, join_code, accepting_students, is_system')
+        .order('class_name'),
+    ),
     readTable<Array<{ class_id: string; student_id: string; status: string }>>(
       'class_memberships',
       client.from('class_memberships').select('class_id, student_id, status').eq('status', 'active'),
@@ -314,20 +323,52 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
     ),
   ]);
 
-  const activeClassForStudent = new Map(memberships.map((membership) => [membership.student_id, membership.class_id]));
-  const classNameById = new Map(classes.map((classRecord) => [classRecord.id, classRecord.class_name]));
+  const mappedClasses: ClassRecord[] = classes.map((classRecord) => ({
+    id: classRecord.id,
+    className: classRecord.class_name,
+    academicYear: classRecord.academic_year ?? '',
+    yearGroup: classRecord.year_group ?? '',
+    ownerTeacherId: classRecord.owner_teacher_id,
+    status: classRecord.status,
+    joinCode: classRecord.join_code ?? '',
+    acceptingStudents: classRecord.accepting_students,
+    isSystem: classRecord.is_system,
+  }));
+  const classById = new Map(mappedClasses.map((classRecord) => [classRecord.id, classRecord]));
+  const classNameById = new Map(mappedClasses.map((classRecord) => [classRecord.id, classRecord.className]));
+  const activeClassesForStudent = new Map<string, string[]>();
+  memberships.forEach((membership) => {
+    const currentClassIds = activeClassesForStudent.get(membership.student_id) ?? [];
+    activeClassesForStudent.set(membership.student_id, [...currentClassIds, membership.class_id]);
+  });
+  activeClassesForStudent.forEach((classIds, studentId) => {
+    activeClassesForStudent.set(
+      studentId,
+      [...classIds].sort((firstId, secondId) => {
+        const firstClass = classById.get(firstId);
+        const secondClass = classById.get(secondId);
+        if (firstClass?.isSystem !== secondClass?.isSystem) return firstClass?.isSystem ? 1 : -1;
+        return (firstClass?.className ?? '').localeCompare(secondClass?.className ?? '');
+      }),
+    );
+  });
   const primaryTeacher = teacherProfiles[0];
 
-  const mappedStudents: StudentProfile[] = studentProfiles.map((student) => ({
-    id: student.id,
-    profileId: student.profile_id,
-    firstName: student.first_name,
-    surname: student.surname,
-    username: firstRelation(student.profiles)?.username ?? '',
-    publicStudentId: student.student_id,
-    classId: activeClassForStudent.get(student.id) ?? '',
-    accountStatus: student.account_status,
-  }));
+  const mappedStudents: StudentProfile[] = studentProfiles.map((student) => {
+    const classIds = activeClassesForStudent.get(student.id) ?? [];
+    const displayClassId = classIds.find((classId) => !classById.get(classId)?.isSystem) ?? classIds[0] ?? '';
+    return {
+      id: student.id,
+      profileId: student.profile_id,
+      firstName: student.first_name,
+      surname: student.surname,
+      username: firstRelation(student.profiles)?.username ?? '',
+      publicStudentId: student.student_id,
+      classIds,
+      classId: displayClassId,
+      accountStatus: student.account_status,
+    };
+  });
   const mappedStudentById = new Map(mappedStudents.map((student) => [student.id, student]));
 
   const mappedPoints: PointsTransaction[] = pointsTransactions.map((transaction) => ({
@@ -346,14 +387,7 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
       displayName: firstRelation(primaryTeacher?.profiles)?.display_name ?? 'Teacher',
       email: primaryTeacher?.email ?? '',
     },
-    classes: classes.map((classRecord) => ({
-      id: classRecord.id,
-      className: classRecord.class_name,
-      academicYear: classRecord.academic_year ?? '',
-      yearGroup: classRecord.year_group ?? '',
-      ownerTeacherId: classRecord.owner_teacher_id,
-      status: classRecord.status,
-    })),
+    classes: mappedClasses,
     students: mappedStudents,
     subjects: subjects.map((subject) => ({
       id: subject.id,
@@ -461,7 +495,7 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
       .filter((row) => mappedStudentById.get(row.student_id)?.accountStatus !== 'archived')
       .map((row) => {
         const student = mappedStudentById.get(row.student_id);
-        const currentClassId = student?.classId ?? row.class_id ?? '';
+        const currentClassId = row.class_id ?? student?.classId ?? '';
         return {
           rank: row.rank,
           studentId: row.student_id,
@@ -476,6 +510,8 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
 }
 
 export function buildLeaderboardFromPoints(students: StudentProfile[], classes: ClassRecord[], points: PointsTransaction[]): LeaderboardRow[] {
+  const classesById = new Map(classes.map((classRecord) => [classRecord.id, classRecord]));
+
   return [...students]
     .filter((student) => student.accountStatus !== 'archived')
     .map((student) => {
@@ -487,7 +523,7 @@ export function buildLeaderboardFromPoints(students: StudentProfile[], classes: 
         studentId: student.id,
         displayName: leaderboardDisplay(student),
         publicStudentId: student.publicStudentId,
-        className: classes.find((classRecord) => classRecord.id === student.classId)?.className ?? '',
+        className: classesById.get(student.classId)?.className ?? '',
         points: total,
         status: statusForPoints(total).name,
       };

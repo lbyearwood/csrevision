@@ -9,13 +9,14 @@ Audience: a new Codex agent continuing `csrevision` on a different development c
 Read these files in order:
 
 1. `docs/CODEX_START_PROCESS.md`
-2. `docs/CODEX_END_PROCESS.md`
-3. `docs/HANDOVER.md`
-4. `docs/PROJECT_TASKS.md`
-5. `PROJECT_BRIEF.md`
-6. `docs/DEVELOPMENT_SETUP.md`
-7. `docs/SUPABASE_SETUP.md`
-8. `docs/TROUBLESHOOTING.md`
+2. `docs/CODEX_DEVELOPMENT_PROCESS.md`
+3. `docs/CODEX_END_PROCESS.md`
+4. `docs/HANDOVER.md`
+5. `docs/PROJECT_TASKS.md`
+6. `PROJECT_BRIEF.md`
+7. `docs/DEVELOPMENT_SETUP.md`
+8. `docs/SUPABASE_SETUP.md`
+9. `docs/TROUBLESHOOTING.md`
 
 The active branch is:
 
@@ -25,8 +26,9 @@ agent/csrevision-accounts-mvp
 
 Current user instruction:
 
-- Commit completed work locally when appropriate.
-- Do not push unless the user explicitly says `push`.
+- Run per-task QA after each development task.
+- Run the end process only when the user explicitly says `end` or asks to wrap up development.
+- The end process includes committing and pushing the active branch.
 
 Clone and enter the branch:
 
@@ -49,20 +51,25 @@ Current working mode is persist mode:
 
 Recent completed work:
 
-- `supabase/tests/rls_policies.sql` is now an executable pgTAP suite with 28 passing local database tests.
-- The RLS suite verifies student isolation, staff-only question/option protection, teacher ownership boundaries, teacher class-update ownership, teacher direct student-update denial, teacher direct cross-class student move denial, one-active-membership enforcement, anon denial, assigned-attempt uniqueness, and immutability after attempts exist.
-- Teacher Students now supports selected-student editing for first name, surname, current class, active/inactive status, server-side password reset, generated 8-character temporary password, and archive-style delete.
-- `supabase/functions/update-student-account` performs staff-only student updates, class moves, inactive/archive changes, active membership changes, and audit logs.
+- `supabase/tests/rls_policies.sql` is now an executable pgTAP suite with 29 passing local database tests.
+- The RLS suite verifies student isolation, staff-only question/option protection, teacher ownership boundaries, teacher class-update ownership, teacher direct student-update denial, teacher direct cross-class student move denial, multi-class membership with duplicate active membership blocking, anon denial, assigned-attempt uniqueness, and immutability after attempts exist.
+- Class archive/join-code work is implemented in local Supabase and frontend state: `classes.join_code`, `classes.accepting_students`, `classes.is_system`, protected teacher-owned `Non-class`, multi-class `student.classIds`, and server-managed join code regeneration.
+- New Edge Functions: `archive-class`, `join-class-by-code`, and `regenerate-class-code`.
+- Student join links use `/#/join/<CODE>`. If the student is not signed in, the code is stored through login and applied after student sign-in.
+- Teacher Classes now shows class codes, a visible non-button joining status, an accepting-students checkbox under Edit details, copy code/link, regenerate code, protected `Non-class`, archive-with-move-to-Non-class behavior, and checkbox filters for year group/status.
+- Student Profile now supports manual class-code join. Students cannot unenrol themselves.
+- Teacher Students now supports selected-student editing for first name, surname, class memberships, active/inactive status, server-side password reset, generated 8-character temporary password, and archive-style delete.
+- `supabase/functions/update-student-account` performs staff-only student updates, multi-class membership reconciliation, inactive/archive changes, active membership changes, and audit logs.
 - `supabase/functions/reset-student-password` is locally tested for manual and generated password resets through Supabase Auth Admin.
-- `supabase/migrations/20260726223830_add_student_account_management.sql` adds the one-active-class-membership-per-student invariant.
+- `supabase/migrations/20260726223830_add_student_account_management.sql` briefly added a one-active-class-membership-per-student invariant; `20260727140326_class_archive_non_class_join_codes.sql` supersedes it with multi-class membership and duplicate active same-class blocking.
 - Teacher dashboard summaries and Results rows now use `test_attempts.class_id_at_attempt` for historical class reporting. Current rosters and default leaderboards use active class membership and hide archived students.
 - Teacher Classes now supports inline editing for class name, academic year, year group, and status. Saves go through local Supabase `public.classes`; no frontend-only fallback is allowed.
 - Frontend demo fallback was removed. `src/data/demoData.ts` was deleted, auth no longer returns fake users, and `scripts/generate-placeholder-resources.mjs` now writes only `supabase/seed.sql`.
 - Placeholder test resources now use `<topic> test 1` titles and `*-test-1` slugs. There should be zero generated `*-check` test slugs.
 - Teacher assignment creation has topic-level `Select all` / `Clear topic` controls for all tests under a topic.
 - Teacher Assignments contrast was fixed: light dropdowns/date inputs and light nested topic/test rows now explicitly use dark `text-ink` inside dark panels.
-- Codex start and end process docs now define the standard session lifecycle: pull/read/install/run/report at start, then update docs/write handover/commit locally at end. Push only when explicitly requested.
-- Teacher Tests page is organized like the student Practice page.
+- Codex process docs now split development QA from end-of-day wrapping: per-task QA happens after each development task; the end process only runs when the user says `end` and includes update docs, handover, local commit, and push.
+- Teacher Courses page is organized like the student Practice page. The route still uses `/teacher/tests` for now.
 - Teacher Assignments page is split into `Create assignment` and `Existing assignments`.
 - Teachers can select a class, course, one or more published tests, and an optional due date.
 - Assignment creation inserts real rows into `public.test_assignments`.
@@ -71,7 +78,14 @@ Recent completed work:
 - Assignment due dates are planning metadata only. They do not block starting or completing a test.
 - `start-test-attempt` no longer checks `due_at`.
 - `update-student-account` archives students instead of hard-deleting. It ends active class memberships and keeps results/audit history.
-- Development/QA docs now require targeted behavioural testing before any functional task is marked complete. Static checks alone are not enough for feature work.
+- Development/QA docs now require targeted behavioural testing before any functional task is marked complete. Static checks alone are not enough for feature work. This rule lives in the development process, not the end process.
+- Selected rows/items must be visually stronger than hover/rest states. The Teacher Students selected row now uses a dark selected fill with a blue left accent instead of the previous pale blue.
+- Form controls inside white cards must use a distinct control surface. Teacher light inputs/selects/textareas now use a tinted `bg-mist` surface with a clear border/focus state instead of white-on-white styling.
+- Status labels must not look like buttons or sit inline beside action buttons. The shared status component now uses inline coloured dot/text indicators instead of filled pill controls, and class-card action buttons sit under the year-group detail rather than beside status text.
+- Action hierarchy is now a design principle: filters must look like filters, routine actions use restrained outline styling, utility actions are lower-emphasis and grouped separately, and destructive actions use danger styling. Teacher Classes, Students, Courses, Assignments, Results, Leaderboards, Dashboard, and Settings have been visually checked against this rule.
+- Teacher Students now supports `All classes` by default, class filtering, and search across student name, username, public Student ID, class, and status.
+- Teacher Students class editing uses real-class checkboxes. Saving adds missing checked memberships, ends unchecked teacher-owned memberships, and keeps the student in `Non-class` when no real class is selected.
+- Teacher Classes archive now uses `archive-class`. It archives the class, ends memberships, and moves affected students to `Non-class` where needed. It no longer requires moving students first.
 
 ## Fresh PC Bootstrap
 
@@ -114,6 +128,13 @@ Run the frontend:
 
 ```powershell
 npm.cmd run dev -- --port 5173
+```
+
+If new Edge Function folders return `Function not found`, restart the local Supabase stack without `--no-backup`:
+
+```powershell
+npx.cmd supabase stop
+npx.cmd supabase start
 ```
 
 Open:
@@ -195,7 +216,29 @@ npm.cmd run build
 Latest verified checks on this branch:
 
 ```text
-2026-07-27 Development/QA rule update:
+2026-07-27 end-of-day verification:
+npm.cmd run typecheck: passed
+npm.cmd run lint: passed
+npm.cmd run test: passed, 4 files / 12 tests
+npm.cmd run build: passed, with existing Vite chunk-size warning
+git diff --check: passed, with existing Windows CRLF warnings
+npx.cmd supabase status: passed; FUNCTIONS_URL present; imgproxy/pooler stopped and still non-blocking locally
+npx.cmd supabase test db --local supabase\tests: passed, 1 file / 29 pgTAP tests
+Browser QA against local Supabase: Teacher Dashboard, Classes, Students, Courses, Assignments, Results, Leaderboards, and Settings all rendered expected content with no framework overlay and no console warnings/errors. Existing Assignments class/course interaction and Courses drill-down also passed.
+
+2026-07-27 Teacher Students filter/search update:
+npm.cmd run typecheck: passed
+npm.cmd run lint: passed
+git diff --check: passed
+Browser QA against local Supabase: default `All classes` showed 5 of 5 students; selecting `8A Computing` kept only 8A rows; searching `Diya` showed 1 of 5 and selected Diya Patel; searching `zzzz` showed 0 of 5 with the no-match message.
+
+2026-07-27 Teacher Students visual design update:
+npm.cmd run typecheck: passed
+npm.cmd run lint: passed
+git diff --check: passed
+Browser QA against local Supabase: Teacher Students selected row computed as dark `rgb(34, 54, 83)` with white text and blue left border; selected-student form controls computed as `rgb(244, 248, 251)` inside a white `rgb(255, 255, 255)` card.
+
+2026-07-27 Development/end process split:
 git diff --check: passed
 npm.cmd run test: passed, 4 files / 12 tests
 
@@ -212,19 +255,20 @@ Latest diff hygiene verification on 2026-07-26:
 git diff --check: passed
 ```
 
-Latest backend verification on 2026-07-26:
+Latest backend verification on 2026-07-27:
 
 ```text
-npx.cmd supabase test db --local supabase\tests: passed, 28 tests
-Coverage includes one active membership per student, teacher direct student edit denial, and teacher direct cross-class move denial.
+npx.cmd supabase test db --local supabase\tests: passed, 29 tests
+Coverage includes multi-class membership, duplicate active same-class blocking, teacher direct student edit denial, and teacher direct cross-class move denial.
 ```
 
-Latest frontend visual QA on 2026-07-26:
+Latest frontend visual QA on 2026-07-27:
 
 ```text
+Teacher Classes in in-app Browser with local Supabase data: `Archive class` replaced `Delete class`; archiving `8A Computing` was blocked with the move-students-first message and no database change; a temporary no-student `QA Delete Class` row archived through the inline confirmation, disappeared from active class cards/dropdowns, persisted as `public.classes.status = archived`, and was then removed from the local database; no console warnings/errors.
 Teacher Assignments in in-app Browser with local Supabase data: `1.1 Programming fundamentals test 1` rendered; topic `Select all` changed the summary to `1 tests selected`, topic state to `1/1 selected`, checkbox to checked, and the row to blue; `Clear topic` returned the summary to `0 tests selected`, topic state to `0/1 selected`, and create button to disabled; no console warnings/errors.
 Teacher Classes in in-app Browser with local Supabase data: editing `8A Computing` to temporary details saved, the edited value persisted after re-sign-in, and the seed values were restored to `8A Computing`, `2026/27`, Year `8`; no console warnings/errors.
-Teacher Students in in-app Browser with local Supabase data: page loaded with 5 visible students, selected edit panel rendered name inputs, active-class dropdown, status dropdown, password buttons, and delete button; no console errors. Earlier targeted QA verified class move, inactive login block, manual password login, generated 8-character password generation, and archive-style delete. Seed roster was restored after QA.
+Teacher Students in in-app Browser with local Supabase data: page loaded with visible students, selected edit panel rendered name inputs, class membership checkboxes, status dropdown, password buttons, and archive button; no console errors. Targeted QA verified multi-class membership save, unchecked-membership removal, Non-class fallback, inactive login block, manual password login, generated 8-character password generation, and archive-style delete. Seed roster was restored after QA.
 ```
 
 Browser QA that passed:
@@ -237,6 +281,8 @@ Browser QA that passed:
 - Active test screen loaded with five questions.
 
 The QA-created local rows are only in this machine's local Supabase database. They are not in Git and will not appear after a fresh `db reset` unless added to `supabase/seed.sql`.
+
+Local-only class join codes may differ from a fresh reset because Regenerate was exercised during QA. A fresh reset uses the deterministic `supabase/seed.sql` values.
 
 ## Important Code Hotspots
 
@@ -271,15 +317,17 @@ The QA-created local rows are only in this machine's local Supabase database. Th
 
 ## Next Recommended Task
 
-Merge teacher `Tests` and `Assignments` into one `Resources` workflow, then plan/build Class views for assigned resources and class performance by unit/topic.
+Merge teacher `Courses` and `Assignments` into one `Resources` workflow, then plan/build Class views for assigned resources and class performance by unit/topic.
 
 ## Development Rules To Preserve
 
 - Use `npm.cmd` and `npx.cmd` in PowerShell.
 - Use local Supabase for backend/security/persistence work.
 - Do not mark functional work complete until the changed workflow has been tested successfully with relevant browser, Edge Function, database/RLS, or persistence QA.
+- Run the end process only when the user explicitly says `end`; it includes pushing the active branch.
+- Selected rows, cards, tabs, and list items must be visibly stronger than hover/rest states.
+- Inputs, selects, and textareas inside white cards must use a distinct background from the containing card.
 - Do not reintroduce frontend-only/demo fallback data or demo login paths before launch.
-- Do not push unless the user explicitly says `push`.
 - Keep migrations as the schema source of truth.
 - Keep RLS enabled on all exposed `public` tables.
 - Do not authorize from user-editable metadata.

@@ -22,6 +22,15 @@ verify_jwt = true
 [functions.update-student-account]
 verify_jwt = true
 
+[functions.archive-class]
+verify_jwt = true
+
+[functions.join-class-by-code]
+verify_jwt = true
+
+[functions.regenerate-class-code]
+verify_jwt = true
+
 [functions.start-test-attempt]
 verify_jwt = true
 

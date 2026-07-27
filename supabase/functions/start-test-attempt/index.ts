@@ -25,17 +25,36 @@ Deno.serve(async (req) => {
 
     const { data: student, error: studentError } = await service
       .from('student_profiles')
-      .select('id, class_memberships!inner(class_id, status)')
+      .select('id')
       .eq('profile_id', requester.id)
-      .eq('class_memberships.status', 'active')
+      .eq('account_status', 'active')
       .single();
     if (studentError || !student) throw studentError ?? new Error('Student profile not found');
 
     const body = await req.json();
     const assignmentId = body.assignmentId ? String(body.assignmentId) : undefined;
     const testVersionId = body.testVersionId ? String(body.testVersionId) : undefined;
-    const activeClassId = (student.class_memberships as Array<{ class_id: string }>)[0]?.class_id;
-    if (!activeClassId) return errorResponse('Student is not in an active class', 403);
+
+    const { data: memberships, error: membershipsError } = await service
+      .from('class_memberships')
+      .select('class_id, classes!inner(is_system, status)')
+      .eq('student_id', student.id)
+      .eq('status', 'active')
+      .eq('classes.status', 'active');
+    if (membershipsError) throw membershipsError;
+
+    const activeMemberships = (memberships ?? []) as Array<{
+      class_id: string;
+      classes?: { is_system: boolean; status: string } | Array<{ is_system: boolean; status: string }> | null;
+    }>;
+    const activeClassIds = new Set(activeMemberships.map((membership) => membership.class_id));
+    const preferredPracticeClassId =
+      activeMemberships.find((membership) => {
+        const classRecord = Array.isArray(membership.classes) ? membership.classes[0] : membership.classes;
+        return classRecord && !classRecord.is_system;
+      })?.class_id ??
+      activeMemberships[0]?.class_id ??
+      null;
 
     let versionId = testVersionId;
     let assignment = null as null | {
@@ -55,7 +74,7 @@ Deno.serve(async (req) => {
         .eq('id', assignmentId)
         .single();
       if (error || !data) throw error ?? new Error('Assignment not found');
-      if (data.class_id !== activeClassId) return errorResponse('Assignment is not for your class', 403);
+      if (!activeClassIds.has(data.class_id)) return errorResponse('Assignment is not for your class', 403);
       if (data.status !== 'open') return errorResponse('Assignment is not open', 403);
       const now = Date.now();
       if (data.start_at && new Date(data.start_at).getTime() > now) return errorResponse('Assignment has not started', 403);
@@ -121,7 +140,7 @@ Deno.serve(async (req) => {
         .from('test_attempts')
         .insert({
           student_id: student.id,
-          class_id_at_attempt: activeClassId,
+          class_id_at_attempt: assignment?.class_id ?? preferredPracticeClassId,
           test_id: (version.tests as { id: string }).id,
           test_version_id: versionId,
           assignment_id: assignment?.id,

@@ -25,7 +25,8 @@ export function LoginPage() {
           ? await signInStudent(identifier, password)
           : await signInStaff(identifier, password);
       setSession(result);
-      navigate(result.role === 'student' ? '/student' : '/teacher');
+      const pendingJoinCode = window.localStorage.getItem('pendingJoinCode');
+      navigate(result.role === 'student' && pendingJoinCode ? `/join/${pendingJoinCode}` : result.role === 'student' ? '/student' : '/teacher');
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : 'Could not sign in');
     } finally {

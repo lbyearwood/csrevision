@@ -6,6 +6,9 @@ MVP functions:
 - `suggest-usernames`
 - `reset-student-password`
 - `update-student-account`
+- `archive-class`
+- `join-class-by-code`
+- `regenerate-class-code`
 - `start-test-attempt`
 - `save-answer`
 - `submit-test-attempt`
@@ -40,6 +43,15 @@ Student account management:
 - `reset-student-password` must use Supabase Auth Admin from the Edge Function only.
 - `reset-student-password` accepts a manual password with at least 8 characters or returns an exact 8-character generated temporary password.
 - `update-student-account` must verify staff role and teacher access to the student before using the service-role client for profile/student/membership writes.
-- `update-student-account` must verify the target class is active and owned by the requester unless the requester is admin.
-- `update-student-account` archives students instead of hard-deleting them: set profile/student status to `archived`, end active membership, keep attempts/answers/points/events/audit logs.
+- `update-student-account` accepts `classIds[]` for teacher-owned active real classes, reconciles checked memberships, and keeps a non-archived student in that teacher's `Non-class` when no real class is selected.
+- `update-student-account` must verify every selected class is active and owned by the requester unless the requester is admin.
+- `update-student-account` archives students instead of hard-deleting them: set profile/student status to `archived`, end all active memberships, keep attempts/answers/points/events/audit logs.
 - Required audit actions: `student_updated`, `student_class_changed`, `student_status_changed`, `student_archived`, `student_password_reset`.
+
+Class archive and join codes:
+
+- `archive-class` is staff-only and archives real classes only. It cannot archive `Non-class`.
+- `archive-class` ends active memberships in the archived class and moves affected active students to the teacher's `Non-class` only if they have no other active real class for that teacher.
+- `join-class-by-code` is student-only. It requires an active student account, a valid real active class, `accepting_students = true`, and idempotently returns `already_joined` for duplicate joins.
+- `join-class-by-code` clears the teacher-owned `Non-class` holding membership after the student joins a real class for that teacher.
+- `regenerate-class-code` is staff-only for owned real active classes and returns the new six-letter code.

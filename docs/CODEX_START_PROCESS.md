@@ -1,6 +1,6 @@
 # Codex Start Process
 
-Last updated: 2026-07-26
+Last updated: 2026-07-27
 
 Audience: every Codex agent starting or resuming work on this repository. The user does not plan to read this. Follow this process before making product/code changes unless the user explicitly asks for a narrower action.
 
@@ -38,13 +38,14 @@ If the working tree is dirty:
 Read these in order:
 
 1. `docs/CODEX_START_PROCESS.md`
-2. `docs/CODEX_END_PROCESS.md`
-3. `docs/HANDOVER.md`
-4. `docs/PROJECT_TASKS.md`
-5. `PROJECT_BRIEF.md`
-6. `docs/DEVELOPMENT_SETUP.md`
-7. `docs/TROUBLESHOOTING.md`
-8. `docs/SUPABASE_SETUP.md` before any backend, Auth, RLS, seed, Edge Function, or persistence work
+2. `docs/CODEX_DEVELOPMENT_PROCESS.md`
+3. `docs/CODEX_END_PROCESS.md`
+4. `docs/HANDOVER.md`
+5. `docs/PROJECT_TASKS.md`
+6. `PROJECT_BRIEF.md`
+7. `docs/DEVELOPMENT_SETUP.md`
+8. `docs/TROUBLESHOOTING.md`
+9. `docs/SUPABASE_SETUP.md` before any backend, Auth, RLS, seed, Edge Function, or persistence work
 
 Use `docs/PROJECT_TASKS.md` as the live source for current focus, open blockers, and next actions.
 
@@ -137,7 +138,7 @@ Pick the next task from `Current Focus` first, then from the most relevant incom
 As of 2026-07-26, the next recommended task is:
 
 ```text
-Merge teacher Tests and Assignments into one Resources workflow.
+Merge teacher Courses and Assignments into one Resources workflow.
 ```
 
 Reason:
@@ -159,4 +160,5 @@ Plan and build Class views for assigned resources and class performance by unit/
 - Do not run destructive local database resets unless needed for the task and clearly appropriate.
 - Do not expose service-role keys, correct answers, hidden mark schemes, or privileged marking logic to the frontend.
 - Do not leave docs stale after completing or changing project direction.
-- After making changes, follow `docs/CODEX_END_PROCESS.md` before the final response.
+- After each development task, follow the QA gate in `docs/CODEX_DEVELOPMENT_PROCESS.md` before saying the task is complete.
+- Follow `docs/CODEX_END_PROCESS.md` only when the user explicitly says to end or wrap up development.

@@ -9,7 +9,7 @@ Core rules:
 - Student-facing leaderboards use first initial, surname, and public Student ID.
 - Students never receive correct answers, `is_correct`, mark schemes, teacher notes, model answers, or marking prompts.
 - `auth.admin.createUser` and service-role operations run only in Edge Functions.
-- Student password reset, class movement, status changes, and archive-style delete run only in Edge Functions.
+- Student password reset, class membership changes, status changes, and archive-style delete run only in Edge Functions.
 - Edge Functions verify the authenticated caller and data access before using the service-role client.
 - Authorization comes from database records, not user-editable metadata.
 

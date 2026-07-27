@@ -319,10 +319,43 @@ set
   created_by = excluded.created_by,
   updated_at = now();
 
-insert into public.classes (id, slug, class_name, academic_year, year_group, owner_teacher_id, status)
+insert into public.classes (
+  id,
+  slug,
+  class_name,
+  academic_year,
+  year_group,
+  owner_teacher_id,
+  status,
+  join_code,
+  accepting_students,
+  is_system
+)
 values
-  ('40000000-0000-4000-8000-000000000001', '8a-computing', '8A Computing', '2026/27', '8', '20000000-0000-4000-8000-000000000001', 'active'),
-  ('40000000-0000-4000-8000-000000000002', '9b-computer-science', '9B Computer Science', '2026/27', '9', '20000000-0000-4000-8000-000000000001', 'active')
+  (
+    '40000000-0000-4000-8000-000000000001',
+    '8a-computing',
+    '8A Computing',
+    '2026/27',
+    '8',
+    '20000000-0000-4000-8000-000000000001',
+    'active',
+    'CSRVNA',
+    false,
+    false
+  ),
+  (
+    '40000000-0000-4000-8000-000000000002',
+    '9b-computer-science',
+    '9B Computer Science',
+    '2026/27',
+    '9',
+    '20000000-0000-4000-8000-000000000001',
+    'active',
+    'CSRVNB',
+    false,
+    false
+  )
 on conflict (id) do update
 set
   slug = excluded.slug,
@@ -331,6 +364,44 @@ set
   year_group = excluded.year_group,
   owner_teacher_id = excluded.owner_teacher_id,
   status = excluded.status,
+  join_code = excluded.join_code,
+  accepting_students = excluded.accepting_students,
+  is_system = excluded.is_system,
+  updated_at = now();
+
+insert into public.classes (
+  id,
+  slug,
+  class_name,
+  academic_year,
+  year_group,
+  owner_teacher_id,
+  status,
+  join_code,
+  accepting_students,
+  is_system
+)
+values (
+  '40000000-0000-4000-8000-000000000999',
+  'non-class',
+  'Non-class',
+  null,
+  null,
+  '20000000-0000-4000-8000-000000000001',
+  'active',
+  null,
+  false,
+  true
+)
+on conflict (owner_teacher_id, slug) do update
+set
+  class_name = excluded.class_name,
+  academic_year = excluded.academic_year,
+  year_group = excluded.year_group,
+  status = 'active',
+  join_code = null,
+  accepting_students = false,
+  is_system = true,
   updated_at = now();
 
 insert into public.class_memberships (id, class_id, student_id, status)

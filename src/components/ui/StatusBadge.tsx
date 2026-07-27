@@ -1,9 +1,9 @@
 const toneClass = {
-  green: 'bg-[#e7f7ef] text-green border-[#c7ead8]',
-  amber: 'bg-[#fff6dc] text-amber border-[#f4df95]',
-  red: 'bg-[#fff0f0] text-danger border-[#ffd0d0]',
-  blue: 'bg-[#eaf4ff] text-blue border-[#cfe3ff]',
-  neutral: 'bg-mist text-muted border-line',
+  green: { text: 'text-green', dot: 'bg-green' },
+  amber: { text: 'text-amber', dot: 'bg-amber' },
+  red: { text: 'text-danger', dot: 'bg-danger' },
+  blue: { text: 'text-blue', dot: 'bg-blue' },
+  neutral: { text: 'text-muted', dot: 'bg-muted' },
 };
 
 export function StatusBadge({
@@ -14,7 +14,8 @@ export function StatusBadge({
   tone?: keyof typeof toneClass;
 }) {
   return (
-    <span className={`inline-flex items-center rounded-[6px] border px-2 py-1 text-xs font-semibold ${toneClass[tone]}`}>
+    <span className={`inline-flex items-center gap-1.5 whitespace-nowrap text-xs font-semibold ${toneClass[tone].text}`}>
+      <span aria-hidden="true" className={`h-2 w-2 rounded-full ${toneClass[tone].dot}`} />
       {children}
     </span>
   );

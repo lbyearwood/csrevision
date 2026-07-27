@@ -4,7 +4,7 @@ Last updated: 2026-07-27
 
 Audience: Codex agents. The user does not plan to read this. Keep this file terse, current, and action-oriented.
 
-This is the active project state file for `csrevision`. Future Codex agents should follow `docs/CODEX_START_PROCESS.md` first, then read this file, then `PROJECT_BRIEF.md`, then the specific docs for the area being changed. Before ending after changes, follow `docs/CODEX_END_PROCESS.md`.
+This is the active project state file for `csrevision`. Future Codex agents should follow `docs/CODEX_START_PROCESS.md` first, then read this file, then `PROJECT_BRIEF.md`, then the specific docs for the area being changed. After each development task, follow `docs/CODEX_DEVELOPMENT_PROCESS.md`. Only follow `docs/CODEX_END_PROCESS.md` when the user explicitly says to end or wrap up development.
 
 Status key:
 
@@ -27,7 +27,7 @@ Codex update protocol:
 - `[~]` Build the local Supabase/Postgres backend into the source of truth for the project.
 - `[x]` Keep development and QA Supabase-only until launch; no frontend demo fallback.
 - `[x]` Support multiple-tests-per-topic naming and topic-level bulk selection in teacher assignment creation.
-- `[ ]` Merge teacher `Tests` and `Assignments` into one `Resources` workflow for viewing resource contents and assigning to classes.
+- `[ ]` Merge teacher `Courses` and `Assignments` into one `Resources` workflow for viewing resource contents and assigning to classes.
 - `[ ]` Plan class performance views by assigned resources, unit, and topic.
 - `[ ]` Confirm seed data can be recreated from a clean local reset.
 - `[ ]` Continue backend wiring beyond assignments: student creation, result detail, suspicious activity detail, answer save/submit hardening, and full regression QA.
@@ -68,7 +68,7 @@ Codex update protocol:
 - `[x]` Added `docs/DEVELOPMENT_SETUP.md` with fresh-machine dependencies, local Supabase setup, seed verification, and Codex run commands.
 - `[x]` Added `docs/HANDOVER.md` for continuing on a different PC.
 - `[x]` Added `docs/CODEX_START_PROCESS.md` defining the required Codex startup sequence: sync Git, read docs, install dependencies, run the site, and report the next task.
-- `[x]` Added `docs/CODEX_END_PROCESS.md` defining the required Codex finish sequence: verify, update dev docs, write handover, commit locally, push only when instructed, and report next task.
+- `[x]` Added `docs/CODEX_END_PROCESS.md` defining the user-triggered end-of-day sequence: final checks, update dev docs, write handover, commit locally, push, and report next task.
 - `[x]` Implemented persistent teacher assignment creation in local Supabase.
 - `[x]` Split Teacher Assignments into `Create assignment` and `Existing assignments`.
 - `[x]` Added assignment history by selected class/course with unit/topic rows, available test, times assigned, and last five due dates.
@@ -84,13 +84,27 @@ Codex update protocol:
 - `[x]` Added topic-level `Select all` / `Clear topic` controls in teacher assignment creation.
 - `[x]` Added teacher Classes inline editing for class name, academic year, year group, and status, persisted through local Supabase.
 - `[x]` Expanded local pgTAP database tests to 25 checks, including teacher class update ownership.
-- `[x]` Added teacher Students edit panel for first name, surname, current class, account status, password reset, generated temporary password, and archive-style delete.
-- `[x]` Added `update-student-account` Edge Function for server-side student updates, class moves, inactive/archive status, active-membership changes, and audit logs.
+- `[x]` Added teacher Students edit panel for first name, surname, class memberships, account status, password reset, generated temporary password, and archive-style delete.
+- `[x]` Added `update-student-account` Edge Function for server-side student updates, multi-class membership reconciliation, inactive/archive status, active-membership changes, and audit logs.
 - `[x]` Tightened `reset-student-password`: teacher-owned student check, server-side Auth Admin password update, optional manual password, exact 8-character generated password, and audit log.
-- `[x]` Added migration enforcing one active class membership per student while preserving historical membership rows.
+- `[x]` Added migration enforcing one active class membership per student while preserving historical membership rows. Superseded by multi-class membership migration on 2026-07-27.
 - `[x]` Updated teacher dashboard/results logic so class summaries use `test_attempts.class_id_at_attempt`; current rosters and leaderboards use active class membership.
 - `[x]` Expanded local pgTAP database tests to 28 checks and frontend unit tests to 12 checks.
 - `[x]` Added a Development/QA completion gate: functional work cannot be marked complete until the changed workflow is tested and the result is recorded.
+- `[x]` Split the per-task development QA process from the end-of-day process. End now only runs when the user says `end` and includes pushing.
+- `[x]` Added the selected-state design principle and strengthened the Teacher Students selected-row highlight.
+- `[x]` Added the form-control surface design principle and changed teacher light form controls to use tinted input backgrounds inside white cards.
+- `[x]` Added the status-indicator design principle and changed shared status labels to inline dot/text indicators instead of button-like pills. Status indicators must sit separately from action buttons.
+- `[x]` Added the action hierarchy design principle and restyled the teacher panel so filters, routine actions, utility actions, and destructive actions no longer share the same priority treatment.
+- `[x]` Renamed the teacher `Tests` navigation/page title to `Courses`.
+- `[x]` Added Teacher Students roster filtering by all/classes and search across name, username, Student ID, class, and status.
+- `[x]` Replaced the Teacher Students single class dropdown with real class membership checkboxes; saving persists multiple class memberships and uses `Non-class` when no real class is selected.
+- `[x]` Replaced one-active-class-per-student with multi-class memberships and duplicate active same-class blocking.
+- `[x]` Added protected teacher-owned `Non-class` holding classes.
+- `[x]` Added `archive-class`, `join-class-by-code`, and `regenerate-class-code` Edge Functions.
+- `[x]` Added Teacher Classes join code controls: visible non-button joining status, accepting checkbox under Edit details, copy code, copy join link, regenerate code, protected `Non-class`, archive-to-Non-class behavior, and class filters by year group/status.
+- `[x]` Added Student Profile class-code join and join-link routing through sign-in.
+- `[x]` Updated Student Assigned/Results/Home to use assignments from every active class membership.
 
 ## Backend: Supabase And Postgres
 
@@ -114,7 +128,7 @@ Codex update protocol:
 - `[x]` Test that teachers can update owned classes and cannot update classes owned by another teacher.
 - `[x]` Test that teachers cannot update student profiles directly through RLS.
 - `[x]` Test that teachers cannot directly move a student into another teacher's class through RLS.
-- `[x]` Test one active class membership per student at the database layer.
+- `[x]` Test multiple active class memberships and duplicate active same-class blocking at the database layer.
 - `[x]` Test assigned one-attempt enforcement at the database layer.
 - `[x]` Test test-version/question/option immutability after attempts exist.
 - `[ ]` Investigate `supabase_vector_csrevision` restart loop and decide whether to exclude it locally or fix Docker log access.
@@ -129,6 +143,9 @@ Codex update protocol:
 - `[ ]` Test `suggest-usernames` locally.
 - `[x]` Test `reset-student-password` locally.
 - `[x]` Test `update-student-account` locally.
+- `[x]` Test `archive-class` locally, including protected `Non-class` rejection and moving a classless temp student to `Non-class`.
+- `[x]` Test `join-class-by-code` locally, including accepting-off rejection, successful join, and idempotent repeat join.
+- `[x]` Test `regenerate-class-code` locally.
 - `[x]` Test `start-test-attempt` locally for assigned attempts, resume behaviour, and informational due dates.
 - `[ ]` Test `save-answer` locally.
 - `[ ]` Test `submit-test-attempt` locally.
@@ -177,14 +194,15 @@ Codex update protocol:
 - `[x]` Dashboard.
 - `[x]` Classes page.
 - `[x]` Students page.
-- `[x]` Tests page.
+- `[x]` Courses page.
 - `[x]` Assignments page.
 - `[x]` Results page.
 - `[x]` Leaderboards page.
 - `[ ]` Student creation UI.
 - `[x]` Student edit UI.
+- `[x]` Student roster class filter and search.
 - `[x]` Password reset flow wired to backend.
-- `[x]` Student class move, active/inactive status, and archive-style delete wired to backend.
+- `[x]` Student class membership editing, active/inactive status, and archive-style delete wired to backend.
 - `[x]` Class editing UI for existing classes.
 - `[ ]` Class creation UI.
 - `[x]` Assignment creation UI.
@@ -198,6 +216,9 @@ Codex update protocol:
 ## Design And Visual QA
 
 - `[x]` Establish theme rule: light page background, dark top-level cards/chrome, light nested cards/rows.
+- `[x]` Establish selected-state rule: selected rows/items must be clearly stronger than hover/rest states.
+- `[x]` Establish form-control surface rule: inputs/selects/textareas inside white cards must use a distinct control background.
+- `[x]` Establish action hierarchy rule: filters, routine actions, utility actions, and destructive actions must be visually distinct.
 - `[x]` Apply theme to student pages.
 - `[x]` Apply theme to teacher/admin pages.
 - `[x]` Desktop browser QA for teacher/admin routes.
@@ -212,9 +233,9 @@ Codex update protocol:
 - `[x]` Frontend lint passes.
 - `[x]` Frontend unit tests pass: 12 tests.
 - `[x]` Frontend production build passes.
-- `[x]` Database pgTAP tests pass: 28 tests.
+- `[x]` Database pgTAP tests pass: 29 tests.
 - `[ ]` Full Edge Function local test suite passes.
-- `[~]` Browser QA passes with local Supabase data. Targeted assignment persistence, past-due start, topic bulk-select, class editing, and student edit/password/archive QA passed; full regression remains open.
+- `[~]` Browser QA passes with local Supabase data. Targeted assignment persistence, past-due start, topic bulk-select, class editing, student edit/password/archive, teacher-panel route visual QA, Existing Assignments interaction, and Courses drill-down QA passed; full regression remains open.
 - `[ ]` Regression checklist documented before deployment.
 
 ## Deployment

@@ -5,7 +5,7 @@ create extension if not exists pgtap with schema extensions;
 grant usage on schema extensions to authenticated, anon;
 grant execute on all functions in schema extensions to authenticated, anon;
 
-select plan(28);
+select plan(29);
 
 create temp table rls_test_refs as
 select
@@ -367,11 +367,30 @@ select throws_ok(
 
 reset role;
 
+insert into public.class_memberships (id, class_id, student_id, status)
+values (
+  '41000000-0000-4000-8000-000000000901',
+  '40000000-0000-4000-8000-000000000002',
+  '30000000-0000-4000-8000-000000000101',
+  'active'
+);
+
+select is(
+  (
+    select count(*)::integer
+    from public.class_memberships
+    where student_id = '30000000-0000-4000-8000-000000000101'
+      and status = 'active'
+  ),
+  2,
+  'multiple active class memberships are allowed for one student'
+);
+
 select throws_ok(
   $$
     insert into public.class_memberships (id, class_id, student_id, status)
     values (
-      '41000000-0000-4000-8000-000000000901',
+      '41000000-0000-4000-8000-000000000902',
       '40000000-0000-4000-8000-000000000002',
       '30000000-0000-4000-8000-000000000101',
       'active'
@@ -379,7 +398,7 @@ select throws_ok(
   $$,
   '23505'::char(5),
   null,
-  'one active class membership per student is enforced'
+  'duplicate active membership for the same student and class is blocked'
 );
 
 insert into public.test_attempts (

@@ -48,6 +48,41 @@ export async function requireStaff(requester: RequesterProfile): Promise<void> {
   }
 }
 
+export async function teacherProfileIdForRequester(
+  serviceClient: SupabaseClient,
+  requester: RequesterProfile,
+): Promise<string | null> {
+  if (requester.role !== 'teacher') return null;
+
+  const { data: teacherProfile } = await serviceClient
+    .from('teacher_profiles')
+    .select('id')
+    .eq('profile_id', requester.id)
+    .single();
+
+  return teacherProfile?.id ?? null;
+}
+
+export function normalizeClassJoinCode(value: string): string {
+  return value.toUpperCase().replace(/[^A-Z]/g, '').slice(0, 6);
+}
+
+export async function generateClassJoinCode(serviceClient: SupabaseClient): Promise<string> {
+  const alphabet = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+
+  for (let attempts = 0; attempts < 100; attempts += 1) {
+    let code = '';
+    for (let index = 0; index < 6; index += 1) {
+      code += alphabet[Math.floor(Math.random() * alphabet.length)];
+    }
+
+    const { data } = await serviceClient.from('classes').select('id').eq('join_code', code).maybeSingle();
+    if (!data) return code;
+  }
+
+  throw new Error('Unable to generate a unique class code');
+}
+
 export async function teacherOwnsClass(
   serviceClient: SupabaseClient,
   requester: RequesterProfile,
@@ -56,18 +91,14 @@ export async function teacherOwnsClass(
   if (requester.role === 'admin') return true;
   if (requester.role !== 'teacher') return false;
 
-  const { data: teacherProfile } = await serviceClient
-    .from('teacher_profiles')
-    .select('id')
-    .eq('profile_id', requester.id)
-    .single();
-  if (!teacherProfile) return false;
+  const teacherProfileId = await teacherProfileIdForRequester(serviceClient, requester);
+  if (!teacherProfileId) return false;
 
   const { data: classRecord } = await serviceClient
     .from('classes')
     .select('id')
     .eq('id', classId)
-    .eq('owner_teacher_id', teacherProfile.id)
+    .eq('owner_teacher_id', teacherProfileId)
     .single();
 
   return Boolean(classRecord);
@@ -81,19 +112,16 @@ export async function teacherCanAccessStudent(
   if (requester.role === 'admin') return true;
   if (requester.role !== 'teacher') return false;
 
-  const { data: teacherProfile } = await serviceClient
-    .from('teacher_profiles')
-    .select('id')
-    .eq('profile_id', requester.id)
-    .single();
-  if (!teacherProfile) return false;
+  const teacherProfileId = await teacherProfileIdForRequester(serviceClient, requester);
+  if (!teacherProfileId) return false;
 
   const { data } = await serviceClient
     .from('class_memberships')
     .select('id, classes!inner(owner_teacher_id)')
     .eq('student_id', studentId)
     .eq('status', 'active')
-    .eq('classes.owner_teacher_id', teacherProfile.id)
+    .eq('classes.owner_teacher_id', teacherProfileId)
+    .limit(1)
     .maybeSingle();
 
   return Boolean(data);

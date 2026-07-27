@@ -13,7 +13,7 @@ import {
   Trophy,
   UserRound,
 } from 'lucide-react';
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type FormEvent, type ReactNode } from 'react';
 import { NavLink, Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import { useAppState } from '../../app/AppState';
 import { Button } from '../../components/ui/Button';
@@ -139,7 +139,7 @@ function StudentHome() {
   const state = useAppState();
   const navigate = useNavigate();
   const [actionError, setActionError] = useState('');
-  const assigned = state.assignments[0];
+  const assigned = currentStudentAssignments(state)[0];
   const assignedVersion = state.testVersions.find((version) => version.id === assigned?.testVersionId);
   const assignedTest = state.tests.find((test) => test.id === assignedVersion?.testId);
   const assignedAttempt = findExistingAssignedAttempt(state, assigned?.id);
@@ -254,6 +254,26 @@ function getActionError(caught: unknown): string {
 type StudentAppState = ReturnType<typeof useAppState>;
 type BadgeTone = 'green' | 'amber' | 'red' | 'blue' | 'neutral';
 
+function currentStudentClassIds(state: StudentAppState): string[] {
+  return state.currentStudent.classIds.length
+    ? state.currentStudent.classIds
+    : state.currentStudent.classId
+      ? [state.currentStudent.classId]
+      : [];
+}
+
+function currentStudentClassNames(state: StudentAppState): string {
+  const classNames = currentStudentClassIds(state)
+    .map((classId) => state.classes.find((item) => item.id === classId)?.className)
+    .filter((className): className is string => Boolean(className));
+  return classNames.join(', ');
+}
+
+function currentStudentAssignments(state: StudentAppState) {
+  const classIds = new Set(currentStudentClassIds(state));
+  return state.assignments.filter((assignment) => classIds.has(assignment.classId) && assignment.status === 'open');
+}
+
 function getStudentTestDisplay(state: StudentAppState, testId?: string) {
   const test = state.tests.find((item) => item.id === testId);
   const topic = state.topics.find((item) => item.id === test?.topicId);
@@ -363,8 +383,9 @@ function buildCourseResults(state: StudentAppState, subjectId: string): CourseRe
         const topicTests = state.tests.filter((test) => test.topicId === topic.id);
         const testIds = new Set(topicTests.map((test) => test.id));
         const testVersionIds = new Set(state.testVersions.filter((version) => testIds.has(version.testId)).map((version) => version.id));
+        const studentClassIds = new Set(currentStudentClassIds(state));
         const topicAssignments = state.assignments.filter(
-          (assignment) => assignment.classId === state.currentStudent.classId && testVersionIds.has(assignment.testVersionId),
+          (assignment) => studentClassIds.has(assignment.classId) && testVersionIds.has(assignment.testVersionId),
         );
         const assignmentIds = new Set(topicAssignments.map((assignment) => assignment.id));
         const isAssigned = topicAssignments.length > 0;
@@ -631,6 +652,7 @@ function AssignedPage() {
   const state = useAppState();
   const navigate = useNavigate();
   const [actionError, setActionError] = useState('');
+  const assignments = currentStudentAssignments(state);
   return (
     <div className="space-y-4 px-4 py-5 lg:px-0 lg:py-0">
       <div>
@@ -639,7 +661,7 @@ function AssignedPage() {
       </div>
       {actionError ? <p className="rounded-app bg-[#fff1f1] p-3 text-sm text-danger">{actionError}</p> : null}
       <div className="grid gap-4 lg:grid-cols-2">
-        {state.assignments.map((assignment) => {
+        {assignments.map((assignment) => {
           const version = state.testVersions.find((item) => item.id === assignment.testVersionId);
           const test = state.tests.find((item) => item.id === version?.testId);
           const display = getStudentTestDisplay(state, test?.id);
@@ -680,6 +702,12 @@ function AssignedPage() {
           );
         })}
       </div>
+      {!assignments.length ? (
+        <Panel className="p-4 lg:p-5">
+          <p className="font-bold">No assigned tests right now.</p>
+          <p className="mt-1 text-sm text-[#b8c8d9]">Your teacher's assignments will appear here when they are set.</p>
+        </Panel>
+      ) : null}
     </div>
   );
 }
@@ -1036,6 +1064,28 @@ function UnitSummary({ label, value, score }: { label: string; value?: string; s
 
 function ProfilePage() {
   const state = useAppState();
+  const [joinCode, setJoinCode] = useState('');
+  const [message, setMessage] = useState('');
+  const [error, setError] = useState('');
+  const [isJoining, setIsJoining] = useState(false);
+  const classNames = currentStudentClassNames(state) || 'No class';
+
+  const joinClass = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    try {
+      setIsJoining(true);
+      setMessage('');
+      setError('');
+      const resultMessage = await state.joinClassByCode(joinCode);
+      setJoinCode('');
+      setMessage(resultMessage);
+    } catch (caught) {
+      setError(getActionError(caught));
+    } finally {
+      setIsJoining(false);
+    }
+  };
+
   return (
     <div className="space-y-4 px-4 py-5 lg:px-0 lg:py-0">
       <h2 className="text-xl font-bold">Profile</h2>
@@ -1047,8 +1097,28 @@ function ProfilePage() {
           <Info label="Student ID" value={state.currentStudent.publicStudentId} />
           <Info label="Status" value={state.statusName} />
           <Info label="Points" value={`${state.pointsTotal}`} />
-          <Info label="Class" value={state.classes.find((item) => item.id === state.currentStudent.classId)?.className ?? ''} />
+          <Info label="Classes" value={classNames} />
         </dl>
+      </Panel>
+      <Panel className="max-w-3xl p-4 lg:p-5">
+        <h3 className="font-bold">Join a Class</h3>
+        <form className="mt-3 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]" onSubmit={joinClass}>
+          <label className="space-y-2 text-sm font-semibold">
+            <span>Class code</span>
+            <input
+              className="h-11 w-full rounded-app border border-line bg-mist px-3 text-sm text-ink shadow-inner [color-scheme:light] focus:border-blue focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue/15"
+              maxLength={6}
+              onChange={(event) => setJoinCode(event.target.value.toUpperCase().replace(/[^A-Z]/g, ''))}
+              placeholder="ABCDEF"
+              value={joinCode}
+            />
+          </label>
+          <Button className="self-end" disabled={isJoining || joinCode.length !== 6}>
+            {isJoining ? 'Joining...' : 'Join class'}
+          </Button>
+        </form>
+        {message ? <p className="mt-3 rounded-app bg-[#e7f7ef] p-3 text-sm font-semibold text-green">{message}</p> : null}
+        {error ? <p className="mt-3 rounded-app bg-[#fff1f1] p-3 text-sm text-danger">{error}</p> : null}
       </Panel>
     </div>
   );
@@ -1081,7 +1151,7 @@ function StudentLeaderboardPage() {
           <div className="mt-4 grid gap-3 text-sm">
             <Info label="Class rank" value={`#${rank}`} />
             <Info label="Points" value={`${state.pointsTotal}`} />
-            <Info label="Class" value={state.classes.find((item) => item.id === state.currentStudent.classId)?.className ?? ''} />
+            <Info label="Classes" value={currentStudentClassNames(state) || 'No class'} />
           </div>
         </Panel>
       </div>

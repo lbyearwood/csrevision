@@ -4,7 +4,7 @@
 **Prepared for:** Codex project build  
 **Prepared by:** ChatGPT  
 **Date:** 07 July 2026  
-**Current brief version:** 0.3
+**Current brief version:** 0.4
 **Recommended project name:** Student Knowledge Testing Platform  
 **Primary deployment model:** GitHub Pages frontend + Supabase backend  
 **Primary local development model:** Docker Desktop + local Supabase/Postgres via pinned Supabase CLI  
@@ -36,8 +36,12 @@ This section records material project direction changes, architecture decisions,
 | 2026-07-26 | 0.2 | Removed frontend demo fallback and made local Supabase mandatory for development and QA until launch. | Ensure every visible workflow uses Auth, RLS, seed data, Edge Functions, and persistent backend behaviour. |
 | 2026-07-26 | 0.2 | Adopted generated test naming as `<topic> test 1` and added topic-level bulk selection in teacher assignment creation. | Support multiple tests per topic without using `check` wording or forcing teachers to select each topic test one by one. |
 | 2026-07-26 | 0.2 | Added teacher class details editing backed by local Supabase and RLS tests for class update ownership. | Let teachers maintain class metadata from the Classes page while preserving teacher ownership boundaries. |
-| 2026-07-26 | 0.3 | Added teacher-side student account editing for name, current class, active/inactive status, server-side password reset, and archive-style delete. | Let teachers manage active rosters through local Supabase Edge Functions while preserving historical attempt/results data. |
-| 2026-07-26 | 0.3 | Updated the Codex end process to commit locally and push only when the user explicitly says `push`. | Preserve user control over when this branch updates the remote. |
+| 2026-07-26 | 0.3 | Added teacher-side student account editing for name, class membership, active/inactive status, server-side password reset, and archive-style delete. | Let teachers manage active rosters through local Supabase Edge Functions while preserving historical attempt/results data. |
+| 2026-07-26 | 0.3 | Temporarily documented a local-commit-only end process, now superseded by the 2026-07-27 v0.4 process split. | Historical note; current Codex process is defined by v0.4. |
+| 2026-07-27 | 0.4 | Split Codex process docs into per-task development QA and user-triggered end-of-day wrapping. The end process only runs when the user says `end` and includes pushing. | Keep feature proof close to each development task while reserving handover, commit, and push for the deliberate end-of-day workflow. |
+| 2026-07-27 | 0.4 | Added a selected-state design principle: selected rows/items must be clearly darker or otherwise strongly distinct from hover/rest states. | Prevent important selections from being lost in subtle low-contrast table or card styling. |
+| 2026-07-27 | 0.4 | Added a form-control surface design principle: inputs/selects/textareas inside white cards must use a distinct background from the card surface. | Make editable fields obvious and prevent white controls disappearing into white cards. |
+| 2026-07-27 | 0.4 | Added a status-indicator design principle: status labels must not look like buttons. | Keep read-only state visually distinct from actions so users do not try to click non-interactive labels. |
 
 ## Change Control Process
 
@@ -279,6 +283,36 @@ Priority order:
 3. Desktop website.
 
 The desktop version should adapt the mobile/tablet design rather than being treated as the primary design.
+
+Selected-state design principle:
+
+- Selected rows, cards, tabs, and list items must be visibly stronger than hover or resting states.
+- On dense data views, avoid pale selected backgrounds that look like passive hover or zebra striping.
+- Use a dark selected fill, strong border, left accent, clear contrast, or equivalent visible treatment.
+- Keep selected text readable and maintain keyboard focus visibility.
+
+Form-control surface design principle:
+
+- Text inputs, selects, textareas, and similar editable controls inside white cards must not use the same white surface as the containing card.
+- Use a subtly tinted control background, clear border, and focus state so editable areas are immediately visible.
+- White-on-white form controls are allowed only when the surrounding surface is not white or when a stronger border/fill treatment clearly separates the control.
+
+Status-indicator design principle:
+
+- Status labels, badges, and state indicators must not look like buttons.
+- Avoid button-like filled rounded rectangles, action-level padding, or hover-style treatments for read-only status.
+- Use inline text, a small coloured dot, restrained weight, or another clearly non-clickable treatment.
+- When a state affects a workflow, show the status near the relevant controls, but keep the actual control visually separate.
+- Do not place status indicators inline beside action buttons. Keep state and actions in separate layout groups.
+
+Action hierarchy design principle:
+
+- Controls with different jobs must not share the same visual priority.
+- Filters must look like form controls, not command buttons.
+- Use one clear primary action per workflow area where possible.
+- Routine actions should use restrained outline styling.
+- Utility actions such as copy/link/regenerate should be lower-emphasis and grouped separately from management actions.
+- Destructive or high-risk actions must use a danger treatment even when they sit on dark cards.
 
 ### 4.2 Static frontend rule
 
@@ -1109,9 +1143,11 @@ Students should be linked to classes through class membership records.
 This supports:
 
 - Moving students between classes.
+- Allowing students to belong to more than one real class.
 - Preserving historical membership.
-- Reporting by current class.
+- Reporting by current class memberships.
 - Reporting by class at time of attempt.
+- Holding otherwise-classless active students in a teacher-owned `Non-class`.
 
 ### 9.4 Moving students
 
@@ -1122,6 +1158,9 @@ When a student is moved from one class to another:
 - Certificates remain attached to the same student.
 - Points remain attached to the same student.
 - Previous class membership is preserved historically if possible.
+- The teacher edit flow can move the student within that teacher's classes.
+- Student self-join by class code can add another active real class membership.
+- Students must not be able to unenrol themselves.
 
 ### 9.5 Archiving classes
 
@@ -1132,7 +1171,36 @@ Archived classes:
 - Are hidden from normal dashboards.
 - Remain available for historical reporting.
 - Preserve student results.
+- Do not archive, delete, or block student accounts.
+- End current memberships in the archived class.
+- Move affected active students to the teacher's `Non-class` only if they have no other active real class for that teacher.
 - Can be reactivated by admin if needed.
+
+### 9.6 Non-class and class join codes
+
+Each teacher must have one protected active `Non-class` holding class.
+
+`Non-class`:
+
+- Cannot be archived.
+- Is hidden from assignment creation.
+- Has no student join code.
+- Allows active students to keep using courses and practice tests.
+
+Real classes must have:
+
+- A unique six-letter uppercase join code.
+- An `accepting_students` setting controlled by the teacher.
+- Copy-code and copy-link actions.
+- Regenerate-code action.
+
+Student join links use:
+
+```text
+/#/join/<CODE>
+```
+
+If the student is not signed in, the code is stored through sign-in and applied after student login.
 
 ---
 
@@ -2385,6 +2453,9 @@ academic_year text
 year_group text
 owner_teacher_id uuid
 status text check in ('active','archived')
+join_code text unique nullable
+accepting_students boolean
+is_system boolean
 created_at timestamptz
 updated_at timestamptz
 ```
@@ -2798,6 +2869,9 @@ These must happen through Edge Functions or secure database functions:
 - Reset student password.
 - Generate unique username.
 - Generate unique Student ID.
+- Archive class and move affected students to `Non-class`.
+- Join class by code.
+- Regenerate class join code.
 - Finalise test attempt.
 - Mark answers.
 - Call AI marking service.
@@ -2819,6 +2893,10 @@ create-student-account
 bulk-import-students
 reset-student-password
 suggest-usernames
+update-student-account
+archive-class
+join-class-by-code
+regenerate-class-code
 start-test-attempt
 save-answer
 submit-test-attempt

@@ -220,6 +220,33 @@ Then re-run:
 npx.cmd supabase status
 ```
 
+## New Edge Function Returns `Function not found`
+
+### Symptom
+
+A newly added local Edge Function returns:
+
+```text
+Function not found
+```
+
+Existing older functions may still work.
+
+### Cause
+
+The local Edge Runtime/Kong routing can be stale after adding new function folders or `supabase/config.toml` function entries.
+
+### Fix
+
+Restart the full local Supabase stack without deleting volumes:
+
+```powershell
+npx.cmd supabase stop
+npx.cmd supabase start
+```
+
+Do not use `--no-backup` unless the user explicitly wants local data volumes deleted.
+
 `supabase_imgproxy_csrevision` and `supabase_pooler_csrevision` may still be listed as stopped on this local setup. They did not block the current app QA. `supabase_edge_runtime_csrevision` must be running for active test flows.
 
 ## New Local Edge Function Returns 502

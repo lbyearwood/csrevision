@@ -32,13 +32,14 @@ interface UpdateClassInput {
   academicYear: string;
   yearGroup: string;
   status: ClassRecord['status'];
+  acceptingStudents?: boolean;
 }
 
 interface UpdateStudentInput {
   id: string;
   firstName: string;
   surname: string;
-  classId: string;
+  classIds: string[];
   accountStatus: StudentProfile['accountStatus'];
 }
 
@@ -49,6 +50,16 @@ interface ResetStudentPasswordInput {
 
 interface UpdateStudentResponse {
   student: StudentProfile;
+}
+
+interface ClassResponse {
+  class: ClassRecord;
+}
+
+interface JoinClassResponse {
+  message: string;
+  class: ClassRecord;
+  status: 'joined' | 'already_joined';
 }
 
 interface ResetStudentPasswordResponse {
@@ -97,6 +108,9 @@ interface ClassRow {
   year_group: string | null;
   owner_teacher_id: string;
   status: ClassRecord['status'];
+  join_code: string | null;
+  accepting_students: boolean;
+  is_system: boolean;
 }
 
 interface AppStateValue extends SupabaseSnapshot {
@@ -116,9 +130,12 @@ interface AppStateValue extends SupabaseSnapshot {
   voidAssignedAttempt: (attemptId: string, reason: string) => void;
   createAssignments: (input: CreateAssignmentsInput) => Promise<TestAssignment[]>;
   updateClass: (input: UpdateClassInput) => Promise<ClassRecord>;
+  archiveClass: (classId: string) => Promise<ClassRecord>;
+  regenerateClassCode: (classId: string) => Promise<ClassRecord>;
   updateStudent: (input: UpdateStudentInput) => Promise<StudentProfile>;
   archiveStudent: (studentId: string) => Promise<StudentProfile>;
   resetStudentPassword: (input: ResetStudentPasswordInput) => Promise<string>;
+  joinClassByCode: (code: string) => Promise<string>;
 }
 
 const SUPABASE_REQUIRED_MESSAGE =
@@ -138,6 +155,7 @@ const emptyStudent: StudentProfile = {
   surname: '',
   username: '',
   publicStudentId: '',
+  classIds: [],
   classId: '',
   accountStatus: 'active',
 };
@@ -199,7 +217,18 @@ async function functionErrorMessage(error: unknown): Promise<string> {
 
 async function invokeFunction<T>(name: string, body: Record<string, unknown>): Promise<T> {
   if (!supabase) throw new Error('Supabase is not configured');
-  const { data, error } = await supabase.functions.invoke<T | { error: string }>(name, { body });
+  const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+  const accessToken = sessionData.session?.access_token;
+  if (sessionError || !accessToken) {
+    throw new Error('Your session has expired. Sign in again, then retry.');
+  }
+
+  const { data, error } = await supabase.functions.invoke<T | { error: string }>(name, {
+    body,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
   if (error) throw new Error(await functionErrorMessage(error));
   if (hasFunctionError(data)) throw new Error(data.error);
   return data as T;
@@ -233,26 +262,25 @@ function mapClassRow(row: ClassRow): ClassRecord {
     yearGroup: row.year_group ?? '',
     ownerTeacherId: row.owner_teacher_id,
     status: row.status,
+    joinCode: row.join_code ?? '',
+    acceptingStudents: row.accepting_students,
+    isSystem: row.is_system,
   };
 }
 
-function nextLeaderboardRows(
-  rows: SupabaseSnapshot['leaderboardRows'],
-  student: StudentProfile,
-  classes: ClassRecord[],
-): SupabaseSnapshot['leaderboardRows'] {
-  if (student.accountStatus === 'archived') {
-    return rows.filter((row) => row.studentId !== student.id);
-  }
-  return rows.map((row) =>
-    row.studentId === student.id
-      ? {
-          ...row,
-          displayName: `${student.firstName.slice(0, 1).toUpperCase()} ${student.surname} - ID ${student.publicStudentId}`,
-          className: classes.find((classRecord) => classRecord.id === student.classId)?.className ?? '',
-        }
-      : row,
-  );
+function applySnapshot(
+  nextSnapshot: SupabaseSnapshot,
+  setSnapshot: (value: SupabaseSnapshot) => void,
+  setAttempts: (value: TestAttempt[]) => void,
+  setAnswers: (value: StudentAnswer[]) => void,
+  setEvents: (value: AttemptEvent[]) => void,
+  setEarnedPoints: (value: PointsTransaction[]) => void,
+) {
+  setSnapshot(nextSnapshot);
+  setAttempts(nextSnapshot.attempts);
+  setAnswers(nextSnapshot.answers);
+  setEvents(nextSnapshot.events);
+  setEarnedPoints([]);
 }
 
 export function AppStateProvider({ children }: { children: ReactNode }) {
@@ -332,6 +360,12 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setSessionState(nextSession);
   };
 
+  const refreshSnapshot = async (): Promise<SupabaseSnapshot> => {
+    const nextSnapshot = await loadSupabaseSnapshot();
+    applySnapshot(nextSnapshot, setSnapshot, setAttempts, setAnswers, setEvents, setEarnedPoints);
+    return nextSnapshot;
+  };
+
   const beginSupabaseAttempt = async ({ testId, assignmentId }: BeginAttemptInput): Promise<TestAttempt> => {
     const test = snapshot.tests.find((item) => item.id === testId);
     if (!test) throw new Error('Test not found');
@@ -346,6 +380,9 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       (attempt) => attempt.studentId === currentStudent.id && attempt.testVersionId === version.id,
     );
     const existingAttempt = attempts.find((attempt) => attempt.id === started.attemptId);
+    const assignmentClassId = assignmentId
+      ? snapshot.assignments.find((assignment) => assignment.id === assignmentId)?.classId
+      : undefined;
     const safeQuestions: Question[] = started.questions.map((question) => ({
       id: question.id,
       testVersionId: version.id,
@@ -364,7 +401,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       ...existingAttempt,
       id: started.attemptId,
       studentId: currentStudent.id,
-      classIdAtAttempt: currentStudent.classId,
+      classIdAtAttempt: existingAttempt?.classIdAtAttempt ?? assignmentClassId ?? currentStudent.classId,
       testId: test.id,
       testVersionId: version.id,
       assignmentId: existingAttempt?.assignmentId ?? assignmentId,
@@ -403,6 +440,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     if (!input.classId) throw new Error('Class is required');
     if (!uniqueVersionIds.length) throw new Error('Select at least one test');
     if (!snapshot.teacher.profileId) throw new Error('Teacher profile is not loaded');
+    const targetClass = snapshot.classes.find((classRecord) => classRecord.id === input.classId);
+    if (targetClass?.isSystem) throw new Error('Assignments cannot be created for Non-class');
     const now = new Date().toISOString();
     const rows = uniqueVersionIds.map((testVersionId) => ({
       test_version_id: testVersionId,
@@ -447,10 +486,11 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         academic_year: academicYear || null,
         year_group: yearGroup || null,
         status: input.status,
+        accepting_students: input.acceptingStudents ?? false,
         updated_at: new Date().toISOString(),
       })
       .eq('id', input.id)
-      .select('id, class_name, academic_year, year_group, owner_teacher_id, status')
+      .select('id, class_name, academic_year, year_group, owner_teacher_id, status, join_code, accepting_students, is_system')
       .single();
     if (error) throw error;
 
@@ -471,29 +511,39 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     return updateSupabaseClass(input);
   };
 
+  const archiveClass = async (classId: string): Promise<ClassRecord> => {
+    if (!isSupabaseBacked) throw new Error(SUPABASE_REQUIRED_MESSAGE);
+    const classRecord = snapshot.classes.find((row) => row.id === classId);
+    if (!classRecord) throw new Error('Class not found');
+    if (classRecord.isSystem) throw new Error('Non-class cannot be archived');
+    const result = await invokeFunction<ClassResponse>('archive-class', { classId });
+    const nextSnapshot = await refreshSnapshot();
+    return nextSnapshot.classes.find((row) => row.id === classId) ?? result.class;
+  };
+
+  const regenerateClassCode = async (classId: string): Promise<ClassRecord> => {
+    if (!isSupabaseBacked) throw new Error(SUPABASE_REQUIRED_MESSAGE);
+    const result = await invokeFunction<ClassResponse>('regenerate-class-code', { classId });
+    const nextSnapshot = await refreshSnapshot();
+    return nextSnapshot.classes.find((row) => row.id === classId) ?? result.class;
+  };
+
   const updateSupabaseStudent = async (input: UpdateStudentInput): Promise<StudentProfile> => {
     const firstName = input.firstName.trim();
     const surname = input.surname.trim();
     if (!firstName || !surname) throw new Error('First name and surname are required');
-    if (input.accountStatus !== 'archived' && !input.classId) throw new Error('Class is required');
+    const classIds = [...new Set(input.classIds.map((classId) => classId.trim()).filter(Boolean))];
 
     const result = await invokeFunction<UpdateStudentResponse>('update-student-account', {
       studentId: input.id,
       firstName,
       surname,
-      classId: input.classId,
+      classIds,
       accountStatus: input.accountStatus,
     });
     const updatedStudent = result.student;
-    setSnapshot((current) => ({
-      ...current,
-      students:
-        updatedStudent.accountStatus === 'archived'
-          ? current.students.filter((student) => student.id !== updatedStudent.id)
-          : current.students.map((student) => (student.id === updatedStudent.id ? updatedStudent : student)),
-      leaderboardRows: nextLeaderboardRows(current.leaderboardRows, updatedStudent, current.classes),
-    }));
-    return updatedStudent;
+    const nextSnapshot = await refreshSnapshot();
+    return nextSnapshot.students.find((student) => student.id === updatedStudent.id) ?? updatedStudent;
   };
 
   const updateStudent = async (input: UpdateStudentInput): Promise<StudentProfile> => {
@@ -509,7 +559,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       id: student.id,
       firstName: student.firstName,
       surname: student.surname,
-      classId: student.classId,
+      classIds: student.classIds,
       accountStatus: 'archived',
     });
   };
@@ -523,6 +573,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       ...(password ? { temporaryPassword: password } : {}),
     });
     return result.temporaryPassword;
+  };
+
+  const joinClassByCode = async (code: string): Promise<string> => {
+    if (!isSupabaseBacked) throw new Error(SUPABASE_REQUIRED_MESSAGE);
+    const result = await invokeFunction<JoinClassResponse>('join-class-by-code', { code });
+    await refreshSnapshot();
+    return result.message;
   };
 
   const saveAnswer = (attemptId: string, questionId: string, answer: string) => {
@@ -692,9 +749,12 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     voidAssignedAttempt,
     createAssignments,
     updateClass,
+    archiveClass,
+    regenerateClassCode,
     updateStudent,
     archiveStudent,
     resetStudentPassword,
+    joinClassByCode,
   };
 
   return <AppStateContext.Provider value={value}>{children}</AppStateContext.Provider>;

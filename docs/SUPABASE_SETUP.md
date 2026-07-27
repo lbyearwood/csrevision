@@ -1,6 +1,6 @@
 # Supabase Local Runbook For Codex
 
-Last updated: 2026-07-26
+Last updated: 2026-07-27
 
 Audience: Codex agents. The user does not plan to read this. Keep updates direct, stateful, and executable.
 
@@ -39,7 +39,7 @@ Audience: Codex agents. The user does not plan to read this. Keep updates direct
 - Functions: `http://127.0.0.1:54321/functions/v1`
 - Postgres: `postgresql://postgres:postgres@127.0.0.1:54322/postgres`
 - Inbucket: `http://127.0.0.1:54324`
-- Migration history contains `20260707202000` and `20260726223830`.
+- Migration history contains `20260707202000`, `20260726223830`, `20260727140326`, and `20260727142641`.
 - The MVP migration creates 23 `public` tables.
 - RLS is enabled on all 23 `public` tables.
 - There are 29 `public` RLS policies.
@@ -52,8 +52,9 @@ Audience: Codex agents. The user does not plan to read this. Keep updates direct
 - Local `start-test-attempt` was verified through Edge Runtime for an assigned assessment.
 - A past-due assigned assessment was verified to start successfully. Due dates are metadata only.
 - Local `reset-student-password` is verified for manual and generated password resets.
-- Local `update-student-account` is verified for teacher-side name/class/status/archive updates.
-- Local database pgTAP tests pass: `npx.cmd supabase test db --local supabase\tests` runs 28 RLS/integrity checks successfully.
+- Local `update-student-account` is verified for teacher-side name/class membership/status/archive updates.
+- Local database pgTAP tests pass: `npx.cmd supabase test db --local supabase\tests` runs 29 RLS/integrity checks successfully.
+- Local `archive-class`, `join-class-by-code`, and `regenerate-class-code` were verified through Edge Runtime.
 
 ## Current Known Issue
 
@@ -61,6 +62,7 @@ Audience: Codex agents. The user does not plan to read this. Keep updates direct
 - When this happens, assignment start buttons can show `Edge Function returned a non-2xx status code`; direct function output can include `{"message":"name resolution failed"}`.
 - `npx.cmd supabase status` should include `FUNCTIONS_URL`. If it does not, run `docker start supabase_edge_runtime_csrevision`.
 - After adding a new local Edge Function, Kong can return 502/host-unreachable until the full stack is restarted. Prefer `npx.cmd supabase stop`, then `npx.cmd supabase start` after adding a function.
+- If a newly added function returns `Function not found`, restart the full local stack with `npx.cmd supabase stop` followed by `npx.cmd supabase start`.
 - `supabase_vector_csrevision` can restart repeatedly because the Vector log collector cannot reach Docker logs.
 - Core services were still usable when this was observed: API, Studio, DB, Auth, and Inbucket.
 - Next Codex action: decide whether to disable/exclude the Vector service locally or fix Docker log access.
@@ -150,11 +152,12 @@ Do not use `npx.cmd supabase db query --local --file supabase\seed.sql` for this
   - teacher update denial for another teacher's class
   - teacher denial when directly updating student profile rows through RLS
   - teacher denial when directly moving a student into another teacher's class through RLS
-  - one active class membership per student
+  - multiple active class memberships per student
+  - duplicate active same-class membership blocking
   - anon denial from private student data
   - one unvoided assigned attempt per student/assignment
   - immutability for attempted test versions, questions, and question options
-- Latest result on 2026-07-26: 28 tests passed.
+- Latest result on 2026-07-27: 29 tests passed.
 - `grant_pg_cron_access` / `grant_pg_net_access` warnings can appear because the test transaction grants pgTAP function execution broadly to local roles. They did not fail the suite.
 
 ## Current Schema Snapshot

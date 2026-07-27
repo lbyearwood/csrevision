@@ -2,7 +2,11 @@
 
 Last updated: 2026-07-27
 
-Audience: every Codex agent finishing work on this repository. The user does not plan to read this. Follow this before ending a session after any project/code/doc changes, unless the user explicitly asks not to commit.
+Audience: every Codex agent ending development for the day on this repository. The user does not plan to read this.
+
+Run this process only when the user explicitly says `end`, `end development`, `finish for today`, or clearly asks to wrap up the development session. Do not run this automatically after every task.
+
+Per-task QA is handled by `docs/CODEX_DEVELOPMENT_PROCESS.md`. Proving that a feature works is a development-process requirement, not an end-process step.
 
 ## Required End Sequence
 
@@ -21,17 +25,13 @@ If the worktree contains changes unrelated to the current task:
 - Do not revert user/local changes.
 - Ask the user only if unrelated changes make the requested commit/push ambiguous.
 
-### 2. Run Relevant Verification
+### 2. Review Development QA
 
-Development / QA completion gate:
+Confirm the development QA from the day's completed tasks has already been run and reported.
 
-- Do not mark functional work complete until the changed workflow has been tested in the way a real user or backend caller will use it.
-- Static checks are required, but they are not enough for behaviour changes. `typecheck`, `lint`, unit tests, and `build` prove the code shape; they do not prove the feature works.
-- For UI work, run targeted browser QA against local Supabase data.
-- For persistence or security work, run the relevant database, RLS, or Edge Function checks against local Supabase.
-- If the relevant functional QA cannot be run, record the task as blocked or partially verified in `docs/HANDOVER.md` and the final response. Do not call it complete.
+If recent functional changes have not had targeted QA, run the missing checks before ending. Use `docs/CODEX_DEVELOPMENT_PROCESS.md` to choose the right browser, Edge Function, database/RLS, persistence, and static checks.
 
-For frontend or shared TypeScript changes, run:
+As a final safety net for code changes, run:
 
 ```powershell
 npm.cmd run typecheck
@@ -40,13 +40,13 @@ npm.cmd run test
 npm.cmd run build
 ```
 
-For docs-only changes, at minimum run:
+For docs-only sessions, at minimum run:
 
 ```powershell
 git diff --check
 ```
 
-For Supabase/backend changes, also run the relevant local checks from `docs/SUPABASE_SETUP.md`. Examples:
+For Supabase/backend sessions, also run the relevant local checks from `docs/SUPABASE_SETUP.md`. Examples:
 
 ```powershell
 npx.cmd supabase status
@@ -123,26 +123,24 @@ Commit with a short, accurate message:
 git commit -m "<short summary>"
 ```
 
-Do not push by default. Push only when the latest user instruction explicitly says `push`.
+If there are no changes, do not create an empty commit. Report that there was nothing to commit.
 
-When pushing is explicitly requested, push the active branch:
+### 7. Push
 
 ```powershell
 git push -u origin agent/csrevision-accounts-mvp
 ```
 
-If there are no changes, do not create an empty commit. Report that there was nothing to commit.
-
 If push fails, write the failure and recovery action in the final response. Do not pretend the remote is updated.
 
-### 7. Final Response
+### 8. Final Response
 
 The final response must include:
 
 - what changed
 - checks run and whether they passed
 - commit hash if committed
-- push status, explicitly `not pushed` unless a push was requested and succeeded
+- push status
 - whether the working tree is clean
 - next recommended task
 
@@ -150,17 +148,18 @@ Keep the final response short enough for the user to scan.
 
 ## Current Handover Rule
 
-As of 2026-07-26, every completed project session should end by refreshing:
+As of 2026-07-27, every user-triggered end-of-day session should end by refreshing:
 
 ```text
 docs/PROJECT_TASKS.md
 docs/HANDOVER.md
 ```
 
-Then commit the active branch locally. Push only when the user explicitly says `push`.
+Then commit the active branch locally and push it.
 
 ## Do Not Skip
 
+- Do not run this process unless the user explicitly says to end/wrap up development.
 - Do not end after making changes without checking `git status -sb`.
 - Do not commit code without relevant verification unless blocked.
 - Do not push stale docs.

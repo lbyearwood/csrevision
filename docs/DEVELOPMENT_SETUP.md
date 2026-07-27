@@ -8,12 +8,13 @@ Audience: Codex agents bootstrapping this repository on a new machine. The user 
 
 1. `docs/HANDOVER.md` for the latest continuation state.
 2. `docs/CODEX_START_PROCESS.md` for the required pull/read/install/run/report startup sequence.
-3. `docs/CODEX_END_PROCESS.md` for the required update-docs/write-handover/commit-local finish sequence. Push only when explicitly requested.
-4. `docs/PROJECT_TASKS.md` for live tasks and blockers.
-5. `PROJECT_BRIEF.md` for product rules and architecture constraints.
-6. This file for machine setup.
-7. `docs/TROUBLESHOOTING.md` if local commands fail or Windows/Codex behaves oddly.
-8. `docs/SUPABASE_SETUP.md` before any backend, Auth, RLS, seed, or Edge Function work.
+3. `docs/CODEX_DEVELOPMENT_PROCESS.md` for the per-task QA rule.
+4. `docs/CODEX_END_PROCESS.md` for the user-triggered end-of-day commit and push sequence.
+5. `docs/PROJECT_TASKS.md` for live tasks and blockers.
+6. `PROJECT_BRIEF.md` for product rules and architecture constraints.
+7. This file for machine setup.
+8. `docs/TROUBLESHOOTING.md` if local commands fail or Windows/Codex behaves oddly.
+9. `docs/SUPABASE_SETUP.md` before any backend, Auth, RLS, seed, or Edge Function work.
 
 ## Required Dependencies
 
@@ -132,7 +133,7 @@ mkhan7712
 
 ## Verification Commands
 
-Run these before committing functional changes:
+Run these before completing relevant functional changes:
 
 ```powershell
 npm.cmd run typecheck

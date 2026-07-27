@@ -31,6 +31,7 @@ export interface StudentProfile {
   surname: string;
   username: string;
   publicStudentId: string;
+  classIds: string[];
   classId: string;
   accountStatus: AccountStatus;
 }
@@ -49,6 +50,9 @@ export interface ClassRecord {
   yearGroup: string;
   ownerTeacherId: string;
   status: 'active' | 'archived';
+  joinCode: string;
+  acceptingStudents: boolean;
+  isSystem: boolean;
 }
 
 export interface Subject {

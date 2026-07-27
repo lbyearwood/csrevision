@@ -23,6 +23,14 @@ Deno.serve(async (req) => {
     if (!(await teacherOwnsClass(service, requester, classId))) {
       return errorResponse('You cannot add students to this class', 403);
     }
+    const { data: targetClass, error: targetClassError } = await service
+      .from('classes')
+      .select('id, status')
+      .eq('id', classId)
+      .single();
+    if (targetClassError || !targetClass || targetClass.status !== 'active') {
+      return errorResponse('Target class must be active', 422);
+    }
 
     const stem = buildUsernameStem(firstName, surname);
     let username = body.username ? String(body.username).toLowerCase().replace(/[^a-z0-9]/g, '') : `${stem}${randomFourDigits()}`;

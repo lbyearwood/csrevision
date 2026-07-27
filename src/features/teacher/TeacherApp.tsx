@@ -1,14 +1,16 @@
 import {
   AlertTriangle,
+  Archive,
   ArrowLeft,
   BarChart3,
   BookOpenCheck,
   ChevronRight,
+  Copy,
   ClipboardList,
-  Download,
   GraduationCap,
   Home,
   KeyRound,
+  Link2,
   LogOut,
   Menu,
   Pencil,
@@ -32,23 +34,27 @@ import { Panel } from '../../components/ui/Panel';
 import { StatusBadge } from '../../components/ui/StatusBadge';
 import { leaderboardDisplay } from '../../lib/identity';
 import { formatDate } from '../../lib/time';
-import type { StudentProfile } from '../../types/domain';
+import type { ClassRecord, StudentProfile } from '../../types/domain';
 
 const navItems = [
   { to: '/teacher', label: 'Dashboard', icon: Home },
   { to: '/teacher/classes', label: 'Classes', icon: GraduationCap },
   { to: '/teacher/students', label: 'Students', icon: UsersRound },
-  { to: '/teacher/tests', label: 'Tests', icon: BookOpenCheck },
+  { to: '/teacher/tests', label: 'Courses', icon: BookOpenCheck },
   { to: '/teacher/assignments', label: 'Assignments', icon: ClipboardList },
   { to: '/teacher/results', label: 'Results', icon: BarChart3 },
   { to: '/teacher/leaderboards', label: 'Leaderboards', icon: Trophy },
+  { to: '/teacher/settings', label: 'Settings', icon: Settings },
 ];
 
 const darkSubtleText = 'text-[#b8c8d9]';
 const nestedTableFrame = 'overflow-x-auto rounded-app border border-line bg-white text-ink';
 const nestedTableHead = 'border-b border-line bg-mist text-xs text-muted';
-const lightControlClass = 'h-11 w-full rounded-app border border-line bg-white px-3 text-sm text-ink [color-scheme:light]';
-const lightTextareaClass = 'min-h-11 w-full rounded-app border border-line bg-white px-3 py-2 text-sm text-ink [color-scheme:light]';
+const lightControlClass = 'h-11 w-full rounded-app border border-line bg-mist px-3 text-sm text-ink shadow-inner [color-scheme:light] focus:border-blue focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue/15';
+const lightTextareaClass = 'min-h-11 w-full rounded-app border border-line bg-mist px-3 py-2 text-sm text-ink shadow-inner [color-scheme:light] focus:border-blue focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue/15';
+const filterCheckboxClass = 'h-4 w-4 rounded border-[#7c8fa7] bg-[#0f1d2e] accent-blue focus:ring-2 focus:ring-blue/25';
+const filterLabelClass = 'inline-flex min-h-8 items-center gap-2 text-sm font-semibold text-[#eef5fc]';
+const classStatusFilters = ['active', 'archived'] as const satisfies ReadonlyArray<ClassRecord['status']>;
 
 export function TeacherApp() {
   const { dataError, isLoadingData, isSupabaseBacked, signOut } = useAppState();
@@ -58,7 +64,7 @@ export function TeacherApp() {
       <main className="min-h-screen bg-mist px-4 py-8 text-ink">
         <Panel className="mx-auto max-w-md p-5">
           <p className="font-bold">{dataError ? 'Local Supabase issue' : 'Loading local Supabase data'}</p>
-          <p className="mt-2 text-sm text-muted">
+          <p className={`mt-2 text-sm ${darkSubtleText}`}>
             {dataError || 'Connecting to the local database, Auth profile, and seeded testing data.'}
           </p>
           <Button className="mt-4" variant="secondary" onClick={signOut}>
@@ -129,6 +135,7 @@ export function TeacherApp() {
             <Route path="assignments" element={<AssignmentsPage />} />
             <Route path="results" element={<ResultsPage />} />
             <Route path="leaderboards" element={<LeaderboardsPage />} />
+            <Route path="settings" element={<SettingsPage />} />
           </Routes>
         </section>
       </div>
@@ -138,17 +145,17 @@ export function TeacherApp() {
 
 function TeacherDashboard() {
   const state = useAppState();
-  const classRecord = state.classes[0];
+  const classRecord = state.classes.find((row) => row.status === 'active' && !row.isSystem) ?? state.classes.find((row) => row.status !== 'archived');
   if (!classRecord) {
     return (
       <div className="space-y-5 p-4 lg:p-6">
         <Panel className="p-4">
-          <p className="font-bold">No classes available.</p>
+          <p className="font-bold">No active classes available.</p>
         </Panel>
       </div>
     );
   }
-  const classStudents = state.students.filter((student) => student.classId === classRecord.id && student.accountStatus !== 'archived');
+  const classStudents = state.students.filter((student) => studentHasClass(student, classRecord.id) && student.accountStatus !== 'archived');
   const classAttempts = state.attempts.filter((attempt) => attempt.classIdAtAttempt === classRecord.id && attempt.status !== 'voided');
   const completed = completedAttemptCount(classAttempts);
   const average = averageAttemptPercentage(classAttempts);
@@ -161,14 +168,13 @@ function TeacherDashboard() {
           <h1 className="text-2xl font-bold tracking-normal">Dashboard</h1>
           <p className="text-sm text-muted">Class progress, assigned tests, results and activity alerts.</p>
         </div>
-        <div className="grid min-w-0 gap-2 sm:grid-cols-3">
+        <div className="grid min-w-0 gap-2 sm:grid-cols-2">
           <select className="h-12 min-w-0 rounded-app border border-[#2a3a50] bg-[#14243a] px-3 text-sm font-semibold text-white">
             <option>{classRecord.className}</option>
           </select>
           <select className="h-12 min-w-0 rounded-app border border-[#2a3a50] bg-[#14243a] px-3 text-sm font-semibold text-white">
             <option>{'OCR GCSE CS -> Hardware -> CPU'}</option>
           </select>
-          <Button variant="dark"><Settings size={16} /> Settings</Button>
         </div>
       </div>
 
@@ -210,7 +216,7 @@ function TeacherDashboard() {
                       <td className="px-3 py-3 font-semibold">{test.testTitle}</td>
                       <td className="px-3 py-3">{test.defaultMode === 'practice' ? 'Practice' : classRecord.className}</td>
                       <td className="px-3 py-3">{testCompleted}/{classStudents.length}</td>
-                      <td className="px-3 py-3">{testAverage === undefined ? '-' : `${testAverage}%`}</td>
+                      <td className={`px-3 py-3 font-bold ${scoreTextClass(testAverage)}`}>{testAverage === undefined ? '-' : `${testAverage}%`}</td>
                       <td className="px-3 py-3">{points} pts</td>
                       <td className="px-3 py-3"><StatusBadge tone={testFlagged ? 'amber' : 'neutral'}>{testFlagged}</StatusBadge></td>
                     </tr>
@@ -268,7 +274,7 @@ function TeacherDashboard() {
                     <td className="px-3 py-3">{row.rank}</td>
                     <td className="px-3 py-3 font-semibold">{row.displayName}</td>
                     <td className="px-3 py-3">4/4</td>
-                    <td className="px-3 py-3 font-bold text-green">{row.rank === 1 ? '84%' : row.rank === 2 ? '78%' : '72%'}</td>
+                    <td className={`px-3 py-3 font-bold ${scoreTextClass(row.rank === 1 ? 84 : row.rank === 2 ? 78 : 72)}`}>{row.rank === 1 ? '84%' : row.rank === 2 ? '78%' : '72%'}</td>
                     <td className="px-3 py-3">{row.points} pts</td>
                     <td className="px-3 py-3">16 May, 10:12 AM</td>
                     <td className="px-3 py-3"><StatusBadge tone={row.rank <= 3 ? 'green' : 'amber'}>{row.rank <= 3 ? 'On Track' : 'Needs Support'}</StatusBadge></td>
@@ -286,7 +292,6 @@ function TeacherDashboard() {
           <SummaryRow label="Tests Assigned" value={state.assignments.length.toString()} />
           <SummaryRow label="Tests Completed" value={`${completed} (${Math.round((completed / Math.max(classStudents.length, 1)) * 100)}%)`} />
           <SummaryRow label="Average Score" value={average === undefined ? '-' : `${average}%`} />
-          <Button className="mt-4 w-full" variant="secondary"><Download size={16} /> Export Report</Button>
         </Panel>
       </div>
     </div>
@@ -308,6 +313,44 @@ function accountStatusTone(status: StudentProfile['accountStatus']): 'green' | '
   return 'neutral';
 }
 
+function attemptStatusLabel(status: string): string {
+  const labels: Record<string, string> = {
+    feedback_released: 'Completed',
+    marked: 'Completed',
+    submitted: 'Completed',
+    timed_out: 'Timed out',
+    in_progress: 'In progress',
+    voided: 'Voided',
+  };
+  return labels[status] ?? status.replace(/_/g, ' ');
+}
+
+function attemptStatusTone(status: string): 'green' | 'amber' | 'red' | 'neutral' {
+  if (['feedback_released', 'marked', 'submitted'].includes(status)) return 'green';
+  if (status === 'timed_out') return 'amber';
+  if (status === 'voided') return 'red';
+  return 'neutral';
+}
+
+function scoreTextClass(score: number | null | undefined): string {
+  if (typeof score !== 'number') return 'text-muted';
+  if (score >= 80) return 'text-green';
+  if (score >= 50) return 'text-amber';
+  return 'text-danger';
+}
+
+function studentClassIds(student: StudentProfile): string[] {
+  return student.classIds.length ? student.classIds : student.classId ? [student.classId] : [];
+}
+
+function studentHasClass(student: StudentProfile, classId: string): boolean {
+  return studentClassIds(student).includes(classId);
+}
+
+function studentClassNames(student: StudentProfile, classNameById: Map<string, string>): string[] {
+  return studentClassIds(student).map((classId) => classNameById.get(classId) ?? 'Unknown class');
+}
+
 function completedAttemptCount(attempts: ReturnType<typeof useAppState>['attempts']): number {
   return attempts.filter((attempt) => ['feedback_released', 'marked', 'submitted', 'timed_out'].includes(attempt.status)).length;
 }
@@ -320,26 +363,87 @@ function averageAttemptPercentage(attempts: ReturnType<typeof useAppState>['atte
   return Math.round(scores.reduce((total, score) => total + score, 0) / scores.length);
 }
 
+function sortYearGroups(yearGroups: string[]): string[] {
+  return [...yearGroups].sort((first, second) => {
+    const firstNumber = Number.parseInt(first, 10);
+    const secondNumber = Number.parseInt(second, 10);
+    if (Number.isNaN(firstNumber) || Number.isNaN(secondNumber)) return first.localeCompare(second);
+    return firstNumber - secondNumber;
+  });
+}
+
 function ClassesPage() {
   const state = useAppState();
+  const yearGroupOptions = useMemo(
+    () =>
+      sortYearGroups(
+        Array.from(
+          new Set(
+            state.classes
+              .filter((classRecord) => !classRecord.isSystem && classRecord.yearGroup)
+              .map((classRecord) => classRecord.yearGroup),
+          ),
+        ),
+      ),
+    [state.classes],
+  );
   const [editingClassId, setEditingClassId] = useState<string | null>(null);
+  const [pendingArchiveClassId, setPendingArchiveClassId] = useState<string | null>(null);
+  const [yearGroupFilters, setYearGroupFilters] = useState<string[]>([]);
+  const [yearGroupFiltersTouched, setYearGroupFiltersTouched] = useState(false);
+  const [statusFilters, setStatusFilters] = useState<ClassRecord['status'][]>(['active']);
   const [draft, setDraft] = useState({
     className: '',
     academicYear: '',
     yearGroup: '',
     status: 'active' as (typeof state.classes)[number]['status'],
+    acceptingStudents: false,
   });
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const effectiveYearGroupFilters = yearGroupFiltersTouched ? yearGroupFilters : yearGroupOptions;
+  const filteredClasses = useMemo(
+    () =>
+      state.classes.filter((classRecord) => {
+        const matchesStatus = statusFilters.includes(classRecord.status);
+        const matchesYear =
+          classRecord.isSystem ||
+          !yearGroupOptions.length ||
+          effectiveYearGroupFilters.includes(classRecord.yearGroup);
+        return matchesStatus && matchesYear;
+      }),
+    [effectiveYearGroupFilters, state.classes, statusFilters, yearGroupOptions.length],
+  );
+
+  useEffect(() => {
+    setYearGroupFilters((current) => current.filter((yearGroup) => yearGroupOptions.includes(yearGroup)));
+  }, [yearGroupOptions]);
+
+  const toggleYearGroupFilter = (yearGroup: string) => {
+    setYearGroupFiltersTouched(true);
+    setYearGroupFilters((current) =>
+      (yearGroupFiltersTouched ? current : yearGroupOptions).includes(yearGroup)
+        ? (yearGroupFiltersTouched ? current : yearGroupOptions).filter((value) => value !== yearGroup)
+        : [...current, yearGroup],
+    );
+  };
+
+  const toggleStatusFilter = (status: ClassRecord['status']) => {
+    setStatusFilters((current) =>
+      current.includes(status) ? current.filter((value) => value !== status) : [...current, status],
+    );
+  };
 
   const startEditing = (classRecord: (typeof state.classes)[number]) => {
     setEditingClassId(classRecord.id);
+    setPendingArchiveClassId(null);
     setDraft({
       className: classRecord.className,
       academicYear: classRecord.academicYear,
       yearGroup: classRecord.yearGroup,
       status: classRecord.status,
+      acceptingStudents: classRecord.acceptingStudents,
     });
     setMessage('');
     setError('');
@@ -347,8 +451,38 @@ function ClassesPage() {
 
   const cancelEditing = () => {
     setEditingClassId(null);
+    setPendingArchiveClassId(null);
     setMessage('');
     setError('');
+  };
+
+  const requestArchiveClass = (classRecord: (typeof state.classes)[number]) => {
+    if (classRecord.isSystem) {
+      setMessage('');
+      setError('Non-class is a protected holding class and cannot be archived.');
+      return;
+    }
+
+    setEditingClassId(null);
+    setPendingArchiveClassId(classRecord.id);
+    setMessage('');
+    setError('');
+  };
+
+  const confirmArchiveClass = async (classRecord: (typeof state.classes)[number]) => {
+    try {
+      setIsSaving(true);
+      setMessage('');
+      setError('');
+      const archivedClass = await state.archiveClass(classRecord.id);
+      if (editingClassId === classRecord.id) setEditingClassId(null);
+      setPendingArchiveClassId(null);
+      setMessage(`${archivedClass.className} archived. Students without another class were moved to Non-class.`);
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : 'Unable to archive class');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const saveClass = async (event: FormEvent<HTMLFormElement>) => {
@@ -364,8 +498,10 @@ function ClassesPage() {
         academicYear: draft.academicYear,
         yearGroup: draft.yearGroup,
         status: draft.status,
+        acceptingStudents: draft.acceptingStudents,
       });
       setEditingClassId(null);
+      setPendingArchiveClassId(null);
       setMessage(`${updatedClass.className} updated.`);
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : 'Unable to update class');
@@ -374,32 +510,190 @@ function ClassesPage() {
     }
   };
 
+  const copyText = async (value: string, successMessage: string) => {
+    try {
+      await navigator.clipboard.writeText(value);
+      setMessage(successMessage);
+      setError('');
+    } catch {
+      setMessage('');
+      setError('Copy failed. Select the code and copy it manually.');
+    }
+  };
+
+  const regenerateClassCode = async (classRecord: (typeof state.classes)[number]) => {
+    try {
+      setIsSaving(true);
+      setMessage('');
+      setError('');
+      const updatedClass = await state.regenerateClassCode(classRecord.id);
+      setMessage(`${updatedClass.className} code regenerated.`);
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : 'Unable to regenerate class code');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const joinLinkForCode = (code: string): string => `${window.location.origin}${window.location.pathname}#/join/${code}`;
+
   return (
     <TeacherPage title="Classes">
       {message ? <p className="rounded-app bg-[#e7f7ef] p-3 text-sm font-semibold text-green">{message}</p> : null}
       {error ? <p className="rounded-app bg-[#fff1f1] p-3 text-sm font-semibold text-danger">{error}</p> : null}
+      <Panel className="p-4">
+        <div className="mb-3 border-b border-[#2a3a50] pb-3">
+          <p className="text-xs font-semibold uppercase tracking-normal text-[#b8c8d9]">Filters</p>
+        </div>
+        <div className="grid gap-5 lg:grid-cols-2">
+          <fieldset className="space-y-2">
+            <legend className="text-sm font-bold">Year group</legend>
+            <div className="flex flex-wrap gap-x-5 gap-y-2">
+              {yearGroupOptions.map((yearGroup) => (
+                <label className={filterLabelClass} key={yearGroup}>
+                  <input
+                    checked={effectiveYearGroupFilters.includes(yearGroup)}
+                    className={filterCheckboxClass}
+                    type="checkbox"
+                    onChange={() => toggleYearGroupFilter(yearGroup)}
+                  />
+                  Year {yearGroup}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+          <fieldset className="space-y-2">
+            <legend className="text-sm font-bold">Status</legend>
+            <div className="flex flex-wrap gap-x-5 gap-y-2">
+              {classStatusFilters.map((status) => (
+                <label className={filterLabelClass} key={status}>
+                  <input
+                    checked={statusFilters.includes(status)}
+                    className={filterCheckboxClass}
+                    type="checkbox"
+                    onChange={() => toggleStatusFilter(status)}
+                  />
+                  {status === 'active' ? 'Active' : 'Archived'}
+                </label>
+              ))}
+            </div>
+          </fieldset>
+        </div>
+      </Panel>
       <div className="grid gap-4 lg:grid-cols-2">
-        {state.classes.map((classRecord) => {
+        {filteredClasses.map((classRecord) => {
           const isEditing = editingClassId === classRecord.id;
-          const activeStudentCount = state.students.filter((student) => student.classId === classRecord.id && student.accountStatus !== 'archived').length;
+          const activeStudentCount = state.students.filter((student) => studentHasClass(student, classRecord.id) && student.accountStatus !== 'archived').length;
           return (
             <Panel className="p-4" key={classRecord.id}>
               <div className="flex items-start justify-between gap-3">
-                <div>
+                <div className="min-w-0">
                   <h2 className="font-bold">{classRecord.className}</h2>
-                  <p className={`text-sm ${darkSubtleText}`}>{classRecord.academicYear || 'No academic year'} - Year {classRecord.yearGroup || '-'}</p>
-                </div>
-                <div className="flex flex-wrap justify-end gap-2">
-                  <StatusBadge tone={classRecord.status === 'active' ? 'green' : 'neutral'}>{classRecord.status}</StatusBadge>
-                  {!isEditing ? (
-                    <Button className="min-h-9 px-3" type="button" variant="secondary" onClick={() => startEditing(classRecord)}>
-                      <Pencil size={15} aria-hidden="true" />
-                      Edit details
-                    </Button>
+                  <p className={`text-sm ${darkSubtleText}`}>
+                    {classRecord.isSystem ? 'Protected holding class' : `${classRecord.academicYear || 'No academic year'} - Year ${classRecord.yearGroup || '-'}`}
+                  </p>
+                  {!isEditing && !classRecord.isSystem ? (
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <Button className="min-h-9 px-3" type="button" variant="outlineDark" onClick={() => startEditing(classRecord)}>
+                        <Pencil size={15} aria-hidden="true" />
+                        Edit details
+                      </Button>
+                      {classRecord.status === 'active' ? (
+                        <Button
+                          className="min-h-9 px-3"
+                          disabled={isSaving}
+                          type="button"
+                          variant="dangerOutline"
+                          onClick={() => requestArchiveClass(classRecord)}
+                        >
+                          <Archive size={15} aria-hidden="true" />
+                          Archive class
+                        </Button>
+                      ) : null}
+                    </div>
                   ) : null}
+                </div>
+                <div className="flex shrink-0 flex-col items-start gap-1 text-left sm:items-end sm:text-right">
+                  <p className={`text-xs font-semibold uppercase tracking-normal ${darkSubtleText}`}>Status</p>
+                  <StatusBadge tone={classRecord.status === 'active' ? 'green' : 'neutral'}>{classRecord.status}</StatusBadge>
+                  {classRecord.isSystem ? <StatusBadge tone="blue">System</StatusBadge> : null}
                 </div>
               </div>
               <p className="mt-4 text-sm">{activeStudentCount} active students</p>
+
+              {!classRecord.isSystem && classRecord.status === 'active' ? (
+                <div className="mt-4 rounded-app border border-[#2a3a50] bg-[#0f1d2e] p-3">
+                  <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                    <div>
+                      <p className="text-xs font-semibold uppercase tracking-normal text-[#b8c8d9]">Join code</p>
+                      <p className="mt-1 text-2xl font-bold tracking-normal">{classRecord.joinCode || 'No code'}</p>
+                      <p className="mt-1 text-sm text-[#b8c8d9]">
+                        Students can join with this code when accepting students is switched on in Edit details.
+                      </p>
+                    </div>
+                    <div className="shrink-0 text-left sm:text-right">
+                      <p className="mb-1 text-xs font-semibold uppercase tracking-normal text-[#b8c8d9]">Joining</p>
+                      <StatusBadge tone={classRecord.acceptingStudents ? 'green' : 'neutral'}>
+                        {classRecord.acceptingStudents ? 'Accepting students' : 'Not accepting'}
+                      </StatusBadge>
+                    </div>
+                  </div>
+                  <div className="mt-3 border-t border-[#2a3a50] pt-3">
+                    <p className="text-xs font-semibold uppercase tracking-normal text-[#b8c8d9]">Code actions</p>
+                    <div className="mt-2 flex flex-wrap gap-2">
+                      <Button
+                        className="min-h-9 px-2"
+                        disabled={!classRecord.joinCode}
+                        type="button"
+                        variant="utilityDark"
+                        onClick={() => copyText(classRecord.joinCode, `${classRecord.className} code copied.`)}
+                      >
+                        <Copy size={16} aria-hidden="true" />
+                        Copy code
+                      </Button>
+                      <Button
+                        className="min-h-9 px-2"
+                        disabled={!classRecord.joinCode}
+                        type="button"
+                        variant="utilityDark"
+                        onClick={() => copyText(joinLinkForCode(classRecord.joinCode), `${classRecord.className} join link copied.`)}
+                      >
+                        <Link2 size={16} aria-hidden="true" />
+                        Copy link
+                      </Button>
+                      <Button
+                        className="min-h-9 px-3"
+                        disabled={isSaving}
+                        type="button"
+                        variant="outlineDark"
+                        onClick={() => regenerateClassCode(classRecord)}
+                      >
+                        <RefreshCw size={16} aria-hidden="true" />
+                        Regenerate
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+              ) : null}
+
+              {pendingArchiveClassId === classRecord.id ? (
+                <div className="mt-4 rounded-app border border-[#f6d69a] bg-[#fff7e8] p-3 text-ink">
+                  <p className="text-sm font-bold">Archive {classRecord.className}?</p>
+                  <p className="mt-1 text-sm text-muted">
+                    This hides the class from new teacher workflows. Student accounts and past results stay, and students without another real class move to Non-class.
+                  </p>
+                  <div className="mt-3 flex flex-wrap justify-end gap-2">
+                    <Button className="min-h-10 px-3" disabled={isSaving} type="button" variant="secondary" onClick={() => setPendingArchiveClassId(null)}>
+                      <X size={16} aria-hidden="true" />
+                      Cancel
+                    </Button>
+                    <Button className="min-h-10 px-3" disabled={isSaving} type="button" variant="danger" onClick={() => confirmArchiveClass(classRecord)}>
+                      <Archive size={16} aria-hidden="true" />
+                      {isSaving ? 'Archiving...' : 'Confirm archive'}
+                    </Button>
+                  </div>
+                </div>
+              ) : null}
 
               {isEditing ? (
                 <form className="mt-4 space-y-4 rounded-app border border-line bg-white p-3 text-ink" onSubmit={saveClass}>
@@ -444,6 +738,23 @@ function ClassesPage() {
                         <option value="archived">Archived</option>
                       </select>
                     </label>
+                    <label className="flex items-center justify-between gap-4 rounded-app border border-line bg-mist p-3 text-sm font-semibold sm:col-span-2">
+                      <span>
+                        <span className="block">Accepting students</span>
+                        <span className="mt-1 block text-xs font-normal text-muted">
+                          Students can use the class code or join link while this is on.
+                        </span>
+                      </span>
+                      <input
+                        aria-label="Accepting students"
+                        checked={draft.acceptingStudents}
+                        className="h-5 w-5 rounded border-line bg-white text-blue accent-blue focus:ring-2 focus:ring-blue/20"
+                        type="checkbox"
+                        onChange={(event) =>
+                          setDraft((current) => ({ ...current, acceptingStudents: event.target.checked }))
+                        }
+                      />
+                    </label>
                   </div>
                   <div className="flex flex-wrap justify-end gap-2">
                     <Button className="min-h-10 px-3" disabled={isSaving} type="button" variant="secondary" onClick={cancelEditing}>
@@ -461,23 +772,62 @@ function ClassesPage() {
           );
         })}
       </div>
+      {!filteredClasses.length ? (
+        <Panel className="p-4">
+          <p className="font-bold">No classes match those filters.</p>
+          <p className={`mt-1 text-sm ${darkSubtleText}`}>Change the year group or status checkboxes to show more classes.</p>
+        </Panel>
+      ) : null}
     </TeacherPage>
   );
 }
 
 function StudentsPage() {
   const state = useAppState();
+  const classNameById = useMemo(
+    () => new Map(state.classes.map((classRecord) => [classRecord.id, classRecord.className])),
+    [state.classes],
+  );
   const visibleStudents = useMemo(
     () => state.students.filter((student) => student.accountStatus !== 'archived'),
     [state.students],
   );
   const activeClasses = useMemo(() => state.classes.filter((classRecord) => classRecord.status === 'active'), [state.classes]);
+  const editableClasses = useMemo(() => activeClasses.filter((classRecord) => !classRecord.isSystem), [activeClasses]);
+  const [classFilterId, setClassFilterId] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
   const [selectedStudentId, setSelectedStudentId] = useState('');
-  const selectedStudent = visibleStudents.find((student) => student.id === selectedStudentId) ?? null;
+
+  useEffect(() => {
+    if (classFilterId !== 'all' && !activeClasses.some((classRecord) => classRecord.id === classFilterId)) {
+      setClassFilterId('all');
+    }
+  }, [activeClasses, classFilterId]);
+
+  const filteredStudents = useMemo(() => {
+    const query = searchQuery.trim().toLowerCase();
+    return visibleStudents.filter((student) => {
+      const classNames = studentClassNames(student, classNameById);
+      const matchesClass = classFilterId === 'all' || studentHasClass(student, classFilterId);
+      const searchableText = [
+        student.firstName,
+        student.surname,
+        `${student.firstName} ${student.surname}`,
+        student.username,
+        student.publicStudentId,
+        ...classNames,
+        student.accountStatus,
+      ]
+        .join(' ')
+        .toLowerCase();
+      return matchesClass && (!query || searchableText.includes(query));
+    });
+  }, [classFilterId, classNameById, searchQuery, visibleStudents]);
+  const selectedStudent = filteredStudents.find((student) => student.id === selectedStudentId) ?? null;
   const [draft, setDraft] = useState({
     firstName: '',
     surname: '',
-    classId: '',
+    classIds: [] as string[],
     accountStatus: 'active' as StudentProfile['accountStatus'],
   });
   const [manualPassword, setManualPassword] = useState('');
@@ -487,28 +837,30 @@ function StudentsPage() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    if (!visibleStudents.length) {
+    if (!filteredStudents.length) {
       setSelectedStudentId('');
       return;
     }
-    if (!selectedStudentId || !visibleStudents.some((student) => student.id === selectedStudentId)) {
-      setSelectedStudentId(visibleStudents[0].id);
+    if (!selectedStudentId || !filteredStudents.some((student) => student.id === selectedStudentId)) {
+      setSelectedStudentId(filteredStudents[0].id);
     }
-  }, [selectedStudentId, visibleStudents]);
+  }, [filteredStudents, selectedStudentId]);
 
   useEffect(() => {
     if (!selectedStudent) return;
     setDraft({
       firstName: selectedStudent.firstName,
       surname: selectedStudent.surname,
-      classId: selectedStudent.classId || activeClasses[0]?.id || '',
+      classIds: studentClassIds(selectedStudent).filter((classId) =>
+        editableClasses.some((classRecord) => classRecord.id === classId),
+      ),
       accountStatus: selectedStudent.accountStatus,
     });
     setManualPassword('');
     setTemporaryPassword('');
     setMessage('');
     setError('');
-  }, [activeClasses, selectedStudent]);
+  }, [editableClasses, selectedStudent]);
 
   const selectStudent = (studentId: string) => {
     setSelectedStudentId(studentId);
@@ -525,7 +877,7 @@ function StudentsPage() {
         id: selectedStudent.id,
         firstName: draft.firstName,
         surname: draft.surname,
-        classId: draft.classId,
+        classIds: draft.classIds,
         accountStatus: draft.accountStatus,
       });
       setMessage(`${updatedStudent.firstName} ${updatedStudent.surname} updated.`);
@@ -558,20 +910,29 @@ function StudentsPage() {
 
   const archiveStudent = async () => {
     if (!selectedStudent) return;
-    const confirmed = window.confirm(`Delete ${selectedStudent.firstName} ${selectedStudent.surname} from active students? Their past results will be kept.`);
+    const confirmed = window.confirm(`Archive ${selectedStudent.firstName} ${selectedStudent.surname}? Their account will stop working, but past results will be kept.`);
     if (!confirmed) return;
     try {
       setIsSaving(true);
       setMessage('');
       setError('');
       await state.archiveStudent(selectedStudent.id);
-      setMessage(`${selectedStudent.firstName} ${selectedStudent.surname} deleted from active students.`);
+      setMessage(`${selectedStudent.firstName} ${selectedStudent.surname} archived.`);
       setSelectedStudentId('');
     } catch (caught) {
-      setError(caught instanceof Error ? caught.message : 'Unable to delete student');
+      setError(caught instanceof Error ? caught.message : 'Unable to archive student');
     } finally {
       setIsSaving(false);
     }
+  };
+
+  const toggleDraftClass = (classId: string) => {
+    setDraft((current) => ({
+      ...current,
+      classIds: current.classIds.includes(classId)
+        ? current.classIds.filter((value) => value !== classId)
+        : [...current.classIds, classId],
+    }));
   };
 
   return (
@@ -580,6 +941,47 @@ function StudentsPage() {
       {error ? <p className="rounded-app bg-[#fff1f1] p-3 text-sm font-semibold text-danger">{error}</p> : null}
       <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_420px]">
         <Panel className="p-4">
+          <div className="mb-4 grid gap-3 lg:grid-cols-[220px_minmax(0,1fr)] lg:items-start">
+            <div className="space-y-2">
+              <label className="block space-y-2 text-sm font-semibold">
+                <span className={darkSubtleText}>Class</span>
+                <select
+                  aria-label="Filter students by class"
+                  className={lightControlClass}
+                  value={classFilterId}
+                  onChange={(event) => {
+                    setClassFilterId(event.target.value);
+                    setMessage('');
+                    setError('');
+                  }}
+                >
+                  <option value="all">All classes</option>
+                  {activeClasses.map((classRecord) => (
+                    <option key={classRecord.id} value={classRecord.id}>
+                      {classRecord.className}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <p className="text-sm font-semibold text-[#b8c8d9]">
+                Showing <span className="text-white">{filteredStudents.length}</span> of <span className="text-white">{visibleStudents.length}</span>
+              </p>
+            </div>
+            <label className="space-y-2 text-sm font-semibold">
+              <span className={darkSubtleText}>Search</span>
+              <div className="relative">
+                <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted" size={16} aria-hidden="true" />
+                <input
+                  aria-label="Search students"
+                  className={`${lightControlClass} pl-9`}
+                  onChange={(event) => setSearchQuery(event.target.value)}
+                  placeholder="Name, username, ID or class"
+                  type="search"
+                  value={searchQuery}
+                />
+              </div>
+            </label>
+          </div>
           <div className={nestedTableFrame}>
             <table className="w-full table-fixed text-left text-sm">
               <colgroup>
@@ -599,12 +1001,16 @@ function StudentsPage() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-line bg-white text-ink">
-                {visibleStudents.map((student) => {
+                {filteredStudents.map((student) => {
                   const isSelected = selectedStudent?.id === student.id;
                   return (
                     <tr
                       aria-selected={isSelected}
-                      className={`cursor-pointer transition ${isSelected ? 'bg-[#eef6ff]' : 'hover:bg-mist'}`}
+                      className={`cursor-pointer transition ${
+                        isSelected
+                          ? 'border-l-4 border-blue bg-[#223653] text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]'
+                          : 'border-l-4 border-transparent hover:bg-mist'
+                      }`}
                       key={student.id}
                       onClick={() => selectStudent(student.id)}
                       onKeyDown={(event) => {
@@ -616,7 +1022,24 @@ function StudentsPage() {
                       <td className="truncate px-3 py-3 font-semibold">{student.firstName} {student.surname}</td>
                       <td className="truncate px-2 py-3">{student.username}</td>
                       <td className="truncate px-2 py-3">{student.publicStudentId}</td>
-                      <td className="truncate px-2 py-3">{state.classes.find((item) => item.id === student.classId)?.className ?? '-'}</td>
+                      <td className="px-2 py-3">
+                        <div className="flex flex-wrap gap-1">
+                          {studentClassNames(student, classNameById).length ? (
+                            studentClassNames(student, classNameById).map((className) => (
+                              <span
+                                className={`rounded-[6px] border px-2 py-1 text-xs font-semibold ${
+                                  isSelected ? 'border-[#5f7898] bg-[#172943] text-white' : 'border-line bg-mist text-muted'
+                                }`}
+                                key={`${student.id}-${className}`}
+                              >
+                                {className}
+                              </span>
+                            ))
+                          ) : (
+                            <span>-</span>
+                          )}
+                        </div>
+                      </td>
                       <td className="px-2 py-3"><StatusBadge tone={accountStatusTone(student.accountStatus)}>{student.accountStatus}</StatusBadge></td>
                     </tr>
                   );
@@ -624,8 +1047,10 @@ function StudentsPage() {
               </tbody>
             </table>
           </div>
-          {!visibleStudents.length ? (
-            <p className="mt-4 rounded-app border border-line bg-white p-3 text-sm text-ink">No active or inactive students are available.</p>
+          {!filteredStudents.length ? (
+            <p className="mt-4 rounded-app border border-line bg-white p-3 text-sm text-ink">
+              {visibleStudents.length ? 'No students match the current filters.' : 'No active or inactive students are available.'}
+            </p>
           ) : null}
         </Panel>
 
@@ -658,21 +1083,33 @@ function StudentsPage() {
                       required
                     />
                   </label>
-                  <label className="space-y-2 text-sm font-semibold">
-                    <span>Class</span>
-                    <select
-                      className={lightControlClass}
-                      value={draft.classId}
-                      onChange={(event) => setDraft((current) => ({ ...current, classId: event.target.value }))}
-                      required
-                    >
-                      {activeClasses.map((classRecord) => (
-                        <option key={classRecord.id} value={classRecord.id}>
+                  <fieldset className="space-y-2 text-sm font-semibold">
+                    <legend>Classes</legend>
+                    <div className="space-y-2 rounded-app border border-line bg-mist p-3">
+                      {editableClasses.map((classRecord) => (
+                        <label
+                          className="flex min-h-8 items-center gap-2 text-sm font-semibold text-ink"
+                          key={classRecord.id}
+                        >
+                          <input
+                            checked={draft.classIds.includes(classRecord.id)}
+                            className="h-4 w-4 rounded border-line accent-blue focus:ring-2 focus:ring-blue/20"
+                            type="checkbox"
+                            onChange={() => toggleDraftClass(classRecord.id)}
+                          />
                           {classRecord.className}
-                        </option>
+                        </label>
                       ))}
-                    </select>
-                  </label>
+                      {!editableClasses.length ? (
+                        <p className="text-sm text-muted">No active real classes are available.</p>
+                      ) : null}
+                      {!draft.classIds.length ? (
+                        <p className="text-xs font-normal text-muted">
+                          No real class selected. Saving will keep this student in Non-class.
+                        </p>
+                      ) : null}
+                    </div>
+                  </fieldset>
                   <label className="space-y-2 text-sm font-semibold">
                     <span>Status</span>
                     <select
@@ -710,11 +1147,11 @@ function StudentsPage() {
                   />
                 </label>
                 <div className="mt-3 grid gap-2 sm:grid-cols-2 xl:grid-cols-1">
-                  <Button disabled={isSaving || manualPassword.trim().length < 8} type="button" variant="secondary" onClick={() => resetPassword(false)}>
+                  <Button disabled={isSaving || manualPassword.trim().length < 8} type="button" onClick={() => resetPassword(false)}>
                     <KeyRound size={16} aria-hidden="true" />
                     Set password
                   </Button>
-                  <Button disabled={isSaving} type="button" variant="secondary" onClick={() => resetPassword(true)}>
+                  <Button disabled={isSaving} type="button" variant="outlineLight" onClick={() => resetPassword(true)}>
                     <RefreshCw size={16} aria-hidden="true" />
                     Generate 8 chars
                   </Button>
@@ -728,11 +1165,11 @@ function StudentsPage() {
               </div>
 
               <div className="rounded-app border border-[#ffd2d2] bg-[#fff7f7] p-3 text-ink">
-                <h3 className="font-bold text-danger">Delete student</h3>
-                <p className="mt-1 text-sm text-muted">The account is archived and past results stay in reports.</p>
+                <h3 className="font-bold text-danger">Archive student</h3>
+                <p className="mt-1 text-sm text-muted">The account is made inactive and past results stay in reports.</p>
                 <Button className="mt-3 w-full" disabled={isSaving} type="button" variant="danger" onClick={archiveStudent}>
                   <Trash2 size={16} aria-hidden="true" />
-                  Delete student
+                  Archive student
                 </Button>
               </div>
             </form>
@@ -786,11 +1223,11 @@ function TestsPage() {
   };
 
   return (
-    <TeacherPage title="Tests">
+    <TeacherPage title="Courses">
       <div className="flex items-start justify-between gap-3">
         <p className="text-sm text-muted">Browse courses, then choose a unit, topic and test resource.</p>
         {selectedSubject ? (
-          <Button className="min-h-10 px-3" variant="dark" onClick={resetToCourses}>
+          <Button className="min-h-10 px-3" variant="outlineLight" onClick={resetToCourses}>
             <ArrowLeft size={17} aria-hidden="true" />
             Courses
           </Button>
@@ -877,7 +1314,7 @@ function TestsPage() {
                           <div className="rounded-app border border-line bg-white p-3 text-ink" key={test.id}>
                             <div className="flex items-start justify-between gap-3">
                               <div>
-                                <p className="text-xs font-semibold text-blue">Test</p>
+                                <p className="text-xs font-semibold uppercase tracking-normal text-muted">Test</p>
                                 <h3 className="mt-1 text-sm font-bold">{test.testTitle}</h3>
                                 <p className="mt-1 text-xs text-muted">{test.testDescription}</p>
                               </div>
@@ -922,8 +1359,9 @@ function assignmentSortTime(value: string): number {
 
 function AssignmentsPage() {
   const state = useAppState();
+  const activeClasses = useMemo(() => state.classes.filter((classRecord) => classRecord.status === 'active' && !classRecord.isSystem), [state.classes]);
   const [activeTab, setActiveTab] = useState<AssignmentTab>('create');
-  const [createClassId, setCreateClassId] = useState(() => state.classes[0]?.id ?? '');
+  const [createClassId, setCreateClassId] = useState(() => state.classes.find((classRecord) => classRecord.status === 'active' && !classRecord.isSystem)?.id ?? '');
   const [createSubjectId, setCreateSubjectId] = useState(() => state.subjects[0]?.id ?? '');
   const [historyClassId, setHistoryClassId] = useState('');
   const [historySubjectId, setHistorySubjectId] = useState(() => state.subjects[0]?.id ?? '');
@@ -934,12 +1372,12 @@ function AssignmentsPage() {
   const [error, setError] = useState('');
 
   useEffect(() => {
-    const firstClassId = state.classes[0]?.id ?? '';
+    const firstClassId = activeClasses[0]?.id ?? '';
     const firstSubjectId = state.subjects[0]?.id ?? '';
-    if ((!createClassId && firstClassId) || (createClassId && !state.classes.some((classRecord) => classRecord.id === createClassId))) {
+    if ((!createClassId && firstClassId) || (createClassId && !activeClasses.some((classRecord) => classRecord.id === createClassId))) {
       setCreateClassId(firstClassId);
     }
-    if (historyClassId && !state.classes.some((classRecord) => classRecord.id === historyClassId)) {
+    if (historyClassId && !activeClasses.some((classRecord) => classRecord.id === historyClassId)) {
       setHistoryClassId('');
     }
     if ((!createSubjectId && firstSubjectId) || (createSubjectId && !state.subjects.some((subject) => subject.id === createSubjectId))) {
@@ -949,7 +1387,7 @@ function AssignmentsPage() {
     if ((!historySubjectId && firstSubjectId) || (historySubjectId && !state.subjects.some((subject) => subject.id === historySubjectId))) {
       setHistorySubjectId(firstSubjectId);
     }
-  }, [createClassId, createSubjectId, historyClassId, historySubjectId, state.classes, state.subjects]);
+  }, [activeClasses, createClassId, createSubjectId, historyClassId, historySubjectId, state.subjects]);
 
   const publishedTests = useMemo(
     () =>
@@ -962,7 +1400,7 @@ function AssignmentsPage() {
   const createUnits = state.units.filter((unit) => unit.subjectId === createSubjectId);
   const historyUnits = state.units.filter((unit) => unit.subjectId === historySubjectId);
   const selectedVersions = useMemo(() => new Set(selectedVersionIds), [selectedVersionIds]);
-  const selectedClass = state.classes.find((classRecord) => classRecord.id === createClassId);
+  const selectedClass = activeClasses.find((classRecord) => classRecord.id === createClassId);
 
   const toggleVersion = (versionId: string) => {
     setSelectedVersionIds((current) =>
@@ -1063,52 +1501,57 @@ function AssignmentsPage() {
 
       {activeTab === 'create' ? (
         <div className="space-y-5">
-          <Panel className="grid gap-4 p-4 lg:grid-cols-3">
-            <label className="space-y-2 text-sm font-semibold">
-              <span>Class</span>
-              <select
-                className={lightControlClass}
-                value={createClassId}
-                onChange={(event) => {
-                  setCreateClassId(event.target.value);
-                  setMessage('');
-                  setError('');
-                }}
-              >
-                {state.classes.map((classRecord) => (
-                  <option key={classRecord.id} value={classRecord.id}>
-                    {classRecord.className}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="space-y-2 text-sm font-semibold">
-              <span>Course</span>
-              <select
-                className={lightControlClass}
-                value={createSubjectId}
-                onChange={(event) => {
-                  setCreateSubjectId(event.target.value);
-                  setSelectedVersionIds([]);
-                  setMessage('');
-                  setError('');
-                }}
-              >
-                {state.subjects.map((subject) => (
-                  <option key={subject.id} value={subject.id}>
-                    {subject.subjectName}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="space-y-2 text-sm font-semibold">
-              <span>Due date</span>
-              <input
-                className={lightControlClass}
-                ref={dueDateInputRef}
-                type="date"
-              />
-            </label>
+          <Panel className="p-4">
+            <div className="mb-3 border-b border-[#2a3a50] pb-3">
+              <p className="text-xs font-semibold uppercase tracking-normal text-[#b8c8d9]">Assignment details</p>
+            </div>
+            <div className="grid gap-4 lg:grid-cols-3">
+              <label className="space-y-2 text-sm font-semibold">
+                <span className={darkSubtleText}>Class</span>
+                <select
+                  className={lightControlClass}
+                  value={createClassId}
+                  onChange={(event) => {
+                    setCreateClassId(event.target.value);
+                    setMessage('');
+                    setError('');
+                  }}
+                >
+                  {activeClasses.map((classRecord) => (
+                    <option key={classRecord.id} value={classRecord.id}>
+                      {classRecord.className}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="space-y-2 text-sm font-semibold">
+                <span className={darkSubtleText}>Course</span>
+                <select
+                  className={lightControlClass}
+                  value={createSubjectId}
+                  onChange={(event) => {
+                    setCreateSubjectId(event.target.value);
+                    setSelectedVersionIds([]);
+                    setMessage('');
+                    setError('');
+                  }}
+                >
+                  {state.subjects.map((subject) => (
+                    <option key={subject.id} value={subject.id}>
+                      {subject.subjectName}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="space-y-2 text-sm font-semibold">
+                <span className={darkSubtleText}>Due date</span>
+                <input
+                  className={lightControlClass}
+                  ref={dueDateInputRef}
+                  type="date"
+                />
+              </label>
+            </div>
           </Panel>
 
           <div className="flex flex-col gap-3 rounded-app border border-line bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
@@ -1152,7 +1595,7 @@ function AssignmentsPage() {
                                   <Button
                                     className="min-h-9 px-3"
                                     type="button"
-                                    variant={allTopicTestsSelected ? 'secondary' : 'dark'}
+                                    variant="outlineLight"
                                     onClick={() => toggleTopicVersions(topicVersionIds)}
                                   >
                                     {allTopicTestsSelected ? <SquareMinus size={16} aria-hidden="true" /> : <SquareCheck size={16} aria-hidden="true" />}
@@ -1205,48 +1648,53 @@ function AssignmentsPage() {
 
       {activeTab === 'existing' ? (
         <div className="space-y-5">
-          <Panel className="grid gap-4 p-4 lg:grid-cols-2">
-            <label className="space-y-2 text-sm font-semibold">
-              <span>Class</span>
-              <select
-                className={lightControlClass}
-                value={historyClassId}
-                onChange={(event) => setHistoryClassId(event.target.value)}
-              >
-                <option value="">Select a class</option>
-                {state.classes.map((classRecord) => (
-                  <option key={classRecord.id} value={classRecord.id}>
-                    {classRecord.className}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="space-y-2 text-sm font-semibold">
-              <span>Course</span>
-              <select
-                className={lightControlClass}
-                value={historySubjectId}
-                onChange={(event) => setHistorySubjectId(event.target.value)}
-              >
-                {state.subjects.map((subject) => (
-                  <option key={subject.id} value={subject.id}>
-                    {subject.subjectName}
-                  </option>
-                ))}
-              </select>
-            </label>
+          <Panel className="p-4">
+            <div className="mb-3 border-b border-[#2a3a50] pb-3">
+              <p className="text-xs font-semibold uppercase tracking-normal text-[#b8c8d9]">Filters</p>
+            </div>
+            <div className="grid gap-4 lg:grid-cols-2">
+              <label className="space-y-2 text-sm font-semibold">
+                <span className={darkSubtleText}>Class</span>
+                <select
+                  className={lightControlClass}
+                  value={historyClassId}
+                  onChange={(event) => setHistoryClassId(event.target.value)}
+                >
+                  <option value="">Select a class</option>
+                  {activeClasses.map((classRecord) => (
+                    <option key={classRecord.id} value={classRecord.id}>
+                      {classRecord.className}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="space-y-2 text-sm font-semibold">
+                <span className={darkSubtleText}>Course</span>
+                <select
+                  className={lightControlClass}
+                  value={historySubjectId}
+                  onChange={(event) => setHistorySubjectId(event.target.value)}
+                >
+                  {state.subjects.map((subject) => (
+                    <option key={subject.id} value={subject.id}>
+                      {subject.subjectName}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            </div>
           </Panel>
 
           {!historyClassId ? (
             <Panel className="p-4">
               <p className="font-bold">Select a class to view existing assignments.</p>
-              <p className="mt-1 text-sm text-muted">Assignment history is class-specific.</p>
+              <p className={`mt-1 text-sm ${darkSubtleText}`}>Assignment history is class-specific.</p>
             </Panel>
           ) : (
             <Panel className="p-4">
               <div className="mb-4 flex flex-col gap-1">
                 <h2 className="font-bold">Assignment history</h2>
-                <p className="text-sm text-muted">Last five assigned dates use saved due dates and do not affect student access.</p>
+                <p className={`text-sm ${darkSubtleText}`}>Last five assigned dates use saved due dates and do not affect student access.</p>
               </div>
               <div className={nestedTableFrame}>
                 <table className="w-full min-w-[860px] text-left text-sm">
@@ -1268,11 +1716,11 @@ function AssignmentsPage() {
                         <td className="px-3 py-3">{row.assignmentCount}</td>
                         <td className="px-3 py-3">
                           {row.dueDates.length ? (
-                            <div className="flex flex-wrap gap-2">
+                            <div className="flex flex-wrap gap-x-3 gap-y-1">
                               {row.dueDates.map((date, index) => (
-                                <StatusBadge key={`${row.topicName}-${date}-${index}`} tone="blue">
+                                <span className="text-xs font-semibold text-muted" key={`${row.topicName}-${date}-${index}`}>
                                   {date}
-                                </StatusBadge>
+                                </span>
                               ))}
                             </div>
                           ) : row.assignmentCount ? (
@@ -1301,36 +1749,41 @@ function ResultsPage() {
       <Panel className="p-4">
         <div className={nestedTableFrame}>
           <table className="w-full min-w-[720px] text-left text-sm">
-          <thead className={nestedTableHead}>
-            <tr>
-              <th className="px-4 py-3">Student</th>
-              <th className="px-3 py-3">Class at attempt</th>
-              <th className="px-3 py-3">Test</th>
-              <th className="px-3 py-3">Status</th>
-              <th className="px-3 py-3">Score</th>
-              <th className="px-3 py-3">Duration</th>
-              <th className="px-3 py-3">Suspicious Events</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-line">
-            {state.attempts.map((attempt) => {
-              const student = state.students.find((item) => item.id === attempt.studentId) ?? state.currentStudent;
-              const test = state.tests.find((item) => item.id === attempt.testId);
-              const attemptClass = state.classes.find((item) => item.id === attempt.classIdAtAttempt);
-              return (
-                <tr key={attempt.id}>
-                  <td className="px-4 py-3 font-semibold">{leaderboardDisplay(student)}</td>
-                  <td className="px-3 py-3">{attemptClass?.className ?? '-'}</td>
-                  <td className="px-3 py-3">{test?.testTitle}</td>
-                  <td className="px-3 py-3">{attempt.status}</td>
-                  <td className="px-3 py-3">{attempt.percentage ?? '-'}%</td>
-                  <td className="px-3 py-3">{attempt.durationSeconds ? formatDate(attempt.startedAt) : 'In progress'}</td>
-                  <td className="px-3 py-3">{attempt.suspiciousEventCount}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
+            <thead className={nestedTableHead}>
+              <tr>
+                <th className="px-4 py-3">Student</th>
+                <th className="px-3 py-3">Class at attempt</th>
+                <th className="px-3 py-3">Test</th>
+                <th className="px-3 py-3">Status</th>
+                <th className="px-3 py-3">Score</th>
+                <th className="px-3 py-3">Started</th>
+                <th className="px-3 py-3">Suspicious Events</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-line bg-white text-ink">
+              {state.attempts.map((attempt) => {
+                const student = state.students.find((item) => item.id === attempt.studentId) ?? state.currentStudent;
+                const test = state.tests.find((item) => item.id === attempt.testId);
+                const attemptClass = state.classes.find((item) => item.id === attempt.classIdAtAttempt);
+                const scoreLabel = typeof attempt.percentage === 'number' ? `${attempt.percentage}%` : '-';
+                return (
+                  <tr key={attempt.id}>
+                    <td className="px-4 py-3 font-semibold">{leaderboardDisplay(student)}</td>
+                    <td className="px-3 py-3">{attemptClass?.className ?? '-'}</td>
+                    <td className="px-3 py-3">{test?.testTitle}</td>
+                    <td className="px-3 py-3">
+                      <StatusBadge tone={attemptStatusTone(attempt.status)}>{attemptStatusLabel(attempt.status)}</StatusBadge>
+                    </td>
+                    <td className={`px-3 py-3 font-bold ${scoreTextClass(attempt.percentage)}`}>{scoreLabel}</td>
+                    <td className="px-3 py-3">{formatDate(attempt.startedAt)}</td>
+                    <td className="px-3 py-3">
+                      <StatusBadge tone={attempt.suspiciousEventCount ? 'amber' : 'neutral'}>{attempt.suspiciousEventCount}</StatusBadge>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
         </div>
       </Panel>
     </TeacherPage>
@@ -1354,6 +1807,16 @@ function LeaderboardsPage() {
             </div>
           ))}
         </div>
+      </Panel>
+    </TeacherPage>
+  );
+}
+
+function SettingsPage() {
+  return (
+    <TeacherPage title="Settings">
+      <Panel className="p-4">
+        <p className={`text-sm ${darkSubtleText}`}>No teacher settings are available yet.</p>
       </Panel>
     </TeacherPage>
   );
