@@ -1,6 +1,6 @@
 # Project Tasks
 
-Last updated: 2026-07-27
+Last updated: 2026-07-28
 
 Audience: Codex agents. The user does not plan to read this. Keep this file terse, current, and action-oriented.
 
@@ -70,8 +70,8 @@ Codex update protocol:
 - `[x]` Added `docs/CODEX_START_PROCESS.md` defining the required Codex startup sequence: sync Git, read docs, install dependencies, run the site, and report the next task.
 - `[x]` Added `docs/CODEX_END_PROCESS.md` defining the user-triggered end-of-day sequence: final checks, update dev docs, write handover, commit locally, push, and report next task.
 - `[x]` Implemented persistent teacher assignment creation in local Supabase.
-- `[x]` Split Teacher Assignments into `Create assignment` and `Existing assignments`.
-- `[x]` Added assignment history by selected class/course with unit/topic rows, available test, times assigned, and last five due dates.
+- `[x]` Split Teacher Assignments into `Create assignment`, `Active Assignments`, and `Expired Assignments`.
+- `[x]` Added Active/Expired assignment tables with shared class/course/unit/topic filters, columns for date created/class/topic/assignment deadline, and deadline-based separation.
 - `[x]` Verified newly created assignments appear on the student Assigned page.
 - `[x]` Removed due-date deadline enforcement from `start-test-attempt`; due dates are planning metadata only.
 - `[x]` Diagnosed stopped local Edge Runtime; `docker start supabase_edge_runtime_csrevision` restored function calls.
@@ -96,6 +96,8 @@ Codex update protocol:
 - `[x]` Added the form-control surface design principle and changed teacher light form controls to use tinted input backgrounds inside white cards.
 - `[x]` Added the status-indicator design principle and changed shared status labels to inline dot/text indicators instead of button-like pills. Status indicators must sit separately from action buttons.
 - `[x]` Added the action hierarchy design principle and restyled the teacher panel so filters, routine actions, utility actions, and destructive actions no longer share the same priority treatment.
+- `[x]` Added the non-duplication design principle: do not repeat visible filter selections/page scope, exact active-nav page headings, or hierarchy text when nearby UI already shows that context.
+- `[x]` Added the fluid desktop layout design principle and removed desktop max-width caps from the teacher shell, student shell, active test surface, and student profile panels.
 - `[x]` Renamed the teacher `Tests` navigation/page title to `Courses`.
 - `[x]` Added Teacher Students roster filtering by all/classes and search across name, username, Student ID, class, and status.
 - `[x]` Replaced the Teacher Students single class dropdown with real class membership checkboxes; saving persists multiple class memberships and uses `Non-class` when no real class is selected.
@@ -104,7 +106,9 @@ Codex update protocol:
 - `[x]` Added `archive-class`, `join-class-by-code`, and `regenerate-class-code` Edge Functions.
 - `[x]` Added Teacher Classes join code controls: visible non-button joining status, accepting checkbox under Edit details, copy code, copy join link, regenerate code, protected `Non-class`, archive-to-Non-class behavior, and class filters by year group/status.
 - `[x]` Added Student Profile class-code join and join-link routing through sign-in.
+- `[x]` Updated the Codex start process to run `npx.cmd supabase migration up --local` after every pull and verify schema when new code expects new columns.
 - `[x]` Updated Student Assigned/Results/Home to use assignments from every active class membership.
+- `[x]` Reworked Teacher Results into a class/course/unit/topic-filtered test matrix with class averages and one student column per roster/historical-attempt student.
 
 ## Backend: Supabase And Postgres
 
@@ -169,7 +173,7 @@ Codex update protocol:
 - `[ ]` Load student results from Supabase.
 - `[ ]` Load student leaderboard from Supabase.
 - `[ ]` Load teacher dashboard metrics from Supabase.
-- `[~]` Load teacher students/classes/tests/assignments/results from Supabase. Assignment create/history, class editing, and student edit/password/archive flows are now persisted; remaining teacher views still need deeper backend wiring.
+- `[~]` Load teacher students/classes/tests/assignments/results from Supabase. Assignment creation, Active/Expired assignment tables, class editing, and student edit/password/archive flows are now persisted; remaining teacher views still need deeper backend wiring.
 - `[ ]` Add loading, empty, and error states for every Supabase-backed page.
 
 ## Frontend: Student Experience
@@ -235,7 +239,7 @@ Codex update protocol:
 - `[x]` Frontend production build passes.
 - `[x]` Database pgTAP tests pass: 29 tests.
 - `[ ]` Full Edge Function local test suite passes.
-- `[~]` Browser QA passes with local Supabase data. Targeted assignment persistence, past-due start, topic bulk-select, class editing, student edit/password/archive, teacher-panel route visual QA, Existing Assignments interaction, and Courses drill-down QA passed; full regression remains open.
+- `[~]` Browser QA passes with local Supabase data. Targeted assignment persistence, past-due start, topic bulk-select, class editing, student edit/password/archive, teacher-panel route visual QA, Active/Expired Assignments deadline/filter interaction, and Courses drill-down QA passed; full regression remains open.
 - `[ ]` Regression checklist documented before deployment.
 
 ## Deployment

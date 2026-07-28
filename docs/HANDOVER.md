@@ -1,6 +1,6 @@
 # Codex Handover
 
-Last updated: 2026-07-27
+Last updated: 2026-07-28
 
 Audience: a new Codex agent continuing `csrevision` on a different development computer.
 
@@ -29,6 +29,15 @@ Current user instruction:
 - Run per-task QA after each development task.
 - Run the end process only when the user explicitly says `end` or asks to wrap up development.
 - The end process includes committing and pushing the active branch.
+- Do not push unless the user explicitly says `push`.
+
+Current local Git state on 2026-07-28:
+
+- Branch: `agent/csrevision-accounts-mvp`.
+- Working tree is dirty and local changes are not pushed.
+- Modified project docs: `PROJECT_BRIEF.md`, `docs/CODEX_DEVELOPMENT_PROCESS.md`, `docs/CODEX_END_PROCESS.md`, `docs/CODEX_START_PROCESS.md`, `docs/DEVELOPMENT_SETUP.md`, `docs/HANDOVER.md`, `docs/PROJECT_TASKS.md`, `docs/SUPABASE_SETUP.md`, `docs/TESTING.md`.
+- Modified app files: `src/features/teacher/TeacherApp.tsx`, `src/features/student/StudentApp.tsx`.
+- The user requested docs/handover updates after the Teacher Assignments Active/Expired tab work. Preserve these local changes; do not revert unrelated earlier edits.
 
 Clone and enter the branch:
 
@@ -70,12 +79,13 @@ Recent completed work:
 - Teacher Assignments contrast was fixed: light dropdowns/date inputs and light nested topic/test rows now explicitly use dark `text-ink` inside dark panels.
 - Codex process docs now split development QA from end-of-day wrapping: per-task QA happens after each development task; the end process only runs when the user says `end` and includes update docs, handover, local commit, and push.
 - Teacher Courses page is organized like the student Practice page. The route still uses `/teacher/tests` for now.
-- Teacher Assignments page is split into `Create assignment` and `Existing assignments`.
+- Teacher Assignments page is split into `Create assignment`, `Active Assignments`, and `Expired Assignments`.
 - Teachers can select a class, course, one or more published tests, and an optional due date.
 - Assignment creation inserts real rows into `public.test_assignments`.
-- Existing assignments shows every unit/topic for the selected course, available test names, times assigned, and the last five saved due dates.
+- `Active Assignments` filters by class, course, unit, and topic; shows date created, class, topic, and assignment deadline; includes assignments with no deadline and assignments whose `due_at` has not passed.
+- `Expired Assignments` uses the same filters and columns, but includes only assignments whose `due_at` deadline is in the past.
 - Student Assigned page shows persisted assignments for the student's class.
-- Assignment due dates are planning metadata only. They do not block starting or completing a test.
+- Assignment due dates are planning metadata for student access. They do not block starting or completing a test; the teacher Active/Expired tabs use them only to separate current and expired rows.
 - `start-test-attempt` no longer checks `due_at`.
 - `update-student-account` archives students instead of hard-deleting. It ends active class memberships and keeps results/audit history.
 - Development/QA docs now require targeted behavioural testing before any functional task is marked complete. Static checks alone are not enough for feature work. This rule lives in the development process, not the end process.
@@ -83,6 +93,8 @@ Recent completed work:
 - Form controls inside white cards must use a distinct control surface. Teacher light inputs/selects/textareas now use a tinted `bg-mist` surface with a clear border/focus state instead of white-on-white styling.
 - Status labels must not look like buttons or sit inline beside action buttons. The shared status component now uses inline coloured dot/text indicators instead of filled pill controls, and class-card action buttons sit under the year-group detail rather than beside status text.
 - Action hierarchy is now a design principle: filters must look like filters, routine actions use restrained outline styling, utility actions are lower-emphasis and grouped separately, and destructive actions use danger styling. Teacher Classes, Students, Courses, Assignments, Results, Leaderboards, Dashboard, and Settings have been visually checked against this rule.
+- Non-duplication is now a design principle: do not repeat selected filter values or page scope in a separate visible card when the filter controls already show those values. Do not show a visible page heading that exactly repeats an already-visible active navigation item unless it adds context or navigation is hidden. Do not repeat course/unit/topic hierarchy text in dense table rows when the row title already contains the same wording/numbering.
+- Fluid desktop layout is now a design principle: desktop teacher/student app shells and primary work surfaces should use the available browser width. Do not reintroduce generic desktop `max-w-*` shell caps except for compact auth/forms/modals or intentionally narrow reading surfaces.
 - Teacher Students now supports `All classes` by default, class filtering, and search across student name, username, public Student ID, class, and status.
 - Teacher Students class editing uses real-class checkboxes. Saving adds missing checked memberships, ends unchecked teacher-owned memberships, and keeps the student in `Non-class` when no real class is selected.
 - Teacher Classes archive now uses `archive-class`. It archives the class, ends memberships, and moves affected students to `Non-class` where needed. It no longer requires moving students first.
@@ -216,6 +228,18 @@ npm.cmd run build
 Latest verified checks on this branch:
 
 ```text
+2026-07-28 Handover/dev-doc refresh:
+git diff --check: passed, with existing Windows CRLF warnings
+Case-insensitive stale-label sweep: previous assignment-tab labels no longer appear in docs or the Teacher Assignments page.
+
+2026-07-28 Teacher Assignments Active/Expired tab update:
+npm.cmd run typecheck: passed
+npm.cmd run lint: passed
+npm.cmd run test: passed, 4 files / 12 tests
+npm.cmd run build: passed, with existing Vite chunk-size warning
+git diff --check: passed, with existing Windows CRLF warnings
+Browser QA against local Supabase: `Active Assignments` and `Expired Assignments` rendered as separate tabs; filters rendered for class/course/unit/topic; table headers were `Date created`, `Class`, `Topic`, `Assignment deadline`; Active showed current/no-deadline rows; Expired showed the empty state because no local rows currently have a past deadline.
+
 2026-07-27 end-of-day verification:
 npm.cmd run typecheck: passed
 npm.cmd run lint: passed
@@ -224,7 +248,7 @@ npm.cmd run build: passed, with existing Vite chunk-size warning
 git diff --check: passed, with existing Windows CRLF warnings
 npx.cmd supabase status: passed; FUNCTIONS_URL present; imgproxy/pooler stopped and still non-blocking locally
 npx.cmd supabase test db --local supabase\tests: passed, 1 file / 29 pgTAP tests
-Browser QA against local Supabase: Teacher Dashboard, Classes, Students, Courses, Assignments, Results, Leaderboards, and Settings all rendered expected content with no framework overlay and no console warnings/errors. Existing Assignments class/course interaction and Courses drill-down also passed.
+Browser QA against local Supabase: Teacher Dashboard, Classes, Students, Courses, Assignments, Results, Leaderboards, and Settings all rendered expected content with no framework overlay and no console warnings/errors. Assignment tab interaction and Courses drill-down also passed.
 
 2026-07-27 Teacher Students filter/search update:
 npm.cmd run typecheck: passed
@@ -249,7 +273,7 @@ npm.cmd run test: passed, 4 files / 12 tests
 npm.cmd run build: passed
 ```
 
-Latest diff hygiene verification on 2026-07-26:
+Latest diff hygiene verification on 2026-07-28:
 
 ```text
 git diff --check: passed
@@ -262,20 +286,24 @@ npx.cmd supabase test db --local supabase\tests: passed, 29 tests
 Coverage includes multi-class membership, duplicate active same-class blocking, teacher direct student edit denial, and teacher direct cross-class move denial.
 ```
 
-Latest frontend visual QA on 2026-07-27:
+Latest frontend visual QA on 2026-07-28:
 
 ```text
 Teacher Classes in in-app Browser with local Supabase data: `Archive class` replaced `Delete class`; archiving `8A Computing` was blocked with the move-students-first message and no database change; a temporary no-student `QA Delete Class` row archived through the inline confirmation, disappeared from active class cards/dropdowns, persisted as `public.classes.status = archived`, and was then removed from the local database; no console warnings/errors.
 Teacher Assignments in in-app Browser with local Supabase data: `1.1 Programming fundamentals test 1` rendered; topic `Select all` changed the summary to `1 tests selected`, topic state to `1/1 selected`, checkbox to checked, and the row to blue; `Clear topic` returned the summary to `0 tests selected`, topic state to `0/1 selected`, and create button to disabled; no console warnings/errors.
 Teacher Classes in in-app Browser with local Supabase data: editing `8A Computing` to temporary details saved, the edited value persisted after re-sign-in, and the seed values were restored to `8A Computing`, `2026/27`, Year `8`; no console warnings/errors.
 Teacher Students in in-app Browser with local Supabase data: page loaded with visible students, selected edit panel rendered name inputs, class membership checkboxes, status dropdown, password buttons, and archive button; no console errors. Targeted QA verified multi-class membership save, unchecked-membership removal, Non-class fallback, inactive login block, manual password login, generated 8-character password generation, and archive-style delete. Seed roster was restored after QA.
+Teacher Results in in-app Browser with local Supabase data: class/course/unit/topic filters rendered once, the visible `Results` page heading was removed because the active sidebar item already supplies route context, repeated row subtitles such as `1. Programming / 1.1 Programming fundamentals` were removed, no repeated summary card/`dt` scope values were present, `1. Programming` narrowed the topic dropdown to 1.x topics, `1.1 Programming fundamentals` narrowed the matrix to one row, the 5-student table fit without horizontal overflow at desktop width, and no console warnings/errors were recorded.
+Fluid width QA in in-app Browser with local Supabase data: Teacher Results shell measured against a 1265px document width with ~24px left and right gutters, confirming the desktop shell uses available width rather than `max-w-7xl`; Student shell measured 1280px wide in a 1280px viewport. No console warnings/errors were recorded.
+Teacher Assignments Active/Expired QA on 2026-07-28 passed; see the verification block above for the exact filter and row observations.
 ```
 
 Browser QA that passed:
 
 - Teacher created assignments for `8A Computing`.
 - Assignment rows persisted after reload/login.
-- Existing assignments table showed saved due dates.
+- Active Assignments table showed only current/no-deadline assignments.
+- Expired Assignments table rendered the empty state when no past-deadline assignments matched.
 - Student `asingh5827` saw newly created assignments.
 - A deliberately past-due assignment for `1.10 Translators and facilities` could start.
 - Active test screen loaded with five questions.
@@ -327,6 +355,8 @@ Merge teacher `Courses` and `Assignments` into one `Resources` workflow, then pl
 - Run the end process only when the user explicitly says `end`; it includes pushing the active branch.
 - Selected rows, cards, tabs, and list items must be visibly stronger than hover/rest states.
 - Inputs, selects, and textareas inside white cards must use a distinct background from the containing card.
+- Do not repeat visible filter selections, active navigation labels, page scope, or hierarchy text when nearby UI already shows the same context.
+- Desktop app shells and primary work surfaces must be fluid-width; avoid generic desktop max-width caps around dashboards, filters, tables, and work panels.
 - Do not reintroduce frontend-only/demo fallback data or demo login paths before launch.
 - Keep migrations as the schema source of truth.
 - Keep RLS enabled on all exposed `public` tables.

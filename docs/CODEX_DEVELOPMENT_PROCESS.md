@@ -1,6 +1,6 @@
 # Codex Development Process
 
-Last updated: 2026-07-27
+Last updated: 2026-07-28
 
 Audience: every Codex agent making product, code, Supabase, or documentation changes in this repository. The user does not plan to read this.
 
@@ -16,6 +16,8 @@ Static checks are required, but they are not enough for behaviour changes:
 - Browser QA, Edge Function calls, database/RLS checks, or persistence checks prove the feature works.
 
 Use local Supabase for all functional QA until launch. Do not verify against frontend-only/demo assumptions.
+
+When UI labels, page names, or workflow names change, run a case-insensitive docs/code sweep for the old wording before finalizing. Update Codex-facing docs in the same task so the next agent does not preserve stale product language.
 
 ## What To Run
 

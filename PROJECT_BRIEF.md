@@ -42,6 +42,9 @@ This section records material project direction changes, architecture decisions,
 | 2026-07-27 | 0.4 | Added a selected-state design principle: selected rows/items must be clearly darker or otherwise strongly distinct from hover/rest states. | Prevent important selections from being lost in subtle low-contrast table or card styling. |
 | 2026-07-27 | 0.4 | Added a form-control surface design principle: inputs/selects/textareas inside white cards must use a distinct background from the card surface. | Make editable fields obvious and prevent white controls disappearing into white cards. |
 | 2026-07-27 | 0.4 | Added a status-indicator design principle: status labels must not look like buttons. | Keep read-only state visually distinct from actions so users do not try to click non-interactive labels. |
+| 2026-07-27 | 0.4 | Added a non-duplication design principle: visible filter selections must not be repeated in a separate summary card on the same screen. | Prevent dense teacher/admin pages from wasting space and forcing users to read the same context twice. |
+| 2026-07-27 | 0.4 | Added a fluid desktop layout principle: app shells and primary work surfaces should use the available browser width. | Avoid narrow desktop layouts with unused side space on teacher/admin and student app screens. |
+| 2026-07-28 | 0.4 | Split teacher assignment tracking into `Active Assignments` and `Expired Assignments` views. | Let teachers distinguish current assignable workload from assignments whose deadline has passed while keeping deadline expiry out of student access enforcement. |
 
 ## Change Control Process
 
@@ -313,6 +316,22 @@ Action hierarchy design principle:
 - Routine actions should use restrained outline styling.
 - Utility actions such as copy/link/regenerate should be lower-emphasis and grouped separately from management actions.
 - Destructive or high-risk actions must use a danger treatment even when they sit on dark cards.
+
+Non-duplication design principle:
+
+- Do not repeat the same selected filter values, labels, or page scope in a second visible card when the controls already show those values.
+- A filter panel is the source of truth for selected class, course, unit, topic, date, status, and similar view scope.
+- Do not show a visible page heading that exactly repeats an already-visible active navigation item unless the heading adds useful context or is needed because the navigation is not visible.
+- Do not repeat hierarchy labels inside dense table rows when the row title already contains the same course/unit/topic wording or numbering.
+- Repeat scope only when it adds a different job, such as export/print metadata, a sticky header after the filters have scrolled away, or a detached report preview.
+- If context must be repeated, make it additive: show counts, warnings, or changed state that is not already visible in the controls.
+
+Fluid desktop layout design principle:
+
+- On desktop, the main app shell and primary teacher/student work surfaces must use the available browser width.
+- Do not cap desktop app shells with generic `max-w-*` wrappers such as `max-w-7xl` unless the screen is intentionally a compact form, auth panel, modal, or narrow reading surface.
+- Keep normal page gutters and table overflow handling, but avoid large unused side margins around dashboards, filters, tables, and work panels.
+- Mobile phone layouts may remain intentionally constrained where the app is using a phone-shaped shell or bottom navigation.
 
 ### 4.2 Static frontend rule
 

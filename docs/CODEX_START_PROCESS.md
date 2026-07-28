@@ -1,6 +1,6 @@
 # Codex Start Process
 
-Last updated: 2026-07-27
+Last updated: 2026-07-28
 
 Audience: every Codex agent starting or resuming work on this repository. The user does not plan to read this. Follow this process before making product/code changes unless the user explicitly asks for a narrower action.
 
@@ -83,6 +83,15 @@ npx.cmd supabase start
 npx.cmd supabase status
 ```
 
+After every `git pull`, apply pending local migrations before running or testing the app:
+
+```powershell
+npx.cmd supabase migration up --local
+npx.cmd supabase migration list --local
+```
+
+Do not treat `migration list` alone as proof that migrations are applied. If newly pulled code references new database columns or functions, verify the relevant schema directly with SQL or run pgTAP before reporting the site as ready.
+
 The status output must include:
 
 ```text
@@ -135,7 +144,7 @@ Pick the next task from `Current Focus` first, then from the most relevant incom
 
 ## Current Next Task Rule
 
-As of 2026-07-26, the next recommended task is:
+As of 2026-07-28, the next recommended task is:
 
 ```text
 Merge teacher Courses and Assignments into one Resources workflow.
@@ -145,6 +154,7 @@ Reason:
 
 - Placeholder tests now use `<topic> test 1` naming.
 - Topic-level select/clear controls now exist in the assignment picker.
+- Teacher Assignments now has `Active Assignments` and `Expired Assignments`; the next larger product direction is still a unified Resources workflow.
 - The user's next product direction is one Resources area for viewing resource contents and assigning them to classes.
 
 Secondary task after that:
@@ -156,6 +166,7 @@ Plan and build Class views for assigned resources and class performance by unit/
 ## Do Not Skip
 
 - Do not start coding before syncing Git when the tree is clean.
+- Do not skip `npx.cmd supabase migration up --local` after pulling changes.
 - Do not reintroduce frontend-only/demo fallback data or demo login paths.
 - Do not run destructive local database resets unless needed for the task and clearly appropriate.
 - Do not expose service-role keys, correct answers, hidden mark schemes, or privileged marking logic to the frontend.

@@ -34,7 +34,7 @@ import { Panel } from '../../components/ui/Panel';
 import { StatusBadge } from '../../components/ui/StatusBadge';
 import { leaderboardDisplay } from '../../lib/identity';
 import { formatDate } from '../../lib/time';
-import type { ClassRecord, StudentProfile } from '../../types/domain';
+import type { ClassRecord, StudentProfile, TestAttempt, Topic } from '../../types/domain';
 
 const navItems = [
   { to: '/teacher', label: 'Dashboard', icon: Home },
@@ -55,6 +55,8 @@ const lightTextareaClass = 'min-h-11 w-full rounded-app border border-line bg-mi
 const filterCheckboxClass = 'h-4 w-4 rounded border-[#7c8fa7] bg-[#0f1d2e] accent-blue focus:ring-2 focus:ring-blue/25';
 const filterLabelClass = 'inline-flex min-h-8 items-center gap-2 text-sm font-semibold text-[#eef5fc]';
 const classStatusFilters = ['active', 'archived'] as const satisfies ReadonlyArray<ClassRecord['status']>;
+const allResultsFilterValue = 'all';
+const resultNaturalSort = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
 
 export function TeacherApp() {
   const { dataError, isLoadingData, isSupabaseBacked, signOut } = useAppState();
@@ -77,7 +79,7 @@ export function TeacherApp() {
 
   return (
     <main className="min-h-screen bg-mist p-3 text-ink lg:p-6">
-      <div className="mx-auto grid min-h-[860px] max-w-7xl overflow-hidden rounded-[18px] border border-[#d9e3ee] bg-mist shadow-panel lg:grid-cols-[220px_1fr]">
+      <div className="grid min-h-[860px] w-full overflow-hidden rounded-[18px] border border-[#d9e3ee] bg-mist shadow-panel lg:grid-cols-[220px_1fr]">
         <aside className="hidden border-r border-[#2a3a50] bg-[#14243a] p-4 text-white lg:block">
           <div className="mb-8 flex items-center gap-3">
             <div className="grid h-10 w-10 place-items-center rounded-app bg-teal text-white">
@@ -325,13 +327,6 @@ function attemptStatusLabel(status: string): string {
   return labels[status] ?? status.replace(/_/g, ' ');
 }
 
-function attemptStatusTone(status: string): 'green' | 'amber' | 'red' | 'neutral' {
-  if (['feedback_released', 'marked', 'submitted'].includes(status)) return 'green';
-  if (status === 'timed_out') return 'amber';
-  if (status === 'voided') return 'red';
-  return 'neutral';
-}
-
 function scoreTextClass(score: number | null | undefined): string {
   if (typeof score !== 'number') return 'text-muted';
   if (score >= 80) return 'text-green';
@@ -361,6 +356,38 @@ function averageAttemptPercentage(attempts: ReturnType<typeof useAppState>['atte
     .filter((score): score is number => typeof score === 'number');
   if (!scores.length) return undefined;
   return Math.round(scores.reduce((total, score) => total + score, 0) / scores.length);
+}
+
+function attemptSortTime(attempt: TestAttempt): number {
+  const timestamp = new Date(attempt.submittedAt ?? attempt.startedAt).getTime();
+  return Number.isNaN(timestamp) ? 0 : timestamp;
+}
+
+function preferredResultAttempt(attempts: TestAttempt[]): TestAttempt | undefined {
+  const usableAttempts = attempts
+    .filter((attempt) => attempt.status !== 'voided')
+    .sort((first, second) => attemptSortTime(second) - attemptSortTime(first));
+  const scoredAttempt = usableAttempts.find((attempt) => typeof attempt.percentage === 'number');
+  return scoredAttempt ?? usableAttempts[0];
+}
+
+function studentFullName(student: StudentProfile): string {
+  return `${student.firstName} ${student.surname}`.trim();
+}
+
+function resultAttemptLabel(attempt: TestAttempt | undefined, isApplicable: boolean): { className: string; label: string } {
+  if (!isApplicable) return { className: 'text-muted', label: 'N.a.' };
+  if (!attempt) return { className: 'text-danger', label: 'Incomplete' };
+  if (typeof attempt.percentage === 'number') {
+    const percentageLabel = `${attempt.percentage}%`;
+    const scoreLabel =
+      typeof attempt.score === 'number' && typeof attempt.maxScore === 'number'
+        ? `${attempt.score}/${attempt.maxScore} (${percentageLabel})`
+        : percentageLabel;
+    return { className: scoreTextClass(attempt.percentage), label: scoreLabel };
+  }
+  if (attempt.status === 'in_progress') return { className: 'text-blue', label: 'In progress' };
+  return { className: 'text-amber', label: attemptStatusLabel(attempt.status) };
 }
 
 function sortYearGroups(yearGroups: string[]): string[] {
@@ -1346,7 +1373,7 @@ function TestsPage() {
   );
 }
 
-type AssignmentTab = 'create' | 'existing';
+type AssignmentTab = 'create' | 'active' | 'expired';
 
 function dueDateInputToIso(value: string): string | undefined {
   if (!value) return undefined;
@@ -1363,8 +1390,11 @@ function AssignmentsPage() {
   const [activeTab, setActiveTab] = useState<AssignmentTab>('create');
   const [createClassId, setCreateClassId] = useState(() => state.classes.find((classRecord) => classRecord.status === 'active' && !classRecord.isSystem)?.id ?? '');
   const [createSubjectId, setCreateSubjectId] = useState(() => state.subjects[0]?.id ?? '');
-  const [historyClassId, setHistoryClassId] = useState('');
-  const [historySubjectId, setHistorySubjectId] = useState(() => state.subjects[0]?.id ?? '');
+  const [assignmentClassId, setAssignmentClassId] = useState(allResultsFilterValue);
+  const [assignmentSubjectId, setAssignmentSubjectId] = useState(allResultsFilterValue);
+  const [assignmentUnitId, setAssignmentUnitId] = useState(allResultsFilterValue);
+  const [assignmentTopicId, setAssignmentTopicId] = useState(allResultsFilterValue);
+  const [currentTime, setCurrentTime] = useState(() => Date.now());
   const dueDateInputRef = useRef<HTMLInputElement>(null);
   const [selectedVersionIds, setSelectedVersionIds] = useState<string[]>([]);
   const [isSaving, setIsSaving] = useState(false);
@@ -1377,17 +1407,16 @@ function AssignmentsPage() {
     if ((!createClassId && firstClassId) || (createClassId && !activeClasses.some((classRecord) => classRecord.id === createClassId))) {
       setCreateClassId(firstClassId);
     }
-    if (historyClassId && !activeClasses.some((classRecord) => classRecord.id === historyClassId)) {
-      setHistoryClassId('');
-    }
     if ((!createSubjectId && firstSubjectId) || (createSubjectId && !state.subjects.some((subject) => subject.id === createSubjectId))) {
       setCreateSubjectId(firstSubjectId);
       setSelectedVersionIds([]);
     }
-    if ((!historySubjectId && firstSubjectId) || (historySubjectId && !state.subjects.some((subject) => subject.id === historySubjectId))) {
-      setHistorySubjectId(firstSubjectId);
-    }
-  }, [activeClasses, createClassId, createSubjectId, historyClassId, historySubjectId, state.subjects]);
+  }, [activeClasses, createClassId, createSubjectId, state.subjects]);
+
+  useEffect(() => {
+    const timerId = window.setInterval(() => setCurrentTime(Date.now()), 60000);
+    return () => window.clearInterval(timerId);
+  }, []);
 
   const publishedTests = useMemo(
     () =>
@@ -1398,9 +1427,52 @@ function AssignmentsPage() {
     [state.testVersions, state.tests],
   );
   const createUnits = state.units.filter((unit) => unit.subjectId === createSubjectId);
-  const historyUnits = state.units.filter((unit) => unit.subjectId === historySubjectId);
+  const assignmentUnits = useMemo(
+    () =>
+      assignmentSubjectId === allResultsFilterValue
+        ? state.units
+        : state.units.filter((unit) => unit.subjectId === assignmentSubjectId),
+    [assignmentSubjectId, state.units],
+  );
+  const assignmentTopics = useMemo(() => {
+    const topicsByUnit = new Map<string, Topic[]>();
+    state.topics.forEach((topic) => {
+      topicsByUnit.set(topic.unitId, [...(topicsByUnit.get(topic.unitId) ?? []), topic]);
+    });
+    const orderedTopicsForUnit = (unitId: string) =>
+      [...(topicsByUnit.get(unitId) ?? [])].sort((first, second) => resultNaturalSort.compare(first.topicName, second.topicName));
+
+    if (assignmentUnitId !== allResultsFilterValue) {
+      return orderedTopicsForUnit(assignmentUnitId);
+    }
+    return assignmentUnits.flatMap((unit) => orderedTopicsForUnit(unit.id));
+  }, [assignmentUnitId, assignmentUnits, state.topics]);
   const selectedVersions = useMemo(() => new Set(selectedVersionIds), [selectedVersionIds]);
   const selectedClass = activeClasses.find((classRecord) => classRecord.id === createClassId);
+
+  useEffect(() => {
+    if (assignmentClassId !== allResultsFilterValue && !activeClasses.some((classRecord) => classRecord.id === assignmentClassId)) {
+      setAssignmentClassId(allResultsFilterValue);
+    }
+    if (assignmentSubjectId !== allResultsFilterValue && !state.subjects.some((subject) => subject.id === assignmentSubjectId)) {
+      setAssignmentSubjectId(allResultsFilterValue);
+      setAssignmentUnitId(allResultsFilterValue);
+      setAssignmentTopicId(allResultsFilterValue);
+    }
+  }, [activeClasses, assignmentClassId, assignmentSubjectId, state.subjects]);
+
+  useEffect(() => {
+    if (assignmentUnitId !== allResultsFilterValue && !assignmentUnits.some((unit) => unit.id === assignmentUnitId)) {
+      setAssignmentUnitId(allResultsFilterValue);
+      setAssignmentTopicId(allResultsFilterValue);
+    }
+  }, [assignmentUnitId, assignmentUnits]);
+
+  useEffect(() => {
+    if (assignmentTopicId !== allResultsFilterValue && !assignmentTopics.some((topic) => topic.id === assignmentTopicId)) {
+      setAssignmentTopicId(allResultsFilterValue);
+    }
+  }, [assignmentTopicId, assignmentTopics]);
 
   const toggleVersion = (versionId: string) => {
     setSelectedVersionIds((current) =>
@@ -1438,9 +1510,11 @@ function AssignmentsPage() {
         dueAt: dueDateInputToIso(dueDateInputRef.current?.value ?? ''),
       });
       setSelectedVersionIds([]);
-      setHistoryClassId(createClassId);
-      setHistorySubjectId(createSubjectId);
-      setActiveTab('existing');
+      setAssignmentClassId(createClassId);
+      setAssignmentSubjectId(createSubjectId);
+      setAssignmentUnitId(allResultsFilterValue);
+      setAssignmentTopicId(allResultsFilterValue);
+      setActiveTab('active');
       setMessage(`${created.length} assignment${created.length === 1 ? '' : 's'} created for ${selectedClass?.className ?? 'class'}.`);
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : 'Unable to create assignments');
@@ -1449,43 +1523,72 @@ function AssignmentsPage() {
     }
   };
 
-  const historyRows = useMemo(
-    () =>
-      historyUnits.flatMap((unit) =>
-        state.topics
-          .filter((topic) => topic.unitId === unit.id)
-          .map((topic) => {
-            const topicTests = publishedTests.filter((test) => test.topicId === topic.id);
-            const versionIds = new Set(topicTests.map((test) => test.version.id));
-            const assignments = state.assignments
-              .filter((assignment) => assignment.classId === historyClassId && versionIds.has(assignment.testVersionId))
-              .sort((first, second) => assignmentSortTime(second.dueAt || second.startAt) - assignmentSortTime(first.dueAt || first.startAt));
-            const dueDates = assignments
-              .filter((assignment) => assignment.dueAt)
-              .sort((first, second) => assignmentSortTime(second.dueAt) - assignmentSortTime(first.dueAt))
-              .slice(0, 5)
-              .map((assignment) => formatDate(assignment.dueAt));
-            return {
-              unitName: unit.unitName,
-              topicName: topic.topicName,
-              testTitle: topicTests.map((test) => test.testTitle).join(', ') || '-',
-              assignmentCount: assignments.length,
-              dueDates,
-            };
-          }),
-      ),
-    [historyClassId, historyUnits, publishedTests, state.assignments, state.topics],
-  );
+  const assignmentRows = useMemo(() => {
+    const activeClassById = new Map(activeClasses.map((classRecord) => [classRecord.id, classRecord]));
+    const testVersionById = new Map(state.testVersions.map((version) => [version.id, version]));
+    const testById = new Map(state.tests.map((test) => [test.id, test]));
+    const topicById = new Map(state.topics.map((topic) => [topic.id, topic]));
+    const unitById = new Map(state.units.map((unit) => [unit.id, unit]));
+
+    return state.assignments
+      .flatMap((assignment) => {
+        if (assignment.status !== 'scheduled' && assignment.status !== 'open') return [];
+
+        const classRecord = activeClassById.get(assignment.classId);
+        const version = testVersionById.get(assignment.testVersionId);
+        const test = version ? testById.get(version.testId) : undefined;
+        const topic = test ? topicById.get(test.topicId) : undefined;
+        const unit = topic ? unitById.get(topic.unitId) : undefined;
+        if (!classRecord || !test || !topic || !unit) return [];
+
+        if (assignmentClassId !== allResultsFilterValue && classRecord.id !== assignmentClassId) return [];
+        if (assignmentSubjectId !== allResultsFilterValue && unit.subjectId !== assignmentSubjectId) return [];
+        if (assignmentUnitId !== allResultsFilterValue && unit.id !== assignmentUnitId) return [];
+        if (assignmentTopicId !== allResultsFilterValue && topic.id !== assignmentTopicId) return [];
+
+        return [
+          {
+            assignment,
+            className: classRecord.className,
+            topicName: topic.topicName,
+            dueSortTime: assignment.dueAt ? assignmentSortTime(assignment.dueAt) : Number.POSITIVE_INFINITY,
+            createdSortTime: assignmentSortTime(assignment.startAt),
+            isExpired: Boolean(assignment.dueAt && assignmentSortTime(assignment.dueAt) < currentTime),
+          },
+        ];
+      })
+      .sort((first, second) => {
+        if (first.dueSortTime !== second.dueSortTime) return first.dueSortTime - second.dueSortTime;
+        if (first.createdSortTime !== second.createdSortTime) return second.createdSortTime - first.createdSortTime;
+        return resultNaturalSort.compare(first.topicName, second.topicName);
+      });
+  }, [
+    activeClasses,
+    currentTime,
+    assignmentClassId,
+    assignmentSubjectId,
+    assignmentTopicId,
+    assignmentUnitId,
+    state.assignments,
+    state.testVersions,
+    state.tests,
+    state.topics,
+    state.units,
+  ]);
+  const activeAssignmentRows = assignmentRows.filter((row) => !row.isExpired);
+  const expiredAssignmentRows = assignmentRows.filter((row) => row.isExpired);
+  const visibleAssignmentRows = activeTab === 'expired' ? expiredAssignmentRows : activeAssignmentRows;
 
   return (
     <TeacherPage title="Assignments">
       <div className="flex flex-wrap gap-2 rounded-app border border-line bg-white p-1">
         {[
           ['create', 'Create assignment'],
-          ['existing', 'Existing assignments'],
+          ['active', 'Active Assignments'],
+          ['expired', 'Expired Assignments'],
         ].map(([id, label]) => (
           <button
-            className={`min-h-10 rounded-[6px] px-4 text-sm font-semibold transition ${
+            className={`min-h-10 rounded-[6px] px-4 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-blue/25 ${
               activeTab === id ? 'bg-[#14243a] text-white' : 'text-muted hover:bg-mist hover:text-ink'
             }`}
             key={id}
@@ -1646,21 +1749,21 @@ function AssignmentsPage() {
         </div>
       ) : null}
 
-      {activeTab === 'existing' ? (
+      {activeTab === 'active' || activeTab === 'expired' ? (
         <div className="space-y-5">
           <Panel className="p-4">
             <div className="mb-3 border-b border-[#2a3a50] pb-3">
               <p className="text-xs font-semibold uppercase tracking-normal text-[#b8c8d9]">Filters</p>
             </div>
-            <div className="grid gap-4 lg:grid-cols-2">
+            <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-4">
               <label className="space-y-2 text-sm font-semibold">
                 <span className={darkSubtleText}>Class</span>
                 <select
                   className={lightControlClass}
-                  value={historyClassId}
-                  onChange={(event) => setHistoryClassId(event.target.value)}
+                  value={assignmentClassId}
+                  onChange={(event) => setAssignmentClassId(event.target.value)}
                 >
-                  <option value="">Select a class</option>
+                  <option value={allResultsFilterValue}>All classes</option>
                   {activeClasses.map((classRecord) => (
                     <option key={classRecord.id} value={classRecord.id}>
                       {classRecord.className}
@@ -1672,9 +1775,14 @@ function AssignmentsPage() {
                 <span className={darkSubtleText}>Course</span>
                 <select
                   className={lightControlClass}
-                  value={historySubjectId}
-                  onChange={(event) => setHistorySubjectId(event.target.value)}
+                  value={assignmentSubjectId}
+                  onChange={(event) => {
+                    setAssignmentSubjectId(event.target.value);
+                    setAssignmentUnitId(allResultsFilterValue);
+                    setAssignmentTopicId(allResultsFilterValue);
+                  }}
                 >
+                  <option value={allResultsFilterValue}>All courses</option>
                   {state.subjects.map((subject) => (
                     <option key={subject.id} value={subject.id}>
                       {subject.subjectName}
@@ -1682,60 +1790,78 @@ function AssignmentsPage() {
                   ))}
                 </select>
               </label>
+              <label className="space-y-2 text-sm font-semibold">
+                <span className={darkSubtleText}>Unit</span>
+                <select
+                  className={lightControlClass}
+                  value={assignmentUnitId}
+                  onChange={(event) => {
+                    setAssignmentUnitId(event.target.value);
+                    setAssignmentTopicId(allResultsFilterValue);
+                  }}
+                >
+                  <option value={allResultsFilterValue}>All units</option>
+                  {assignmentUnits.map((unit) => (
+                    <option key={unit.id} value={unit.id}>
+                      {unit.unitName}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="space-y-2 text-sm font-semibold">
+                <span className={darkSubtleText}>Topic</span>
+                <select
+                  className={lightControlClass}
+                  value={assignmentTopicId}
+                  onChange={(event) => setAssignmentTopicId(event.target.value)}
+                >
+                  <option value={allResultsFilterValue}>All topics</option>
+                  {assignmentTopics.map((topic) => (
+                    <option key={topic.id} value={topic.id}>
+                      {topic.topicName}
+                    </option>
+                  ))}
+                </select>
+              </label>
             </div>
           </Panel>
 
-          {!historyClassId ? (
-            <Panel className="p-4">
-              <p className="font-bold">Select a class to view existing assignments.</p>
-              <p className={`mt-1 text-sm ${darkSubtleText}`}>Assignment history is class-specific.</p>
-            </Panel>
-          ) : (
-            <Panel className="p-4">
-              <div className="mb-4 flex flex-col gap-1">
-                <h2 className="font-bold">Assignment history</h2>
-                <p className={`text-sm ${darkSubtleText}`}>Last five assigned dates use saved due dates and do not affect student access.</p>
-              </div>
-              <div className={nestedTableFrame}>
-                <table className="w-full min-w-[860px] text-left text-sm">
-                  <thead className={nestedTableHead}>
-                    <tr>
-                      <th className="px-3 py-3">Unit</th>
-                      <th className="px-3 py-3">Topic</th>
-                      <th className="px-3 py-3">Available tests</th>
-                      <th className="px-3 py-3">Times assigned</th>
-                      <th className="px-3 py-3">Last five assigned dates</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-line bg-white">
-                    {historyRows.map((row) => (
-                      <tr key={`${row.unitName}-${row.topicName}`}>
-                        <td className="px-3 py-3 font-semibold">{row.unitName}</td>
+          <Panel className="p-4">
+            <div className={nestedTableFrame}>
+              <table className="w-full min-w-[820px] text-left text-sm">
+                <thead className={nestedTableHead}>
+                  <tr>
+                    <th className="px-3 py-3">Date created</th>
+                    <th className="px-3 py-3">Class</th>
+                    <th className="px-3 py-3">Topic</th>
+                    <th className="px-3 py-3">Assignment deadline</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-line bg-white">
+                  {visibleAssignmentRows.length ? (
+                    visibleAssignmentRows.map((row) => (
+                      <tr key={row.assignment.id}>
+                        <td className="whitespace-nowrap px-3 py-3 font-semibold">
+                          {row.assignment.startAt ? formatDate(row.assignment.startAt) : '-'}
+                        </td>
+                        <td className="px-3 py-3">{row.className}</td>
                         <td className="px-3 py-3">{row.topicName}</td>
-                        <td className="px-3 py-3">{row.testTitle}</td>
-                        <td className="px-3 py-3">{row.assignmentCount}</td>
-                        <td className="px-3 py-3">
-                          {row.dueDates.length ? (
-                            <div className="flex flex-wrap gap-x-3 gap-y-1">
-                              {row.dueDates.map((date, index) => (
-                                <span className="text-xs font-semibold text-muted" key={`${row.topicName}-${date}-${index}`}>
-                                  {date}
-                                </span>
-                              ))}
-                            </div>
-                          ) : row.assignmentCount ? (
-                            <span className="text-muted">No due dates set</span>
-                          ) : (
-                            <span className="text-muted">-</span>
-                          )}
+                        <td className="whitespace-nowrap px-3 py-3">
+                          {row.assignment.dueAt ? formatDate(row.assignment.dueAt) : 'No deadline'}
                         </td>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </Panel>
-          )}
+                    ))
+                  ) : (
+                    <tr>
+                      <td className="px-3 py-6 text-center text-muted" colSpan={4}>
+                        No {activeTab === 'expired' ? 'expired' : 'active'} assignments match these filters.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </Panel>
         </div>
       ) : null}
     </TeacherPage>
@@ -1744,44 +1870,270 @@ function AssignmentsPage() {
 
 function ResultsPage() {
   const state = useAppState();
+  const activeClasses = useMemo(() => state.classes.filter((classRecord) => classRecord.status === 'active' && !classRecord.isSystem), [state.classes]);
+  const [selectedClassId, setSelectedClassId] = useState(() => state.classes.find((classRecord) => classRecord.status === 'active' && !classRecord.isSystem)?.id ?? allResultsFilterValue);
+  const [selectedSubjectId, setSelectedSubjectId] = useState(() => state.subjects[0]?.id ?? allResultsFilterValue);
+  const [selectedUnitId, setSelectedUnitId] = useState(allResultsFilterValue);
+  const [selectedTopicId, setSelectedTopicId] = useState(allResultsFilterValue);
+
+  const unitById = useMemo(() => new Map(state.units.map((unit) => [unit.id, unit])), [state.units]);
+  const topicById = useMemo(() => new Map(state.topics.map((topic) => [topic.id, topic])), [state.topics]);
+  const studentById = useMemo(() => new Map(state.students.map((student) => [student.id, student])), [state.students]);
+  const unitOrderById = useMemo(() => new Map(state.units.map((unit, index) => [unit.id, index])), [state.units]);
+  const topicOrderById = useMemo(() => new Map(state.topics.map((topic, index) => [topic.id, index])), [state.topics]);
+
+  const unitOptions = useMemo(
+    () =>
+      selectedSubjectId === allResultsFilterValue
+        ? state.units
+        : state.units.filter((unit) => unit.subjectId === selectedSubjectId),
+    [selectedSubjectId, state.units],
+  );
+  const topicOptions = useMemo(() => {
+    if (selectedUnitId !== allResultsFilterValue) {
+      return state.topics.filter((topic) => topic.unitId === selectedUnitId);
+    }
+    const topicsByUnit = new Map<string, Topic[]>();
+    state.topics.forEach((topic) => {
+      topicsByUnit.set(topic.unitId, [...(topicsByUnit.get(topic.unitId) ?? []), topic]);
+    });
+    return unitOptions.flatMap((unit) => topicsByUnit.get(unit.id) ?? []);
+  }, [selectedUnitId, state.topics, unitOptions]);
+
+  useEffect(() => {
+    const firstClassId = activeClasses[0]?.id ?? allResultsFilterValue;
+    if (selectedClassId !== allResultsFilterValue && !activeClasses.some((classRecord) => classRecord.id === selectedClassId)) {
+      setSelectedClassId(firstClassId);
+    }
+
+    if (selectedSubjectId !== allResultsFilterValue && !state.subjects.some((subject) => subject.id === selectedSubjectId)) {
+      setSelectedSubjectId(state.subjects[0]?.id ?? allResultsFilterValue);
+      setSelectedUnitId(allResultsFilterValue);
+      setSelectedTopicId(allResultsFilterValue);
+    }
+
+    if (selectedUnitId !== allResultsFilterValue && !unitOptions.some((unit) => unit.id === selectedUnitId)) {
+      setSelectedUnitId(allResultsFilterValue);
+      setSelectedTopicId(allResultsFilterValue);
+    }
+
+    if (selectedTopicId !== allResultsFilterValue && !topicOptions.some((topic) => topic.id === selectedTopicId)) {
+      setSelectedTopicId(allResultsFilterValue);
+    }
+  }, [activeClasses, selectedClassId, selectedSubjectId, selectedTopicId, selectedUnitId, state.subjects, topicOptions, unitOptions]);
+
+  const filteredTests = useMemo(
+    () =>
+      state.tests
+        .filter((test) => {
+          if (test.status !== 'published') return false;
+          const topic = topicById.get(test.topicId);
+          const unit = topic ? unitById.get(topic.unitId) : undefined;
+          if (!topic || !unit) return false;
+          if (selectedSubjectId !== allResultsFilterValue && unit.subjectId !== selectedSubjectId) return false;
+          if (selectedUnitId !== allResultsFilterValue && topic.unitId !== selectedUnitId) return false;
+          if (selectedTopicId !== allResultsFilterValue && topic.id !== selectedTopicId) return false;
+          return true;
+        })
+        .sort((first, second) => {
+          const firstTopic = topicById.get(first.topicId);
+          const secondTopic = topicById.get(second.topicId);
+          const firstUnitOrder = firstTopic ? unitOrderById.get(firstTopic.unitId) ?? 0 : 0;
+          const secondUnitOrder = secondTopic ? unitOrderById.get(secondTopic.unitId) ?? 0 : 0;
+          const firstTopicOrder = firstTopic ? topicOrderById.get(firstTopic.id) ?? 0 : 0;
+          const secondTopicOrder = secondTopic ? topicOrderById.get(secondTopic.id) ?? 0 : 0;
+          return (
+            firstUnitOrder - secondUnitOrder ||
+            firstTopicOrder - secondTopicOrder ||
+            resultNaturalSort.compare(first.testTitle, second.testTitle)
+          );
+        }),
+    [selectedSubjectId, selectedTopicId, selectedUnitId, state.tests, topicById, topicOrderById, unitById, unitOrderById],
+  );
+
+  const resultAttempts = useMemo(() => {
+    const testIds = new Set(filteredTests.map((test) => test.id));
+    return state.attempts.filter(
+      (attempt) =>
+        attempt.status !== 'voided' &&
+        testIds.has(attempt.testId) &&
+        (selectedClassId === allResultsFilterValue || attempt.classIdAtAttempt === selectedClassId),
+    );
+  }, [filteredTests, selectedClassId, state.attempts]);
+
+  const studentColumns = useMemo(() => {
+    const activeClassIds = new Set(activeClasses.map((classRecord) => classRecord.id));
+    const currentRosterStudents = state.students.filter((student) => {
+      if (student.accountStatus === 'archived') return false;
+      if (selectedClassId !== allResultsFilterValue) return studentHasClass(student, selectedClassId);
+      return studentClassIds(student).some((classId) => activeClassIds.has(classId));
+    });
+    const studentIds = new Set(currentRosterStudents.map((student) => student.id));
+    resultAttempts.forEach((attempt) => studentIds.add(attempt.studentId));
+
+    return Array.from(studentIds)
+      .map((studentId) => studentById.get(studentId))
+      .filter((student): student is StudentProfile => Boolean(student))
+      .sort((first, second) => studentFullName(first).localeCompare(studentFullName(second)) || first.publicStudentId.localeCompare(second.publicStudentId));
+  }, [activeClasses, resultAttempts, selectedClassId, state.students, studentById]);
+
+  const currentRosterIds = useMemo(
+    () =>
+      new Set(
+        state.students
+          .filter((student) => student.accountStatus !== 'archived')
+          .filter((student) => selectedClassId === allResultsFilterValue || studentHasClass(student, selectedClassId))
+          .map((student) => student.id),
+      ),
+    [selectedClassId, state.students],
+  );
+
+  const resultRows = useMemo(() => {
+    const attemptsByCell = new Map<string, TestAttempt[]>();
+    resultAttempts.forEach((attempt) => {
+      const key = `${attempt.testId}:${attempt.studentId}`;
+      attemptsByCell.set(key, [...(attemptsByCell.get(key) ?? []), attempt]);
+    });
+
+    return filteredTests.map((test) => {
+      const cells = studentColumns.map((student) => {
+        const attempt = preferredResultAttempt(attemptsByCell.get(`${test.id}:${student.id}`) ?? []);
+        const isApplicable = selectedClassId === allResultsFilterValue || currentRosterIds.has(student.id) || Boolean(attempt);
+        const label = resultAttemptLabel(attempt, isApplicable);
+        return { attempt, ...label, student };
+      });
+      const scores = cells
+        .map((cell) => cell.attempt?.percentage)
+        .filter((score): score is number => typeof score === 'number');
+      const average = scores.length ? Math.round(scores.reduce((total, score) => total + score, 0) / scores.length) : undefined;
+      return {
+        average,
+        cells,
+        test,
+      };
+    });
+  }, [currentRosterIds, filteredTests, resultAttempts, selectedClassId, studentColumns]);
+
+  const tableMinWidth = `${Math.max(760, 265 + studentColumns.length * 115)}px`;
+
   return (
-    <TeacherPage title="Results">
+    <TeacherPage title="Results" titleVisibility="sr-only">
+      <Panel className="p-4">
+        <div className="mb-4 flex flex-col gap-1">
+          <h2 className="font-bold">Result filters</h2>
+        </div>
+        <div className="grid gap-4 lg:grid-cols-[minmax(150px,0.8fr)_minmax(220px,1.2fr)_minmax(180px,1fr)_minmax(260px,1.4fr)]">
+          <label className="space-y-2 text-sm font-semibold">
+            <span className={darkSubtleText}>Class</span>
+            <select
+              className={lightControlClass}
+              value={selectedClassId}
+              onChange={(event) => setSelectedClassId(event.target.value)}
+            >
+              <option value={allResultsFilterValue}>All classes</option>
+              {activeClasses.map((classRecord) => (
+                <option key={classRecord.id} value={classRecord.id}>
+                  {classRecord.className}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="space-y-2 text-sm font-semibold">
+            <span className={darkSubtleText}>Course</span>
+            <select
+              className={lightControlClass}
+              value={selectedSubjectId}
+              onChange={(event) => {
+                setSelectedSubjectId(event.target.value);
+                setSelectedUnitId(allResultsFilterValue);
+                setSelectedTopicId(allResultsFilterValue);
+              }}
+            >
+              <option value={allResultsFilterValue}>All courses</option>
+              {state.subjects.map((subject) => (
+                <option key={subject.id} value={subject.id}>
+                  {subject.subjectName}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="space-y-2 text-sm font-semibold">
+            <span className={darkSubtleText}>Unit</span>
+            <select
+              className={lightControlClass}
+              value={selectedUnitId}
+              onChange={(event) => {
+                setSelectedUnitId(event.target.value);
+                setSelectedTopicId(allResultsFilterValue);
+              }}
+            >
+              <option value={allResultsFilterValue}>All units</option>
+              {unitOptions.map((unit) => (
+                <option key={unit.id} value={unit.id}>
+                  {unit.unitName}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="space-y-2 text-sm font-semibold">
+            <span className={darkSubtleText}>Topic</span>
+            <select
+              className={lightControlClass}
+              value={selectedTopicId}
+              onChange={(event) => setSelectedTopicId(event.target.value)}
+            >
+              <option value={allResultsFilterValue}>All topics</option>
+              {topicOptions.map((topic) => (
+                <option key={topic.id} value={topic.id}>
+                  {topic.topicName}
+                </option>
+              ))}
+            </select>
+          </label>
+        </div>
+      </Panel>
+
       <Panel className="p-4">
         <div className={nestedTableFrame}>
-          <table className="w-full min-w-[720px] text-left text-sm">
-            <thead className={nestedTableHead}>
+          <table className="w-full border-collapse text-left text-sm" style={{ minWidth: tableMinWidth }}>
+            <thead className={`${nestedTableHead} text-ink`}>
               <tr>
-                <th className="px-4 py-3">Student</th>
-                <th className="px-3 py-3">Class at attempt</th>
-                <th className="px-3 py-3">Test</th>
-                <th className="px-3 py-3">Status</th>
-                <th className="px-3 py-3">Score</th>
-                <th className="px-3 py-3">Started</th>
-                <th className="px-3 py-3">Suspicious Events</th>
+                <th className="w-[180px] border border-line px-3 py-3">Test</th>
+                <th className="w-[85px] border border-line px-3 py-3">Class avg</th>
+                {studentColumns.map((student) => (
+                  <th className="w-[115px] border border-line px-3 py-3" key={student.id}>
+                    <span className="block truncate">{studentFullName(student)}</span>
+                  </th>
+                ))}
               </tr>
             </thead>
-            <tbody className="divide-y divide-line bg-white text-ink">
-              {state.attempts.map((attempt) => {
-                const student = state.students.find((item) => item.id === attempt.studentId) ?? state.currentStudent;
-                const test = state.tests.find((item) => item.id === attempt.testId);
-                const attemptClass = state.classes.find((item) => item.id === attempt.classIdAtAttempt);
-                const scoreLabel = typeof attempt.percentage === 'number' ? `${attempt.percentage}%` : '-';
-                return (
-                  <tr key={attempt.id}>
-                    <td className="px-4 py-3 font-semibold">{leaderboardDisplay(student)}</td>
-                    <td className="px-3 py-3">{attemptClass?.className ?? '-'}</td>
-                    <td className="px-3 py-3">{test?.testTitle}</td>
-                    <td className="px-3 py-3">
-                      <StatusBadge tone={attemptStatusTone(attempt.status)}>{attemptStatusLabel(attempt.status)}</StatusBadge>
+            <tbody className="bg-white text-ink">
+              {resultRows.length ? (
+                resultRows.map((row) => (
+                  <tr key={row.test.id}>
+                    <th
+                      className="border border-line px-3 py-3 text-left align-top font-semibold"
+                      scope="row"
+                    >
+                      <span className="block">{row.test.testTitle}</span>
+                    </th>
+                    <td className={`border border-line px-3 py-3 align-top font-bold ${scoreTextClass(row.average)}`}>
+                      {typeof row.average === 'number' ? `${row.average}%` : '-'}
                     </td>
-                    <td className={`px-3 py-3 font-bold ${scoreTextClass(attempt.percentage)}`}>{scoreLabel}</td>
-                    <td className="px-3 py-3">{formatDate(attempt.startedAt)}</td>
-                    <td className="px-3 py-3">
-                      <StatusBadge tone={attempt.suspiciousEventCount ? 'amber' : 'neutral'}>{attempt.suspiciousEventCount}</StatusBadge>
-                    </td>
+                    {row.cells.map((cell) => (
+                      <td className={`border border-line px-3 py-3 align-top font-bold ${cell.className}`} key={`${row.test.id}-${cell.student.id}`}>
+                        {cell.label}
+                      </td>
+                    ))}
                   </tr>
-                );
-              })}
+                ))
+              ) : (
+                <tr>
+                  <td className="border border-line px-3 py-6 text-center text-sm font-semibold text-muted" colSpan={Math.max(2, studentColumns.length + 2)}>
+                    No published tests match these filters.
+                  </td>
+                </tr>
+              )}
             </tbody>
           </table>
         </div>
@@ -1822,10 +2174,18 @@ function SettingsPage() {
   );
 }
 
-function TeacherPage({ title, children }: { title: string; children: ReactNode }) {
+function TeacherPage({
+  title,
+  titleVisibility = 'visible',
+  children,
+}: {
+  title: string;
+  titleVisibility?: 'visible' | 'sr-only';
+  children: ReactNode;
+}) {
   return (
     <div className="space-y-5 p-4 lg:p-6">
-      <h1 className="text-2xl font-bold tracking-normal">{title}</h1>
+      <h1 className={titleVisibility === 'sr-only' ? 'sr-only' : 'text-2xl font-bold tracking-normal'}>{title}</h1>
       {children}
     </div>
   );

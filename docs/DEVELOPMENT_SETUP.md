@@ -1,6 +1,6 @@
 # Development Setup For Codex
 
-Last updated: 2026-07-27
+Last updated: 2026-07-28
 
 Audience: Codex agents bootstrapping this repository on a new machine. The user does not plan to read this. Keep this file operational and dependency-focused.
 
@@ -148,6 +148,7 @@ Functional changes also require targeted QA of the changed workflow against loca
 - Edge Function changes: call the function locally with the appropriate seeded role and payload.
 - RLS/schema changes: run pgTAP or direct SQL checks proving allowed and denied access.
 - Persistence changes: save data, navigate or reload, and prove the saved state is still present.
+- Teacher assignment QA should check the `Create assignment`, `Active Assignments`, and `Expired Assignments` tabs. Active rows use current/no-deadline assignments; Expired rows use only past-deadline assignments.
 
 Do not mark the task complete until this behavioural QA passes. If it cannot be run, document the gap and leave the task blocked or partially verified.
 

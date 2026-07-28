@@ -54,7 +54,7 @@ export function StudentApp() {
 
   return (
     <main className="min-h-screen bg-mist text-ink">
-      <div className="mx-auto min-h-screen max-w-[430px] bg-mist shadow-panel md:my-6 md:min-h-[860px] md:rounded-[28px] md:border md:border-line lg:my-0 lg:grid lg:min-h-screen lg:max-w-7xl lg:grid-cols-[248px_minmax(0,1fr)] lg:gap-6 lg:border-0 lg:bg-transparent lg:p-6 lg:shadow-none">
+      <div className="mx-auto min-h-screen max-w-[430px] bg-mist shadow-panel md:my-6 md:min-h-[860px] md:rounded-[28px] md:border md:border-line lg:mx-0 lg:my-0 lg:grid lg:min-h-screen lg:w-full lg:max-w-none lg:grid-cols-[248px_minmax(0,1fr)] lg:gap-6 lg:border-0 lg:bg-transparent lg:p-6 lg:shadow-none">
         <aside className="hidden rounded-app border border-[#2a3a50] bg-[#14243a] p-4 text-white shadow-panel lg:flex lg:flex-col">
           <div className="mb-6 flex items-center gap-3 px-2">
             <div className="grid h-11 w-11 place-items-center rounded-app bg-teal text-white">
@@ -764,7 +764,7 @@ function ActiveTestPage() {
   };
 
   return (
-    <div className="active-test-surface relative space-y-4 px-4 py-5 lg:mx-auto lg:max-w-4xl lg:px-0 lg:py-0">
+    <div className="active-test-surface relative space-y-4 px-4 py-5 lg:px-0 lg:py-0">
       <AntiCheatLayer attemptId={attempt.id} onLog={state.logAttemptEvent} />
       <div className="flex items-center justify-between">
         <button className="text-sm font-semibold text-blue" onClick={() => navigate('/student/assigned')}>Back</button>
@@ -1089,7 +1089,7 @@ function ProfilePage() {
   return (
     <div className="space-y-4 px-4 py-5 lg:px-0 lg:py-0">
       <h2 className="text-xl font-bold">Profile</h2>
-      <Panel className="max-w-3xl space-y-3 p-4 lg:p-5">
+      <Panel className="space-y-3 p-4 lg:p-5">
         <p className="text-sm text-[#b8c8d9]">Account details</p>
         <p className="text-lg font-bold">{state.currentStudent.firstName} {state.currentStudent.surname}</p>
         <dl className="grid grid-cols-2 gap-3 text-sm">
@@ -1100,7 +1100,7 @@ function ProfilePage() {
           <Info label="Classes" value={classNames} />
         </dl>
       </Panel>
-      <Panel className="max-w-3xl p-4 lg:p-5">
+      <Panel className="p-4 lg:p-5">
         <h3 className="font-bold">Join a Class</h3>
         <form className="mt-3 grid gap-3 sm:grid-cols-[minmax(0,1fr)_auto]" onSubmit={joinClass}>
           <label className="space-y-2 text-sm font-semibold">

@@ -1,6 +1,6 @@
 # Codex End Process
 
-Last updated: 2026-07-27
+Last updated: 2026-07-28
 
 Audience: every Codex agent ending development for the day on this repository. The user does not plan to read this.
 
@@ -63,6 +63,7 @@ Always consider:
 
 - `docs/PROJECT_TASKS.md`: mark completed work, in-progress items, blockers, and next task.
 - `docs/HANDOVER.md`: refresh continuation state, latest completed work, verification, known gaps, and next recommended task.
+- `docs/TESTING.md`: refresh targeted QA expectations when workflow names or required browser/backend checks change.
 
 Update when relevant:
 

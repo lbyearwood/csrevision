@@ -1,6 +1,6 @@
 # Supabase Local Runbook For Codex
 
-Last updated: 2026-07-27
+Last updated: 2026-07-28
 
 Audience: Codex agents. The user does not plan to read this. Keep updates direct, stateful, and executable.
 
@@ -51,6 +51,7 @@ Audience: Codex agents. The user does not plan to read this. Keep updates direct
 - Frontend sign-in helpers now load role/display name from `public.profiles` after Supabase Auth succeeds.
 - Local `start-test-attempt` was verified through Edge Runtime for an assigned assessment.
 - A past-due assigned assessment was verified to start successfully. Due dates are metadata only.
+- Teacher `Active Assignments` / `Expired Assignments` tabs use `test_assignments.due_at` only for frontend row grouping. This does not reinstate deadline enforcement in `start-test-attempt`.
 - Local `reset-student-password` is verified for manual and generated password resets.
 - Local `update-student-account` is verified for teacher-side name/class membership/status/archive updates.
 - Local database pgTAP tests pass: `npx.cmd supabase test db --local supabase\tests` runs 29 RLS/integrity checks successfully.
@@ -85,6 +86,12 @@ Start local stack:
 
 ```powershell
 npx.cmd supabase start
+```
+
+Apply pending Git-tracked migrations after every pull:
+
+```powershell
+npx.cmd supabase migration up --local
 ```
 
 Check local stack:
@@ -122,6 +129,8 @@ List migrations:
 ```powershell
 npx.cmd supabase migration list --local
 ```
+
+`migration list` shows local/remote migration history, but it is not enough on its own after pulling new files. Run `migration up --local` first, then use `migration list --local` and targeted SQL checks when the pulled app code expects new columns.
 
 Run database tests:
 

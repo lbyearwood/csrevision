@@ -1,5 +1,7 @@
 # Testing
 
+Last updated: 2026-07-28
+
 Audience: Codex agents. Keep this file as executable verification state, not user-facing explanation.
 
 ## Per-Development QA Rule
@@ -60,6 +62,7 @@ Browser QA:
 - Active test with watermark and event deterrents.
 - Teacher dashboard at tablet/desktop widths.
 - Student leaderboard privacy.
+- Teacher Assignments `Active Assignments` and `Expired Assignments` render as separate tabs with shared class/course/unit/topic filters, columns ordered Date created -> Class -> Topic -> Assignment deadline, Active containing current/no-deadline rows, and Expired showing only past-deadline rows or its empty state.
 - Teacher class details edit/save/re-sign-in persistence.
 - Teacher student edit panel renders active roster, name inputs, class membership checkboxes, status dropdown, password actions, and archive action with no console errors.
 - Targeted student-account QA covered multi-class membership save, unchecked-membership removal, Non-class fallback, inactive login block, manual password login, generated 8-character password, and archive-style delete. Restore seed roster after destructive archive QA.
