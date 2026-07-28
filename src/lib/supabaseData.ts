@@ -34,6 +34,7 @@ export interface SupabaseSnapshot {
   events: AttemptEvent[];
   pointsTransactions: PointsTransaction[];
   leaderboardRows: LeaderboardRow[];
+  allTimeLeaderboardRows: LeaderboardRow[];
 }
 
 function requireSupabase() {
@@ -506,6 +507,19 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
           status: row.status_name,
         };
       }),
+    allTimeLeaderboardRows: leaderboardRows.map((row) => {
+      const student = mappedStudentById.get(row.student_id);
+      const currentClassId = row.class_id ?? student?.classId ?? '';
+      return {
+        rank: row.rank,
+        studentId: row.student_id,
+        displayName: student ? leaderboardDisplay(student) : row.display_name,
+        publicStudentId: row.student_public_id,
+        className: currentClassId ? classNameById.get(currentClassId) ?? '' : '',
+        points: row.points,
+        status: row.status_name,
+      };
+    }),
   };
 }
 

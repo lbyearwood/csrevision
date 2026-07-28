@@ -98,6 +98,8 @@ Recent completed work:
 - Teacher Students now supports `All classes` by default, class filtering, and search across student name, username, public Student ID, class, and status.
 - Teacher Students class editing uses real-class checkboxes. Saving adds missing checked memberships, ends unchecked teacher-owned memberships, and keeps the student in `Non-class` when no real class is selected.
 - Teacher Classes archive now uses `archive-class`. It archives the class, ends memberships, and moves affected students to `Non-class` where needed. It no longer requires moving students first.
+- Teacher Courses now opens with a full-width course entry rather than a sparse card. It includes a course icon, content counts, and a clear exploration cue; unit cards now use a distinct accent rail, clearer title hierarchy, separate content counts, and a forward action while retaining the existing drill-down.
+- Teacher Leaderboards now uses a class-specific standings header, student count, visually distinct rank markers, and compact points/status rows. The developer-facing MVP note was removed from the visible UI.
 
 ## Fresh PC Bootstrap
 

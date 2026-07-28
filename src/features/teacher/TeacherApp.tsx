@@ -20,6 +20,7 @@ import {
   Settings,
   SquareCheck,
   SquareMinus,
+  Code2,
   Trash2,
   Trophy,
   UsersRound,
@@ -83,7 +84,7 @@ export function TeacherApp() {
         <aside className="hidden border-r border-[#2a3a50] bg-[#14243a] p-4 text-white lg:block">
           <div className="mb-8 flex items-center gap-3">
             <div className="grid h-10 w-10 place-items-center rounded-app bg-teal text-white">
-              <BookOpenCheck size={22} aria-hidden="true" />
+              <Code2 size={22} strokeWidth={2.4} aria-hidden="true" />
             </div>
             <div>
               <p className="font-bold">csrevision</p>
@@ -1251,38 +1252,48 @@ function TestsPage() {
 
   return (
     <TeacherPage title="Courses">
-      <div className="flex items-start justify-between gap-3">
-        <p className="text-sm text-muted">Browse courses, then choose a unit, topic and test resource.</p>
-        {selectedSubject ? (
-          <Button className="min-h-10 px-3" variant="outlineLight" onClick={resetToCourses}>
-            <ArrowLeft size={17} aria-hidden="true" />
-            Courses
-          </Button>
-        ) : null}
-      </div>
+      <p className="text-sm text-muted">Browse courses, then choose a unit, topic and test resource.</p>
 
       {!selectedSubject ? (
         <div className="grid gap-4 lg:grid-cols-2">
           {state.subjects.map((subject) => {
             const testCount = countTestsForSubject(subject.id);
+            const unitCount = state.units.filter((unit) => unit.subjectId === subject.id).length;
+            const topicCount = countTopicsForSubject(subject.id);
             return (
               <button
-                className="rounded-app border border-[#2a3a50] bg-[#14243a] p-4 text-left text-white shadow-panel transition hover:border-blue hover:shadow-none lg:p-5"
+                className="group relative overflow-hidden rounded-app border border-[#2a3a50] bg-[#14243a] p-5 text-left text-white shadow-panel transition duration-200 hover:-translate-y-0.5 hover:border-blue hover:shadow-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue lg:col-span-2 lg:p-7"
                 key={subject.id}
                 onClick={() => setSelectedSubjectId(subject.id)}
               >
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="text-xs font-semibold text-[#b8c8d9]">Course</p>
-                    <h2 className="mt-2 font-bold">{subject.subjectName}</h2>
-                    <p className="mt-1 text-sm text-[#b8c8d9]">{subject.description}</p>
+                <div className="absolute inset-y-0 right-0 hidden w-2/5 bg-gradient-to-l from-[#1d3554] to-transparent lg:block" aria-hidden="true" />
+                <div className="relative grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+                  <div className="max-w-2xl">
+                    <div className="flex items-center gap-3">
+                      <span className="grid size-11 place-items-center rounded-xl border border-[#315071] bg-[#17304d] text-[#73b6ff]">
+                        <BookOpenCheck size={23} aria-hidden="true" />
+                      </span>
+                      <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#b8c8d9]">Course library</p>
+                    </div>
+                    <h2 className="mt-5 text-2xl font-bold tracking-tight lg:text-3xl">{subject.subjectName}</h2>
+                    <p className="mt-3 max-w-xl text-sm leading-6 text-[#c7d6e5] lg:text-base">{subject.description}</p>
                   </div>
-                  <ChevronRight className="mt-1 text-blue" size={20} aria-hidden="true" />
+                  <div className="grid grid-cols-3 gap-2 sm:max-w-md lg:min-w-[22rem]">
+                    {[
+                      [unitCount, 'Units'],
+                      [topicCount, 'Topics'],
+                      [testCount, 'Tests'],
+                    ].map(([value, label]) => (
+                      <div className="rounded-xl border border-[#315071] bg-[#10233a]/80 px-3 py-3" key={label as string}>
+                        <span className="block text-xl font-bold text-white">{value}</span>
+                        <span className="mt-0.5 block text-xs font-semibold text-[#b8c8d9]">{label}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="mt-4 grid grid-cols-2 gap-2 text-xs font-semibold text-[#b8c8d9]">
-                  <span>{state.units.filter((unit) => unit.subjectId === subject.id).length} units</span>
-                  <span>{countTopicsForSubject(subject.id)} topics</span>
-                  <span className="col-span-2 text-white">{testCount} test resources</span>
+                <div className="relative mt-6 flex items-center gap-2 text-sm font-bold text-[#73b6ff]">
+                  <span>Explore course</span>
+                  <ChevronRight className="transition-transform duration-200 group-hover:translate-x-1" size={19} aria-hidden="true" />
                 </div>
               </button>
             );
@@ -1292,38 +1303,60 @@ function TestsPage() {
 
       {selectedSubject && !selectedUnit ? (
         <div className="space-y-4">
-          <h2 className="font-bold">Units in {selectedSubject.subjectName}</h2>
+          <div>
+            <button className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue transition hover:text-ink" onClick={resetToCourses}>
+              <ArrowLeft size={16} aria-hidden="true" />
+              All courses
+            </button>
+            <h2 className="mt-2 font-bold">Units in {selectedSubject.subjectName}</h2>
+          </div>
           <div className="grid gap-4 lg:grid-cols-2">
-            {subjectUnits.map((unit) => (
-              <button
-                className="rounded-app border border-[#2a3a50] bg-[#14243a] p-4 text-left text-white shadow-panel transition hover:border-blue hover:shadow-none lg:p-5"
-                key={unit.id}
-                onClick={() => setSelectedUnitId(unit.id)}
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="text-xs font-semibold text-[#b8c8d9]">Unit</p>
-                    <h2 className="mt-2 font-bold">{unit.unitName}</h2>
-                    <p className="mt-1 text-sm text-[#b8c8d9]">
-                      {state.topics.filter((topic) => topic.unitId === unit.id).length} topics - {countTestsForUnit(unit.id)} test resources
-                    </p>
+            {subjectUnits.map((unit) => {
+              const topicCount = state.topics.filter((topic) => topic.unitId === unit.id).length;
+              const testCount = countTestsForUnit(unit.id);
+
+              return (
+                <button
+                  className="group relative overflow-hidden rounded-app border border-[#2a3a50] bg-[#14243a] p-5 text-left text-white shadow-panel transition duration-200 hover:-translate-y-0.5 hover:border-blue hover:shadow-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue lg:p-6"
+                  key={unit.id}
+                  onClick={() => setSelectedUnitId(unit.id)}
+                >
+                  <div className="absolute inset-y-0 left-0 w-1 bg-blue transition-all duration-200 group-hover:w-1.5" aria-hidden="true" />
+                  <div className="flex items-start justify-between gap-5">
+                    <div className="min-w-0">
+                      <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#a9c1d8]">Unit</p>
+                      <h2 className="mt-3 text-lg font-bold tracking-tight lg:text-xl">{unit.unitName}</h2>
+                    </div>
+                    <span className="grid size-9 shrink-0 place-items-center rounded-lg border border-[#315071] bg-[#17304d] text-[#73b6ff] transition-colors group-hover:bg-[#1d3d60]" aria-hidden="true">
+                      <ChevronRight size={20} />
+                    </span>
                   </div>
-                  <ChevronRight className="mt-1 text-blue" size={20} aria-hidden="true" />
-                </div>
-              </button>
-            ))}
+                  <div className="mt-6 grid grid-cols-2 gap-3 border-t border-[#2a3a50] pt-4">
+                    <div>
+                      <span className="block text-lg font-bold">{topicCount}</span>
+                      <span className="text-xs font-semibold text-[#b8c8d9]">Topics</span>
+                    </div>
+                    <div>
+                      <span className="block text-lg font-bold">{testCount}</span>
+                      <span className="text-xs font-semibold text-[#b8c8d9]">Test resources</span>
+                    </div>
+                  </div>
+                </button>
+              );
+            })}
           </div>
         </div>
       ) : null}
 
       {selectedSubject && selectedUnit ? (
         <div className="space-y-4">
-          <div className="flex items-center justify-between gap-3">
-            <h2 className="font-bold">Topics in {selectedUnit.unitName}</h2>
-            <Button className="min-h-10 px-3" variant="ghost" onClick={() => setSelectedUnitId(null)}>
-              <ArrowLeft size={17} aria-hidden="true" />
-              Units
-            </Button>
+          <div>
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-semibold">
+              <button className="text-blue transition hover:text-ink" onClick={resetToCourses}>All courses</button>
+              <span className="text-muted" aria-hidden="true">/</span>
+              <button className="text-blue transition hover:text-ink" onClick={() => setSelectedUnitId(null)}>Units</button>
+            </div>
+            <h2 className="mt-2 font-bold">Topics in {selectedUnit.unitName}</h2>
           </div>
           <div className="grid gap-4 lg:grid-cols-2">
             {unitTopics.map((topic) => {
@@ -1335,23 +1368,24 @@ function TestsPage() {
 
                   <div className="mt-4 space-y-3">
                     {topicTests.length ? (
-                      topicTests.map((test) => {
+                      topicTests.map((test, testIndex) => {
                         const questionCount = test.version ? state.questions.filter((question) => question.testVersionId === test.version?.id).length : 0;
                         return (
                           <div className="rounded-app border border-line bg-white p-3 text-ink" key={test.id}>
                             <div className="flex items-start justify-between gap-3">
                               <div>
-                                <p className="text-xs font-semibold uppercase tracking-normal text-muted">Test</p>
-                                <h3 className="mt-1 text-sm font-bold">{test.testTitle}</h3>
+                                <h3 className="text-sm font-bold">Test {testIndex + 1}</h3>
                                 <p className="mt-1 text-xs text-muted">{test.testDescription}</p>
                               </div>
                               <StatusBadge tone={test.status === 'published' ? 'green' : test.status === 'draft' ? 'amber' : 'neutral'}>
                                 {test.status === 'published' ? 'Published' : test.status === 'draft' ? 'Draft' : 'Archived'}
                               </StatusBadge>
                             </div>
-                            <div className="mt-3 grid grid-cols-3 gap-2 text-xs text-muted">
-                              <span>{test.version ? `v${test.version.versionNumber}` : 'No version'}</span>
+                            <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium text-muted">
+                              <span>{test.version ? `Version ${test.version.versionNumber}` : 'No version'}</span>
+                              <span aria-hidden="true">•</span>
                               <span>{questionCount} questions</span>
+                              <span aria-hidden="true">•</span>
                               <span>{Math.round(test.defaultTimeLimitSeconds / 60)} min</span>
                             </div>
                           </div>
@@ -2144,17 +2178,43 @@ function ResultsPage() {
 
 function LeaderboardsPage() {
   const state = useAppState();
+  const activeClass = state.classes.find((classRecord) => classRecord.status === 'active' && !classRecord.isSystem);
   return (
     <TeacherPage title="Leaderboards">
-      <Panel className="p-4">
-        <h2 className="font-bold">Class leaderboard</h2>
-        <p className={`mb-4 text-sm ${darkSubtleText}`}>Whole-site leaderboard is disabled by default in MVP v1.</p>
-        <div className="space-y-2">
+      <Panel className="overflow-hidden p-0">
+        <div className="flex flex-wrap items-start justify-between gap-5 border-b border-[#2a3a50] px-5 py-5 lg:px-6">
+          <div className="flex items-start gap-3">
+            <span className="grid size-11 place-items-center rounded-xl border border-[#315071] bg-[#17304d] text-[#e6bc5c]">
+              <Trophy size={22} aria-hidden="true" />
+            </span>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#b8c8d9]">Class leaderboard</p>
+              <h2 className="mt-1 text-xl font-bold text-white">{activeClass?.className ?? 'Current class'}</h2>
+              <p className={`mt-1 text-sm ${darkSubtleText}`}>Current standings based on points earned.</p>
+            </div>
+          </div>
+          <span className="pt-2 text-sm font-semibold text-[#b8c8d9]">{state.leaderboardRows.length} students</span>
+        </div>
+        <div className="space-y-2 p-4 lg:p-5">
           {state.leaderboardRows.map((row) => (
-            <div className="grid grid-cols-[48px_1fr_90px_90px] items-center gap-3 rounded-app border border-line bg-white p-3 text-sm text-ink" key={row.studentId}>
-              <span className="font-bold">#{row.rank}</span>
-              <span className="font-semibold">{row.displayName}</span>
-              <span>{row.points} pts</span>
+            <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 rounded-xl border border-line bg-white p-3 text-sm text-ink transition hover:border-[#9ab8d6]" key={row.studentId}>
+              <span
+                className={`grid size-9 place-items-center rounded-lg text-sm font-bold ${
+                  row.rank === 1
+                    ? 'bg-[#f5d879] text-[#49380a]'
+                    : row.rank === 2
+                      ? 'bg-[#dbe4ef] text-[#31445d]'
+                      : row.rank === 3
+                        ? 'bg-[#e7bf99] text-[#603b1b]'
+                        : 'bg-[#eef4f8] text-[#42566f]'
+                }`}
+              >
+                {row.rank}
+              </span>
+              <div className="min-w-0">
+                <span className="block truncate font-bold">{row.displayName}</span>
+                <span className="mt-0.5 block text-xs text-muted">{row.points} points</span>
+              </div>
               <StatusBadge tone="green">{row.status}</StatusBadge>
             </div>
           ))}

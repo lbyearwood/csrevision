@@ -1,4 +1,4 @@
-import { BookOpenCheck } from 'lucide-react';
+import { Code2 } from 'lucide-react';
 import { FormEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/ui/Button';
@@ -40,7 +40,7 @@ export function LoginPage() {
         <Panel className="mx-auto w-full max-w-md p-5">
           <div className="mb-6 flex items-center justify-center gap-3">
             <div className="grid h-12 w-12 place-items-center rounded-app bg-teal text-white">
-              <BookOpenCheck size={26} aria-hidden="true" />
+              <Code2 size={26} strokeWidth={2.4} aria-hidden="true" />
             </div>
             <div>
               <h1 className="text-2xl font-bold tracking-normal">csrevision</h1>

@@ -176,6 +176,7 @@ const emptySnapshot: SupabaseSnapshot = {
   events: [],
   pointsTransactions: [],
   leaderboardRows: [],
+  allTimeLeaderboardRows: [],
 };
 
 const AppStateContext = createContext<AppStateValue | null>(null);

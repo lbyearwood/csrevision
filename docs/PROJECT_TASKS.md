@@ -109,6 +109,8 @@ Codex update protocol:
 - `[x]` Updated the Codex start process to run `npx.cmd supabase migration up --local` after every pull and verify schema when new code expects new columns.
 - `[x]` Updated Student Assigned/Results/Home to use assignments from every active class membership.
 - `[x]` Reworked Teacher Results into a class/course/unit/topic-filtered test matrix with class averages and one student column per roster/historical-attempt student.
+- `[x]` Redesigned the Teacher Courses course and unit entries with stronger hierarchy, clear content counts, and explicit forward cues; browser QA confirmed both drill-down steps still work.
+- `[x]` Redesigned Teacher Leaderboards as a class standings view and removed MVP/developer-facing copy from the product UI.
 
 ## Backend: Supabase And Postgres
 

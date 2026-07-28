@@ -1,4 +1,4 @@
-import { BookOpenCheck } from 'lucide-react';
+import { Code2 } from 'lucide-react';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppState } from '../../app/AppState';
@@ -60,7 +60,7 @@ export function JoinClassPage() {
       <Panel className="mx-auto max-w-md p-5">
         <div className="mb-5 flex items-center gap-3">
           <div className="grid h-11 w-11 place-items-center rounded-app bg-teal text-white">
-            <BookOpenCheck size={23} aria-hidden="true" />
+            <Code2 size={23} strokeWidth={2.4} aria-hidden="true" />
           </div>
           <div>
             <h1 className="text-xl font-bold tracking-normal">csrevision</h1>
