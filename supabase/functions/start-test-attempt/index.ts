@@ -79,18 +79,27 @@ Deno.serve(async (req) => {
       const now = Date.now();
       if (data.start_at && new Date(data.start_at).getTime() > now) return errorResponse('Assignment has not started', 403);
 
+      const { error: clearNotStartedError } = await service
+        .from('test_attempts')
+        .update({ status: 'voided', voided_at: new Date().toISOString() })
+        .eq('student_id', student.id)
+        .eq('assignment_id', assignmentId)
+        .eq('attempt_type', 'assigned')
+        .eq('status', 'not_started')
+        .is('voided_at', null);
+      if (clearNotStartedError) throw clearNotStartedError;
+
       const { data: existingAttempt } = await service
         .from('test_attempts')
         .select('id, started_at, expires_at, time_limit_seconds, status')
         .eq('student_id', student.id)
         .eq('assignment_id', assignmentId)
+        .eq('status', 'in_progress')
         .is('voided_at', null)
+        .order('started_at', { ascending: false })
+        .limit(1)
         .maybeSingle();
-      if (existingAttempt?.status === 'in_progress') {
-        resumeAttempt = existingAttempt;
-      } else if (existingAttempt) {
-        return errorResponse('This assigned assessment has already been completed', 409);
-      }
+      if (existingAttempt?.status === 'in_progress') resumeAttempt = existingAttempt;
 
       assignment = data;
       versionId = data.test_version_id;
@@ -107,11 +116,32 @@ Deno.serve(async (req) => {
     if (versionError || !version) throw versionError ?? new Error('Test version not found');
     if (version.status !== 'published') return errorResponse('Test version is not published', 403);
 
-    const timeLimitSeconds =
-      assignment?.time_limit_seconds ?? (version.tests as { default_time_limit_seconds: number | null }).default_time_limit_seconds;
-    const newExpiresAt = timeLimitSeconds
-      ? new Date(Date.now() + timeLimitSeconds * 1000).toISOString()
-      : null;
+    if (!assignmentId) {
+      const { data: testCourse, error: testCourseError } = await service
+        .from('tests')
+        .select('topics!inner(units!inner(subject_id))')
+        .eq('id', (version.tests as { id: string }).id)
+        .single();
+      if (testCourseError || !testCourse) throw testCourseError ?? new Error('Test course not found');
+      const topic = testCourse.topics as { units?: { subject_id?: string } | Array<{ subject_id?: string }> };
+      const unit = Array.isArray(topic.units) ? topic.units[0] : topic.units;
+      const subjectId = unit?.subject_id;
+      if (!subjectId) return errorResponse('Test course not found', 404);
+
+      const { data: entitlement, error: entitlementError } = await service
+        .from('class_courses')
+        .select('class_id')
+        .in('class_id', Array.from(activeClassIds))
+        .eq('subject_id', subjectId)
+        .limit(1)
+        .maybeSingle();
+      if (entitlementError) throw entitlementError;
+      if (!entitlement) return errorResponse('This course is not available to your class', 403);
+    }
+
+    // Timed tests are temporarily disabled throughout the platform.
+    const timeLimitSeconds = null;
+    const newExpiresAt = null;
 
     if (!resumeAttempt && !assignmentId) {
       const { data: existingPracticeAttempt } = await service
@@ -135,6 +165,16 @@ Deno.serve(async (req) => {
       .eq('test_version_id', versionId);
 
     let attempt = resumeAttempt;
+    if (attempt && (attempt.expires_at || attempt.time_limit_seconds)) {
+      const { data: untimedAttempt, error: clearTimerError } = await service
+        .from('test_attempts')
+        .update({ expires_at: null, time_limit_seconds: null })
+        .eq('id', attempt.id)
+        .select('id, started_at, expires_at, time_limit_seconds, status')
+        .single();
+      if (clearTimerError || !untimedAttempt) throw clearTimerError ?? new Error('Unable to remove test timer');
+      attempt = untimedAttempt;
+    }
     if (!attempt) {
       const { data: createdAttempt, error: attemptError } = await service
         .from('test_attempts')

@@ -53,6 +53,15 @@ export async function signInStaff(email: string, password: string): Promise<Sign
   return loadSignedInProfile(['teacher', 'admin']);
 }
 
+export async function restoreSignedInSession(): Promise<SignInResult | null> {
+  if (!isSupabaseConfigured || !supabase) return null;
+
+  const { data: sessionData, error: sessionError } = await supabase.auth.getSession();
+  if (sessionError || !sessionData.session) return null;
+
+  return loadSignedInProfile(['student', 'teacher', 'admin']);
+}
+
 export async function signOut(): Promise<void> {
   if (isSupabaseConfigured && supabase) {
     await supabase.auth.signOut();

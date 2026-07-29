@@ -1,6 +1,6 @@
 # Project Tasks
 
-Last updated: 2026-07-28
+Last updated: 2026-07-29
 
 Audience: Codex agents. The user does not plan to read this. Keep this file terse, current, and action-oriented.
 
@@ -26,13 +26,27 @@ Codex update protocol:
 
 - `[~]` Build the local Supabase/Postgres backend into the source of truth for the project.
 - `[x]` Keep development and QA Supabase-only until launch; no frontend demo fallback.
+- `[x]` Add BTEC AAQ Extended Certificate course content alongside OCR GCSE Computer Science, with class-course access controls.
+- `[x]` Add high-volume local QA data for Years 10–13 only, including active and archived classes, assignments, attempts, results, activity, and leaderboards.
 - `[x]` Support multiple-tests-per-topic naming and topic-level bulk selection in teacher assignment creation.
 - `[ ]` Merge teacher `Courses` and `Assignments` into one `Resources` workflow for viewing resource contents and assigning to classes.
 - `[ ]` Plan class performance views by assigned resources, unit, and topic.
 - `[ ]` Confirm seed data can be recreated from a clean local reset.
 - `[ ]` Continue backend wiring beyond assignments: student creation, result detail, suspicious activity detail, answer save/submit hardening, and full regression QA.
+- `[ ]` Run a clean local reset and replay the bulk QA seed before wider regression testing.
+- `[ ]` Design and build teacher-facing test-version drafting/publishing so content changes never alter historic attempts.
 
 ## Recently Completed
+
+- `[x]` Added the BTEC Level 3 National Extended Certificate in IT AAQ structure: four units, coded topics, and placeholder practice resources.
+- `[x]` Added repeatable high-volume local QA data across Years 10–13, including ten active classes, archived class history, varied assignment states, attempts, scores, points, all-time standings, and student activity.
+- `[x]` Added class-course entitlement management in Teacher Classes and enforced it across student Practice and My Results.
+- `[x]` Added student activity logging and a teacher-only per-student activity history viewer.
+- `[x]` Added persisted test marking methods: Auto-marked, AI-reviewed, Self-marked, and Teacher-marked; existing placeholder tests default to Auto-marked.
+- `[x]` Added a secure student end-of-test summary and downloadable PDF review, showing score, percentage, answers, and feedback after completion.
+- `[x]` Removed test timers and attempt-expiry behaviour from the current product flow.
+- `[x]` Updated student My Results to show unit-level summaries first, with topic details collapsed by default.
+- `[x]` Improved teacher Results for high-volume use: fixed columns, top and vertical scrollbars, sticky headers, collapsible filters, due-date filtering, and sortable score columns.
 
 - `[x]` Pulled and inspected the project branch.
 - `[x]` Read the main project documentation and MVP scope.

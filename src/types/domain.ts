@@ -31,6 +31,8 @@ export interface StudentProfile {
   surname: string;
   username: string;
   publicStudentId: string;
+  yearGroup: string;
+  joinedOn: string;
   classIds: string[];
   classId: string;
   accountStatus: AccountStatus;
@@ -53,6 +55,7 @@ export interface ClassRecord {
   joinCode: string;
   acceptingStudents: boolean;
   isSystem: boolean;
+  courseIds: string[];
 }
 
 export interface Subject {
@@ -80,6 +83,7 @@ export interface Test {
   testDescription: string;
   defaultMode: AttemptType;
   defaultTimeLimitSeconds: number;
+  markingMethod: 'auto_marked' | 'ai_reviewed' | 'self_marked' | 'teacher_marked';
   randomiseQuestions: boolean;
   shuffleOptions: boolean;
   status: 'draft' | 'published' | 'archived';
@@ -118,7 +122,7 @@ export interface TestAssignment {
   startAt: string;
   dueAt: string;
   timeLimitSeconds: number;
-  attemptLimit: number;
+  attemptLimit: number | null;
   feedbackPolicy: 'score_only' | 'score_and_summary' | 'full_review' | 'delayed' | 'teacher_released' | 'hidden';
   status: 'scheduled' | 'open' | 'closed' | 'archived';
 }

@@ -72,6 +72,7 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
     teacherProfiles,
     studentProfiles,
     classes,
+    classCourses,
     memberships,
     subjects,
     units,
@@ -107,6 +108,8 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
         first_name: string;
         surname: string;
         student_id: string;
+        initial_year_group: number | null;
+        joined_on: string;
         account_status: StudentProfile['accountStatus'];
         profiles?: Array<{ username?: string | null }> | null;
       }>
@@ -114,7 +117,7 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
       'student_profiles',
       client
         .from('student_profiles')
-        .select('id, profile_id, first_name, surname, student_id, account_status, profiles!student_profiles_profile_id_fkey(username)')
+        .select('id, profile_id, first_name, surname, student_id, initial_year_group, joined_on, account_status, profiles!student_profiles_profile_id_fkey(username)')
         .order('surname'),
     ),
     readTable<
@@ -135,6 +138,10 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
         .from('classes')
         .select('id, class_name, academic_year, year_group, owner_teacher_id, status, join_code, accepting_students, is_system')
         .order('class_name'),
+    ),
+    readTable<Array<{ class_id: string; subject_id: string }>>(
+      'class_courses',
+      client.from('class_courses').select('class_id, subject_id'),
     ),
     readTable<Array<{ class_id: string; student_id: string; status: string }>>(
       'class_memberships',
@@ -172,6 +179,7 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
         test_description: string | null;
         default_mode: Test['defaultMode'];
         default_time_limit_seconds: number | null;
+        marking_method: Test['markingMethod'];
         randomise_questions: boolean;
         shuffle_options: boolean;
         status: Test['status'];
@@ -180,7 +188,7 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
       'tests',
       client
         .from('tests')
-        .select('id, topic_id, test_title, test_description, default_mode, default_time_limit_seconds, randomise_questions, shuffle_options, status')
+        .select('id, topic_id, test_title, test_description, default_mode, default_time_limit_seconds, marking_method, randomise_questions, shuffle_options, status')
         .order('test_title'),
     ),
     readTable<
@@ -218,7 +226,7 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
         start_at: string | null;
         due_at: string | null;
         time_limit_seconds: number | null;
-        attempt_limit: number;
+        attempt_limit: number | null;
         feedback_policy: TestAssignment['feedbackPolicy'];
         status: TestAssignment['status'];
       }>
@@ -324,6 +332,11 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
     ),
   ]);
 
+  const courseIdsByClassId = new Map<string, string[]>();
+  classCourses.forEach((classCourse) => {
+    const courseIds = courseIdsByClassId.get(classCourse.class_id) ?? [];
+    courseIdsByClassId.set(classCourse.class_id, [...courseIds, classCourse.subject_id]);
+  });
   const mappedClasses: ClassRecord[] = classes.map((classRecord) => ({
     id: classRecord.id,
     className: classRecord.class_name,
@@ -334,6 +347,7 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
     joinCode: classRecord.join_code ?? '',
     acceptingStudents: classRecord.accepting_students,
     isSystem: classRecord.is_system,
+    courseIds: courseIdsByClassId.get(classRecord.id) ?? [],
   }));
   const classById = new Map(mappedClasses.map((classRecord) => [classRecord.id, classRecord]));
   const classNameById = new Map(mappedClasses.map((classRecord) => [classRecord.id, classRecord.className]));
@@ -365,6 +379,8 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
       surname: student.surname,
       username: firstRelation(student.profiles)?.username ?? '',
       publicStudentId: student.student_id,
+      yearGroup: currentUkYearGroup(student.initial_year_group, student.joined_on),
+      joinedOn: student.joined_on,
       classIds,
       classId: displayClassId,
       accountStatus: student.account_status,
@@ -412,6 +428,7 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
       testDescription: test.test_description ?? '',
       defaultMode: test.default_mode,
       defaultTimeLimitSeconds: test.default_time_limit_seconds ?? 0,
+      markingMethod: test.marking_method,
       randomiseQuestions: test.randomise_questions,
       shuffleOptions: test.shuffle_options,
       status: test.status,
@@ -521,6 +538,14 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
       };
     }),
   };
+}
+
+function currentUkYearGroup(initialYearGroup: number | null, joinedOn: string): string {
+  if (!initialYearGroup || !joinedOn) return '';
+  const joined = new Date(`${joinedOn}T00:00:00`);
+  const now = new Date();
+  const academicYearStart = (date: Date) => date.getMonth() >= 8 ? date.getFullYear() : date.getFullYear() - 1;
+  return `Year ${initialYearGroup + Math.max(0, academicYearStart(now) - academicYearStart(joined))}`;
 }
 
 export function buildLeaderboardFromPoints(students: StudentProfile[], classes: ClassRecord[], points: PointsTransaction[]): LeaderboardRow[] {

@@ -16,6 +16,7 @@ Deno.serve(async (req) => {
     const firstName = String(body.firstName ?? '').trim();
     const surname = String(body.surname ?? '').trim();
     const classId = String(body.classId ?? '');
+    const requestedInitialYearGroup = Number(body.initialYearGroup);
     if (!firstName || !surname || !classId) {
       return errorResponse('firstName, surname and classId are required', 422);
     }
@@ -25,11 +26,18 @@ Deno.serve(async (req) => {
     }
     const { data: targetClass, error: targetClassError } = await service
       .from('classes')
-      .select('id, status')
+      .select('id, status, year_group')
       .eq('id', classId)
       .single();
     if (targetClassError || !targetClass || targetClass.status !== 'active') {
       return errorResponse('Target class must be active', 422);
+    }
+    const classYearGroup = Number.parseInt(String(targetClass.year_group ?? ''), 10);
+    const initialYearGroup = Number.isInteger(requestedInitialYearGroup) && requestedInitialYearGroup >= 7 && requestedInitialYearGroup <= 13
+      ? requestedInitialYearGroup
+      : classYearGroup;
+    if (!Number.isInteger(initialYearGroup) || initialYearGroup < 7 || initialYearGroup > 13) {
+      return errorResponse('A starting year group between 7 and 13 is required', 422);
     }
 
     const stem = buildUsernameStem(firstName, surname);
@@ -80,6 +88,7 @@ Deno.serve(async (req) => {
         first_name: firstName,
         surname,
         student_id: publicStudentId,
+        initial_year_group: initialYearGroup,
         internal_auth_email: email,
         created_by: requester.id,
       })
@@ -98,7 +107,7 @@ Deno.serve(async (req) => {
       action: 'student_created',
       target_type: 'student_profiles',
       target_id: student.id,
-      detail: { classId, username },
+      detail: { classId, username, initialYearGroup },
     });
 
     return jsonResponse({

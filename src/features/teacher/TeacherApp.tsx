@@ -8,18 +8,15 @@ import {
   Copy,
   ClipboardList,
   GraduationCap,
+  History,
   Home,
   KeyRound,
   Link2,
   LogOut,
-  Menu,
   Pencil,
   RefreshCw,
   Save,
   Search,
-  Settings,
-  SquareCheck,
-  SquareMinus,
   Code2,
   Trash2,
   Trophy,
@@ -35,7 +32,8 @@ import { Panel } from '../../components/ui/Panel';
 import { StatusBadge } from '../../components/ui/StatusBadge';
 import { leaderboardDisplay } from '../../lib/identity';
 import { formatDate } from '../../lib/time';
-import type { ClassRecord, StudentProfile, TestAttempt, Topic } from '../../types/domain';
+import { supabase } from '../../lib/supabaseClient';
+import type { ClassRecord, StudentProfile, Test, TestAssignment, TestAttempt, Topic } from '../../types/domain';
 
 const navItems = [
   { to: '/teacher', label: 'Dashboard', icon: Home },
@@ -45,24 +43,30 @@ const navItems = [
   { to: '/teacher/assignments', label: 'Assignments', icon: ClipboardList },
   { to: '/teacher/results', label: 'Results', icon: BarChart3 },
   { to: '/teacher/leaderboards', label: 'Leaderboards', icon: Trophy },
-  { to: '/teacher/settings', label: 'Settings', icon: Settings },
 ];
 
 const darkSubtleText = 'text-[#b8c8d9]';
 const nestedTableFrame = 'overflow-x-auto rounded-app border border-line bg-white text-ink';
 const nestedTableHead = 'border-b border-line bg-mist text-xs text-muted';
 const lightControlClass = 'h-11 w-full rounded-app border border-line bg-mist px-3 text-sm text-ink shadow-inner [color-scheme:light] focus:border-blue focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue/15';
+const whiteControlClass = 'h-11 w-full rounded-app border border-[#dedbf0] bg-white px-3 text-sm text-ink shadow-inner [color-scheme:light] focus:border-blue focus:outline-none focus:ring-2 focus:ring-blue/15';
 const lightTextareaClass = 'min-h-11 w-full rounded-app border border-line bg-mist px-3 py-2 text-sm text-ink shadow-inner [color-scheme:light] focus:border-blue focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue/15';
-const filterCheckboxClass = 'h-4 w-4 rounded border-[#7c8fa7] bg-[#0f1d2e] accent-blue focus:ring-2 focus:ring-blue/25';
+const filterCheckboxClass = 'h-4 w-4 rounded border-[#8996e7] bg-[#202a6f] accent-blue focus:ring-2 focus:ring-blue/25';
 const filterLabelClass = 'inline-flex min-h-8 items-center gap-2 text-sm font-semibold text-[#eef5fc]';
 const classStatusFilters = ['active', 'archived'] as const satisfies ReadonlyArray<ClassRecord['status']>;
 const allResultsFilterValue = 'all';
+const markingMethodLabel: Record<Test['markingMethod'], string> = {
+  auto_marked: 'Auto-marked',
+  ai_reviewed: 'AI-reviewed',
+  self_marked: 'Self-marked',
+  teacher_marked: 'Teacher-marked',
+};
 const resultNaturalSort = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
 
 export function TeacherApp() {
   const { dataError, isLoadingData, isSupabaseBacked, signOut } = useAppState();
 
-  if (isSupabaseBacked && (isLoadingData || dataError)) {
+  if (isSupabaseBacked && dataError) {
     return (
       <main className="min-h-screen bg-mist px-4 py-8 text-ink">
         <Panel className="mx-auto max-w-md p-5">
@@ -78,17 +82,21 @@ export function TeacherApp() {
     );
   }
 
+  if (isSupabaseBacked && isLoadingData) {
+    return <main aria-label="Loading your workspace" className="min-h-screen bg-mist" />;
+  }
+
   return (
     <main className="min-h-screen bg-mist p-3 text-ink lg:p-6">
-      <div className="grid min-h-[860px] w-full overflow-hidden rounded-[18px] border border-[#d9e3ee] bg-mist shadow-panel lg:grid-cols-[220px_1fr]">
-        <aside className="hidden border-r border-[#2a3a50] bg-[#14243a] p-4 text-white lg:block">
+      <div className="grid min-h-[860px] w-full overflow-hidden rounded-[18px] border border-line bg-mist shadow-panel lg:grid-cols-[220px_1fr]">
+        <aside className="hidden border-r border-[#4b59bd] bg-[#202a6f] p-4 text-white lg:block">
           <div className="mb-8 flex items-center gap-3">
-            <div className="grid h-10 w-10 place-items-center rounded-app bg-teal text-white">
+            <div className="grid h-10 w-10 place-items-center rounded-app border border-[#7e8eff] bg-[linear-gradient(135deg,#3857df_0%,#7650cf_100%)] text-white shadow-[0_8px_18px_rgba(56,87,223,0.28)]">
               <Code2 size={22} strokeWidth={2.4} aria-hidden="true" />
             </div>
             <div>
               <p className="font-bold">csrevision</p>
-              <p className="text-xs text-[#a9bbcf]">Teacher console</p>
+              <p className="text-xs text-[#d9dfff]">Teacher console</p>
             </div>
           </div>
           <nav className="space-y-1">
@@ -98,7 +106,7 @@ export function TeacherApp() {
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
-                  `flex min-h-11 items-center gap-3 rounded-app px-3 text-sm font-semibold ${isActive ? 'bg-white text-[#0f1d2e]' : 'text-[#a9bbcf] hover:bg-[#20344f] hover:text-white'}`
+                  `flex min-h-11 items-center gap-3 rounded-app px-3 text-sm font-semibold ${isActive ? 'bg-[#fffaf0] text-[#182347]' : 'text-[#d9dfff] hover:bg-[#2d3d9b] hover:text-white'}`
                 }
               >
                 <item.icon size={18} aria-hidden="true" />
@@ -106,30 +114,19 @@ export function TeacherApp() {
               </NavLink>
             ))}
           </nav>
+          <div className="mt-5 border-t border-[#4b59bd] pt-4">
+            <div className="flex items-center gap-3 px-3">
+              <span className="grid size-10 shrink-0 place-items-center rounded-full border border-[#9ca8ff] bg-[linear-gradient(135deg,#4d6cf0_0%,#9a55db_100%)] text-sm font-bold text-white shadow-[0_5px_12px_rgba(67,83,218,0.32)]">JD</span>
+              <div className="min-w-0"><p className="truncate text-sm font-bold text-white">J. Doe</p><p className="text-xs text-[#d9dfff]">Teacher</p></div>
+            </div>
+            <button className="mt-3 flex min-h-10 w-full items-center gap-3 rounded-app px-3 text-sm font-semibold text-[#d9dfff] transition hover:bg-[#2d3d9b] hover:text-white" onClick={signOut} type="button">
+              <LogOut size={18} aria-hidden="true" />
+              Sign out
+            </button>
+          </div>
         </aside>
 
         <section className="min-w-0 bg-mist text-ink">
-          <header className="flex items-center justify-between border-b border-[#2a3a50] bg-[#14243a] px-4 py-3 text-white">
-            <div className="flex min-w-0 items-center gap-3">
-              <button className="grid h-10 w-10 place-items-center rounded-app border border-[#3a4e68] bg-[#0f1d2e] lg:hidden">
-                <Menu size={20} />
-              </button>
-              <div className="min-w-0">
-                <p className="font-bold">csrevision</p>
-                <p className="truncate text-xs text-[#a9bbcf]">All times shown in your local time zone.</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="hidden text-right sm:block">
-                <p className="text-sm font-bold">J. Doe</p>
-                <p className="text-xs text-[#a9bbcf]">Teacher</p>
-              </div>
-              <button className="grid h-10 w-10 place-items-center rounded-full bg-white font-bold text-[#0f1d2e]">JD</button>
-              <button className="grid h-10 w-10 place-items-center rounded-app border border-[#3a4e68] bg-[#0f1d2e]" onClick={signOut} title="Sign out">
-                <LogOut size={18} aria-hidden="true" />
-              </button>
-            </div>
-          </header>
           <Routes>
             <Route index element={<TeacherDashboard />} />
             <Route path="classes" element={<ClassesPage />} />
@@ -138,7 +135,6 @@ export function TeacherApp() {
             <Route path="assignments" element={<AssignmentsPage />} />
             <Route path="results" element={<ResultsPage />} />
             <Route path="leaderboards" element={<LeaderboardsPage />} />
-            <Route path="settings" element={<SettingsPage />} />
           </Routes>
         </section>
       </div>
@@ -148,7 +144,26 @@ export function TeacherApp() {
 
 function TeacherDashboard() {
   const state = useAppState();
-  const classRecord = state.classes.find((row) => row.status === 'active' && !row.isSystem) ?? state.classes.find((row) => row.status !== 'archived');
+  const activeClasses = state.classes.filter((row) => row.status === 'active' && !row.isSystem);
+  const [selectedClassId, setSelectedClassId] = useState(() => activeClasses[0]?.id ?? '');
+  const [selectedTopicId, setSelectedTopicId] = useState('all');
+  useEffect(() => {
+    if (!activeClasses.some((classRecord) => classRecord.id === selectedClassId)) {
+      setSelectedClassId(activeClasses[0]?.id ?? '');
+      setSelectedTopicId('all');
+    }
+  }, [activeClasses, selectedClassId]);
+  const classRecord = activeClasses.find((row) => row.id === selectedClassId) ?? activeClasses[0] ?? state.classes.find((row) => row.status !== 'archived');
+  const courseIds = new Set(classRecord?.courseIds ?? []);
+  const classTopicOptions = state.topics.filter((topic) => {
+    const unit = state.units.find((row) => row.id === topic.unitId);
+    return unit && courseIds.has(unit.subjectId);
+  });
+  useEffect(() => {
+    if (selectedTopicId !== 'all' && !classTopicOptions.some((topic) => topic.id === selectedTopicId)) {
+      setSelectedTopicId('all');
+    }
+  }, [classTopicOptions, selectedTopicId]);
   if (!classRecord) {
     return (
       <div className="space-y-5 p-4 lg:p-6">
@@ -159,8 +174,22 @@ function TeacherDashboard() {
     );
   }
   const classStudents = state.students.filter((student) => studentHasClass(student, classRecord.id) && student.accountStatus !== 'archived');
-  const classAttempts = state.attempts.filter((attempt) => attempt.classIdAtAttempt === classRecord.id && attempt.status !== 'voided');
+  const testByVersionId = new Map(state.testVersions.map((version) => [version.id, version.testId]));
+  const testById = new Map(state.tests.map((test) => [test.id, test]));
+  const classAttempts = state.attempts.filter((attempt) => {
+    if (attempt.classIdAtAttempt !== classRecord.id || attempt.status === 'voided') return false;
+    return selectedTopicId === 'all' || testById.get(attempt.testId)?.topicId === selectedTopicId;
+  });
+  const classAssignments = state.assignments.filter((assignment) => {
+    if (assignment.classId !== classRecord.id) return false;
+    return selectedTopicId === 'all' || testById.get(testByVersionId.get(assignment.testVersionId) ?? '')?.topicId === selectedTopicId;
+  });
+  const classTestVersionIds = new Set(classAssignments.map((assignment) => assignment.testVersionId));
+  const classTests = state.tests.filter((test) => classAttempts.some((attempt) => attempt.testId === test.id) || state.testVersions.some((version) => version.testId === test.id && classTestVersionIds.has(version.id)));
   const completed = completedAttemptCount(classAttempts);
+  const studentsWithCompletedWork = new Set(classAttempts.filter((attempt) => completedAttemptCount([attempt]) > 0).map((attempt) => attempt.studentId)).size;
+  const activeThisWeek = new Set(classAttempts.filter((attempt) => new Date(attempt.startedAt).getTime() >= Date.now() - 7 * 24 * 60 * 60 * 1000).map((attempt) => attempt.studentId)).size;
+  const classLeaderboardRows = state.leaderboardRows.filter((row) => row.className === classRecord.className);
   const average = averageAttemptPercentage(classAttempts);
   const flagged = classAttempts.reduce((total, attempt) => total + attempt.suspiciousEventCount, 0) + state.events.filter((event) => classAttempts.some((attempt) => attempt.id === event.attemptId)).length;
 
@@ -172,18 +201,19 @@ function TeacherDashboard() {
           <p className="text-sm text-muted">Class progress, assigned tests, results and activity alerts.</p>
         </div>
         <div className="grid min-w-0 gap-2 sm:grid-cols-2">
-          <select className="h-12 min-w-0 rounded-app border border-[#2a3a50] bg-[#14243a] px-3 text-sm font-semibold text-white">
-            <option>{classRecord.className}</option>
+          <select className="h-12 min-w-0 rounded-app border border-[#4b59bd] bg-[#202a6f] px-3 text-sm font-semibold text-white" value={classRecord.id} onChange={(event) => { setSelectedClassId(event.target.value); setSelectedTopicId('all'); }}>
+            {activeClasses.map((classOption) => <option key={classOption.id} value={classOption.id}>{classOption.className}</option>)}
           </select>
-          <select className="h-12 min-w-0 rounded-app border border-[#2a3a50] bg-[#14243a] px-3 text-sm font-semibold text-white">
-            <option>{'OCR GCSE CS -> Hardware -> CPU'}</option>
+          <select className="h-12 min-w-0 rounded-app border border-[#4b59bd] bg-[#202a6f] px-3 text-sm font-semibold text-white" value={selectedTopicId} onChange={(event) => setSelectedTopicId(event.target.value)}>
+            <option value="all">All course topics</option>
+            {classTopicOptions.map((topic) => <option key={topic.id} value={topic.id}>{topic.topicName}</option>)}
           </select>
         </div>
       </div>
 
       <Panel className="grid grid-cols-2 overflow-hidden sm:grid-cols-5">
         <Metric label="Students" value={classStudents.length} />
-        <Metric label="Tests Assigned" value={state.assignments.length} />
+        <Metric label="Tests Assigned" value={classAssignments.length} />
         <Metric label="Tests Completed" value={completed} />
         <Metric label="Average Score" value={average === undefined ? '-' : `${average}%`} tone="green" />
         <Metric label="Suspicious Activity" value={flagged} tone="red" />
@@ -208,7 +238,7 @@ function TeacherDashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-line bg-white text-ink">
-                {state.tests.map((test) => {
+                {classTests.map((test) => {
                   const testAttempts = classAttempts.filter((attempt) => attempt.testId === test.id);
                   const testCompleted = completedAttemptCount(testAttempts);
                   const testAverage = averageAttemptPercentage(testAttempts);
@@ -272,7 +302,7 @@ function TeacherDashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-line bg-white text-ink">
-                {state.leaderboardRows.map((row) => (
+                {classLeaderboardRows.map((row) => (
                   <tr key={row.studentId}>
                     <td className="px-3 py-3">{row.rank}</td>
                     <td className="px-3 py-3 font-semibold">{row.displayName}</td>
@@ -291,9 +321,9 @@ function TeacherDashboard() {
         <Panel className="p-4">
           <h2 className="mb-3 font-bold">Class Summary</h2>
           <SummaryRow label="Total Students" value={classStudents.length.toString()} />
-          <SummaryRow label="Active This Week" value="25 (89%)" />
-          <SummaryRow label="Tests Assigned" value={state.assignments.length.toString()} />
-          <SummaryRow label="Tests Completed" value={`${completed} (${Math.round((completed / Math.max(classStudents.length, 1)) * 100)}%)`} />
+          <SummaryRow label="Active This Week" value={`${activeThisWeek} (${Math.round((activeThisWeek / Math.max(classStudents.length, 1)) * 100)}%)`} />
+          <SummaryRow label="Tests Assigned" value={classAssignments.length.toString()} />
+          <SummaryRow label="Students with completed work" value={`${studentsWithCompletedWork} (${Math.round((studentsWithCompletedWork / Math.max(classStudents.length, 1)) * 100)}%)`} />
           <SummaryRow label="Average Score" value={average === undefined ? '-' : `${average}%`} />
         </Panel>
       </div>
@@ -303,7 +333,7 @@ function TeacherDashboard() {
 
 function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between border-b border-[#2a3a50] py-3 text-sm last:border-b-0">
+    <div className="flex items-center justify-between border-b border-[#4b59bd] py-3 text-sm last:border-b-0">
       <span className="text-[#b8c8d9]">{label}</span>
       <span className="font-bold">{value}</span>
     </div>
@@ -377,7 +407,7 @@ function studentFullName(student: StudentProfile): string {
 }
 
 function resultAttemptLabel(attempt: TestAttempt | undefined, isApplicable: boolean): { className: string; label: string } {
-  if (!isApplicable) return { className: 'text-muted', label: 'N.a.' };
+  if (!isApplicable) return { className: 'text-muted', label: '-' };
   if (!attempt) return { className: 'text-danger', label: 'Incomplete' };
   if (typeof attempt.percentage === 'number') {
     const percentageLabel = `${attempt.percentage}%`;
@@ -426,6 +456,7 @@ function ClassesPage() {
     yearGroup: '',
     status: 'active' as (typeof state.classes)[number]['status'],
     acceptingStudents: false,
+    courseIds: [] as string[],
   });
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState('');
@@ -472,6 +503,7 @@ function ClassesPage() {
       yearGroup: classRecord.yearGroup,
       status: classRecord.status,
       acceptingStudents: classRecord.acceptingStudents,
+      courseIds: classRecord.courseIds,
     });
     setMessage('');
     setError('');
@@ -527,6 +559,7 @@ function ClassesPage() {
         yearGroup: draft.yearGroup,
         status: draft.status,
         acceptingStudents: draft.acceptingStudents,
+        courseIds: draft.courseIds,
       });
       setEditingClassId(null);
       setPendingArchiveClassId(null);
@@ -570,7 +603,7 @@ function ClassesPage() {
       {message ? <p className="rounded-app bg-[#e7f7ef] p-3 text-sm font-semibold text-green">{message}</p> : null}
       {error ? <p className="rounded-app bg-[#fff1f1] p-3 text-sm font-semibold text-danger">{error}</p> : null}
       <Panel className="p-4">
-        <div className="mb-3 border-b border-[#2a3a50] pb-3">
+        <div className="mb-3 border-b border-[#4b59bd] pb-3">
           <p className="text-xs font-semibold uppercase tracking-normal text-[#b8c8d9]">Filters</p>
         </div>
         <div className="grid gap-5 lg:grid-cols-2">
@@ -608,21 +641,21 @@ function ClassesPage() {
           </fieldset>
         </div>
       </Panel>
-      <div className="grid gap-4 lg:grid-cols-2">
+      <div className="space-y-3">
         {filteredClasses.map((classRecord) => {
           const isEditing = editingClassId === classRecord.id;
           const activeStudentCount = state.students.filter((student) => studentHasClass(student, classRecord.id) && student.accountStatus !== 'archived').length;
           return (
-            <Panel className="p-4" key={classRecord.id}>
-              <div className="flex items-start justify-between gap-3">
+            <Panel className="p-4" key={classRecord.id} tone="light">
+              <div className="flex flex-wrap items-start justify-between gap-3">
                 <div className="min-w-0">
                   <h2 className="font-bold">{classRecord.className}</h2>
-                  <p className={`text-sm ${darkSubtleText}`}>
+                  <p className="text-sm text-muted">
                     {classRecord.isSystem ? 'Protected holding class' : `${classRecord.academicYear || 'No academic year'} - Year ${classRecord.yearGroup || '-'}`}
                   </p>
                   {!isEditing && !classRecord.isSystem ? (
                     <div className="mt-3 flex flex-wrap gap-2">
-                      <Button className="min-h-9 px-3" type="button" variant="outlineDark" onClick={() => startEditing(classRecord)}>
+                      <Button className="min-h-9 px-3" type="button" variant="outlineLight" onClick={() => startEditing(classRecord)}>
                         <Pencil size={15} aria-hidden="true" />
                         Edit details
                       </Button>
@@ -631,7 +664,7 @@ function ClassesPage() {
                           className="min-h-9 px-3"
                           disabled={isSaving}
                           type="button"
-                          variant="dangerOutline"
+                          variant="danger"
                           onClick={() => requestArchiveClass(classRecord)}
                         >
                           <Archive size={15} aria-hidden="true" />
@@ -642,38 +675,40 @@ function ClassesPage() {
                   ) : null}
                 </div>
                 <div className="flex shrink-0 flex-col items-start gap-1 text-left sm:items-end sm:text-right">
-                  <p className={`text-xs font-semibold uppercase tracking-normal ${darkSubtleText}`}>Status</p>
+                  <p className="text-xs font-semibold uppercase tracking-normal text-muted">Status</p>
                   <StatusBadge tone={classRecord.status === 'active' ? 'green' : 'neutral'}>{classRecord.status}</StatusBadge>
                   {classRecord.isSystem ? <StatusBadge tone="blue">System</StatusBadge> : null}
                 </div>
               </div>
-              <p className="mt-4 text-sm">{activeStudentCount} active students</p>
+              <p className="mt-3 text-sm font-semibold text-muted">{activeStudentCount} active students</p>
 
               {!classRecord.isSystem && classRecord.status === 'active' ? (
-                <div className="mt-4 rounded-app border border-[#2a3a50] bg-[#0f1d2e] p-3">
+                <details className="mt-3 rounded-app border border-[#dedbf0] bg-[#f6f4ff] p-3">
+                  <summary className="cursor-pointer text-sm font-bold text-ink">Joining and class code</summary>
+                  <div className="mt-3">
                   <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
                     <div>
-                      <p className="text-xs font-semibold uppercase tracking-normal text-[#b8c8d9]">Join code</p>
+                      <p className="text-xs font-semibold uppercase tracking-normal text-muted">Join code</p>
                       <p className="mt-1 text-2xl font-bold tracking-normal">{classRecord.joinCode || 'No code'}</p>
-                      <p className="mt-1 text-sm text-[#b8c8d9]">
+                      <p className="mt-1 text-sm text-muted">
                         Students can join with this code when accepting students is switched on in Edit details.
                       </p>
                     </div>
                     <div className="shrink-0 text-left sm:text-right">
-                      <p className="mb-1 text-xs font-semibold uppercase tracking-normal text-[#b8c8d9]">Joining</p>
+                      <p className="mb-1 text-xs font-semibold uppercase tracking-normal text-muted">Joining</p>
                       <StatusBadge tone={classRecord.acceptingStudents ? 'green' : 'neutral'}>
                         {classRecord.acceptingStudents ? 'Accepting students' : 'Not accepting'}
                       </StatusBadge>
                     </div>
                   </div>
-                  <div className="mt-3 border-t border-[#2a3a50] pt-3">
-                    <p className="text-xs font-semibold uppercase tracking-normal text-[#b8c8d9]">Code actions</p>
+                  <div className="mt-3 border-t border-[#dedbf0] pt-3">
+                    <p className="text-xs font-semibold uppercase tracking-normal text-muted">Code actions</p>
                     <div className="mt-2 flex flex-wrap gap-2">
                       <Button
                         className="min-h-9 px-2"
                         disabled={!classRecord.joinCode}
                         type="button"
-                        variant="utilityDark"
+                        variant="secondary"
                         onClick={() => copyText(classRecord.joinCode, `${classRecord.className} code copied.`)}
                       >
                         <Copy size={16} aria-hidden="true" />
@@ -683,7 +718,7 @@ function ClassesPage() {
                         className="min-h-9 px-2"
                         disabled={!classRecord.joinCode}
                         type="button"
-                        variant="utilityDark"
+                        variant="secondary"
                         onClick={() => copyText(joinLinkForCode(classRecord.joinCode), `${classRecord.className} join link copied.`)}
                       >
                         <Link2 size={16} aria-hidden="true" />
@@ -693,7 +728,7 @@ function ClassesPage() {
                         className="min-h-9 px-3"
                         disabled={isSaving}
                         type="button"
-                        variant="outlineDark"
+                        variant="outlineLight"
                         onClick={() => regenerateClassCode(classRecord)}
                       >
                         <RefreshCw size={16} aria-hidden="true" />
@@ -701,7 +736,8 @@ function ClassesPage() {
                       </Button>
                     </div>
                   </div>
-                </div>
+                  </div>
+                </details>
               ) : null}
 
               {pendingArchiveClassId === classRecord.id ? (
@@ -724,7 +760,12 @@ function ClassesPage() {
               ) : null}
 
               {isEditing ? (
-                <form className="mt-4 space-y-4 rounded-app border border-line bg-white p-3 text-ink" onSubmit={saveClass}>
+                <div className="fixed inset-0 z-50 grid place-items-center bg-[#111943]/55 p-4" role="presentation">
+                <form aria-label={`Edit ${classRecord.className}`} className="max-h-[calc(100vh-2rem)] w-full max-w-2xl space-y-4 overflow-y-auto rounded-app border border-line bg-white p-5 text-ink shadow-2xl" onSubmit={saveClass}>
+                  <div className="flex items-start justify-between gap-4">
+                    <div><p className="text-xs font-bold uppercase tracking-[0.14em] text-blue">Edit class</p><h2 className="mt-1 text-xl font-bold">{classRecord.className}</h2></div>
+                    <Button aria-label="Close edit class" className="min-h-9 px-3" disabled={isSaving} type="button" variant="secondary" onClick={cancelEditing}><X size={16} aria-hidden="true" /></Button>
+                  </div>
                   <div className="grid gap-3 sm:grid-cols-2">
                     <label className="space-y-2 text-sm font-semibold">
                       <span>Class name</span>
@@ -783,6 +824,31 @@ function ClassesPage() {
                         }
                       />
                     </label>
+                    <fieldset className="space-y-3 rounded-app border border-line bg-mist p-3 sm:col-span-2">
+                      <legend className="px-1 text-sm font-bold">Courses for this class</legend>
+                      <p className="text-xs text-muted">Students in this class can only practise courses selected here. Choose one or more courses.</p>
+                      <div className="grid gap-2">
+                        {state.subjects.map((subject) => {
+                          const checked = draft.courseIds.includes(subject.id);
+                          return (
+                            <label className="flex cursor-pointer items-center gap-3 rounded-xl bg-white px-3 py-2 text-sm font-semibold text-ink" key={subject.id}>
+                              <input
+                                checked={checked}
+                                className="h-5 w-5 rounded border-line bg-white text-blue accent-blue focus:ring-2 focus:ring-blue/20"
+                                type="checkbox"
+                                onChange={() => setDraft((current) => ({
+                                  ...current,
+                                  courseIds: checked
+                                    ? current.courseIds.filter((courseId) => courseId !== subject.id)
+                                    : [...current.courseIds, subject.id],
+                                }))}
+                              />
+                              <span>{subject.subjectName}</span>
+                            </label>
+                          );
+                        })}
+                      </div>
+                    </fieldset>
                   </div>
                   <div className="flex flex-wrap justify-end gap-2">
                     <Button className="min-h-10 px-3" disabled={isSaving} type="button" variant="secondary" onClick={cancelEditing}>
@@ -795,6 +861,7 @@ function ClassesPage() {
                     </Button>
                   </div>
                 </form>
+                </div>
               ) : null}
             </Panel>
           );
@@ -825,6 +892,7 @@ function StudentsPage() {
   const [classFilterId, setClassFilterId] = useState('all');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedStudentId, setSelectedStudentId] = useState('');
+  const [isEditingStudent, setIsEditingStudent] = useState(false);
 
   useEffect(() => {
     if (classFilterId !== 'all' && !activeClasses.some((classRecord) => classRecord.id === classFilterId)) {
@@ -855,6 +923,7 @@ function StudentsPage() {
   const [draft, setDraft] = useState({
     firstName: '',
     surname: '',
+    initialYearGroup: '',
     classIds: [] as string[],
     accountStatus: 'active' as StudentProfile['accountStatus'],
   });
@@ -863,14 +932,15 @@ function StudentsPage() {
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [activityStudent, setActivityStudent] = useState<StudentProfile | null>(null);
+  const [activityEvents, setActivityEvents] = useState<Array<{ id: string; event_type: string; route: string | null; created_at: string }>>([]);
+  const [isLoadingActivity, setIsLoadingActivity] = useState(false);
+  const [activityError, setActivityError] = useState('');
 
   useEffect(() => {
-    if (!filteredStudents.length) {
+    if (selectedStudentId && !filteredStudents.some((student) => student.id === selectedStudentId)) {
       setSelectedStudentId('');
-      return;
-    }
-    if (!selectedStudentId || !filteredStudents.some((student) => student.id === selectedStudentId)) {
-      setSelectedStudentId(filteredStudents[0].id);
+      setIsEditingStudent(false);
     }
   }, [filteredStudents, selectedStudentId]);
 
@@ -879,6 +949,7 @@ function StudentsPage() {
     setDraft({
       firstName: selectedStudent.firstName,
       surname: selectedStudent.surname,
+      initialYearGroup: selectedStudent.yearGroup.replace(/^Year\s*/i, ''),
       classIds: studentClassIds(selectedStudent).filter((classId) =>
         editableClasses.some((classRecord) => classRecord.id === classId),
       ),
@@ -890,8 +961,36 @@ function StudentsPage() {
     setError('');
   }, [editableClasses, selectedStudent]);
 
-  const selectStudent = (studentId: string) => {
+  const openStudentEditor = (studentId: string) => {
     setSelectedStudentId(studentId);
+    setIsEditingStudent(true);
+  };
+
+  const openStudentActivity = async (student: StudentProfile) => {
+    setActivityStudent(student);
+    setActivityEvents([]);
+    setActivityError('');
+    if (!supabase) {
+      setActivityError('Activity history is unavailable because Supabase is not connected.');
+      return;
+    }
+    try {
+      setIsLoadingActivity(true);
+      const { data, error: activityQueryError } = await supabase
+        .from('activity_events')
+        .select('id, event_type, route, created_at')
+        .eq('profile_id', student.profileId)
+        .eq('event_type', 'page_view')
+        .like('route', '/student%')
+        .order('created_at', { ascending: false })
+        .limit(100);
+      if (activityQueryError) throw activityQueryError;
+      setActivityEvents(data ?? []);
+    } catch (caught) {
+      setActivityError(caught instanceof Error ? caught.message : 'Unable to load student activity.');
+    } finally {
+      setIsLoadingActivity(false);
+    }
   };
 
   const saveStudent = async (event: FormEvent<HTMLFormElement>) => {
@@ -905,10 +1004,12 @@ function StudentsPage() {
         id: selectedStudent.id,
         firstName: draft.firstName,
         surname: draft.surname,
+        initialYearGroup: draft.initialYearGroup.trim() ? Number(draft.initialYearGroup) : null,
         classIds: draft.classIds,
         accountStatus: draft.accountStatus,
       });
       setMessage(`${updatedStudent.firstName} ${updatedStudent.surname} updated.`);
+      setIsEditingStudent(false);
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : 'Unable to update student');
     } finally {
@@ -947,6 +1048,7 @@ function StudentsPage() {
       await state.archiveStudent(selectedStudent.id);
       setMessage(`${selectedStudent.firstName} ${selectedStudent.surname} archived.`);
       setSelectedStudentId('');
+      setIsEditingStudent(false);
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : 'Unable to archive student');
     } finally {
@@ -967,7 +1069,7 @@ function StudentsPage() {
     <TeacherPage title="Students">
       {message ? <p className="rounded-app bg-[#e7f7ef] p-3 text-sm font-semibold text-green">{message}</p> : null}
       {error ? <p className="rounded-app bg-[#fff1f1] p-3 text-sm font-semibold text-danger">{error}</p> : null}
-      <div className="grid gap-5 xl:grid-cols-[minmax(0,1fr)_420px]">
+      <div className="space-y-5">
         <Panel className="p-4">
           <div className="mb-4 grid gap-3 lg:grid-cols-[220px_minmax(0,1fr)] lg:items-start">
             <div className="space-y-2">
@@ -975,7 +1077,7 @@ function StudentsPage() {
                 <span className={darkSubtleText}>Class</span>
                 <select
                   aria-label="Filter students by class"
-                  className={lightControlClass}
+                  className={whiteControlClass}
                   value={classFilterId}
                   onChange={(event) => {
                     setClassFilterId(event.target.value);
@@ -1001,7 +1103,7 @@ function StudentsPage() {
                 <Search className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted" size={16} aria-hidden="true" />
                 <input
                   aria-label="Search students"
-                  className={`${lightControlClass} pl-9`}
+                  className={`${whiteControlClass} pl-9`}
                   onChange={(event) => setSearchQuery(event.target.value)}
                   placeholder="Name, username, ID or class"
                   type="search"
@@ -1013,11 +1115,14 @@ function StudentsPage() {
           <div className={nestedTableFrame}>
             <table className="w-full table-fixed text-left text-sm">
               <colgroup>
-                <col className="w-[28%]" />
                 <col className="w-[20%]" />
-                <col className="w-[13%]" />
-                <col className="w-[25%]" />
-                <col className="w-[14%]" />
+                <col className="w-[15%]" />
+                <col className="w-[10%]" />
+                <col className="w-[18%]" />
+                <col className="w-[8%]" />
+                <col className="w-[12%]" />
+                <col className="w-[8%]" />
+                <col className="w-[9%]" />
               </colgroup>
               <thead className={nestedTableHead}>
                 <tr>
@@ -1025,27 +1130,18 @@ function StudentsPage() {
                   <th className="px-2 py-3">Username</th>
                   <th className="px-2 py-3">ID</th>
                   <th className="px-2 py-3">Class</th>
+                  <th className="px-2 py-3">Year</th>
+                  <th className="px-2 py-3">Joined</th>
                   <th className="px-2 py-3">Status</th>
+                  <th className="px-2 py-3"><span className="sr-only">Actions</span></th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-line bg-white text-ink">
                 {filteredStudents.map((student) => {
-                  const isSelected = selectedStudent?.id === student.id;
                   return (
                     <tr
-                      aria-selected={isSelected}
-                      className={`cursor-pointer transition ${
-                        isSelected
-                          ? 'border-l-4 border-blue bg-[#223653] text-white shadow-[inset_0_0_0_1px_rgba(255,255,255,0.08)]'
-                          : 'border-l-4 border-transparent hover:bg-mist'
-                      }`}
+                      className="border-l-4 border-transparent transition hover:bg-mist"
                       key={student.id}
-                      onClick={() => selectStudent(student.id)}
-                      onKeyDown={(event) => {
-                        if (event.key === 'Enter' || event.key === ' ') selectStudent(student.id);
-                      }}
-                      role="button"
-                      tabIndex={0}
                     >
                       <td className="truncate px-3 py-3 font-semibold">{student.firstName} {student.surname}</td>
                       <td className="truncate px-2 py-3">{student.username}</td>
@@ -1056,7 +1152,7 @@ function StudentsPage() {
                             studentClassNames(student, classNameById).map((className) => (
                               <span
                                 className={`rounded-[6px] border px-2 py-1 text-xs font-semibold ${
-                                  isSelected ? 'border-[#5f7898] bg-[#172943] text-white' : 'border-line bg-mist text-muted'
+                                  'border-line bg-mist text-muted'
                                 }`}
                                 key={`${student.id}-${className}`}
                               >
@@ -1068,7 +1164,10 @@ function StudentsPage() {
                           )}
                         </div>
                       </td>
+                      <td className="px-2 py-3 font-semibold">{student.yearGroup || '—'}</td>
+                      <td className="px-2 py-3 whitespace-nowrap text-xs">{student.joinedOn ? formatDate(student.joinedOn) : '—'}</td>
                       <td className="px-2 py-3"><StatusBadge tone={accountStatusTone(student.accountStatus)}>{student.accountStatus}</StatusBadge></td>
+                      <td className="px-2 py-3"><div className="flex justify-end gap-2"><Button className="min-h-9 px-3 text-xs" onClick={() => void openStudentActivity(student)} type="button" variant="secondary"><History size={14} aria-hidden="true" />Activity</Button><Button className="min-h-9 px-3 text-xs" onClick={() => openStudentEditor(student.id)} type="button"><Pencil size={14} aria-hidden="true" />Edit</Button></div></td>
                     </tr>
                   );
                 })}
@@ -1082,12 +1181,14 @@ function StudentsPage() {
           ) : null}
         </Panel>
 
-        <Panel className="p-4">
-          {selectedStudent ? (
-            <form className="space-y-4" onSubmit={saveStudent}>
+        {selectedStudent && isEditingStudent ? (
+            <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#10142b]/55 p-4 backdrop-blur-sm" role="presentation">
+            <form aria-label={`Edit ${selectedStudent.firstName} ${selectedStudent.surname}`} className="max-h-[calc(100vh-2rem)] w-full max-w-2xl space-y-4 overflow-y-auto rounded-[1.5rem] border-2 border-[#7774ec] bg-white p-5 text-ink shadow-[0_28px_72px_rgba(19,25,72,0.38)] lg:p-6" onSubmit={saveStudent}>
               <div>
-                <p className="text-xs font-semibold uppercase tracking-normal text-[#b8c8d9]">Selected student</p>
-                <h2 className="mt-1 text-xl font-bold">{selectedStudent.firstName} {selectedStudent.surname}</h2>
+                <div className="flex items-start justify-between gap-4">
+                  <div><p className="text-xs font-semibold uppercase tracking-normal text-muted">Edit student</p><h2 className="mt-1 text-xl font-bold">{selectedStudent.firstName} {selectedStudent.surname}</h2></div>
+                  <button aria-label="Close edit student" className="grid size-10 place-items-center rounded-xl border border-line bg-mist text-muted transition hover:border-blue hover:text-blue" onClick={() => setIsEditingStudent(false)} type="button"><X size={18} aria-hidden="true" /></button>
+                </div>
                 <p className="mt-1 text-sm text-[#b8c8d9]">ID {selectedStudent.publicStudentId} - {selectedStudent.username}</p>
               </div>
 
@@ -1111,9 +1212,24 @@ function StudentsPage() {
                       required
                     />
                   </label>
-                  <fieldset className="space-y-2 text-sm font-semibold">
-                    <legend>Classes</legend>
-                    <div className="space-y-2 rounded-app border border-line bg-mist p-3">
+                  <label className="space-y-2 text-sm font-semibold">
+                    <span>Starting year group</span>
+                    <select
+                      className={lightControlClass}
+                      value={draft.initialYearGroup}
+                      onChange={(event) => setDraft((current) => ({ ...current, initialYearGroup: event.target.value }))}
+                    >
+                      <option value="">Select starting year</option>
+                      {[7, 8, 9, 10, 11, 12, 13].map((year) => <option key={year} value={year}>Year {year}</option>)}
+                    </select>
+                    <span className="block text-xs font-normal text-muted">The current year updates automatically each September.</span>
+                  </label>
+                  <details className="group rounded-app border border-line bg-mist p-3 text-sm font-semibold">
+                    <summary className="flex cursor-pointer list-none items-center justify-between gap-3 text-ink">
+                      <span>Classes <span className="font-normal text-muted">({draft.classIds.length} selected)</span></span>
+                      <ChevronRight className="transition-transform group-open:rotate-90" size={18} aria-hidden="true" />
+                    </summary>
+                    <div className="mt-3 space-y-2 border-t border-line pt-3">
                       {editableClasses.map((classRecord) => (
                         <label
                           className="flex min-h-8 items-center gap-2 text-sm font-semibold text-ink"
@@ -1137,7 +1253,7 @@ function StudentsPage() {
                         </p>
                       ) : null}
                     </div>
-                  </fieldset>
+                  </details>
                   <label className="space-y-2 text-sm font-semibold">
                     <span>Status</span>
                     <select
@@ -1201,12 +1317,24 @@ function StudentsPage() {
                 </Button>
               </div>
             </form>
-          ) : (
-            <div className="rounded-app border border-line bg-white p-4 text-ink">
-              <p className="font-bold">Select a student</p>
             </div>
-          )}
-        </Panel>
+          ) : null}
+        {activityStudent ? (
+          <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#10142b]/55 p-4 backdrop-blur-sm" role="presentation">
+            <section aria-label={`${studentFullName(activityStudent)} activity history`} className="max-h-[calc(100vh-2rem)] w-full max-w-4xl overflow-hidden rounded-[1.5rem] border-2 border-[#7774ec] bg-white text-ink shadow-[0_28px_72px_rgba(19,25,72,0.38)]">
+              <div className="flex items-start justify-between gap-4 border-b border-line p-5 lg:p-6">
+                <div><p className="text-xs font-semibold uppercase tracking-normal text-muted">Student activity</p><h2 className="mt-1 text-xl font-bold">{studentFullName(activityStudent)}</h2><p className="mt-1 text-sm text-muted">Recent learning-platform visits and activity.</p></div>
+                <button aria-label="Close student activity" className="grid size-10 place-items-center rounded-xl border border-line bg-mist text-muted transition hover:border-blue hover:text-blue" onClick={() => setActivityStudent(null)} type="button"><X size={18} aria-hidden="true" /></button>
+              </div>
+              <div className="max-h-[calc(100vh-13rem)] overflow-auto p-5 lg:p-6">
+                {isLoadingActivity ? <p className="text-sm font-semibold text-muted">Loading activity…</p> : null}
+                {activityError ? <p className="rounded-app bg-[#fff1f1] p-3 text-sm font-semibold text-danger">{activityError}</p> : null}
+                {!isLoadingActivity && !activityError && activityEvents.length ? <div className={nestedTableFrame}><table className="w-full min-w-[620px] text-left text-sm"><thead className={nestedTableHead}><tr><th className="px-3 py-3">When</th><th className="px-3 py-3">Activity</th><th className="px-3 py-3">Page</th></tr></thead><tbody className="divide-y divide-line bg-white text-ink">{activityEvents.map((event) => <tr key={event.id}><td className="whitespace-nowrap px-3 py-3 font-semibold">{new Date(event.created_at).toLocaleString()}</td><td className="px-3 py-3 capitalize">{event.event_type.replace(/_/g, ' ')}</td><td className="px-3 py-3 font-semibold text-blue">{event.route ?? '—'}</td></tr>)}</tbody></table></div> : null}
+                {!isLoadingActivity && !activityError && !activityEvents.length ? <p className="rounded-app border border-line bg-mist p-4 text-sm text-muted">No recorded activity yet for this student.</p> : null}
+              </div>
+            </section>
+          </div>
+        ) : null}
       </div>
     </TeacherPage>
   );
@@ -1216,6 +1344,8 @@ function TestsPage() {
   const state = useAppState();
   const [selectedSubjectId, setSelectedSubjectId] = useState<string | null>(null);
   const [selectedUnitId, setSelectedUnitId] = useState<string | null>(null);
+  const [previewTestId, setPreviewTestId] = useState<string | null>(null);
+  const [previewQuestionIndex, setPreviewQuestionIndex] = useState(0);
   const testResources = useMemo(
     () =>
       state.tests.map((test) => ({
@@ -1226,6 +1356,11 @@ function TestsPage() {
   );
   const selectedSubject = state.subjects.find((subject) => subject.id === selectedSubjectId);
   const selectedUnit = state.units.find((unit) => unit.id === selectedUnitId);
+  const previewTest = testResources.find((test) => test.id === previewTestId) ?? null;
+  const previewQuestions = previewTest?.version
+    ? state.questions.filter((question) => question.testVersionId === previewTest.version?.id).sort((first, second) => first.questionOrder - second.questionOrder)
+    : [];
+  const previewQuestion = previewQuestions[previewQuestionIndex];
   const subjectUnits = state.units.filter((unit) => unit.subjectId === selectedSubjectId);
   const unitTopics = state.topics.filter((topic) => topic.unitId === selectedUnitId);
 
@@ -1248,6 +1383,12 @@ function TestsPage() {
   const resetToCourses = () => {
     setSelectedSubjectId(null);
     setSelectedUnitId(null);
+    setPreviewTestId(null);
+  };
+
+  const openTestPreview = (testId: string) => {
+    setPreviewTestId(testId);
+    setPreviewQuestionIndex(0);
   };
 
   return (
@@ -1255,46 +1396,32 @@ function TestsPage() {
       <p className="text-sm text-muted">Browse courses, then choose a unit, topic and test resource.</p>
 
       {!selectedSubject ? (
-        <div className="grid gap-4 lg:grid-cols-2">
+        <div className="space-y-3">
           {state.subjects.map((subject) => {
             const testCount = countTestsForSubject(subject.id);
             const unitCount = state.units.filter((unit) => unit.subjectId === subject.id).length;
             const topicCount = countTopicsForSubject(subject.id);
             return (
               <button
-                className="group relative overflow-hidden rounded-app border border-[#2a3a50] bg-[#14243a] p-5 text-left text-white shadow-panel transition duration-200 hover:-translate-y-0.5 hover:border-blue hover:shadow-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue lg:col-span-2 lg:p-7"
+                className="group flex w-full items-center gap-4 rounded-app border-2 border-[#dedbf0] bg-white p-4 text-left text-ink shadow-[0_10px_22px_rgba(58,55,143,0.08)] transition duration-200 hover:-translate-y-0.5 hover:border-[#7164e8] hover:shadow-[0_16px_28px_rgba(58,55,143,0.15)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue lg:gap-5 lg:p-5"
                 key={subject.id}
                 onClick={() => setSelectedSubjectId(subject.id)}
               >
-                <div className="absolute inset-y-0 right-0 hidden w-2/5 bg-gradient-to-l from-[#1d3554] to-transparent lg:block" aria-hidden="true" />
-                <div className="relative grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
-                  <div className="max-w-2xl">
-                    <div className="flex items-center gap-3">
-                      <span className="grid size-11 place-items-center rounded-xl border border-[#315071] bg-[#17304d] text-[#73b6ff]">
-                        <BookOpenCheck size={23} aria-hidden="true" />
-                      </span>
-                      <p className="text-xs font-bold uppercase tracking-[0.16em] text-[#b8c8d9]">Course library</p>
-                    </div>
-                    <h2 className="mt-5 text-2xl font-bold tracking-tight lg:text-3xl">{subject.subjectName}</h2>
-                    <p className="mt-3 max-w-xl text-sm leading-6 text-[#c7d6e5] lg:text-base">{subject.description}</p>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2 sm:max-w-md lg:min-w-[22rem]">
+                <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-[#5157dd] to-[#7b45d5] text-white shadow-[0_8px_16px_rgba(76,79,202,0.24)] lg:size-16" aria-hidden="true"><BookOpenCheck size={28} /></span>
+                <div className="min-w-0 flex-1"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#71699b]">Course</p><h2 className="mt-1 text-xl font-bold tracking-tight lg:text-2xl">{subject.subjectName}</h2><p className="mt-2 max-w-2xl text-sm leading-6 text-muted lg:text-base">{subject.description}</p></div>
+                <div className="hidden grid-cols-3 gap-2 sm:grid lg:min-w-[22rem]">
                     {[
                       [unitCount, 'Units'],
                       [topicCount, 'Topics'],
                       [testCount, 'Tests'],
                     ].map(([value, label]) => (
-                      <div className="rounded-xl border border-[#315071] bg-[#10233a]/80 px-3 py-3" key={label as string}>
-                        <span className="block text-xl font-bold text-white">{value}</span>
-                        <span className="mt-0.5 block text-xs font-semibold text-[#b8c8d9]">{label}</span>
+                      <div className="rounded-xl bg-[#f0efff] px-3 py-3" key={label as string}>
+                        <span className="block text-xl font-bold text-[#514bd0]">{value}</span>
+                        <span className="mt-0.5 block text-xs font-semibold text-[#71699b]">{label}</span>
                       </div>
                     ))}
-                  </div>
                 </div>
-                <div className="relative mt-6 flex items-center gap-2 text-sm font-bold text-[#73b6ff]">
-                  <span>Explore course</span>
-                  <ChevronRight className="transition-transform duration-200 group-hover:translate-x-1" size={19} aria-hidden="true" />
-                </div>
+                <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#f0efff] text-[#554fd1] transition group-hover:bg-[#554fd1] group-hover:text-white" aria-hidden="true"><ChevronRight size={21} /></span>
               </button>
             );
           })}
@@ -1310,37 +1437,26 @@ function TestsPage() {
             </button>
             <h2 className="mt-2 font-bold">Units in {selectedSubject.subjectName}</h2>
           </div>
-          <div className="grid gap-4 lg:grid-cols-2">
-            {subjectUnits.map((unit) => {
+          <div className="space-y-3">
+            {subjectUnits.map((unit, unitIndex) => {
               const topicCount = state.topics.filter((topic) => topic.unitId === unit.id).length;
               const testCount = countTestsForUnit(unit.id);
+              const unitAccent = [
+                'from-[#5157dd] to-[#7b45d5]',
+                'from-[#0d9f9b] to-[#2bbd9d]',
+                'from-[#ef7b50] to-[#f0ad4e]',
+                'from-[#b45bc7] to-[#7c5be2]',
+              ][unitIndex % 4];
 
               return (
                 <button
-                  className="group relative overflow-hidden rounded-app border border-[#2a3a50] bg-[#14243a] p-5 text-left text-white shadow-panel transition duration-200 hover:-translate-y-0.5 hover:border-blue hover:shadow-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue lg:p-6"
+                  className="group flex w-full items-center gap-4 rounded-app border-2 border-[#dedbf0] bg-white p-4 text-left text-ink shadow-[0_10px_22px_rgba(58,55,143,0.08)] transition duration-200 hover:-translate-y-0.5 hover:border-[#7164e8] hover:shadow-[0_16px_28px_rgba(58,55,143,0.15)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue lg:gap-5 lg:p-5"
                   key={unit.id}
                   onClick={() => setSelectedUnitId(unit.id)}
                 >
-                  <div className="absolute inset-y-0 left-0 w-1 bg-blue transition-all duration-200 group-hover:w-1.5" aria-hidden="true" />
-                  <div className="flex items-start justify-between gap-5">
-                    <div className="min-w-0">
-                      <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#a9c1d8]">Unit</p>
-                      <h2 className="mt-3 text-lg font-bold tracking-tight lg:text-xl">{unit.unitName}</h2>
-                    </div>
-                    <span className="grid size-9 shrink-0 place-items-center rounded-lg border border-[#315071] bg-[#17304d] text-[#73b6ff] transition-colors group-hover:bg-[#1d3d60]" aria-hidden="true">
-                      <ChevronRight size={20} />
-                    </span>
-                  </div>
-                  <div className="mt-6 grid grid-cols-2 gap-3 border-t border-[#2a3a50] pt-4">
-                    <div>
-                      <span className="block text-lg font-bold">{topicCount}</span>
-                      <span className="text-xs font-semibold text-[#b8c8d9]">Topics</span>
-                    </div>
-                    <div>
-                      <span className="block text-lg font-bold">{testCount}</span>
-                      <span className="text-xs font-semibold text-[#b8c8d9]">Test resources</span>
-                    </div>
-                  </div>
+                  <span className={`grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br ${unitAccent} text-xl font-bold text-white shadow-[0_8px_16px_rgba(76,79,202,0.24)] lg:size-16 lg:text-2xl`} aria-hidden="true">{unit.unitName.match(/^\d+/)?.[0] ?? unitIndex + 1}</span>
+                  <div className="min-w-0 flex-1"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#71699b]">Unit</p><h2 className="mt-1 text-lg font-bold tracking-tight lg:text-xl">{unit.unitName}</h2><div className="mt-2 flex flex-wrap items-center gap-2 text-sm font-semibold text-muted"><span>{topicCount} topics</span><span aria-hidden="true">•</span><span>{testCount} test resources</span></div></div>
+                  <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#f0efff] text-[#554fd1] transition group-hover:bg-[#554fd1] group-hover:text-white" aria-hidden="true"><ChevronRight size={21} /></span>
                 </button>
               );
             })}
@@ -1352,27 +1468,28 @@ function TestsPage() {
         <div className="space-y-4">
           <div>
             <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-semibold">
-              <button className="text-blue transition hover:text-ink" onClick={resetToCourses}>All courses</button>
+              <button className="text-blue transition hover:text-ink" onClick={() => setSelectedUnitId(null)}>{selectedSubject.subjectName}</button>
               <span className="text-muted" aria-hidden="true">/</span>
-              <button className="text-blue transition hover:text-ink" onClick={() => setSelectedUnitId(null)}>Units</button>
+              <span className="text-muted">{selectedUnit.unitName}</span>
             </div>
             <h2 className="mt-2 font-bold">Topics in {selectedUnit.unitName}</h2>
           </div>
-          <div className="grid gap-4 lg:grid-cols-2">
-            {unitTopics.map((topic) => {
+          <div className="space-y-3">
+            {unitTopics.map((topic, topicIndex) => {
               const topicTests = testResources.filter((test) => test.topicId === topic.id);
+              const topicAccent = ['bg-[#6259df]', 'bg-[#0ca89c]', 'bg-[#ef8b4f]', 'bg-[#a15bd0]'][topicIndex % 4];
               return (
-                <Panel className="p-4 lg:p-5" key={topic.id}>
-                  <p className="text-xs font-semibold text-[#b8c8d9]">Topic</p>
-                  <h2 className="mt-2 font-bold">{topic.topicName}</h2>
+                <Panel className="overflow-hidden p-0" key={topic.id} tone="light">
+                  <div className="flex items-start gap-4 px-4 py-4 lg:items-center lg:px-5"><span className={`mt-0.5 size-3 shrink-0 rounded-full ${topicAccent} lg:size-4`} aria-hidden="true" /><div className="min-w-0 flex-1"><h2 className="text-lg font-bold lg:text-xl">{topic.topicName}</h2></div><span className="shrink-0 rounded-lg bg-[#f0efff] px-2.5 py-1 text-sm font-bold text-[#554fd1]">{topicTests.length} {topicTests.length === 1 ? 'test' : 'tests'}</span></div>
 
-                  <div className="mt-4 space-y-3">
+                  <div className="space-y-3 border-t border-[#e2dff4] bg-[#faf9ff] px-4 py-3 lg:px-5">
                     {topicTests.length ? (
                       topicTests.map((test, testIndex) => {
                         const questionCount = test.version ? state.questions.filter((question) => question.testVersionId === test.version?.id).length : 0;
                         return (
-                          <div className="rounded-app border border-line bg-white p-3 text-ink" key={test.id}>
-                            <div className="flex items-start justify-between gap-3">
+                          <div className="flex flex-col gap-3 rounded-app border border-[#dedbf0] bg-white p-3 text-ink sm:flex-row sm:items-center sm:justify-between" key={test.id}>
+                            <div className="min-w-0">
+                            <div className="flex items-start justify-between gap-3 sm:block">
                               <div>
                                 <h3 className="text-sm font-bold">Test {testIndex + 1}</h3>
                                 <p className="mt-1 text-xs text-muted">{test.testDescription}</p>
@@ -1381,13 +1498,15 @@ function TestsPage() {
                                 {test.status === 'published' ? 'Published' : test.status === 'draft' ? 'Draft' : 'Archived'}
                               </StatusBadge>
                             </div>
-                            <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium text-muted">
+                            <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium text-muted">
                               <span>{test.version ? `Version ${test.version.versionNumber}` : 'No version'}</span>
                               <span aria-hidden="true">•</span>
                               <span>{questionCount} questions</span>
                               <span aria-hidden="true">•</span>
                               <span>{Math.round(test.defaultTimeLimitSeconds / 60)} min</span>
                             </div>
+                            </div>
+                            <Button className="min-h-10 shrink-0 px-4" disabled={!test.version || !questionCount} onClick={() => openTestPreview(test.id)} type="button" variant="secondary"><BookOpenCheck size={16} aria-hidden="true" />Preview</Button>
                           </div>
                         );
                       })
@@ -1403,6 +1522,24 @@ function TestsPage() {
           </div>
         </div>
       ) : null}
+      {previewTest ? (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#10142b]/55 p-4 backdrop-blur-sm" role="presentation">
+          <section aria-label={`${previewTest.testTitle} preview`} className="max-h-[calc(100vh-2rem)] w-full max-w-3xl overflow-auto rounded-[1.5rem] border-2 border-[#7774ec] bg-white text-ink shadow-[0_28px_72px_rgba(19,25,72,0.38)]">
+            <div className="flex items-start justify-between gap-4 border-b border-line p-5 lg:p-6">
+              <div><p className="text-xs font-semibold uppercase tracking-normal text-muted">Teacher preview</p><h2 className="mt-1 text-xl font-bold">{previewTest.testTitle}</h2><p className="mt-1 text-sm text-muted">Read-only test content. Nothing is recorded.</p></div>
+              <button aria-label="Close test preview" className="grid size-10 place-items-center rounded-xl border border-line bg-mist text-muted transition hover:border-blue hover:text-blue" onClick={() => setPreviewTestId(null)} type="button"><X size={18} aria-hidden="true" /></button>
+            </div>
+            <div className="p-5 lg:p-6">
+              {previewQuestion ? <>
+                <div className="flex items-center justify-between gap-4"><p className="text-sm font-semibold text-muted">Question {previewQuestionIndex + 1} of {previewQuestions.length}</p><span className="rounded-lg bg-[#eef0ff] px-2.5 py-1 text-sm font-bold text-blue">{previewQuestion.maxMarks} {previewQuestion.maxMarks === 1 ? 'mark' : 'marks'}</span></div>
+                <h3 className="mt-5 text-lg font-bold leading-7">{previewQuestion.questionText}</h3>
+                {previewQuestion.options?.length ? <div className="mt-5 space-y-3">{previewQuestion.options.sort((first, second) => first.optionOrder - second.optionOrder).map((option, optionIndex) => <div className="rounded-app border border-line bg-mist p-4 font-semibold" key={option.id}>{String.fromCharCode(65 + optionIndex)}. {option.optionText}</div>)}</div> : <div className="mt-5 rounded-app border border-dashed border-line bg-mist p-4 text-sm text-muted">This question has a written answer.</div>}
+                <div className="mt-6 flex items-center justify-between gap-3 border-t border-line pt-4"><Button disabled={previewQuestionIndex === 0} onClick={() => setPreviewQuestionIndex((index) => index - 1)} type="button" variant="secondary">Previous</Button><Button disabled={previewQuestionIndex === previewQuestions.length - 1} onClick={() => setPreviewQuestionIndex((index) => index + 1)} type="button">Next</Button></div>
+              </> : <p className="rounded-app border border-line bg-mist p-4 text-sm text-muted">This test has no published questions to preview yet.</p>}
+            </div>
+          </section>
+        </div>
+      ) : null}
     </TeacherPage>
   );
 }
@@ -1412,6 +1549,14 @@ type AssignmentTab = 'create' | 'active' | 'expired';
 function dueDateInputToIso(value: string): string | undefined {
   if (!value) return undefined;
   return new Date(`${value}T23:59:00`).toISOString();
+}
+
+function defaultDueDateRange(): { from: string; to: string } {
+  const to = new Date();
+  const from = new Date(to);
+  from.setDate(from.getDate() - 7);
+  const toInput = (date: Date) => new Date(date.getTime() - date.getTimezoneOffset() * 60_000).toISOString().slice(0, 10);
+  return { from: toInput(from), to: toInput(to) };
 }
 
 function assignmentSortTime(value: string): number {
@@ -1429,23 +1574,29 @@ function AssignmentsPage() {
   const [assignmentUnitId, setAssignmentUnitId] = useState(allResultsFilterValue);
   const [assignmentTopicId, setAssignmentTopicId] = useState(allResultsFilterValue);
   const [currentTime, setCurrentTime] = useState(() => Date.now());
-  const dueDateInputRef = useRef<HTMLInputElement>(null);
+  const [dueDate, setDueDate] = useState('');
   const [selectedVersionIds, setSelectedVersionIds] = useState<string[]>([]);
   const [isSaving, setIsSaving] = useState(false);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const selectedCreateClass = activeClasses.find((classRecord) => classRecord.id === createClassId);
+  const createSubjects = state.subjects.filter((subject) => selectedCreateClass?.courseIds.includes(subject.id));
+  const selectedAssignmentClass = activeClasses.find((classRecord) => classRecord.id === assignmentClassId);
+  const assignmentSubjects = assignmentClassId === allResultsFilterValue
+    ? state.subjects
+    : state.subjects.filter((subject) => selectedAssignmentClass?.courseIds.includes(subject.id));
 
   useEffect(() => {
     const firstClassId = activeClasses[0]?.id ?? '';
-    const firstSubjectId = state.subjects[0]?.id ?? '';
+    const firstSubjectId = createSubjects[0]?.id ?? '';
     if ((!createClassId && firstClassId) || (createClassId && !activeClasses.some((classRecord) => classRecord.id === createClassId))) {
       setCreateClassId(firstClassId);
     }
-    if ((!createSubjectId && firstSubjectId) || (createSubjectId && !state.subjects.some((subject) => subject.id === createSubjectId))) {
+    if ((!createSubjectId && firstSubjectId) || (createSubjectId && !createSubjects.some((subject) => subject.id === createSubjectId))) {
       setCreateSubjectId(firstSubjectId);
       setSelectedVersionIds([]);
     }
-  }, [activeClasses, createClassId, createSubjectId, state.subjects]);
+  }, [activeClasses, createClassId, createSubjectId, createSubjects]);
 
   useEffect(() => {
     const timerId = window.setInterval(() => setCurrentTime(Date.now()), 60000);
@@ -1488,12 +1639,12 @@ function AssignmentsPage() {
     if (assignmentClassId !== allResultsFilterValue && !activeClasses.some((classRecord) => classRecord.id === assignmentClassId)) {
       setAssignmentClassId(allResultsFilterValue);
     }
-    if (assignmentSubjectId !== allResultsFilterValue && !state.subjects.some((subject) => subject.id === assignmentSubjectId)) {
+    if (assignmentSubjectId !== allResultsFilterValue && !assignmentSubjects.some((subject) => subject.id === assignmentSubjectId)) {
       setAssignmentSubjectId(allResultsFilterValue);
       setAssignmentUnitId(allResultsFilterValue);
       setAssignmentTopicId(allResultsFilterValue);
     }
-  }, [activeClasses, assignmentClassId, assignmentSubjectId, state.subjects]);
+  }, [activeClasses, assignmentClassId, assignmentSubjectId, assignmentSubjects]);
 
   useEffect(() => {
     if (assignmentUnitId !== allResultsFilterValue && !assignmentUnits.some((unit) => unit.id === assignmentUnitId)) {
@@ -1535,15 +1686,17 @@ function AssignmentsPage() {
 
   const createAssignments = async () => {
     try {
+      if (!dueDate) throw new Error('Choose a due date before creating assignments.');
       setError('');
       setMessage('');
       setIsSaving(true);
       const created = await state.createAssignments({
         classId: createClassId,
         testVersionIds: selectedVersionIds,
-        dueAt: dueDateInputToIso(dueDateInputRef.current?.value ?? ''),
+        dueAt: dueDateInputToIso(dueDate),
       });
       setSelectedVersionIds([]);
+      setDueDate('');
       setAssignmentClassId(createClassId);
       setAssignmentSubjectId(createSubjectId);
       setAssignmentUnitId(allResultsFilterValue);
@@ -1584,7 +1737,7 @@ function AssignmentsPage() {
           {
             assignment,
             className: classRecord.className,
-            topicName: topic.topicName,
+            testName: test.testTitle,
             dueSortTime: assignment.dueAt ? assignmentSortTime(assignment.dueAt) : Number.POSITIVE_INFINITY,
             createdSortTime: assignmentSortTime(assignment.startAt),
             isExpired: Boolean(assignment.dueAt && assignmentSortTime(assignment.dueAt) < currentTime),
@@ -1594,7 +1747,7 @@ function AssignmentsPage() {
       .sort((first, second) => {
         if (first.dueSortTime !== second.dueSortTime) return first.dueSortTime - second.dueSortTime;
         if (first.createdSortTime !== second.createdSortTime) return second.createdSortTime - first.createdSortTime;
-        return resultNaturalSort.compare(first.topicName, second.topicName);
+        return resultNaturalSort.compare(first.testName, second.testName);
       });
   }, [
     activeClasses,
@@ -1623,7 +1776,7 @@ function AssignmentsPage() {
         ].map(([id, label]) => (
           <button
             className={`min-h-10 rounded-[6px] px-4 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-blue/25 ${
-              activeTab === id ? 'bg-[#14243a] text-white' : 'text-muted hover:bg-mist hover:text-ink'
+              activeTab === id ? 'bg-[#202a6f] text-white' : 'text-muted hover:bg-mist hover:text-ink'
             }`}
             key={id}
             onClick={() => setActiveTab(id as AssignmentTab)}
@@ -1639,14 +1792,14 @@ function AssignmentsPage() {
       {activeTab === 'create' ? (
         <div className="space-y-5">
           <Panel className="p-4">
-            <div className="mb-3 border-b border-[#2a3a50] pb-3">
+            <div className="mb-3 border-b border-[#4b59bd] pb-3">
               <p className="text-xs font-semibold uppercase tracking-normal text-[#b8c8d9]">Assignment details</p>
             </div>
             <div className="grid gap-4 lg:grid-cols-3">
               <label className="space-y-2 text-sm font-semibold">
                 <span className={darkSubtleText}>Class</span>
                 <select
-                  className={lightControlClass}
+                  className={whiteControlClass}
                   value={createClassId}
                   onChange={(event) => {
                     setCreateClassId(event.target.value);
@@ -1664,7 +1817,7 @@ function AssignmentsPage() {
               <label className="space-y-2 text-sm font-semibold">
                 <span className={darkSubtleText}>Course</span>
                 <select
-                  className={lightControlClass}
+                  className={whiteControlClass}
                   value={createSubjectId}
                   onChange={(event) => {
                     setCreateSubjectId(event.target.value);
@@ -1673,7 +1826,7 @@ function AssignmentsPage() {
                     setError('');
                   }}
                 >
-                  {state.subjects.map((subject) => (
+                  {createSubjects.map((subject) => (
                     <option key={subject.id} value={subject.id}>
                       {subject.subjectName}
                     </option>
@@ -1683,9 +1836,11 @@ function AssignmentsPage() {
               <label className="space-y-2 text-sm font-semibold">
                 <span className={darkSubtleText}>Due date</span>
                 <input
-                  className={lightControlClass}
-                  ref={dueDateInputRef}
+                  className={whiteControlClass}
+                  onChange={(event) => setDueDate(event.target.value)}
+                  required
                   type="date"
+                  value={dueDate}
                 />
               </label>
             </div>
@@ -1701,48 +1856,41 @@ function AssignmentsPage() {
             </Button>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-3">
             {createUnits.map((unit) => {
               const unitTopics = state.topics.filter((topic) => topic.unitId === unit.id);
+              const unitTests = publishedTests.filter((test) => unitTopics.some((topic) => topic.id === test.topicId));
+              const unitVersionIds = unitTests.map((test) => test.version.id);
+              const unitTestCount = unitTests.length;
+              const selectedUnitTestCount = unitVersionIds.filter((versionId) => selectedVersions.has(versionId)).length;
+              const allUnitTestsSelected = Boolean(unitVersionIds.length && selectedUnitTestCount === unitVersionIds.length);
               return (
-                <Panel className="p-4" key={unit.id}>
-                  <h2 className="font-bold">{unit.unitName}</h2>
-                  <div className="mt-4 space-y-3">
+                <details className="group rounded-app border-2 border-[#dedbf0] bg-white text-ink shadow-[0_8px_18px_rgba(58,55,143,0.07)] transition duration-200 hover:-translate-y-0.5 hover:border-[#7164e8] hover:shadow-[0_16px_28px_rgba(58,55,143,0.15)]" key={unit.id}>
+                  <summary className="flex cursor-pointer list-none items-center gap-4 p-4 lg:p-5"><span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#f0efff] text-[#554fd1] transition group-open:rotate-90"><ChevronRight size={20} aria-hidden="true" /></span><div className="min-w-0 flex-1"><h2 className="font-bold lg:text-lg">{unit.unitName}</h2><p className="mt-1 text-sm text-muted">{unitTopics.length} topics · {unitTestCount} tests</p></div><div className="flex flex-wrap items-center justify-end gap-2"><span className="text-xs font-semibold text-muted">{selectedUnitTestCount}/{unitTestCount} selected</span>{unitTestCount ? <label className="inline-flex min-h-9 cursor-pointer items-center gap-2 rounded-app border border-line bg-white px-3 text-sm font-semibold text-ink"><input checked={allUnitTestsSelected} className="size-4 accent-blue" onChange={() => toggleTopicVersions(unitVersionIds)} onClick={(event) => event.stopPropagation()} type="checkbox" /><span>Select all</span></label> : null}</div></summary>
+                  <div className="space-y-2 border-t border-[#e2dff4] bg-[#faf9ff] p-3 lg:p-4">
                     {unitTopics.map((topic) => {
                       const topicTests = publishedTests.filter((test) => test.topicId === topic.id);
                       const topicVersionIds = topicTests.map((test) => test.version.id);
                       const selectedTopicTestCount = topicVersionIds.filter((versionId) => selectedVersions.has(versionId)).length;
                       const allTopicTestsSelected = Boolean(topicVersionIds.length && selectedTopicTestCount === topicVersionIds.length);
                       return (
-                        <div className="rounded-app border border-line bg-white p-3 text-ink" key={topic.id}>
-                          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-                            <div>
-                              <p className="text-xs font-semibold text-muted">Topic</p>
-                              <h3 className="mt-1 font-bold">{topic.topicName}</h3>
-                            </div>
+                        <details className="group rounded-app border-2 border-[#cbc3f3] bg-[#e9e6ff] text-ink shadow-[0_4px_10px_rgba(81,79,202,0.08)] transition duration-200 hover:-translate-y-0.5 hover:border-[#7164e8] hover:shadow-[0_12px_22px_rgba(58,55,143,0.16)]" key={topic.id}>
+                          <summary className="flex cursor-pointer list-none items-center gap-3 p-3"><span className="grid size-8 shrink-0 place-items-center rounded-lg bg-[#f0efff] text-[#554fd1] transition group-open:rotate-90"><ChevronRight size={17} aria-hidden="true" /></span><div className="min-w-0 flex-1"><h3 className="font-bold">{topic.topicName}</h3><p className="mt-0.5 text-xs text-muted">{topicTests.length} {topicTests.length === 1 ? 'test' : 'tests'} · {selectedTopicTestCount} selected</p></div>
                             <div className="flex flex-wrap items-center gap-2">
-                              <StatusBadge tone={topicTests.length ? 'blue' : 'neutral'}>
-                                {topicTests.length ? `${topicTests.length} test${topicTests.length === 1 ? '' : 's'}` : 'No tests'}
-                              </StatusBadge>
                               {topicTests.length ? (
                                 <>
                                   <span className="text-xs font-semibold text-muted">
                                     {selectedTopicTestCount}/{topicTests.length} selected
                                   </span>
-                                  <Button
-                                    className="min-h-9 px-3"
-                                    type="button"
-                                    variant="outlineLight"
-                                    onClick={() => toggleTopicVersions(topicVersionIds)}
-                                  >
-                                    {allTopicTestsSelected ? <SquareMinus size={16} aria-hidden="true" /> : <SquareCheck size={16} aria-hidden="true" />}
-                                    {allTopicTestsSelected ? 'Clear topic' : 'Select all'}
-                                  </Button>
+                                  <label className="inline-flex min-h-9 cursor-pointer items-center gap-2 rounded-app border border-line bg-white px-3 text-sm font-semibold text-ink">
+                                    <input checked={allTopicTestsSelected} className="size-4 accent-blue" onChange={() => toggleTopicVersions(topicVersionIds)} onClick={(event) => event.stopPropagation()} type="checkbox" />
+                                    <span>Select all</span>
+                                  </label>
                                 </>
                               ) : null}
                             </div>
-                          </div>
-                          <div className="mt-3 space-y-2">
+                          </summary>
+                          <div className="space-y-2 border-t border-[#e2dff4] bg-[#faf9ff] p-3">
                             {topicTests.map((test) => {
                               const checked = selectedVersions.has(test.version.id);
                               const questionCount = state.questions.filter((question) => question.testVersionId === test.version.id).length;
@@ -1760,7 +1908,7 @@ function AssignmentsPage() {
                                     type="checkbox"
                                   />
                                   <span className="min-w-0 flex-1">
-                                    <span className="block text-sm font-bold">{test.testTitle}</span>
+                                    <span className="flex flex-wrap items-center gap-2"><span className="text-sm font-bold">{test.testTitle}</span><span className="rounded-md bg-[#e6f5ff] px-2 py-0.5 text-xs font-bold text-[#24559a]">{markingMethodLabel[test.markingMethod]}</span></span>
                                     <span className="mt-1 block text-xs text-muted">{test.testDescription}</span>
                                     <span className="mt-2 flex flex-wrap gap-3 text-xs text-muted">
                                       <span>v{test.version.versionNumber}</span>
@@ -1772,11 +1920,11 @@ function AssignmentsPage() {
                               );
                             })}
                           </div>
-                        </div>
+                        </details>
                       );
                     })}
                   </div>
-                </Panel>
+                </details>
               );
             })}
           </div>
@@ -1786,7 +1934,7 @@ function AssignmentsPage() {
       {activeTab === 'active' || activeTab === 'expired' ? (
         <div className="space-y-5">
           <Panel className="p-4">
-            <div className="mb-3 border-b border-[#2a3a50] pb-3">
+            <div className="mb-3 border-b border-[#4b59bd] pb-3">
               <p className="text-xs font-semibold uppercase tracking-normal text-[#b8c8d9]">Filters</p>
             </div>
             <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-4">
@@ -1817,7 +1965,7 @@ function AssignmentsPage() {
                   }}
                 >
                   <option value={allResultsFilterValue}>All courses</option>
-                  {state.subjects.map((subject) => (
+                  {assignmentSubjects.map((subject) => (
                     <option key={subject.id} value={subject.id}>
                       {subject.subjectName}
                     </option>
@@ -1867,7 +2015,7 @@ function AssignmentsPage() {
                   <tr>
                     <th className="px-3 py-3">Date created</th>
                     <th className="px-3 py-3">Class</th>
-                    <th className="px-3 py-3">Topic</th>
+                    <th className="px-3 py-3">Test</th>
                     <th className="px-3 py-3">Assignment deadline</th>
                   </tr>
                 </thead>
@@ -1879,7 +2027,7 @@ function AssignmentsPage() {
                           {row.assignment.startAt ? formatDate(row.assignment.startAt) : '-'}
                         </td>
                         <td className="px-3 py-3">{row.className}</td>
-                        <td className="px-3 py-3">{row.topicName}</td>
+                        <td className="px-3 py-3 font-semibold">{row.testName}</td>
                         <td className="whitespace-nowrap px-3 py-3">
                           {row.assignment.dueAt ? formatDate(row.assignment.dueAt) : 'No deadline'}
                         </td>
@@ -1904,11 +2052,22 @@ function AssignmentsPage() {
 
 function ResultsPage() {
   const state = useAppState();
+  const topResultsScrollRef = useRef<HTMLDivElement>(null);
+  const resultsTableScrollRef = useRef<HTMLDivElement>(null);
   const activeClasses = useMemo(() => state.classes.filter((classRecord) => classRecord.status === 'active' && !classRecord.isSystem), [state.classes]);
   const [selectedClassId, setSelectedClassId] = useState(() => state.classes.find((classRecord) => classRecord.status === 'active' && !classRecord.isSystem)?.id ?? allResultsFilterValue);
   const [selectedSubjectId, setSelectedSubjectId] = useState(() => state.subjects[0]?.id ?? allResultsFilterValue);
   const [selectedUnitId, setSelectedUnitId] = useState(allResultsFilterValue);
   const [selectedTopicId, setSelectedTopicId] = useState(allResultsFilterValue);
+  const [dueDateFrom, setDueDateFrom] = useState(() => defaultDueDateRange().from);
+  const [dueDateTo, setDueDateTo] = useState(() => defaultDueDateRange().to);
+  const [isDueDateFilterEnabled, setIsDueDateFilterEnabled] = useState(false);
+  const [filtersOpen, setFiltersOpen] = useState(false);
+  const [scoreSort, setScoreSort] = useState<{ testId: string; direction: 'ascending' | 'descending' } | null>(null);
+  const selectedResultsClass = activeClasses.find((classRecord) => classRecord.id === selectedClassId);
+  const availableResultSubjects = selectedClassId === allResultsFilterValue
+    ? state.subjects
+    : state.subjects.filter((subject) => selectedResultsClass?.courseIds.includes(subject.id));
 
   const unitById = useMemo(() => new Map(state.units.map((unit) => [unit.id, unit])), [state.units]);
   const topicById = useMemo(() => new Map(state.topics.map((topic) => [topic.id, topic])), [state.topics]);
@@ -1940,8 +2099,8 @@ function ResultsPage() {
       setSelectedClassId(firstClassId);
     }
 
-    if (selectedSubjectId !== allResultsFilterValue && !state.subjects.some((subject) => subject.id === selectedSubjectId)) {
-      setSelectedSubjectId(state.subjects[0]?.id ?? allResultsFilterValue);
+    if (selectedSubjectId !== allResultsFilterValue && !availableResultSubjects.some((subject) => subject.id === selectedSubjectId)) {
+      setSelectedSubjectId(availableResultSubjects[0]?.id ?? allResultsFilterValue);
       setSelectedUnitId(allResultsFilterValue);
       setSelectedTopicId(allResultsFilterValue);
     }
@@ -1954,7 +2113,7 @@ function ResultsPage() {
     if (selectedTopicId !== allResultsFilterValue && !topicOptions.some((topic) => topic.id === selectedTopicId)) {
       setSelectedTopicId(allResultsFilterValue);
     }
-  }, [activeClasses, selectedClassId, selectedSubjectId, selectedTopicId, selectedUnitId, state.subjects, topicOptions, unitOptions]);
+  }, [activeClasses, availableResultSubjects, selectedClassId, selectedSubjectId, selectedTopicId, selectedUnitId, topicOptions, unitOptions]);
 
   const filteredTests = useMemo(
     () =>
@@ -2022,6 +2181,16 @@ function ResultsPage() {
     [selectedClassId, state.students],
   );
 
+  const assignmentsByTestId = useMemo(() => {
+    const testIdByVersionId = new Map(state.testVersions.map((version) => [version.id, version.testId]));
+    const assignments = new Map<string, TestAssignment[]>();
+    state.assignments.filter((assignment) => assignment.status !== 'archived').forEach((assignment) => {
+      const testId = testIdByVersionId.get(assignment.testVersionId);
+      if (testId) assignments.set(testId, [...(assignments.get(testId) ?? []), assignment]);
+    });
+    return assignments;
+  }, [state.assignments, state.testVersions]);
+
   const resultRows = useMemo(() => {
     const attemptsByCell = new Map<string, TestAttempt[]>();
     resultAttempts.forEach((attempt) => {
@@ -2030,9 +2199,13 @@ function ResultsPage() {
     });
 
     return filteredTests.map((test) => {
+      const matchingAssignments = (assignmentsByTestId.get(test.id) ?? []).filter(
+        (assignment) => selectedClassId === allResultsFilterValue || assignment.classId === selectedClassId,
+      );
+      const isAssignedToView = matchingAssignments.length > 0;
       const cells = studentColumns.map((student) => {
         const attempt = preferredResultAttempt(attemptsByCell.get(`${test.id}:${student.id}`) ?? []);
-        const isApplicable = selectedClassId === allResultsFilterValue || currentRosterIds.has(student.id) || Boolean(attempt);
+        const isApplicable = Boolean(attempt) || (isAssignedToView && currentRosterIds.has(student.id));
         const label = resultAttemptLabel(attempt, isApplicable);
         return { attempt, ...label, student };
       });
@@ -2040,27 +2213,60 @@ function ResultsPage() {
         .map((cell) => cell.attempt?.percentage)
         .filter((score): score is number => typeof score === 'number');
       const average = scores.length ? Math.round(scores.reduce((total, score) => total + score, 0) / scores.length) : undefined;
+      const latestAssignment = [...matchingAssignments].sort((first, second) => assignmentSortTime(second.dueAt) - assignmentSortTime(first.dueAt))[0];
       return {
         average,
+        dueAt: latestAssignment?.dueAt,
         cells,
         test,
       };
+    }).filter((row) => {
+      if (!isDueDateFilterEnabled) return true;
+      if (!row.dueAt) return false;
+      const dueDate = row.dueAt.slice(0, 10);
+      return (!dueDateFrom || dueDate >= dueDateFrom) && (!dueDateTo || dueDate <= dueDateTo);
     });
-  }, [currentRosterIds, filteredTests, resultAttempts, selectedClassId, studentColumns]);
+  }, [assignmentsByTestId, currentRosterIds, dueDateFrom, dueDateTo, filteredTests, isDueDateFilterEnabled, resultAttempts, selectedClassId, studentColumns]);
 
-  const tableMinWidth = `${Math.max(760, 265 + studentColumns.length * 115)}px`;
+  const tableMinWidth = `${Math.max(760, 472 + studentColumns.length * 76)}px`;
+  const orderedStudentColumns = useMemo(() => {
+    if (!scoreSort) return studentColumns;
+    const row = resultRows.find((resultRow) => resultRow.test.id === scoreSort.testId);
+    if (!row) return studentColumns;
+    const scoreByStudentId = new Map(row.cells.map((cell) => [cell.student.id, cell.attempt?.percentage]));
+    return [...studentColumns].sort((first, second) => {
+      const firstScore = scoreByStudentId.get(first.id);
+      const secondScore = scoreByStudentId.get(second.id);
+      if (typeof firstScore !== 'number' && typeof secondScore !== 'number') return studentFullName(first).localeCompare(studentFullName(second));
+      if (typeof firstScore !== 'number') return 1;
+      if (typeof secondScore !== 'number') return -1;
+      return scoreSort.direction === 'descending' ? secondScore - firstScore : firstScore - secondScore;
+    });
+  }, [resultRows, scoreSort, studentColumns]);
+  const syncResultsScroll = (source: HTMLDivElement, target: HTMLDivElement | null) => {
+    if (target && target.scrollLeft !== source.scrollLeft) target.scrollLeft = source.scrollLeft;
+  };
 
   return (
-    <TeacherPage title="Results" titleVisibility="sr-only">
+    <TeacherPage title="Student Results">
       <Panel className="p-4">
-        <div className="mb-4 flex flex-col gap-1">
-          <h2 className="font-bold">Result filters</h2>
-        </div>
-        <div className="grid gap-4 lg:grid-cols-[minmax(150px,0.8fr)_minmax(220px,1.2fr)_minmax(180px,1fr)_minmax(260px,1.4fr)]">
+        <button
+          aria-expanded={filtersOpen}
+          className="flex w-full items-center justify-between gap-4 text-left"
+          onClick={() => setFiltersOpen((open) => !open)}
+          type="button"
+        >
+          <div>
+            <h2 className="font-bold">Result filters</h2>
+            <p className="mt-1 text-sm text-muted">Change the class, course, topic or due-date view.</p>
+          </div>
+          <ChevronRight aria-hidden="true" className={`shrink-0 text-blue transition-transform ${filtersOpen ? 'rotate-90' : ''}`} size={22} />
+        </button>
+        {filtersOpen ? <div className="mt-4 grid gap-4 lg:grid-cols-3 xl:grid-cols-6">
           <label className="space-y-2 text-sm font-semibold">
             <span className={darkSubtleText}>Class</span>
             <select
-              className={lightControlClass}
+              className={whiteControlClass}
               value={selectedClassId}
               onChange={(event) => setSelectedClassId(event.target.value)}
             >
@@ -2075,7 +2281,7 @@ function ResultsPage() {
           <label className="space-y-2 text-sm font-semibold">
             <span className={darkSubtleText}>Course</span>
             <select
-              className={lightControlClass}
+              className={whiteControlClass}
               value={selectedSubjectId}
               onChange={(event) => {
                 setSelectedSubjectId(event.target.value);
@@ -2084,7 +2290,7 @@ function ResultsPage() {
               }}
             >
               <option value={allResultsFilterValue}>All courses</option>
-              {state.subjects.map((subject) => (
+              {availableResultSubjects.map((subject) => (
                 <option key={subject.id} value={subject.id}>
                   {subject.subjectName}
                 </option>
@@ -2094,7 +2300,7 @@ function ResultsPage() {
           <label className="space-y-2 text-sm font-semibold">
             <span className={darkSubtleText}>Unit</span>
             <select
-              className={lightControlClass}
+              className={whiteControlClass}
               value={selectedUnitId}
               onChange={(event) => {
                 setSelectedUnitId(event.target.value);
@@ -2112,7 +2318,7 @@ function ResultsPage() {
           <label className="space-y-2 text-sm font-semibold">
             <span className={darkSubtleText}>Topic</span>
             <select
-              className={lightControlClass}
+              className={whiteControlClass}
               value={selectedTopicId}
               onChange={(event) => setSelectedTopicId(event.target.value)}
             >
@@ -2124,19 +2330,45 @@ function ResultsPage() {
               ))}
             </select>
           </label>
-        </div>
+          <label className="col-span-full inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-white">
+            <input checked={isDueDateFilterEnabled} className="size-4 accent-blue" onChange={(event) => setIsDueDateFilterEnabled(event.target.checked)} type="checkbox" />
+            Filter by due date
+          </label>
+          <label className="space-y-2 text-sm font-semibold">
+            <span className={darkSubtleText}>Due from</span>
+            <input className={whiteControlClass} disabled={!isDueDateFilterEnabled} onChange={(event) => setDueDateFrom(event.target.value)} type="date" value={dueDateFrom} />
+          </label>
+          <label className="space-y-2 text-sm font-semibold">
+            <span className={darkSubtleText}>Due to</span>
+            <input className={whiteControlClass} disabled={!isDueDateFilterEnabled} onChange={(event) => setDueDateTo(event.target.value)} type="date" value={dueDateTo} />
+          </label>
+        </div> : null}
       </Panel>
 
       <Panel className="p-4">
-        <div className={nestedTableFrame}>
+        <div
+          aria-label="Results table horizontal scrollbar"
+          className="mb-2 h-5 overflow-x-auto rounded-app border border-line bg-mist"
+          onScroll={(event) => syncResultsScroll(event.currentTarget, resultsTableScrollRef.current)}
+          ref={topResultsScrollRef}
+          role="region"
+        >
+          <div aria-hidden="true" style={{ minWidth: tableMinWidth }} />
+        </div>
+        <div
+          className={`${nestedTableFrame} max-h-[70vh] overflow-auto`}
+          onScroll={(event) => syncResultsScroll(event.currentTarget, topResultsScrollRef.current)}
+          ref={resultsTableScrollRef}
+        >
           <table className="w-full border-collapse text-left text-sm" style={{ minWidth: tableMinWidth }}>
             <thead className={`${nestedTableHead} text-ink`}>
               <tr>
-                <th className="w-[180px] border border-line px-3 py-3">Test</th>
-                <th className="w-[85px] border border-line px-3 py-3">Class avg</th>
-                {studentColumns.map((student) => (
-                  <th className="w-[115px] border border-line px-3 py-3" key={student.id}>
-                    <span className="block truncate">{studentFullName(student)}</span>
+                <th className="sticky left-0 top-0 z-30 w-[300px] min-w-[300px] border border-line bg-[#f6f4ff] px-3 py-3">Test</th>
+                <th className="sticky left-[300px] top-0 z-30 w-[92px] min-w-[92px] whitespace-nowrap border border-line bg-[#f6f4ff] px-2 py-3 text-center text-xs">Due date</th>
+                <th className="sticky left-[392px] top-0 z-30 w-[80px] min-w-[80px] whitespace-nowrap border border-line bg-[#f6f4ff] px-2 py-3 text-center text-xs shadow-[5px_0_10px_rgba(33,42,111,0.13)]">Class avg</th>
+                {orderedStudentColumns.map((student) => (
+                  <th className="sticky top-0 z-20 w-px whitespace-nowrap border border-line bg-[#f6f4ff] px-2 py-3 text-center text-xs" key={student.id}>
+                    <span className="block max-w-[76px] truncate" title={studentFullName(student)}>{studentFullName(student)}</span>
                   </th>
                 ))}
               </tr>
@@ -2146,25 +2378,39 @@ function ResultsPage() {
                 resultRows.map((row) => (
                   <tr key={row.test.id}>
                     <th
-                      className="border border-line px-3 py-3 text-left align-top font-semibold"
+                      className="sticky left-0 z-20 w-[300px] min-w-[300px] border border-line bg-white px-3 py-3 text-left align-top font-semibold"
                       scope="row"
                     >
-                      <span className="block">{row.test.testTitle}</span>
+                      <button
+                        className="flex w-full items-center justify-between gap-2 text-left hover:text-blue focus:outline-none focus:ring-2 focus:ring-blue/30"
+                        onClick={() => setScoreSort((current) => current?.testId === row.test.id ? { testId: row.test.id, direction: current.direction === 'descending' ? 'ascending' : 'descending' } : { testId: row.test.id, direction: 'descending' })}
+                        type="button"
+                      >
+                        <span>{row.test.testTitle}</span>
+                        {scoreSort?.testId === row.test.id ? <span aria-label={scoreSort.direction === 'descending' ? 'Highest scores first' : 'Lowest scores first'} className="shrink-0 text-xs text-blue">{scoreSort.direction === 'descending' ? '↓' : '↑'}</span> : null}
+                      </button>
                     </th>
-                    <td className={`border border-line px-3 py-3 align-top font-bold ${scoreTextClass(row.average)}`}>
+                    <td className="sticky left-[300px] z-20 w-[92px] min-w-[92px] whitespace-nowrap border border-line bg-white px-2 py-3 text-center align-top text-xs font-bold">
+                      {row.dueAt ? formatDate(row.dueAt) : '-'}
+                    </td>
+                    <td className={`sticky left-[392px] z-20 w-[80px] min-w-[80px] whitespace-nowrap border border-line bg-white px-2 py-3 text-center align-top text-xs font-bold shadow-[5px_0_10px_rgba(33,42,111,0.13)] ${scoreTextClass(row.average)}`}>
                       {typeof row.average === 'number' ? `${row.average}%` : '-'}
                     </td>
-                    {row.cells.map((cell) => (
-                      <td className={`border border-line px-3 py-3 align-top font-bold ${cell.className}`} key={`${row.test.id}-${cell.student.id}`}>
+                    {orderedStudentColumns.map((student) => {
+                      const cell = row.cells.find((resultCell) => resultCell.student.id === student.id);
+                      if (!cell) return <td className="w-px whitespace-nowrap border border-line px-2 py-3 align-top text-xs font-bold text-muted" key={`${row.test.id}-${student.id}`}>—</td>;
+                      return (
+                      <td className={`w-px whitespace-nowrap border border-line px-2 py-3 text-center align-top text-xs font-bold ${cell.className}`} key={`${row.test.id}-${cell.student.id}`}>
                         {cell.label}
                       </td>
-                    ))}
+                      );
+                    })}
                   </tr>
                 ))
               ) : (
                 <tr>
-                  <td className="border border-line px-3 py-6 text-center text-sm font-semibold text-muted" colSpan={Math.max(2, studentColumns.length + 2)}>
-                    No published tests match these filters.
+                  <td className="border border-line px-3 py-6 text-center text-sm font-semibold text-muted" colSpan={Math.max(3, studentColumns.length + 3)}>
+                    No assigned tests match these filters.
                   </td>
                 </tr>
               )}
@@ -2178,25 +2424,53 @@ function ResultsPage() {
 
 function LeaderboardsPage() {
   const state = useAppState();
-  const activeClass = state.classes.find((classRecord) => classRecord.status === 'active' && !classRecord.isSystem);
+  const activeClasses = useMemo(() => state.classes.filter((classRecord) => classRecord.status === 'active' && !classRecord.isSystem), [state.classes]);
+  const [classId, setClassId] = useState(() => activeClasses[0]?.id ?? allResultsFilterValue);
+  const [yearGroup, setYearGroup] = useState(allResultsFilterValue);
+  const studentById = useMemo(() => new Map(state.students.map((student) => [student.id, student])), [state.students]);
+  const yearGroups = useMemo(
+    () => sortYearGroups(Array.from(new Set(state.students.map((student) => student.yearGroup.replace(/^Year\s*/i, '')).filter(Boolean)))),
+    [state.students],
+  );
+  const rankedClassRows = useMemo(() => {
+    const selectedClass = activeClasses.find((classRecord) => classRecord.id === classId);
+    return state.leaderboardRows
+      .filter((row) => !selectedClass || row.className === selectedClass.className)
+      .filter((row) => yearGroup === allResultsFilterValue || studentById.get(row.studentId)?.yearGroup === `Year ${yearGroup}`)
+      .sort((first, second) => second.points - first.points || first.displayName.localeCompare(second.displayName))
+      .map((row, index) => ({ ...row, rank: index + 1 }));
+  }, [activeClasses, classId, state.leaderboardRows, studentById, yearGroup]);
+  const rankedAllTimeRows = useMemo(
+    () =>
+      state.allTimeLeaderboardRows
+        .filter((row) => yearGroup === allResultsFilterValue || studentById.get(row.studentId)?.yearGroup === `Year ${yearGroup}`)
+        .sort((first, second) => second.points - first.points || first.displayName.localeCompare(second.displayName))
+        .map((row, index) => ({ ...row, rank: index + 1 })),
+    [state.allTimeLeaderboardRows, studentById, yearGroup],
+  );
+
   return (
     <TeacherPage title="Leaderboards">
       <Panel className="overflow-hidden p-0">
-        <div className="flex flex-wrap items-start justify-between gap-5 border-b border-[#2a3a50] px-5 py-5 lg:px-6">
+        <div className="flex flex-wrap items-start justify-between gap-5 border-b border-[#4b59bd] px-5 py-5 lg:px-6">
           <div className="flex items-start gap-3">
             <span className="grid size-11 place-items-center rounded-xl border border-[#315071] bg-[#17304d] text-[#e6bc5c]">
               <Trophy size={22} aria-hidden="true" />
             </span>
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#b8c8d9]">Class leaderboard</p>
-              <h2 className="mt-1 text-xl font-bold text-white">{activeClass?.className ?? 'Current class'}</h2>
-              <p className={`mt-1 text-sm ${darkSubtleText}`}>Current standings based on points earned.</p>
+              <h2 className="mt-1 text-xl font-bold text-white">{activeClasses.find((classRecord) => classRecord.id === classId)?.className ?? 'All classes'}</h2>
+              <p className={`mt-1 text-sm ${darkSubtleText}`}>Standings based on points earned.</p>
             </div>
           </div>
-          <span className="pt-2 text-sm font-semibold text-[#b8c8d9]">{state.leaderboardRows.length} students</span>
+          <span className="pt-2 text-sm font-semibold text-[#b8c8d9]">{rankedClassRows.length} students</span>
+        </div>
+        <div className="grid gap-3 border-b border-[#4b59bd] bg-[#202a6f] p-4 text-white lg:grid-cols-[minmax(150px,1fr)_minmax(140px,0.75fr)] lg:items-end lg:px-5">
+          <label className="space-y-1 text-sm font-semibold"><span className="text-[#d9dfff]">Class</span><select className={whiteControlClass} onChange={(event) => setClassId(event.target.value)} value={classId}><option value={allResultsFilterValue}>All classes</option>{activeClasses.map((classRecord) => <option key={classRecord.id} value={classRecord.id}>{classRecord.className}</option>)}</select></label>
+          <label className="space-y-1 text-sm font-semibold"><span className="text-[#d9dfff]">Year group</span><select className={whiteControlClass} onChange={(event) => setYearGroup(event.target.value)} value={yearGroup}><option value={allResultsFilterValue}>All year groups</option>{yearGroups.map((group) => <option key={group} value={group}>Year {group}</option>)}</select></label>
         </div>
         <div className="space-y-2 p-4 lg:p-5">
-          {state.leaderboardRows.map((row) => (
+          {rankedClassRows.map((row) => (
             <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 rounded-xl border border-line bg-white p-3 text-sm text-ink transition hover:border-[#9ab8d6]" key={row.studentId}>
               <span
                 className={`grid size-9 place-items-center rounded-lg text-sm font-bold ${
@@ -2218,21 +2492,29 @@ function LeaderboardsPage() {
               <StatusBadge tone="green">{row.status}</StatusBadge>
             </div>
           ))}
+          {!rankedClassRows.length ? <p className="rounded-app border border-dashed border-line bg-mist p-4 text-sm font-semibold text-muted">No students match these leaderboard filters.</p> : null}
+        </div>
+      </Panel>
+      <Panel className="mt-5 overflow-hidden p-0">
+        <div className="flex items-start justify-between gap-4 border-b border-line bg-[#f6f4ff] px-5 py-4 lg:px-6">
+          <div><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#5a4eb5]">All-time leaderboard</p><h2 className="mt-1 text-xl font-bold text-ink">All students</h2><p className="mt-1 text-sm text-muted">Includes students whose records are now archived.</p></div>
+          <span className="pt-2 text-sm font-semibold text-muted">{rankedAllTimeRows.length} students</span>
+        </div>
+        <div className="space-y-2 p-4 lg:p-5">
+          {rankedAllTimeRows.map((row) => (
+            <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 rounded-xl border border-line bg-white p-3 text-sm text-ink" key={`all-time-${row.studentId}`}>
+              <span className={`grid size-9 place-items-center rounded-lg text-sm font-bold ${row.rank === 1 ? 'bg-[#f5d879] text-[#49380a]' : row.rank === 2 ? 'bg-[#dbe4ef] text-[#31445d]' : row.rank === 3 ? 'bg-[#e7bf99] text-[#603b1b]' : 'bg-[#eef4f8] text-[#42566f]'}`}>{row.rank}</span>
+              <div className="min-w-0"><span className="block truncate font-bold">{row.displayName}</span><span className="mt-0.5 block text-xs text-muted">{row.points} points</span></div>
+              <StatusBadge tone="green">{row.status}</StatusBadge>
+            </div>
+          ))}
+          {!rankedAllTimeRows.length ? <p className="rounded-app border border-dashed border-line bg-mist p-4 text-sm font-semibold text-muted">No students match this year group.</p> : null}
         </div>
       </Panel>
     </TeacherPage>
   );
 }
 
-function SettingsPage() {
-  return (
-    <TeacherPage title="Settings">
-      <Panel className="p-4">
-        <p className={`text-sm ${darkSubtleText}`}>No teacher settings are available yet.</p>
-      </Panel>
-    </TeacherPage>
-  );
-}
 
 function TeacherPage({
   title,

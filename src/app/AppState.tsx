@@ -1,6 +1,7 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
-import { signOut as signOutFromSupabase } from '../lib/auth';
+import { restoreSignedInSession, signOut as signOutFromSupabase } from '../lib/auth';
+import { clearActivitySession } from '../lib/activity';
 import { statusForPoints } from '../lib/points';
 import { buildLeaderboardFromPoints, loadSupabaseSnapshot, type SupabaseSnapshot } from '../lib/supabaseData';
 import { isSupabaseConfigured, supabase } from '../lib/supabaseClient';
@@ -21,7 +22,7 @@ interface CreateAssignmentsInput {
   testVersionIds: string[];
   dueAt?: string;
   timeLimitSeconds?: number;
-  attemptLimit?: number;
+  attemptLimit?: number | null;
   feedbackPolicy?: TestAssignment['feedbackPolicy'];
   status?: TestAssignment['status'];
 }
@@ -33,12 +34,14 @@ interface UpdateClassInput {
   yearGroup: string;
   status: ClassRecord['status'];
   acceptingStudents?: boolean;
+  courseIds: string[];
 }
 
 interface UpdateStudentInput {
   id: string;
   firstName: string;
   surname: string;
+  initialYearGroup?: number | null;
   classIds: string[];
   accountStatus: StudentProfile['accountStatus'];
 }
@@ -89,6 +92,28 @@ interface SubmitAttemptResponse {
   timedOut: boolean;
 }
 
+export interface AttemptReview {
+  attempt: {
+    id: string;
+    score: number;
+    maxScore: number;
+    percentage: number;
+    pointsAwarded: number;
+    submittedAt: string | null;
+  };
+  questions: Array<{
+    id: string;
+    questionOrder: number;
+    questionText: string;
+    maxMarks: number;
+    answerText: string;
+    correctAnswerText: string;
+    isCorrect: boolean;
+    marksAwarded: number;
+    feedback: string;
+  }>;
+}
+
 interface AssignmentRow {
   id: string;
   test_version_id: string;
@@ -96,7 +121,7 @@ interface AssignmentRow {
   start_at: string | null;
   due_at: string | null;
   time_limit_seconds: number | null;
-  attempt_limit: number;
+  attempt_limit: number | null;
   feedback_policy: TestAssignment['feedbackPolicy'];
   status: TestAssignment['status'];
 }
@@ -111,6 +136,7 @@ interface ClassRow {
   join_code: string | null;
   accepting_students: boolean;
   is_system: boolean;
+  course_ids?: string[];
 }
 
 interface AppStateValue extends SupabaseSnapshot {
@@ -121,11 +147,13 @@ interface AppStateValue extends SupabaseSnapshot {
   pointsTotal: number;
   statusName: string;
   isSupabaseBacked: boolean;
+  isRestoringSession: boolean;
   isLoadingData: boolean;
   dataError: string;
   beginAttempt: (input: BeginAttemptInput) => Promise<TestAttempt>;
   saveAnswer: (attemptId: string, questionId: string, answer: string) => void;
   submitAttempt: (attemptId: string) => Promise<TestAttempt>;
+  getAttemptReview: (attemptId: string) => Promise<AttemptReview>;
   logAttemptEvent: (attemptId: string, eventType: AttemptEvent['eventType']) => void;
   voidAssignedAttempt: (attemptId: string, reason: string) => void;
   createAssignments: (input: CreateAssignmentsInput) => Promise<TestAssignment[]>;
@@ -155,6 +183,8 @@ const emptyStudent: StudentProfile = {
   surname: '',
   username: '',
   publicStudentId: '',
+  yearGroup: '',
+  joinedOn: '',
   classIds: [],
   classId: '',
   accountStatus: 'active',
@@ -266,6 +296,7 @@ function mapClassRow(row: ClassRow): ClassRecord {
     joinCode: row.join_code ?? '',
     acceptingStudents: row.accepting_students,
     isSystem: row.is_system,
+    courseIds: row.course_ids ?? [],
   };
 }
 
@@ -292,9 +323,36 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [events, setEvents] = useState<AttemptEvent[]>([]);
   const [earnedPoints, setEarnedPoints] = useState<PointsTransaction[]>([]);
   const [isLoadingData, setIsLoadingData] = useState(false);
+  const [isRestoringSession, setIsRestoringSession] = useState(isSupabaseConfigured);
   const [dataError, setDataError] = useState('');
 
   const isSupabaseBacked = Boolean(isSupabaseConfigured && supabase && session.role);
+
+  useEffect(() => {
+    let isActive = true;
+
+    if (!isSupabaseConfigured || !supabase) {
+      setIsRestoringSession(false);
+      return () => {
+        isActive = false;
+      };
+    }
+
+    restoreSignedInSession()
+      .then((restoredSession) => {
+        if (isActive && restoredSession) setSessionState(restoredSession);
+      })
+      .catch(() => {
+        // A missing or expired browser session should fall back to the normal sign-in screen.
+      })
+      .finally(() => {
+        if (isActive) setIsRestoringSession(false);
+      });
+
+    return () => {
+      isActive = false;
+    };
+  }, []);
 
   useEffect(() => {
     let isActive = true;
@@ -410,7 +468,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       attemptNumber: existingAttempt?.attemptNumber ?? priorAttempts.length + 1,
       status: existingAttempt?.status === 'in_progress' ? existingAttempt.status : 'in_progress',
       startedAt: started.startedAt,
-      timeLimitSeconds: started.timeLimitSeconds ?? test.defaultTimeLimitSeconds,
+      timeLimitSeconds: started.timeLimitSeconds ?? undefined,
       markingStatus: existingAttempt?.markingStatus ?? 'not_required',
       feedbackStatus: existingAttempt?.feedbackStatus ?? 'hidden',
       suspiciousEventCount: existingAttempt?.suspiciousEventCount ?? 0,
@@ -429,12 +487,6 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     return beginSupabaseAttempt(input);
   };
 
-  const defaultTimeLimitForVersion = (testVersionId: string): number => {
-    const version = snapshot.testVersions.find((item) => item.id === testVersionId);
-    const test = snapshot.tests.find((item) => item.id === version?.testId);
-    return test?.defaultTimeLimitSeconds ?? 900;
-  };
-
   const createSupabaseAssignments = async (input: CreateAssignmentsInput): Promise<TestAssignment[]> => {
     if (!supabase) throw new Error('Supabase is not configured');
     const uniqueVersionIds = Array.from(new Set(input.testVersionIds));
@@ -443,6 +495,19 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     if (!snapshot.teacher.profileId) throw new Error('Teacher profile is not loaded');
     const targetClass = snapshot.classes.find((classRecord) => classRecord.id === input.classId);
     if (targetClass?.isSystem) throw new Error('Assignments cannot be created for Non-class');
+    const allowedCourseIds = new Set(targetClass?.courseIds ?? []);
+    const testByVersionId = new Map(
+      snapshot.testVersions.map((version) => [version.id, snapshot.tests.find((test) => test.id === version.testId)]),
+    );
+    const topicById = new Map(snapshot.topics.map((topic) => [topic.id, topic]));
+    const unitById = new Map(snapshot.units.map((unit) => [unit.id, unit]));
+    const hasUnavailableCourse = uniqueVersionIds.some((versionId) => {
+      const test = testByVersionId.get(versionId);
+      const topic = test ? topicById.get(test.topicId) : undefined;
+      const unit = topic ? unitById.get(topic.unitId) : undefined;
+      return !unit || !allowedCourseIds.has(unit.subjectId);
+    });
+    if (hasUnavailableCourse) throw new Error('One or more tests are not available to this class.');
     const now = new Date().toISOString();
     const rows = uniqueVersionIds.map((testVersionId) => ({
       test_version_id: testVersionId,
@@ -450,8 +515,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       class_id: input.classId,
       start_at: now,
       due_at: input.dueAt ?? null,
-      time_limit_seconds: input.timeLimitSeconds ?? defaultTimeLimitForVersion(testVersionId),
-      attempt_limit: input.attemptLimit ?? 1,
+      time_limit_seconds: null,
+      attempt_limit: input.attemptLimit ?? null,
       feedback_policy: input.feedbackPolicy ?? 'score_only',
       status: input.status ?? 'open',
     }));
@@ -495,7 +560,17 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       .single();
     if (error) throw error;
 
-    const updatedClass = mapClassRow(data as ClassRow);
+    const courseIds = [...new Set(input.courseIds)];
+    const { error: removeCoursesError } = await supabase.from('class_courses').delete().eq('class_id', input.id);
+    if (removeCoursesError) throw removeCoursesError;
+    if (courseIds.length) {
+      const { error: addCoursesError } = await supabase
+        .from('class_courses')
+        .insert(courseIds.map((subjectId) => ({ class_id: input.id, subject_id: subjectId })));
+      if (addCoursesError) throw addCoursesError;
+    }
+
+    const updatedClass = mapClassRow({ ...(data as ClassRow), course_ids: courseIds });
     setSnapshot((current) => ({
       ...current,
       classes: current.classes.map((classRecord) => (classRecord.id === updatedClass.id ? updatedClass : classRecord)),
@@ -539,6 +614,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       studentId: input.id,
       firstName,
       surname,
+      ...(input.initialYearGroup === undefined ? {} : { initialYearGroup: input.initialYearGroup }),
       classIds,
       accountStatus: input.accountStatus,
     });
@@ -656,6 +732,11 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     return submitSupabaseAttempt(attemptId);
   };
 
+  const getAttemptReview = async (attemptId: string): Promise<AttemptReview> => {
+    if (!isSupabaseBacked) throw new Error(SUPABASE_REQUIRED_MESSAGE);
+    return invokeFunction<AttemptReview>('get-attempt-review', { attemptId });
+  };
+
   const logAttemptEvent = (attemptId: string, eventType: AttemptEvent['eventType']) => {
     if (!isSupabaseBacked) {
       setDataError(SUPABASE_REQUIRED_MESSAGE);
@@ -716,6 +797,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   };
 
   const signOut = () => {
+    clearActivitySession();
     if (isSupabaseConfigured) {
       void signOutFromSupabase();
     }
@@ -741,11 +823,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     pointsTotal,
     statusName,
     isSupabaseBacked,
+    isRestoringSession,
     isLoadingData,
     dataError,
     beginAttempt,
     saveAnswer,
     submitAttempt,
+    getAttemptReview,
     logAttemptEvent,
     voidAssignedAttempt,
     createAssignments,

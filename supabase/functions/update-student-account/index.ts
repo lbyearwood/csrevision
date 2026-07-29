@@ -86,18 +86,26 @@ Deno.serve(async (req) => {
     const firstName = String(body.firstName ?? '').trim();
     const surname = String(body.surname ?? '').trim();
     const requestedClassIds = normalizeClassIds(body.classIds, body.classId);
+    const hasInitialYearGroup = Object.prototype.hasOwnProperty.call(body, 'initialYearGroup');
+    const initialYearGroupRaw = body.initialYearGroup;
+    const initialYearGroup = initialYearGroupRaw === null || initialYearGroupRaw === '' || initialYearGroupRaw === undefined
+      ? null
+      : Number(initialYearGroupRaw);
     const nextStatusRaw = String(body.accountStatus ?? '').trim();
     const nextStatus: AccountStatus = validStatus(nextStatusRaw) ? nextStatusRaw : 'active';
 
     if (!studentId) return errorResponse('studentId is required', 422);
     if (!firstName || !surname) return errorResponse('firstName and surname are required', 422);
+    if (hasInitialYearGroup && initialYearGroup !== null && (!Number.isInteger(initialYearGroup) || initialYearGroup < 7 || initialYearGroup > 13)) {
+      return errorResponse('Starting year group must be between 7 and 13', 422);
+    }
     if (!(await teacherCanAccessStudent(service, requester, studentId))) return errorResponse('Forbidden', 403);
     const teacherProfileId = await teacherProfileIdForRequester(service, requester);
     let finalClassIds: string[] = [];
 
     const { data: student, error: studentError } = await service
       .from('student_profiles')
-      .select('id, profile_id, first_name, surname, student_id, account_status, profiles!student_profiles_profile_id_fkey(id, auth_user_id, username, account_status)')
+      .select('id, profile_id, first_name, surname, student_id, initial_year_group, account_status, profiles!student_profiles_profile_id_fkey(id, auth_user_id, username, account_status)')
       .eq('id', studentId)
       .single();
     if (studentError || !student) throw studentError ?? new Error('Student not found');
@@ -185,6 +193,7 @@ Deno.serve(async (req) => {
       .update({
         first_name: firstName,
         surname,
+        ...(hasInitialYearGroup ? { initial_year_group: initialYearGroup } : {}),
         account_status: nextStatus,
         updated_at: new Date().toISOString(),
       })
@@ -229,7 +238,7 @@ Deno.serve(async (req) => {
         action: 'student_updated',
         target_type: 'student_profiles',
         target_id: studentId,
-        detail: { firstName, surname },
+        detail: { firstName, surname, ...(hasInitialYearGroup ? { initialYearGroup } : {}) },
       },
     ];
     if (classChanged) {

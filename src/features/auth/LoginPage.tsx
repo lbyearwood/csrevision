@@ -6,6 +6,22 @@ import { Panel } from '../../components/ui/Panel';
 import { signInStaff, signInStudent } from '../../lib/auth';
 import { useAppState } from '../../app/AppState';
 
+const pendingJoinMaxAgeMs = 10 * 60 * 1000;
+
+function takePendingJoinCode(): string {
+  const raw = window.sessionStorage.getItem('pendingJoinCode');
+  window.sessionStorage.removeItem('pendingJoinCode');
+  if (!raw) return '';
+  try {
+    const pending = JSON.parse(raw) as { code?: unknown; createdAt?: unknown };
+    const code = typeof pending.code === 'string' ? pending.code : '';
+    const createdAt = typeof pending.createdAt === 'number' ? pending.createdAt : 0;
+    return /^[A-Z]{6}$/.test(code) && Date.now() - createdAt >= 0 && Date.now() - createdAt <= pendingJoinMaxAgeMs ? code : '';
+  } catch {
+    return '';
+  }
+}
+
 export function LoginPage() {
   const navigate = useNavigate();
   const { dataError, setSession } = useAppState();
@@ -25,7 +41,9 @@ export function LoginPage() {
           ? await signInStudent(identifier, password)
           : await signInStaff(identifier, password);
       setSession(result);
-      const pendingJoinCode = window.localStorage.getItem('pendingJoinCode');
+      // Old and expired class-link handoffs are discarded before normal routing.
+      window.localStorage.removeItem('pendingJoinCode');
+      const pendingJoinCode = takePendingJoinCode();
       navigate(result.role === 'student' && pendingJoinCode ? `/join/${pendingJoinCode}` : result.role === 'student' ? '/student' : '/teacher');
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : 'Could not sign in');
@@ -39,19 +57,19 @@ export function LoginPage() {
       <div className="mx-auto flex min-h-[calc(100vh-4rem)] max-w-6xl items-center justify-center">
         <Panel className="mx-auto w-full max-w-md p-5">
           <div className="mb-6 flex items-center justify-center gap-3">
-            <div className="grid h-12 w-12 place-items-center rounded-app bg-teal text-white">
+            <div className="grid h-12 w-12 place-items-center rounded-app border border-[#7e8eff] bg-[linear-gradient(135deg,#3857df_0%,#7650cf_100%)] text-white shadow-[0_8px_18px_rgba(56,87,223,0.28)]">
               <Code2 size={26} strokeWidth={2.4} aria-hidden="true" />
             </div>
             <div>
               <h1 className="text-2xl font-bold tracking-normal">csrevision</h1>
-              <p className="text-sm text-[#b8c8d9]">Sign in to continue.</p>
+              <p className="text-sm text-[#d9dfff]">Sign in to continue.</p>
             </div>
           </div>
 
-          <div className="mb-5 grid grid-cols-2 rounded-app border border-[#3a4e68] bg-[#0f1d2e] p-1">
+          <div className="mb-5 grid grid-cols-2 rounded-app border border-[#4b59bd] bg-[#202a6f] p-1">
             <button
               aria-pressed={mode === 'student'}
-              className={`rounded-[6px] px-3 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-blue/25 ${mode === 'student' ? 'bg-blue text-white shadow-sm' : 'text-[#b8c8d9] hover:bg-[#20344f] hover:text-white'}`}
+              className={`rounded-[6px] px-3 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-blue/25 ${mode === 'student' ? 'bg-blue text-white shadow-sm' : 'text-[#d9dfff] hover:bg-[#2d3d9b] hover:text-white'}`}
               onClick={() => {
                 setMode('student');
                 setIdentifier('asingh5827');
@@ -63,7 +81,7 @@ export function LoginPage() {
             </button>
             <button
               aria-pressed={mode === 'staff'}
-              className={`rounded-[6px] px-3 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-blue/25 ${mode === 'staff' ? 'bg-blue text-white shadow-sm' : 'text-[#b8c8d9] hover:bg-[#20344f] hover:text-white'}`}
+              className={`rounded-[6px] px-3 py-2 text-sm font-semibold transition focus:outline-none focus:ring-2 focus:ring-blue/25 ${mode === 'staff' ? 'bg-blue text-white shadow-sm' : 'text-[#d9dfff] hover:bg-[#2d3d9b] hover:text-white'}`}
               onClick={() => {
                 setMode('staff');
                 setIdentifier('j.doe@school.example');
@@ -106,7 +124,7 @@ export function LoginPage() {
             <Button className="w-full" disabled={isSubmitting}>
               {isSubmitting ? 'Signing in...' : 'Sign in'}
             </Button>
-            <p className="text-center text-xs leading-5 text-[#b8c8d9]">
+            <p className="text-center text-xs leading-5 text-[#d9dfff]">
               No self-registration is available. Student accounts are issued by a teacher or admin.
             </p>
           </form>

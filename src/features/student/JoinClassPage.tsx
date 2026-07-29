@@ -26,7 +26,7 @@ export function JoinClassPage() {
     }
 
     if (!state.session.role) {
-      window.localStorage.setItem('pendingJoinCode', normalizedCode);
+      window.sessionStorage.setItem('pendingJoinCode', JSON.stringify({ code: normalizedCode, createdAt: Date.now() }));
       navigate('/', { replace: true });
       return;
     }
@@ -46,10 +46,11 @@ export function JoinClassPage() {
     void state
       .joinClassByCode(normalizedCode)
       .then((resultMessage) => {
-        window.localStorage.removeItem('pendingJoinCode');
+        window.sessionStorage.removeItem('pendingJoinCode');
         setMessage(resultMessage);
       })
       .catch((caught: unknown) => {
+        window.sessionStorage.removeItem('pendingJoinCode');
         setMessage('');
         setError(caught instanceof Error ? caught.message : 'Unable to join class');
       });

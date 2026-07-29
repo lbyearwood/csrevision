@@ -1,6 +1,6 @@
 # Codex Handover
 
-Last updated: 2026-07-28
+Last updated: 2026-07-29
 
 Audience: a new Codex agent continuing `csrevision` on a different development computer.
 
@@ -30,6 +30,45 @@ Current user instruction:
 - Run the end process only when the user explicitly says `end` or asks to wrap up development.
 - The end process includes committing and pushing the active branch.
 - Do not push unless the user explicitly says `push`.
+
+## Session update — 2026-07-29
+
+### Current local working mode
+
+- Local Supabase remains the development source of truth for Auth, Postgres, RLS, assignments, attempts, results, activity history, and seeded QA data.
+- The active branch remains `agent/csrevision-accounts-mvp`.
+
+### Completed in this session
+
+- Added the BTEC Level 3 National Extended Certificate in IT AAQ course structure: Information Technology Systems, Cyber Security and Incident Management, Website Development, and Relational Database Development, with coded content topics and practice resources.
+- Added a repeatable large local QA data set: ten active classes across Years 10–13, archived history, class-course entitlement data, assignments in different states, attempts, scores, points, leaderboard data, and activity events. Do not create Years 7–9 data while the available courses remain KS4/KS5 only.
+- Added class-course entitlements. Teachers choose permitted courses in Edit Class; student Practice and My Results now respect those permissions.
+- Added student activity logging and the teacher-only Student Activity viewer.
+- Added test marking-method metadata. Existing placeholder MCQ tests default to Auto-marked; supported labels are Auto-marked, AI-reviewed, Self-marked, and Teacher-marked.
+- Improved teacher Courses, assignment selection, Results, classes, student editing, dashboard filtering, and leaderboard filtering for the larger seed set.
+- Improved student navigation, class/all-time leaderboards, profile, Home visuals, and assignment handling. Completed work is excluded from My assignments; attempts are no longer artificially limited.
+- Added secure completed-attempt review and PDF download. Students now receive an end-of-test summary with score, percentage, answer review, and feedback before returning to My Results.
+- Removed test timers for now. New and in-progress local attempts have no timer or automatic expiry. Removed the distracting anti-cheating footer from the active test page.
+- Updated My Results: unit summaries are shown by default and each topic-level breakdown is collapsed until the student expands it.
+
+### Latest verification
+
+- `npm.cmd run typecheck`: passed.
+- `npm.cmd run lint`: passed.
+- `npm.cmd run test`: passed (4 files, 12 tests).
+- Browser QA passed for the current student test flow without timers, the completed-test summary/review, and My Results unit summaries in both collapsed and expanded states.
+
+### Important local-only state and risks
+
+- The bulk QA records live in the local database until recreated from `supabase/qa_bulk_seed.sql`; do not treat browser-created attempts or activity as Git-tracked data.
+- Run a clean local reset plus bulk seed replay before relying on the fixture for broader regression testing.
+- The GitHub CLI token is currently invalid. A normal `git push` may still use configured Git credentials; if it does not, re-authenticate GitHub before retrying.
+- Test-version authoring remains a planned workflow. Existing IDs protect historic links, but teacher-facing draft/publish version management is not yet built.
+
+### Recommended next work
+
+- Run a clean local Supabase reset and bulk seed replay, then complete a cross-role regression pass on class-course access, assignments, test review, Results, and leaderboards.
+- Next product decision: design the teacher workflow for editing and publishing new test versions without changing historic attempts.
 
 Current local Git state on 2026-07-28:
 
