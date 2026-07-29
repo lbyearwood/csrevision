@@ -5,7 +5,8 @@ export interface PointsInput {
   percentage: number;
   isFirstPracticeAttempt: boolean;
   previousBestPercentage?: number;
-  completedWithinLimit: boolean;
+  assignmentTiming?: 'on_time' | 'late';
+  isPointsEligible?: boolean;
 }
 
 export const statusLevels: StatusLevel[] = [
@@ -21,9 +22,22 @@ export function calculateAttemptPoints(input: PointsInput): { points: number; re
   const reasons: string[] = [];
   let points = 0;
 
+  if (input.isPointsEligible === false) {
+    if (input.percentage >= 100) return { points: 5, reasons: ['Scored 100% on an additional attempt'] };
+    if (input.percentage >= 85) return { points: 2, reasons: ['Scored 85% or above on an additional attempt'] };
+    return { points: 1, reasons: ['Completed additional practice attempt'] };
+  }
+
   if (input.attemptType === 'assigned') {
     points += 20;
     reasons.push('Completed assigned test');
+    if (input.assignmentTiming === 'on_time') {
+      points += 10;
+      reasons.push('Submitted by the due date');
+    } else if (input.assignmentTiming === 'late') {
+      points -= 10;
+      reasons.push('Submitted after the due date');
+    }
   }
 
   if (input.attemptType === 'practice' && input.isFirstPracticeAttempt) {
@@ -48,11 +62,6 @@ export function calculateAttemptPoints(input: PointsInput): { points: number; re
   ) {
     points += 30;
     reasons.push('Improved previous best by at least 10%');
-  }
-
-  if (input.completedWithinLimit) {
-    points += 20;
-    reasons.push('Completed timed test within time limit');
   }
 
   return { points, reasons };

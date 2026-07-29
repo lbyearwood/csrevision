@@ -82,9 +82,9 @@ select
   class.class_order,
   generated.member_number,
   (array['Alex','Amelia','Arjun','Ava','Bilal','Chloe','Daniel','Elena','Ethan','Fatima','Grace','Harrison','Imani','Isaac','Jasmine','Kai','Layla','Leo','Mia','Noah','Olivia','Priya','Ravi','Sofia','Zara'])[((generated.global_number - 1) % 25) + 1],
-  (array['Ahmed','Bennett','Clarke','Das','Evans','Foster','Green','Hughes','Iqbal','Jones','Kaur','Lewis','Morgan','Naylor','Osei','Patel','Reed','Shah','Taylor','Usman','Walker','Xu','Young','Zaman','Brooks'])[((generated.global_number - 1) % 25) + 1],
-  'qa_' || replace(class.slug, '-', '_') || '_' || lpad(generated.member_number::text, 2, '0'),
-  'qa_' || replace(class.slug, '-', '_') || '_' || lpad(generated.member_number::text, 2, '0') || '@students.local',
+  (array['Ahmed','Bennett','Clarke','Das','Evans','Foster','Green','Hughes','Iqbal','Jones','Kaur','Lewis','Morgan','Naylor','Osei','Patel','Reed','Shah','Taylor','Usman','Walker','Xu','Young','Zaman','Brooks'])[(((generated.global_number - 1) / 25)::integer % 25) + 1],
+  'qa' || replace(class.slug, '-', '') || lpad(generated.member_number::text, 2, '0'),
+  'qa' || replace(class.slug, '-', '') || lpad(generated.member_number::text, 2, '0') || '@students.local',
   'Q' || lpad((class.class_order * 100 + generated.member_number)::text, 5, '0'),
   case
     when class.current_year = 10 then 10
@@ -128,7 +128,7 @@ from public.qa_fixture_students
 on conflict (provider_id, provider) do update set user_id = excluded.user_id, identity_data = excluded.identity_data, updated_at = now();
 
 insert into public.profiles (id, auth_user_id, role, display_name, username, account_status)
-select profile_id, auth_id, 'student', left(first_name, 1) || ' ' || surname, username, account_status
+select profile_id, auth_id, 'student', first_name || ' ' || surname, username, account_status
 from public.qa_fixture_students
 on conflict (id) do update set auth_user_id = excluded.auth_user_id, display_name = excluded.display_name, username = excluded.username, account_status = excluded.account_status, updated_at = now();
 
@@ -287,7 +287,7 @@ insert into public.leaderboard_snapshots (id, period_type, class_id, student_id,
 select gen_random_uuid(), 'all_time', learner.class_id, learner.student_id,
   profile.display_name, student.student_id, coalesce(sum(points.points), 0),
   case when coalesce(sum(points.points), 0) >= 1200 then 'Champion' when coalesce(sum(points.points), 0) >= 700 then 'Learner' else 'Starter' end,
-  rank() over (order by coalesce(sum(points.points), 0) desc, profile.display_name), now()
+  row_number() over (order by coalesce(sum(points.points), 0) desc, profile.display_name, student.student_id), now()
 from public.qa_fixture_learners learner
 join public.student_profiles student on student.id = learner.student_id
 join public.profiles profile on profile.id = learner.profile_id

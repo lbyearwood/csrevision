@@ -9,6 +9,7 @@ function shuffle<T>(values: T[]): T[] {
 type AttemptResumeRow = {
   id: string;
   started_at: string;
+  resume_question_index: number;
   expires_at: string | null;
   time_limit_seconds: number | null;
   status: string;
@@ -61,6 +62,7 @@ Deno.serve(async (req) => {
       id: string;
       test_version_id: string;
       class_id: string;
+      recipient_scope: 'class' | 'selected';
       time_limit_seconds: number | null;
       start_at: string | null;
     };
@@ -70,11 +72,21 @@ Deno.serve(async (req) => {
     if (assignmentId) {
       const { data, error } = await service
         .from('test_assignments')
-        .select('id, test_version_id, class_id, time_limit_seconds, start_at, status')
+        .select('id, test_version_id, class_id, recipient_scope, time_limit_seconds, start_at, status')
         .eq('id', assignmentId)
         .single();
       if (error || !data) throw error ?? new Error('Assignment not found');
       if (!activeClassIds.has(data.class_id)) return errorResponse('Assignment is not for your class', 403);
+      if (data.recipient_scope === 'selected') {
+        const { data: recipient, error: recipientError } = await service
+          .from('assignment_recipients')
+          .select('student_id')
+          .eq('assignment_id', data.id)
+          .eq('student_id', student.id)
+          .maybeSingle();
+        if (recipientError) throw recipientError;
+        if (!recipient) return errorResponse('Assignment is not for you', 403);
+      }
       if (data.status !== 'open') return errorResponse('Assignment is not open', 403);
       const now = Date.now();
       if (data.start_at && new Date(data.start_at).getTime() > now) return errorResponse('Assignment has not started', 403);
@@ -91,7 +103,7 @@ Deno.serve(async (req) => {
 
       const { data: existingAttempt } = await service
         .from('test_attempts')
-        .select('id, started_at, expires_at, time_limit_seconds, status')
+        .select('id, started_at, resume_question_index, expires_at, time_limit_seconds, status')
         .eq('student_id', student.id)
         .eq('assignment_id', assignmentId)
         .eq('status', 'in_progress')
@@ -146,7 +158,7 @@ Deno.serve(async (req) => {
     if (!resumeAttempt && !assignmentId) {
       const { data: existingPracticeAttempt } = await service
         .from('test_attempts')
-        .select('id, started_at, expires_at, time_limit_seconds, status')
+        .select('id, started_at, resume_question_index, expires_at, time_limit_seconds, status')
         .eq('student_id', student.id)
         .eq('test_version_id', versionId)
         .eq('attempt_type', 'practice')
@@ -170,7 +182,7 @@ Deno.serve(async (req) => {
         .from('test_attempts')
         .update({ expires_at: null, time_limit_seconds: null })
         .eq('id', attempt.id)
-        .select('id, started_at, expires_at, time_limit_seconds, status')
+        .select('id, started_at, resume_question_index, expires_at, time_limit_seconds, status')
         .single();
       if (clearTimerError || !untimedAttempt) throw clearTimerError ?? new Error('Unable to remove test timer');
       attempt = untimedAttempt;
@@ -189,7 +201,7 @@ Deno.serve(async (req) => {
           time_limit_seconds: timeLimitSeconds,
           expires_at: newExpiresAt,
         })
-        .select('id, started_at, expires_at, time_limit_seconds, status')
+        .select('id, started_at, resume_question_index, expires_at, time_limit_seconds, status')
         .single();
       if (attemptError || !createdAttempt) throw attemptError ?? new Error('Attempt was not created');
       attempt = createdAttempt;
@@ -233,6 +245,7 @@ Deno.serve(async (req) => {
     return jsonResponse({
       attemptId: attempt.id,
       startedAt: attempt.started_at,
+      resumeQuestionIndex: attempt.resume_question_index ?? 0,
       expiresAt: attempt.expires_at,
       timeLimitSeconds: attempt.time_limit_seconds ?? timeLimitSeconds,
       questions: safeQuestions,

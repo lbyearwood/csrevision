@@ -47,6 +47,9 @@ Codex update protocol:
 - `[x]` Removed test timers and attempt-expiry behaviour from the current product flow.
 - `[x]` Updated student My Results to show unit-level summaries first, with topic details collapsed by default.
 - `[x]` Improved teacher Results for high-volume use: fixed columns, top and vertical scrollbars, sticky headers, collapsible filters, due-date filtering, and sortable score columns.
+- `[x]` Added teacher assignment management: recipient counts, safe delete/archive behaviour, and a per-assignment student progress summary with scores, deadline outcomes, and points earned.
+- `[x]` Added clickable student performance reports from Teacher Results, with course-wide marks, percentages, completion, best score, points, unit summaries, and PDF download.
+- `[x]` Segmented the Teacher Results matrix into unit summary rows, showing class and per-student unit averages before detailed test rows.
 
 - `[x]` Pulled and inspected the project branch.
 - `[x]` Read the main project documentation and MVP scope.

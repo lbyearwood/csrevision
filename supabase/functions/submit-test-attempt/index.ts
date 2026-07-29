@@ -8,13 +8,26 @@ function calculatePoints(input: {
   percentage: number;
   isFirstPracticeAttempt: boolean;
   previousBestPercentage?: number;
-  completedWithinLimit: boolean;
+  assignmentTiming?: 'on_time' | 'late';
+  isPointsEligible: boolean;
 }): { points: number; reasons: string[] } {
   let points = 0;
   const reasons: string[] = [];
+  if (!input.isPointsEligible) {
+    if (input.percentage >= 100) return { points: 5, reasons: ['Scored 100% on an additional attempt'] };
+    if (input.percentage >= 85) return { points: 2, reasons: ['Scored 85% or above on an additional attempt'] };
+    return { points: 1, reasons: ['Completed additional practice attempt'] };
+  }
   if (input.attemptType === 'assigned') {
     points += 20;
     reasons.push('Completed assigned test');
+    if (input.assignmentTiming === 'on_time') {
+      points += 10;
+      reasons.push('Submitted by the due date');
+    } else if (input.assignmentTiming === 'late') {
+      points -= 10;
+      reasons.push('Submitted after the due date');
+    }
   }
   if (input.attemptType === 'practice' && input.isFirstPracticeAttempt) {
     points += 10;
@@ -33,10 +46,6 @@ function calculatePoints(input: {
   if (input.previousBestPercentage !== undefined && input.percentage - input.previousBestPercentage >= 10) {
     points += 30;
     reasons.push('Improved previous best by at least 10%');
-  }
-  if (input.completedWithinLimit) {
-    points += 20;
-    reasons.push('Completed timed test within time limit');
   }
   return { points, reasons };
 }
@@ -58,7 +67,7 @@ Deno.serve(async (req) => {
 
     const { data: attempt } = await service
       .from('test_attempts')
-      .select('id, student_id, test_id, test_version_id, attempt_type, attempt_number, started_at, expires_at, time_limit_seconds, status')
+      .select('id, student_id, test_id, test_version_id, assignment_id, attempt_type, attempt_number, started_at, expires_at, time_limit_seconds, status')
       .eq('id', attemptId)
       .eq('student_id', student.id)
       .single();
@@ -121,18 +130,30 @@ Deno.serve(async (req) => {
 
     const { data: previousAttempts } = await service
       .from('test_attempts')
-      .select('percentage')
+      .select('percentage, points_awarded')
       .eq('student_id', student.id)
       .eq('test_id', attempt.test_id)
       .neq('id', attemptId)
       .eq('status', 'feedback_released');
     const previousBest = Math.max(...(previousAttempts ?? []).map((row) => Number(row.percentage ?? 0)), 0);
+    const completedAttemptCount = (previousAttempts ?? []).length;
+    let assignmentTiming: 'on_time' | 'late' | undefined;
+    if (attempt.assignment_id) {
+      const { data: assignment, error: assignmentError } = await service
+        .from('test_assignments')
+        .select('due_at')
+        .eq('id', attempt.assignment_id)
+        .maybeSingle();
+      if (assignmentError) throw assignmentError;
+      if (assignment?.due_at) assignmentTiming = submittedAt.getTime() <= new Date(assignment.due_at).getTime() ? 'on_time' : 'late';
+    }
     const points = calculatePoints({
       attemptType: attempt.attempt_type,
       percentage,
       isFirstPracticeAttempt: attempt.attempt_type === 'practice' && Number(attempt.attempt_number) === 1,
       previousBestPercentage: previousBest || undefined,
-      completedWithinLimit: !timedOut,
+      assignmentTiming,
+      isPointsEligible: completedAttemptCount < 2,
     });
 
     await service.from('test_attempts').update({

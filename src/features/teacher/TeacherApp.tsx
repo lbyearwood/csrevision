@@ -7,6 +7,7 @@ import {
   ChevronRight,
   Copy,
   ClipboardList,
+  Download,
   GraduationCap,
   History,
   Home,
@@ -24,15 +25,15 @@ import {
   X,
 } from 'lucide-react';
 import { Route, Routes, NavLink } from 'react-router-dom';
-import { useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { useAppState } from '../../app/AppState';
 import { Button } from '../../components/ui/Button';
 import { Metric } from '../../components/ui/Metric';
 import { Panel } from '../../components/ui/Panel';
 import { StatusBadge } from '../../components/ui/StatusBadge';
-import { leaderboardDisplay } from '../../lib/identity';
 import { formatDate } from '../../lib/time';
 import { supabase } from '../../lib/supabaseClient';
+import { downloadStudentPerformancePdf } from '../../lib/studentPerformancePdf';
 import type { ClassRecord, StudentProfile, Test, TestAssignment, TestAttempt, Topic } from '../../types/domain';
 
 const navItems = [
@@ -184,21 +185,21 @@ function TeacherDashboard() {
     if (assignment.classId !== classRecord.id) return false;
     return selectedTopicId === 'all' || testById.get(testByVersionId.get(assignment.testVersionId) ?? '')?.topicId === selectedTopicId;
   });
-  const classTestVersionIds = new Set(classAssignments.map((assignment) => assignment.testVersionId));
-  const classTests = state.tests.filter((test) => classAttempts.some((attempt) => attempt.testId === test.id) || state.testVersions.some((version) => version.testId === test.id && classTestVersionIds.has(version.id)));
   const completed = completedAttemptCount(classAttempts);
   const studentsWithCompletedWork = new Set(classAttempts.filter((attempt) => completedAttemptCount([attempt]) > 0).map((attempt) => attempt.studentId)).size;
   const activeThisWeek = new Set(classAttempts.filter((attempt) => new Date(attempt.startedAt).getTime() >= Date.now() - 7 * 24 * 60 * 60 * 1000).map((attempt) => attempt.studentId)).size;
   const classLeaderboardRows = state.leaderboardRows.filter((row) => row.className === classRecord.className);
   const average = averageAttemptPercentage(classAttempts);
-  const flagged = classAttempts.reduce((total, attempt) => total + attempt.suspiciousEventCount, 0) + state.events.filter((event) => classAttempts.some((attempt) => attempt.id === event.attemptId)).length;
+  const classAttemptIds = new Set(classAttempts.map((attempt) => attempt.id));
+  const classStudentsById = new Map(classStudents.map((student) => [student.id, student]));
+  const suspiciousEvents = state.events.filter((event) => classAttemptIds.has(event.attemptId)).slice(0, 5);
 
   return (
     <div className="space-y-5 p-4 lg:p-6">
       <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
         <div>
           <h1 className="text-2xl font-bold tracking-normal">Dashboard</h1>
-          <p className="text-sm text-muted">Class progress, assigned tests, results and activity alerts.</p>
+          <p className="text-sm text-muted">Class progress, assigned tests and results.</p>
         </div>
         <div className="grid min-w-0 gap-2 sm:grid-cols-2">
           <select className="h-12 min-w-0 rounded-app border border-[#4b59bd] bg-[#202a6f] px-3 text-sm font-semibold text-white" value={classRecord.id} onChange={(event) => { setSelectedClassId(event.target.value); setSelectedTopicId('all'); }}>
@@ -211,76 +212,12 @@ function TeacherDashboard() {
         </div>
       </div>
 
-      <Panel className="grid grid-cols-2 overflow-hidden sm:grid-cols-5">
+      <Panel className="grid grid-cols-2 overflow-hidden sm:grid-cols-4">
         <Metric label="Students" value={classStudents.length} />
         <Metric label="Tests Assigned" value={classAssignments.length} />
         <Metric label="Tests Completed" value={completed} />
         <Metric label="Average Score" value={average === undefined ? '-' : `${average}%`} tone="green" />
-        <Metric label="Suspicious Activity" value={flagged} tone="red" />
       </Panel>
-
-      <div className="grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1fr)_330px]">
-        <Panel className="p-4">
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="font-bold">Recent Test Activity</h2>
-            <NavLink className="text-sm font-semibold text-blue" to="/teacher/results">View all</NavLink>
-          </div>
-          <div className={nestedTableFrame}>
-            <table className="w-full min-w-[540px] text-left text-sm">
-              <thead className={nestedTableHead}>
-                <tr>
-                  <th className="px-3 py-2">Test Name</th>
-                  <th className="px-3 py-2">Assigned</th>
-                  <th className="px-3 py-2">Completed</th>
-                  <th className="px-3 py-2">Avg. Score</th>
-                  <th className="px-3 py-2">Points</th>
-                  <th className="px-3 py-2">Flagged</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-line bg-white text-ink">
-                {classTests.map((test) => {
-                  const testAttempts = classAttempts.filter((attempt) => attempt.testId === test.id);
-                  const testCompleted = completedAttemptCount(testAttempts);
-                  const testAverage = averageAttemptPercentage(testAttempts);
-                  const points = testAttempts.reduce((total, attempt) => total + (attempt.pointsAwarded ?? 0), 0);
-                  const testFlagged = testAttempts.reduce((total, attempt) => total + attempt.suspiciousEventCount, 0);
-                  return (
-                    <tr key={test.id}>
-                      <td className="px-3 py-3 font-semibold">{test.testTitle}</td>
-                      <td className="px-3 py-3">{test.defaultMode === 'practice' ? 'Practice' : classRecord.className}</td>
-                      <td className="px-3 py-3">{testCompleted}/{classStudents.length}</td>
-                      <td className={`px-3 py-3 font-bold ${scoreTextClass(testAverage)}`}>{testAverage === undefined ? '-' : `${testAverage}%`}</td>
-                      <td className="px-3 py-3">{points} pts</td>
-                      <td className="px-3 py-3"><StatusBadge tone={testFlagged ? 'amber' : 'neutral'}>{testFlagged}</StatusBadge></td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        </Panel>
-
-        <Panel className="p-4">
-          <div className="mb-4 flex items-center justify-between">
-            <h2 className="font-bold">Suspicious Activity</h2>
-            <AlertTriangle className="text-amber" size={20} />
-          </div>
-          <div className="space-y-3">
-            {state.students.filter((student) => student.accountStatus !== 'archived').slice(0, 3).map((student, index) => (
-              <div className="rounded-app border border-line bg-white p-3 text-sm text-ink" key={student.id}>
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="font-bold">{leaderboardDisplay(student)}</p>
-                    <p className="text-muted">{index === 0 ? 'Multiple tab switches' : index === 1 ? 'Copy/paste detected' : 'Focus loss excessive'}</p>
-                    <p className="mt-1 text-xs text-muted">16 May, 10:12 AM</p>
-                  </div>
-                  <StatusBadge tone="red">{index + 1}</StatusBadge>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Panel>
-      </div>
 
       <div className="grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1fr)_330px]">
         <Panel className="p-4">
@@ -318,14 +255,23 @@ function TeacherDashboard() {
           </div>
         </Panel>
 
-        <Panel className="p-4">
-          <h2 className="mb-3 font-bold">Class Summary</h2>
-          <SummaryRow label="Total Students" value={classStudents.length.toString()} />
-          <SummaryRow label="Active This Week" value={`${activeThisWeek} (${Math.round((activeThisWeek / Math.max(classStudents.length, 1)) * 100)}%)`} />
-          <SummaryRow label="Tests Assigned" value={classAssignments.length.toString()} />
-          <SummaryRow label="Students with completed work" value={`${studentsWithCompletedWork} (${Math.round((studentsWithCompletedWork / Math.max(classStudents.length, 1)) * 100)}%)`} />
-          <SummaryRow label="Average Score" value={average === undefined ? '-' : `${average}%`} />
-        </Panel>
+        <div className="space-y-5">
+          <Panel className="p-4">
+            <h2 className="mb-3 font-bold">Class Summary</h2>
+            <SummaryRow label="Total Students" value={classStudents.length.toString()} />
+            <SummaryRow label="Active This Week" value={`${activeThisWeek} (${Math.round((activeThisWeek / Math.max(classStudents.length, 1)) * 100)}%)`} />
+            <SummaryRow label="Tests Assigned" value={classAssignments.length.toString()} />
+            <SummaryRow label="Students with completed work" value={`${studentsWithCompletedWork} (${Math.round((studentsWithCompletedWork / Math.max(classStudents.length, 1)) * 100)}%)`} />
+            <SummaryRow label="Average Score" value={average === undefined ? '-' : `${average}%`} />
+          </Panel>
+          <Panel className="p-4">
+            <div className="mb-3 flex items-center justify-between gap-3"><h2 className="font-bold">Suspicious Activity</h2><span className="grid size-8 place-items-center rounded-lg bg-[#fff0d6] text-[#ad6200]"><AlertTriangle size={17} aria-hidden="true" /></span></div>
+            {suspiciousEvents.length ? <div className="space-y-2">{suspiciousEvents.map((event) => {
+              const student = classStudentsById.get(event.studentId);
+              return <div className="rounded-xl border border-[#f0d4a1] bg-[#fffaf0] p-3 text-sm text-ink" key={event.id}><p className="font-bold">{student ? `${student.firstName} ${student.surname}` : 'Student'}</p><p className="mt-0.5 capitalize text-[#785727]">{event.eventType.replace(/_/g, ' ')}</p><p className="mt-1 text-xs text-muted">{new Date(event.createdAt).toLocaleString()}</p></div>;
+            })}</div> : <p className="rounded-xl border border-[#cfe9db] bg-[#f5fcf7] p-3 text-sm font-medium text-[#237748]">No suspicious test activity recorded for this class.</p>}
+          </Panel>
+        </div>
       </div>
     </div>
   );
@@ -1576,10 +1522,20 @@ function AssignmentsPage() {
   const [currentTime, setCurrentTime] = useState(() => Date.now());
   const [dueDate, setDueDate] = useState('');
   const [selectedVersionIds, setSelectedVersionIds] = useState<string[]>([]);
+  const [selectedRecipientIds, setSelectedRecipientIds] = useState<string[]>([]);
   const [isSaving, setIsSaving] = useState(false);
+  const [assignmentToDelete, setAssignmentToDelete] = useState<TestAssignment | null>(null);
+  const [assignmentToInspect, setAssignmentToInspect] = useState<TestAssignment | null>(null);
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const selectedCreateClass = activeClasses.find((classRecord) => classRecord.id === createClassId);
+  const selectedClassStudents = useMemo(
+    () => state.students
+      .filter((student) => student.accountStatus === 'active' && student.classIds.includes(createClassId))
+      .sort((first, second) => `${first.surname} ${first.firstName}`.localeCompare(`${second.surname} ${second.firstName}`)),
+    [createClassId, state.students],
+  );
+  const selectedRecipientIdSet = useMemo(() => new Set(selectedRecipientIds), [selectedRecipientIds]);
   const createSubjects = state.subjects.filter((subject) => selectedCreateClass?.courseIds.includes(subject.id));
   const selectedAssignmentClass = activeClasses.find((classRecord) => classRecord.id === assignmentClassId);
   const assignmentSubjects = assignmentClassId === allResultsFilterValue
@@ -1597,6 +1553,10 @@ function AssignmentsPage() {
       setSelectedVersionIds([]);
     }
   }, [activeClasses, createClassId, createSubjectId, createSubjects]);
+
+  useEffect(() => {
+    setSelectedRecipientIds(selectedClassStudents.map((student) => student.id));
+  }, [selectedClassStudents]);
 
   useEffect(() => {
     const timerId = window.setInterval(() => setCurrentTime(Date.now()), 60000);
@@ -1693,6 +1653,7 @@ function AssignmentsPage() {
       const created = await state.createAssignments({
         classId: createClassId,
         testVersionIds: selectedVersionIds,
+        recipientStudentIds: selectedRecipientIds,
         dueAt: dueDateInputToIso(dueDate),
       });
       setSelectedVersionIds([]);
@@ -1702,7 +1663,7 @@ function AssignmentsPage() {
       setAssignmentUnitId(allResultsFilterValue);
       setAssignmentTopicId(allResultsFilterValue);
       setActiveTab('active');
-      setMessage(`${created.length} assignment${created.length === 1 ? '' : 's'} created for ${selectedClass?.className ?? 'class'}.`);
+      setMessage(`${created.length} assignment${created.length === 1 ? '' : 's'} created for ${selectedRecipientIds.length} student${selectedRecipientIds.length === 1 ? '' : 's'} in ${selectedClass?.className ?? 'class'}.`);
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : 'Unable to create assignments');
     } finally {
@@ -1738,6 +1699,9 @@ function AssignmentsPage() {
             assignment,
             className: classRecord.className,
             testName: test.testTitle,
+            recipientCount: assignment.recipientScope === 'selected'
+              ? assignment.recipientStudentIds.length
+              : state.students.filter((student) => student.accountStatus === 'active' && student.classIds.includes(assignment.classId)).length,
             dueSortTime: assignment.dueAt ? assignmentSortTime(assignment.dueAt) : Number.POSITIVE_INFINITY,
             createdSortTime: assignmentSortTime(assignment.startAt),
             isExpired: Boolean(assignment.dueAt && assignmentSortTime(assignment.dueAt) < currentTime),
@@ -1761,10 +1725,80 @@ function AssignmentsPage() {
     state.tests,
     state.topics,
     state.units,
+    state.students,
   ]);
+  const assignmentProgressById = useMemo(() => {
+    const studentById = new Map(state.students.map((student) => [student.id, student]));
+    const attemptsByAssignmentId = new Map<string, TestAttempt[]>();
+    state.attempts.forEach((attempt) => {
+      if (!attempt.assignmentId) return;
+      attemptsByAssignmentId.set(attempt.assignmentId, [...(attemptsByAssignmentId.get(attempt.assignmentId) ?? []), attempt]);
+    });
+
+    return new Map(state.assignments.map((assignment) => {
+      const recipientIds = assignment.recipientScope === 'selected'
+        ? assignment.recipientStudentIds
+        : state.students
+          .filter((student) => student.accountStatus === 'active' && student.classIds.includes(assignment.classId))
+          .map((student) => student.id);
+      const attemptsByStudentId = new Map<string, TestAttempt[]>();
+      (attemptsByAssignmentId.get(assignment.id) ?? []).forEach((attempt) => {
+        attemptsByStudentId.set(attempt.studentId, [...(attemptsByStudentId.get(attempt.studentId) ?? []), attempt]);
+      });
+      const students = recipientIds.map((studentId) => {
+        const studentAttempts = attemptsByStudentId.get(studentId) ?? [];
+        const attempt = preferredResultAttempt(studentAttempts);
+        const completedAttempts = studentAttempts.filter((candidate) => typeof candidate.percentage === 'number' || ['feedback_released', 'marked', 'submitted', 'timed_out'].includes(candidate.status));
+        const completed = completedAttempts.length > 0;
+        const deadlineStatus = !attempt
+          ? '-'
+          : !completed
+            ? '-'
+            : !assignment.dueAt || !attempt.submittedAt
+              ? '-'
+              : assignmentSortTime(attempt.submittedAt) <= assignmentSortTime(assignment.dueAt) ? 'On time' : 'Late';
+        const score = typeof attempt?.percentage === 'number'
+          ? typeof attempt.score === 'number' && typeof attempt.maxScore === 'number'
+            ? `${attempt.score}/${attempt.maxScore} (${attempt.percentage}%)`
+            : `${attempt.percentage}%`
+          : '-';
+        return {
+          id: studentId,
+          name: studentById.get(studentId) ? studentFullName(studentById.get(studentId) as StudentProfile) : 'Unknown student',
+          attempt,
+          completed,
+          deadlineStatus,
+          score,
+          points: completed ? `${completedAttempts.reduce((total, candidate) => total + (candidate.pointsAwarded ?? 0), 0)}` : '-',
+          status: attempt ? (completed ? 'Completed' : attemptStatusLabel(attempt.status)) : 'Not started',
+        };
+      });
+      return [assignment.id, {
+        students,
+        completedCount: students.filter((student) => student.completed).length,
+        inProgressCount: students.filter((student) => student.attempt?.status === 'in_progress').length,
+      }];
+    }));
+  }, [state.assignments, state.attempts, state.students]);
   const activeAssignmentRows = assignmentRows.filter((row) => !row.isExpired);
   const expiredAssignmentRows = assignmentRows.filter((row) => row.isExpired);
   const visibleAssignmentRows = activeTab === 'expired' ? expiredAssignmentRows : activeAssignmentRows;
+  const inspectedAssignmentRow = assignmentToInspect ? assignmentRows.find((row) => row.assignment.id === assignmentToInspect.id) : undefined;
+  const inspectedAssignmentProgress = assignmentToInspect ? assignmentProgressById.get(assignmentToInspect.id) : undefined;
+  const deleteAssignment = async () => {
+    if (!assignmentToDelete) return;
+    try {
+      setIsSaving(true);
+      setError('');
+      const result = await state.deleteAssignment(assignmentToDelete.id);
+      setMessage(result === 'deleted' ? 'Unused assignment deleted permanently.' : 'Assignment archived. Completed student work remains in Results.');
+      setAssignmentToDelete(null);
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : 'Unable to delete assignment');
+    } finally {
+      setIsSaving(false);
+    }
+  };
 
   return (
     <TeacherPage title="Assignments">
@@ -1844,14 +1878,32 @@ function AssignmentsPage() {
                 />
               </label>
             </div>
+            <details className="group mt-4 rounded-app border border-[#dedbf0] bg-[#faf9ff]" key={createClassId}>
+              <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-4 text-sm font-semibold text-ink">
+                <span><span className="block text-xs font-bold uppercase tracking-[0.12em] text-[#71699b]">Students</span><span className="mt-1 block">{selectedRecipientIds.length} of {selectedClassStudents.length} selected</span></span>
+                <ChevronRight className="shrink-0 text-[#554fd1] transition group-open:rotate-90" size={20} aria-hidden="true" />
+              </summary>
+              <div className="border-t border-[#dedbf0] bg-white p-4">
+                <div className="mb-3 flex flex-wrap items-center justify-between gap-3">
+                  <p className="text-sm text-muted">All students are selected by default. Deselect anyone who should not receive this assignment.</p>
+                  <div className="flex items-center gap-2"><button className="rounded-lg border border-[#c8c3ff] bg-[#f0efff] px-3 py-1.5 text-xs font-bold text-[#514bd0]" onClick={() => setSelectedRecipientIds(selectedClassStudents.map((student) => student.id))} type="button">Select all</button><button className="rounded-lg border border-line bg-white px-3 py-1.5 text-xs font-bold text-muted" onClick={() => setSelectedRecipientIds([])} type="button">Clear</button></div>
+                </div>
+                <div className="flex max-h-44 flex-wrap gap-2 overflow-y-auto pr-1">
+                  {selectedClassStudents.map((student) => {
+                    const selected = selectedRecipientIdSet.has(student.id);
+                    return <label className={`inline-flex cursor-pointer items-center gap-2 rounded-full border px-3 py-2 text-sm font-semibold transition ${selected ? 'border-[#7164e8] bg-[#f0efff] text-[#453ab0]' : 'border-line bg-white text-muted hover:border-[#b4aefa]'}`} key={student.id}><input checked={selected} className="size-4 accent-[#554fd1]" onChange={() => setSelectedRecipientIds((current) => selected ? current.filter((id) => id !== student.id) : [...current, student.id])} type="checkbox" /><span>{student.firstName} {student.surname}</span></label>;
+                  })}
+                </div>
+              </div>
+            </details>
           </Panel>
 
           <div className="flex flex-col gap-3 rounded-app border border-line bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="font-bold">{selectedVersionIds.length} tests selected</p>
-              <p className="text-sm text-muted">Each selected test creates one assignment for {selectedClass?.className ?? 'the selected class'}.</p>
+              <p className="text-sm text-muted">Each selected test creates one assignment for {selectedRecipientIds.length} selected student{selectedRecipientIds.length === 1 ? '' : 's'} in {selectedClass?.className ?? 'the selected class'}.</p>
             </div>
-            <Button disabled={!createClassId || !selectedVersionIds.length || isSaving} onClick={createAssignments}>
+            <Button disabled={!createClassId || !selectedVersionIds.length || !selectedRecipientIds.length || isSaving} onClick={createAssignments}>
               {isSaving ? 'Creating...' : 'Create assignments'}
             </Button>
           </div>
@@ -2010,13 +2062,16 @@ function AssignmentsPage() {
 
           <Panel className="p-4">
             <div className={nestedTableFrame}>
-              <table className="w-full min-w-[820px] text-left text-sm">
+              <table className="w-full min-w-[980px] text-left text-sm">
                 <thead className={nestedTableHead}>
                   <tr>
                     <th className="px-3 py-3">Date created</th>
                     <th className="px-3 py-3">Class</th>
                     <th className="px-3 py-3">Test</th>
+                    <th className="px-3 py-3 text-center">Students assigned</th>
+                    <th className="px-3 py-3 text-center">Progress</th>
                     <th className="px-3 py-3">Assignment deadline</th>
+                    <th className="px-3 py-3 text-right">Actions</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-line bg-white">
@@ -2028,14 +2083,22 @@ function AssignmentsPage() {
                         </td>
                         <td className="px-3 py-3">{row.className}</td>
                         <td className="px-3 py-3 font-semibold">{row.testName}</td>
+                        <td className="px-3 py-3 text-center font-semibold">{row.recipientCount}</td>
+                        <td className="px-3 py-3 text-center">
+                          <div className="flex flex-col items-center gap-1">
+                            <span className="font-semibold text-ink">{assignmentProgressById.get(row.assignment.id)?.completedCount ?? 0}/{row.recipientCount} completed</span>
+                            <button className="text-xs font-bold text-blue underline-offset-2 hover:underline" onClick={() => setAssignmentToInspect(row.assignment)} type="button">View students</button>
+                          </div>
+                        </td>
                         <td className="whitespace-nowrap px-3 py-3">
                           {row.assignment.dueAt ? formatDate(row.assignment.dueAt) : 'No deadline'}
                         </td>
+                        <td className="px-3 py-3 text-right"><Button className="min-h-9 px-3" type="button" variant="danger" onClick={() => setAssignmentToDelete(row.assignment)}>Delete</Button></td>
                       </tr>
                     ))
                   ) : (
                     <tr>
-                      <td className="px-3 py-6 text-center text-muted" colSpan={4}>
+                      <td className="px-3 py-6 text-center text-muted" colSpan={7}>
                         No {activeTab === 'expired' ? 'expired' : 'active'} assignments match these filters.
                       </td>
                     </tr>
@@ -2046,6 +2109,41 @@ function AssignmentsPage() {
           </Panel>
         </div>
       ) : null}
+      {assignmentToDelete ? <div className="fixed inset-0 z-50 grid place-items-center bg-[#131544]/45 p-4" role="presentation" onMouseDown={() => setAssignmentToDelete(null)}>
+        <section className="w-full max-w-md rounded-app border border-[#f3b4b4] bg-white p-5 text-ink shadow-[0_24px_60px_rgba(24,27,80,0.3)]" role="dialog" aria-modal="true" aria-labelledby="delete-assignment-title" onMouseDown={(event) => event.stopPropagation()}>
+          <p className="text-xs font-bold uppercase tracking-[0.14em] text-danger">Delete assignment</p>
+          <h2 className="mt-1 text-xl font-bold" id="delete-assignment-title">Remove this assignment?</h2>
+          <p className="mt-3 text-sm text-muted">If no student has started it, it will be deleted permanently. Otherwise it will disappear for students and these lists, while completed history stays in Results.</p>
+          <div className="mt-5 flex justify-end gap-3"><Button disabled={isSaving} type="button" variant="secondary" onClick={() => setAssignmentToDelete(null)}>Cancel</Button><Button disabled={isSaving} type="button" variant="danger" onClick={deleteAssignment}>{isSaving ? 'Deleting...' : 'Delete assignment'}</Button></div>
+        </section>
+      </div> : null}
+      {assignmentToInspect ? <div className="fixed inset-0 z-50 grid place-items-center bg-[#131544]/45 p-4" role="presentation" onMouseDown={() => setAssignmentToInspect(null)}>
+        <section aria-labelledby="assignment-progress-title" className="flex max-h-[calc(100vh-2rem)] w-full max-w-4xl flex-col overflow-hidden rounded-app border border-[#d9d5fb] bg-white text-ink shadow-[0_24px_60px_rgba(24,27,80,0.3)]" role="dialog" aria-modal="true" onMouseDown={(event) => event.stopPropagation()}>
+          <div className="flex items-start justify-between gap-4 border-b border-line p-5">
+            <div>
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#71699b]">Assignment progress</p>
+              <h2 className="mt-1 text-xl font-bold" id="assignment-progress-title">{inspectedAssignmentRow?.testName ?? 'Assignment'}</h2>
+              <p className="mt-1 text-sm text-muted">{inspectedAssignmentRow?.className ?? 'Class'} · Due {assignmentToInspect.dueAt ? formatDate(assignmentToInspect.dueAt) : 'no deadline'}</p>
+            </div>
+            <button aria-label="Close assignment progress" className="grid size-10 shrink-0 place-items-center rounded-xl border border-line bg-mist text-muted transition hover:border-blue hover:text-blue" onClick={() => setAssignmentToInspect(null)} type="button"><X size={18} aria-hidden="true" /></button>
+          </div>
+          <div className="grid grid-cols-3 gap-3 border-b border-line bg-[#faf9ff] p-4">
+            <div className="rounded-xl border border-[#dedbf0] bg-white p-3"><p className="text-xs font-bold uppercase tracking-[0.1em] text-muted">Students</p><p className="mt-1 text-xl font-bold">{inspectedAssignmentProgress?.students.length ?? 0}</p></div>
+            <div className="rounded-xl border border-[#c4ead3] bg-[#f2fbf5] p-3"><p className="text-xs font-bold uppercase tracking-[0.1em] text-green">Completed</p><p className="mt-1 text-xl font-bold text-green">{inspectedAssignmentProgress?.completedCount ?? 0}</p></div>
+            <div className="rounded-xl border border-[#c9d7f6] bg-[#f4f8ff] p-3"><p className="text-xs font-bold uppercase tracking-[0.1em] text-blue">In progress</p><p className="mt-1 text-xl font-bold text-blue">{inspectedAssignmentProgress?.inProgressCount ?? 0}</p></div>
+          </div>
+          <div className="min-h-0 overflow-y-auto p-4">
+            <div className="overflow-x-auto rounded-app border border-line">
+              <table className="w-full min-w-[720px] text-left text-sm">
+                <thead className={nestedTableHead}><tr><th className="px-3 py-3">Student</th><th className="px-3 py-3 text-center">Status</th><th className="px-3 py-3 text-center">Score</th><th className="px-3 py-3 text-center">Points earned</th><th className="px-3 py-3 text-center">Deadline met</th></tr></thead>
+                <tbody className="divide-y divide-line bg-white">
+                  {inspectedAssignmentProgress?.students.map((student) => <tr key={student.id}><td className="px-3 py-3 font-semibold">{student.name}</td><td className="px-3 py-3 text-center"><span className={student.completed ? 'font-semibold text-green' : student.attempt?.status === 'in_progress' ? 'font-semibold text-blue' : 'text-muted'}>{student.status}</span></td><td className={`px-3 py-3 text-center font-semibold ${scoreTextClass(student.attempt?.percentage)}`}>{student.score}</td><td className={`px-3 py-3 text-center font-semibold ${student.points === '-' ? 'text-muted' : 'text-[#554fd1]'}`}>{student.points === '-' ? '-' : `${student.points} pts`}</td><td className={`px-3 py-3 text-center font-semibold ${student.deadlineStatus === 'Late' || student.deadlineStatus === 'Overdue' ? 'text-danger' : student.deadlineStatus === 'On time' ? 'text-green' : 'text-muted'}`}>{student.deadlineStatus}</td></tr>)}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div> : null}
     </TeacherPage>
   );
 }
@@ -2064,6 +2162,7 @@ function ResultsPage() {
   const [isDueDateFilterEnabled, setIsDueDateFilterEnabled] = useState(false);
   const [filtersOpen, setFiltersOpen] = useState(false);
   const [scoreSort, setScoreSort] = useState<{ testId: string; direction: 'ascending' | 'descending' } | null>(null);
+  const [studentToInspect, setStudentToInspect] = useState<StudentProfile | null>(null);
   const selectedResultsClass = activeClasses.find((classRecord) => classRecord.id === selectedClassId);
   const availableResultSubjects = selectedClassId === allResultsFilterValue
     ? state.subjects
@@ -2170,17 +2269,6 @@ function ResultsPage() {
       .sort((first, second) => studentFullName(first).localeCompare(studentFullName(second)) || first.publicStudentId.localeCompare(second.publicStudentId));
   }, [activeClasses, resultAttempts, selectedClassId, state.students, studentById]);
 
-  const currentRosterIds = useMemo(
-    () =>
-      new Set(
-        state.students
-          .filter((student) => student.accountStatus !== 'archived')
-          .filter((student) => selectedClassId === allResultsFilterValue || studentHasClass(student, selectedClassId))
-          .map((student) => student.id),
-      ),
-    [selectedClassId, state.students],
-  );
-
   const assignmentsByTestId = useMemo(() => {
     const testIdByVersionId = new Map(state.testVersions.map((version) => [version.id, version.testId]));
     const assignments = new Map<string, TestAssignment[]>();
@@ -2202,10 +2290,14 @@ function ResultsPage() {
       const matchingAssignments = (assignmentsByTestId.get(test.id) ?? []).filter(
         (assignment) => selectedClassId === allResultsFilterValue || assignment.classId === selectedClassId,
       );
-      const isAssignedToView = matchingAssignments.length > 0;
       const cells = studentColumns.map((student) => {
         const attempt = preferredResultAttempt(attemptsByCell.get(`${test.id}:${student.id}`) ?? []);
-        const isApplicable = Boolean(attempt) || (isAssignedToView && currentRosterIds.has(student.id));
+        const isAssignedToStudent = matchingAssignments.some((assignment) =>
+          assignment.recipientScope === 'selected'
+            ? assignment.recipientStudentIds.includes(student.id)
+            : studentHasClass(student, assignment.classId),
+        );
+        const isApplicable = Boolean(attempt) || isAssignedToStudent;
         const label = resultAttemptLabel(attempt, isApplicable);
         return { attempt, ...label, student };
       });
@@ -2219,6 +2311,7 @@ function ResultsPage() {
         dueAt: latestAssignment?.dueAt,
         cells,
         test,
+        unit: unitById.get(topicById.get(test.topicId)?.unitId ?? ''),
       };
     }).filter((row) => {
       if (!isDueDateFilterEnabled) return true;
@@ -2226,7 +2319,98 @@ function ResultsPage() {
       const dueDate = row.dueAt.slice(0, 10);
       return (!dueDateFrom || dueDate >= dueDateFrom) && (!dueDateTo || dueDate <= dueDateTo);
     });
-  }, [assignmentsByTestId, currentRosterIds, dueDateFrom, dueDateTo, filteredTests, isDueDateFilterEnabled, resultAttempts, selectedClassId, studentColumns]);
+  }, [assignmentsByTestId, dueDateFrom, dueDateTo, filteredTests, isDueDateFilterEnabled, resultAttempts, selectedClassId, studentColumns, topicById, unitById]);
+
+  const studentPerformanceSummary = useMemo(() => {
+    if (!studentToInspect) return null;
+    const courseTests = state.tests
+      .filter((test) => {
+        if (test.status !== 'published') return false;
+        const topic = topicById.get(test.topicId);
+        const unit = topic ? unitById.get(topic.unitId) : undefined;
+        return Boolean(topic && unit && (selectedSubjectId === allResultsFilterValue || unit.subjectId === selectedSubjectId));
+      })
+      .sort((first, second) => resultNaturalSort.compare(first.testTitle, second.testTitle));
+    const courseTestIds = new Set(courseTests.map((test) => test.id));
+    const attemptsByTestId = new Map<string, TestAttempt[]>();
+    state.attempts
+      .filter((attempt) => attempt.studentId === studentToInspect.id && attempt.status !== 'voided' && courseTestIds.has(attempt.testId))
+      .forEach((attempt) => attemptsByTestId.set(attempt.testId, [...(attemptsByTestId.get(attempt.testId) ?? []), attempt]));
+    const results = courseTests.map((test) => {
+      const attempts = attemptsByTestId.get(test.id) ?? [];
+      const preferredAttempt = preferredResultAttempt(attempts);
+      const completedAttempts = attempts.filter((attempt) => typeof attempt.percentage === 'number' || ['feedback_released', 'marked', 'submitted', 'timed_out'].includes(attempt.status));
+      const completed = completedAttempts.length > 0;
+      const score = typeof preferredAttempt?.percentage === 'number'
+        ? typeof preferredAttempt.score === 'number' && typeof preferredAttempt.maxScore === 'number'
+          ? `${preferredAttempt.score}/${preferredAttempt.maxScore} (${preferredAttempt.percentage}%)`
+          : `${preferredAttempt.percentage}%`
+        : '-';
+      return {
+        unitId: unitById.get(topicById.get(test.topicId)?.unitId ?? '')?.id ?? '',
+        unitName: unitById.get(topicById.get(test.topicId)?.unitId ?? '')?.unitName ?? 'Course tests',
+        testName: test.testTitle,
+        status: !preferredAttempt ? 'Not started' : completed ? 'Completed' : attemptStatusLabel(preferredAttempt.status),
+        score,
+        percentage: preferredAttempt?.percentage,
+        marks: typeof preferredAttempt?.score === 'number' ? preferredAttempt.score : 0,
+        maxMarks: typeof preferredAttempt?.maxScore === 'number' ? preferredAttempt.maxScore : 0,
+        points: completed ? completedAttempts.reduce((total, attempt) => total + (attempt.pointsAwarded ?? 0), 0) : undefined,
+        completed,
+      };
+    });
+    const scoredResults = results.filter((result) => typeof result.percentage === 'number');
+    const course = selectedSubjectId === allResultsFilterValue ? undefined : state.subjects.find((subject) => subject.id === selectedSubjectId);
+    return {
+      className: selectedClassId === allResultsFilterValue ? 'All classes' : selectedResultsClass?.className ?? 'Class',
+      courseName: course?.subjectName ?? 'All courses',
+      results,
+      unitSummaries: Array.from(new Map(results.map((result) => [result.unitId, result.unitName])).entries()).map(([unitId, unitName]) => {
+        const unitResults = results.filter((result) => result.unitId === unitId);
+        const scoredUnitResults = unitResults.filter((result) => typeof result.percentage === 'number');
+        return {
+          unitId,
+          unitName,
+          results: unitResults,
+          average: scoredUnitResults.length ? Math.round(scoredUnitResults.reduce((total, result) => total + (result.percentage ?? 0), 0) / scoredUnitResults.length) : undefined,
+          bestScore: scoredUnitResults.length ? Math.max(...scoredUnitResults.map((result) => result.percentage ?? 0)) : undefined,
+          completedTests: unitResults.filter((result) => result.completed).length,
+          marksEarned: unitResults.reduce((total, result) => total + result.marks, 0),
+          marksAvailable: unitResults.reduce((total, result) => total + result.maxMarks, 0),
+          totalPoints: unitResults.reduce((total, result) => total + (result.points ?? 0), 0),
+        };
+      }),
+      average: scoredResults.length ? Math.round(scoredResults.reduce((total, result) => total + (result.percentage ?? 0), 0) / scoredResults.length) : undefined,
+      bestScore: scoredResults.length ? Math.max(...scoredResults.map((result) => result.percentage ?? 0)) : undefined,
+      marksEarned: results.reduce((total, result) => total + result.marks, 0),
+      marksAvailable: results.reduce((total, result) => total + result.maxMarks, 0),
+      completedTests: results.filter((result) => result.completed).length,
+      totalTests: results.length,
+      totalPoints: results.reduce((total, result) => total + (result.points ?? 0), 0),
+    };
+  }, [selectedClassId, selectedResultsClass?.className, selectedSubjectId, state.attempts, state.subjects, state.tests, studentToInspect, topicById, unitById]);
+  const unitResultSummaries = useMemo(() => {
+    const groups = new Map<string, { unitName: string; rows: typeof resultRows }>();
+    resultRows.forEach((row) => {
+      const unitId = row.unit?.id ?? 'course-tests';
+      const unitName = row.unit?.unitName ?? 'Course tests';
+      const group = groups.get(unitId) ?? { unitName, rows: [] };
+      group.rows.push(row);
+      groups.set(unitId, group);
+    });
+    return new Map(Array.from(groups.entries()).map(([unitId, group]) => {
+      const scores = group.rows.flatMap((row) => row.cells.map((cell) => cell.attempt?.percentage).filter((score): score is number => typeof score === 'number'));
+      const averagesByStudentId = new Map(studentColumns.map((student) => {
+        const scoresForStudent = group.rows.map((row) => row.cells.find((cell) => cell.student.id === student.id)?.attempt?.percentage).filter((score): score is number => typeof score === 'number');
+        return [student.id, scoresForStudent.length ? Math.round(scoresForStudent.reduce((total, score) => total + score, 0) / scoresForStudent.length) : undefined];
+      }));
+      return [unitId, {
+        unitName: group.unitName,
+        classAverage: scores.length ? Math.round(scores.reduce((total, score) => total + score, 0) / scores.length) : undefined,
+        averagesByStudentId,
+      }];
+    }));
+  }, [resultRows, studentColumns]);
 
   const tableMinWidth = `${Math.max(760, 472 + studentColumns.length * 76)}px`;
   const orderedStudentColumns = useMemo(() => {
@@ -2336,11 +2520,11 @@ function ResultsPage() {
           </label>
           <label className="space-y-2 text-sm font-semibold">
             <span className={darkSubtleText}>Due from</span>
-            <input className={whiteControlClass} disabled={!isDueDateFilterEnabled} onChange={(event) => setDueDateFrom(event.target.value)} type="date" value={dueDateFrom} />
+            <input className={whiteControlClass} onChange={(event) => setDueDateFrom(event.target.value)} type="date" value={dueDateFrom} />
           </label>
           <label className="space-y-2 text-sm font-semibold">
             <span className={darkSubtleText}>Due to</span>
-            <input className={whiteControlClass} disabled={!isDueDateFilterEnabled} onChange={(event) => setDueDateTo(event.target.value)} type="date" value={dueDateTo} />
+            <input className={whiteControlClass} onChange={(event) => setDueDateTo(event.target.value)} type="date" value={dueDateTo} />
           </label>
         </div> : null}
       </Panel>
@@ -2368,15 +2552,20 @@ function ResultsPage() {
                 <th className="sticky left-[392px] top-0 z-30 w-[80px] min-w-[80px] whitespace-nowrap border border-line bg-[#f6f4ff] px-2 py-3 text-center text-xs shadow-[5px_0_10px_rgba(33,42,111,0.13)]">Class avg</th>
                 {orderedStudentColumns.map((student) => (
                   <th className="sticky top-0 z-20 w-px whitespace-nowrap border border-line bg-[#f6f4ff] px-2 py-3 text-center text-xs" key={student.id}>
-                    <span className="block max-w-[76px] truncate" title={studentFullName(student)}>{studentFullName(student)}</span>
+                    <button className="block max-w-[76px] truncate text-center font-bold text-ink underline-offset-2 hover:text-blue hover:underline focus:outline-none focus:ring-2 focus:ring-blue/30" onClick={() => setStudentToInspect(student)} title={`View ${studentFullName(student)}'s course performance`} type="button">{studentFullName(student)}</button>
                   </th>
                 ))}
               </tr>
             </thead>
             <tbody className="bg-white text-ink">
               {resultRows.length ? (
-                resultRows.map((row) => (
-                  <tr key={row.test.id}>
+                resultRows.map((row, rowIndex) => {
+                  const unitId = row.unit?.id ?? 'course-tests';
+                  const previousUnitId = resultRows[rowIndex - 1]?.unit?.id ?? (rowIndex ? 'course-tests' : undefined);
+                  const unitSummary = unitResultSummaries.get(unitId);
+                  return <Fragment key={row.test.id}>
+                  {unitId !== previousUnitId ? <tr className="bg-[#eeecff] text-ink"><th className="sticky left-0 z-20 w-[300px] min-w-[300px] border border-[#c8c3f6] bg-[#eeecff] px-3 py-3 text-left" scope="row"><span className="block text-xs font-bold uppercase tracking-[0.12em] text-[#625bb3]">Unit summary</span><span className="mt-1 block font-bold">{unitSummary?.unitName ?? row.unit?.unitName ?? 'Course tests'}</span></th><td className="sticky left-[300px] z-20 w-[92px] min-w-[92px] border border-[#c8c3f6] bg-[#eeecff] px-2 py-3 text-center text-xs font-semibold text-[#625bb3]">-</td><td className={`sticky left-[392px] z-20 w-[80px] min-w-[80px] border border-[#c8c3f6] bg-[#eeecff] px-2 py-3 text-center text-xs font-bold shadow-[5px_0_10px_rgba(33,42,111,0.13)] ${scoreTextClass(unitSummary?.classAverage)}`}>{typeof unitSummary?.classAverage === 'number' ? `${unitSummary.classAverage}%` : '-'}</td>{orderedStudentColumns.map((student) => { const average = unitSummary?.averagesByStudentId.get(student.id); return <td className={`w-px whitespace-nowrap border border-[#c8c3f6] bg-[#eeecff] px-2 py-3 text-center text-xs font-bold ${scoreTextClass(average)}`} key={`${unitId}-${student.id}`}>{typeof average === 'number' ? `${average}%` : '-'}</td>; })}</tr> : null}
+                  <tr>
                     <th
                       className="sticky left-0 z-20 w-[300px] min-w-[300px] border border-line bg-white px-3 py-3 text-left align-top font-semibold"
                       scope="row"
@@ -2406,7 +2595,8 @@ function ResultsPage() {
                       );
                     })}
                   </tr>
-                ))
+                  </Fragment>;
+                })
               ) : (
                 <tr>
                   <td className="border border-line px-3 py-6 text-center text-sm font-semibold text-muted" colSpan={Math.max(3, studentColumns.length + 3)}>
@@ -2418,6 +2608,24 @@ function ResultsPage() {
           </table>
         </div>
       </Panel>
+      {studentToInspect && studentPerformanceSummary ? <div className="fixed inset-0 z-50 grid place-items-center bg-[#131544]/45 p-4" role="presentation" onMouseDown={() => setStudentToInspect(null)}>
+        <section aria-labelledby="student-performance-title" className="flex max-h-[calc(100vh-2rem)] w-full max-w-5xl flex-col overflow-hidden rounded-app border border-[#d9d5fb] bg-white text-ink shadow-[0_24px_60px_rgba(24,27,80,0.3)]" role="dialog" aria-modal="true" onMouseDown={(event) => event.stopPropagation()}>
+          <div className="flex items-start justify-between gap-4 border-b border-line p-5">
+            <div><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#71699b]">Student performance summary</p><h2 className="mt-1 text-xl font-bold" id="student-performance-title">{studentFullName(studentToInspect)}</h2><p className="mt-1 text-sm text-muted">{studentPerformanceSummary.className} · {studentPerformanceSummary.courseName}</p></div>
+            <div className="flex items-center gap-2"><Button className="min-h-10 px-3" onClick={() => downloadStudentPerformancePdf({ studentName: studentFullName(studentToInspect), ...studentPerformanceSummary })} type="button" variant="secondary"><Download size={16} aria-hidden="true" />Download PDF</Button><button aria-label="Close student performance summary" className="grid size-10 shrink-0 place-items-center rounded-xl border border-line bg-mist text-muted transition hover:border-blue hover:text-blue" onClick={() => setStudentToInspect(null)} type="button"><X size={18} aria-hidden="true" /></button></div>
+          </div>
+          <div className="grid grid-cols-2 gap-3 border-b border-line bg-[#faf9ff] p-4 sm:grid-cols-5">
+            <div className="rounded-xl border border-[#dedbf0] bg-white p-3"><p className="text-xs font-bold uppercase tracking-[0.1em] text-muted">Average</p><p className="mt-1 text-xl font-bold">{typeof studentPerformanceSummary.average === 'number' ? `${studentPerformanceSummary.average}%` : '-'}</p></div>
+            <div className="rounded-xl border border-[#c9d7f6] bg-[#f4f8ff] p-3"><p className="text-xs font-bold uppercase tracking-[0.1em] text-blue">Total marks</p><p className="mt-1 text-xl font-bold text-blue">{studentPerformanceSummary.marksEarned}/{studentPerformanceSummary.marksAvailable}</p></div>
+            <div className="rounded-xl border border-[#c4ead3] bg-[#f2fbf5] p-3"><p className="text-xs font-bold uppercase tracking-[0.1em] text-green">Completed</p><p className="mt-1 text-xl font-bold text-green">{studentPerformanceSummary.completedTests}/{studentPerformanceSummary.results.length}</p></div>
+            <div className="rounded-xl border border-[#f3d8a4] bg-[#fff9ec] p-3"><p className="text-xs font-bold uppercase tracking-[0.1em] text-amber">Best score</p><p className="mt-1 text-xl font-bold text-amber">{typeof studentPerformanceSummary.bestScore === 'number' ? `${studentPerformanceSummary.bestScore}%` : '-'}</p></div>
+            <div className="rounded-xl border border-[#d8d0fb] bg-[#f3f0ff] p-3"><p className="text-xs font-bold uppercase tracking-[0.1em] text-[#554fd1]">Points earned</p><p className="mt-1 text-xl font-bold text-[#554fd1]">{studentPerformanceSummary.totalPoints}</p></div>
+          </div>
+          <div className="min-h-0 overflow-y-auto p-4">
+            <div className="space-y-4">{studentPerformanceSummary.unitSummaries.map((unit) => <section className="overflow-hidden rounded-app border border-[#d8d3f5]" key={unit.unitId}><div className="flex flex-wrap items-center justify-between gap-3 bg-[#eeecff] px-4 py-3"><div><p className="text-xs font-bold uppercase tracking-[0.12em] text-[#625bb3]">Unit summary</p><h3 className="mt-1 font-bold">{unit.unitName}</h3></div><div className="flex flex-wrap gap-x-4 gap-y-1 text-sm font-semibold text-[#4d468f]"><span>Average {typeof unit.average === 'number' ? `${unit.average}%` : '-'}</span><span>Marks {unit.marksEarned}/{unit.marksAvailable}</span><span>Completed {unit.completedTests}/{unit.results.length}</span><span>Best {typeof unit.bestScore === 'number' ? `${unit.bestScore}%` : '-'}</span><span>{unit.totalPoints} points</span></div></div><div className="overflow-x-auto"><table className="w-full min-w-[640px] text-left text-sm"><thead className={nestedTableHead}><tr><th className="px-3 py-3">Test</th><th className="px-3 py-3 text-center">Status</th><th className="px-3 py-3 text-center">Score</th><th className="px-3 py-3 text-center">Points earned</th></tr></thead><tbody className="divide-y divide-line bg-white">{unit.results.map((result) => <tr key={result.testName}><td className="px-3 py-3 font-semibold">{result.testName}</td><td className={`px-3 py-3 text-center font-semibold ${result.status === 'Completed' ? 'text-green' : result.status === 'In progress' ? 'text-blue' : 'text-muted'}`}>{result.status}</td><td className={`px-3 py-3 text-center font-semibold ${scoreTextClass(result.percentage)}`}>{result.score}</td><td className={`px-3 py-3 text-center font-semibold ${typeof result.points === 'number' ? 'text-[#554fd1]' : 'text-muted'}`}>{typeof result.points === 'number' ? `${result.points} pts` : '-'}</td></tr>)}</tbody></table></div></section>)}</div>
+          </div>
+        </section>
+      </div> : null}
     </TeacherPage>
   );
 }

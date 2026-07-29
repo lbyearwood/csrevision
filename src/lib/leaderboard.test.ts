@@ -69,4 +69,22 @@ describe('leaderboard helpers', () => {
 
     expect(rows.map((row) => row.studentId)).toEqual(['student-active']);
   });
+
+  it('uses shared competition ranks for tied scores', () => {
+    const rows = buildLeaderboardFromPoints(
+      [
+        { id: 'student-a', profileId: 'profile-a', firstName: 'Ada', surname: 'A', username: 'adaa', publicStudentId: '1001', yearGroup: 'Year 10', joinedOn: '2025-09-01', classIds: ['class-1'], classId: 'class-1', accountStatus: 'active' },
+        { id: 'student-b', profileId: 'profile-b', firstName: 'Bea', surname: 'B', username: 'beab', publicStudentId: '1002', yearGroup: 'Year 10', joinedOn: '2025-09-01', classIds: ['class-1'], classId: 'class-1', accountStatus: 'active' },
+        { id: 'student-c', profileId: 'profile-c', firstName: 'Cal', surname: 'C', username: 'calc', publicStudentId: '1003', yearGroup: 'Year 10', joinedOn: '2025-09-01', classIds: ['class-1'], classId: 'class-1', accountStatus: 'active' },
+      ],
+      [{ id: 'class-1', className: '10A Computing', academicYear: '2026/27', yearGroup: '10', ownerTeacherId: 'teacher-1', status: 'active', joinCode: 'ABCDEF', acceptingStudents: false, isSystem: false, courseIds: [] }],
+      [
+        { id: 'points-a', studentId: 'student-a', points: 100, reason: 'test', createdAt: '2026-07-26T00:00:00Z' },
+        { id: 'points-b', studentId: 'student-b', points: 100, reason: 'test', createdAt: '2026-07-26T00:00:00Z' },
+        { id: 'points-c', studentId: 'student-c', points: 90, reason: 'test', createdAt: '2026-07-26T00:00:00Z' },
+      ],
+    );
+
+    expect(rows.map((row) => row.rank)).toEqual([1, 1, 3]);
+  });
 });

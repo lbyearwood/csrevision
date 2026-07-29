@@ -20,11 +20,14 @@ This is the live tracker for the student-facing visual work. It records requeste
 - [x] Increase desktop page, assignment-title, supporting-text, and primary-action scale.
 - [x] Make the teacher-set assessment cue more engaging and visible on laptop screens.
 - [x] Verify the updated desktop Assigned page in the signed-in browser.
+- [ ] Align My assignments and its empty state with the light Student Practice card system; keep the same assignments and actions.
 
 ## Leaderboard
 
 - [x] Add podium recognition for first, second, and third place.
 - [ ] Visually verify and refine the larger desktop student names, points, rank tiles, and row spacing.
+- [ ] Redesign the student leaderboard using the lighter white-card visual system while preserving all live class and all-time standings data.
+- [ ] Split the student standing summary into separate Class leaderboard and All-time ranking positions.
 
 ## Results
 
@@ -36,6 +39,7 @@ This is the live tracker for the student-facing visual work. It records requeste
 
 - [ ] Review tablet breakpoints after the desktop pass; mobile currently looks good and should not be unnecessarily changed.
 - [ ] Continue checking that key titles, student names, and primary actions remain comfortably readable on laptop screens.
+- [ ] Make the desktop sidebar content-height so it ends below Sign out rather than stretching beside long pages such as the leaderboard.
 
 ## Teacher portal — Students
 

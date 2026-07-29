@@ -38,6 +38,16 @@ Current user instruction:
 - Local Supabase remains the development source of truth for Auth, Postgres, RLS, assignments, attempts, results, activity history, and seeded QA data.
 - The active branch remains `agent/csrevision-accounts-mvp`.
 
+### End-of-session update - 2026-07-29
+
+- Teacher Assignments now shows the number of recipients and a `View students` modal for both Active and Expired assignments. The modal lists every recipient, status, score, points earned, and whether a completed attempt met the deadline. Delete permanently removes assignments with no attempts; assignments with attempt history are archived so Results history remains intact. Migration `20260729145825_allow_delete_unused_assignments.sql` grants the required owner/admin delete policy locally.
+- Teacher Results date fields keep their default last-seven-days values but are always editable. The checkbox only controls whether the date range is applied.
+- Teacher Results now includes a lavender unit-summary row before each unit's tests. It shows the unit class average and each student's unit average, while retaining every detailed test row below it.
+- Clicking a student name in Teacher Results now opens a course-performance modal: overall average, raw marks, tests completed, best score, points earned, plus a unit-by-unit test breakdown. The modal downloads a matching browser-generated PDF. `src/lib/studentPerformancePdf.test.ts` directly verifies the PDF blob, filename, and download trigger.
+- Latest targeted browser QA: custom Due from/Due to values were accepted; assignment progress was opened with seeded class data; Results unit rows rendered; and the student performance report rendered with grouped unit summaries.
+- End-process verification on 2026-07-29: `npm.cmd run typecheck`, `npm.cmd run lint`, `npm.cmd run test` (5 files, 16 tests), `npm.cmd run build`, and `git diff --check` all passed. The production build retains the existing Vite chunk-size warning only. `npx.cmd supabase status` passed; imgproxy and pooler remain stopped but are non-blocking for this local app.
+- Next recommended product task: continue reshaping the Teacher Dashboard around actionable class and unit performance, using the new Results summaries as the drill-down reference.
+
 ### Completed in this session
 
 - Added the BTEC Level 3 National Extended Certificate in IT AAQ course structure: Information Technology Systems, Cyber Security and Incident Management, Website Development, and Relational Database Development, with coded content topics and practice resources.

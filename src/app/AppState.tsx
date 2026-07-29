@@ -20,6 +20,7 @@ interface BeginAttemptInput {
 interface CreateAssignmentsInput {
   classId: string;
   testVersionIds: string[];
+  recipientStudentIds: string[];
   dueAt?: string;
   timeLimitSeconds?: number;
   attemptLimit?: number | null;
@@ -72,6 +73,7 @@ interface ResetStudentPasswordResponse {
 interface StartAttemptResponse {
   attemptId: string;
   startedAt: string;
+  resumeQuestionIndex: number;
   expiresAt: string | null;
   timeLimitSeconds: number | null;
   questions: Array<{
@@ -118,6 +120,8 @@ interface AssignmentRow {
   id: string;
   test_version_id: string;
   class_id: string;
+  assigned_by?: string | null;
+  recipient_scope: TestAssignment['recipientScope'];
   start_at: string | null;
   due_at: string | null;
   time_limit_seconds: number | null;
@@ -152,11 +156,13 @@ interface AppStateValue extends SupabaseSnapshot {
   dataError: string;
   beginAttempt: (input: BeginAttemptInput) => Promise<TestAttempt>;
   saveAnswer: (attemptId: string, questionId: string, answer: string) => void;
+  saveAttemptProgress: (attemptId: string, questionIndex: number) => void;
   submitAttempt: (attemptId: string) => Promise<TestAttempt>;
   getAttemptReview: (attemptId: string) => Promise<AttemptReview>;
   logAttemptEvent: (attemptId: string, eventType: AttemptEvent['eventType']) => void;
   voidAssignedAttempt: (attemptId: string, reason: string) => void;
   createAssignments: (input: CreateAssignmentsInput) => Promise<TestAssignment[]>;
+  deleteAssignment: (assignmentId: string) => Promise<'deleted' | 'archived'>;
   updateClass: (input: UpdateClassInput) => Promise<ClassRecord>;
   archiveClass: (classId: string) => Promise<ClassRecord>;
   regenerateClassCode: (classId: string) => Promise<ClassRecord>;
@@ -276,6 +282,8 @@ function mapAssignmentRow(row: AssignmentRow): TestAssignment {
     id: row.id,
     testVersionId: row.test_version_id,
     classId: row.class_id,
+    recipientScope: row.recipient_scope ?? 'class',
+    recipientStudentIds: [],
     startAt: row.start_at ?? '',
     dueAt: row.due_at ?? '',
     timeLimitSeconds: row.time_limit_seconds ?? 0,
@@ -411,9 +419,17 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const pointRows = [...snapshot.pointsTransactions, ...earnedPoints];
   const pointsTotal = totalPointsForStudent(currentStudent.id, pointRows);
   const statusName = statusForPoints(pointsTotal).name;
+  // Leaderboard snapshots are shared safely across a class; individual point transactions
+  // are only visible to their owner. Keep the shared rows, but refresh the signed-in
+  // student's own total from their live transactions so their dashboard stays accurate.
   const leaderboardRows = snapshot.leaderboardRows.length
-    ? snapshot.leaderboardRows
+    ? snapshot.leaderboardRows.map((row) => row.studentId === currentStudent.id
+      ? { ...row, points: pointsTotal, status: statusName }
+      : row)
     : buildLeaderboardFromPoints(snapshot.students, snapshot.classes, pointRows);
+  const allTimeLeaderboardRows = snapshot.allTimeLeaderboardRows.map((row) => row.studentId === currentStudent.id
+    ? { ...row, points: pointsTotal, status: statusName }
+    : row);
 
   const setSession = (nextSession: SessionState) => {
     setSessionState(nextSession);
@@ -466,6 +482,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       assignmentId: existingAttempt?.assignmentId ?? assignmentId,
       attemptType: existingAttempt?.attemptType ?? (assignmentId ? 'assigned' : 'practice'),
       attemptNumber: existingAttempt?.attemptNumber ?? priorAttempts.length + 1,
+      resumeQuestionIndex: started.resumeQuestionIndex ?? existingAttempt?.resumeQuestionIndex ?? 0,
       status: existingAttempt?.status === 'in_progress' ? existingAttempt.status : 'in_progress',
       startedAt: started.startedAt,
       timeLimitSeconds: started.timeLimitSeconds ?? undefined,
@@ -492,6 +509,16 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     const uniqueVersionIds = Array.from(new Set(input.testVersionIds));
     if (!input.classId) throw new Error('Class is required');
     if (!uniqueVersionIds.length) throw new Error('Select at least one test');
+    const recipientStudentIds = Array.from(new Set(input.recipientStudentIds));
+    if (!recipientStudentIds.length) throw new Error('Select at least one student');
+    const eligibleStudentIds = new Set(
+      snapshot.students
+        .filter((student) => student.accountStatus === 'active' && student.classIds.includes(input.classId))
+        .map((student) => student.id),
+    );
+    if (recipientStudentIds.some((studentId) => !eligibleStudentIds.has(studentId))) {
+      throw new Error('Selected students must belong to the chosen class.');
+    }
     if (!snapshot.teacher.profileId) throw new Error('Teacher profile is not loaded');
     const targetClass = snapshot.classes.find((classRecord) => classRecord.id === input.classId);
     if (targetClass?.isSystem) throw new Error('Assignments cannot be created for Non-class');
@@ -513,6 +540,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       test_version_id: testVersionId,
       assigned_by: snapshot.teacher.profileId,
       class_id: input.classId,
+      recipient_scope: 'selected' as const,
       start_at: now,
       due_at: input.dueAt ?? null,
       time_limit_seconds: null,
@@ -523,19 +551,46 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     const { data, error } = await supabase
       .from('test_assignments')
       .insert(rows)
-      .select('id, test_version_id, class_id, start_at, due_at, time_limit_seconds, attempt_limit, feedback_policy, status');
+      .select('id, test_version_id, class_id, assigned_by, recipient_scope, start_at, due_at, time_limit_seconds, attempt_limit, feedback_policy, status');
     if (error) throw error;
     const assignments = ((data ?? []) as AssignmentRow[]).map(mapAssignmentRow);
+    const recipientRows = assignments.flatMap((assignment) => recipientStudentIds.map((studentId) => ({ assignment_id: assignment.id, student_id: studentId })));
+    const { error: recipientError } = await supabase.from('assignment_recipients').insert(recipientRows);
+    if (recipientError) throw recipientError;
+    const assignmentsWithRecipients = assignments.map((assignment) => ({ ...assignment, assignedByName: snapshot.teacher.displayName, recipientStudentIds }));
     setSnapshot((current) => ({
       ...current,
-      assignments: [...assignments, ...current.assignments],
+      assignments: [...assignmentsWithRecipients, ...current.assignments],
     }));
-    return assignments;
+    return assignmentsWithRecipients;
   };
 
   const createAssignments = async (input: CreateAssignmentsInput): Promise<TestAssignment[]> => {
     if (!isSupabaseBacked) throw new Error(SUPABASE_REQUIRED_MESSAGE);
     return createSupabaseAssignments(input);
+  };
+
+  const deleteAssignment = async (assignmentId: string): Promise<'deleted' | 'archived'> => {
+    if (!isSupabaseBacked || !supabase) throw new Error(SUPABASE_REQUIRED_MESSAGE);
+    const { data: attempts, error: attemptsError } = await supabase
+      .from('test_attempts')
+      .select('id')
+      .eq('assignment_id', assignmentId)
+      .limit(1);
+    if (attemptsError) throw attemptsError;
+
+    const hasAttemptHistory = Boolean(attempts?.length);
+    const { error } = hasAttemptHistory
+      ? await supabase.from('test_assignments').update({ status: 'archived' }).eq('id', assignmentId)
+      : await supabase.from('test_assignments').delete().eq('id', assignmentId);
+    if (error) throw error;
+    setSnapshot((current) => ({
+      ...current,
+      assignments: hasAttemptHistory
+        ? current.assignments.map((assignment) => assignment.id === assignmentId ? { ...assignment, status: 'archived' } : assignment)
+        : current.assignments.filter((assignment) => assignment.id !== assignmentId),
+    }));
+    return hasAttemptHistory ? 'archived' : 'deleted';
   };
 
   const updateSupabaseClass = async (input: UpdateClassInput): Promise<ClassRecord> => {
@@ -686,6 +741,19 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const saveAttemptProgress = (attemptId: string, questionIndex: number) => {
+    if (!isSupabaseBacked) {
+      setDataError(SUPABASE_REQUIRED_MESSAGE);
+      return;
+    }
+
+    const resumeQuestionIndex = Math.max(0, Math.floor(questionIndex));
+    setAttempts((rows) => rows.map((row) => row.id === attemptId ? { ...row, resumeQuestionIndex } : row));
+    void invokeFunction('save-answer', { attemptId, resumeQuestionIndex }).catch((error: unknown) => {
+      setDataError(error instanceof Error ? error.message : 'Unable to save test progress');
+    });
+  };
+
   const submitSupabaseAttempt = async (attemptId: string): Promise<TestAttempt> => {
     const attempt = attempts.find((row) => row.id === attemptId);
     if (!attempt) throw new Error('Attempt not found');
@@ -820,6 +888,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     answers,
     events,
     leaderboardRows,
+    allTimeLeaderboardRows,
     pointsTotal,
     statusName,
     isSupabaseBacked,
@@ -828,11 +897,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     dataError,
     beginAttempt,
     saveAnswer,
+    saveAttemptProgress,
     submitAttempt,
     getAttemptReview,
     logAttemptEvent,
     voidAssignedAttempt,
     createAssignments,
+    deleteAssignment,
     updateClass,
     archiveClass,
     regenerateClassCode,

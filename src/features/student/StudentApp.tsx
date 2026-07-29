@@ -24,7 +24,7 @@ import { leaderboardDisplay } from '../../lib/identity';
 import { formatDate } from '../../lib/time';
 import { downloadTestSummaryPdf } from '../../lib/testSummaryPdf';
 import { AntiCheatLayer } from '../tests/AntiCheatLayer';
-import codingStack from '../../assets/coding-stack.png';
+import type { LeaderboardRow } from '../../types/domain';
 
 const navItems = [
   { to: '/student', label: 'Home', icon: Home },
@@ -35,7 +35,12 @@ const navItems = [
 ];
 
 export function StudentApp() {
-  const { currentStudent, dataError, isLoadingData, isSupabaseBacked, signOut } = useAppState();
+  const state = useAppState();
+  const { currentStudent, dataError, isLoadingData, isSupabaseBacked, signOut } = state;
+  const outstandingAssignmentCount = currentStudentAssignments(state).length;
+  const unfinishedPracticeCount = state.attempts.filter(
+    (attempt) => attempt.studentId === currentStudent.id && attempt.attemptType === 'practice' && attempt.status === 'in_progress',
+  ).length;
 
   if (isSupabaseBacked && dataError) {
     return (
@@ -60,7 +65,7 @@ export function StudentApp() {
   return (
     <main className="min-h-screen bg-mist text-ink">
       <div className="mx-auto min-h-screen max-w-[430px] bg-mist shadow-panel md:my-6 md:min-h-[860px] md:rounded-[28px] md:border md:border-line lg:mx-0 lg:my-0 lg:grid lg:min-h-screen lg:w-full lg:max-w-none lg:grid-cols-[248px_minmax(0,1fr)] lg:gap-6 lg:border-0 lg:bg-transparent lg:p-6 lg:shadow-none">
-        <aside className="hidden rounded-app border border-[#6474df] bg-[linear-gradient(165deg,#16235d_0%,#202a6f_48%,#43308f_100%)] p-4 text-white shadow-[0_18px_42px_rgba(32,42,111,0.24)] lg:flex lg:flex-col">
+        <aside className="hidden rounded-app border border-[#6474df] bg-[linear-gradient(165deg,#16235d_0%,#202a6f_48%,#43308f_100%)] p-4 text-white shadow-[0_18px_42px_rgba(32,42,111,0.24)] lg:flex lg:self-start lg:flex-col">
           <div className="mb-6 flex items-center gap-3 px-2">
             <div className="grid h-11 w-11 place-items-center rounded-app border border-[#7e8eff] bg-[linear-gradient(135deg,#3857df_0%,#7650cf_100%)] text-white shadow-[0_8px_18px_rgba(56,87,223,0.28)]">
               <Code2 size={23} strokeWidth={2.4} aria-hidden="true" />
@@ -81,7 +86,9 @@ export function StudentApp() {
                 }
               >
                 <span className="grid size-8 shrink-0 place-items-center rounded-xl border border-white/15 bg-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]"><item.icon size={18} aria-hidden="true" /></span>
-                {item.label}
+                <span className="min-w-0 flex-1">{item.label}</span>
+                {item.to === '/student/practice' && unfinishedPracticeCount > 0 ? <span className="grid min-w-6 place-items-center rounded-full bg-[#5a55d8] px-1.5 py-0.5 text-xs font-bold text-white shadow-sm" aria-label={`${unfinishedPracticeCount} unfinished practice tests`}>{unfinishedPracticeCount}</span> : null}
+                {item.to === '/student/assigned' && outstandingAssignmentCount > 0 ? <span className="grid min-w-6 place-items-center rounded-full bg-[#e5484d] px-1.5 py-0.5 text-xs font-bold text-white shadow-sm" aria-label={`${outstandingAssignmentCount} outstanding assignments`}>{outstandingAssignmentCount}</span> : null}
               </NavLink>
             ))}
           </nav>
@@ -125,11 +132,13 @@ export function StudentApp() {
               key={item.to}
               to={item.to}
               className={({ isActive }) =>
-                `flex min-h-14 flex-col items-center justify-center gap-1 rounded-app text-[10px] font-semibold ${isActive ? 'text-white' : 'text-[#d9dfff]'}`
+                `relative flex min-h-14 flex-col items-center justify-center gap-1 rounded-app text-[10px] font-semibold ${isActive ? 'text-white' : 'text-[#d9dfff]'}`
               }
             >
               <item.icon size={20} aria-hidden="true" />
               {item.label}
+              {item.to === '/student/practice' && unfinishedPracticeCount > 0 ? <span className="absolute right-1 top-1 grid min-w-5 place-items-center rounded-full bg-[#5a55d8] px-1 py-0.5 text-[10px] font-bold text-white shadow-sm" aria-label={`${unfinishedPracticeCount} unfinished practice tests`}>{unfinishedPracticeCount}</span> : null}
+              {item.to === '/student/assigned' && outstandingAssignmentCount > 0 ? <span className="absolute right-1 top-1 grid min-w-5 place-items-center rounded-full bg-[#e5484d] px-1 py-0.5 text-[10px] font-bold text-white shadow-sm" aria-label={`${outstandingAssignmentCount} outstanding assignments`}>{outstandingAssignmentCount}</span> : null}
             </NavLink>
           ))}
         </nav>
@@ -141,33 +150,40 @@ export function StudentApp() {
 function classLeaderboardForCurrentStudent(state: ReturnType<typeof useAppState>) {
   const className = state.classes.find((classRecord) => classRecord.id === state.currentStudent.classId)?.className;
   if (!className) return [];
-  return state.leaderboardRows
+  return withCompetitionRanks(state.leaderboardRows
     .filter((row) => row.className === className)
-    .sort((first, second) => second.points - first.points || first.displayName.localeCompare(second.displayName))
-    .map((row, index) => ({ ...row, rank: index + 1 }));
+    .sort((first, second) => second.points - first.points || first.displayName.localeCompare(second.displayName)));
+}
+
+function withCompetitionRanks(rows: LeaderboardRow[]): LeaderboardRow[] {
+  let previousPoints: number | undefined;
+  let rank = 0;
+  return rows.map((row, index) => {
+    if (row.points !== previousPoints) rank = index + 1;
+    previousPoints = row.points;
+    return { ...row, rank };
+  });
+}
+
+function rankMedal(rank: number | string) {
+  return rank === 1 ? '🏆' : rank === 2 ? '🥈' : rank === 3 ? '🥉' : '';
 }
 
 function StudentHome() {
   const state = useAppState();
   const navigate = useNavigate();
-  const [actionError, setActionError] = useState('');
-  const assigned = currentStudentAssignments(state)[0];
-  const assignedVersion = state.testVersions.find((version) => version.id === assigned?.testVersionId);
-  const assignedTest = state.tests.find((test) => test.id === assignedVersion?.testId);
-  const assignedAttempt = findExistingAssignedAttempt(state, assigned?.id);
-  const assignedDisplay = getStudentTestDisplay(state, assignedTest?.id);
-  const assignedQuestionCount = Math.max(
-    state.questions.filter((question) => question.testVersionId === assignedVersion?.id).length,
-    assignedVersion?.totalMarks ?? 0,
+  const outstandingAssignments = currentStudentAssignments(state).sort(
+    (first, second) => new Date(first.dueAt || '9999-12-31').getTime() - new Date(second.dueAt || '9999-12-31').getTime(),
   );
+  const nextDueAssignment = outstandingAssignments[0];
   const recentAttempts = state.attempts.filter((attempt) => attempt.studentId === state.currentStudent.id);
   const courseResults = state.subjects[0] ? buildCourseResults(state, state.subjects[0].id) : null;
   const classLeaderboardRows = classLeaderboardForCurrentStudent(state);
   const currentLeaderboardRow = classLeaderboardRows.find((row) => row.studentId === state.currentStudent.id);
   const classRank = currentLeaderboardRow?.rank ?? '-';
   const classPoints = currentLeaderboardRow?.points ?? state.pointsTotal;
-  const leadingPoints = classLeaderboardRows[0]?.points ?? classPoints;
-  const pointsToFirst = Math.max(leadingPoints - classPoints + 1, 0);
+  const studentAhead = currentLeaderboardRow ? classLeaderboardRows.find((row) => row.rank === currentLeaderboardRow.rank - 1) : undefined;
+  const pointsToNextRank = studentAhead ? Math.max(studentAhead.points - classPoints + 1, 0) : 0;
   const studentBehind = currentLeaderboardRow ? classLeaderboardRows.find((row) => row.rank === currentLeaderboardRow.rank + 1) : undefined;
   const leadOverStudentBehind = studentBehind ? Math.max(classPoints - studentBehind.points, 0) : 0;
   const learningGapTopics = courseResults?.units
@@ -187,21 +203,32 @@ function StudentHome() {
     <div className="space-y-5 px-4 py-5 lg:px-0 lg:py-0">
       <section className="learning-surface rounded-app border border-line px-5 py-5 shadow-panel lg:px-7 lg:py-6">
         <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_minmax(340px,0.8fr)] lg:items-center">
-          <div>
-            <p className="text-xl font-bold tracking-tight text-ink lg:text-2xl">Hello, {state.currentStudent.firstName}!</p>
+          <div className="rounded-xl border border-[#dfe3ff] bg-[linear-gradient(135deg,#fbfcff_0%,#f2f4ff_100%)] px-5 py-5 shadow-[0_10px_22px_rgba(66,91,177,0.08)] lg:px-6 lg:py-6">
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#5969aa]">Your learning space</p>
+            <p className="mt-2 text-2xl font-bold tracking-tight text-ink lg:text-3xl">Hello, {state.currentStudent.firstName}!</p>
             <p className="mt-1 max-w-xl text-sm text-muted">Keep up the momentum — small steps lead to big results.</p>
-            <p className="mt-4 text-sm font-semibold text-[#4c6786]">Course progress: {completedTopicCount} of {totalTopicCount} topics practised</p>
-          </div>
-          <div className="relative flex items-center gap-3 overflow-hidden rounded-xl border border-[#80c8ff] bg-gradient-to-br from-[#13336b] via-[#2e62ce] to-[#7041b3] px-4 py-4 text-white shadow-[0_12px_28px_rgba(45,95,205,0.28)]">
-            <span className="grid size-11 shrink-0 place-items-center rounded-2xl bg-white/15 text-[#ffe37b] shadow-inner"><Trophy size={28} aria-hidden="true" /></span>
-            <div className="min-w-0 flex-1">
-              <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#dceeff]">Class challenge 🏆</p>
-              <div className="mt-1 flex items-end gap-4">
-                <div><p className="text-3xl font-bold leading-none text-[#ffe37b]">{classPoints.toLocaleString()}</p><p className="mt-1 text-[11px] font-semibold text-[#dceeff]">points earned</p></div>
-                <div className="border-l border-white/25 pl-4"><p className="text-[11px] font-semibold text-[#dceeff]">Your rank</p><p className="mt-0.5 text-2xl font-bold leading-none">#{classRank}</p></div>
-              </div>
+            <div className="mt-5">
+              <div className="flex items-center justify-between gap-3 text-sm font-semibold text-[#4c6786]"><span>Course progress</span><span>{completedTopicCount}/{totalTopicCount} topics</span></div>
+              <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-[#dfe3ff] p-0.5"><div className="h-full rounded-full bg-[linear-gradient(90deg,#4667db_0%,#7550cd_100%)]" style={{ width: `${completionPercentage}%` }} /></div>
             </div>
-            <div className="w-32 shrink-0 border-l border-white/25 pl-3 text-[11px] font-semibold leading-snug text-white"><p>{pointsToFirst ? `🚀 ${pointsToFirst} points to rank #1` : '🏆 You are leading the class'}</p>{studentBehind ? <p className="mt-1.5 text-[#dceeff]">{studentBehind.displayName.split(' - ')[0]} is {leadOverStudentBehind} points behind you.</p> : null}</div>
+          </div>
+          <div className="relative overflow-hidden rounded-xl border border-[#80c8ff] bg-gradient-to-br from-[#13336b] via-[#2e62ce] to-[#7041b3] p-4 text-white shadow-[0_12px_28px_rgba(45,95,205,0.28)] lg:p-5">
+            <div className="min-w-0">
+                <p className="text-[10px] font-bold uppercase tracking-[0.12em] text-[#dceeff]">Class challenge 🏆</p>
+                <div className="mt-3 grid grid-cols-2 gap-2.5">
+                  <div className="rounded-xl border border-white/15 bg-white/10 px-3 py-2.5">
+                    <div className="flex items-center gap-2.5">
+                      <span className="grid size-9 shrink-0 place-items-center rounded-xl bg-white/15 text-[#ffe37b] shadow-inner"><Trophy size={23} aria-hidden="true" /></span>
+                      <div><p className="text-2xl font-bold leading-none text-[#ffe37b]">{classPoints.toLocaleString()}</p><p className="mt-1 text-[11px] font-semibold text-[#dceeff]">points earned</p></div>
+                    </div>
+                  </div>
+                  <div className="rounded-xl border border-white/15 bg-white/10 px-3 py-2.5"><p className="text-[11px] font-semibold text-[#dceeff]">Your rank</p><p className="mt-1 text-2xl font-bold leading-none">#{classRank}</p></div>
+                </div>
+            </div>
+            <div className="mt-3 space-y-2 border-t border-white/20 pt-3 text-sm font-semibold leading-snug">
+              <p className="rounded-lg bg-white/10 px-3 py-2">{studentAhead ? `🚀 ${pointsToNextRank} points to rank #${studentAhead.rank}` : '🏆 You are leading the class'}</p>
+              {studentBehind ? <p className="rounded-lg bg-white/10 px-3 py-2 text-[#e3efff]">{studentBehind.displayName.split(' - ')[0]} is {leadOverStudentBehind} points behind you.</p> : null}
+            </div>
           </div>
         </div>
       </section>
@@ -217,39 +244,20 @@ function StudentHome() {
         {learningGapTopics.length ? <div className="relative mt-4 space-y-2">{learningGapTopics.map((topic) => <div className="flex items-center justify-between gap-3 rounded-xl border border-[#f0d59e] bg-white/95 p-3 text-sm text-ink shadow-sm" key={topic.id}><span className="font-bold">{topic.topicName}</span><span className="shrink-0 rounded-lg bg-[#fff0c7] px-2 py-1 font-bold text-[#a36500]">{topic.latestScore}%</span></div>)}</div> : <div className="relative mt-4 flex items-center gap-3 rounded-xl border border-[#cfe9db] bg-white/95 p-3 text-sm font-medium text-[#237748] shadow-sm"><span className="grid size-8 shrink-0 place-items-center rounded-lg bg-[#e2f7ed] text-base" aria-hidden="true">✓</span><p>You have no current learning gaps. Keep practising to stay confident.</p></div>}
       </Panel>
       <div className="space-y-5">
-      <section>
-        <div className="mb-3 flex items-center justify-between">
-          <div><p className="text-xs font-bold uppercase tracking-[0.14em] text-muted">Your next step ✨</p><h2 className="mt-1 text-lg font-bold">Next assignment</h2></div>
-          <NavLink className="text-sm font-semibold text-blue" to="/student/assigned">View all</NavLink>
+      <button
+        className="w-full rounded-app border border-[#c7c2f1] bg-[linear-gradient(135deg,#f8f7ff_0%,#f0efff_100%)] p-4 text-left shadow-[0_12px_24px_rgba(76,77,197,0.1)] transition hover:-translate-y-0.5 hover:border-[#8a81e7] hover:shadow-[0_16px_28px_rgba(76,77,197,0.16)] lg:p-5"
+        onClick={() => navigate('/student/assigned')}
+      >
+        <div className="flex items-center gap-3">
+          <span className={`grid size-11 shrink-0 place-items-center rounded-2xl text-white shadow-sm ${outstandingAssignments.length ? 'bg-[linear-gradient(135deg,#e5484d_0%,#d83670_100%)]' : 'bg-[linear-gradient(135deg,#5662cb_0%,#7855cb_100%)]'}`}><ListChecks size={23} aria-hidden="true" /></span>
+          <div className="min-w-0 flex-1">
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#5c56a7]">My assignments</p>
+            <h2 className="mt-1 text-lg font-bold text-ink">{outstandingAssignments.length ? `${outstandingAssignments.length} assignment${outstandingAssignments.length === 1 ? '' : 's'} to complete` : 'No new assignments'}</h2>
+            <p className="mt-1 text-sm text-muted">{nextDueAssignment?.dueAt ? `Next due ${formatDate(nextDueAssignment.dueAt)}.` : outstandingAssignments.length ? 'Your teacher has set work ready for you to complete.' : 'Your teacher has not set you any new assignments.'}</p>
+          </div>
+          <ChevronRight className="shrink-0 text-[#554fd1]" size={21} aria-hidden="true" />
         </div>
-        {assigned && assignedTest ? (
-          <button
-            className="relative w-full overflow-hidden rounded-app border border-[#6676df] bg-[linear-gradient(135deg,#202a6f_0%,#32358b_58%,#463091_100%)] p-4 text-left text-white shadow-[0_15px_30px_rgba(32,42,111,0.22)] lg:p-5"
-            onClick={async () => {
-              try {
-                setActionError('');
-                const attempt = await state.beginAttempt({ testId: assignedTest.id, assignmentId: assigned.id });
-                navigate(`/student/test/${attempt.id}`);
-              } catch {
-                setActionError('We could not open this assignment just now. Please try again.');
-              }
-            }}
-          >
-            <img className="pointer-events-none absolute right-7 top-1/2 h-44 w-44 -translate-y-1/2 object-contain opacity-45 mix-blend-lighten lg:-right-1 lg:h-64 lg:w-64 lg:opacity-80" src={codingStack} alt="" aria-hidden="true" />
-            <div className="relative flex items-start justify-between gap-3 lg:pr-52">
-              <div>
-                <p className="font-bold">{assignedDisplay.title}</p>
-                {assignedDisplay.context ? <p className="mt-1 text-xs font-semibold text-[#b8c8d9]">{assignedDisplay.context}</p> : null}
-                <p className="mt-2 text-sm text-[#b8c8d9]">{assignedQuestionCount} questions · {assignedVersion?.totalMarks ?? assignedQuestionCount} marks</p>
-                <p className="mt-3 text-sm font-semibold">{assigned.dueAt ? `Due ${formatDate(assigned.dueAt)}` : 'Ready when you are'}</p>
-              </div>
-              <StatusBadge tone={assignedAttempt ? 'blue' : 'amber'}>{assignedAttempt?.status === 'in_progress' ? 'Started' : assignedAttempt ? 'Completed' : 'Not Started'}</StatusBadge>
-            </div>
-            <div className="relative mt-4 flex items-center justify-between border-t border-[#7181e5] pt-3 text-sm font-bold text-[#e5e8ff]"><span>{assignedAttempt?.status === 'in_progress' ? 'Continue where you left off' : assignedAttempt ? 'Review your completed work' : 'Start this assignment'}</span><ChevronRight size={18} aria-hidden="true" /></div>
-          </button>
-        ) : <Panel tone="light" className="border-dashed p-4"><p className="font-bold text-ink">Nothing assigned right now</p><p className="mt-1 text-sm text-muted">Choose a topic to keep your learning moving.</p><Button className="mt-3 min-h-9 px-3" variant="secondary" onClick={() => navigate('/student/practice')}>Choose a topic<ChevronRight size={17} aria-hidden="true" /></Button></Panel>}
-        {actionError ? <p className="mt-3 rounded-app bg-[#fff1f1] p-3 text-sm text-danger">{actionError}</p> : null}
-      </section>
+      </button>
 
       <section>
         <div className="mb-3"><p className="text-xs font-bold uppercase tracking-[0.14em] text-muted">Keep learning</p><h2 className="mt-1 text-lg font-bold">Choose what to do next</h2></div>
@@ -265,7 +273,7 @@ function StudentHome() {
         </div>
       </section>
 
-      <Panel tone="light" className="relative overflow-hidden border-[#28b9c7] bg-[linear-gradient(135deg,#00a7a0_0%,#087ec4_100%)] p-4 text-white shadow-[0_16px_30px_rgba(0,133,172,0.25)] lg:p-5">
+      <section className="relative overflow-hidden rounded-app border border-[#28b9c7] bg-[linear-gradient(135deg,#00a7a0_0%,#087ec4_100%)] p-4 text-white shadow-[0_16px_30px_rgba(0,133,172,0.25)] lg:p-5">
         <span className="pointer-events-none absolute -right-2 -top-5 text-7xl opacity-20" aria-hidden="true">🚀</span>
         <div className="flex items-start justify-between gap-3">
           <div>
@@ -281,12 +289,12 @@ function StudentHome() {
           {completedTopicCount} of {totalTopicCount} topics practised{remainingTopicCount ? ` · ${remainingTopicCount} still to explore` : ' · You have practised every topic'}
         </p>
         <div className="mt-4 divide-y divide-white/20 border-t border-white/20">
-          <div className="flex items-center justify-between py-3"><span className="text-sm font-semibold text-white/80">Tests completed</span><span className="rounded-lg bg-white/15 px-2.5 py-1 text-lg font-bold text-white shadow-sm">{recentAttempts.filter((attempt) => typeof attempt.percentage === 'number').length}</span></div>
+          <div className="flex items-center justify-between py-3"><span className="text-sm font-semibold text-white/80">Completed test attempts</span><span className="rounded-lg bg-white/15 px-2.5 py-1 text-lg font-bold text-white shadow-sm">{recentAttempts.filter((attempt) => typeof attempt.percentage === 'number').length}</span></div>
           <div className="flex items-center justify-between py-3"><span className="text-sm font-semibold text-white/80">Points earned</span><span className="rounded-lg bg-[#fff1a9] px-2.5 py-1 text-lg font-bold text-[#263e72] shadow-sm">{state.pointsTotal} pts</span></div>
         </div>
-      </Panel>
+      </section>
 
-      <Panel tone="light" className="relative overflow-hidden border-[#9e69e4] bg-[linear-gradient(135deg,#7044cb_0%,#ae4fc4_100%)] p-4 text-white shadow-[0_16px_30px_rgba(125,67,191,0.25)] lg:p-5">
+      <section className="relative overflow-hidden rounded-app border border-[#9e69e4] bg-[linear-gradient(135deg,#7044cb_0%,#ae4fc4_100%)] p-4 text-white shadow-[0_16px_30px_rgba(125,67,191,0.25)] lg:p-5">
         <span className="pointer-events-none absolute -right-1 -top-4 text-7xl opacity-20" aria-hidden="true">⭐</span>
         <div className="flex items-start justify-between gap-3">
           <div>
@@ -298,8 +306,8 @@ function StudentHome() {
         {courseResults?.averageScore !== undefined ? <>
           <div className="mt-4 grid gap-3 sm:grid-cols-2"><div className="rounded-xl border border-white/25 bg-white/15 p-3 shadow-sm"><p className="text-xs font-semibold text-white/75">Average score</p><p className="mt-1 text-2xl font-bold text-[#fff1a9]">{courseResults.averageScore}%</p></div><div className="rounded-xl border border-white/25 bg-white/15 p-3 shadow-sm"><p className="text-xs font-semibold text-white/75">Strongest topic</p><p className="mt-1 text-sm font-bold text-[#d5ffbe]">{strongestTopic?.topicName ?? 'Keep practising'}</p></div></div>
           <div className="mt-5 border-t border-white/20 pt-4"><div className="flex items-center justify-between gap-3"><p className="text-sm font-bold">Topic scores</p><p className="text-xs text-white/75">Latest test result</p></div><div className="mt-3 space-y-3">{topicScoreChart.map((topic) => <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3" key={topic.id}><div className="min-w-0"><div className="flex items-center justify-between gap-3"><span className="truncate text-sm font-semibold">{topic.topicName}</span><span className={`shrink-0 text-sm font-bold ${topic.latestScore! >= 80 ? 'text-[#d5ffbe]' : 'text-[#fff1a9]'}`}>{topic.latestScore}%</span></div><div className="mt-1.5 h-2.5 overflow-hidden rounded-full border border-white/20 bg-[#51339e] p-0.5"><div className={`h-full rounded-full ${topic.latestScore! >= 80 ? 'bg-[linear-gradient(90deg,#8df1b7_0%,#d5ffbe_100%)]' : 'bg-[linear-gradient(90deg,#ffd263_0%,#fff1a9_100%)]'}`} style={{ width: `${topic.latestScore}%` }} /></div></div></div>)}</div></div>
-        </> : <p className="mt-4 text-sm text-muted">Take a practice test to see what is going well and what to work on next.</p>}
-      </Panel>
+        </> : <p className="mt-4 text-sm text-white/80">Take a practice test to see what is going well and what to work on next.</p>}
+      </section>
       </div>
     </div>
   );
@@ -331,6 +339,7 @@ function currentStudentAssignments(state: StudentAppState) {
   const classIds = new Set(currentStudentClassIds(state));
   return state.assignments.filter((assignment) => {
     if (!classIds.has(assignment.classId) || assignment.status !== 'open') return false;
+    if (assignment.recipientScope === 'selected' && !assignment.recipientStudentIds.includes(state.currentStudent.id)) return false;
     return !state.attempts.some(
       (attempt) =>
         attempt.studentId === state.currentStudent.id &&
@@ -535,6 +544,8 @@ function PracticePage() {
   const navigate = useNavigate();
   const [selectedSubjectId, setSelectedSubjectId] = useState<string | null>(null);
   const [selectedUnitId, setSelectedUnitId] = useState<string | null>(null);
+  const [practiceTab, setPracticeTab] = useState<'continue' | 'start'>('start');
+  const [hasChosenPracticeTab, setHasChosenPracticeTab] = useState(false);
   const [actionError, setActionError] = useState('');
   const availableSubjectIds = useMemo(() => {
     const activeClassIds = state.currentStudent.classIds;
@@ -567,6 +578,24 @@ function PracticePage() {
   const selectedUnit = state.units.find((unit) => unit.id === selectedUnitId);
   const subjectUnits = state.units.filter((unit) => unit.subjectId === selectedSubjectId);
   const unitTopics = state.topics.filter((topic) => topic.unitId === selectedUnitId);
+  const unfinishedPracticeAttempts = useMemo(() => {
+    const subjectIds = new Set(availableSubjects.map((subject) => subject.id));
+    return state.attempts
+      .filter((attempt) => attempt.studentId === state.currentStudent.id && attempt.attemptType === 'practice' && attempt.status === 'in_progress')
+      .map((attempt) => {
+        const test = state.tests.find((item) => item.id === attempt.testId);
+        const topic = state.topics.find((item) => item.id === test?.topicId);
+        const unit = state.units.find((item) => item.id === topic?.unitId);
+        const questionCount = state.questions.filter((question) => question.testVersionId === attempt.testVersionId).length;
+        return { attempt, test, topic, unit, questionCount };
+      })
+      .filter((item) => item.test && item.topic && item.unit && subjectIds.has(item.unit.subjectId))
+      .sort((first, second) => new Date(second.attempt.startedAt).getTime() - new Date(first.attempt.startedAt).getTime());
+  }, [availableSubjects, state.attempts, state.currentStudent.id, state.questions, state.tests, state.topics, state.units]);
+
+  useEffect(() => {
+    if (!hasChosenPracticeTab) setPracticeTab(unfinishedPracticeAttempts.length ? 'continue' : 'start');
+  }, [hasChosenPracticeTab, unfinishedPracticeAttempts.length]);
 
   const countResourcesForSubject = (subjectId: string) => {
     const topicIds = new Set(
@@ -612,40 +641,45 @@ function PracticePage() {
             Choose a course, then practise the topics that matter most to you.
           </p>
         </div>
-        {selectedSubject ? (
-          <Button className="min-h-10 px-3" variant="dark" onClick={resetToCourses}>
-            <ArrowLeft size={17} aria-hidden="true" />
-            Courses
-          </Button>
-        ) : null}
       </div>
 
       {actionError ? <p className="rounded-app bg-[#fff1f1] p-3 text-sm text-danger">{actionError}</p> : null}
 
       {!selectedSubject ? (
-        <div className="grid gap-4">
+        <div className="space-y-4">
+          <div className="inline-flex rounded-xl border border-[#dedbf0] bg-white p-1 shadow-sm" role="tablist" aria-label="Practice options">
+            <button aria-controls="continue-practising-panel" aria-selected={practiceTab === 'continue'} className={`rounded-lg px-3 py-2 text-sm font-bold transition ${practiceTab === 'continue' ? 'bg-[#514bd0] text-white shadow-sm' : 'text-[#554fd1] hover:bg-[#f0efff]'}`} onClick={() => { setHasChosenPracticeTab(true); setPracticeTab('continue'); }} role="tab" type="button">Continue practising{unfinishedPracticeAttempts.length ? ` (${unfinishedPracticeAttempts.length})` : ''}</button>
+            <button aria-controls="start-new-practice-panel" aria-selected={practiceTab === 'start'} className={`rounded-lg px-3 py-2 text-sm font-bold transition ${practiceTab === 'start' ? 'bg-[#514bd0] text-white shadow-sm' : 'text-[#554fd1] hover:bg-[#f0efff]'}`} onClick={() => { setHasChosenPracticeTab(true); setPracticeTab('start'); }} role="tab" type="button">Start new practice</button>
+          </div>
+
+          {practiceTab === 'continue' ? (
+            <section id="continue-practising-panel" role="tabpanel" aria-label="Continue practising">
+              <div className="mb-3"><h3 className="text-lg font-bold">Continue practising</h3><p className="mt-1 text-sm text-muted">Pick up any practice test exactly where you left off.</p></div>
+              {unfinishedPracticeAttempts.length ? <div className="space-y-3">{unfinishedPracticeAttempts.map(({ attempt, test, topic, unit, questionCount }) => {
+                const resumeQuestion = Math.min(Math.max(attempt.resumeQuestionIndex + 1, 1), Math.max(questionCount, 1));
+                return <div className="flex flex-col gap-3 rounded-app border-2 border-[#dedbf0] bg-white p-4 shadow-[0_10px_22px_rgba(58,55,143,0.08)] sm:flex-row sm:items-center sm:justify-between" key={attempt.id}><div className="min-w-0"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#71699b]">{unit!.unitName}</p><h4 className="mt-1 text-lg font-bold text-ink">{test!.testTitle}</h4><p className="mt-1 text-sm text-muted">{topic!.topicName} · Question {resumeQuestion} of {questionCount || 1}</p></div><Button className="min-h-10 shrink-0 px-4" onClick={() => navigate(`/student/test/${attempt.id}`)}>Continue<ChevronRight size={17} aria-hidden="true" /></Button></div>;
+              })}</div> : <div className="rounded-app border border-dashed border-line bg-white p-4 text-sm text-muted">You do not have any unfinished practice tests. Choose a course to start one.</div>}
+            </section>
+          ) : (
+            <section id="start-new-practice-panel" role="tabpanel" aria-label="Start new practice">
+              <div className="mb-3"><h3 className="text-lg font-bold">Start new practice</h3><p className="mt-1 text-sm text-muted">Choose a course, then a topic and practice test.</p></div>
+              <div className="grid gap-4">
           {availableSubjects.map((subject) => {
             const resourceCount = countResourcesForSubject(subject.id);
             const unitCount = state.units.filter((unit) => unit.subjectId === subject.id).length;
             const topicCount = countTopicsForSubject(subject.id);
             return (
               <button
-                className="group relative overflow-hidden rounded-app border border-[#4b59bd] bg-[#202a6f] p-5 text-left text-white shadow-panel transition duration-200 hover:-translate-y-0.5 hover:border-blue hover:shadow-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue lg:p-7"
+                className="group flex w-full items-center gap-4 rounded-app border-2 border-[#dedbf0] bg-white p-4 text-left text-ink shadow-[0_10px_22px_rgba(58,55,143,0.08)] transition duration-200 hover:-translate-y-0.5 hover:border-[#7164e8] hover:shadow-[0_16px_28px_rgba(58,55,143,0.15)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue lg:gap-5 lg:p-5"
                 key={subject.id}
                 onClick={() => setSelectedSubjectId(subject.id)}
               >
-                <div className="absolute inset-y-0 right-0 hidden w-2/5 bg-gradient-to-l from-[#1d3554] to-transparent lg:block" aria-hidden="true" />
-                <div className="relative grid gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
-                  <div className="max-w-2xl">
-                    <div className="flex items-center gap-3"><span className="grid size-11 place-items-center rounded-xl border border-[#315071] bg-[#17304d] text-[#73b6ff]"><BookOpenCheck size={23} aria-hidden="true" /></span><p className="text-xs font-bold uppercase tracking-[0.16em] text-[#b8c8d9]">Practice course</p></div>
-                    <h3 className="mt-5 text-2xl font-bold tracking-tight lg:text-3xl">{subject.subjectName}</h3>
-                    <p className="mt-3 max-w-xl text-sm leading-6 text-[#c7d6e5] lg:text-base">{subject.description}</p>
-                  </div>
-                  <div className="grid grid-cols-3 gap-2 sm:max-w-md lg:min-w-[22rem]">
-                    {[[unitCount, 'Units'], [topicCount, 'Topics'], [resourceCount, 'Practice tests']].map(([value, label]) => <div className="rounded-xl border border-[#315071] bg-[#10233a]/80 px-3 py-3" key={label as string}><span className="block text-xl font-bold text-white">{value}</span><span className="mt-0.5 block text-xs font-semibold text-[#b8c8d9]">{label}</span></div>)}
-                  </div>
+                <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-[#5157dd] to-[#7b45d5] text-white shadow-[0_8px_16px_rgba(76,79,202,0.24)] lg:size-16" aria-hidden="true"><BookOpenCheck size={28} /></span>
+                <div className="min-w-0 flex-1"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#71699b]">Practice course</p><h3 className="mt-1 text-xl font-bold tracking-tight lg:text-2xl">{subject.subjectName}</h3><p className="mt-2 max-w-2xl text-sm leading-6 text-muted lg:text-base">{subject.description}</p></div>
+                <div className="hidden grid-cols-3 gap-2 sm:grid lg:min-w-[22rem]">
+                  {[[unitCount, 'Units'], [topicCount, 'Topics'], [resourceCount, 'Practice tests']].map(([value, label]) => <div className="rounded-xl bg-[#f0efff] px-3 py-3" key={label as string}><span className="block text-xl font-bold text-[#514bd0]">{value}</span><span className="mt-0.5 block text-xs font-semibold text-[#71699b]">{label}</span></div>)}
                 </div>
-                <div className="relative mt-6 flex items-center gap-2 text-sm font-bold text-[#73b6ff]"><span>Choose this course</span><ChevronRight className="transition-transform duration-200 group-hover:translate-x-1" size={19} aria-hidden="true" /></div>
+                <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#f0efff] text-[#554fd1] transition group-hover:bg-[#554fd1] group-hover:text-white" aria-hidden="true"><ChevronRight size={21} /></span>
               </button>
             );
           })}
@@ -655,71 +689,72 @@ function PracticePage() {
               <p className="mt-1 text-sm text-muted">Ask your teacher to add a course to your class before you start practising.</p>
             </div>
           ) : null}
+              </div>
+            </section>
+          )}
         </div>
       ) : null}
 
       {selectedSubject && !selectedUnit ? (
         <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="font-bold">Units in {selectedSubject.subjectName}</h3>
+          <div>
+            <button className="inline-flex items-center gap-1.5 text-sm font-semibold text-blue transition hover:text-ink" onClick={resetToCourses}>
+              <ArrowLeft size={16} aria-hidden="true" />
+              All courses
+            </button>
+            <h3 className="mt-2 font-bold">Units in {selectedSubject.subjectName}</h3>
           </div>
-          <div className="grid gap-4 lg:grid-cols-2">
-            {subjectUnits.map((unit) => (
+          <div className="space-y-3">
+            {subjectUnits.map((unit, unitIndex) => {
+              const unitAccent = ['from-[#5157dd] to-[#7b45d5]', 'from-[#0d9f9b] to-[#2bbd9d]', 'from-[#ef7b50] to-[#f0ad4e]', 'from-[#b45bc7] to-[#7c5be2]'][unitIndex % 4];
+              return (
               <button
-                className="rounded-app border border-[#4b59bd] bg-[#202a6f] p-4 text-left text-white shadow-panel transition hover:border-blue hover:shadow-none lg:p-5"
+                className="group flex w-full items-center gap-4 rounded-app border-2 border-[#dedbf0] bg-white p-4 text-left text-ink shadow-[0_10px_22px_rgba(58,55,143,0.08)] transition duration-200 hover:-translate-y-0.5 hover:border-[#7164e8] hover:shadow-[0_16px_28px_rgba(58,55,143,0.15)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue lg:gap-5 lg:p-5"
                 key={unit.id}
                 onClick={() => setSelectedUnitId(unit.id)}
               >
-                <div className="flex items-start justify-between gap-3">
-                  <div>
-                    <p className="text-xs font-semibold text-[#b8c8d9]">Unit</p>
-                    <h3 className="mt-2 font-bold">{unit.unitName}</h3>
-                    <p className="mt-1 text-sm text-[#b8c8d9]">
-                      {state.topics.filter((topic) => topic.unitId === unit.id).length} topics - {countResourcesForUnit(unit.id)} resources ready
-                    </p>
-                  </div>
-                  <ChevronRight className="mt-1 text-blue" size={20} aria-hidden="true" />
-                </div>
+                <span className={`grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br ${unitAccent} text-xl font-bold text-white shadow-[0_8px_16px_rgba(76,79,202,0.24)] lg:size-16 lg:text-2xl`} aria-hidden="true">{unit.unitName.match(/^\d+/)?.[0] ?? unitIndex + 1}</span>
+                <div className="min-w-0 flex-1"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#71699b]">Unit</p><h3 className="mt-1 text-lg font-bold tracking-tight lg:text-xl">{unit.unitName}</h3><div className="mt-2 flex flex-wrap items-center gap-2 text-sm font-semibold text-muted"><span>{state.topics.filter((topic) => topic.unitId === unit.id).length} topics</span><span aria-hidden="true">•</span><span>{countResourcesForUnit(unit.id)} practice tests</span></div></div>
+                <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#f0efff] text-[#554fd1] transition group-hover:bg-[#554fd1] group-hover:text-white" aria-hidden="true"><ChevronRight size={21} /></span>
               </button>
-            ))}
+              );
+            })}
           </div>
         </div>
       ) : null}
 
       {selectedSubject && selectedUnit ? (
         <div className="space-y-4">
-          <div className="flex items-center justify-between gap-3">
-            <h3 className="font-bold">Topics in {selectedUnit.unitName}</h3>
-            <Button className="min-h-10 px-3" variant="ghost" onClick={() => setSelectedUnitId(null)}>
-              <ArrowLeft size={17} aria-hidden="true" />
-              Units
-            </Button>
+          <div>
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-semibold">
+              <button className="text-blue transition hover:text-ink" onClick={() => setSelectedUnitId(null)}>{selectedSubject.subjectName}</button>
+              <span className="text-muted" aria-hidden="true">/</span>
+              <span className="text-muted">{selectedUnit.unitName}</span>
+            </div>
+            <h3 className="mt-2 font-bold">Topics in {selectedUnit.unitName}</h3>
           </div>
-          <div className="grid gap-4 lg:grid-cols-2">
-            {unitTopics.map((topic) => {
+          <div className="space-y-3">
+            {unitTopics.map((topic, topicIndex) => {
               const topicResources = resources.filter((resource) => resource.topicId === topic.id);
               const testResources = topicResources.filter((resource) => resource.type === 'test');
+              const topicAccent = ['bg-[#6259df]', 'bg-[#0ca89c]', 'bg-[#ef8b4f]', 'bg-[#a15bd0]'][topicIndex % 4];
               return (
-                <Panel className="p-4 lg:p-5" key={topic.id}>
-                  <p className="text-xs font-semibold text-[#b8c8d9]">Topic</p>
-                  <h3 className="mt-2 font-bold">{topic.topicName}</h3>
-
-                  <div className="mt-4 space-y-3">
+                <Panel className="overflow-hidden p-0" key={topic.id} tone="light">
+                  <div className="flex items-start gap-4 px-4 py-4 lg:items-center lg:px-5"><span className={`mt-0.5 size-3 shrink-0 rounded-full ${topicAccent} lg:size-4`} aria-hidden="true" /><div className="min-w-0 flex-1"><h3 className="text-lg font-bold lg:text-xl">{topic.topicName}</h3></div><span className="shrink-0 rounded-lg bg-[#f0efff] px-2.5 py-1 text-sm font-bold text-[#554fd1]">{testResources.length} {testResources.length === 1 ? 'test' : 'tests'}</span></div>
+                  <div className="space-y-3 border-t border-[#e2dff4] bg-[#faf9ff] px-4 py-3 lg:px-5">
                     {testResources.length ? (
                       testResources.map((resource) => (
-                        <div className="rounded-app border border-line bg-white p-3 text-ink" key={resource.id}>
-                          <div className="flex items-start justify-between gap-3">
-                            <div>
+                        <div className="flex flex-col gap-3 rounded-app border border-[#dedbf0] bg-white p-3 text-ink sm:flex-row sm:items-center sm:justify-between" key={resource.id}>
+                          <div className="min-w-0">
+                            <div className="flex items-start justify-between gap-3 sm:block">
+                              <div>
                               <h4 className="text-sm font-bold">{resource.title}</h4>
                               <p className="mt-1 text-xs text-muted">{resource.description}</p>
+                              </div>
+                              <StatusBadge tone={resource.status === 'available' ? 'green' : 'blue'}>{resource.status === 'available' ? 'Ready' : 'Soon'}</StatusBadge>
                             </div>
-                            <StatusBadge tone={resource.status === 'available' ? 'green' : 'blue'}>
-                              {resource.status === 'available' ? 'Ready' : 'Soon'}
-                            </StatusBadge>
                           </div>
-                          <Button className="mt-3 w-full" variant="dark" onClick={() => startResource(resource)}>
-                            start
-                          </Button>
+                          <Button className="min-h-10 shrink-0 px-4" variant="secondary" onClick={() => startResource(resource)}>Start</Button>
                         </div>
                       ))
                     ) : (
@@ -757,13 +792,13 @@ function AssignedPage() {
           const display = getStudentTestDisplay(state, test?.id);
           const consumed = findExistingAssignedAttempt(state, assignment.id);
           return (
-            <Panel className="p-4 lg:border-2 lg:border-[#7469e8] lg:p-6" key={assignment.id}>
+            <Panel className="border-2 border-[#dedbf0] bg-white p-4 text-ink shadow-[0_10px_22px_rgba(58,55,143,0.08)] transition hover:-translate-y-0.5 hover:border-[#7164e8] hover:shadow-[0_16px_28px_rgba(58,55,143,0.15)] lg:p-6" key={assignment.id} tone="light">
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-xs font-semibold text-[#b8c8d9] lg:text-sm">🎯 {display.resourceLabel} set by your teacher</p>
+                  <p className="text-xs font-semibold text-[#71699b] lg:text-sm">🎯 {display.resourceLabel} set by your teacher</p>
                   <h3 className="mt-2 font-bold lg:text-xl">{display.title}</h3>
-                  {display.context ? <p className="mt-1 text-sm text-[#b8c8d9] lg:text-base">{display.context}</p> : null}
-                  <p className="mt-1 text-sm text-[#b8c8d9] lg:text-base">
+                  {display.context ? <p className="mt-1 text-sm text-muted lg:text-base">{display.context}</p> : null}
+                  <p className="mt-1 text-sm text-muted lg:text-base">
                     {assignment.dueAt ? `Due ${formatDate(assignment.dueAt)}` : 'No due date set'}
                   </p>
                 </div>
@@ -790,10 +825,10 @@ function AssignedPage() {
         })}
       </div>
       {!assignments.length ? (
-        <Panel className="p-4 lg:p-5">
-          <p className="font-bold">No assigned tests right now.</p>
-          <p className="mt-1 text-sm text-[#b8c8d9]">Your teacher's assignments will appear here when they are set.</p>
-        </Panel>
+        <section className="flex flex-col gap-4 rounded-app border-2 border-[#dedbf0] bg-white p-5 text-ink shadow-[0_10px_22px_rgba(58,55,143,0.08)] sm:flex-row sm:items-center lg:p-6">
+          <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-[#5157dd] to-[#7b45d5] text-white shadow-[0_8px_16px_rgba(76,79,202,0.24)]" aria-hidden="true"><ListChecks size={27} /></span>
+          <div className="min-w-0 flex-1"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#71699b]">All clear</p><h3 className="mt-1 text-lg font-bold">No assigned tests right now</h3><p className="mt-1 text-sm text-muted">Your teacher’s assignments will appear here when they are set.</p></div>
+        </section>
       ) : null}
     </div>
   );
@@ -807,7 +842,7 @@ function ActiveTestPage() {
   const test = state.tests.find((row) => row.id === attempt?.testId);
   const display = getStudentTestDisplay(state, test?.id);
   const attemptQuestions = state.questions.filter((question) => question.testVersionId === attempt?.testVersionId);
-  const [index, setIndex] = useState(0);
+  const [index, setIndex] = useState(() => Math.min(Math.max(0, attempt?.resumeQuestionIndex ?? 0), Math.max(0, attemptQuestions.length - 1)));
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const question = attemptQuestions[index];
@@ -830,11 +865,17 @@ function ActiveTestPage() {
     }
   };
 
+  const moveToQuestion = (nextIndex: number) => {
+    const safeIndex = Math.min(Math.max(0, nextIndex), attemptQuestions.length - 1);
+    setIndex(safeIndex);
+    state.saveAttemptProgress(attempt.id, safeIndex);
+  };
+
   return (
     <div className="active-test-surface relative space-y-4 px-4 py-5 lg:px-0 lg:py-0">
       <AntiCheatLayer attemptId={attempt.id} onLog={state.logAttemptEvent} />
       <div className="flex items-center justify-between">
-        <button className="text-sm font-semibold text-blue" onClick={() => navigate('/student/assigned')}>Back</button>
+        <button className="text-sm font-semibold text-blue" onClick={() => navigate(attempt.assignmentId ? '/student/assigned' : '/student/practice')}>Back</button>
         <h2 className="max-w-[230px] truncate text-sm font-bold" title={display.fullPath || display.title}>{display.title}</h2>
         <span className="text-sm font-bold">{Math.round(((index + 1) / attemptQuestions.length) * 100)}%</span>
       </div>
@@ -880,11 +921,11 @@ function ActiveTestPage() {
       </Panel>
 
       <div className="grid grid-cols-2 gap-3">
-        <Button variant="secondary" disabled={index === 0} onClick={() => setIndex((value) => Math.max(0, value - 1))}>Previous</Button>
+        <Button variant="secondary" disabled={index === 0} onClick={() => moveToQuestion(index - 1)}>Previous</Button>
         {index === attemptQuestions.length - 1 ? (
           <Button disabled={isSubmitting} onClick={submit}>{isSubmitting ? 'Submitting...' : 'Submit'}</Button>
         ) : (
-          <Button onClick={() => setIndex((value) => Math.min(attemptQuestions.length - 1, value + 1))}>Next</Button>
+          <Button onClick={() => moveToQuestion(index + 1)}>Next</Button>
         )}
       </div>
       {submitError ? <p className="rounded-app bg-[#fff1f1] p-3 text-sm text-danger">{submitError}</p> : null}
@@ -1049,7 +1090,7 @@ function ResultsPage() {
           <Panel className="overflow-hidden p-0" key={unit.id} tone="light">
             <button
               aria-expanded={expandedUnitIds.has(unit.id)}
-              className="flex w-full items-center justify-between gap-3 px-4 py-4 text-left transition hover:bg-mist focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue/25 lg:px-5"
+              className={`flex w-full items-center justify-between gap-3 border-b-4 border-[#c8c3ff] px-4 py-4 text-left transition ${expandedUnitIds.has(unit.id) ? 'bg-[#f0efff]' : 'bg-white hover:bg-[#f0efff]'} focus:outline-none lg:px-5`}
               onClick={() => setExpandedUnitIds((current) => {
                 const next = new Set(current);
                 if (next.has(unit.id)) next.delete(unit.id);
@@ -1062,7 +1103,7 @@ function ResultsPage() {
               <ChevronRight className={`shrink-0 text-blue transition-transform ${expandedUnitIds.has(unit.id) ? 'rotate-90' : ''}`} size={21} aria-hidden="true" />
             </button>
 
-            <div className="grid gap-3 border-y border-line bg-mist px-4 py-3 text-sm sm:grid-cols-4 lg:px-5">
+            <div className="grid gap-3 bg-white px-4 py-3 text-sm sm:grid-cols-4 lg:px-5">
               <UnitSummary label="Unit average" score={unit.averageScore} />
               <UnitSummary label="Topics tried" value={`${unit.triedCount}/${unit.totalTopics}`} />
               <UnitSummary label="Best" score={unit.bestScore} />
@@ -1073,7 +1114,7 @@ function ResultsPage() {
             <div className="hidden p-4 lg:block lg:p-5">
               <div className="overflow-x-auto rounded-app border border-line">
                 <table className="min-w-[900px] w-full border-collapse bg-white text-sm">
-                  <thead className="bg-mist text-left text-xs font-semibold text-muted">
+                  <thead className="border-b-4 border-[#c8c3ff] bg-white text-left text-xs font-semibold text-muted">
                     <tr>
                       <th className="min-w-[260px] px-3 py-3">Topic</th>
                       <th className="whitespace-nowrap px-3 py-3">Best</th>
@@ -1186,7 +1227,7 @@ function UnitSummary({ label, value, score }: { label: string; value?: string; s
     <div>
       <p className="text-xs font-semibold text-muted">{label}</p>
       <p className={`mt-1 font-bold ${typeof score === 'number' ? scoreTone(score) : ''}`}>
-        {typeof score === 'number' ? formatScore(score) : value}
+        {typeof score === 'number' ? formatScore(score) : (value ?? '-')}
       </p>
     </div>
   );
@@ -1222,28 +1263,56 @@ function ProfilePage() {
   );
 }
 
+function standingTileTone(rank: number | string, defaultTone: 'purple' | 'green') {
+  if (rank === 1) return { surface: 'border-[#efd166] bg-[#fff8d8]', label: 'text-[#876710]', value: 'text-[#8b6500]', meta: 'text-[#876710]' };
+  if (rank === 2) return { surface: 'border-[#cbd6e2] bg-[#f1f5f9]', label: 'text-[#536477]', value: 'text-[#42566f]', meta: 'text-[#536477]' };
+  if (rank === 3) return { surface: 'border-[#e4b28d] bg-[#fff0e6]', label: 'text-[#865333]', value: 'text-[#8d4a24]', meta: 'text-[#865333]' };
+  return defaultTone === 'purple'
+    ? { surface: 'border-[#a49aee] bg-[#eeebff]', label: 'text-[#514bd0]', value: 'text-[#3930ae]', meta: 'text-[#68628e]' }
+    : { surface: 'border-[#8dcc9a] bg-[#e4f6e7]', label: 'text-[#28733d]', value: 'text-[#17662b]', meta: 'text-[#4e7658]' };
+}
+
 function StudentLeaderboardPage() {
   const state = useAppState();
+  const [isPointsGuideOpen, setIsPointsGuideOpen] = useState(false);
   const classLeaderboardRows = classLeaderboardForCurrentStudent(state);
+  const allTimeLeaderboardRows = withCompetitionRanks([...state.allTimeLeaderboardRows]
+    .sort((first, second) => second.points - first.points || first.displayName.localeCompare(second.displayName)));
   const currentLeaderboardRow = classLeaderboardRows.find((row) => row.studentId === state.currentStudent.id);
-  const currentAllTimeRow = state.allTimeLeaderboardRows.find((row) => row.studentId === state.currentStudent.id);
+  const currentAllTimeRow = allTimeLeaderboardRows.find((row) => row.studentId === state.currentStudent.id);
   const rank = currentLeaderboardRow?.rank ?? '-';
   const leaderboardPoints = currentLeaderboardRow?.points ?? state.pointsTotal;
+  const allTimeRank = currentAllTimeRow?.rank ?? '-';
+  const allTimePoints = currentAllTimeRow?.points ?? state.pointsTotal;
+  const classStandingTone = standingTileTone(rank, 'purple');
+  const allTimeStandingTone = standingTileTone(allTimeRank, 'green');
   return (
     <div className="space-y-4 px-4 py-5 lg:px-0 lg:py-0">
       <div>
         <h2 className="text-xl font-bold lg:text-3xl">Leaderboard</h2>
-        <p className="mt-1 text-sm text-muted lg:text-base">Keep practising to earn points and climb the class rankings.</p>
+        <p className="mt-1 text-sm text-muted lg:text-base">Keep practising to earn points and climb the class rankings. <button type="button" className="font-bold text-[#554fd1] underline decoration-[#9b95ec] underline-offset-2" onClick={() => setIsPointsGuideOpen(true)}>See how to earn points.</button></p>
       </div>
       <div className="flex flex-col gap-4">
-        <Panel className="overflow-hidden p-0">
-          <div className="flex items-center gap-3 border-b border-[#4b59bd] px-4 py-4 lg:px-5">
-            <span className="grid size-10 place-items-center rounded-xl border border-[#315071] bg-[#17304d] text-[#e6bc5c]">
+        <Panel className="order-first overflow-hidden border-2 border-[#c8c3ff] bg-white p-0 text-ink shadow-[0_10px_22px_rgba(58,55,143,0.1)]" tone="light">
+          <div className="border-b-4 border-[#c8c3ff] px-5 py-4">
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#71699b]">Your standings</p>
+            <p className="mt-1 text-xl font-bold">{leaderboardDisplay(state.currentStudent).split(' - ')[0]}</p>
+          </div>
+          <div className="grid gap-3 p-4 sm:grid-cols-2 lg:p-5">
+            <div className={`rounded-app border-2 p-4 ${classStandingTone.surface}`}><p className={`text-xs font-bold uppercase tracking-[0.12em] ${classStandingTone.label}`}>Class leaderboard</p><div className="mt-3 flex items-end justify-between gap-3"><div><span className={`block text-4xl font-bold ${classStandingTone.value}`}>#{rank}{rankMedal(rank) ? ` ${rankMedal(rank)}` : ''}</span><span className={`text-sm font-semibold ${classStandingTone.meta}`}>Class rank</span></div><div className="text-right"><span className={`block text-lg font-bold ${classStandingTone.value}`}>{leaderboardPoints}</span><span className={`text-xs font-semibold ${classStandingTone.meta}`}>points</span></div></div></div>
+            <div className={`rounded-app border-2 p-4 ${allTimeStandingTone.surface}`}><p className={`text-xs font-bold uppercase tracking-[0.12em] ${allTimeStandingTone.label}`}>All-time ranking</p><div className="mt-3 flex items-end justify-between gap-3"><div><span className={`block text-4xl font-bold ${allTimeStandingTone.value}`}>#{allTimeRank}{rankMedal(allTimeRank) ? ` ${rankMedal(allTimeRank)}` : ''}</span><span className={`text-sm font-semibold ${allTimeStandingTone.meta}`}>Overall rank</span></div><div className="text-right"><span className={`block text-lg font-bold ${allTimeStandingTone.value}`}>{allTimePoints}</span><span className={`text-xs font-semibold ${allTimeStandingTone.meta}`}>points</span></div></div></div>
+          </div>
+          <div className="border-t border-[#dedbf0] px-4 py-3 text-sm lg:px-5"><span className="text-xs font-bold uppercase tracking-[0.12em] text-[#71699b]">Your classes</span><span className="ml-2 font-bold">{currentStudentClassNames(state) || 'No class'}</span></div>
+        </Panel>
+        <div className="grid gap-4 lg:grid-cols-2 lg:items-start">
+        <Panel className="overflow-hidden border-2 border-[#dedbf0] bg-white p-0 shadow-[0_10px_22px_rgba(58,55,143,0.08)]" tone="light">
+          <div className="flex items-center gap-3 border-b-4 border-[#c8c3ff] bg-white px-4 py-4 lg:px-5">
+            <span className="grid size-10 place-items-center rounded-xl bg-gradient-to-br from-[#5157dd] to-[#7b45d5] text-[#fff1a9] shadow-[0_7px_14px_rgba(76,79,202,0.24)]">
               <Trophy size={21} aria-hidden="true" />
             </span>
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#b8c8d9]">Class leaderboard</p>
-              <h3 className="mt-0.5 font-bold text-white">Current standings</h3>
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#71699b]">Class leaderboard</p>
+              <h3 className="mt-0.5 font-bold text-ink">Current standings</h3>
             </div>
           </div>
           <div className="space-y-2 p-4 lg:p-5">
@@ -1259,34 +1328,33 @@ function StudentLeaderboardPage() {
             })}
           </div>
         </Panel>
-        <Panel className="order-first overflow-hidden p-0">
-          <div className="border-b border-white/15 px-5 py-5 text-white">
-            <p className="text-xs font-bold uppercase tracking-[0.14em] text-white/70">Your standing</p>
-            <p className="mt-2 text-xl font-bold">{leaderboardDisplay(state.currentStudent).split(' - ')[0]}</p>
-            <div className="mt-5 flex items-end justify-between">
-              <div><span className="block text-4xl font-bold text-[#f5d879]">#{rank}</span><span className="text-sm font-semibold text-white/70">Class rank</span></div>
-              <div className="text-right"><span className="block text-xl font-bold">{leaderboardPoints}</span><span className="text-sm font-semibold text-white/70">Points earned</span></div>
-            </div>
-          </div>
-          <div className="p-4 text-sm text-white">
-            <span className="block text-xs font-bold uppercase tracking-[0.12em] text-white/70">Your classes</span>
-            <span className="mt-1 block font-bold">{currentStudentClassNames(state) || 'No class'}</span>
-          </div>
-        </Panel>
-      </div>
-      <Panel className="overflow-hidden p-0">
-        <div className="flex items-center justify-between gap-4 border-b border-[#4b59bd] px-4 py-4 lg:px-5">
-          <div className="flex items-center gap-3"><span className="grid size-10 place-items-center rounded-xl border border-[#315071] bg-[#17304d] text-[#e6bc5c]"><Trophy size={21} aria-hidden="true" /></span><div><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#b8c8d9]">All-time ranking</p><h3 className="mt-0.5 font-bold text-white">Your place in csrevision</h3></div></div>
-          {currentAllTimeRow ? <span className="rounded-full bg-[#203c63] px-3 py-1 text-sm font-bold text-[#e6bc5c]">You are #{currentAllTimeRow.rank}</span> : null}
+      <Panel className="overflow-hidden border-2 border-[#dedbf0] bg-white p-0 shadow-[0_10px_22px_rgba(58,55,143,0.08)]" tone="light">
+        <div className="flex items-center justify-between gap-4 border-b-4 border-[#9edfd9] bg-white px-4 py-4 lg:px-5">
+          <div className="flex items-center gap-3"><span className="grid size-10 place-items-center rounded-xl bg-gradient-to-br from-[#0d9f9b] to-[#2bbd9d] text-[#fff1a9] shadow-[0_7px_14px_rgba(13,159,155,0.2)]"><Trophy size={21} aria-hidden="true" /></span><div><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#598781]">All-time ranking</p><h3 className="mt-0.5 font-bold text-ink">Your place in csrevision</h3></div></div>
+          {currentAllTimeRow ? <span className="rounded-full bg-[#e4f8f5] px-3 py-1 text-sm font-bold text-[#087c75]">You are #{currentAllTimeRow.rank}</span> : null}
         </div>
         <div className="space-y-2 p-4 lg:p-5">
-          {state.allTimeLeaderboardRows.map((row) => {
+          {allTimeLeaderboardRows.map((row) => {
             const isCurrentStudent = row.studentId === state.currentStudent.id;
             return <div className={`flex items-center gap-3 rounded-xl border p-3 text-sm ${isCurrentStudent ? 'border-blue bg-[#eaf5ff] text-ink' : 'border-line bg-white text-ink'}`} key={`all-time-${row.studentId}`}><span className={`grid size-9 place-items-center rounded-lg text-sm font-bold ${row.rank === 1 ? 'bg-[#f5d879] text-[#49380a]' : row.rank === 2 ? 'bg-[#dbe4ef] text-[#31445d]' : row.rank === 3 ? 'bg-[#e7bf99] text-[#603b1b]' : 'bg-[#eef4f8] text-[#42566f]'}`}>{row.rank}</span><span className="min-w-0 max-w-[min(42vw,26rem)] truncate font-bold">{row.displayName.split(' - ')[0]}{row.rank === 1 ? ' 🏆' : row.rank === 2 ? ' 🥈' : row.rank === 3 ? ' 🥉' : ''}</span><span className="shrink-0 rounded-xl bg-[#eef0ff] px-3 py-2 text-base font-bold text-[#393cc4]">{row.points} <span className="text-xs font-semibold">pts</span></span></div>;
           })}
-          {!state.allTimeLeaderboardRows.length ? <p className="text-sm text-[#b8c8d9]">All-time standings will appear as students complete tests.</p> : null}
+          {!allTimeLeaderboardRows.length ? <p className="text-sm text-muted">All-time standings will appear as students complete tests.</p> : null}
         </div>
       </Panel>
+        </div>
+      </div>
+      {isPointsGuideOpen ? <div className="fixed inset-0 z-50 grid place-items-center bg-[#131544]/45 p-4" role="presentation" onMouseDown={() => setIsPointsGuideOpen(false)}>
+        <section className="w-full max-w-lg rounded-app border border-[#c8c3ff] bg-white p-5 text-ink shadow-[0_24px_60px_rgba(24,27,80,0.3)] lg:p-6" role="dialog" aria-modal="true" aria-labelledby="points-guide-title" onMouseDown={(event) => event.stopPropagation()}>
+          <div className="flex items-start justify-between gap-4"><div><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#635dc0]">Leaderboard guide</p><h3 id="points-guide-title" className="mt-1 text-2xl font-bold">How to earn points</h3></div><button type="button" className="rounded-lg border border-[#d8d5ef] px-3 py-1.5 text-sm font-bold text-[#4b467c] hover:bg-[#f4f3ff]" onClick={() => setIsPointsGuideOpen(false)}>Close</button></div>
+          <ul className="mt-5 space-y-3 text-sm leading-relaxed text-[#4b536c]">
+            <li><strong className="text-ink">Teacher-set test:</strong> 20 points for completion.</li>
+            <li><strong className="text-ink">First practice attempt:</strong> 10 points for completion.</li>
+            <li><strong className="text-ink">Submitted by the due date:</strong> +10 points; submitted late: −10 points.</li>
+            <li><strong className="text-ink">Score rewards:</strong> +20 for 70–84%, +40 for 85–99%, or +75 for 100%.</li>
+            <li><strong className="text-ink">Improvement:</strong> +30 for improving your previous best on a test by at least 10 percentage points.</li>
+          </ul>
+        </section>
+      </div> : null}
     </div>
   );
 }

@@ -81,6 +81,7 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
     testVersions,
     questions,
     assignments,
+    assignmentRecipients,
     attempts,
     answers,
     events,
@@ -223,6 +224,8 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
         id: string;
         test_version_id: string;
         class_id: string;
+        assigned_by: string;
+        recipient_scope: TestAssignment['recipientScope'];
         start_at: string | null;
         due_at: string | null;
         time_limit_seconds: number | null;
@@ -234,8 +237,12 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
       'test_assignments',
       client
         .from('test_assignments')
-        .select('id, test_version_id, class_id, start_at, due_at, time_limit_seconds, attempt_limit, feedback_policy, status')
+        .select('id, test_version_id, class_id, assigned_by, recipient_scope, start_at, due_at, time_limit_seconds, attempt_limit, feedback_policy, status')
         .order('due_at'),
+    ),
+    readTable<Array<{ assignment_id: string; student_id: string }>>(
+      'assignment_recipients',
+      client.from('assignment_recipients').select('assignment_id, student_id'),
     ),
     readTable<
       Array<{
@@ -247,6 +254,7 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
         assignment_id: string | null;
         attempt_type: TestAttempt['attemptType'];
         attempt_number: number;
+        resume_question_index: number;
         status: TestAttempt['status'];
         started_at: string;
         submitted_at: string | null;
@@ -265,7 +273,7 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
       'test_attempts',
       client
         .from('test_attempts')
-        .select('id, student_id, class_id_at_attempt, test_id, test_version_id, assignment_id, attempt_type, attempt_number, status, started_at, submitted_at, duration_seconds, time_limit_seconds, score, max_score, percentage, marking_status, feedback_status, points_awarded, suspicious_event_count, void_reason')
+        .select('id, student_id, class_id_at_attempt, test_id, test_version_id, assignment_id, attempt_type, attempt_number, resume_question_index, status, started_at, submitted_at, duration_seconds, time_limit_seconds, score, max_score, percentage, marking_status, feedback_status, points_awarded, suspicious_event_count, void_reason')
         .order('started_at', { ascending: false }),
     ),
     readTable<
@@ -461,6 +469,8 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
       id: assignment.id,
       testVersionId: assignment.test_version_id,
       classId: assignment.class_id,
+      recipientScope: assignment.recipient_scope ?? 'class',
+      recipientStudentIds: assignmentRecipients.filter((recipient) => recipient.assignment_id === assignment.id).map((recipient) => recipient.student_id),
       startAt: assignment.start_at ?? '',
       dueAt: assignment.due_at ?? '',
       timeLimitSeconds: assignment.time_limit_seconds ?? 0,
@@ -477,6 +487,7 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
       assignmentId: attempt.assignment_id ?? undefined,
       attemptType: attempt.attempt_type,
       attemptNumber: attempt.attempt_number,
+      resumeQuestionIndex: attempt.resume_question_index ?? 0,
       status: attempt.status,
       startedAt: attempt.started_at,
       submittedAt: attempt.submitted_at ?? undefined,
@@ -551,7 +562,7 @@ function currentUkYearGroup(initialYearGroup: number | null, joinedOn: string): 
 export function buildLeaderboardFromPoints(students: StudentProfile[], classes: ClassRecord[], points: PointsTransaction[]): LeaderboardRow[] {
   const classesById = new Map(classes.map((classRecord) => [classRecord.id, classRecord]));
 
-  return [...students]
+  const orderedRows = [...students]
     .filter((student) => student.accountStatus !== 'archived')
     .map((student) => {
       const total = points
@@ -567,6 +578,13 @@ export function buildLeaderboardFromPoints(students: StudentProfile[], classes: 
         status: statusForPoints(total).name,
       };
     })
-    .sort((first, second) => second.points - first.points)
-    .map((row, index) => ({ ...row, rank: index + 1 }));
+    .sort((first, second) => second.points - first.points || first.displayName.localeCompare(second.displayName));
+
+  let previousPoints: number | undefined;
+  let rank = 0;
+  return orderedRows.map((row, index) => {
+    if (row.points !== previousPoints) rank = index + 1;
+    previousPoints = row.points;
+    return { ...row, rank };
+  });
 }

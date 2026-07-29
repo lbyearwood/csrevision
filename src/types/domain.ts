@@ -119,6 +119,8 @@ export interface TestAssignment {
   id: string;
   testVersionId: string;
   classId: string;
+  recipientScope: 'class' | 'selected';
+  recipientStudentIds: string[];
   startAt: string;
   dueAt: string;
   timeLimitSeconds: number;
@@ -136,6 +138,7 @@ export interface TestAttempt {
   assignmentId?: string;
   attemptType: AttemptType;
   attemptNumber: number;
+  resumeQuestionIndex: number;
   status: AttemptStatus;
   startedAt: string;
   submittedAt?: string;
