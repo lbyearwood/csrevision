@@ -1,6 +1,6 @@
 # Project Tasks
 
-Last updated: 2026-07-29
+Last updated: 2026-07-30
 
 Audience: Codex agents. The user does not plan to read this. Keep this file terse, current, and action-oriented.
 
@@ -25,19 +25,26 @@ Codex update protocol:
 ## Current Focus
 
 - `[~]` Build the local Supabase/Postgres backend into the source of truth for the project.
+- `[~]` Execute the standalone sequential regression test plan in order; next stage is Stage 5.
 - `[x]` Keep development and QA Supabase-only until launch; no frontend demo fallback.
 - `[x]` Add BTEC AAQ Extended Certificate course content alongside OCR GCSE Computer Science, with class-course access controls.
 - `[x]` Add high-volume local QA data for Years 10–13 only, including active and archived classes, assignments, attempts, results, activity, and leaderboards.
 - `[x]` Support multiple-tests-per-topic naming and topic-level bulk selection in teacher assignment creation.
 - `[ ]` Merge teacher `Courses` and `Assignments` into one `Resources` workflow for viewing resource contents and assigning to classes.
 - `[ ]` Plan class performance views by assigned resources, unit, and topic.
-- `[ ]` Confirm seed data can be recreated from a clean local reset.
+- `[x]` Confirm seed data can be recreated from a clean local reset.
 - `[ ]` Continue backend wiring beyond assignments: student creation, result detail, suspicious activity detail, answer save/submit hardening, and full regression QA.
-- `[ ]` Run a clean local reset and replay the bulk QA seed before wider regression testing.
+- `[x]` Run a clean local reset and replay the bulk QA seed before wider regression testing.
 - `[ ]` Design and build teacher-facing test-version drafting/publishing so content changes never alter historic attempts.
 
 ## Recently Completed
 
+- `[x]` Added standalone read-only sequential test plan artifact at `docs/planning/csrevision-full-test-plan-checklist.html` with 236 discrete tests in dependency-aware execution order.
+- `[x]` Completed Stage 4 fixes and updated the test-plan artifact: Stage 4 is now 37 pass, 1 blocked, 0 fail. Remaining blocker is PDF file inspection after browser download because the in-app browser did not expose the downloaded file.
+- `[x]` Made student Practice a real Course -> Unit -> Topic -> Test drilldown without visible future-resource buttons.
+- `[x]` Fixed in-progress practice resume/reload by rehydrating questions and saved answers from local Supabase through `start-test-attempt`.
+- `[x]` Added unanswered-question submit warning, keyboard answer selection, per-topic Points in My Results, Profile class-code join validation, and public-ID labels in all-time leaderboard rows.
+- `[x]` Updated bulk QA seed to be rerunnable and to include Stage 4 fixtures for no-learning-gaps, completed open selected-recipient assignment, and past-due outstanding selected-recipient assignment.
 - `[x]` Added the BTEC Level 3 National Extended Certificate in IT AAQ structure: four units, coded topics, and placeholder practice resources.
 - `[x]` Added repeatable high-volume local QA data across Years 10–13, including ten active classes, archived class history, varied assignment states, attempts, scores, points, all-time standings, and student activity.
 - `[x]` Added class-course entitlement management in Teacher Classes and enforced it across student Practice and My Results.
@@ -143,7 +150,7 @@ Codex update protocol:
 - `[x]` Seed assigned assessment data.
 - `[x]` Seed practice test data.
 - `[x]` Seed one placeholder five-question multiple-choice practice test for every confirmed OCR GCSE Computer Science topic.
-- `[ ]` Confirm seed data can be recreated from a clean local reset.
+- `[x]` Confirm seed data can be recreated from a clean local reset.
 - `[x]` Convert `supabase/tests/rls_policies.sql` from checklist notes into executable pgTAP tests.
 - `[x]` Test that students cannot read other students' data.
 - `[x]` Test that students cannot read staff-only question and option content.
@@ -186,9 +193,9 @@ Codex update protocol:
 - `[x]` Load current profile from Supabase after login.
 - `[ ]` Load student navigation/dashboard data from Supabase.
 - `[ ]` Load Practice courses, units, topics, and available tests from Supabase.
-- `[ ]` Start test attempts through the Edge Function.
-- `[ ]` Save answers through the Edge Function.
-- `[ ]` Submit attempts through the Edge Function.
+- `[x]` Start test attempts through the Edge Function.
+- `[x]` Save answers through the Edge Function.
+- `[x]` Submit attempts through the Edge Function.
 - `[ ]` Load student results from Supabase.
 - `[ ]` Load student leaderboard from Supabase.
 - `[ ]` Load teacher dashboard metrics from Supabase.
@@ -206,7 +213,7 @@ Codex update protocol:
 - `[x]` Leaderboard page.
 - `[ ]` Student result detail page.
 - `[ ]` Better test intro/start screen for practice and assigned tests.
-- `[ ]` Submit confirmation flow.
+- `[x]` Submit confirmation flow for unanswered questions.
 - `[ ]` Timeout auto-submit flow.
 - `[ ]` Offline/interrupted-attempt handling.
 - `[ ]` Accessibility pass for quiz and mobile navigation.
@@ -254,9 +261,10 @@ Codex update protocol:
 
 - `[x]` Frontend typecheck passes.
 - `[x]` Frontend lint passes.
-- `[x]` Frontend unit tests pass: 12 tests.
+- `[x]` Frontend unit tests pass: 16 tests.
 - `[x]` Frontend production build passes.
 - `[x]` Database pgTAP tests pass: 29 tests.
+- `[~]` Standalone sequential regression plan: Stage 4 is 37 pass, 1 blocked, 0 fail; Stage 5 is next.
 - `[ ]` Full Edge Function local test suite passes.
 - `[~]` Browser QA passes with local Supabase data. Targeted assignment persistence, past-due start, topic bulk-select, class editing, student edit/password/archive, teacher-panel route visual QA, Active/Expired Assignments deadline/filter interaction, and Courses drill-down QA passed; full regression remains open.
 - `[ ]` Regression checklist documented before deployment.

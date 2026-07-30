@@ -14,7 +14,7 @@ import {
   CheckCircle2,
   XCircle,
 } from 'lucide-react';
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useState, type FormEvent, type KeyboardEvent, type ReactNode } from 'react';
 import { NavLink, Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import { useAppState } from '../../app/AppState';
 import { Button } from '../../components/ui/Button';
@@ -163,6 +163,26 @@ function withCompetitionRanks(rows: LeaderboardRow[]): LeaderboardRow[] {
     previousPoints = row.points;
     return { ...row, rank };
   });
+}
+
+function bestLeaderboardRowPerStudent(rows: LeaderboardRow[]): LeaderboardRow[] {
+  const rowByStudentId = new Map<string, LeaderboardRow>();
+  rows.forEach((row) => {
+    const existing = rowByStudentId.get(row.studentId);
+    if (!existing || row.points > existing.points || (row.points === existing.points && row.displayName.localeCompare(existing.displayName) < 0)) {
+      rowByStudentId.set(row.studentId, row);
+    }
+  });
+  return [...rowByStudentId.values()];
+}
+
+function leaderboardShortLabel(row: Pick<LeaderboardRow, 'displayName'>): string {
+  return row.displayName.replace(/\s+-\s+ID\s+\S+$/, '');
+}
+
+function leaderboardLabelWithId(row: Pick<LeaderboardRow, 'displayName' | 'publicStudentId'>): string {
+  const name = leaderboardShortLabel(row);
+  return row.publicStudentId ? `${name} (ID ${row.publicStudentId})` : name;
 }
 
 function rankMedal(rank: number | string) {
@@ -393,6 +413,7 @@ interface TopicResultSummary {
   assignmentId?: string;
   bestScore?: number;
   latestScore?: number;
+  pointsEarned?: number;
   latestAttemptType?: string;
   isAssigned: boolean;
   attemptCount: number;
@@ -488,6 +509,7 @@ function buildCourseResults(state: StudentAppState, subjectId: string): CourseRe
           assignmentId: topicAssignments[0]?.id,
           bestScore: bestScore(completedScores),
           latestScore: latestCompleted?.percentage,
+          pointsEarned: latestCompleted?.pointsAwarded,
           latestAttemptType: latestCompleted?.attemptType ?? latestAttempt?.attemptType,
           isAssigned,
           attemptCount: attempts.length,
@@ -544,6 +566,7 @@ function PracticePage() {
   const navigate = useNavigate();
   const [selectedSubjectId, setSelectedSubjectId] = useState<string | null>(null);
   const [selectedUnitId, setSelectedUnitId] = useState<string | null>(null);
+  const [selectedTopicId, setSelectedTopicId] = useState<string | null>(null);
   const [practiceTab, setPracticeTab] = useState<'continue' | 'start'>('start');
   const [hasChosenPracticeTab, setHasChosenPracticeTab] = useState(false);
   const [actionError, setActionError] = useState('');
@@ -576,6 +599,7 @@ function PracticePage() {
   );
   const selectedSubject = availableSubjects.find((subject) => subject.id === selectedSubjectId);
   const selectedUnit = state.units.find((unit) => unit.id === selectedUnitId);
+  const selectedTopic = state.topics.find((topic) => topic.id === selectedTopicId && topic.unitId === selectedUnitId);
   const subjectUnits = state.units.filter((unit) => unit.subjectId === selectedSubjectId);
   const unitTopics = state.topics.filter((topic) => topic.unitId === selectedUnitId);
   const unfinishedPracticeAttempts = useMemo(() => {
@@ -616,6 +640,8 @@ function PracticePage() {
     return resources.filter((resource) => topicIds.has(resource.topicId)).length;
   };
 
+  const countResourcesForTopic = (topicId: string) => resources.filter((resource) => resource.topicId === topicId).length;
+
   const startResource = async (resource: PracticeResource) => {
     if (resource.type !== 'test' || !resource.testId) return;
     try {
@@ -630,6 +656,7 @@ function PracticePage() {
   const resetToCourses = () => {
     setSelectedSubjectId(null);
     setSelectedUnitId(null);
+    setSelectedTopicId(null);
   };
 
   return (
@@ -672,7 +699,11 @@ function PracticePage() {
               <button
                 className="group flex w-full items-center gap-4 rounded-app border-2 border-[#dedbf0] bg-white p-4 text-left text-ink shadow-[0_10px_22px_rgba(58,55,143,0.08)] transition duration-200 hover:-translate-y-0.5 hover:border-[#7164e8] hover:shadow-[0_16px_28px_rgba(58,55,143,0.15)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue lg:gap-5 lg:p-5"
                 key={subject.id}
-                onClick={() => setSelectedSubjectId(subject.id)}
+                onClick={() => {
+                  setSelectedSubjectId(subject.id);
+                  setSelectedUnitId(null);
+                  setSelectedTopicId(null);
+                }}
               >
                 <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-[#5157dd] to-[#7b45d5] text-white shadow-[0_8px_16px_rgba(76,79,202,0.24)] lg:size-16" aria-hidden="true"><BookOpenCheck size={28} /></span>
                 <div className="min-w-0 flex-1"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#71699b]">Practice course</p><h3 className="mt-1 text-xl font-bold tracking-tight lg:text-2xl">{subject.subjectName}</h3><p className="mt-2 max-w-2xl text-sm leading-6 text-muted lg:text-base">{subject.description}</p></div>
@@ -711,7 +742,10 @@ function PracticePage() {
               <button
                 className="group flex w-full items-center gap-4 rounded-app border-2 border-[#dedbf0] bg-white p-4 text-left text-ink shadow-[0_10px_22px_rgba(58,55,143,0.08)] transition duration-200 hover:-translate-y-0.5 hover:border-[#7164e8] hover:shadow-[0_16px_28px_rgba(58,55,143,0.15)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue lg:gap-5 lg:p-5"
                 key={unit.id}
-                onClick={() => setSelectedUnitId(unit.id)}
+                onClick={() => {
+                  setSelectedUnitId(unit.id);
+                  setSelectedTopicId(null);
+                }}
               >
                 <span className={`grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br ${unitAccent} text-xl font-bold text-white shadow-[0_8px_16px_rgba(76,79,202,0.24)] lg:size-16 lg:text-2xl`} aria-hidden="true">{unit.unitName.match(/^\d+/)?.[0] ?? unitIndex + 1}</span>
                 <div className="min-w-0 flex-1"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#71699b]">Unit</p><h3 className="mt-1 text-lg font-bold tracking-tight lg:text-xl">{unit.unitName}</h3><div className="mt-2 flex flex-wrap items-center gap-2 text-sm font-semibold text-muted"><span>{state.topics.filter((topic) => topic.unitId === unit.id).length} topics</span><span aria-hidden="true">•</span><span>{countResourcesForUnit(unit.id)} practice tests</span></div></div>
@@ -723,50 +757,80 @@ function PracticePage() {
         </div>
       ) : null}
 
-      {selectedSubject && selectedUnit ? (
+      {selectedSubject && selectedUnit && !selectedTopic ? (
         <div className="space-y-4">
           <div>
             <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-semibold">
-              <button className="text-blue transition hover:text-ink" onClick={() => setSelectedUnitId(null)}>{selectedSubject.subjectName}</button>
+              <button className="text-blue transition hover:text-ink" onClick={() => {
+                setSelectedUnitId(null);
+                setSelectedTopicId(null);
+              }}>{selectedSubject.subjectName}</button>
               <span className="text-muted" aria-hidden="true">/</span>
               <span className="text-muted">{selectedUnit.unitName}</span>
             </div>
-            <h3 className="mt-2 font-bold">Topics in {selectedUnit.unitName}</h3>
+            <h3 className="mt-2 font-bold">Choose a topic in {selectedUnit.unitName}</h3>
           </div>
           <div className="space-y-3">
             {unitTopics.map((topic, topicIndex) => {
-              const topicResources = resources.filter((resource) => resource.topicId === topic.id);
-              const testResources = topicResources.filter((resource) => resource.type === 'test');
+              const testCount = countResourcesForTopic(topic.id);
               const topicAccent = ['bg-[#6259df]', 'bg-[#0ca89c]', 'bg-[#ef8b4f]', 'bg-[#a15bd0]'][topicIndex % 4];
               return (
-                <Panel className="overflow-hidden p-0" key={topic.id} tone="light">
-                  <div className="flex items-start gap-4 px-4 py-4 lg:items-center lg:px-5"><span className={`mt-0.5 size-3 shrink-0 rounded-full ${topicAccent} lg:size-4`} aria-hidden="true" /><div className="min-w-0 flex-1"><h3 className="text-lg font-bold lg:text-xl">{topic.topicName}</h3></div><span className="shrink-0 rounded-lg bg-[#f0efff] px-2.5 py-1 text-sm font-bold text-[#554fd1]">{testResources.length} {testResources.length === 1 ? 'test' : 'tests'}</span></div>
-                  <div className="space-y-3 border-t border-[#e2dff4] bg-[#faf9ff] px-4 py-3 lg:px-5">
-                    {testResources.length ? (
-                      testResources.map((resource) => (
-                        <div className="flex flex-col gap-3 rounded-app border border-[#dedbf0] bg-white p-3 text-ink sm:flex-row sm:items-center sm:justify-between" key={resource.id}>
-                          <div className="min-w-0">
-                            <div className="flex items-start justify-between gap-3 sm:block">
-                              <div>
-                              <h4 className="text-sm font-bold">{resource.title}</h4>
-                              <p className="mt-1 text-xs text-muted">{resource.description}</p>
-                              </div>
-                              <StatusBadge tone={resource.status === 'available' ? 'green' : 'blue'}>{resource.status === 'available' ? 'Ready' : 'Soon'}</StatusBadge>
-                            </div>
-                          </div>
-                          <Button className="min-h-10 shrink-0 px-4" variant="secondary" onClick={() => startResource(resource)}>Start</Button>
-                        </div>
-                      ))
-                    ) : (
-                      <p className="rounded-app border border-dashed border-line bg-white p-3 text-sm text-muted">
-                        No practice tests are available for this topic yet.
-                      </p>
-                    )}
+                <button
+                  className="group flex w-full items-center gap-4 rounded-app border-2 border-[#dedbf0] bg-white p-4 text-left text-ink shadow-[0_10px_22px_rgba(58,55,143,0.08)] transition duration-200 hover:-translate-y-0.5 hover:border-[#7164e8] hover:shadow-[0_16px_28px_rgba(58,55,143,0.15)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue lg:gap-5 lg:p-5"
+                  key={topic.id}
+                  onClick={() => setSelectedTopicId(topic.id)}
+                  type="button"
+                >
+                  <span className={`mt-0.5 size-4 shrink-0 rounded-full ${topicAccent}`} aria-hidden="true" />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#71699b]">Topic</p>
+                    <h3 className="mt-1 text-lg font-bold tracking-tight lg:text-xl">{topic.topicName}</h3>
+                    <p className="mt-2 text-sm font-semibold text-muted">{testCount} {testCount === 1 ? 'practice test' : 'practice tests'}</p>
                   </div>
-                </Panel>
+                  <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#f0efff] text-[#554fd1] transition group-hover:bg-[#554fd1] group-hover:text-white" aria-hidden="true"><ChevronRight size={21} /></span>
+                </button>
               );
             })}
           </div>
+        </div>
+      ) : null}
+
+      {selectedSubject && selectedUnit && selectedTopic ? (
+        <div className="space-y-4">
+          <div>
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-semibold">
+              <button className="text-blue transition hover:text-ink" onClick={() => {
+                setSelectedUnitId(null);
+                setSelectedTopicId(null);
+              }}>{selectedSubject.subjectName}</button>
+              <span className="text-muted" aria-hidden="true">/</span>
+              <button className="text-blue transition hover:text-ink" onClick={() => setSelectedTopicId(null)}>{selectedUnit.unitName}</button>
+              <span className="text-muted" aria-hidden="true">/</span>
+              <span className="text-muted">{selectedTopic.topicName}</span>
+            </div>
+            <h3 className="mt-2 font-bold">Tests for {selectedTopic.topicName}</h3>
+          </div>
+          <Panel className="overflow-hidden p-0" tone="light">
+            <div className="space-y-3 bg-white px-4 py-4 lg:px-5">
+              {resources.filter((resource) => resource.topicId === selectedTopic.id && resource.type === 'test').length ? (
+                resources
+                  .filter((resource) => resource.topicId === selectedTopic.id && resource.type === 'test')
+                  .map((resource) => (
+                    <div className="flex flex-col gap-3 rounded-app border-2 border-[#dedbf0] bg-[#f7faff] p-3 text-ink sm:flex-row sm:items-center sm:justify-between" key={resource.id}>
+                      <div className="min-w-0">
+                        <h4 className="text-base font-bold">{resource.title}</h4>
+                        <p className="mt-1 text-sm text-muted">{resource.description}</p>
+                      </div>
+                      <Button className="min-h-10 shrink-0 px-4" variant="secondary" onClick={() => startResource(resource)}>Start</Button>
+                    </div>
+                  ))
+              ) : (
+                <p className="rounded-app border border-dashed border-line bg-white p-3 text-sm text-muted">
+                  No practice tests are available for this topic yet.
+                </p>
+              )}
+            </div>
+          </Panel>
         </div>
       ) : null}
     </div>
@@ -844,13 +908,60 @@ function ActiveTestPage() {
   const attemptQuestions = state.questions.filter((question) => question.testVersionId === attempt?.testVersionId);
   const [index, setIndex] = useState(() => Math.min(Math.max(0, attempt?.resumeQuestionIndex ?? 0), Math.max(0, attemptQuestions.length - 1)));
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isHydratingQuestions, setIsHydratingQuestions] = useState(false);
+  const [hasRequestedQuestionHydration, setHasRequestedQuestionHydration] = useState(false);
+  const [showUnansweredConfirm, setShowUnansweredConfirm] = useState(false);
   const [submitError, setSubmitError] = useState('');
   const question = attemptQuestions[index];
   const answeredCount = state.answers.filter((answer) => answer.attemptId === attemptId && answer.answer).length;
   const selectedAnswer = state.answers.find((answer) => answer.attemptId === attemptId && answer.questionId === question?.id)?.answer;
 
-  if (!attempt || !question) {
+  useEffect(() => {
+    if (!attempt || !attemptQuestions.length) return;
+    setIndex(Math.min(Math.max(0, attempt.resumeQuestionIndex ?? 0), attemptQuestions.length - 1));
+  }, [attempt, attemptQuestions.length]);
+
+  useEffect(() => {
+    if (!attempt || attempt.status !== 'in_progress' || attemptQuestions.length || hasRequestedQuestionHydration) return;
+    let isActive = true;
+    setHasRequestedQuestionHydration(true);
+    setIsHydratingQuestions(true);
+    setSubmitError('');
+    void state.beginAttempt({ testId: attempt.testId, assignmentId: attempt.assignmentId })
+      .then((hydratedAttempt) => {
+        if (isActive) setIndex(Math.max(0, hydratedAttempt.resumeQuestionIndex ?? 0));
+      })
+      .catch((caught: unknown) => {
+        if (isActive) setSubmitError(getActionError(caught));
+      })
+      .finally(() => {
+        if (isActive) setIsHydratingQuestions(false);
+      });
+
+    return () => {
+      isActive = false;
+    };
+  }, [attempt, attemptQuestions.length, hasRequestedQuestionHydration, state]);
+
+  useEffect(() => {
+    if (attemptQuestions.length && answeredCount >= attemptQuestions.length) setShowUnansweredConfirm(false);
+  }, [answeredCount, attemptQuestions.length]);
+
+  if (!attempt) {
     return <div className="p-4">Attempt not found.</div>;
+  }
+
+  if (!question) {
+    return (
+      <div className="space-y-3 p-4">
+        <Panel className="p-5">
+          <p className="font-bold">{isHydratingQuestions || !hasRequestedQuestionHydration ? 'Loading your test...' : 'Attempt not found.'}</p>
+          {submitError ? <p className="mt-2 text-sm text-[#ffc7c7]">{submitError}</p> : (
+            <p className="mt-2 text-sm text-[#b8c8d9]">Reconnecting to local Supabase and restoring the question set.</p>
+          )}
+        </Panel>
+      </div>
+    );
   }
 
   const submit = async () => {
@@ -869,6 +980,27 @@ function ActiveTestPage() {
     const safeIndex = Math.min(Math.max(0, nextIndex), attemptQuestions.length - 1);
     setIndex(safeIndex);
     state.saveAttemptProgress(attempt.id, safeIndex);
+  };
+
+  const unansweredCount = Math.max(attemptQuestions.length - answeredCount, 0);
+
+  const chooseAnswer = (answer: string) => {
+    setShowUnansweredConfirm(false);
+    state.saveAnswer(attempt.id, question.id, answer);
+  };
+
+  const handleOptionKeyDown = (event: KeyboardEvent<HTMLButtonElement>, answer: string) => {
+    if (event.key !== 'Enter' && event.key !== ' ') return;
+    event.preventDefault();
+    chooseAnswer(answer);
+  };
+
+  const requestSubmit = () => {
+    if (unansweredCount > 0 && !showUnansweredConfirm) {
+      setShowUnansweredConfirm(true);
+      return;
+    }
+    void submit();
   };
 
   return (
@@ -899,8 +1031,10 @@ function ActiveTestPage() {
             {question.options?.map((option, optionIndex) => (
               <button
                 className={`flex min-h-12 w-full items-center gap-3 rounded-app border px-3 text-left text-sm font-semibold outline-none transition focus-visible:ring-2 focus-visible:ring-blue/25 ${selectedAnswer === option.id ? 'border-blue bg-[#eef5ff] text-ink' : 'border-line bg-white text-ink'}`}
+                aria-pressed={selectedAnswer === option.id}
                 key={option.id}
-                onClick={() => state.saveAnswer(attempt.id, question.id, option.id)}
+                onClick={() => chooseAnswer(option.id)}
+                onKeyDown={(event) => handleOptionKeyDown(event, option.id)}
               >
                 <span className={`grid h-5 w-5 place-items-center rounded-full border text-[11px] ${selectedAnswer === option.id ? 'border-blue bg-blue text-white' : 'border-muted text-muted'}`}>
                   {String.fromCharCode(65 + optionIndex)}
@@ -911,7 +1045,7 @@ function ActiveTestPage() {
             {!question.options?.length ? (
               <textarea
                 className="min-h-28 w-full rounded-app border border-line bg-white p-3 text-sm text-ink outline-none focus:border-blue"
-                onChange={(event) => state.saveAnswer(attempt.id, question.id, event.target.value)}
+                onChange={(event) => chooseAnswer(event.target.value)}
                 placeholder="Type your answer"
                 value={typeof selectedAnswer === 'string' ? selectedAnswer : ''}
               />
@@ -923,11 +1057,21 @@ function ActiveTestPage() {
       <div className="grid grid-cols-2 gap-3">
         <Button variant="secondary" disabled={index === 0} onClick={() => moveToQuestion(index - 1)}>Previous</Button>
         {index === attemptQuestions.length - 1 ? (
-          <Button disabled={isSubmitting} onClick={submit}>{isSubmitting ? 'Submitting...' : 'Submit'}</Button>
+          <Button disabled={isSubmitting} onClick={requestSubmit}>{isSubmitting ? 'Submitting...' : 'Submit'}</Button>
         ) : (
           <Button onClick={() => moveToQuestion(index + 1)}>Next</Button>
         )}
       </div>
+      {showUnansweredConfirm ? (
+        <Panel tone="light" className="border-[#ffcf7a] bg-[#fff8e9] p-4 text-ink">
+          <p className="font-bold">You still have {unansweredCount} unanswered {unansweredCount === 1 ? 'question' : 'questions'}.</p>
+          <p className="mt-1 text-sm text-muted">Check your answers before submitting, or submit anyway if you are finished.</p>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <Button variant="secondary" onClick={() => setShowUnansweredConfirm(false)}>Keep answering</Button>
+            <Button disabled={isSubmitting} onClick={() => void submit()}>Submit anyway</Button>
+          </div>
+        </Panel>
+      ) : null}
       {submitError ? <p className="rounded-app bg-[#fff1f1] p-3 text-sm text-danger">{submitError}</p> : null}
     </div>
   );
@@ -1113,7 +1257,7 @@ function ResultsPage() {
             {expandedUnitIds.has(unit.id) ? <>
             <div className="hidden p-4 lg:block lg:p-5">
               <div className="overflow-x-auto rounded-app border border-line">
-                <table className="min-w-[900px] w-full border-collapse bg-white text-sm">
+                <table className="min-w-[980px] w-full border-collapse bg-white text-sm">
                   <thead className="border-b-4 border-[#c8c3ff] bg-white text-left text-xs font-semibold text-muted">
                     <tr>
                       <th className="min-w-[260px] px-3 py-3">Topic</th>
@@ -1123,6 +1267,7 @@ function ResultsPage() {
                       <th className="whitespace-nowrap px-3 py-3">Assigned</th>
                       <th className="whitespace-nowrap px-3 py-3">Attempts</th>
                       <th className="whitespace-nowrap px-3 py-3">Last taken</th>
+                      <th className="whitespace-nowrap px-3 py-3">Points</th>
                       <th className="whitespace-nowrap px-3 py-3">Status</th>
                     </tr>
                   </thead>
@@ -1148,6 +1293,7 @@ function ResultsPage() {
                         </td>
                         <td className="whitespace-nowrap px-3 py-3">{topic.attemptCount}</td>
                         <td className="whitespace-nowrap px-3 py-3">{topic.lastTaken ? formatDate(topic.lastTaken) : '-'}</td>
+                        <td className="whitespace-nowrap px-3 py-3 font-bold text-blue">{typeof topic.pointsEarned === 'number' ? `${topic.pointsEarned} pts` : '-'}</td>
                         <td className="whitespace-nowrap px-3 py-3"><StatusBadge tone={topic.statusTone}>{topic.statusLabel}</StatusBadge></td>
                       </tr>
                     ))}
@@ -1178,6 +1324,7 @@ function ResultsPage() {
                     <Info label="Assigned" value={topic.isAssigned ? 'Yes' : 'No'} />
                     <Info label="Attempts" value={`${topic.attemptCount}`} />
                     <Info label="Last taken" value={topic.lastTaken ? formatDate(topic.lastTaken) : '-'} />
+                    <Info label="Points" value={typeof topic.pointsEarned === 'number' ? `${topic.pointsEarned} pts` : '-'} valueClassName="text-blue" />
                   </dl>
                 </div>
               ))}
@@ -1236,6 +1383,32 @@ function UnitSummary({ label, value, score }: { label: string; value?: string; s
 function ProfilePage() {
   const state = useAppState();
   const classNames = currentStudentClassNames(state) || 'No class';
+  const [joinCode, setJoinCode] = useState('');
+  const [joinMessage, setJoinMessage] = useState('');
+  const [joinError, setJoinError] = useState('');
+  const [isJoining, setIsJoining] = useState(false);
+
+  const submitJoinCode = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const code = joinCode.trim().toUpperCase();
+    if (!code) {
+      setJoinMessage('');
+      setJoinError('Enter a class code.');
+      return;
+    }
+    try {
+      setIsJoining(true);
+      setJoinMessage('');
+      setJoinError('');
+      const message = await state.joinClassByCode(code);
+      setJoinMessage(message);
+      setJoinCode('');
+    } catch (caught) {
+      setJoinError(getActionError(caught));
+    } finally {
+      setIsJoining(false);
+    }
+  };
 
   return (
     <div className="space-y-4 px-4 py-5 lg:px-0 lg:py-0">
@@ -1259,6 +1432,36 @@ function ProfilePage() {
           </div>
         </div>
       </Panel>
+      <Panel className="p-4 lg:p-5">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div className="min-w-0">
+            <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#b8c8d9]">Class access</p>
+            <h3 className="mt-1 text-lg font-bold text-white">Join another class</h3>
+            <p className="mt-1 max-w-2xl text-sm text-[#c8d6e7]">Use a teacher-provided code when they have enabled student joining for that class.</p>
+          </div>
+          <form className="flex w-full flex-col gap-2 sm:max-w-sm sm:flex-row" onSubmit={(event) => void submitJoinCode(event)}>
+            <label className="min-w-0 flex-1" htmlFor="profile-class-code">
+              <span className="sr-only">Class code</span>
+              <input
+                autoComplete="off"
+                className="min-h-11 w-full rounded-app border border-[#d7def0] bg-white px-3 text-sm font-bold uppercase tracking-[0.18em] text-ink outline-none focus:border-blue focus:ring-2 focus:ring-blue/25"
+                id="profile-class-code"
+                maxLength={6}
+                onChange={(event) => {
+                  setJoinCode(event.target.value.replace(/[^a-zA-Z]/g, '').toUpperCase());
+                  setJoinError('');
+                  setJoinMessage('');
+                }}
+                placeholder="ABCDEF"
+                value={joinCode}
+              />
+            </label>
+            <Button className="min-h-11 shrink-0" disabled={isJoining} type="submit">{isJoining ? 'Joining...' : 'Join'}</Button>
+          </form>
+        </div>
+        {joinMessage ? <p className="mt-3 rounded-app border border-[#8dcc9a] bg-[#e4f6e7] p-3 text-sm font-semibold text-[#17662b]">{joinMessage}</p> : null}
+        {joinError ? <p className="mt-3 rounded-app border border-[#ffb3b3] bg-[#fff1f1] p-3 text-sm font-semibold text-danger">{joinError}</p> : null}
+      </Panel>
     </div>
   );
 }
@@ -1276,7 +1479,8 @@ function StudentLeaderboardPage() {
   const state = useAppState();
   const [isPointsGuideOpen, setIsPointsGuideOpen] = useState(false);
   const classLeaderboardRows = classLeaderboardForCurrentStudent(state);
-  const allTimeLeaderboardRows = withCompetitionRanks([...state.allTimeLeaderboardRows]
+  const allTimeLeaderboardRows = withCompetitionRanks(bestLeaderboardRowPerStudent(state.allTimeLeaderboardRows)
+    .map((row) => ({ ...row, displayName: leaderboardLabelWithId(row) }))
     .sort((first, second) => second.points - first.points || first.displayName.localeCompare(second.displayName)));
   const currentLeaderboardRow = classLeaderboardRows.find((row) => row.studentId === state.currentStudent.id);
   const currentAllTimeRow = allTimeLeaderboardRows.find((row) => row.studentId === state.currentStudent.id);

@@ -1,6 +1,6 @@
 # Codex Handover
 
-Last updated: 2026-07-29
+Last updated: 2026-07-30
 
 Audience: a new Codex agent continuing `csrevision` on a different development computer.
 
@@ -15,8 +15,10 @@ Read these files in order:
 5. `docs/PROJECT_TASKS.md`
 6. `PROJECT_BRIEF.md`
 7. `docs/DEVELOPMENT_SETUP.md`
-8. `docs/SUPABASE_SETUP.md`
-9. `docs/TROUBLESHOOTING.md`
+8. `docs/TESTING.md`
+9. `docs/SUPABASE_SETUP.md`
+10. `docs/TROUBLESHOOTING.md`
+11. `docs/planning/csrevision-full-test-plan-checklist.html` if continuing staged QA or fixing staged-test failures
 
 The active branch is:
 
@@ -30,6 +32,79 @@ Current user instruction:
 - Run the end process only when the user explicitly says `end` or asks to wrap up development.
 - The end process includes committing and pushing the active branch.
 - Do not push unless the user explicitly says `push`.
+
+## Session update - 2026-07-30
+
+### Current local working mode
+
+- Local Supabase is still mandatory. There is no frontend demo fallback and no browser-only fixture fallback.
+- Active branch: `agent/csrevision-accounts-mvp`.
+- The standalone sequential QA artifact is now part of the Codex workflow: `docs/planning/csrevision-full-test-plan-checklist.html`.
+- The test-plan page is read-only for the user. Codex must update status/evidence by editing the HTML artifact.
+
+### Completed in this session
+
+- Fixed Stage 4 failures from the standalone sequential test plan.
+- Student Practice now follows `Course -> Unit -> Topic -> Test`. Topic pages show available tests only; no hidden future `revision_lesson`, `tutorial`, or `worksheet` buttons are visible.
+- In-progress practice attempts now survive browser reload and Continue Practice. `start-test-attempt` returns safe questions plus the current student's saved answers for an owned/resumable attempt.
+- `AppState` restores returned answers into local state so answered count and selected options rehydrate correctly.
+- Active test option selection supports keyboard Enter/Space and uses blue selected styling. Green remains reserved for correct/success states.
+- Submitting with unanswered questions now shows an explicit warning and requires `Submit anyway`.
+- Student My Results topic rows now include points earned.
+- Student Profile now has class-code join UI and handles invalid, disabled, and valid class codes through local Supabase.
+- Student all-time leaderboard rows now include public IDs in the visible label so same-name bulk-seed students are distinguishable.
+- `supabase/qa_bulk_seed.sql` is safely rerunnable and now includes deterministic fixtures for no-current-learning-gaps, completed open selected-recipient, and past-due outstanding assignment checks.
+- Temporary browser-QA attempts and temporary class-code membership changes were cleaned from the local database after verification.
+
+### Standalone test-plan state
+
+- Artifact: `docs/planning/csrevision-full-test-plan-checklist.html`.
+- Total tests: 236.
+- Stage 4 recorded state after fixes: 37 pass, 1 blocked, 0 fail.
+- Remaining Stage 4 blocker: Test 94. The PDF download button clicked successfully and produced no console errors, but the in-app browser did not expose the downloaded PDF file for visual inspection.
+- Next staged QA task: begin Stage 5 only when the user asks; do not skip ahead.
+
+### Latest verification on 2026-07-30
+
+```text
+npm.cmd run lint: passed
+npm.cmd run typecheck: passed
+npm.cmd test: passed, 5 files / 16 tests
+npm.cmd run build: passed, existing Vite >500 kB chunk warning only
+git diff --check: passed, Windows CRLF warnings only
+App health: http://127.0.0.1:5173/ HTTP 200
+Edge health: http://127.0.0.1:54321/functions/v1/start-test-attempt OPTIONS HTTP 200
+```
+
+Local bulk QA seed verification:
+
+```text
+active_students=250
+active_real_classes=10
+test_assignments=94
+test_attempts=3142
+assignment_recipients=51
+bulk_seed_audits=1
+```
+
+Targeted browser QA:
+
+- `qa10acomputing07` Home showed the no-learning-gaps state.
+- Practice opened OCR GCSE Computer Science, Unit 1, topic `1.1 Programming fundamentals`, then `1.1 Programming fundamentals test 1`.
+- Reload/Continue restored an in-progress practice attempt with saved answer state; no `Attempt not found`.
+- Keyboard answer selection changed the selected option and answered count.
+- Unanswered submit warning appeared before submission.
+- `qa10acomputing12` My assignments excluded the completed open selected-recipient `1.11 IDEs test 1`.
+- `qa10acomputing07` My assignments showed the past-due outstanding `1.5 Procedures and functions test 1`.
+- My Results displayed per-topic points.
+- Profile class-code join rejected invalid/disabled codes and accepted a temporarily enabled valid code; temporary membership was removed.
+- All-time leaderboard displayed public IDs, e.g. `Ava Ahmed (ID Q01104)` and `Ava Ahmed (ID Q01204)`.
+
+### Recommended next work
+
+1. Continue the standalone sequential test plan at Stage 5 when the user asks.
+2. Resolve or externally verify Stage 4 Test 94 PDF-file inspection if the user wants zero blockers before Stage 5.
+3. After staged QA, resume product work: merge teacher Courses and Assignments into one Resources workflow, then design Class performance views by assigned resources/unit/topic.
 
 ## Session update — 2026-07-29
 
@@ -377,26 +452,28 @@ Local-only class join codes may differ from a fresh reset because Regenerate was
 - Supabase schema and seed:
   - `supabase/migrations/20260707202000_mvp_v1_schema.sql`
   - `supabase/seed.sql`
+  - `supabase/qa_bulk_seed.sql`
 - Edge Functions:
   - `supabase/functions/update-student-account/index.ts`
   - `supabase/functions/reset-student-password/index.ts`
   - `supabase/functions/start-test-attempt/index.ts`
   - `supabase/functions/save-answer/index.ts`
   - `supabase/functions/submit-test-attempt/index.ts`
+- QA artifact:
+  - `docs/planning/csrevision-full-test-plan-checklist.html`
 
 ## Current Known Gaps
 
-- Clean reset replay has not been reverified after the pgTAP conversion. Next backend check should run `npx.cmd supabase db reset --local`, then `npx.cmd supabase test db --local supabase\tests`.
-- Browser QA is targeted, not a full regression suite.
-- Student result detail, submit confirmation, timeout auto-submit, offline/interrupted-attempt handling, and accessibility pass are still open.
+- The standalone test plan is not complete. Stage 5 is next; Stage 4 has one blocked PDF-inspection test.
+- Browser QA is targeted per stage, not a full completed regression suite until all 236 tests are run.
+- Student result detail, timeout auto-submit, offline/interrupted-attempt handling, and accessibility pass are still open.
 - Teacher student creation, class creation, result detail, and suspicious activity detail need more real backend wiring.
-- Hard browser reload currently returns to the sign-in screen instead of restoring the existing Supabase auth session into `AppState`. This does not block the class-edit flow, but session restoration should be fixed before wider QA.
 - Placeholder tests are not production content. They exist to exercise the data shape.
 - Production Supabase setup, Edge Function deployment, GitHub Pages env wiring, and production smoke testing are not done.
 
 ## Next Recommended Task
 
-Merge teacher `Courses` and `Assignments` into one `Resources` workflow, then plan/build Class views for assigned resources and class performance by unit/topic.
+Continue the standalone sequential test plan at Stage 5. After staged QA, merge teacher `Courses` and `Assignments` into one `Resources` workflow, then plan/build Class views for assigned resources and class performance by unit/topic.
 
 ## Development Rules To Preserve
 

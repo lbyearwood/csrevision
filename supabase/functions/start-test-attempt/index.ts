@@ -230,6 +230,12 @@ Deno.serve(async (req) => {
       };
     });
 
+    const { data: savedAnswers, error: savedAnswersError } = await service
+      .from('student_answers')
+      .select('id, question_id, answer, answer_text, max_marks')
+      .eq('attempt_id', attempt.id);
+    if (savedAnswersError) throw savedAnswersError;
+
     if (!resumeAttempt) {
       await Promise.all(
         safeQuestions.map((question) =>
@@ -249,6 +255,12 @@ Deno.serve(async (req) => {
       expiresAt: attempt.expires_at,
       timeLimitSeconds: attempt.time_limit_seconds ?? timeLimitSeconds,
       questions: safeQuestions,
+      answers: (savedAnswers ?? []).map((answer) => ({
+        id: answer.id,
+        questionId: answer.question_id,
+        answer: answer.answer ?? answer.answer_text ?? '',
+        maxMarks: answer.max_marks ?? 1,
+      })),
     });
   } catch (error) {
     return errorResponse(error instanceof Error ? error.message : 'Unable to start attempt', 400);

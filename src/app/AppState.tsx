@@ -20,6 +20,7 @@ interface BeginAttemptInput {
 interface CreateAssignmentsInput {
   classId: string;
   testVersionIds: string[];
+  recipientScope?: TestAssignment['recipientScope'];
   recipientStudentIds: string[];
   dueAt?: string;
   timeLimitSeconds?: number;
@@ -83,6 +84,12 @@ interface StartAttemptResponse {
     maxMarks: number;
     displayOrder: number;
     options: Array<{ id: string; optionText: string }>;
+  }>;
+  answers?: Array<{
+    id: string;
+    questionId: string;
+    answer: string | string[];
+    maxMarks: number;
   }>;
 }
 
@@ -490,11 +497,27 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       feedbackStatus: existingAttempt?.feedbackStatus ?? 'hidden',
       suspiciousEventCount: existingAttempt?.suspiciousEventCount ?? 0,
     };
+    const restoredAnswers: StudentAnswer[] = (started.answers ?? []).map((answer) => ({
+      id: answer.id,
+      attemptId: started.attemptId,
+      questionId: answer.questionId,
+      answer: answer.answer,
+      maxMarks: answer.maxMarks,
+    }));
 
     setSnapshot((current) => ({
       ...current,
       questions: [...current.questions.filter((question) => question.testVersionId !== version.id), ...safeQuestions],
     }));
+    if (restoredAnswers.length) {
+      setAnswers((rows) => {
+        const restoredQuestionIds = new Set(restoredAnswers.map((answer) => answer.questionId));
+        return [
+          ...restoredAnswers,
+          ...rows.filter((answer) => answer.attemptId !== started.attemptId || !restoredQuestionIds.has(answer.questionId)),
+        ];
+      });
+    }
     setAttempts((rows) => (rows.some((row) => row.id === attempt.id) ? rows.map((row) => (row.id === attempt.id ? attempt : row)) : [attempt, ...rows]));
     return attempt;
   };
@@ -509,14 +532,15 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     const uniqueVersionIds = Array.from(new Set(input.testVersionIds));
     if (!input.classId) throw new Error('Class is required');
     if (!uniqueVersionIds.length) throw new Error('Select at least one test');
+    const recipientScope = input.recipientScope ?? 'selected';
     const recipientStudentIds = Array.from(new Set(input.recipientStudentIds));
-    if (!recipientStudentIds.length) throw new Error('Select at least one student');
+    if (recipientScope === 'selected' && !recipientStudentIds.length) throw new Error('Select at least one student');
     const eligibleStudentIds = new Set(
       snapshot.students
         .filter((student) => student.accountStatus === 'active' && student.classIds.includes(input.classId))
         .map((student) => student.id),
     );
-    if (recipientStudentIds.some((studentId) => !eligibleStudentIds.has(studentId))) {
+    if (recipientScope === 'selected' && recipientStudentIds.some((studentId) => !eligibleStudentIds.has(studentId))) {
       throw new Error('Selected students must belong to the chosen class.');
     }
     if (!snapshot.teacher.profileId) throw new Error('Teacher profile is not loaded');
@@ -540,7 +564,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       test_version_id: testVersionId,
       assigned_by: snapshot.teacher.profileId,
       class_id: input.classId,
-      recipient_scope: 'selected' as const,
+      recipient_scope: recipientScope,
       start_at: now,
       due_at: input.dueAt ?? null,
       time_limit_seconds: null,
@@ -554,10 +578,16 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       .select('id, test_version_id, class_id, assigned_by, recipient_scope, start_at, due_at, time_limit_seconds, attempt_limit, feedback_policy, status');
     if (error) throw error;
     const assignments = ((data ?? []) as AssignmentRow[]).map(mapAssignmentRow);
-    const recipientRows = assignments.flatMap((assignment) => recipientStudentIds.map((studentId) => ({ assignment_id: assignment.id, student_id: studentId })));
-    const { error: recipientError } = await supabase.from('assignment_recipients').insert(recipientRows);
-    if (recipientError) throw recipientError;
-    const assignmentsWithRecipients = assignments.map((assignment) => ({ ...assignment, assignedByName: snapshot.teacher.displayName, recipientStudentIds }));
+    if (recipientScope === 'selected') {
+      const recipientRows = assignments.flatMap((assignment) => recipientStudentIds.map((studentId) => ({ assignment_id: assignment.id, student_id: studentId })));
+      const { error: recipientError } = await supabase.from('assignment_recipients').insert(recipientRows);
+      if (recipientError) throw recipientError;
+    }
+    const assignmentsWithRecipients = assignments.map((assignment) => ({
+      ...assignment,
+      assignedByName: snapshot.teacher.displayName,
+      recipientStudentIds: recipientScope === 'selected' ? recipientStudentIds : [],
+    }));
     setSnapshot((current) => ({
       ...current,
       assignments: [...assignmentsWithRecipients, ...current.assignments],

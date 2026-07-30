@@ -4,7 +4,7 @@
 **Prepared for:** Codex project build  
 **Prepared by:** ChatGPT  
 **Date:** 07 July 2026  
-**Current brief version:** 0.4
+**Current brief version:** 0.5
 **Recommended project name:** Student Knowledge Testing Platform  
 **Primary deployment model:** GitHub Pages frontend + Supabase backend  
 **Primary local development model:** Docker Desktop + local Supabase/Postgres via pinned Supabase CLI  
@@ -45,6 +45,8 @@ This section records material project direction changes, architecture decisions,
 | 2026-07-27 | 0.4 | Added a non-duplication design principle: visible filter selections must not be repeated in a separate summary card on the same screen. | Prevent dense teacher/admin pages from wasting space and forcing users to read the same context twice. |
 | 2026-07-27 | 0.4 | Added a fluid desktop layout principle: app shells and primary work surfaces should use the available browser width. | Avoid narrow desktop layouts with unused side space on teacher/admin and student app screens. |
 | 2026-07-28 | 0.4 | Split teacher assignment tracking into `Active Assignments` and `Expired Assignments` views. | Let teachers distinguish current assignable workload from assignments whose deadline has passed while keeping deadline expiry out of student access enforcement. |
+| 2026-07-30 | 0.5 | Added a standalone read-only sequential regression test plan with 236 discrete tests. | Give Codex a single ordered QA artifact to execute, record, fix, and hand over stage by stage. |
+| 2026-07-30 | 0.5 | Confirmed bulk QA seed as the current large local fixture strategy for staged QA. | Keep student, assignment, attempt, result, leaderboard, and class-code scenarios reproducible in local Supabase before launch. |
 
 ## Change Control Process
 

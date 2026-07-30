@@ -1,6 +1,6 @@
 # Codex Development Process
 
-Last updated: 2026-07-28
+Last updated: 2026-07-30
 
 Audience: every Codex agent making product, code, Supabase, or documentation changes in this repository. The user does not plan to read this.
 
@@ -49,6 +49,25 @@ For UI workflows, use browser QA against seeded local accounts and local Supabas
 For persistence workflows, save the data, navigate or reload, and prove the saved state is still present.
 
 For Edge Functions, call the function locally with the appropriate seeded role and payload.
+
+## Standalone Sequential Test Plan
+
+The staged regression source of truth is:
+
+```text
+docs/planning/csrevision-full-test-plan-checklist.html
+```
+
+Rules for this artifact:
+
+- It is standalone documentation, not app source or build input.
+- It contains 236 discrete tests in dependency-aware execution order.
+- It is read-only for the user; only Codex updates status/evidence by editing the HTML file.
+- Do not add browser-side editing controls, filters, search, or internal scrollbars back into the artifact.
+- When the user asks for a stage, run only that stage in displayed order.
+- Update each test with `Pass`, `Fail`, or `Blocked` plus concise evidence immediately after verification.
+- Do not fix app code during a staged run unless the user explicitly asks to fix the failures. Record failures first.
+- Latest recorded Stage 4 state on 2026-07-30: 37 pass, 1 blocked, 0 fail. The remaining blocked test is PDF file inspection after download because the in-app browser did not expose the downloaded file.
 
 ## Reporting
 

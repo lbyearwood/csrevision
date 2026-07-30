@@ -1,0 +1,1221 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>csrevision Full Test Plan Checklist</title>
+  <style>
+    :root {
+      color: #172246;
+      background: #fffaf0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 15px;
+      line-height: 1.45;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-width: 320px;
+      background:
+        radial-gradient(circle at 88% -12%, rgba(103, 78, 231, 0.14), transparent 30rem),
+        radial-gradient(circle at 0% 80%, rgba(56, 87, 223, 0.1), transparent 28rem),
+        #fffaf0;
+    }
+
+    .shell {
+      width: min(1840px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 44px;
+    }
+
+    .overview {
+      display: grid;
+      gap: 16px;
+      margin-top: 0;
+      border: 1px solid #dedbf0;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #ffffff 0%, #f9f7ff 100%);
+      padding: 18px;
+      box-shadow: 0 14px 36px rgba(54, 68, 163, 0.08);
+    }
+
+    .overview-main {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 22px;
+      align-items: baseline;
+      justify-content: space-between;
+    }
+
+    .total-line {
+      margin: 0;
+      color: #172246;
+      font-size: 1.08rem;
+      font-weight: 900;
+    }
+
+    .total-line strong {
+      color: #3857df;
+      font-size: 1.35rem;
+    }
+
+    .summary-line {
+      max-width: 900px;
+      margin: 0;
+      color: #53647c;
+      font-weight: 750;
+    }
+
+    .journey-nav {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+      gap: 10px;
+    }
+
+    .journey-card {
+      display: grid;
+      gap: 6px;
+      min-height: 116px;
+      border: 1px solid #d8d3f5;
+      border-radius: 8px;
+      background: #ffffff;
+      color: #172246;
+      padding: 12px;
+      text-decoration: none;
+      box-shadow: 0 8px 20px rgba(24, 35, 71, 0.06);
+    }
+
+    .journey-card:hover,
+    .journey-card:focus {
+      border-color: #3857df;
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(56, 87, 223, 0.14);
+    }
+
+    .journey-card span {
+      color: #3857df;
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .journey-card strong {
+      font-size: 0.98rem;
+      line-height: 1.25;
+    }
+
+    .journey-card small {
+      color: #53647c;
+      font-weight: 800;
+    }
+
+    .plan-card {
+      margin-top: 18px;
+      border: 1px solid #6876df;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #202a6f 0%, #3c3190 100%);
+      box-shadow: 0 18px 44px rgba(24, 27, 80, 0.16);
+    }
+
+    .test-list {
+      display: grid;
+      gap: 16px;
+      margin: 14px;
+    }
+
+    .stage-block {
+      display: grid;
+      gap: 10px;
+      scroll-margin-top: 18px;
+    }
+
+    .stage-heading {
+      display: grid;
+      gap: 6px;
+      border: 1px solid rgba(217, 223, 255, 0.42);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      padding: 16px;
+    }
+
+    .stage-heading span {
+      color: #d9dfff;
+      font-size: 0.78rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .stage-heading h2 {
+      margin: 0;
+      font-size: 1.25rem;
+      line-height: 1.25;
+    }
+
+    .stage-heading p {
+      max-width: 980px;
+      margin: 0;
+      color: #d9dfff;
+      font-weight: 700;
+    }
+
+    .stage-tests {
+      display: grid;
+      gap: 10px;
+    }
+
+    .test-card {
+      display: grid;
+      grid-template-columns: minmax(160px, 0.72fr) minmax(220px, 1fr) minmax(260px, 1.15fr) minmax(260px, 1.1fr);
+      gap: 12px;
+      border: 1px solid #d8d3f5;
+      border-radius: 8px;
+      background: #ffffff;
+      padding: 14px;
+      color: #172246;
+      box-shadow: 0 8px 20px rgba(24, 35, 71, 0.07);
+    }
+
+    .test-meta {
+      display: grid;
+      align-content: start;
+      gap: 8px;
+    }
+
+    .test-id {
+      color: #3857df;
+      font-weight: 900;
+      font-size: 1rem;
+    }
+
+    .status-stack {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 4px 9px;
+      font-size: 0.8rem;
+      font-weight: 900;
+    }
+
+    .status-not-run { background: #eef4f8; color: #53647c; }
+    .status-pass { background: #e8f7ee; color: #08783e; }
+    .status-fail { background: #fff1f1; color: #c62828; }
+    .status-blocked { background: #fff4dc; color: #a36500; }
+
+    .detail {
+      display: grid;
+      gap: 5px;
+    }
+
+    .detail-title {
+      color: #53647c;
+      font-size: 0.77rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .detail p {
+      margin: 0;
+      color: #172246;
+      font-weight: 650;
+    }
+
+    .detail-muted p {
+      color: #53647c;
+      font-weight: 700;
+    }
+
+    .evidence-box {
+      min-height: 100%;
+      border: 1px solid #dfe3f1;
+      border-radius: 8px;
+      background: #fbfcff;
+      padding: 10px;
+    }
+
+    .evidence-box p {
+      color: #53647c;
+      font-weight: 700;
+    }
+
+    .priority {
+      display: inline-flex;
+      min-width: 42px;
+      justify-content: center;
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-weight: 900;
+      font-size: 0.82rem;
+    }
+
+    .p0 { background: #fff1f1; color: #c62828; }
+    .p1 { background: #fff4dc; color: #a36500; }
+    .p2 { background: #eef0ff; color: #3857df; }
+    .p3 { background: #eef4f8; color: #53647c; }
+
+    .area {
+      font-weight: 850;
+      color: #172246;
+    }
+
+    .footer-note {
+      margin: 14px;
+      color: #d9dfff;
+      font-weight: 700;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 1080px) {
+      .shell {
+        width: min(100% - 20px, 1840px);
+      }
+
+      .test-card {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .evidence-box {
+        min-height: auto;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .shell {
+        width: min(100% - 16px, 1840px);
+        padding-top: 18px;
+      }
+
+      .overview,
+      .stage-heading,
+      .test-card {
+        padding: 12px;
+      }
+
+      .journey-nav,
+      .test-card {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      body {
+        background: white;
+      }
+
+      .overview,
+      .plan-card,
+      .test-card {
+        box-shadow: none;
+      }
+
+      .plan-card {
+        background: white;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="shell">
+    <section class="overview" aria-label="Execution journey overview">
+      <div class="overview-main">
+        <p class="total-line"><strong id="totalTests">236</strong> sequential tests</p>
+        <p class="summary-line">Read-only execution plan. Test 1 is the first test to conduct and Test 236 is the final test; Codex updates status and evidence by editing this HTML artifact.</p>
+      </div>
+      <nav class="journey-nav" id="journeyNav" aria-label="Recommended execution stages"></nav>
+    </section>
+
+    <section class="plan-card" aria-label="Full sequential test checklist">
+      <div class="test-list" id="testRows"></div>
+      <p class="footer-note">Status and evidence are displayed only. There are no browser-side checkboxes, filters, notes fields, or export controls.</p>
+    </section>
+  </main>
+
+  <script>
+    const tests = [];
+    const add = (area, priority, setup, steps, expected, notes = "") => {
+      tests.push({ area, priority, setup, steps, expected, notes });
+    };
+
+    add("Auth and access", "P0", "Local Supabase running; seeded teacher account exists.", "Open the app at http://127.0.0.1:5173/; choose Teacher/Admin; enter j.doe@school.example and Localdev1!; submit.", "Teacher console opens on Dashboard with J. Doe visible and no Local Supabase error.", "Seeded teacher smoke test.");
+    add("Auth and access", "P0", "Local Supabase running; seeded student account exists.", "Open the app; choose Student; enter asingh5827 and Localdev1!; submit.", "Student portal opens with the correct student profile and no demo fallback data.", "");
+    add("Auth and access", "P0", "User is signed out.", "Open /#/teacher/results directly in the browser address bar.", "The app requires authentication and does not expose teacher data before sign-in.", "");
+    add("Auth and access", "P0", "User is signed out.", "Open /#/student/practice directly in the browser address bar.", "The app requires authentication and does not expose student data before sign-in.", "");
+    add("Auth and access", "P0", "Teacher is signed in.", "Attempt to navigate to a student-only route such as /#/student/practice.", "Teacher is kept in the teacher console or receives a safe access-blocked state.", "");
+    add("Auth and access", "P0", "Student is signed in.", "Attempt to navigate to /#/teacher/students.", "Student cannot access teacher/admin pages and no teacher data appears in the DOM.", "");
+    add("Auth and access", "P0", "A student account is set to inactive through teacher Students management.", "Try signing in as that inactive student with the correct password.", "Sign-in is blocked or immediately redirected with a clear inactive account message.", "");
+    add("Auth and access", "P0", "A student has been archived through teacher Students management.", "Try signing in as the archived student.", "Archived student cannot use the app; active rosters and default leaderboards hide the student.", "");
+    add("Auth and access", "P0", ".env.local is temporarily unavailable in a test copy only.", "Start the app and try to sign in.", "The app surfaces a Local Supabase required/config issue and does not fall back to frontend demo data.", "Do not edit production or committed env files.");
+    add("Auth and access", "P1", "Teacher is signed in.", "Click Sign out; use browser back; reload.", "Session is cleared and protected teacher data is not visible after sign-out.", "");
+    add("Auth and access", "P1", "Student is signed in.", "Click Sign out; use browser back; reload.", "Session is cleared and protected student data is not visible after sign-out.", "");
+    add("Auth and access", "P1", "Teacher and student have separate seeded credentials.", "Sign in as teacher; sign out; sign in as student in the same browser.", "Role-specific shell and data change correctly with no stale teacher state.", "");
+
+    add("Student home", "P0", "Student is signed in with bulk seed data loaded.", "Open Student Home.", "Home renders student name, assigned work cue, progress summaries, and leaderboard cues from Supabase.", "");
+    add("Student home", "P1", "Student has outstanding assignments.", "Open Student Home and inspect outstanding assignment cue.", "Outstanding assignment count matches Student Assigned page and excludes completed assignments.", "");
+    add("Student home", "P1", "Student has completed attempts and points.", "Open Home; compare points with Leaderboard/Profile.", "Points are consistent across Home, Profile, and leaderboard views.", "");
+    add("Student home", "P2", "Student has no learning gaps in a test fixture.", "Open Home with that account.", "Learning gaps panel shows an appropriate positive empty state and no placeholder/demo content.", "");
+    add("Student practice", "P0", "Student is signed in and belongs to a class with OCR GCSE access.", "Open Practice; click OCR GCSE Computer Science; click a unit; click a topic.", "Course > Unit > Topic drilldown works and only available tests are shown.", "");
+    add("Student practice", "P0", "Student belongs to class with BTEC AAQ access.", "Open Practice with that student; inspect course list.", "BTEC course is visible only when class-course entitlement permits it.", "");
+    add("Student practice", "P0", "Student belongs only to an OCR GCSE class.", "Open Practice and inspect courses.", "BTEC course is not visible if the class is not entitled to it.", "");
+    add("Student practice", "P1", "Student belongs to multiple active classes with different course entitlements.", "Open Practice and inspect available courses.", "Course list is the union of active entitled classes without duplicates.", "");
+    add("Student practice", "P1", "Practice page is open at course level.", "Use Back/Breadcrumb controls through topic, unit, and course levels.", "Navigation returns to the prior scope without losing selected class/course data.", "");
+    add("Student practice", "P1", "A topic contains one published test.", "Open that topic.", "The test card title uses topic test naming such as 1.1 Programming fundamentals test 1, not Check.", "");
+    add("Student practice", "P2", "A topic has no future resource types published.", "Open that topic.", "No coming soon buttons for revision lesson, tutorial, worksheet, or unavailable resources are visible.", "");
+    add("Student practice", "P1", "Practice test exists and student has not started it.", "Click the test and start it.", "start-test-attempt Edge Function creates a practice attempt and loads student-safe questions/options.", "");
+    add("Student practice", "P1", "Student has an unfinished practice attempt.", "Return to Practice and open the same test.", "Existing unfinished attempt resumes rather than creating an unexpected duplicate in-progress attempt.", "");
+    add("Student assigned", "P0", "Student belongs to an active class with open assignments.", "Open My assignments.", "Persisted assignments for all active class memberships are listed.", "");
+    add("Student assigned", "P0", "Student has a completed assigned test.", "Open My assignments.", "Completed assigned work is not shown as outstanding.", "");
+    add("Student assigned", "P1", "Assignment has a past due date but app rules allow access.", "Open My assignments and start the past-due assignment.", "The assessment starts; due date is treated as planning metadata, not an access block.", "");
+    add("Student assigned", "P1", "Assignment was assigned to selected recipients only.", "Sign in as a selected recipient and then as a non-recipient in the same class.", "Selected recipient sees the assignment; non-recipient does not.", "");
+    add("Student test delivery", "P0", "Student has started a multiple-choice test.", "Select each answer option in a question.", "Blue indicates selected option; green is reserved for correct/success states after marking or review.", "");
+    add("Student test delivery", "P0", "Student has active test loaded.", "Inspect question and options.", "Question text and all options are visible with dark text on light answer cards.", "");
+    add("Student test delivery", "P0", "Student answers question 1.", "Navigate to question 2; refresh browser; return to the attempt.", "Saved answer remains selected after reload/resume.", "");
+    add("Student test delivery", "P0", "Student starts a test and answers several questions.", "Close tab or reload; reopen the attempt.", "Resume position and answers are restored from local Supabase.", "");
+    add("Student test delivery", "P1", "Student is on active test page.", "Use keyboard Tab and Space/Enter to move through answer choices.", "Keyboard user can select answers and navigate questions without mouse.", "");
+    add("Student test delivery", "P1", "Student test has no timers by current product rule.", "Open active test.", "No timer display, countdown, expiry warning, or anti-cheating footer is visible.", "");
+    add("Student test delivery", "P1", "Student answers fewer than all questions.", "Click submit.", "Submit confirmation makes unanswered state clear and prevents accidental submission if confirmation is required.", "");
+    add("Student test delivery", "P0", "Student submits a completed auto-marked MCQ test.", "Submit the test.", "Attempt status changes to completed/marked/released as designed, score and points are calculated server-side.", "");
+    add("Student test review", "P0", "Student has completed test with feedback released.", "Open test summary/review.", "Score, percentage, selected answers, correct answers, and feedback render only after completion/release.", "");
+    add("Student test review", "P1", "Student is viewing completed test summary.", "Download PDF summary.", "Browser downloads a readable PDF with student name, score, question review, and feedback.", "");
+    add("Student test review", "P1", "Student has a completed assigned test.", "Open My Results and expand the relevant unit/topic.", "Completed attempt appears in results under the correct course/unit/topic.", "");
+    add("Student results", "P0", "Student has several attempts across multiple units.", "Open My Results.", "Unit summaries are shown first and topic details are collapsed by default.", "");
+    add("Student results", "P1", "Student is on My Results.", "Expand a unit/topic breakdown.", "Expanded rows show test status, score, points, and completion state from Supabase.", "");
+    add("Student results", "P1", "Student belongs to multiple classes.", "Open My Results.", "Results include attempts from all active memberships and historical attempts without duplication.", "");
+    add("Student profile", "P0", "Student is signed in.", "Open Profile.", "Profile shows display name, Student ID, class, status, points, and leaderboard display data.", "");
+    add("Student profile", "P1", "Teacher has enabled accepting students and copied a join code.", "Student enters valid class code in Profile.", "Student joins the class and the new membership appears after reload.", "");
+    add("Student profile", "P1", "Class accepting students is disabled.", "Student enters that class code.", "Join is rejected with a clear message and no membership is added.", "");
+    add("Student profile", "P1", "Student enters invalid or expired join code.", "Submit the code.", "Error message is clear; no membership is changed.", "");
+    add("Student leaderboard", "P0", "Student is signed in and leaderboard rows exist.", "Open Leaderboard.", "Class leaderboard displays active classmates, ranks, points, and current student position.", "");
+    add("Student leaderboard", "P1", "All-time leaderboard rows exist.", "Switch to all-time view if available.", "All-time rankings are readable and can include historical achievement as designed.", "");
+    add("Student leaderboard", "P1", "Archived students exist in bulk QA data.", "Inspect class leaderboard and all-time leaderboard.", "Archived students are hidden from current class standings but retained where all-time/historical view requires them.", "");
+
+    add("Teacher dashboard", "P0", "Teacher signed in with bulk QA data.", "Open Dashboard.", "Dashboard metrics render for the default active class without loading or Supabase errors.", "");
+    add("Teacher dashboard", "P1", "Dashboard default class is selected.", "Change class selector from 10A Computing to 10B Computing.", "Students, assigned tests, completed tests, averages, and activity update to selected class.", "");
+    add("Teacher dashboard", "P1", "Dashboard topic selector is available.", "Select a specific topic.", "Dashboard summaries and performance table scope to the selected topic without stale rows.", "");
+    add("Teacher dashboard", "P1", "Bulk QA includes many completed attempts.", "Inspect Student Performance Overview.", "Table rank/order, completed counts, average score, points, last active, and status are sensible.", "");
+    add("Teacher dashboard", "P2", "Dashboard has suspicious activity rows.", "Inspect suspicious activity area.", "Rows show student, event type, time, and count without duplicate or unreadable cards.", "");
+    add("Teacher classes", "P0", "Teacher signed in.", "Open Classes.", "Active classes, archived filters, year group filters, and Non-class protection are visible.", "");
+    add("Teacher classes", "P0", "Teacher opens an editable class.", "Click Edit details on 10A Computing; change name temporarily; save.", "Class name saves through Supabase and persists after reload.", "Restore seed value after QA.");
+    add("Teacher classes", "P1", "Class edit panel open.", "Change academic year and year group; save.", "Saved values persist and filters/dropdowns update.", "Restore seed value after QA.");
+    add("Teacher classes", "P0", "Class edit panel open.", "Toggle course entitlement for a class; save.", "class_courses updates and student Practice visibility changes for that class.", "Restore entitlement after QA.");
+    add("Teacher classes", "P1", "Class has accepting students disabled.", "Enable accepting students; copy join code/link.", "Status visibly changes, copy actions work, and student can join with the code.", "");
+    add("Teacher classes", "P1", "Class has a join code.", "Click Regenerate code.", "New code is generated server-side and old code no longer joins.", "");
+    add("Teacher classes", "P0", "Non-class system class exists.", "Try to archive, enable joins, or regenerate code for Non-class.", "Protected system class prevents unsafe actions.", "");
+    add("Teacher classes", "P0", "Class has active students.", "Archive the class.", "archive-class ends active memberships and moves affected students to Non-class where needed.", "Use a disposable class if possible.");
+    add("Teacher classes", "P1", "Disposable class has no students.", "Archive the disposable class.", "Class disappears from active filters and remains archived in historical data.", "");
+    add("Teacher classes", "P1", "Year and status filters are visible.", "Filter by Year 10 active, then archived.", "Class cards match filters and empty states are clear.", "");
+    add("Teacher students", "P0", "Teacher signed in with bulk QA data.", "Open Students.", "Table-first student directory renders bulk students without a blank or slow unusable page.", "");
+    add("Teacher students", "P1", "Students page open.", "Search for Alex Ahmed, Student ID Q00106, and a username.", "Search returns the expected student rows across name, ID, username, class, and status.", "");
+    add("Teacher students", "P1", "Students page open.", "Filter by 10A Computing, then All classes.", "Roster counts and rows update correctly.", "");
+    add("Teacher students", "P0", "Select a student and open Edit.", "Change first name and surname; save; reload.", "Name persists in profile, roster, results, and leaderboards where relevant.", "Restore seed value after QA.");
+    add("Teacher students", "P0", "Selected student edit modal open.", "Check an additional real class membership and save.", "Student gains the new active membership; Practice/Assignments reflect all active classes.", "Restore membership after QA.");
+    add("Teacher students", "P0", "Selected student has multiple memberships.", "Uncheck one membership and save.", "Membership ends without deleting historical attempts or class_id_at_attempt values.", "");
+    add("Teacher students", "P0", "Selected student has no real classes checked.", "Save class memberships.", "Student is assigned to Non-class as fallback and remains manageable.", "");
+    add("Teacher students", "P0", "Selected student edit modal open.", "Set status to inactive; save; try student login.", "Inactive status persists and student access is blocked.", "Restore active after QA.");
+    add("Teacher students", "P0", "Selected student edit modal open.", "Enter manual password of at least 8 characters; save; log in as student.", "Password reset runs server-side and new password works.", "Restore Localdev1! if needed.");
+    add("Teacher students", "P0", "Selected student edit modal open.", "Generate temporary password.", "Generated password is exactly 8 characters, visible to teacher, and works for login.", "Restore Localdev1! if needed.");
+    add("Teacher students", "P0", "Selected disposable student exists.", "Archive/delete the student from edit modal.", "Student is archived, access is blocked, active memberships end, and historical results remain.", "Use disposable QA account.");
+    add("Teacher students", "P1", "Students table row has Activity action.", "Open Activity for a student with bulk activity events.", "Activity dialog shows page visits and timestamps from Supabase.", "");
+    add("Teacher courses", "P0", "Teacher signed in.", "Open Courses.", "Course page renders OCR and BTEC course entries with counts and clear exploration affordance.", "");
+    add("Teacher courses", "P1", "Courses page open.", "Open OCR GCSE Computer Science; open 1. Programming.", "Unit and topic drilldown works and content counts match available tests.", "");
+    add("Teacher courses", "P1", "Topic contains test resources.", "Open topic resource list.", "Each test displays title, version, question count, duration, marking method, and status.", "");
+    add("Teacher courses", "P1", "Course page open with BTEC content seeded.", "Open BTEC course and a unit/topic.", "BTEC units/topics/tests render without mixing OCR numbering or content.", "");
+    add("Teacher courses", "P2", "Course page loaded.", "Inspect visible copy.", "No developer-facing MVP notes or coming-later resource buttons are visible.", "");
+    add("Teacher assignments", "P0", "Teacher signed in.", "Open Assignments.", "Create assignment, Active Assignments, and Expired Assignments tabs render.", "");
+    add("Teacher assignments", "P0", "Create assignment tab open.", "Select class, course, unit, topic, and one test.", "Selection summary counts one selected test and create button enables.", "");
+    add("Teacher assignments", "P1", "Topic has one or more tests.", "Click Select all for that topic, then Clear topic.", "All tests under topic are selected and then cleared; counts update accurately.", "");
+    add("Teacher assignments", "P0", "Create assignment tab has selected recipients.", "Select selected-student recipient mode and choose several students; create assignment.", "Assignment writes test_assignments and assignment_recipients rows for selected students only.", "");
+    add("Teacher assignments", "P0", "Create assignment tab has class recipient mode.", "Select class-wide assignment and create it with no deadline.", "Assignment is created, visible in Active Assignments, and assigned students can see it.", "");
+    add("Teacher assignments", "P1", "Create assignment has optional deadline.", "Create assignment with future deadline.", "Active Assignments shows date created, class, topic, deadline, and remains active before deadline.", "");
+    add("Teacher assignments", "P1", "Create assignment has past deadline in local QA.", "Open Expired Assignments.", "Expired tab shows only assignments with due_at in the past.", "");
+    add("Teacher assignments", "P1", "Active Assignments tab open.", "Filter by class, course, unit, and topic.", "Rows narrow correctly and filter text remains readable on dark panel.", "");
+    add("Teacher assignments", "P1", "Expired Assignments tab open.", "Use same filters.", "Expired rows narrow correctly with no duplicate selected-scope summary card.", "");
+    add("Teacher assignments", "P1", "Assignment has recipients.", "Click View students or progress modal.", "Modal lists every recipient, status, score, points, and deadline outcome.", "");
+    add("Teacher assignments", "P0", "Assignment has no attempts.", "Delete the assignment.", "Assignment is permanently deleted and removed from Active/Expired lists.", "Use disposable assignment.");
+    add("Teacher assignments", "P0", "Assignment has attempt history.", "Delete/archive the assignment.", "Assignment is archived/hidden while historical Results data remains intact.", "Use disposable assignment.");
+    add("Teacher results", "P0", "Teacher signed in with bulk QA data.", "Open Results.", "Results matrix renders for default class/course without blank page or console errors.", "");
+    add("Teacher results", "P0", "Results filter panel collapsed.", "Inspect Result filters trigger text.", "Helper text Change the class, course, topic or due-date view is high contrast on dark panel.", "");
+    add("Teacher results", "P0", "Results filter panel open.", "Inspect Class, Course, Unit, Topic, Due from, Due to controls.", "All filter labels and selected values are visible, dark text on white controls, no clipped course names.", "");
+    add("Teacher results", "P0", "Results filters open.", "Filter to 10A Computing, OCR GCSE Computer Science, 1. Programming, 1.1 Programming fundamentals.", "Matrix shows only matching tests and current roster/historical-attempt students.", "");
+    add("Teacher results", "P1", "Results filters open.", "Switch class from 10A Computing to 10B Computing.", "Roster columns, averages, assignments, and rows update for selected class.", "");
+    add("Teacher results", "P1", "Results filters open.", "Switch course from OCR to BTEC for an entitled IT class.", "Unit/topic options and matrix rows change to BTEC content.", "");
+    add("Teacher results", "P1", "Date filters visible.", "Enable date filter; set custom due from and due to; inspect rows.", "Only tests with assignment deadlines in range are shown; date inputs remain editable.", "");
+    add("Teacher results", "P1", "Date filter disabled.", "Change date values while unchecked.", "Values remain editable but do not filter until checkbox is checked.", "");
+    add("Teacher results", "P1", "Results matrix wider than viewport.", "Use top horizontal scrollbar and lower table scrollbar.", "Scroll positions stay synchronized and sticky Test/Due date/Class avg columns remain aligned.", "");
+    add("Teacher results", "P1", "Results matrix has unit summary rows.", "Inspect each unit boundary.", "Lavender unit summary row appears once per unit and shows class/student unit averages.", "");
+    add("Teacher results", "P1", "Results matrix has sortable student columns if implemented.", "Click a student score header/sort control.", "Rows sort by that student score and preserve unit summary grouping as designed.", "");
+    add("Teacher results", "P0", "Student name header is clickable.", "Click a student name in Results.", "Course-performance modal opens with overall average, marks, completed tests, best score, points, and unit breakdown.", "");
+    add("Teacher results", "P1", "Student performance modal open.", "Click Download PDF.", "Browser downloads a PDF matching the visible performance report.", "");
+    add("Teacher results", "P0", "Student moved class after old attempts.", "View old class Results and new class roster.", "Old attempts remain under class_id_at_attempt; current roster uses active membership.", "");
+    add("Teacher leaderboards", "P0", "Teacher signed in with bulk leaderboard rows.", "Open Leaderboards.", "Class-specific standings view renders ranks, names, points, and statuses.", "");
+    add("Teacher leaderboards", "P1", "Leaderboards page open.", "Filter by class and year group.", "Rows update to matching students without stale names or duplicates.", "");
+    add("Teacher leaderboards", "P1", "Archived students exist.", "Inspect class-specific and all-time standings.", "Archived students are hidden from default active class standings and retained only where historical view requires.", "");
+    add("Teacher settings", "P1", "Teacher signed in.", "Open Settings.", "Settings page renders with any available safe local controls and no developer-only placeholders.", "");
+    add("Teacher settings", "P2", "Settings controls exist.", "Change a non-destructive setting and save.", "Change persists only if the feature is implemented; otherwise control clearly indicates unavailable state without fake save.", "");
+
+    add("Admin journey", "P0", "Admin role exists or is created in local test data.", "Sign in as admin account.", "Admin shell or elevated teacher console opens with admin role recognized.", "If admin account is not seeded, mark blocked and create explicit seed task.");
+    add("Admin journey", "P0", "Admin signed in.", "Open classes/students across more than one teacher if multi-teacher data exists.", "Admin can access permitted cross-teacher data while normal teacher cannot.", "");
+    add("Admin journey", "P0", "Normal teacher signed in.", "Attempt to access another teacher class/student through direct URL or API.", "Access is denied by RLS or Edge Function checks.", "");
+    add("Admin journey", "P1", "Admin signed in.", "Create or edit a class owned by a teacher if admin workflow exists.", "Class saves with correct owner and audit log.", "");
+    add("Admin journey", "P1", "Admin signed in.", "Archive a class with students if admin workflow exists.", "Archive behavior matches teacher archive rules and audit log identifies admin actor.", "");
+    add("Admin journey", "P1", "Admin signed in.", "Reset a student password if admin workflow exists.", "Password reset succeeds server-side and is audited.", "");
+    add("Admin journey", "P1", "Admin signed in.", "Review suspicious activity across classes if implemented.", "Admin sees appropriate cross-class activity with no private answer leakage.", "");
+    add("Admin journey", "P1", "Admin signed in.", "Export or inspect results across classes if implemented.", "Admin report respects historical class_id_at_attempt and current roster rules.", "");
+    add("Admin journey", "P2", "Admin feature not yet implemented.", "Open any route or control marked admin-only.", "Unavailable admin feature has an honest blocked/not implemented state, not a fake working UI.", "");
+    add("Admin journey", "P0", "Admin account exists.", "Inspect frontend network/env and DOM.", "No service role key, private credentials, or privileged marking logic are exposed to admin browser.", "");
+
+    add("Database and migrations", "P0", "Fresh local Supabase is available in disposable environment.", "Run npx.cmd supabase db reset --local.", "All migrations apply and supabase/seed.sql replays without error.", "Use disposable local DB only.");
+    add("Database and migrations", "P0", "After reset.", "Run documented seed count query for units, topics, tests, questions, options.", "Counts match expected current seed values: 8 OCR units, 41 OCR topics/tests, 205 questions, 820 options.", "");
+    add("Database and migrations", "P1", "After reset.", "Verify check slugs and test-1 slugs.", "Generated tests use *-test-1 slugs and zero *-check slugs remain.", "");
+    add("Database and migrations", "P0", "Running local DB with seed applied.", "Run npx.cmd supabase migration up --local after git pull.", "Pending migrations apply; app schema columns such as classes.join_code exist.", "");
+    add("Database and migrations", "P0", "Running local DB.", "Run npx.cmd supabase migration list --local.", "Local migration list shows all expected migrations applied.", "");
+    add("Database and migrations", "P0", "Running local DB.", "Run npx.cmd supabase test db --local supabase\\tests.", "pgTAP RLS suite passes all current checks.", "");
+    add("Database and migrations", "P0", "Running local DB.", "Verify RLS enabled on every public table.", "Every exposed public table has RLS enabled.", "");
+    add("Database and migrations", "P0", "Running local DB.", "Query for duplicate active class membership rows for same class/student.", "No duplicate active class_memberships exist for same class/student.", "");
+    add("Database and migrations", "P0", "Student moved classes.", "Query test_attempts.class_id_at_attempt before and after move.", "Historical attempt class ID is unchanged by current membership changes.", "");
+    add("Database and migrations", "P1", "Bulk QA seed approved.", "Apply supabase/qa_bulk_seed.sql through Docker copy and psql.", "Audit row bulk_classroom_qa_seed_applied appears; 250 active students and 10 active classes exist.", "");
+    add("Database and migrations", "P1", "Bulk QA seed already applied.", "Apply the bulk seed again in disposable environment.", "Script remains repeatable or documented non-repeatable; no uncontrolled duplicates appear.", "");
+    add("Database and migrations", "P1", "Running local DB.", "Verify class_courses rows for each active class.", "Each active class has intended course entitlements and student Practice follows them.", "");
+    add("Database and migrations", "P1", "Running local DB.", "Verify assignment_recipients for selected-recipient assignments.", "Recipient table contains only intended students.", "");
+    add("Database and migrations", "P1", "Running local DB.", "Verify audit_logs after student edit, class archive, password reset, and bulk seed.", "Expected audit action names are recorded with actor and target context.", "");
+    add("Database and migrations", "P1", "Running local DB.", "Inspect auth.users for seeded accounts.", "Seeded local accounts are confirmed, synthetic @students.local emails are local-only.", "");
+
+    add("API and Edge Functions", "P0", "Local Supabase status shows FUNCTIONS_URL.", "Call start-test-attempt with valid student token and published test.", "Function returns student-safe attempt payload with no correct answers leaked.", "");
+    add("API and Edge Functions", "P0", "Student has in-progress attempt.", "Call save-answer with valid answer payload.", "student_answers upserts answer for that attempt only and returns success.", "");
+    add("API and Edge Functions", "P0", "Student has in-progress attempt.", "Call submit-test-attempt.", "Attempt transitions to submitted/marked/released as designed and score is calculated server-side.", "");
+    add("API and Edge Functions", "P0", "Student token for another student's attempt.", "Call save-answer or submit-test-attempt for the other attempt.", "Function rejects access and no data changes.", "");
+    add("API and Edge Functions", "P0", "Teacher token.", "Call update-student-account for owned student name/status/class change.", "Function updates allowed fields and writes audit log.", "");
+    add("API and Edge Functions", "P0", "Teacher token.", "Call update-student-account to move student into another teacher's class.", "Function rejects cross-teacher class move.", "");
+    add("API and Edge Functions", "P0", "Teacher token.", "Call reset-student-password with manual 8+ character password.", "Auth Admin password update succeeds and audit log records student_password_reset.", "");
+    add("API and Edge Functions", "P0", "Teacher token.", "Call reset-student-password with generate flag.", "Function returns exact 8-character temporary password and it works for login.", "");
+    add("API and Edge Functions", "P0", "Teacher token and protected Non-class.", "Call archive-class on Non-class.", "Function rejects protected system class archive.", "");
+    add("API and Edge Functions", "P0", "Teacher token and active class.", "Call regenerate-class-code.", "New unique join code is stored; prior code no longer joins.", "");
+    add("API and Edge Functions", "P1", "Student token and valid join code.", "Call join-class-by-code.", "Active membership is created idempotently and duplicate repeat call is safe.", "");
+    add("API and Edge Functions", "P1", "Student token and accepting_students false.", "Call join-class-by-code.", "Function rejects join with clear error.", "");
+    add("API and Edge Functions", "P1", "Teacher token and suspicious action.", "Call log-attempt-event if implemented.", "Attempt event is recorded with correct student/attempt ownership.", "");
+    add("API and Edge Functions", "P1", "Teacher token and assigned attempt.", "Call reset-assigned-attempt if implemented.", "Attempt reset is allowed only for owned class/student and is audited.", "");
+    add("API and Edge Functions", "P0", "Browser dev tools/network open.", "Exercise Edge Function calls from UI.", "Requests never include service-role key or private server secrets.", "");
+
+    add("Marking", "P0", "Auto-marked MCQ test exists.", "Submit all correct answers.", "Score equals full marks and feedback identifies correct selections after release.", "");
+    add("Marking", "P0", "Auto-marked MCQ test exists.", "Submit mixed correct/incorrect answers.", "Score and percentage match option correctness stored in database.", "");
+    add("Marking", "P0", "Student browser queries question_options table directly through anon/auth client.", "Attempt direct read as student.", "RLS denies staff-only correctness data and correct answers are not exposed.", "");
+    add("Marking", "P1", "Test version marking_method is Auto-marked.", "View teacher Courses and active test details.", "Marking method label is Auto-marked and consistent across resource views.", "");
+    add("Marking", "P1", "AI-reviewed marking method test exists in fixture or test data.", "Open resource and attempt flow if supported.", "UI labels AI-reviewed honestly and does not call AI from browser.", "");
+    add("Marking", "P1", "Teacher-marked test exists in future fixture.", "Submit attempt.", "Attempt remains awaiting teacher marking with clear status and no fake auto score.", "");
+    add("Marking", "P1", "Self-marked test exists in future fixture.", "Submit attempt.", "Self-marking flow is clear and points/results follow configured policy.", "");
+    add("Marking", "P0", "Completed attempts exist before test content edit.", "Change or publish new test version in future authoring workflow.", "Historic attempts remain tied to original test_version_id and scores do not change.", "");
+
+    add("Notifications and activity", "P1", "Bulk activity data loaded.", "Open Teacher Students Activity for a representative student.", "Activity timeline shows stored page_view events with local timestamps.", "");
+    add("Notifications and activity", "P1", "Student navigates pages.", "Open Home, Practice, Assigned, Results.", "Activity logging records page visits without excessive duplicates.", "");
+    add("Notifications and activity", "P1", "Attempt event logging is enabled.", "Switch tab, paste, or focus loss if monitored.", "Suspicious activity count increments and appears in teacher activity views.", "");
+    add("Notifications and activity", "P2", "Notification bell/control visible if implemented.", "Open notification control.", "Only real notifications or clear empty state are shown; no dead placeholder content.", "");
+    add("Notifications and activity", "P2", "Teacher dashboard has recent activity.", "Inspect Recent Test Activity.", "Dates, student names, assigned/completed counts, and flags match database records.", "");
+    add("Notifications and activity", "P1", "Student completes assignment.", "Check teacher dashboard/activity.", "Completion appears without refresh or after explicit reload according to app refresh model.", "");
+    add("Notifications and activity", "P1", "Assignment recipient progress modal open.", "Compare modal to student attempt data.", "Status, score, points, and deadline outcome match test_attempts and assignment due_at.", "");
+    add("Notifications and activity", "P2", "No activity exists for a student.", "Open Activity dialog.", "Empty state is clear and not visually broken.", "");
+
+    add("Accessibility", "P0", "Teacher sign-in page open.", "Navigate complete sign-in flow using keyboard only.", "Focus order is logical and visible; submit works with Enter.", "");
+    add("Accessibility", "P0", "Student active test page open.", "Navigate questions/options with keyboard only.", "Every actionable control is reachable, visible on focus, and operable.", "");
+    add("Accessibility", "P1", "Teacher Results filters open.", "Use Tab through filter trigger and controls.", "Focus ring is visible on dark panel; helper text remains high contrast.", "");
+    add("Accessibility", "P1", "Teacher modals open.", "Open student edit, activity, assignment progress, and performance report modals.", "Focus starts in modal, Escape/Close works, background click behavior is intentional, and labels are accessible.", "");
+    add("Accessibility", "P1", "Tables visible.", "Inspect Results and Assignments with screen-reader snapshot or semantic tree.", "Tables have useful headers, row headers, labels, and no duplicate confusing headings.", "");
+    add("Accessibility", "P1", "Colour-sensitive states visible.", "Inspect selected answer, correct answer, error, success, status indicators.", "Colour is supported by text/icon/state, not colour alone.", "");
+    add("Accessibility", "P2", "Browser zoom at 200 percent.", "Open teacher Results and student Practice.", "Content remains readable and controls do not overlap.", "");
+    add("Accessibility", "P2", "Reduced motion preference enabled.", "Navigate app.", "Animations/transitions do not block interaction or cause excessive motion.", "");
+
+    add("Responsive layouts", "P0", "Desktop viewport 1366x768.", "Open teacher Dashboard, Students, Assignments, Results, Courses.", "Shell uses available width, no unnecessary max-width caps, key controls readable.", "");
+    add("Responsive layouts", "P1", "Narrow laptop viewport 1024x768.", "Open teacher Results filters.", "Filters wrap cleanly and long course text remains readable.", "");
+    add("Responsive layouts", "P1", "Phone-sized viewport 430x844.", "Open student Home, Practice, Assigned, Results, Profile, Leaderboard.", "Student mobile shell works with bottom navigation and no overlapping text.", "");
+    add("Responsive layouts", "P1", "Phone-sized viewport 430x844.", "Open teacher Results.", "Teacher page remains usable enough for emergency checks or clearly prioritizes desktop without blank first paint.", "");
+    add("Responsive layouts", "P1", "Bulk QA has 25 students per class.", "Open Results at desktop and scroll horizontally.", "Large matrix remains usable with sticky headers/columns and no hidden filter controls.", "");
+    add("Responsive layouts", "P2", "Large desktop 1920x1080.", "Open teacher pages.", "Primary work surfaces expand across available width and avoid sparse capped layouts.", "");
+    add("Responsive layouts", "P2", "Small laptop 1280x720.", "Open Assignments create flow.", "Tabs, filters, selection rows, and create button are visible without awkward overlap.", "");
+
+    add("Performance", "P0", "Bulk QA seed with 250 active students loaded.", "Open teacher Results for 10A Computing.", "Initial page becomes interactive within acceptable local threshold and no browser freeze occurs.", "");
+    add("Performance", "P1", "Bulk QA seed loaded.", "Switch Results class and topic filters several times.", "Filter updates complete promptly and do not leak duplicate rows.", "");
+    add("Performance", "P1", "Bulk QA seed loaded.", "Open Students page and search repeatedly.", "Search remains responsive and table does not lock the browser.", "");
+    add("Performance", "P1", "Bulk QA seed loaded.", "Open Dashboard and Leaderboards.", "Pages render without excessive network waterfalls or console warnings.", "");
+    add("Performance", "P1", "Build command available.", "Run npm.cmd run build.", "Production build completes with only known chunk-size warning, or chunk warning is tracked for code-splitting.", "");
+    add("Performance", "P2", "Network throttling enabled in browser dev tools.", "Open student assigned test.", "Loading states are clear and user is not shown blank app for long periods.", "");
+    add("Performance", "P2", "Results PDF generation available.", "Generate student performance PDF for student with many unit rows.", "PDF generation completes without freezing the UI for an unreasonable period.", "");
+
+    add("Reliability and error handling", "P0", "Local Supabase stopped deliberately.", "Open app and try sign-in.", "App shows clear Local Supabase issue instead of crashing or showing fake data.", "");
+    add("Reliability and error handling", "P0", "Edge Runtime stopped deliberately.", "Try to start an assessment.", "App shows actionable Edge Function/local Supabase error and does not create inconsistent attempt state.", "");
+    add("Reliability and error handling", "P1", "Network temporarily offline after app loaded.", "Try save-answer.", "User receives clear save failure and can retry without losing prior saved answers.", "");
+    add("Reliability and error handling", "P1", "Two browser tabs open same active attempt.", "Answer in both tabs and submit from one.", "App prevents or safely handles conflicting updates.", "");
+    add("Reliability and error handling", "P1", "Student clicks submit repeatedly.", "Double-click submit button or press Enter multiple times.", "Only one final submission is recorded; UI prevents duplicate submits.", "");
+    add("Reliability and error handling", "P1", "Teacher creates assignment then reloads immediately.", "Create assignment; reload Active Assignments.", "Assignment persists or failure is clearly shown; no ghost assignment in UI.", "");
+    add("Reliability and error handling", "P1", "Supabase schema out of date in disposable DB.", "Run app before migrations; attempt login.", "Error points to local migration issue such as missing column and docs/start process covers migration up.", "");
+    add("Reliability and error handling", "P2", "Large table has empty result set.", "Apply filters with no matches.", "Empty state is clear and does not leave stale previous rows visible.", "");
+
+    add("Security", "P0", "Student signed in.", "Attempt direct REST read of questions/question_options/correct answers.", "RLS denies protected fields/tables; correct answers are not exposed to student browser.", "");
+    add("Security", "P0", "Teacher signed in.", "Attempt direct REST update of student_profiles row.", "RLS denies direct teacher profile edits; Edge Function is required.", "");
+    add("Security", "P0", "Teacher signed in.", "Attempt REST update of class not owned by teacher.", "RLS denies update.", "");
+    add("Security", "P0", "Anon/no token.", "Call REST private tables and Edge Functions.", "Requests are denied.", "");
+    add("Security", "P0", "Browser source/dev tools open.", "Search app bundle and network for service-role key, secret key, AI keys, correct answers.", "No server secrets or private marking data appear in frontend.", "");
+    add("Security", "P1", "Student changes username/password fields manually in dev tools if possible.", "Submit tampered payloads to Edge Functions.", "Server validates identity from JWT and rejects unauthorized changes.", "");
+    add("Security", "P1", "Teacher tries reset password for inaccessible student.", "Call reset-student-password with other teacher student ID.", "Function rejects and audit does not record false success.", "");
+    add("Security", "P1", "Archived student token exists.", "Use existing session token after archive.", "Sensitive operations are blocked or session is invalidated according to security design.", "");
+    add("Security", "P1", "Class join code leaked to unauthorized student.", "Try valid code while signed in as unrelated student.", "Join succeeds only when class accepting_students is true and is audited.", "");
+    add("Security", "P1", "Input fields accept text.", "Enter script tags into class name/student name in disposable record.", "Rendered UI escapes content and no script executes.", "");
+    add("Security", "P1", "PDF export available.", "Generate PDFs with unusual names/symbols.", "PDF content is escaped and valid.", "");
+    add("Security", "P2", "Audit logs exist.", "Perform sensitive operations.", "Audit trail records actor, action, target, and time for later investigation.", "");
+
+    add("User acceptance", "P0", "Teacher persona with bulk QA data.", "Create assignment for 10A Computing topic 1.1, selected recipients, future deadline.", "Teacher can confidently assign a real test resource to intended students.", "");
+    add("User acceptance", "P0", "Student persona in selected recipients.", "Student opens My assignments and starts assigned test.", "Student sees only their assigned work and can start without teacher help.", "");
+    add("User acceptance", "P0", "Student completes assigned test.", "Submit, review summary, return to My Results.", "Student understands score, feedback, and where the result lives.", "");
+    add("User acceptance", "P0", "Teacher reviews same assignment.", "Open Active/Expired assignment progress and Results matrix.", "Teacher can see who completed, scores, and class/topic performance.", "");
+    add("User acceptance", "P1", "Teacher moves student to another class.", "Move student after completed attempt.", "Teacher understands old score remains with old class historical results and new roster changes current views.", "");
+    add("User acceptance", "P1", "Teacher wants to inspect one student's performance.", "Click student name in Results and download PDF.", "Teacher gets usable course performance summary suitable for parent/student discussion.", "");
+    add("User acceptance", "P1", "Teacher wants class-level intervention.", "Filter Results by unit and topic.", "Teacher can identify weak unit/topic patterns without duplicated filter summary text.", "");
+    add("User acceptance", "P1", "Student wants practice choice.", "Open Practice and navigate all levels.", "Student understands course, unit, topic, and available tests without seeing unavailable future resource buttons.", "");
+    add("User acceptance", "P2", "Teacher scans dashboard.", "Use Dashboard for one class.", "Teacher sees actionable current class performance, assignments, and alerts without visual clutter.", "");
+    add("User acceptance", "P2", "User checks visual theme.", "Scan teacher and student pages.", "Light backgrounds use dark panels or dark cards use light nested controls consistently.", "");
+
+    add("Regression and release", "P0", "Before release branch or push.", "Run npm.cmd run typecheck.", "TypeScript passes.", "");
+    add("Regression and release", "P0", "Before release branch or push.", "Run npm.cmd run lint.", "ESLint passes.", "");
+    add("Regression and release", "P0", "Before release branch or push.", "Run npm.cmd run test.", "Unit tests pass.", "");
+    add("Regression and release", "P0", "Before release branch or push.", "Run npm.cmd run build.", "Production build passes; known warnings are documented.", "");
+    add("Regression and release", "P0", "Before release branch or push.", "Run npx.cmd supabase test db --local supabase\\tests.", "Database/RLS test suite passes.", "");
+    add("Regression and release", "P0", "After git pull.", "Run npx.cmd supabase migration up --local, then migration list.", "Local database schema matches pulled code.", "");
+    add("Regression and release", "P1", "Before release branch or push.", "Run git diff --check.", "No whitespace errors.", "");
+    add("Regression and release", "P1", "Before release branch or push.", "Run browser smoke across Teacher Dashboard, Students, Assignments, Results, Courses, Leaderboards.", "Core teacher pages load, no framework overlay, no console errors.", "");
+    add("Regression and release", "P1", "Before release branch or push.", "Run browser smoke across Student Home, Practice, Assigned, Active Test, Results, Profile, Leaderboard.", "Core student pages load, no framework overlay, no console errors.", "");
+    add("Regression and release", "P1", "Before handing over to another Codex/computer.", "Update docs/HANDOVER.md and docs/PROJECT_TASKS.md if product state changed.", "Next agent can pull, read docs, run dependencies, migrate, seed, and start the site.", "");
+    add("Regression and release", "P1", "Before production launch decision.", "Review backup/restore plan and production migration process.", "Production data protection and rollback plan are documented and tested.", "");
+    add("Regression and release", "P1", "Before production launch decision.", "Review environment variables and deployment settings.", "Only publishable frontend key is exposed; service secrets live only server-side.", "");
+    add("Regression and release", "P2", "After visual changes.", "Run screenshot QA on affected desktop/narrow/mobile viewports.", "Changed page remains readable with no overlap/clipping.", "");
+    add("Regression and release", "P2", "After docs/process changes.", "Search docs/code for stale old wording.", "Old terms such as Tests page, Check titles, or demo fallback do not reappear incorrectly.", "");
+    add("Regression and release", "P2", "After local QA creates temporary rows.", "Restore seed values or document local-only dirty DB state.", "Handover makes clear what is Git-tracked and what only exists in local Supabase.", "");
+
+    const journeyStages = [
+      {
+        id: "environment-data-readiness",
+        title: "Environment and Data Readiness",
+        description: "Bring the local project, migrations, deterministic seeds, QA bulk data, and core database checks into a known-good state before testing app journeys.",
+        sources: [227, 127, 128, 124, 125, 126, 133, 134, 135, 136, 138, 131]
+      },
+      {
+        id: "authentication-role-access",
+        title: "Authentication and Role Access",
+        description: "Confirm normal teacher/student sign-in, protected-route redirects, role isolation, sign-out, and session switching before editing data.",
+        sources: [1, 2, 3, 4, 5, 6, 10, 11, 12]
+      },
+      {
+        id: "teacher-setup",
+        title: "Teacher Setup",
+        description: "Exercise teacher dashboard, class setup, student management, course browsing, settings, and assignment creation before students use the work.",
+        sources: [51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75, 76, 77, 78, 79, 80, 81, 82, 112, 113, 83, 84, 85, 86, 87, 88, 89, 90, 91, 92, 93, 94]
+      },
+      {
+        id: "student-learning-test-completion",
+        title: "Student Learning and Test Completion",
+        description: "Follow the student journey through home, practice, assignments, active tests, submission, review, results, profile, and leaderboard views.",
+        sources: [13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50]
+      },
+      {
+        id: "teacher-marking-results",
+        title: "Teacher Marking and Results",
+        description: "Verify marking behaviour, results matrices, historical class reporting, leaderboards, notifications, and activity after student attempts exist.",
+        sources: [154, 155, 156, 157, 158, 159, 160, 161, 95, 96, 97, 98, 99, 100, 101, 102, 103, 104, 105, 106, 107, 108, 109, 110, 111, 162, 163, 164, 165, 166, 167, 168, 169]
+      },
+      {
+        id: "permissions-security-data-integrity",
+        title: "Permissions, Security and Data Integrity",
+        description: "Probe admin visibility, RLS, Edge Function boundaries, archived/inactive access, audit trails, historical attempt ownership, secrets, and tampered payloads.",
+        sources: [7, 8, 114, 115, 116, 117, 118, 119, 120, 121, 122, 123, 129, 130, 132, 137, 139, 140, 141, 142, 143, 144, 145, 146, 147, 148, 149, 150, 151, 152, 153, 200, 201, 202, 203, 204, 205, 206, 207, 208, 209, 210, 211]
+      },
+      {
+        id: "resilience-accessibility-responsive",
+        title: "Resilience, Accessibility and Responsive Layouts",
+        description: "Test degraded local services, network failures, duplicate submits, empty states, keyboard access, colour semantics, zoom, motion, and responsive layouts.",
+        sources: [192, 193, 9, 194, 195, 196, 197, 198, 199, 170, 171, 172, 173, 174, 175, 176, 177, 178, 179, 180, 181, 182, 183, 184]
+      },
+      {
+        id: "performance-scale",
+        title: "Performance and Scale",
+        description: "Use the bulk QA dataset to check large results, student search, dashboard/leaderboard render, build output, throttled loads, and PDF generation.",
+        sources: [185, 186, 187, 188, 189, 190, 191]
+      },
+      {
+        id: "release-regression-uat",
+        title: "Release Regression and UAT",
+        description: "Run end-to-end acceptance scenarios, automated release checks, smoke tests, docs/handover checks, launch readiness, and final local data cleanup.",
+        sources: [212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 228, 229, 230, 234, 235, 231, 232, 233, 236]
+      }
+    ];
+
+    // Codex updates this object directly as tests are run. The browser renders it read-only.
+    const assistantResults = {
+      "test-1": {
+        status: "pass",
+        evidence: "2026-07-29: npx.cmd supabase migration up --local returned applied=[]; migration list --local listed 27 local migrations through 20260729145825."
+      },
+      "test-2": {
+        status: "pass",
+        evidence: "2026-07-29: explicit rerun of npx.cmd supabase migration up --local returned applied=[]; no pending local migrations."
+      },
+      "test-3": {
+        status: "pass",
+        evidence: "2026-07-29: npx.cmd supabase migration list --local listed 27 migrations with local history present through 20260729145825."
+      },
+      "test-4": {
+        status: "pass",
+        evidence: "2026-07-29: user approved destructive local reset; npx.cmd supabase db reset --local completed, applied all migrations through 20260729145825, replayed supabase/seed.sql, and restarted containers."
+      },
+      "test-5": {
+        status: "pass",
+        evidence: "2026-07-29: base seed count query returned total units=12, topics=41, tests=41, questions=205, options=820; subject breakdown confirms OCR GCSE units=8 and BTEC units=4."
+      },
+      "test-6": {
+        status: "pass",
+        evidence: "2026-07-29: slug/title regression SQL returned test_1_slugs=41, check_slugs=0, check_titles=0."
+      },
+      "test-7": {
+        status: "pass",
+        evidence: "2026-07-30: docker cp + psql applied supabase/qa_bulk_seed.sql. Audit detail recorded active_classes=10, active_students=250; DB has 10 active real classes, 250 active students, 94 assignments, 3142 attempts, 51 assignment_recipients, and one bulk_classroom_qa_seed_applied audit row."
+      },
+      "test-8": {
+        status: "pass",
+        evidence: "2026-07-30: fixed and verified. The patched qa_bulk_seed.sql is safely rerunnable. Counts stayed stable at 10 active real classes, 250 active students, 94 assignments, 3142 attempts, 51 assignment_recipients, and one bulk_classroom_qa_seed_applied audit row; temporary helper state is cleaned or safely handled."
+      },
+      "test-9": {
+        status: "pass",
+        evidence: "2026-07-29: class_courses check found all 10 active real classes have one intended entitlement: GCSE classes map to OCR GCSE Computer Science, IT classes map to Pearson BTEC Level 3 National Extended Certificate in IT; missing/orphan entitlement counts were 0/0/0."
+      },
+      "test-10": {
+        status: "pass",
+        evidence: "2026-07-30: fixed and verified. Bulk QA seed now creates selected-recipient fixture rows including the Stage 4 completed-open and past-due assignment scenarios. Current count is 51 assignment_recipients. Integrity checks found selected_without_recipients=0, class_scope_with_recipient_rows=0, recipient_without_active_membership=0, selected_attempts_for_non_recipients=0."
+      },
+      "test-11": {
+        status: "pass",
+        evidence: "2026-07-29: auth inspection found 301 auth users linked to 301 profiles: 250 active students, 50 archived students, 1 active teacher; email domains are 300 @students.local and 1 @school.example with 0 other domains."
+      },
+      "test-12": {
+        status: "pass",
+        evidence: "2026-07-29: duplicate active same-class membership query returned 0; membership status counts are active=250 and ended=50."
+      },
+      "test-13": {
+        status: "pass",
+        evidence: "2026-07-29: signed in via Teacher/Admin as j.doe@school.example; app opened #/teacher Dashboard with J. Doe visible, no Local Supabase issue, and no console errors/warnings."
+      },
+      "test-14": {
+        status: "pass",
+        evidence: "2026-07-29: signed in via Student as asingh5827; app opened #/student with A Singh/Ananya, live assignment/progress/leaderboard data from Supabase, no demo fallback text, and no console errors/warnings."
+      },
+      "test-15": {
+        status: "pass",
+        evidence: "2026-07-29: while signed out, direct navigation to #/teacher/results redirected to #/ sign-in; DOM showed only sign-in controls and exposed no teacher Results data."
+      },
+      "test-16": {
+        status: "pass",
+        evidence: "2026-07-29: while signed out, direct navigation to #/student/practice redirected to #/ sign-in; DOM showed only sign-in controls and exposed no student Practice/course/profile data."
+      },
+      "test-17": {
+        status: "pass",
+        evidence: "2026-07-29: signed in as teacher then navigated to #/student/practice; app safely redirected to #/ sign-in and exposed no Student portal, A Singh, assignments, or student Practice data."
+      },
+      "test-18": {
+        status: "pass",
+        evidence: "2026-07-29: signed in as student then navigated to #/teacher/students; app safely redirected to #/ sign-in and exposed no Teacher console, J. Doe, student-directory, or create-student data."
+      },
+      "test-19": {
+        status: "pass",
+        evidence: "2026-07-29: signed in as teacher, clicked Sign out, used browser Back and reloaded; page stayed on sign-in and no Teacher console, J. Doe, class-progress, or Results data was visible."
+      },
+      "test-20": {
+        status: "pass",
+        evidence: "2026-07-29: signed in as student, clicked Sign out, used browser Back and reloaded; page stayed on sign-in and no Student portal, A Singh, Ananya, or assignment data was visible."
+      },
+      "test-21": {
+        status: "pass",
+        evidence: "2026-07-29: in the same browser, signed in as teacher, signed out, then signed in as student; #/student showed A Singh/Ananya with student data and no stale Teacher console, J. Doe, or class-progress data."
+      },
+      "test-22": {
+        status: "pass",
+        evidence: "2026-07-29: teacher Dashboard opened on 10A Computing with metrics visible (25 students, 9 assigned tests, 83 completed tests, 74% average) and Student Performance Overview rendered without Local Supabase issue or app console errors."
+      },
+      "test-23": {
+        status: "pass",
+        evidence: "2026-07-29: changed Dashboard class selector from 10A Computing to 10B Computing; selected label updated, assigned-test metric changed from 9 to 8, performance table remained populated, and no app console errors appeared."
+      },
+      "test-24": {
+        status: "pass",
+        evidence: "2026-07-30: fixed. Selecting Dashboard topic 1.1 Programming fundamentals now scopes Student Performance Overview to the same topic as the metrics; rows showed 0 completed, '-' average, 0 pts, '-' last active, and Not Started rather than all-topic mock data."
+      },
+      "test-25": {
+        status: "pass",
+        evidence: "2026-07-30: fixed. Dashboard Student Performance Overview now builds real class-scoped performance rows and ranks them sequentially inside the selected class; first ten ranks rendered as 1,2,3,4,5,6,7,8,9,10."
+      },
+      "test-26": {
+        status: "pass",
+        evidence: "2026-07-30: fixed. Bulk QA seed now creates deterministic attempt_events for suspicious activity. Verification found 124 fixture suspicious events across all 10 active real classes; Dashboard rendered rows such as Imani Ahmed / tab hidden / 24/07/2026 22:45:14."
+      },
+      "test-27": {
+        status: "pass",
+        evidence: "2026-07-29: Classes page rendered active class cards for 10A-13C, year group filters, status filters for Active/Archived, and protected Non-class row with System label and no archive/edit controls visible."
+      },
+      "test-28": {
+        status: "pass",
+        evidence: "2026-07-29: edited 10A Computing to '10A Computing QA Temp' through Edit class, saved, reloaded and confirmed the temp name persisted; restored to '10A Computing' and confirmed restored after reload."
+      },
+      "test-29": {
+        status: "pass",
+        evidence: "2026-07-29: temporarily changed 10A Computing to academic year 2026/27 and Year 11; reload showed '2026/27 - Year 11'. Restored to 2025/26 and Year 10 and confirmed '2025/26 - Year 10' after reload."
+      },
+      "test-30": {
+        status: "pass",
+        evidence: "2026-07-29: temporarily enabled BTEC entitlement for 10A Computing; A Singh's Practice page then showed OCR GCSE and Pearson BTEC courses. Restored 10A to OCR-only and verified A Singh's Practice page no longer showed BTEC."
+      },
+      "test-31": {
+        status: "pass",
+        evidence: "2026-07-30: fixed operationally by full local Supabase stop/start so Edge runtime registered join-class-by-code. Enabled 10B Computing accepting students, opened #/join/SPGZJN, signed in as qa10acomputing06, and the page showed 'You have joined 10B Computing.' DB confirmed the temporary 10B active membership before it was cleaned up."
+      },
+      "test-32": {
+        status: "pass",
+        evidence: "2026-07-30: fixed by reloading the Edge runtime configuration with a full local Supabase stop/start. In 10B Computing, Regenerate changed the join code from KABSUH to SPGZJN and the UI displayed '10B Computing code regenerated.' 10B accepting_students was restored to false after QA."
+      },
+      "test-33": {
+        status: "pass",
+        evidence: "2026-07-29: inspected Non-class card; it shows 'Protected holding class', active System status, and exposes no Edit details, Archive class, Joining/class-code details, accepting-students, or Regenerate controls."
+      },
+      "test-34": {
+        status: "pass",
+        evidence: "2026-07-30: fixed operationally by full local Supabase stop/start so Edge runtime registered archive-class. Created disposable Codex Stage3 Archive Active with one active student, archived through the UI, and verified DB class status archived, original membership ended, Non-class membership active, and class_archived audit present. Disposable fixture was removed after QA."
+      },
+      "test-35": {
+        status: "pass",
+        evidence: "2026-07-30: fixed operationally by full local Supabase stop/start so Edge runtime registered archive-class. Created disposable Codex Stage3 Archive Empty with no students, archived through the UI, and verified DB class status archived plus class_archived audit. Disposable fixture was removed after QA."
+      },
+      "test-36": {
+        status: "pass",
+        evidence: "2026-07-29: Classes filters set to Year 10 + Active showed 10A/10B/10C and Non-class while hiding Year 11-13. Switching to Archived-only showed the clear empty state 'No classes match those filters'. Filters were restored afterward."
+      },
+      "test-37": {
+        status: "pass",
+        evidence: "2026-07-29: Students page loaded table-first directory with 'Showing 250 of 250', class filter, search input, seeded rows including Alex Ahmed Q00106/qa10acomputing06, and Activity/Edit actions; no blank state, Local Supabase issue, or app console errors."
+      },
+      "test-38": {
+        status: "pass",
+        evidence: "2026-07-29: Students search returned expected rows for full name 'Alex Ahmed' (10 rows), public ID 'Q00106' (1 row), and username 'qa10acomputing06' (1 row). The Q00106 row included Alex Ahmed, qa10acomputing06, 10A Computing, active status."
+      },
+      "test-39": {
+        status: "pass",
+        evidence: "2026-07-29: after clearing Search, class filter 10A Computing showed 25 of 250 rows including qa10acomputing06 and excluding qa10bcomputing01; returning to All classes showed 250 of 250 and included both 10A and 10B rows."
+      },
+      "test-40": {
+        status: "pass",
+        evidence: "2026-07-29: edited Q00106 from Alex Ahmed to CodexAlex ArchiveQA, saved, confirmed Supabase row and audit log student_updated persisted the name, reloaded Students and saw the changed row, then restored Alex Ahmed and confirmed restored in the UI."
+      },
+      "test-41": {
+        status: "pass",
+        evidence: "2026-07-29: opened Q00106 Edit student, expanded Classes, checked 10B Computing alongside existing 10A, saved, and verified the Students row plus Supabase class_memberships show active 10A and 10B. Historical test_attempts for Q00106 stayed at 11 attempts / 1 historical attempt class; audit_logs recorded student_updated and student_class_changed."
+      },
+      "test-42": {
+        status: "pass",
+        evidence: "2026-07-29: with Q00106 temporarily active in 10A and 10B, opened Edit student, expanded Classes, unchecked 10B, saved, and verified the Students row returned to 10A only. Supabase shows 10A active and 10B ended with end_date 2026-07-29; Q00106 historical test_attempts stayed at 11 / 1 attempt class and audit_logs recorded student_class_changed."
+      },
+      "test-43": {
+        status: "pass",
+        evidence: "2026-07-29: opened Q00106 Edit student, expanded Classes, cleared all real classes, saw the 'No real class selected' warning, saved, and verified the row moved to Non-class. Supabase showed 10A ended and Non-class active while test_attempts stayed at 11 / 1 attempt class. Restored Q00106 to 10A afterward; final DB state has one active 10A membership and the temporary Non-class row ended."
+      },
+      "test-44": {
+        status: "pass",
+        evidence: "2026-07-29: opened Q00106 Edit student, changed status from active to inactive, saved, and verified the Students row plus Supabase student_profiles.account_status showed inactive. Signing in as qa10acomputing06 with Localdev1! stayed on the sign-in page with 'Could not sign in'. Signed back in as teacher, restored Q00106 to active, and confirmed DB status active; audit_logs recorded student_status_changed."
+      },
+      "test-45": {
+        status: "pass",
+        evidence: "2026-07-29: from Q00106 Edit student, entered manual password Manual45!, clicked Set password, and saw 'Password reset for Alex Ahmed'. Signed out and logged in as qa10acomputing06 with Manual45!, reaching the student portal. Signed back in as teacher and restored Localdev1! via the same server-side reset. audit_logs recorded student_password_reset for the manual reset and restore."
+      },
+      "test-46": {
+        status: "pass",
+        evidence: "2026-07-29: from Q00106 Edit student, clicked Generate 8 chars; teacher panel displayed generated temporary password in a read-only textarea, and the generated value length was exactly 8. Signed out and logged in as qa10acomputing06 with that generated password, reaching the student portal. Restored Localdev1! through teacher Set password; audit_logs shows password reset entries for generate and restore."
+      },
+      "test-47": {
+        status: "pass",
+        evidence: "2026-07-29: created disposable local student codexarchive47/QARCH47 in 10A with one historical practice attempt, then archived via teacher Edit student and accepted the confirm dialog. App showed 'Codex Archive archived' and active roster search returned 0 rows. Supabase showed student/profile status archived, 10A membership ended, one historical test_attempt still present, and audit_logs recorded student_archived. Login with codexarchive47/Localdev1! stayed blocked on sign-in, although the error text rendered as '{}'. Disposable fixture was removed after verification to restore deterministic seed counts."
+      },
+      "test-48": {
+        status: "pass",
+        evidence: "2026-07-29: selected Olivia Ahmed Q01021 because Supabase activity_events showed two recent events for her profile. On Teacher Students, searched Q01021, opened Activity, and verified the dialog displayed 'Recent learning-platform visits and activity' with rows for Page View on /student/practice at 29/07/2026 19:01:32 and /student at 27/07/2026 20:41:32."
+      },
+      "test-49": {
+        status: "pass",
+        evidence: "2026-07-29: opened the teacher Courses menu target at #/teacher/tests. Page rendered Courses with OCR GCSE Computer Science and Pearson BTEC Level 3 National Extended Certificate in IT entries, showing counts of 8 OCR units / 41 topics / 41 tests and 4 BTEC units / 40 topics / 40 tests. No relevant console warnings/errors."
+      },
+      "test-50": {
+        status: "pass",
+        evidence: "2026-07-29: from Courses, opened OCR GCSE Computer Science, then opened 1. Programming. OCR unit list rendered 8 units; 1. Programming showed 11 topics and 11 test resources. The topic list displayed 1.1 through 1.11 with one published 5-question, 15-minute test per topic."
+      },
+      "test-51": {
+        status: "pass",
+        evidence: "2026-07-30: fixed. In OCR > 1. Programming, the 1.1 resource card now shows the full visible title '1.1 Programming fundamentals test 1' plus Published, Version 1, 5 questions, 15 min, and Auto-marked metadata."
+      },
+      "test-52": {
+        status: "pass",
+        evidence: "2026-07-29: opened Pearson BTEC Level 3 National Extended Certificate in IT, saw four BTEC units, then opened 1. Information Technology Systems. The topic list showed BTEC-specific topics A1 through D2 with test resources and did not contain OCR GCSE text or OCR Programming fundamentals content."
+      },
+      "test-53": {
+        status: "pass",
+        evidence: "2026-07-29: inspected visible Courses content for developer-only wording and hidden future resource types. No visible matches for MVP, coming later/soon, demo, frontend demo, revision_lesson, tutorial, or worksheet; only available test resources and Preview actions were shown."
+      },
+      "test-54": {
+        status: "pass",
+        evidence: "2026-07-29: opened #/teacher/assignments. The page rendered Assignments with Create assignment, Active Assignments, and Expired Assignments tabs. Create assignment displayed class/course/due-date controls, selected-student summary, unit sections and Select all controls; no relevant console warnings/errors."
+      },
+      "test-55": {
+        status: "pass",
+        evidence: "2026-07-29: on Create assignment, kept class 10A Computing and OCR GCSE Computer Science selected, expanded 1. Programming > 1.1 Programming fundamentals, and checked 1.1 Programming fundamentals test 1. Summary changed to 1 test selected, unit/topic counters changed to 1/11 and 1/1 selected, and Create assignments became enabled for 25 selected students."
+      },
+      "test-56": {
+        status: "pass",
+        evidence: "2026-07-29: with 1. Programming > 1.1 Programming fundamentals expanded, used the topic-level Select all checkbox. Starting from 0 tests selected, checking it changed summary to 1 test selected and counters to 1/11 and 1/1; unchecking it cleared the topic back to 0 tests selected and disabled Create assignments."
+      },
+      "test-57": {
+        status: "pass",
+        evidence: "2026-07-29: on Create assignment, cleared the default 25 recipients, selected Alex Ahmed and Amelia Ahmed only, selected 1.1 Programming fundamentals test 1, pasted due date 2026-08-29 into the native date input, and clicked Create assignments. UI showed '1 assignment created for 2 students in 10A Computing' and Active Assignments listed the row. Supabase test_assignments id 5a64bbd5-daf5-4024-9d7c-8aa4046fe805 has recipient_scope selected, due date 2026-08-29, status open, and exactly two assignment_recipients: Q00106,Q00107."
+      },
+      "test-58": {
+        status: "pass",
+        evidence: "2026-07-30: fixed. Create assignment now exposes recipient mode radios for Whole class and Selected students, labels Due date optional, and summary says whole-class assignments can be created with no deadline. Browser QA created a 10A whole-class 1.1 assignment with no due date; DB showed recipient_scope=class, due_at=null, status=open, and 0 assignment_recipients. Temporary assignment was deleted after QA."
+      },
+      "test-59": {
+        status: "pass",
+        evidence: "2026-07-29: reused the future-dated assignment created in Test 57. Active Assignments listed 29 Jul 2026 / 10A Computing / 1.1 Programming fundamentals test 1 / 2 students / 0/2 completed / deadline 29 Aug 2026, with visible Date created, Class, Test, Students assigned, Progress, Assignment deadline, and Actions columns."
+      },
+      "test-60": {
+        status: "pass",
+        evidence: "2026-07-29: created a disposable past-due selected-recipient assignment for 1.2 Sequence and selection test 1 with due date 2026-07-20 and two recipients. Expired Assignments then showed only that 29 Jul 2026 / 10A Computing / 1.2 Sequence and selection test 1 / 2 students / 0/2 completed / 20 Jul 2026 row; the future 29 Aug 2026 disposable assignment was not shown. Supabase assignment id a9676469-ee97-4c1d-afad-330eee5ca213 recorded the past due_at."
+      },
+      "test-61": {
+        status: "pass",
+        evidence: "2026-07-29: on Active Assignments, filtered Class=10A Computing, Course=OCR GCSE Computer Science, Unit=1. Programming, Topic=1.1 Programming fundamentals. The table narrowed to the future disposable 1.1 Programming fundamentals test 1 row and excluded 1.2 / 1.7 / other-topic rows. Filter selects used light backgrounds with dark text (computed rgb(255,250,240) background and rgb(24,35,71) text), so selected values remained readable."
+      },
+      "test-62": {
+        status: "pass",
+        evidence: "2026-07-29: on Expired Assignments with Class=10A, Course=OCR, Unit=1. Programming, changed Topic to 1.2 Sequence and selection. The table showed the past-due disposable 1.2 Sequence and selection test 1 row with deadline 20 Jul 2026 and excluded the future 1.1 row. The expired view did not repeat selected-recipient summary copy such as 'tests selected' or 'Each selected test...'."
+      },
+      "test-63": {
+        status: "pass",
+        evidence: "2026-07-29: on the disposable 1.2 expired assignment, clicked View students. The Assignment Progress modal showed 2 students, 0 completed, 0 in progress, and table columns Student, Status, Score, Points earned, Deadline met. Rows listed Alex Ahmed and Amelia Ahmed as Not started with '-' score/points/deadline values."
+      },
+      "test-64": {
+        status: "pass",
+        evidence: "2026-07-29: used disposable no-attempt assignment a9676469-ee97-4c1d-afad-330eee5ca213 from Test 60. From filtered Expired Assignments, clicked Delete, confirmed Delete assignment, and saw 'Unused assignment deleted permanently.' The filtered list showed no expired assignments. Supabase confirmed 0 test_assignments and 0 assignment_recipients rows remain for that assignment id."
+      },
+      "test-65": {
+        status: "pass",
+        evidence: "2026-07-29: attached a disposable completed assigned attempt to selected-recipient assignment 5a64bbd5-daf5-4024-9d7c-8aa4046fe805, then deleted it from Active Assignments. UI showed 'Assignment archived. Completed student work remains in Results.' and the row disappeared from active filters. Supabase verified test_assignments.status=archived with 2 recipients and the linked test_attempt de000000-0000-4000-8000-000000000565 still present with score 5/5, percentage 100. Disposable assignment, recipients, and attempt were removed after verification."
+      },
+      "test-66": {
+        status: "pass",
+        evidence: "2026-07-29: opened #/teacher/results. Student Results rendered without Local Supabase issue or blank page, with Result filters trigger, matrix columns Test / Due date / Class avg plus 25 current 10A roster student columns, unit summary rows, scores/incomplete/in-progress statuses, and no relevant console warnings/errors."
+      },
+      "test-67": {
+        status: "pass",
+        evidence: "2026-07-29: inspected collapsed Result filters trigger on #/teacher/results. Helper text 'Change the class, course, topic or due-date view.' computes as rgb(217,223,255) / #d9dfff on the dark gradient filter panel (#202a6f to #3c3190); contrast is 9.83:1 against #202a6f and 7.84:1 against #3c3190, so the placeholder/helper text is readable."
+      },
+      "test-68": {
+        status: "pass",
+        evidence: "2026-07-30: signed in as asingh5827. Student Home rendered Hello Ananya, live assignment cue, course progress, class rank #4, 984 points, learning gaps, and no console warnings/errors."
+      },
+      "test-69": {
+        status: "pass",
+        evidence: "2026-07-30: Home showed 2 outstanding assignments for A Singh. My assignments showed exactly two ready assessment cards: 1.7 Introduction to SQL due 05 Aug 2026 and 2.1 Architecture of the CPU due 31 Aug 2026."
+      },
+      "test-70": {
+        status: "pass",
+        evidence: "2026-07-30: A Singh points were consistent across Home, Profile, and Leaderboard: Home class challenge showed 984 points, Profile Points showed 984, and Leaderboard showed 984 points for both class and all-time standings."
+      },
+      "test-71": {
+        status: "pass",
+        evidence: "2026-07-30: after bulk QA seed fix, signed in as qa10acomputing07. Home rendered 'You have no current learning gaps. Keep practising to stay confident.' SQL confirmed latest scored OCR topics for this student had 0 scores below 70 and minimum latest score 100."
+      },
+      "test-72": {
+        status: "pass",
+        evidence: "2026-07-30: Practice now follows Course > Unit > Topic. Signed in as qa10acomputing07, opened OCR GCSE Computer Science, selected 1. Programming, then selected 1.1 Programming fundamentals to reach a topic detail page."
+      },
+      "test-73": {
+        status: "pass",
+        evidence: "2026-07-30: signed in as qa12ait20 from 12A IT. Practice showed Pearson BTEC Level 3 National Extended Certificate in IT and did not show OCR, matching the BTEC class entitlement."
+      },
+      "test-74": {
+        status: "pass",
+        evidence: "2026-07-30: signed in as OCR-only A Singh. Practice showed OCR GCSE Computer Science and did not show Pearson BTEC/BTEC course content."
+      },
+      "test-75": {
+        status: "pass",
+        evidence: "2026-07-30: added temporary local membership for qa10acomputing06 in 12A IT while retaining 10A Computing. Practice showed OCR GCSE Computer Science and Pearson BTEC Level 3 National Extended Certificate in IT once each. Temporary membership was removed after QA."
+      },
+      "test-76": {
+        status: "pass",
+        evidence: "2026-07-30: Practice breadcrumb/back path supports course, unit and topic levels. From 1.1 Programming fundamentals, Back returned to the 1. Programming topic list, and the breadcrumb showed OCR / 1. Programming / 1.1 Programming fundamentals."
+      },
+      "test-77": {
+        status: "pass",
+        evidence: "2026-07-30: the 1. Programming unit list showed '1.1 Programming fundamentals test 1'. The word 'Check' was not present in the visible 1.1 test title."
+      },
+      "test-78": {
+        status: "pass",
+        evidence: "2026-07-30: inspected the 1. Programming practice unit. Only test resources and Start buttons were visible; no coming-soon, revision lesson, tutorial, worksheet, or unavailable-resource buttons appeared."
+      },
+      "test-79": {
+        status: "pass",
+        evidence: "2026-07-30: clicked Start on 1.1 Programming fundamentals test 1. The app called the start-test-attempt flow, opened #/student/test/38821788-f985-4346-99cd-b04ae0a41ca1, and rendered student-safe question/options with no correct-answer leakage visible."
+      },
+      "test-80": {
+        status: "pass",
+        evidence: "2026-07-30: created an unfinished practice attempt, returned to Practice, and clicked Continue from 'Continue practising'. The existing attempt route opened with questions and the saved answered count instead of 'Attempt not found'. Temporary QA attempt was removed after verification."
+      },
+      "test-81": {
+        status: "pass",
+        evidence: "2026-07-30: A Singh's My assignments page listed persisted assignments for the active 10A membership: 1.7 Introduction to SQL and 2.1 Architecture of the CPU, with due dates and Start assessment buttons."
+      },
+      "test-82": {
+        status: "pass",
+        evidence: "2026-07-30: bulk QA seed now includes completed open selected-recipient fixture e1d8f189-d757-840c-d361-157f54ed5c04. qa10acomputing12 has feedback_released 100% for 1.11 IDEs test 1, and My assignments excluded that completed open assignment."
+      },
+      "test-83": {
+        status: "pass",
+        evidence: "2026-07-30: bulk QA seed now includes past-due selected-recipient fixture f3eb5ab1-ef8f-6c07-7b6b-0401cd22600d. qa10acomputing07 saw 1.5 Procedures and functions test 1 on My assignments with due date 28 Jul 2026 and no completed attempt."
+      },
+      "test-84": {
+        status: "pass",
+        evidence: "2026-07-30: selected-recipient assignment visibility passed. qa10acomputing08 saw the selected 1.11 IDEs assignment; non-recipient qa10acomputing07 in the same class did not see 1.11 IDEs."
+      },
+      "test-85": {
+        status: "pass",
+        evidence: "2026-07-30: selecting answer options computed blue selected styling: background rgb(238,245,255), border rgb(56,87,223), and class border-blue/bg-[#eef5ff]. No green selection styling was used."
+      },
+      "test-86": {
+        status: "pass",
+        evidence: "2026-07-30: active test page rendered Question 1 of 5 and all four answer options with readable dark text on light answer cards; no console warnings/errors."
+      },
+      "test-87": {
+        status: "pass",
+        evidence: "2026-07-30: start-test-attempt now rehydrates existing attempts with questions and saved answers. Browser reload restored the in-progress practice attempt with 1 answered and the selected option still pressed; no 'Attempt not found' page or console errors appeared."
+      },
+      "test-88": {
+        status: "pass",
+        evidence: "2026-07-30: after reload, Practice showed the unfinished 1.1 attempt in Continue practising. Clicking Continue resumed the same Supabase attempt with questions and saved answer state intact."
+      },
+      "test-89": {
+        status: "pass",
+        evidence: "2026-07-30: focused an answer option and pressed Enter. The option became selected with blue selected styling, aria-pressed became true, and the answered count increased to 1."
+      },
+      "test-90": {
+        status: "pass",
+        evidence: "2026-07-30: active test page showed no timer, countdown, time remaining, expiry warning, or anti-cheating footer; only progress, question count, answered count, and navigation controls were visible."
+      },
+      "test-91": {
+        status: "pass",
+        evidence: "2026-07-30: with only 1 of 5 answered on the final question, clicking Submit showed the warning 'You still have 4 unanswered questions.' with Keep answering and Submit anyway actions. It did not immediately submit."
+      },
+      "test-92": {
+        status: "pass",
+        evidence: "2026-07-30: submitted auto-marked MCQ attempt 213724ea-4af8-436a-9d41-4cb9cd14e0a2. Supabase recorded status feedback_released, marking_status marked, feedback_status released, score 1/5, percentage 20, points_awarded 10, and one points transaction."
+      },
+      "test-93": {
+        status: "pass",
+        evidence: "2026-07-30: completed summary/review rendered score 20%, 1 of 5 marks, correct answers 1 of 5, answer review, selected answer text, correct answer text for missed questions, and feedback after completion."
+      },
+      "test-94": {
+        status: "blocked",
+        evidence: "2026-07-30: Download PDF summary button clicked successfully and produced no console errors, but the in-app browser binding did not expose the downloaded PDF file/shelf, so readability of the actual PDF could not be inspected."
+      },
+      "test-95": {
+        status: "pass",
+        evidence: "2026-07-30: after submission, View my results opened My results. Expanding 1. Programming showed 1.1 Programming fundamentals with latest 20%, type Practice, attempt count 1, last taken 30 Jul 2026, and Completed status."
+      },
+      "test-96": {
+        status: "pass",
+        evidence: "2026-07-30: My results initially showed course and unit summary cards first, including Topics tried, Average, Best, and Points. Topic detail rows were collapsed until a unit was expanded."
+      },
+      "test-97": {
+        status: "pass",
+        evidence: "2026-07-30: My results expanded topic rows now include a Points column on desktop and Points field on mobile cards. qa10acomputing12 showed per-topic point values such as 96 pts and 29 pts."
+      },
+      "test-98": {
+        status: "pass",
+        evidence: "2026-07-30: with temporary OCR+BTEC memberships, qa10acomputing06 My results showed exactly two course options, OCR GCSE Computer Science and Pearson BTEC Level 3 National Extended Certificate in IT, and OCR topic rows did not duplicate by class. Temporary membership was removed after QA."
+      },
+      "test-99": {
+        status: "pass",
+        evidence: "2026-07-30: Profile for qa10acomputing06 showed display name Alex Ahmed/A Ahmed, Student ID Q00106, Points 549, Classes 10A Computing and 12A IT during the temporary fixture, and Learner status."
+      },
+      "test-100": {
+        status: "pass",
+        evidence: "2026-07-30: Profile now includes a class access panel with class-code entry. Temporarily enabled 10B code UFPFZZ, entered it as qa10acomputing12, and the app showed 'You have joined 10B Computing.' Temporary membership and accepting_students change were cleaned up."
+      },
+      "test-101": {
+        status: "pass",
+        evidence: "2026-07-30: entered disabled 10B code UFPFZZ while accepting_students=false. Profile class access panel rejected it with 'This class is not currently accepting students.'"
+      },
+      "test-102": {
+        status: "pass",
+        evidence: "2026-07-30: entered invalid code ZZZZZZ in the Profile class access panel. The app rejected it with 'Class code not found.'"
+      },
+      "test-103": {
+        status: "pass",
+        evidence: "2026-07-30: Student Leaderboard rendered class standings with active classmates, ranks, points, and the current student row. qa10acomputing06 showed Class rank #20 and 549 points in current standings."
+      },
+      "test-104": {
+        status: "pass",
+        evidence: "2026-07-30: all-time leaderboard rows now display public student IDs, making same-name seed students distinct. DOM after reload showed rows such as 'Ava Ahmed (ID Q01104)' and 'Ava Ahmed (ID Q01204)' with no console warnings/errors."
+      },
+      "test-105": {
+        status: "pass",
+        evidence: "2026-07-30: current class standings showed 25 active 10A students and no archived-labelled rows; the all-time ranking section was present for historical standings. Duplicate all-time rows are tracked separately in Test 104."
+      }
+    };
+
+    const statusLabels = {
+      "not-run": "Not run",
+      pass: "Pass",
+      fail: "Fail",
+      blocked: "Blocked"
+    };
+
+    const tbody = document.getElementById("testRows");
+    const journeyNav = document.getElementById("journeyNav");
+    const totalTests = document.getElementById("totalTests");
+
+    const testId = (orderIndex) => `Test ${orderIndex + 1}`;
+    const resultKey = (orderIndex) => `test-${orderIndex + 1}`;
+    const escapeHtml = (value) => String(value)
+      .replaceAll("&", "&amp;")
+      .replaceAll("<", "&lt;")
+      .replaceAll(">", "&gt;")
+      .replaceAll('"', "&quot;");
+
+    const orderedEntries = journeyStages.flatMap((stage, stageIndex) =>
+      stage.sources.map((sourceNumber) => ({
+        stage,
+        stageIndex,
+        sourceNumber,
+        test: tests[sourceNumber - 1]
+      }))
+    );
+
+    const duplicateSources = orderedEntries
+      .map((entry) => entry.sourceNumber)
+      .filter((sourceNumber, index, sourceNumbers) => sourceNumbers.indexOf(sourceNumber) !== index);
+    const missingSources = tests
+      .map((_, index) => index + 1)
+      .filter((sourceNumber) => !orderedEntries.some((entry) => entry.sourceNumber === sourceNumber));
+
+    if (orderedEntries.length !== tests.length || duplicateSources.length || missingSources.length) {
+      console.error("Test plan execution order is invalid.", {
+        rendered: orderedEntries.length,
+        expected: tests.length,
+        duplicateSources,
+        missingSources
+      });
+    }
+
+    function resultFor(orderIndex) {
+      const result = assistantResults[resultKey(orderIndex)] || {};
+      return {
+        status: result.status || "not-run",
+        evidence: result.evidence || ""
+      };
+    }
+
+    function renderJourneyNav() {
+      journeyNav.innerHTML = journeyStages.map((stage, index) => {
+        const entries = orderedEntries.filter((entry) => entry.stage.id === stage.id);
+        const first = orderedEntries.findIndex((entry) => entry.stage.id === stage.id) + 1;
+        const last = first + entries.length - 1;
+        const recorded = entries.filter((_, offset) => resultFor(first + offset - 1).status !== "not-run").length;
+
+        return `
+          <a class="journey-card" href="#${stage.id}">
+            <span>Stage ${index + 1}</span>
+            <strong>${escapeHtml(stage.title)}</strong>
+            <small>Tests ${first}-${last} · ${recorded}/${entries.length} recorded</small>
+          </a>
+        `;
+      }).join("");
+    }
+
+    function render() {
+      totalTests.textContent = String(tests.length);
+      renderJourneyNav();
+      tbody.innerHTML = "";
+
+      journeyStages.forEach((stage, stageIndex) => {
+        const stageEntries = orderedEntries.filter((entry) => entry.stage.id === stage.id);
+        const first = orderedEntries.findIndex((entry) => entry.stage.id === stage.id) + 1;
+        const last = first + stageEntries.length - 1;
+        const stageRecorded = stageEntries.filter((_, offset) => resultFor(first + offset - 1).status !== "not-run").length;
+        const section = document.createElement("section");
+        section.className = "stage-block";
+        section.id = stage.id;
+        section.innerHTML = `
+          <div class="stage-heading">
+            <span>Stage ${stageIndex + 1} · Tests ${first}-${last} · ${stageRecorded}/${stageEntries.length} recorded</span>
+            <h2>${escapeHtml(stage.title)}</h2>
+            <p>${escapeHtml(stage.description)}</p>
+          </div>
+          <div class="stage-tests"></div>
+        `;
+
+        const stageTests = section.querySelector(".stage-tests");
+        stageEntries.forEach((entry) => {
+          const orderIndex = orderedEntries.indexOf(entry);
+          const result = resultFor(orderIndex);
+          const notesOrEvidence = result.evidence || entry.test.notes || "No evidence recorded yet.";
+          const card = document.createElement("article");
+          card.className = "test-card";
+          card.dataset.testRow = "true";
+          card.dataset.status = result.status;
+          card.innerHTML = `
+            <div class="test-meta">
+              <div class="test-id">${testId(orderIndex)}</div>
+              <div class="area">${escapeHtml(entry.test.area)}</div>
+              <div class="status-stack">
+                <span class="priority ${entry.test.priority.toLowerCase()}">${escapeHtml(entry.test.priority)}</span>
+                <span class="status-pill status-${escapeHtml(result.status)}">${escapeHtml(statusLabels[result.status] || result.status)}</span>
+              </div>
+            </div>
+            <div class="detail detail-muted">
+              <span class="detail-title">Setup / Preconditions</span>
+              <p>${escapeHtml(entry.test.setup)}</p>
+            </div>
+            <div class="detail">
+              <span class="detail-title">Exact Steps</span>
+              <p>${escapeHtml(entry.test.steps)}</p>
+            </div>
+            <div class="detail">
+              <span class="detail-title">Expected Result</span>
+              <p>${escapeHtml(entry.test.expected)}</p>
+              <div class="evidence-box">
+                <span class="detail-title">Status / Evidence</span>
+                <p>${escapeHtml(notesOrEvidence)}</p>
+              </div>
+            </div>
+          `;
+          stageTests.appendChild(card);
+        });
+
+        tbody.appendChild(section);
+      });
+    }
+
+    render();
+  </script>
+</body>
+</html>

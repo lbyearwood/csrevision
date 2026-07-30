@@ -1,6 +1,6 @@
 # Testing
 
-Last updated: 2026-07-28
+Last updated: 2026-07-30
 
 Audience: Codex agents. Keep this file as executable verification state, not user-facing explanation.
 
@@ -17,6 +17,38 @@ Use automated checks and targeted manual/browser/backend QA together:
 - If a workflow cannot be tested, do not mark it complete. Mark it blocked or partially verified and explain the missing check.
 
 See `docs/CODEX_DEVELOPMENT_PROCESS.md` for the required per-task development QA process.
+
+## Standalone Sequential Regression Plan
+
+Source of truth:
+
+```text
+docs/planning/csrevision-full-test-plan-checklist.html
+```
+
+Current rules:
+
+- The artifact contains 236 individually numbered tests in the exact intended execution order.
+- The page is read-only for the user. Codex updates statuses/evidence by editing the HTML artifact.
+- No page filters, search controls, editable checkboxes, editable notes, or internal table scrollbars should be reintroduced.
+- Run only the requested stage. Do not skip ahead.
+- Update every completed test row with `Pass`, `Fail`, or `Blocked` and concise evidence.
+
+Current staged status:
+
+```text
+Stage 1: complete after reset/reseed and fixture fixes.
+Stage 2: complete.
+Stage 3: fixed after user approval.
+Stage 4: 37 pass, 1 blocked, 0 fail as of 2026-07-30.
+Stage 5: next stage to run when user asks.
+```
+
+Stage 4 blocker:
+
+```text
+Test 94: PDF download button clicked with no console errors, but the in-app browser did not expose the downloaded PDF file for visual inspection.
+```
 
 ## Local Checks
 
@@ -56,6 +88,23 @@ Current database test state:
 - `supabase/tests/rls_policies.sql` is executable pgTAP.
 - Latest local result: 29 passing RLS/integrity tests.
 
+Bulk QA fixture verification on 2026-07-30:
+
+```text
+active_students=250
+active_real_classes=10
+test_assignments=94
+test_attempts=3142
+assignment_recipients=51
+bulk_seed_audits=1
+```
+
+Targeted fixture checks:
+
+- `qa10acomputing07` has no current OCR learning gaps in the bulk fixture.
+- `qa10acomputing12` has a completed open selected-recipient assignment for `1.11 IDEs test 1`; it is excluded from outstanding My assignments.
+- `qa10acomputing07` has a past-due outstanding selected-recipient assignment for `1.5 Procedures and functions test 1`; due dates remain planning metadata and do not block access.
+
 Browser QA:
 
 - Mobile student dashboard.
@@ -68,3 +117,4 @@ Browser QA:
 - Targeted student-account QA covered multi-class membership save, unchecked-membership removal, Non-class fallback, inactive login block, manual password login, generated 8-character password, and archive-style delete. Restore seed roster after destructive archive QA.
 - Targeted class-code QA covered protected `Non-class` archive rejection, class-code regeneration, accepting-off join rejection, accepting-on join success, idempotent repeat join, and reset of the seeded accepting flag.
 - Targeted archive QA covered a temporary classless student being moved to the teacher's `Non-class`; temporary rows were cleaned up afterwards.
+- Stage 4 student QA on 2026-07-30 covered Home no-learning-gaps, Practice course/unit/topic drilldown, topic test naming, no hidden future-resource buttons, test start/resume/reload, keyboard answer selection, unanswered-submit warning, completed summary/review, My Results points column, Profile class-code join validation, and class/all-time leaderboards. Temporary QA attempts and temporary class-code membership were cleaned up.

@@ -1,6 +1,6 @@
 # Supabase Local Runbook For Codex
 
-Last updated: 2026-07-28
+Last updated: 2026-07-30
 
 Audience: Codex agents. The user does not plan to read this. Keep updates direct, stateful, and executable.
 
@@ -39,7 +39,7 @@ Audience: Codex agents. The user does not plan to read this. Keep updates direct
 - Functions: `http://127.0.0.1:54321/functions/v1`
 - Postgres: `postgresql://postgres:postgres@127.0.0.1:54322/postgres`
 - Inbucket: `http://127.0.0.1:54324`
-- Migration history contains `20260707202000`, `20260726223830`, `20260727140326`, and `20260727142641`.
+- Migration history has been verified through the current local migration set after reset/reseed.
 - The MVP migration creates 23 `public` tables.
 - RLS is enabled on all 23 `public` tables.
 - There are 29 `public` RLS policies.
@@ -56,6 +56,8 @@ Audience: Codex agents. The user does not plan to read this. Keep updates direct
 - Local `update-student-account` is verified for teacher-side name/class membership/status/archive updates.
 - Local database pgTAP tests pass: `npx.cmd supabase test db --local supabase\tests` runs 29 RLS/integrity checks successfully.
 - Local `archive-class`, `join-class-by-code`, and `regenerate-class-code` were verified through Edge Runtime.
+- Bulk QA seed `supabase/qa_bulk_seed.sql` has been applied and rerun successfully after a reset/reseed. It is expected to be safely rerunnable/idempotent for deterministic local QA fixtures.
+- Stage 4 local fixture checks on 2026-07-30 verified 250 active students, 10 active real classes, 94 assignments, 3142 attempts, 51 selected assignment recipients, and one `bulk_classroom_qa_seed_applied` audit row.
 
 ## Current Known Issue
 
@@ -146,6 +148,30 @@ docker exec supabase_db_csrevision psql -v ON_ERROR_STOP=1 -U postgres -d postgr
 ```
 
 Do not use `npx.cmd supabase db query --local --file supabase\seed.sql` for this file. With CLI `2.109.1`, it currently treats the file as a prepared statement and rejects multi-statement SQL.
+
+Apply or reapply the bulk QA seed after base seed is present:
+
+```powershell
+docker cp supabase\qa_bulk_seed.sql supabase_db_csrevision:/tmp/csrevision_qa_bulk_seed.sql
+docker exec supabase_db_csrevision psql -v ON_ERROR_STOP=1 -U postgres -d postgres -f /tmp/csrevision_qa_bulk_seed.sql
+```
+
+Bulk QA seed verification:
+
+```powershell
+docker exec supabase_db_csrevision psql -U postgres -d postgres -c "select (select count(*) from public.student_profiles where account_status = 'active') as active_students, (select count(*) from public.classes where is_system = false and status = 'active') as active_real_classes, (select count(*) from public.test_assignments) as assignments, (select count(*) from public.test_attempts) as attempts, (select count(*) from public.assignment_recipients) as assignment_recipients, (select count(*) from public.audit_logs where action = 'bulk_classroom_qa_seed_applied') as bulk_seed_audits;"
+```
+
+Expected result after base seed plus bulk QA seed:
+
+```text
+active_students=250
+active_real_classes=10
+assignments=94
+attempts=3142
+assignment_recipients=51
+bulk_seed_audits=1
+```
 
 ## Database Tests
 
@@ -238,9 +264,9 @@ check_slugs=0
 
 ## Next Backend Tasks
 
-- Confirm `supabase db reset --local` replays `supabase/seed.sql` cleanly from scratch.
 - Exercise Edge Functions locally against the local Supabase stack.
 - Expand database/Edge Function tests for answer save, submit, attempt event logging, and reset-assigned-attempt.
+- Keep the bulk QA seed deterministic and rerunnable when new staged-test fixtures are added.
 
 ## Official Reference URLs
 

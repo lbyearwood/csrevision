@@ -54,6 +54,7 @@ const whiteControlClass = 'h-11 w-full rounded-app border border-[#dedbf0] bg-wh
 const lightTextareaClass = 'min-h-11 w-full rounded-app border border-line bg-mist px-3 py-2 text-sm text-ink shadow-inner [color-scheme:light] focus:border-blue focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue/15';
 const filterCheckboxClass = 'h-4 w-4 rounded border-[#8996e7] bg-[#202a6f] accent-blue focus:ring-2 focus:ring-blue/25';
 const filterLabelClass = 'inline-flex min-h-8 items-center gap-2 text-sm font-semibold text-[#eef5fc]';
+const resultsFilterFieldClass = 'min-w-0 space-y-2 text-sm font-semibold';
 const classStatusFilters = ['active', 'archived'] as const satisfies ReadonlyArray<ClassRecord['status']>;
 const allResultsFilterValue = 'all';
 const markingMethodLabel: Record<Test['markingMethod'], string> = {
@@ -188,11 +189,43 @@ function TeacherDashboard() {
   const completed = completedAttemptCount(classAttempts);
   const studentsWithCompletedWork = new Set(classAttempts.filter((attempt) => completedAttemptCount([attempt]) > 0).map((attempt) => attempt.studentId)).size;
   const activeThisWeek = new Set(classAttempts.filter((attempt) => new Date(attempt.startedAt).getTime() >= Date.now() - 7 * 24 * 60 * 60 * 1000).map((attempt) => attempt.studentId)).size;
-  const classLeaderboardRows = state.leaderboardRows.filter((row) => row.className === classRecord.className);
   const average = averageAttemptPercentage(classAttempts);
   const classAttemptIds = new Set(classAttempts.map((attempt) => attempt.id));
   const classStudentsById = new Map(classStudents.map((student) => [student.id, student]));
   const suspiciousEvents = state.events.filter((event) => classAttemptIds.has(event.attemptId)).slice(0, 5);
+  const classPerformanceRows = classStudents
+    .map((student) => {
+      const studentAttempts = classAttempts.filter((attempt) => attempt.studentId === student.id);
+      const completedCount = completedAttemptCount(studentAttempts);
+      const averageScore = averageAttemptPercentage(studentAttempts);
+      const points = studentAttempts.reduce((total, attempt) => total + (attempt.pointsAwarded ?? 0), 0);
+      const lastActiveTime = Math.max(0, ...studentAttempts.map((attempt) => attemptSortTime(attempt)));
+      const status =
+        completedCount === 0
+          ? { label: 'Not Started', tone: 'neutral' as const }
+          : typeof averageScore === 'number' && averageScore < 50
+            ? { label: 'Needs Support', tone: 'red' as const }
+            : typeof averageScore === 'number' && averageScore < 70
+              ? { label: 'Developing', tone: 'amber' as const }
+              : { label: 'On Track', tone: 'green' as const };
+
+      return {
+        student,
+        displayName: `${studentFullName(student)} - ${student.publicStudentId}`,
+        completedCount,
+        averageScore,
+        points,
+        lastActiveTime,
+        status,
+      };
+    })
+    .sort((first, second) => {
+      if (second.points !== first.points) return second.points - first.points;
+      if ((second.averageScore ?? -1) !== (first.averageScore ?? -1)) return (second.averageScore ?? -1) - (first.averageScore ?? -1);
+      if (second.completedCount !== first.completedCount) return second.completedCount - first.completedCount;
+      return first.displayName.localeCompare(second.displayName);
+    })
+    .map((row, index) => ({ ...row, rank: index + 1 }));
 
   return (
     <div className="space-y-5 p-4 lg:p-6">
@@ -239,15 +272,15 @@ function TeacherDashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-line bg-white text-ink">
-                {classLeaderboardRows.map((row) => (
-                  <tr key={row.studentId}>
+                {classPerformanceRows.map((row) => (
+                  <tr key={row.student.id}>
                     <td className="px-3 py-3">{row.rank}</td>
                     <td className="px-3 py-3 font-semibold">{row.displayName}</td>
-                    <td className="px-3 py-3">4/4</td>
-                    <td className={`px-3 py-3 font-bold ${scoreTextClass(row.rank === 1 ? 84 : row.rank === 2 ? 78 : 72)}`}>{row.rank === 1 ? '84%' : row.rank === 2 ? '78%' : '72%'}</td>
+                    <td className="px-3 py-3">{row.completedCount}</td>
+                    <td className={`px-3 py-3 font-bold ${scoreTextClass(row.averageScore)}`}>{typeof row.averageScore === 'number' ? `${row.averageScore}%` : '-'}</td>
                     <td className="px-3 py-3">{row.points} pts</td>
-                    <td className="px-3 py-3">16 May, 10:12 AM</td>
-                    <td className="px-3 py-3"><StatusBadge tone={row.rank <= 3 ? 'green' : 'amber'}>{row.rank <= 3 ? 'On Track' : 'Needs Support'}</StatusBadge></td>
+                    <td className="px-3 py-3">{row.lastActiveTime ? new Date(row.lastActiveTime).toLocaleString() : '-'}</td>
+                    <td className="px-3 py-3"><StatusBadge tone={row.status.tone}>{row.status.label}</StatusBadge></td>
                   </tr>
                 ))}
               </tbody>
@@ -1430,14 +1463,14 @@ function TestsPage() {
 
                   <div className="space-y-3 border-t border-[#e2dff4] bg-[#faf9ff] px-4 py-3 lg:px-5">
                     {topicTests.length ? (
-                      topicTests.map((test, testIndex) => {
+                      topicTests.map((test) => {
                         const questionCount = test.version ? state.questions.filter((question) => question.testVersionId === test.version?.id).length : 0;
                         return (
                           <div className="flex flex-col gap-3 rounded-app border border-[#dedbf0] bg-white p-3 text-ink sm:flex-row sm:items-center sm:justify-between" key={test.id}>
                             <div className="min-w-0">
                             <div className="flex items-start justify-between gap-3 sm:block">
                               <div>
-                                <h3 className="text-sm font-bold">Test {testIndex + 1}</h3>
+                                <h3 className="text-sm font-bold">{test.testTitle}</h3>
                                 <p className="mt-1 text-xs text-muted">{test.testDescription}</p>
                               </div>
                               <StatusBadge tone={test.status === 'published' ? 'green' : test.status === 'draft' ? 'amber' : 'neutral'}>
@@ -1450,6 +1483,8 @@ function TestsPage() {
                               <span>{questionCount} questions</span>
                               <span aria-hidden="true">•</span>
                               <span>{Math.round(test.defaultTimeLimitSeconds / 60)} min</span>
+                              <span aria-hidden="true">â€¢</span>
+                              <span>{markingMethodLabel[test.markingMethod]}</span>
                             </div>
                             </div>
                             <Button className="min-h-10 shrink-0 px-4" disabled={!test.version || !questionCount} onClick={() => openTestPreview(test.id)} type="button" variant="secondary"><BookOpenCheck size={16} aria-hidden="true" />Preview</Button>
@@ -1521,6 +1556,7 @@ function AssignmentsPage() {
   const [assignmentTopicId, setAssignmentTopicId] = useState(allResultsFilterValue);
   const [currentTime, setCurrentTime] = useState(() => Date.now());
   const [dueDate, setDueDate] = useState('');
+  const [recipientScope, setRecipientScope] = useState<TestAssignment['recipientScope']>('class');
   const [selectedVersionIds, setSelectedVersionIds] = useState<string[]>([]);
   const [selectedRecipientIds, setSelectedRecipientIds] = useState<string[]>([]);
   const [isSaving, setIsSaving] = useState(false);
@@ -1594,6 +1630,7 @@ function AssignmentsPage() {
   }, [assignmentUnitId, assignmentUnits, state.topics]);
   const selectedVersions = useMemo(() => new Set(selectedVersionIds), [selectedVersionIds]);
   const selectedClass = activeClasses.find((classRecord) => classRecord.id === createClassId);
+  const createRecipientCount = recipientScope === 'class' ? selectedClassStudents.length : selectedRecipientIds.length;
 
   useEffect(() => {
     if (assignmentClassId !== allResultsFilterValue && !activeClasses.some((classRecord) => classRecord.id === assignmentClassId)) {
@@ -1646,14 +1683,14 @@ function AssignmentsPage() {
 
   const createAssignments = async () => {
     try {
-      if (!dueDate) throw new Error('Choose a due date before creating assignments.');
       setError('');
       setMessage('');
       setIsSaving(true);
       const created = await state.createAssignments({
         classId: createClassId,
         testVersionIds: selectedVersionIds,
-        recipientStudentIds: selectedRecipientIds,
+        recipientScope,
+        recipientStudentIds: recipientScope === 'selected' ? selectedRecipientIds : [],
         dueAt: dueDateInputToIso(dueDate),
       });
       setSelectedVersionIds([]);
@@ -1663,7 +1700,10 @@ function AssignmentsPage() {
       setAssignmentUnitId(allResultsFilterValue);
       setAssignmentTopicId(allResultsFilterValue);
       setActiveTab('active');
-      setMessage(`${created.length} assignment${created.length === 1 ? '' : 's'} created for ${selectedRecipientIds.length} student${selectedRecipientIds.length === 1 ? '' : 's'} in ${selectedClass?.className ?? 'class'}.`);
+      const recipientLabel = recipientScope === 'class'
+        ? `the whole ${selectedClass?.className ?? 'class'} class`
+        : `${selectedRecipientIds.length} selected student${selectedRecipientIds.length === 1 ? '' : 's'} in ${selectedClass?.className ?? 'class'}`;
+      setMessage(`${created.length} assignment${created.length === 1 ? '' : 's'} created for ${recipientLabel}.`);
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : 'Unable to create assignments');
     } finally {
@@ -1868,17 +1908,47 @@ function AssignmentsPage() {
                 </select>
               </label>
               <label className="space-y-2 text-sm font-semibold">
-                <span className={darkSubtleText}>Due date</span>
+                <span className={darkSubtleText}>Due date optional</span>
                 <input
                   className={whiteControlClass}
                   onChange={(event) => setDueDate(event.target.value)}
-                  required
                   type="date"
                   value={dueDate}
                 />
               </label>
             </div>
-            <details className="group mt-4 rounded-app border border-[#dedbf0] bg-[#faf9ff]" key={createClassId}>
+            <fieldset className="mt-4 rounded-app border border-[#dedbf0] bg-[#faf9ff] p-4 text-ink">
+              <legend className="px-1 text-xs font-bold uppercase tracking-[0.12em] text-[#71699b]">Recipients</legend>
+              <div className="grid gap-3 md:grid-cols-2">
+                {[
+                  ['class', 'Whole class', `${selectedClassStudents.length} active student${selectedClassStudents.length === 1 ? '' : 's'}`],
+                  ['selected', 'Selected students', `${selectedRecipientIds.length} of ${selectedClassStudents.length} selected`],
+                ].map(([id, label, description]) => (
+                  <label
+                    className={`flex cursor-pointer items-start gap-3 rounded-app border p-3 transition ${
+                      recipientScope === id ? 'border-blue bg-[#eef6ff]' : 'border-line bg-white hover:border-blue'
+                    }`}
+                    key={id}
+                  >
+                    <input
+                      checked={recipientScope === id}
+                      className="mt-1 size-4 accent-blue"
+                      onChange={() => {
+                        setRecipientScope(id as TestAssignment['recipientScope']);
+                        setMessage('');
+                        setError('');
+                      }}
+                      type="radio"
+                    />
+                    <span>
+                      <span className="block text-sm font-bold">{label}</span>
+                      <span className="mt-1 block text-xs text-muted">{description}</span>
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </fieldset>
+            {recipientScope === 'selected' ? <details className="group mt-4 rounded-app border border-[#dedbf0] bg-[#faf9ff]" key={createClassId}>
               <summary className="flex cursor-pointer list-none items-center justify-between gap-4 p-4 text-sm font-semibold text-ink">
                 <span><span className="block text-xs font-bold uppercase tracking-[0.12em] text-[#71699b]">Students</span><span className="mt-1 block">{selectedRecipientIds.length} of {selectedClassStudents.length} selected</span></span>
                 <ChevronRight className="shrink-0 text-[#554fd1] transition group-open:rotate-90" size={20} aria-hidden="true" />
@@ -1895,15 +1965,17 @@ function AssignmentsPage() {
                   })}
                 </div>
               </div>
-            </details>
+            </details> : null}
           </Panel>
 
           <div className="flex flex-col gap-3 rounded-app border border-line bg-white p-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <p className="font-bold">{selectedVersionIds.length} tests selected</p>
-              <p className="text-sm text-muted">Each selected test creates one assignment for {selectedRecipientIds.length} selected student{selectedRecipientIds.length === 1 ? '' : 's'} in {selectedClass?.className ?? 'the selected class'}.</p>
+              <p className="text-sm text-muted">
+                Each selected test creates one {recipientScope === 'class' ? `whole-class assignment for ${selectedClass?.className ?? 'the selected class'}` : `assignment for ${selectedRecipientIds.length} selected student${selectedRecipientIds.length === 1 ? '' : 's'}`}{dueDate ? ` due ${formatDate(dueDate)}` : ' with no deadline'}.
+              </p>
             </div>
-            <Button disabled={!createClassId || !selectedVersionIds.length || !selectedRecipientIds.length || isSaving} onClick={createAssignments}>
+            <Button disabled={!createClassId || !selectedVersionIds.length || !createRecipientCount || isSaving} onClick={createAssignments}>
               {isSaving ? 'Creating...' : 'Create assignments'}
             </Button>
           </div>
@@ -2436,18 +2508,18 @@ function ResultsPage() {
       <Panel className="p-4">
         <button
           aria-expanded={filtersOpen}
-          className="flex w-full items-center justify-between gap-4 text-left"
+          className="group flex w-full items-center justify-between gap-4 rounded-app text-left transition focus:outline-none focus:ring-2 focus:ring-[#aeb9ff]/70"
           onClick={() => setFiltersOpen((open) => !open)}
           type="button"
         >
           <div>
             <h2 className="font-bold">Result filters</h2>
-            <p className="mt-1 text-sm text-muted">Change the class, course, topic or due-date view.</p>
+            <p className="mt-1 text-sm text-[#d9dfff] transition group-hover:text-white">Change the class, course, topic or due-date view.</p>
           </div>
-          <ChevronRight aria-hidden="true" className={`shrink-0 text-blue transition-transform ${filtersOpen ? 'rotate-90' : ''}`} size={22} />
+          <ChevronRight aria-hidden="true" className={`shrink-0 text-[#d9dfff] transition group-hover:text-white ${filtersOpen ? 'rotate-90' : ''}`} size={22} />
         </button>
-        {filtersOpen ? <div className="mt-4 grid gap-4 lg:grid-cols-3 xl:grid-cols-6">
-          <label className="space-y-2 text-sm font-semibold">
+        {filtersOpen ? <div className="mt-4 grid gap-4 lg:grid-cols-2 xl:grid-cols-12">
+          <label className={`${resultsFilterFieldClass} xl:col-span-2`}>
             <span className={darkSubtleText}>Class</span>
             <select
               className={whiteControlClass}
@@ -2462,7 +2534,7 @@ function ResultsPage() {
               ))}
             </select>
           </label>
-          <label className="space-y-2 text-sm font-semibold">
+          <label className={`${resultsFilterFieldClass} xl:col-span-4`}>
             <span className={darkSubtleText}>Course</span>
             <select
               className={whiteControlClass}
@@ -2481,7 +2553,7 @@ function ResultsPage() {
               ))}
             </select>
           </label>
-          <label className="space-y-2 text-sm font-semibold">
+          <label className={`${resultsFilterFieldClass} xl:col-span-3`}>
             <span className={darkSubtleText}>Unit</span>
             <select
               className={whiteControlClass}
@@ -2499,7 +2571,7 @@ function ResultsPage() {
               ))}
             </select>
           </label>
-          <label className="space-y-2 text-sm font-semibold">
+          <label className={`${resultsFilterFieldClass} xl:col-span-3`}>
             <span className={darkSubtleText}>Topic</span>
             <select
               className={whiteControlClass}
@@ -2518,11 +2590,11 @@ function ResultsPage() {
             <input checked={isDueDateFilterEnabled} className="size-4 accent-blue" onChange={(event) => setIsDueDateFilterEnabled(event.target.checked)} type="checkbox" />
             Filter by due date
           </label>
-          <label className="space-y-2 text-sm font-semibold">
+          <label className={`${resultsFilterFieldClass} xl:col-span-2`}>
             <span className={darkSubtleText}>Due from</span>
             <input className={whiteControlClass} onChange={(event) => setDueDateFrom(event.target.value)} type="date" value={dueDateFrom} />
           </label>
-          <label className="space-y-2 text-sm font-semibold">
+          <label className={`${resultsFilterFieldClass} xl:col-span-2`}>
             <span className={darkSubtleText}>Due to</span>
             <input className={whiteControlClass} onChange={(event) => setDueDateTo(event.target.value)} type="date" value={dueDateTo} />
           </label>

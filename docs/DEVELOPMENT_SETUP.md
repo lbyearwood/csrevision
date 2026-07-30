@@ -1,6 +1,6 @@
 # Development Setup For Codex
 
-Last updated: 2026-07-28
+Last updated: 2026-07-30
 
 Audience: Codex agents bootstrapping this repository on a new machine. The user does not plan to read this. Keep this file operational and dependency-focused.
 
@@ -82,7 +82,25 @@ docker cp supabase\seed.sql supabase_db_csrevision:/tmp/csrevision_seed.sql
 docker exec supabase_db_csrevision psql -v ON_ERROR_STOP=1 -U postgres -d postgres -f /tmp/csrevision_seed.sql
 ```
 
-6. Run the app:
+6. For bulk/staged QA, apply the optional bulk QA seed after the base seed is present. Do this only when the task needs the large local fixture set or the user has approved a reset/reseed workflow:
+
+```powershell
+docker cp supabase\qa_bulk_seed.sql supabase_db_csrevision:/tmp/csrevision_qa_bulk_seed.sql
+docker exec supabase_db_csrevision psql -v ON_ERROR_STOP=1 -U postgres -d postgres -f /tmp/csrevision_qa_bulk_seed.sql
+```
+
+Expected bulk QA fixture state:
+
+```text
+active_students=250
+active_real_classes=10
+assignments=94
+attempts=3142
+assignment_recipients=51
+bulk_seed_audits=1
+```
+
+7. Run the app:
 
 ```powershell
 npm.cmd run dev
@@ -149,6 +167,7 @@ Functional changes also require targeted QA of the changed workflow against loca
 - RLS/schema changes: run pgTAP or direct SQL checks proving allowed and denied access.
 - Persistence changes: save data, navigate or reload, and prove the saved state is still present.
 - Teacher assignment QA should check the `Create assignment`, `Active Assignments`, and `Expired Assignments` tabs. Active rows use current/no-deadline assignments; Expired rows use only past-deadline assignments.
+- Staged regression QA uses `docs/planning/csrevision-full-test-plan-checklist.html`. The artifact is read-only for the user and must be updated by Codex after every test in the requested stage.
 
 Do not mark the task complete until this behavioural QA passes. If it cannot be run, document the gap and leave the task blocked or partially verified.
 
