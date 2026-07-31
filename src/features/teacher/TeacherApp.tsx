@@ -31,7 +31,7 @@ import { Button } from '../../components/ui/Button';
 import { Metric } from '../../components/ui/Metric';
 import { Panel } from '../../components/ui/Panel';
 import { StatusBadge } from '../../components/ui/StatusBadge';
-import { formatDate } from '../../lib/time';
+import { formatDate, isDateWithinInputRange } from '../../lib/time';
 import { supabase } from '../../lib/supabaseClient';
 import { downloadStudentPerformancePdf } from '../../lib/studentPerformancePdf';
 import type { ClassRecord, StudentProfile, Test, TestAssignment, TestAttempt, Topic } from '../../types/domain';
@@ -65,8 +65,88 @@ const markingMethodLabel: Record<Test['markingMethod'], string> = {
 };
 const resultNaturalSort = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
 
+function useDialogAccessibility() {
+  useEffect(() => {
+    let activeDialog: HTMLElement | null = null;
+    let previouslyFocused: HTMLElement | null = null;
+    let focusFrame = 0;
+
+    const focusableSelector =
+      'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+    const syncDialog = () => {
+      const nextDialog = document.querySelector<HTMLElement>('[role="dialog"][aria-modal="true"]');
+      if (nextDialog === activeDialog) return;
+
+      if (activeDialog && !activeDialog.isConnected) {
+        previouslyFocused?.focus();
+        previouslyFocused = null;
+      }
+
+      activeDialog = nextDialog;
+      if (!activeDialog) return;
+      previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+      activeDialog.tabIndex = -1;
+      window.cancelAnimationFrame(focusFrame);
+      focusFrame = window.requestAnimationFrame(() => {
+        const firstControl = activeDialog?.querySelector<HTMLElement>(focusableSelector);
+        (firstControl ?? activeDialog)?.focus();
+      });
+    };
+
+    const closeActiveDialog = () => {
+      if (!activeDialog) return;
+      const labelledClose = activeDialog.querySelector<HTMLElement>('[data-dialog-close], [aria-label^="Close"]');
+      const cancelButton = Array.from(activeDialog.querySelectorAll<HTMLButtonElement>('button'))
+        .find((button) => button.textContent?.trim() === 'Cancel');
+      (labelledClose ?? cancelButton)?.click();
+    };
+
+    const handleKeyDown = (event: globalThis.KeyboardEvent) => {
+      if (!activeDialog?.isConnected) return;
+      if (event.key === 'Escape') {
+        event.preventDefault();
+        event.stopPropagation();
+        closeActiveDialog();
+        return;
+      }
+      if (event.key !== 'Tab') return;
+
+      const controls = Array.from(activeDialog.querySelectorAll<HTMLElement>(focusableSelector))
+        .filter((element) => element.getClientRects().length > 0);
+      if (!controls.length) {
+        event.preventDefault();
+        activeDialog.focus();
+        return;
+      }
+
+      const first = controls[0];
+      const last = controls[controls.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    const observer = new MutationObserver(syncDialog);
+    observer.observe(document.body, { childList: true, subtree: true });
+    document.addEventListener('keydown', handleKeyDown, true);
+    syncDialog();
+
+    return () => {
+      window.cancelAnimationFrame(focusFrame);
+      observer.disconnect();
+      document.removeEventListener('keydown', handleKeyDown, true);
+    };
+  }, []);
+}
+
 export function TeacherApp() {
   const { dataError, isLoadingData, isSupabaseBacked, signOut } = useAppState();
+  useDialogAccessibility();
 
   if (isSupabaseBacked && dataError) {
     return (
@@ -192,7 +272,17 @@ function TeacherDashboard() {
   const average = averageAttemptPercentage(classAttempts);
   const classAttemptIds = new Set(classAttempts.map((attempt) => attempt.id));
   const classStudentsById = new Map(classStudents.map((student) => [student.id, student]));
+  const allStudentsById = new Map(state.students.map((student) => [student.id, student]));
   const suspiciousEvents = state.events.filter((event) => classAttemptIds.has(event.attemptId)).slice(0, 5);
+  const recentTestActivity = [...classAttempts]
+    .sort((first, second) => attemptSortTime(second) - attemptSortTime(first))
+    .slice(0, 5)
+    .map((attempt) => ({
+      attempt,
+      student: allStudentsById.get(attempt.studentId),
+      test: testById.get(attempt.testId),
+      activityAt: attempt.submittedAt ?? attempt.startedAt,
+    }));
   const classPerformanceRows = classStudents
     .map((student) => {
       const studentAttempts = classAttempts.filter((attempt) => attempt.studentId === student.id);
@@ -252,7 +342,7 @@ function TeacherDashboard() {
         <Metric label="Average Score" value={average === undefined ? '-' : `${average}%`} tone="green" />
       </Panel>
 
-      <div className="grid min-w-0 gap-5 xl:grid-cols-[minmax(0,1fr)_330px]">
+      <div className="grid min-w-0 gap-5 lg:grid-cols-[minmax(0,1fr)_330px]">
         <Panel className="p-4">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-bold">Student Performance Overview</h2>
@@ -296,6 +386,49 @@ function TeacherDashboard() {
             <SummaryRow label="Tests Assigned" value={classAssignments.length.toString()} />
             <SummaryRow label="Students with completed work" value={`${studentsWithCompletedWork} (${Math.round((studentsWithCompletedWork / Math.max(classStudents.length, 1)) * 100)}%)`} />
             <SummaryRow label="Average Score" value={average === undefined ? '-' : `${average}%`} />
+          </Panel>
+          <Panel className="p-4">
+            <div className="mb-3 flex items-start justify-between gap-3">
+              <div>
+                <h2 className="font-bold">Recent Test Activity</h2>
+                <p className={`mt-1 text-xs ${darkSubtleText}`}>{classAssignments.length} assigned / {completed} completed</p>
+              </div>
+              <span className="grid size-8 shrink-0 place-items-center rounded-lg bg-[#eef0ff] text-blue">
+                <History size={17} aria-hidden="true" />
+              </span>
+            </div>
+            {recentTestActivity.length ? (
+              <div className="space-y-2">
+                {recentTestActivity.map(({ attempt, student, test, activityAt }) => {
+                  const isCompleted = completedAttemptCount([attempt]) > 0;
+                  return (
+                    <div className="rounded-xl border border-[#d8d3f5] bg-white p-3 text-sm text-ink" key={attempt.id}>
+                      <div className="flex items-start justify-between gap-3">
+                        <div className="min-w-0">
+                          <p className="font-bold">{student ? studentFullName(student) : 'Student'}</p>
+                          <p className="mt-0.5 line-clamp-2 text-xs font-semibold text-muted">{test?.testTitle ?? 'Test activity'}</p>
+                        </div>
+                        <StatusBadge tone={isCompleted ? 'green' : attempt.status === 'in_progress' ? 'blue' : 'amber'}>
+                          {attemptStatusLabel(attempt.status)}
+                        </StatusBadge>
+                      </div>
+                      <div className="mt-2 flex flex-wrap items-center justify-between gap-x-3 gap-y-1 text-xs">
+                        <span className="text-muted">{new Date(activityAt).toLocaleString()}</span>
+                        <span className={attempt.suspiciousEventCount ? 'font-bold text-danger' : 'font-semibold text-green'}>
+                          {attempt.suspiciousEventCount
+                            ? `${attempt.suspiciousEventCount} activity ${attempt.suspiciousEventCount === 1 ? 'flag' : 'flags'}`
+                            : 'No activity flags'}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <p className="rounded-xl border border-[#cfe9db] bg-[#f5fcf7] p-3 text-sm font-medium text-[#237748]">
+                No recent test activity recorded for this class.
+              </p>
+            )}
           </Panel>
           <Panel className="p-4">
             <div className="mb-3 flex items-center justify-between gap-3"><h2 className="font-bold">Suspicious Activity</h2><span className="grid size-8 place-items-center rounded-lg bg-[#fff0d6] text-[#ad6200]"><AlertTriangle size={17} aria-hidden="true" /></span></div>
@@ -740,7 +873,7 @@ function ClassesPage() {
 
               {isEditing ? (
                 <div className="fixed inset-0 z-50 grid place-items-center bg-[#111943]/55 p-4" role="presentation">
-                <form aria-label={`Edit ${classRecord.className}`} className="max-h-[calc(100vh-2rem)] w-full max-w-2xl space-y-4 overflow-y-auto rounded-app border border-line bg-white p-5 text-ink shadow-2xl" onSubmit={saveClass}>
+                <form aria-label={`Edit ${classRecord.className}`} aria-modal="true" className="max-h-[calc(100vh-2rem)] w-full max-w-2xl space-y-4 overflow-y-auto rounded-app border border-line bg-white p-5 text-ink shadow-2xl" onSubmit={saveClass} role="dialog">
                   <div className="flex items-start justify-between gap-4">
                     <div><p className="text-xs font-bold uppercase tracking-[0.14em] text-blue">Edit class</p><h2 className="mt-1 text-xl font-bold">{classRecord.className}</h2></div>
                     <Button aria-label="Close edit class" className="min-h-9 px-3" disabled={isSaving} type="button" variant="secondary" onClick={cancelEditing}><X size={16} aria-hidden="true" /></Button>
@@ -1162,7 +1295,7 @@ function StudentsPage() {
 
         {selectedStudent && isEditingStudent ? (
             <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#10142b]/55 p-4 backdrop-blur-sm" role="presentation">
-            <form aria-label={`Edit ${selectedStudent.firstName} ${selectedStudent.surname}`} className="max-h-[calc(100vh-2rem)] w-full max-w-2xl space-y-4 overflow-y-auto rounded-[1.5rem] border-2 border-[#7774ec] bg-white p-5 text-ink shadow-[0_28px_72px_rgba(19,25,72,0.38)] lg:p-6" onSubmit={saveStudent}>
+            <form aria-label={`Edit ${selectedStudent.firstName} ${selectedStudent.surname}`} aria-modal="true" className="max-h-[calc(100vh-2rem)] w-full max-w-2xl space-y-4 overflow-y-auto rounded-[1.5rem] border-2 border-[#7774ec] bg-white p-5 text-ink shadow-[0_28px_72px_rgba(19,25,72,0.38)] lg:p-6" onSubmit={saveStudent} role="dialog">
               <div>
                 <div className="flex items-start justify-between gap-4">
                   <div><p className="text-xs font-semibold uppercase tracking-normal text-muted">Edit student</p><h2 className="mt-1 text-xl font-bold">{selectedStudent.firstName} {selectedStudent.surname}</h2></div>
@@ -1300,7 +1433,7 @@ function StudentsPage() {
           ) : null}
         {activityStudent ? (
           <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#10142b]/55 p-4 backdrop-blur-sm" role="presentation">
-            <section aria-label={`${studentFullName(activityStudent)} activity history`} className="max-h-[calc(100vh-2rem)] w-full max-w-4xl overflow-hidden rounded-[1.5rem] border-2 border-[#7774ec] bg-white text-ink shadow-[0_28px_72px_rgba(19,25,72,0.38)]">
+            <section aria-label={`${studentFullName(activityStudent)} activity history`} aria-modal="true" className="max-h-[calc(100vh-2rem)] w-full max-w-4xl overflow-hidden rounded-[1.5rem] border-2 border-[#7774ec] bg-white text-ink shadow-[0_28px_72px_rgba(19,25,72,0.38)]" role="dialog">
               <div className="flex items-start justify-between gap-4 border-b border-line p-5 lg:p-6">
                 <div><p className="text-xs font-semibold uppercase tracking-normal text-muted">Student activity</p><h2 className="mt-1 text-xl font-bold">{studentFullName(activityStudent)}</h2><p className="mt-1 text-sm text-muted">Recent learning-platform visits and activity.</p></div>
                 <button aria-label="Close student activity" className="grid size-10 place-items-center rounded-xl border border-line bg-mist text-muted transition hover:border-blue hover:text-blue" onClick={() => setActivityStudent(null)} type="button"><X size={18} aria-hidden="true" /></button>
@@ -1505,7 +1638,7 @@ function TestsPage() {
       ) : null}
       {previewTest ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#10142b]/55 p-4 backdrop-blur-sm" role="presentation">
-          <section aria-label={`${previewTest.testTitle} preview`} className="max-h-[calc(100vh-2rem)] w-full max-w-3xl overflow-auto rounded-[1.5rem] border-2 border-[#7774ec] bg-white text-ink shadow-[0_28px_72px_rgba(19,25,72,0.38)]">
+          <section aria-label={`${previewTest.testTitle} preview`} aria-modal="true" className="max-h-[calc(100vh-2rem)] w-full max-w-3xl overflow-auto rounded-[1.5rem] border-2 border-[#7774ec] bg-white text-ink shadow-[0_28px_72px_rgba(19,25,72,0.38)]" role="dialog">
             <div className="flex items-start justify-between gap-4 border-b border-line p-5 lg:p-6">
               <div><p className="text-xs font-semibold uppercase tracking-normal text-muted">Teacher preview</p><h2 className="mt-1 text-xl font-bold">{previewTest.testTitle}</h2><p className="mt-1 text-sm text-muted">Read-only test content. Nothing is recorded.</p></div>
               <button aria-label="Close test preview" className="grid size-10 place-items-center rounded-xl border border-line bg-mist text-muted transition hover:border-blue hover:text-blue" onClick={() => setPreviewTestId(null)} type="button"><X size={18} aria-hidden="true" /></button>
@@ -1911,7 +2044,9 @@ function AssignmentsPage() {
                 <span className={darkSubtleText}>Due date optional</span>
                 <input
                   className={whiteControlClass}
+                  onBlur={(event) => setDueDate(event.currentTarget.value)}
                   onChange={(event) => setDueDate(event.target.value)}
+                  onInput={(event) => setDueDate(event.currentTarget.value)}
                   type="date"
                   value={dueDate}
                 />
@@ -2388,8 +2523,7 @@ function ResultsPage() {
     }).filter((row) => {
       if (!isDueDateFilterEnabled) return true;
       if (!row.dueAt) return false;
-      const dueDate = row.dueAt.slice(0, 10);
-      return (!dueDateFrom || dueDate >= dueDateFrom) && (!dueDateTo || dueDate <= dueDateTo);
+      return isDateWithinInputRange(row.dueAt, dueDateFrom, dueDateTo);
     });
   }, [assignmentsByTestId, dueDateFrom, dueDateTo, filteredTests, isDueDateFilterEnabled, resultAttempts, selectedClassId, studentColumns, topicById, unitById]);
 
@@ -2592,11 +2726,11 @@ function ResultsPage() {
           </label>
           <label className={`${resultsFilterFieldClass} xl:col-span-2`}>
             <span className={darkSubtleText}>Due from</span>
-            <input className={whiteControlClass} onChange={(event) => setDueDateFrom(event.target.value)} type="date" value={dueDateFrom} />
+            <input className={whiteControlClass} onBlur={(event) => setDueDateFrom(event.currentTarget.value)} onChange={(event) => setDueDateFrom(event.target.value)} onInput={(event) => setDueDateFrom(event.currentTarget.value)} type="date" value={dueDateFrom} />
           </label>
           <label className={`${resultsFilterFieldClass} xl:col-span-2`}>
             <span className={darkSubtleText}>Due to</span>
-            <input className={whiteControlClass} onChange={(event) => setDueDateTo(event.target.value)} type="date" value={dueDateTo} />
+            <input className={whiteControlClass} onBlur={(event) => setDueDateTo(event.currentTarget.value)} onChange={(event) => setDueDateTo(event.target.value)} onInput={(event) => setDueDateTo(event.currentTarget.value)} type="date" value={dueDateTo} />
           </label>
         </div> : null}
       </Panel>

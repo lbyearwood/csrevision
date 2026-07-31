@@ -64,6 +64,18 @@ textarea {
     linear-gradient(135deg, rgba(255, 255, 255, 0.97), rgba(250, 248, 255, 0.96));
 }
 
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-delay: 0ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
 @media print {
   body * {
     visibility: hidden !important;

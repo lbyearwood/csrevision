@@ -232,7 +232,7 @@ Deno.serve(async (req) => {
 
     const { data: savedAnswers, error: savedAnswersError } = await service
       .from('student_answers')
-      .select('id, question_id, answer, answer_text, max_marks')
+      .select('id, question_id, answer, answer_text, max_marks, last_saved_at')
       .eq('attempt_id', attempt.id);
     if (savedAnswersError) throw savedAnswersError;
 
@@ -260,9 +260,16 @@ Deno.serve(async (req) => {
         questionId: answer.question_id,
         answer: answer.answer ?? answer.answer_text ?? '',
         maxMarks: answer.max_marks ?? 1,
+        lastSavedAt: answer.last_saved_at,
       })),
     });
   } catch (error) {
-    return errorResponse(error instanceof Error ? error.message : 'Unable to start attempt', 400);
+    const message =
+      error instanceof Error
+        ? error.message
+        : error && typeof error === 'object' && 'message' in error
+          ? String(error.message)
+          : 'Unable to start attempt';
+    return errorResponse(message, 400);
   }
 });

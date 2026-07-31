@@ -46,18 +46,71 @@ Deno.serve(async (req) => {
 
     if (questionId) {
       const answer = body.answer ?? null;
-      const { error } = await service.from('student_answers').upsert(
-        {
+      const expectedLastSavedAt = body.expectedLastSavedAt === null
+        ? null
+        : typeof body.expectedLastSavedAt === 'string'
+          ? body.expectedLastSavedAt
+          : undefined;
+      if (expectedLastSavedAt === undefined) {
+        return errorResponse('Answer revision token is required. Reload the assessment and retry.', 409);
+      }
+
+      const { data: existingAnswer, error: existingAnswerError } = await service
+        .from('student_answers')
+        .select('id, last_saved_at')
+        .eq('attempt_id', attemptId)
+        .eq('question_id', questionId)
+        .maybeSingle();
+      if (existingAnswerError) throw existingAnswerError;
+
+      if (
+        (existingAnswer && expectedLastSavedAt === null) ||
+        (!existingAnswer && expectedLastSavedAt !== null) ||
+        (existingAnswer && expectedLastSavedAt !== null && existingAnswer.last_saved_at !== expectedLastSavedAt)
+      ) {
+        return errorResponse('This answer was changed in another tab. Reload the assessment before saving again.', 409);
+      }
+
+      const savedAt = new Date().toISOString();
+      if (existingAnswer) {
+        const { data: updatedAnswer, error: updateError } = await service
+          .from('student_answers')
+          .update({
+            answer,
+            answer_text: typeof answer === 'string' ? answer : null,
+            max_marks: body.maxMarks ?? null,
+            last_saved_at: savedAt,
+          })
+          .eq('id', existingAnswer.id)
+          .eq('last_saved_at', expectedLastSavedAt)
+          .select('id, last_saved_at')
+          .maybeSingle();
+        if (updateError) throw updateError;
+        if (!updatedAnswer) {
+          return errorResponse('This answer was changed in another tab. Reload the assessment before saving again.', 409);
+        }
+        return jsonResponse({ answerId: updatedAnswer.id, savedAt: updatedAnswer.last_saved_at });
+      }
+
+      const { data: insertedAnswer, error: insertError } = await service
+        .from('student_answers')
+        .insert({
           attempt_id: attemptId,
           question_id: questionId,
           answer,
           answer_text: typeof answer === 'string' ? answer : null,
           max_marks: body.maxMarks ?? null,
-          last_saved_at: new Date().toISOString(),
-        },
-        { onConflict: 'attempt_id,question_id' },
-      );
-      if (error) throw error;
+          last_saved_at: savedAt,
+        })
+        .select('id, last_saved_at')
+        .single();
+      if (insertError) {
+        if (insertError.code === '23505') {
+          return errorResponse('This answer was changed in another tab. Reload the assessment before saving again.', 409);
+        }
+        throw insertError;
+      }
+      return jsonResponse({ answerId: insertedAnswer.id, savedAt: insertedAnswer.last_saved_at });
     }
 
     return jsonResponse({ savedAt: new Date().toISOString() });

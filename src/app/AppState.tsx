@@ -5,6 +5,7 @@ import { clearActivitySession } from '../lib/activity';
 import { statusForPoints } from '../lib/points';
 import { buildLeaderboardFromPoints, loadSupabaseSnapshot, type SupabaseSnapshot } from '../lib/supabaseData';
 import { isSupabaseConfigured, supabase } from '../lib/supabaseClient';
+import { toLocalSupabaseError } from '../lib/supabaseErrors';
 import type { AttemptEvent, ClassRecord, PointsTransaction, Question, StudentAnswer, StudentProfile, TeacherProfile, TestAssignment, TestAttempt, UserRole } from '../types/domain';
 
 interface SessionState {
@@ -90,7 +91,13 @@ interface StartAttemptResponse {
     questionId: string;
     answer: string | string[];
     maxMarks: number;
+    lastSavedAt: string;
   }>;
+}
+
+interface SaveAnswerResponse {
+  answerId?: string;
+  savedAt: string;
 }
 
 interface SubmitAttemptResponse {
@@ -162,7 +169,7 @@ interface AppStateValue extends SupabaseSnapshot {
   isLoadingData: boolean;
   dataError: string;
   beginAttempt: (input: BeginAttemptInput) => Promise<TestAttempt>;
-  saveAnswer: (attemptId: string, questionId: string, answer: string) => void;
+  saveAnswer: (attemptId: string, questionId: string, answer: string) => Promise<void>;
   saveAttemptProgress: (attemptId: string, questionIndex: number) => void;
   submitAttempt: (attemptId: string) => Promise<TestAttempt>;
   getAttemptReview: (attemptId: string) => Promise<AttemptReview>;
@@ -267,13 +274,42 @@ async function invokeFunction<T>(name: string, body: Record<string, unknown>): P
     throw new Error('Your session has expired. Sign in again, then retry.');
   }
 
-  const { data, error } = await supabase.functions.invoke<T | { error: string }>(name, {
-    body,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-    },
+  const abortController = new AbortController();
+  let rejectForTimeout: ((reason?: unknown) => void) | undefined;
+  const timeoutPromise = new Promise<never>((_resolve, reject) => {
+    rejectForTimeout = reject;
   });
-  if (error) throw new Error(await functionErrorMessage(error));
+  const timeoutId = globalThis.setTimeout(() => {
+    abortController.abort();
+    rejectForTimeout?.(new Error('Edge Function request timed out'));
+  }, 5_000);
+
+  let result: Awaited<ReturnType<typeof supabase.functions.invoke<T | { error: string }>>>;
+  try {
+    result = await Promise.race([
+      supabase.functions.invoke<T | { error: string }>(name, {
+        body,
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        signal: abortController.signal,
+        timeout: 5_000,
+      }),
+      timeoutPromise,
+    ]);
+  } catch (error) {
+    throw toLocalSupabaseError(error, 'The Local Supabase action failed. Retry the action.');
+  } finally {
+    globalThis.clearTimeout(timeoutId);
+  }
+
+  const { data, error } = result;
+  if (error) {
+    throw toLocalSupabaseError(
+      new Error(await functionErrorMessage(error)),
+      'The Local Supabase action failed. Retry the action.',
+    );
+  }
   if (hasFunctionError(data)) throw new Error(data.error);
   return data as T;
 }
@@ -411,7 +447,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       })
       .catch((error: unknown) => {
         if (!isActive) return;
-        setDataError(error instanceof Error ? error.message : 'Unable to load local Supabase data');
+        setDataError(toLocalSupabaseError(error, 'Unable to load local Supabase data').message);
       })
       .finally(() => {
         if (isActive) setIsLoadingData(false);
@@ -503,6 +539,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       questionId: answer.questionId,
       answer: answer.answer,
       maxMarks: answer.maxMarks,
+      lastSavedAt: answer.lastSavedAt,
     }));
 
     setSnapshot((current) => ({
@@ -744,30 +781,34 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     return result.message;
   };
 
-  const saveAnswer = (attemptId: string, questionId: string, answer: string) => {
+  const saveAnswer = async (attemptId: string, questionId: string, answer: string): Promise<void> => {
     if (!isSupabaseBacked) {
-      setDataError(SUPABASE_REQUIRED_MESSAGE);
-      return;
+      throw new Error(SUPABASE_REQUIRED_MESSAGE);
     }
 
     const maxMarks = snapshot.questions.find((question) => question.id === questionId)?.maxMarks ?? 1;
+    const existingAnswer = answers.find((row) => row.attemptId === attemptId && row.questionId === questionId);
+    const result = await invokeFunction<SaveAnswerResponse>('save-answer', {
+      attemptId,
+      questionId,
+      answer,
+      maxMarks,
+      expectedLastSavedAt: existingAnswer?.lastSavedAt ?? null,
+    });
+    const savedAnswer: StudentAnswer = {
+      id: result.answerId ?? existingAnswer?.id ?? `answer-${crypto.randomUUID()}`,
+      attemptId,
+      questionId,
+      answer,
+      lastSavedAt: result.savedAt,
+      maxMarks,
+    };
     setAnswers((rows) => {
       const existingIndex = rows.findIndex((row) => row.attemptId === attemptId && row.questionId === questionId);
-      const nextAnswer: StudentAnswer = {
-        id: existingIndex >= 0 ? rows[existingIndex].id : `answer-${crypto.randomUUID()}`,
-        attemptId,
-        questionId,
-        answer,
-        maxMarks,
-      };
       if (existingIndex >= 0) {
-        return rows.map((row, index) => (index === existingIndex ? nextAnswer : row));
+        return rows.map((row, index) => (index === existingIndex ? savedAnswer : row));
       }
-      return [nextAnswer, ...rows];
-    });
-
-    void invokeFunction('save-answer', { attemptId, questionId, answer, maxMarks }).catch((error: unknown) => {
-      setDataError(error instanceof Error ? error.message : 'Unable to save answer');
+      return [savedAnswer, ...rows];
     });
   };
 
@@ -787,12 +828,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const submitSupabaseAttempt = async (attemptId: string): Promise<TestAttempt> => {
     const attempt = attempts.find((row) => row.id === attemptId);
     if (!attempt) throw new Error('Attempt not found');
-    const submittedAnswers = answers
-      .filter((answer) => answer.attemptId === attemptId)
-      .map((answer) => ({ questionId: answer.questionId, answer: answer.answer }));
     const result = await invokeFunction<SubmitAttemptResponse>('submit-test-attempt', {
       attemptId,
-      answers: submittedAnswers,
     });
     const submittedAt = new Date();
     const durationSeconds = Math.round((submittedAt.getTime() - new Date(attempt.startedAt).getTime()) / 1000);

@@ -56,6 +56,20 @@ async function readTable<T>(tableName: string, query: PromiseLike<{ data: T | nu
   return data as T;
 }
 
+async function readAllRows<T>(
+  tableName: string,
+  pageQuery: (from: number, to: number) => PromiseLike<{ data: T[] | null; error: unknown }>,
+): Promise<T[]> {
+  const pageSize = 1_000;
+  const rows: T[] = [];
+
+  for (let from = 0; ; from += pageSize) {
+    const page = await readTable<T[]>(tableName, pageQuery(from, from + pageSize - 1));
+    rows.push(...page);
+    if (page.length < pageSize) return rows;
+  }
+}
+
 function toNumber(value: unknown, defaultValue = 0): number {
   const numberValue = Number(value);
   return Number.isFinite(numberValue) ? numberValue : defaultValue;
@@ -244,8 +258,8 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
       'assignment_recipients',
       client.from('assignment_recipients').select('assignment_id, student_id'),
     ),
-    readTable<
-      Array<{
+    readAllRows<
+      {
         id: string;
         student_id: string;
         class_id_at_attempt: string | null;
@@ -268,13 +282,16 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
         points_awarded: number | null;
         suspicious_event_count: number;
         void_reason: string | null;
-      }>
+      }
     >(
       'test_attempts',
-      client
-        .from('test_attempts')
-        .select('id, student_id, class_id_at_attempt, test_id, test_version_id, assignment_id, attempt_type, attempt_number, resume_question_index, status, started_at, submitted_at, duration_seconds, time_limit_seconds, score, max_score, percentage, marking_status, feedback_status, points_awarded, suspicious_event_count, void_reason')
-        .order('started_at', { ascending: false }),
+      (from, to) =>
+        client
+          .from('test_attempts')
+          .select('id, student_id, class_id_at_attempt, test_id, test_version_id, assignment_id, attempt_type, attempt_number, resume_question_index, status, started_at, submitted_at, duration_seconds, time_limit_seconds, score, max_score, percentage, marking_status, feedback_status, points_awarded, suspicious_event_count, void_reason')
+          .order('started_at', { ascending: false })
+          .order('id', { ascending: true })
+          .range(from, to),
     ),
     readTable<
       Array<{
@@ -286,12 +303,13 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
         marks_awarded: number | null;
         max_marks: number | null;
         feedback: string | null;
+        last_saved_at: string;
       }>
     >(
       'student_answers',
       client
         .from('student_answers')
-        .select('id, attempt_id, question_id, answer, answer_text, marks_awarded, max_marks, feedback')
+        .select('id, attempt_id, question_id, answer, answer_text, marks_awarded, max_marks, feedback, last_saved_at')
         .order('last_saved_at', { ascending: false }),
     ),
     readTable<
@@ -507,6 +525,7 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
       attemptId: answer.attempt_id,
       questionId: answer.question_id,
       answer: answer.answer ?? answer.answer_text ?? '',
+      lastSavedAt: answer.last_saved_at,
       marksAwarded: answer.marks_awarded ?? undefined,
       maxMarks: answer.max_marks ?? 1,
       feedback: answer.feedback ?? undefined,

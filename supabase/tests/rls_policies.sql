@@ -5,7 +5,14 @@ create extension if not exists pgtap with schema extensions;
 grant usage on schema extensions to authenticated, anon;
 grant execute on all functions in schema extensions to authenticated, anon;
 
-select plan(29);
+select plan(30);
+
+select ok(
+  has_table_privilege('service_role', 'public.assignment_recipients', 'SELECT')
+    and has_table_privilege('service_role', 'public.assignment_recipients', 'INSERT')
+    and has_table_privilege('service_role', 'public.assignment_recipients', 'DELETE'),
+  'service role can manage selected assignment recipients'
+);
 
 create temp table rls_test_refs as
 select

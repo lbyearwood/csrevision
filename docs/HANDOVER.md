@@ -1,6 +1,6 @@
 # Codex Handover
 
-Last updated: 2026-07-30
+Last updated: 2026-07-31
 
 Audience: a new Codex agent continuing `csrevision` on a different development computer.
 
@@ -13,12 +13,14 @@ Read these files in order:
 3. `docs/CODEX_END_PROCESS.md`
 4. `docs/HANDOVER.md`
 5. `docs/PROJECT_TASKS.md`
-6. `PROJECT_BRIEF.md`
-7. `docs/DEVELOPMENT_SETUP.md`
-8. `docs/TESTING.md`
-9. `docs/SUPABASE_SETUP.md`
-10. `docs/TROUBLESHOOTING.md`
-11. `docs/planning/csrevision-full-test-plan-checklist.html` if continuing staged QA or fixing staged-test failures
+6. `docs/OUTSTANDING_BLOCKED_TESTS.md`
+7. `PROJECT_BRIEF.md`
+8. `docs/DEVELOPMENT_SETUP.md`
+9. `docs/TESTING.md`
+10. `docs/SUPABASE_SETUP.md`
+11. `docs/PRODUCTION_RELEASE_RUNBOOK.md` before any production launch decision
+12. `docs/TROUBLESHOOTING.md`
+13. `docs/planning/csrevision-full-test-plan-checklist.html` if continuing staged QA or fixing staged-test failures
 
 The active branch is:
 
@@ -31,7 +33,63 @@ Current user instruction:
 - Run per-task QA after each development task.
 - Run the end process only when the user explicitly says `end` or asks to wrap up development.
 - The end process includes committing and pushing the active branch.
-- Do not push unless the user explicitly says `push`.
+- Do not push unless the user explicitly says `push` or explicitly requests the end process.
+
+## Session update - 2026-07-31
+
+### Current local working mode
+
+- Local Supabase remains mandatory; there is no frontend demo fallback.
+- Active branch: `agent/csrevision-accounts-mvp`.
+- The user reported Docker is running.
+- The Vite site is not running at end of session; there is no listener on `127.0.0.1:5173`.
+
+### Completed in this session
+
+- Built a single-topic student revision-objectives prototype for `1.1 Programming fundamentals`.
+- The user approved the presentation: the objectives are collapsed by default, expand into a numbered list, and the existing practice test remains visible below the objectives.
+- Corrected the 1.1 content so sequence/selection and iteration remain in their separate 1.2 and 1.3 topics.
+- Added appropriate 1.1 fundamentals such as input/output, data types, casting, random-number generation and string operations.
+- Read and visually reviewed all 49 pages of the supplied OCR J277 specification, Version 3.1 (May 2026).
+- Created `docs/OCR_J277_SPEC_TO_APP_STRUCTURE_BREAKDOWN.txt`, mapping the complete assessable specification into the existing 8 units and 41 topics rather than changing the app hierarchy.
+- The breakdown records student-facing objectives, OCR required/not-required boundaries, OCR Exam Reference Language, practical programming requirements, assessment structure, Assessment Objectives and command words.
+- Assigned logic gates and truth tables to `4.3 Logic gates and Truth tables`, after the two binary topics. The rollout must include labelled AND/OR/NOT diagrams, a combined-gate example, complete truth tables and accessible text alternatives.
+- Recorded that string interpolation and a prescribed list of file formats are not explicit OCR J277 requirements and must not be labelled as specification content.
+
+### Latest verification on 2026-07-31
+
+```text
+Watchdog npm.cmd run typecheck: passed
+Watchdog npm.cmd run lint: passed
+Watchdog npm.cmd run test: passed, 7 files / 23 tests
+Watchdog npm.cmd run build: passed, existing Vite >500 kB chunk warning only
+Specification breakdown validation: passed, 8 units / 41 topics and required coverage markers present
+git diff --check for the specification breakdown: passed
+npx.cmd supabase status: passed; local API, database and Studio are running
+npx.cmd supabase test db --local supabase\tests: passed, 30 pgTAP tests
+```
+
+### Important local-only state
+
+- The interrupted Vite launch was stopped and no site listener remains.
+- Docker/Supabase state was not reset or mutated during the specification work.
+- Supabase status reports imgproxy, Edge Runtime and pooler stopped. Restart the
+  Edge Runtime before browser-testing Edge Function workflows.
+- Local database counts and staged-QA history from the 2026-07-30 handover remain applicable.
+
+### Known gaps and next recommended task
+
+1. Replace the single hard-coded 1.1 objective list with a maintainable data source covering all 41 topics from `docs/OCR_J277_SPEC_TO_APP_STRUCTURE_BREAKDOWN.txt`.
+2. Preserve the approved collapsed/numbered design and every existing practice test.
+3. Add responsive, accessible SVG gate diagrams and truth tables to topic 4.3.
+4. Run typecheck, lint, unit tests, build and desktop/mobile browser QA across representative topics from all 8 units.
+
+### Files to inspect first
+
+- `docs/OCR_J277_SPEC_TO_APP_STRUCTURE_BREAKDOWN.txt`
+- `src/features/student/StudentApp.tsx`
+- `supabase/seed.sql`
+- `scripts/generate-placeholder-resources.mjs`
 
 ## Session update - 2026-07-30
 
@@ -44,6 +102,17 @@ Current user instruction:
 
 ### Completed in this session
 
+- Completed Stage 9 release regression and UAT: 24 pass, 0 fail, 0 blocked. The selected-recipient assignment journey, historical-class reporting, teacher/student smoke routes, responsive screenshots, automated gates, documentation, backup/restore rehearsal, secret audit, wording sweep, and cleanup all passed.
+- Fixed selected-recipient assignment start by granting `service_role` the required `assignment_recipients` access in migration `20260730194500_grant_service_access_to_assignment_recipients.sql`; pgTAP now protects the grant.
+- Made the assignment due-date input update React state on input and blur as well as change, so browser-driven date entry is submitted reliably.
+- Improved `start-test-attempt` error handling so PostgREST-style object errors expose their useful message instead of a generic failure.
+- Added `docs/PRODUCTION_RELEASE_RUNBOOK.md` and completed a local logical backup/restore rehearsal with matching source/restored counts.
+- Completed and fixed Stage 8 performance and scale QA: 7 pass, 0 fail, 0 blocked. Assigned assessment starts now show immediate scoped pending feedback, prevent parallel starts, recover after timeout, and navigate after success.
+- Completed and fixed Stage 7. Its 24 tests now record 21 pass, 3 blocked, and 0 fail.
+- Added application-level watchdog timeouts and actionable Local Supabase errors for stalled sign-in, Edge Function hydration, and answer-save requests.
+- Answer saves are pessimistic and retryable: the UI changes only after a confirmed server save and preserves the prior answer on failure.
+- Answer updates now use a `last_saved_at` concurrency token. A stale browser tab receives a conflict warning instead of silently overwriting a newer answer, and final submission no longer re-upserts stale client answers.
+- Teacher/student sign-in submits with Enter; teacher dialogs receive/trap focus, close with Escape, and restore trigger focus; reduced-motion CSS is present.
 - Fixed Stage 4 failures from the standalone sequential test plan.
 - Student Practice now follows `Course -> Unit -> Topic -> Test`. Topic pages show available tests only; no hidden future `revision_lesson`, `tutorial`, or `worksheet` buttons are visible.
 - In-progress practice attempts now survive browser reload and Continue Practice. `start-test-attempt` returns safe questions plus the current student's saved answers for an owned/resumable attempt.
@@ -61,20 +130,45 @@ Current user instruction:
 - Artifact: `docs/planning/csrevision-full-test-plan-checklist.html`.
 - Total tests: 236.
 - Stage 4 recorded state after fixes: 37 pass, 1 blocked, 0 fail.
+- Stage 5 recorded state: 26 pass, 7 blocked, 0 fail.
+- Stage 6 recorded state: 32 pass, 11 blocked, 0 fail.
+- Stage 7 recorded state after fixes: 21 pass, 3 blocked, 0 fail.
+- Stage 8 recorded state after fixes: 7 pass, 0 fail, 0 blocked.
+- Stage 9 recorded state: 24 pass, 0 fail, 0 blocked.
 - Remaining Stage 4 blocker: Test 94. The PDF download button clicked successfully and produced no console errors, but the in-app browser did not expose the downloaded PDF file for visual inspection.
-- Next staged QA task: begin Stage 5 only when the user asks; do not skip ahead.
+- Remaining Stage 7 blockers are Tests 184, 189, and 197: isolated missing-config startup, a safe stale-schema fixture, and reliable 200% browser zoom emulation.
+- All nine staged QA sections are now recorded. Do not start production deployment without explicit user instruction and the production runbook preconditions.
+- Outstanding blocked-test backlog: `docs/OUTSTANDING_BLOCKED_TESTS.md` records all 22 unresolved tests, required work, partial evidence, recommended order, and completion criteria.
 
 ### Latest verification on 2026-07-30
 
 ```text
 npm.cmd run lint: passed
 npm.cmd run typecheck: passed
-npm.cmd test: passed, 5 files / 16 tests
+npm.cmd test: passed, 7 files / 23 tests
 npm.cmd run build: passed, existing Vite >500 kB chunk warning only
 git diff --check: passed, Windows CRLF warnings only
+npx.cmd supabase test db --local: passed, 30 tests
+npx.cmd supabase migration up --local: passed, no pending migrations
 App health: http://127.0.0.1:5173/ HTTP 200
-Edge health: http://127.0.0.1:54321/functions/v1/start-test-attempt OPTIONS HTTP 200
+Browser QA: Stage 9 teacher and student route smoke passed with no console errors; responsive Home checks passed at 1280x900, 768x900, and 390x844 with no horizontal overflow
+Local services: Auth and Edge Runtime restarted after deliberate outage testing
 ```
+
+Stage 9 cleanup removed the exact disposable assignment `66610148-119c-4e99-9702-21f06397bbb8`, attempt `47b6f822-f938-41e8-969f-054a44a4a75f`, dependent answers/display orders/points transaction, and recipient row. Diya Patel has exactly one active 10A Computing membership; the temporary restore database and backup file are absent.
+
+Final local-only database state after Stage 9 cleanup:
+
+```text
+active_students=250
+active_real_classes=10
+test_assignments=96
+test_attempts=3451
+assignment_recipients=3
+bulk_seed_audits=0
+```
+
+These counts describe this computer's local Supabase volumes and are not Git-tracked production state. Earlier staged QA created durable local history beyond the deterministic seed baseline; use the documented reset/reseed process when an exact clean baseline is required.
 
 Local bulk QA seed verification:
 

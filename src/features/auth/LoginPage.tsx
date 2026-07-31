@@ -1,5 +1,5 @@
 import { Code2 } from 'lucide-react';
-import { FormEvent, useState } from 'react';
+import { FormEvent, KeyboardEvent, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '../../components/ui/Button';
 import { Panel } from '../../components/ui/Panel';
@@ -52,6 +52,13 @@ export function LoginPage() {
     }
   };
 
+  const submitOnEnter = (event: KeyboardEvent<HTMLFormElement>) => {
+    if (event.key !== 'Enter' || event.nativeEvent.isComposing || isSubmitting) return;
+    if (event.target instanceof HTMLTextAreaElement) return;
+    event.preventDefault();
+    event.currentTarget.requestSubmit();
+  };
+
   return (
     <main className="min-h-screen bg-mist px-4 py-8 text-ink">
       <div className="mx-auto flex min-h-[calc(100vh-4rem)] max-w-6xl items-center justify-center">
@@ -93,7 +100,7 @@ export function LoginPage() {
             </button>
           </div>
 
-          <form className="space-y-4" onSubmit={onSubmit}>
+          <form className="space-y-4" onKeyDown={submitOnEnter} onSubmit={onSubmit}>
             <div>
               <label className="text-sm font-semibold" htmlFor="identifier">
                 {mode === 'student' ? 'Username' : 'Email'}
@@ -121,7 +128,7 @@ export function LoginPage() {
             </div>
             {dataError ? <p className="rounded-app bg-[#fff7e8] p-3 text-sm font-semibold text-amber">{dataError}</p> : null}
             {error ? <p className="rounded-app bg-[#fff1f1] p-3 text-sm text-danger">{error}</p> : null}
-            <Button className="w-full" disabled={isSubmitting}>
+            <Button className="w-full" disabled={isSubmitting} type="submit">
               {isSubmitting ? 'Signing in...' : 'Sign in'}
             </Button>
             <p className="text-center text-xs leading-5 text-[#d9dfff]">

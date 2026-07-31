@@ -74,21 +74,6 @@ Deno.serve(async (req) => {
     if (!attempt) return errorResponse('Attempt not found', 404);
     if (attempt.status !== 'in_progress') return errorResponse('Attempt has already been submitted', 409);
 
-    if (Array.isArray(body.answers)) {
-      for (const submittedAnswer of body.answers) {
-        await service.from('student_answers').upsert(
-          {
-            attempt_id: attemptId,
-            question_id: submittedAnswer.questionId,
-            answer: submittedAnswer.answer,
-            answer_text: typeof submittedAnswer.answer === 'string' ? submittedAnswer.answer : null,
-            last_saved_at: new Date().toISOString(),
-          },
-          { onConflict: 'attempt_id,question_id' },
-        );
-      }
-    }
-
     const { data: questions, error: questionError } = await service
       .from('questions')
       .select('id, question_type, max_marks, correct_answer, accepted_keywords')

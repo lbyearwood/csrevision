@@ -50,6 +50,41 @@ For persistence workflows, save the data, navigate or reload, and prove the save
 
 For Edge Functions, call the function locally with the appropriate seeded role and payload.
 
+## Test Watchdog And Stall Recovery
+
+Every manual, browser, service, or command test must declare a time budget before it starts. Do not wait indefinitely for a loading state, background process, network request, or command.
+
+Default budgets:
+
+- UI state change or browser interaction: 10 seconds.
+- Local server readiness or Edge Function response: 20 seconds.
+- Unit, lint, typecheck, or ordinary database command: 60 seconds.
+- Build, Supabase start/reset, or intentionally slow suite: 180 seconds.
+
+Before starting a test, identify the next observable checkpoint, such as a URL change, new DOM text, database row, HTTP response, process exit, or listening port. Poll that checkpoint at a bounded interval. Treat the test as stalled when the checkpoint is unchanged for its full budget.
+
+When a stall is detected:
+
+1. Stop waiting and record the elapsed time and last observed checkpoint.
+2. Capture the cheapest useful evidence: DOM snapshot, URL, console output, process status, HTTP status, or database query.
+3. Mark the test `Fail` when the product is stuck, or `Blocked` when the test harness/environment cannot proceed.
+4. Run the test cleanup in a `finally`-style step: restore fixtures, restart stopped services, remove temporary rows, and stop only temporary processes started by the test.
+5. Verify the normal app and local Supabase health before continuing.
+6. Retry at most once, and only after changing the setup or identifying a concrete transient cause.
+
+For finite shell commands, use the repository watchdog instead of an unbounded process:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts\run-with-watchdog.ps1 `
+  -FilePath npm.cmd `
+  -Arguments "run test -- --run" `
+  -TimeoutSeconds 60
+```
+
+The watchdog emits start/progress/end markers, exits with code `124` on timeout, and terminates only the process tree it started.
+
+For browser tests, use the same rule operationally: after an action, poll the expected URL/DOM state until the budget expires. Repeated identical loading text for the full budget is a detected stall, not a reason to keep waiting.
+
 ## Standalone Sequential Test Plan
 
 The staged regression source of truth is:
@@ -67,6 +102,7 @@ Rules for this artifact:
 - When the user asks for a stage, run only that stage in displayed order.
 - Update each test with `Pass`, `Fail`, or `Blocked` plus concise evidence immediately after verification.
 - Do not fix app code during a staged run unless the user explicitly asks to fix the failures. Record failures first.
+- Apply the watchdog budgets above to every staged test. A detected stall receives a result and cleanup immediately; it must not hold up the rest of the stage.
 - Latest recorded Stage 4 state on 2026-07-30: 37 pass, 1 blocked, 0 fail. The remaining blocked test is PDF file inspection after download because the in-app browser did not expose the downloaded file.
 
 ## Reporting

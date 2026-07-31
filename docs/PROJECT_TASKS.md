@@ -1,6 +1,6 @@
 # Project Tasks
 
-Last updated: 2026-07-30
+Last updated: 2026-07-31
 
 Audience: Codex agents. The user does not plan to read this. Keep this file terse, current, and action-oriented.
 
@@ -25,7 +25,11 @@ Codex update protocol:
 ## Current Focus
 
 - `[~]` Build the local Supabase/Postgres backend into the source of truth for the project.
-- `[~]` Execute the standalone sequential regression test plan in order; next stage is Stage 5.
+- `[~]` Roll out the approved collapsed, numbered revision-objectives design to all 41 OCR topics using `docs/OCR_J277_SPEC_TO_APP_STRUCTURE_BREAKDOWN.txt`; retain every practice test and include gate diagrams/truth tables in `4.3 Logic gates and Truth tables`.
+- `[x]` Execute and fix Stage 7 of the standalone sequential regression test plan; all 24 tests are recorded with 21 pass, 0 fail, and 3 blocked.
+- `[x]` Execute and fix Stage 8 performance and scale tests; all 7 tests are recorded with 7 pass, 0 fail, and 0 blocked.
+- `[x]` Execute and fix Stage 9 release regression and UAT; all 24 tests are recorded with 24 pass, 0 fail, and 0 blocked.
+- `[!]` Address the 22 blocked tests recorded in `docs/OUTSTANDING_BLOCKED_TESTS.md`; prioritise P0 admin/multi-teacher fixtures, historical versioning, and the deterministic missing-config harness.
 - `[x]` Keep development and QA Supabase-only until launch; no frontend demo fallback.
 - `[x]` Add BTEC AAQ Extended Certificate course content alongside OCR GCSE Computer Science, with class-course access controls.
 - `[x]` Add high-volume local QA data for Years 10–13 only, including active and archived classes, assignments, attempts, results, activity, and leaderboards.
@@ -39,6 +43,15 @@ Codex update protocol:
 
 ## Recently Completed
 
+- `[x]` Read and visually reviewed all 49 pages of OCR J277 specification Version 3.1 (May 2026), then mapped its required content, boundaries, practical programming requirements, assessment structure and command words into the existing 8-unit, 41-topic app structure in `docs/OCR_J277_SPEC_TO_APP_STRUCTURE_BREAKDOWN.txt`.
+- `[x]` User approved the `1.1 Programming fundamentals` revision-objectives presentation: collapsed by default, numbered when expanded, with the existing practice test retained below it.
+- `[x]` Assigned logic-gate diagrams and truth tables to `4.3 Logic gates and Truth tables` after the binary topics; rollout must include labelled AND/OR/NOT diagrams, a combined-gate example and complete truth tables.
+- `[x]` Completed Stage 9 release regression and UAT. Added the selected-recipient service grant and pgTAP regression, verified the complete assignment journey and historical reporting, passed all automated/browser/responsive gates, rehearsed logical restore, audited frontend secrets, updated release docs, and removed exact UAT rows.
+- `[x]` Added `docs/PRODUCTION_RELEASE_RUNBOOK.md` with backup, single-deployer migration, verification, rollback, and restore steps; local restore rehearsal matched five critical source/restored counts.
+- `[x]` Fixed Stage 8 Test 211: assigned assessment actions now show a scoped Starting badge and disabled busy button immediately, prevent parallel starts, restore controls after timeout, and navigate normally after success.
+- `[x]` Completed Stage 8 performance/scale QA against the 250-student bulk dataset. Results filtering and student search remained responsive, Dashboard/Leaderboards rendered cleanly, build and PDF generation checks passed, and the disposable assigned-test attempt was removed.
+- `[x]` Fixed all seven Stage 7 failures: actionable local-service errors, bounded assessment hydration, pessimistic/retryable answer saves, stale-tab conflict detection, Enter sign-in, modal focus/Escape handling, and reduced-motion support. The previously blocked assessment-keyboard test now passes.
+- `[x]` Added bounded test watchdog rules and `scripts/run-with-watchdog.ps1`; commands now emit heartbeats, self-detect timeout, terminate their owned process, and return exit code 124 instead of waiting indefinitely.
 - `[x]` Added standalone read-only sequential test plan artifact at `docs/planning/csrevision-full-test-plan-checklist.html` with 236 discrete tests in dependency-aware execution order.
 - `[x]` Completed Stage 4 fixes and updated the test-plan artifact: Stage 4 is now 37 pass, 1 blocked, 0 fail. Remaining blocker is PDF file inspection after browser download because the in-app browser did not expose the downloaded file.
 - `[x]` Made student Practice a real Course -> Unit -> Topic -> Test drilldown without visible future-resource buttons.
@@ -164,7 +177,7 @@ Codex update protocol:
 - `[ ]` Investigate `supabase_vector_csrevision` restart loop and decide whether to exclude it locally or fix Docker log access.
 - `[x]` Document local Supabase start/stop/reset workflow.
 - `[x]` Document that every development computer needs local Supabase until launch.
-- `[ ]` Document backup and restore approach for production data.
+- `[x]` Document backup and restore approach for production data; rehearse the logical mechanism locally and require a separate non-production Supabase rehearsal before launch.
 
 ## Backend: Edge Functions
 

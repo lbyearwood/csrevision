@@ -1079,6 +1079,530 @@
       "test-105": {
         status: "pass",
         evidence: "2026-07-30: current class standings showed 25 active 10A students and no archived-labelled rows; the all-time ranking section was present for historical standings. Duplicate all-time rows are tracked separately in Test 104."
+      },
+      "test-113": {
+        status: "blocked",
+        evidence: "2026-07-30: Teacher Courses renders only read-only course exploration and preview controls; the planned teacher-facing draft/version publishing workflow is not implemented, so a version change cannot be made to verify that completed attempts remain tied to the original test_version_id."
+      },
+      "test-106": {
+        status: "pass",
+        evidence: "2026-07-30: local Supabase verification found completed auto-marked attempts with full marks (5/5), marking_status=marked, and feedback_status=released, confirming correct selections produce full score and released feedback."
+      },
+      "test-107": {
+        status: "pass",
+        evidence: "2026-07-30: verified mixed-answer auto-marked attempt: score 1/5, percentage 20, status feedback_released, marking_status marked, feedback_status released, and points awarded server-side."
+      },
+      "test-108": {
+        status: "pass",
+        evidence: "2026-07-30: verified question_options has RLS enabled and its only read policy is 'question options are staff only', limited to teacher or admin roles; a student cannot directly read correctness data from this table."
+      },
+      "test-109": {
+        status: "pass",
+        evidence: "2026-07-30: Teacher Courses showed published Version 1 test resources with the Auto-marked label consistently displayed alongside question count and duration."
+      },
+      "test-110": {
+        status: "blocked",
+        evidence: "2026-07-30: local Supabase contains 81 auto_marked tests and no AI-reviewed marking fixture, so the AI-reviewed UI and browser-call boundary cannot be exercised."
+      },
+      "test-111": {
+        status: "blocked",
+        evidence: "2026-07-30: local Supabase contains only auto_marked tests and no teacher-marked fixture, so an awaiting-teacher-marking attempt cannot be created or verified."
+      },
+      "test-112": {
+        status: "blocked",
+        evidence: "2026-07-30: local Supabase contains only auto_marked tests and no self-marked fixture, so a self-marking flow and its points/results policy cannot be exercised."
+      },
+      "test-114": {
+        status: "pass",
+        evidence: "2026-07-30: signed in as the seeded teacher and opened Student Results for 10A Computing. The live Supabase-backed matrix rendered with the class roster, unit summaries, test rows, due dates, class averages, and no visible application error."
+      },
+      "test-115": {
+        status: "pass",
+        evidence: "2026-07-30: the collapsed Result filters control rendered its helper copy, 'Change the class, course, topic or due-date view,' clearly within the teacher Results page."
+      },
+      "test-116": {
+        status: "pass",
+        evidence: "2026-07-30: opening Result filters exposed labelled Class, Course, Unit, Topic, Due from, and Due to controls. Selected values and the full OCR course name were visible without clipping."
+      },
+      "test-117": {
+        status: "pass",
+        evidence: "2026-07-30: filtered Teacher Results to 10A Computing, OCR GCSE Computer Science, 1. Programming, and 1.1 Programming fundamentals. The matrix narrowed to the 1. Programming unit summary plus only 1.1 Programming fundamentals test 1, while retaining 25 student columns."
+      },
+      "test-118": {
+        status: "pass",
+        evidence: "2026-07-30: switched the focused Results matrix from 10A Computing to 10B Computing. The selected class changed, the 25 student headers refreshed to the 10B roster (including Alex Bennett and Amelia Bennett), and the scoped 1.1 row remained correctly filtered."
+      },
+      "test-119": {
+        status: "pass",
+        evidence: "2026-07-30: switched Results to 12A IT. Course selection changed to Pearson BTEC Level 3 National Extended Certificate in IT, units/topics reset to the BTEC hierarchy, the 25 headers refreshed to the IT roster, BTEC unit/topic rows rendered, and OCR Programming content was absent."
+      },
+      "test-120": {
+        status: "pass",
+        evidence: "2026-07-30 after fix: on 12A IT Results, enabled Filter by due date with exact values 2026-07-21 to 2026-07-22. The matrix retained A2 Peripheral devices and media due 21 Jul and A3 Legal responsibilities due 22 Jul, and did not show the no-match state. Filtering now uses local start/end-of-day boundaries and native date input events commit reliably."
+      },
+      "test-121": {
+        status: "pass",
+        evidence: "2026-07-30: disabled Filter by due date, changed Due from/to to 21-22 Jul 2026, and confirmed the values remained editable while all 44 BTEC matrix rows stayed visible, including deadlines outside that range such as 3, 11, and 18 Aug."
+      },
+      "test-122": {
+        status: "pass",
+        evidence: "2026-07-30: horizontally scrolled the top Results scrollbar to scrollLeft 653; the lower table container synchronized to scrollLeft 653. Test, Due date, and Class avg headers remained sticky at fixed offsets 0px, 300px, and 392px and stayed aligned."
+      },
+      "test-123": {
+        status: "pass",
+        evidence: "2026-07-30: the 12A IT Results matrix rendered exactly one unit-summary row for each of its four BTEC units. Rows showed class and per-student averages where attempt data exists, and clear '-' values for Website Development where no scored data exists."
+      },
+      "test-124": {
+        status: "blocked",
+        evidence: "2026-07-30: no student-score sort control is implemented in Teacher Results. All 25 student header buttons are explicitly titled 'View <student>'s course performance', no header has aria-sort, and no visible sort control exists, so score sorting and preserved unit grouping cannot be exercised."
+      },
+      "test-125": {
+        status: "pass",
+        evidence: "2026-07-30: clicked Daniel Green in the 12A IT Results header. The Student performance summary modal opened with 61% average, 0/3 marks, 3/40 completed, 72% best score, 102 points, and detailed summaries/tables for all four BTEC units."
+      },
+      "test-126": {
+        status: "blocked",
+        evidence: "2026-07-30: clicked Download PDF in Daniel Green's visible performance report with no console errors, but the in-app browser did not surface a download event or downloaded file within 10 seconds. The PDF file therefore could not be compared with the visible report."
+      },
+      "test-127": {
+        status: "pass",
+        evidence: "2026-07-30: temporarily moved Alex Ahmed (Q00106) from 10A to 10B through Edit student. SQL showed current_class=10B while all 13 historical attempts retained attempt_class=10A; 10A Results still included Alex as a historical-attempt student, while Students showed the current 10B roster. Restored Alex to 10A and rechecked all 13 attempts still belong to 10A."
+      },
+      "test-128": {
+        status: "pass",
+        evidence: "2026-07-30: Teacher Leaderboards opened on 10A Computing with 25 students. The class-specific standings rendered sequential ranks, privacy-safe names/IDs, points, and status labels; the leading rows were R Mehta (1185), D Patel (1091), and V Kumar (1074)."
+      },
+      "test-129": {
+        status: "pass",
+        evidence: "2026-07-30: changed leaderboard filters to 10B Computing and Year 10. The class heading and standings refreshed to 10B, retained exactly 25 students with 10B IDs/names, and the year-filtered all-time section updated to 75 Year 10 students without duplicate class rows."
+      },
+      "test-130": {
+        status: "pass",
+        evidence: "2026-07-30: SQL identified archived Sofia Evans (Q01104) with 933 points and zero active memberships. She was absent from the current 10B class standings (25 active students) but present at rank 5 in the 300-student all-time leaderboard, confirming archived records are historical-only."
+      },
+      "test-131": {
+        status: "pass",
+        evidence: "2026-07-30: opened Activity for Kai Kaur (Q01021). The read-only activity region showed stored page-view events with local timestamps, including /student/practice at 28 Jul 2026 20:46:07 and /student at 26 Jul 2026 22:26:07."
+      },
+      "test-132": {
+        status: "pass",
+        evidence: "2026-07-30: signed in as asingh5827 and navigated Home, Practice, My assignments, and My results. SQL recorded exactly one page_view for each route (/student, /student/practice, /student/assigned, /student/results) plus one session_started event, with no duplicate page views."
+      },
+      "test-133": {
+        status: "pass",
+        evidence: "2026-07-30: resumed A Singh's active practice attempt and triggered a paste. SQL recorded paste_attempt alongside the existing window_blur event; Teacher Dashboard immediately showed 'Ananya Singh / paste attempt / 7/30/2026, 12:58:51 PM' at the top of Suspicious Activity. Removed the temporary paste event and selected answer afterward, restoring the seeded attempt."
+      },
+      "test-134": {
+        status: "blocked",
+        evidence: "2026-07-30: no notification bell, notification control, notification route, or notification empty state is implemented in the teacher shell or Dashboard. The only page button outside navigation was Sign out, so this conditional notification check cannot be exercised."
+      },
+      "test-135": {
+        status: "pass",
+        evidence: "2026-07-30 after fix: Teacher Dashboard now renders Recent Test Activity for the selected class with assigned/completed totals, student names, tests, statuses, local timestamps, and activity flags. For 10A Computing the UI showed 12 assigned / 249 completed and its five latest Ananya Singh attempts; SQL matched the totals, attempt order, timestamps, statuses, and flag counts exactly."
+      },
+      "test-136": {
+        status: "pass",
+        evidence: "2026-07-30: completed Bilal Ahmed's assigned 1.7 Introduction to SQL test through the student UI with 5/5. On teacher return, Dashboard updated from 58 to 59 completed tests, 71% to 72% average, and 20 to 21 students with completed work; Bilal appeared with 100%, 105 points, and the current timestamp. Removed the temporary attempt/answers/points and verified Dashboard returned to 58, 71%, and Bilal Not Started."
+      },
+      "test-137": {
+        status: "pass",
+        evidence: "2026-07-30: opened progress for 10A Computing's 1.7 Introduction to SQL assignment. The modal showed 25 students, 1 completed, 5 in progress, and Ananya Singh Completed with 1/5 (20%), 40 pts, On time. SQL for assignment 8c0c5273-fbc4-4a6c-8163-7594fe4c6f30 matched all counts and values; submitted_at 28 Jul precedes due_at 3 Aug."
+      },
+      "test-138": {
+        status: "pass",
+        evidence: "2026-07-30: SQL identified Vikram Kumar (2390) as an active student with zero activity_events. Opening Activity showed the clear empty state 'No recorded activity yet for this student.' inside the labelled Vikram Kumar activity history region."
+      },
+      "test-139": {
+        status: "pass",
+        evidence: "2026-07-30 after fix: temporarily changed seeded asingh5827 to inactive in both profile tables and attempted student sign-in. Access stayed blocked on the sign-in page with the clear message 'This account is inactive. Contact your teacher or administrator.' The account was restored to active immediately."
+      },
+      "test-140": {
+        status: "pass",
+        evidence: "2026-07-30: archived qa11ccomputingarchive01 could not enter the student portal and remained on sign-in. The seed has 50 archived students, while active class membership and roster checks remain scoped to the 250 active students; archived historical records remain available only in historical views."
+      },
+      "test-141": {
+        status: "blocked",
+        evidence: "2026-07-30: no admin profile/auth fixture exists. Role counts are 250 active students, 50 archived students, and one active teacher, so an authenticated admin session cannot be verified until an explicit admin seed is added."
+      },
+      "test-142": {
+        status: "blocked",
+        evidence: "2026-07-30: admin cross-teacher visibility cannot be exercised because there is no admin account and all 13 seeded classes have the same sole teacher owner."
+      },
+      "test-143": {
+        status: "pass",
+        evidence: "2026-07-30: the local pgTAP suite created a rolled-back outside-teacher fixture and proved the normal teacher reads zero outside classes/students/attempts/answers, cannot update the outside class, and cannot move a student into it."
+      },
+      "test-144": {
+        status: "blocked",
+        evidence: "2026-07-30: no admin account or admin create/edit-class workflow is implemented, so teacher-owner assignment and admin audit attribution cannot be exercised."
+      },
+      "test-145": {
+        status: "blocked",
+        evidence: "2026-07-30: no admin account or admin class-management workflow is available. Teacher-owned class archival and its audit record were verified separately with a disposable empty class."
+      },
+      "test-146": {
+        status: "blocked",
+        evidence: "2026-07-30: no admin account or admin student-management UI exists, so an admin-attributed password reset cannot be run. The equivalent owned-teacher password reset path was verified in Tests 161-162."
+      },
+      "test-147": {
+        status: "blocked",
+        evidence: "2026-07-30: there is no admin session or cross-class admin suspicious-activity view to exercise; the current shared staff shell has no admin-specific control."
+      },
+      "test-148": {
+        status: "blocked",
+        evidence: "2026-07-30: there is no admin session or cross-teacher results workflow. Historical class_id_at_attempt integrity was verified directly in Test 153."
+      },
+      "test-149": {
+        status: "blocked",
+        evidence: "2026-07-30: no admin-only route, control, or honest not-implemented state exists beyond accepting the admin role type in the generic teacher shell, and no admin account is seeded."
+      },
+      "test-150": {
+        status: "blocked",
+        evidence: "2026-07-30: an admin browser session and admin-specific requests cannot be inspected because no admin fixture exists. Independent source and production-bundle scans found no service-role key, private API key, or privileged marking field in frontend assets."
+      },
+      "test-151": {
+        status: "pass",
+        evidence: "2026-07-30: npx.cmd supabase test db --local supabase\\tests completed successfully: rls_policies.sql passed all 29 pgTAP assertions."
+      },
+      "test-152": {
+        status: "pass",
+        evidence: "2026-07-30: pg_tables inspection returned rowsecurity=true for every one of the 27 public tables."
+      },
+      "test-153": {
+        status: "pass",
+        evidence: "2026-07-30: moved-and-restored Alex Ahmed (Q00106) has ended 10A/10B memberships and a current 10A membership, while all 13 historical attempts still retain class_id_at_attempt=10A Computing across abandoned, marked, timed-out, voided, and feedback-released states."
+      },
+      "test-154": {
+        status: "pass",
+        evidence: "2026-07-30: verified actor, action, target, timestamp, and detail on student update, manual/generated password reset, class-code regeneration, join-by-code, assigned-attempt reset, bulk seed, and disposable class archive audit rows. Temporary QA rows and the disposable class were removed after capture."
+      },
+      "test-155": {
+        status: "pass",
+        evidence: "2026-07-30: valid active-student token called start-test-attempt for a published version and received HTTP 200 with five safe questions. The serialized response contained no correct_answer, correctAnswer, mark_scheme, or teacher_notes fields."
+      },
+      "test-156": {
+        status: "pass",
+        evidence: "2026-07-30: save-answer returned HTTP 200 for the student's newly created in-progress attempt; SQL confirmed one saved answer before the temporary attempt was removed."
+      },
+      "test-157": {
+        status: "pass",
+        evidence: "2026-07-30: submit-test-attempt returned HTTP 200; SQL showed the attempt transitioned to feedback_released with server-calculated score 0/5, marked/released status, and 10 points. The temporary attempt and points were then removed."
+      },
+      "test-158": {
+        status: "pass",
+        evidence: "2026-07-30: the active student token attempted save-answer and submit-test-attempt against another student's in-progress attempt. Both returned HTTP 404 'Attempt not found'; SQL confirmed the target remained in_progress with zero tampered answers."
+      },
+      "test-159": {
+        status: "pass",
+        evidence: "2026-07-30: teacher token called update-student-account for owned Ananya Singh with her existing name, status, year, and class; HTTP 200 returned the correct owned student and produced a complete student_updated audit row."
+      },
+      "test-160": {
+        status: "blocked",
+        evidence: "2026-07-30: the persistent seed has only one teacher owner, so update-student-account cannot be invoked against another teacher's class without adding a cross-teacher Edge Function fixture. The rolled-back pgTAP suite separately proved direct cross-owner moves are denied."
+      },
+      "test-161": {
+        status: "pass",
+        evidence: "2026-07-30: teacher reset-student-password accepted the 9-character manual temporary password Stage6A1!, returned HTTP 200, allowed student authentication with it, and created a generated=false audit row."
+      },
+      "test-162": {
+        status: "pass",
+        evidence: "2026-07-30: teacher reset-student-password without a supplied password returned an exact 8-character generated password; student authentication succeeded with it. The original Localdev1! password was restored and verified afterward."
+      },
+      "test-163": {
+        status: "pass",
+        evidence: "2026-07-30: teacher token called archive-class for the protected Non-class record; HTTP 422 returned 'Non-class cannot be archived' and the system class remained active."
+      },
+      "test-164": {
+        status: "pass",
+        evidence: "2026-07-30: regenerate-class-code returned a new unique 6-letter code; the previous code then returned HTTP 404. The original code and accepting_students=false state were restored after verification."
+      },
+      "test-165": {
+        status: "pass",
+        evidence: "2026-07-30: with 10A temporarily accepting students, an unrelated active 10B student joined with the valid regenerated code (status=joined); repeating the same request returned status=already_joined without a duplicate membership. The temporary membership was removed."
+      },
+      "test-166": {
+        status: "pass",
+        evidence: "2026-07-30: active student token used 10B's valid code while accepting_students=false; HTTP 403 returned the clear message 'This class is not currently accepting students'."
+      },
+      "test-167": {
+        status: "pass",
+        evidence: "2026-07-30: teacher token attempted log-attempt-event against a student attempt and received HTTP 403 'Student permission required'; no suspicious event was written."
+      },
+      "test-168": {
+        status: "pass",
+        evidence: "2026-07-30: teacher token reset an owned assigned attempt with a reason; HTTP 200, assigned_attempt_resets, void metadata, and assigned_attempt_reset audit were all present. The attempt and dependent QA rows were restored/removed afterward."
+      },
+      "test-169": {
+        status: "pass",
+        evidence: "2026-07-30: all 13 configured Edge Functions require JWTs, frontend calls use the signed-in access token through the public client, and source plus production-bundle scans found no service-role/private secret in browser assets."
+      },
+      "test-170": {
+        status: "pass",
+        evidence: "2026-07-30: direct student REST requests selecting questions.id+correct_answer and question_options returned HTTP 200 with empty arrays under RLS, exposing neither records nor correct answers."
+      },
+      "test-171": {
+        status: "pass",
+        evidence: "2026-07-30: teacher direct REST PATCH of owned student_profiles returned HTTP 204 with no row; SQL confirmed first_name remained Ananya, proving the Edge Function is required."
+      },
+      "test-172": {
+        status: "pass",
+        evidence: "2026-07-30: pgTAP's rolled-back outside-teacher fixture proved an authenticated normal-teacher UPDATE against the unowned class returned zero rows and left it unchanged."
+      },
+      "test-173": {
+        status: "pass",
+        evidence: "2026-07-30: anonymous REST access to student_profiles returned HTTP 401, and anonymous start-test-attempt returned 'Authentication required'; no private data or function result was exposed."
+      },
+      "test-174": {
+        status: "pass",
+        evidence: "2026-07-30: case-insensitive scans of src, entry/config files, and the fresh dist bundle found no service-role key, SUPABASE_SERVICE_ROLE_KEY, AI-provider key, correct_answer, mark_scheme, teacher_notes, or accepted_keywords string."
+      },
+      "test-175": {
+        status: "pass",
+        evidence: "2026-07-30: a student sent another student's identity/attempt identifiers to save-answer and submit-test-attempt; both requests were resolved from the caller JWT and rejected with HTTP 404. The other attempt and answers were unchanged."
+      },
+      "test-176": {
+        status: "blocked",
+        evidence: "2026-07-30: reset-student-password cannot be exercised against an other-teacher student because the persistent seed has only one teacher owner. The shared permission helper and rolled-back pgTAP fixture prove cross-owner student access is denied, but no cross-owner password-reset endpoint fixture exists."
+      },
+      "test-177": {
+        status: "pass",
+        evidence: "2026-07-30: obtained an auth token for archived qa11ccomputingarchive01 and called start-test-attempt; the function rejected it with HTTP 400 'Active profile not found', proving an existing auth token cannot perform sensitive operations."
+      },
+      "test-178": {
+        status: "pass",
+        evidence: "2026-07-30: an unrelated 10B student could use the leaked regenerated 10A code only while accepting_students=true; the join produced a student_joined_class_by_code audit row. With accepting_students=false, a valid class code was rejected. All temporary state was restored."
+      },
+      "test-179": {
+        status: "pass",
+        evidence: "2026-07-30: temporarily set a student's name to literal script/tag/ampersand content through the authorized Edge Function. Teacher Dashboard rendered the string as text; window.stage6Xss stayed null and no injected script node existed. Restored the original name and removed QA audit rows."
+      },
+      "test-180": {
+        status: "pass",
+        evidence: "2026-07-30: a temporary focused Vitest generated the performance PDF with parentheses, backslash, apostrophe, ampersand, angle brackets, and Unicode in the name/content. The blob was application/pdf with valid PDF header/EOF, escaped PDF operators, and a sanitized filename; 1/1 passed and the temporary test file was removed."
+      },
+      "test-181": {
+        status: "pass",
+        evidence: "2026-07-30: representative sensitive operations produced audit rows with non-null actor_profile_id, explicit action, target_type, non-null target_id, created_at, and operation detail. The bulk seed also retains its expected database audit marker; temporary QA audit rows were cleaned."
+      },
+      "test-182": {
+        status: "pass",
+        evidence: "2026-07-30 fix rerun: stopped only supabase_auth_csrevision and attempted seeded student sign-in. The watchdog released the disabled form in 5.3 seconds and showed 'Local Supabase is unavailable. Start or restart Supabase, then retry.' After Auth restarted, the same form signed in successfully."
+      },
+      "test-183": {
+        status: "pass",
+        evidence: "2026-07-30 fix rerun: stopped supabase_edge_runtime_csrevision and freshly loaded an existing practice attempt. The app self-detected the failed hydration in 1.8 seconds, showed actionable Local Supabase guidance and Retry loading test, then restored all questions after the runtime restarted and Retry was clicked."
+      },
+      "test-184": {
+        status: "blocked",
+        evidence: "2026-07-30: attempted two watchdog-bounded isolated builds with .env.local temporarily unavailable. Windows background-process environment handling prevented a reliable missing-config server from starting, so the expected browser state could not be observed. .env.local was restored, the temporary build was removed, and no test port remains open."
+      },
+      "test-185": {
+        status: "pass",
+        evidence: "2026-07-30 fix rerun: stopped the Edge Runtime after the assessment loaded and selected a different answer. In 5.3 seconds the UI reported that the answer was not saved, retained the prior confirmed selection and answered count, showed Local Supabase recovery guidance plus Retry saving answer, and did not apply a delayed write after restart. Disposable answer data was removed."
+      },
+      "test-186": {
+        status: "pass",
+        evidence: "2026-07-30 fix rerun: loaded the same active attempt in two tabs, saved a newer answer in the first, then chose a different answer in the stale tab. The stale save was rejected with 'This answer was changed in another tab', retained its previously confirmed answer, disabled navigation, and offered Retry. The disposable answer was removed."
+      },
+      "test-187": {
+        status: "pass",
+        evidence: "2026-07-30: completed a disposable five-question practice attempt and triggered two Submit actions concurrently. Both UI actions completed, but Supabase contained exactly one submitted attempt, one submitted_at value, five answers, and one points transaction. The disposable attempt was removed."
+      },
+      "test-188": {
+        status: "pass",
+        evidence: "2026-07-30: created one whole-class assignment for 1.1 Programming fundamentals through the teacher UI, reloaded the page, reopened Active Assignments, and confirmed the assignment persisted exactly once with 25 students and no deadline. It was then deleted through the confirmation dialog."
+      },
+      "test-189": {
+        status: "blocked",
+        evidence: "2026-07-30: no disposable out-of-date Supabase schema fixture is provided. Deliberately rolling back or corrupting the primary local development database would risk existing seed and regression state, so the migration-guidance error could not be exercised safely."
+      },
+      "test-190": {
+        status: "pass",
+        evidence: "2026-07-30: filtered the 250-row teacher Students table with a unique no-match value. The table immediately showed 0 of 250, retained only its semantic headers, displayed 'No students match the current filters', and exposed no stale student rows."
+      },
+      "test-191": {
+        status: "pass",
+        evidence: "2026-07-30 fix rerun: keyboard traversal reached Teacher/Admin, Email, Password, and Sign in in logical order. Pressing Enter on Sign in submitted the form and opened the teacher dashboard without a mouse."
+      },
+      "test-192": {
+        status: "pass",
+        evidence: "2026-07-30 fix rerun: opened the recovered assessment, targeted an unselected answer button through the keyboard path and pressed Enter. The answer saved without error, aria-pressed changed to true, and the answered count remained accurate."
+      },
+      "test-193": {
+        status: "pass",
+        evidence: "2026-07-30: opened teacher Results filters and traversed the controls by keyboard. Focus moved through Class and Course in logical order; the focused native select exposed a blue border and 2px focus ring against a white background. All filters had accessible names."
+      },
+      "test-194": {
+        status: "pass",
+        evidence: "2026-07-30 fix rerun: opened the teacher delete-assignment dialog. Focus moved immediately to Cancel inside the aria-modal dialog, Tab was constrained to dialog controls, Escape closed it, and focus returned to the originating Delete button. No assignment was changed."
+      },
+      "test-195": {
+        status: "pass",
+        evidence: "2026-07-30: inspected teacher Assignments and Results accessibility trees. Both rendered semantic tables with column headers; Results also exposed row headers, labelled student-header buttons, and a labelled horizontal-scroll region."
+      },
+      "test-196": {
+        status: "pass",
+        evidence: "2026-07-30: status and score states were not colour-only: Students displayed text such as active, assessment controls exposed pressed state and option letters, and Results cells displayed numeric scores or explicit In progress/Incomplete text alongside colour."
+      },
+      "test-197": {
+        status: "blocked",
+        evidence: "2026-07-30: attempted four browser zoom-in shortcuts on teacher Results, but the in-app browser retained the same 1265x720 CSS viewport and device-pixel ratio. The responsive viewport capability cannot emulate browser zoom, so a reliable 200% zoom assertion could not be made."
+      },
+      "test-198": {
+        status: "pass",
+        evidence: "2026-07-30 fix rerun: rendered CSS inspection found an active @media (prefers-reduced-motion: reduce) rule that disables smooth scrolling and reduces animations and transitions to 0.01ms with a single iteration."
+      },
+      "test-199": {
+        status: "pass",
+        evidence: "2026-07-30: at the 1366x768 desktop viewport, Dashboard, Students, Assignments, Results and Courses all rendered nonblank without body-level horizontal overflow. Tables stayed within their content frames and primary actions remained visible."
+      },
+      "test-200": {
+        status: "pass",
+        evidence: "2026-07-30: at 1024x768, Results filters wrapped into two readable columns, the OCR GCSE Computer Science value remained fully represented, the due-date controls wrapped below, and body width equalled viewport width with no page overflow."
+      },
+      "test-201": {
+        status: "pass",
+        evidence: "2026-07-30: at 430x844, student Home, Practice, My assignments, My results, Profile and Leaderboard all rendered with a 415px content viewport and no body horizontal overflow. The mobile navigation stayed fixed at the bottom and page controls remained within the viewport."
+      },
+      "test-202": {
+        status: "pass",
+        evidence: "2026-07-30: at 430x844, teacher Results rendered Student Results, all filter controls as full-width 323px controls, and a labelled 321px horizontal-scroll region for the 2372px results grid. The page was nonblank with no body-level overflow."
+      },
+      "test-203": {
+        status: "pass",
+        evidence: "2026-07-30: the 10A Results grid rendered all 25 student header buttons, a labelled horizontal scrollbar with 911px visible of 2372px content, and 77 sticky header/leading cells. Filters remained above the grid and accessible."
+      },
+      "test-204": {
+        status: "pass",
+        evidence: "2026-07-30: at 1920x1080, Dashboard content expanded to 1857px with a 1635px primary panel, Students table to 1551px, Assignments content to 1857px, and Results content to 1872px. No page introduced body-level horizontal overflow or a sparse narrow cap."
+      },
+      "test-205": {
+        status: "pass",
+        evidence: "2026-07-30: at 1280x720, the assignment creation tabs, class/course/due-date controls, recipient choices, Create assignments action, and test selector stayed within the 1265px content viewport. A disposable assignment had already been created successfully through this flow and cleaned up."
+      },
+      "test-206": {
+        status: "pass",
+        evidence: "2026-07-30: reloaded teacher Results for 10A Computing under the browser watchdog. The 49-row matrix with 25 student header controls rendered in about 7.5 seconds, accepted immediate DOM interaction, introduced no body overflow, and did not freeze the browser."
+      },
+      "test-207": {
+        status: "pass",
+        evidence: "2026-07-30: switched Results from 10A to 10B and back, then filtered Unit 1 and topic 1.1. Updates completed in 22-91 ms; the topic view contained exactly two unique rows and no duplicate row labels."
+      },
+      "test-208": {
+        status: "pass",
+        evidence: "2026-07-30: opened the 250-student table and repeatedly searched for one seeded username, the common surname Ahmed, and a no-match value. Updates completed in 48-84 ms with correct 1, 25, and 0 row states; clearing restored all 250 rows."
+      },
+      "test-209": {
+        status: "pass",
+        evidence: "2026-07-30: teacher Dashboard and 10A Leaderboards each rendered meaningful bulk-data content in about 3.1 seconds. Leaderboards showed 25 students, both pages remained interactive, and browser error/warning logs were empty."
+      },
+      "test-210": {
+        status: "pass",
+        evidence: "2026-07-30: watchdog-bounded npm.cmd run build completed in 9.1 seconds. TypeScript and Vite succeeded; the only output concern was the already tracked >500 kB chunk-size warning (631.29 kB JS, 170.04 kB gzip)."
+      },
+      "test-211": {
+        status: "pass",
+        evidence: "2026-07-30 fix rerun: used a controlled delayed Edge response because the Browser surface has no DevTools-throttling capability. Within 342 ms the selected card changed to a blue Starting badge and disabled Starting assessment... button, while every parallel start action was disabled. Timeout restored enabled actions with the Local Supabase recovery message; a normal retry loaded Question 1 of 5. The disposable attempt was removed."
+      },
+      "test-212": {
+        status: "pass",
+        evidence: "2026-07-30: opened Ananya Singh's 41-test performance summary and clicked Download PDF. The large dialog returned to a responsive state in 165 ms with no console errors; the targeted PDF generator test passed in 7 ms. The in-app browser did not expose the download event, so file inspection remains a harness limitation rather than a UI-freeze finding."
+      },
+      "test-213": {
+        status: "pass",
+        evidence: "2026-07-30: created selected-recipient assignment 66610148-119c-4e99-9702-21f06397bbb8 for 10A Computing, topic 1.1, Diya Patel only, with future deadline 31 Aug 2026. Fixed date input state synchronisation so browser-entered dates submit reliably."
+      },
+      "test-214": {
+        status: "pass",
+        evidence: "2026-07-30 after fix: Diya Patel saw the selected assignment and started it without teacher help. The initial failure exposed missing service_role access to assignment_recipients; migration 20260730194500 plus pgTAP coverage fixed it and attempt 47b6f822-f938-41e8-969f-054a44a4a75f opened normally."
+      },
+      "test-215": {
+        status: "pass",
+        evidence: "2026-07-30: Diya answered and submitted all five MCQs, received 5/5, 100%, 105 points and released feedback, then could locate the result from the student results journey."
+      },
+      "test-216": {
+        status: "pass",
+        evidence: "2026-07-30: teacher Dashboard showed Diya's completion; Active Assignments showed 1/1 completed; View students showed Completed, 5/5 (100%), 105 pts and On time; Results retained the matching score."
+      },
+      "test-217": {
+        status: "pass",
+        evidence: "2026-07-30: moved Diya from 10A to 10B after completion. Current roster changed while the completed attempt retained class_id_at_attempt=10A and remained in historical 10A Results. Diya was restored to exactly one active 10A membership."
+      },
+      "test-218": {
+        status: "pass",
+        evidence: "2026-07-30: Results student-performance dialog showed Diya's historical 10A course summary, average, best score, marks and points including the new 1.1 result. Download PDF was invoked with no browser error; the in-app browser did not expose the downloaded file event."
+      },
+      "test-219": {
+        status: "pass",
+        evidence: "2026-07-30: filtered Results to Unit 1. Programming and Topic 1.1 Programming fundamentals. The matrix showed one unit-summary row and one test row with no duplicated filter-summary text."
+      },
+      "test-220": {
+        status: "pass",
+        evidence: "2026-07-30: student navigated Practice through OCR GCSE Computer Science -> 1. Programming -> 1.1 Programming fundamentals -> available test. The topic page showed only the real test and Start action, with no unavailable lesson/tutorial/worksheet buttons."
+      },
+      "test-221": {
+        status: "pass",
+        evidence: "2026-07-30: 10A Dashboard presented current students, assigned/completed totals, average, ranked performance, class summary, recent activity and suspicious-activity signals in a scannable layout."
+      },
+      "test-222": {
+        status: "pass",
+        evidence: "2026-07-30: visual scan of teacher Dashboard and student Home confirmed the light-surface/dark-panel theme and readable light nested controls; screenshots showed no inconsistent card/control treatment and both consoles were error-free."
+      },
+      "test-223": {
+        status: "pass",
+        evidence: "2026-07-30: watchdog-bounded npm.cmd run typecheck passed in 6.5 seconds."
+      },
+      "test-224": {
+        status: "pass",
+        evidence: "2026-07-30: watchdog-bounded npm.cmd run lint passed in 3.5 seconds."
+      },
+      "test-225": {
+        status: "pass",
+        evidence: "2026-07-30: watchdog-bounded npm.cmd test passed 7 files and 23 tests in 8.3 seconds."
+      },
+      "test-226": {
+        status: "pass",
+        evidence: "2026-07-30: watchdog-bounded npm.cmd run build passed in 8.9 seconds. The only warning is the documented Vite chunk advisory for the 631.50 kB JS bundle (170.10 kB gzip)."
+      },
+      "test-227": {
+        status: "pass",
+        evidence: "2026-07-30: watchdog-bounded npx.cmd supabase test db --local passed all 30 pgTAP checks, including the selected-recipient service-role grant regression."
+      },
+      "test-228": {
+        status: "pass",
+        evidence: "2026-07-30: watchdog-bounded git diff --check passed with no whitespace errors; output contained only Windows LF-to-CRLF working-copy notices."
+      },
+      "test-229": {
+        status: "pass",
+        evidence: "2026-07-30: browser smoke passed Teacher Dashboard, Students, Assignments, Results, Courses and Leaderboards. Every route rendered its expected live content with no framework overlay and no console errors/warnings."
+      },
+      "test-230": {
+        status: "pass",
+        evidence: "2026-07-30: browser smoke passed Student Home, Practice, Assigned, an existing Active Test, Results, Profile and Leaderboard. The active attempt was left unchanged; no framework overlay or console errors/warnings appeared."
+      },
+      "test-231": {
+        status: "pass",
+        evidence: "2026-07-30: student Home screenshot QA passed at 1280x900, 768x900 and 390x844. DOM and measured layout retained Home/navigation content and reported no horizontal overflow at any viewport."
+      },
+      "test-232": {
+        status: "pass",
+        evidence: "2026-07-30: stale-wording sweep found no product-code matches for Tests page, Check titles, demoData, demo fallback or frontend-only wording, and no generated legacy -check titles/slugs. Remaining documentation references correctly describe removed behaviour or future architecture."
+      },
+      "test-233": {
+        status: "pass",
+        evidence: "2026-07-30: updated HANDOVER, PROJECT_TASKS, TESTING and the release checklist, and added the production release runbook. A new agent can follow the documented start order, install/start/migrate/seed workflow, verification gates and release restrictions."
+      },
+      "test-234": {
+        status: "pass",
+        evidence: "2026-07-30: documented production backup, single-deployer migration, rollback and restore in PRODUCTION_RELEASE_RUNBOOK.md. Local logical restore rehearsal used a 1,088,444-byte backup and matched 13 classes, 300 students, 3452 attempts, 97 assignments and 28 migrations; temporary database/file were removed."
+      },
+      "test-235": {
+        status: "pass",
+        evidence: "2026-07-30: .env.example and ignored .env.local expose only VITE_SUPABASE_URL, VITE_SUPABASE_PUBLISHABLE_KEY and VITE_APP_NAME. Built dist contained zero service-role, SUPABASE_SERVICE_ROLE_KEY, OpenAI key, private-key or sk-* secret patterns; server service key usage remains confined to Edge Functions."
+      },
+      "test-236": {
+        status: "pass",
+        evidence: "2026-07-30: removed exact UAT assignment 66610148-119c-4e99-9702-21f06397bbb8, attempt 47b6f822-f938-41e8-969f-054a44a4a75f, recipient, five answers, five display orders and one linked points transaction. All verified zero afterward; Diya has one active 10A membership and temporary restore artifacts are absent."
       }
     };
 

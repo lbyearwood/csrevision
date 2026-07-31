@@ -18,6 +18,27 @@ Use automated checks and targeted manual/browser/backend QA together:
 
 See `docs/CODEX_DEVELOPMENT_PROCESS.md` for the required per-task development QA process.
 
+## Stall Detection Rule
+
+No test may wait indefinitely.
+
+- Declare the expected next checkpoint and a time budget before the action.
+- Use 10 seconds for browser state changes, 20 seconds for local server/Edge responses, 60 seconds for ordinary commands, and 180 seconds for builds or Supabase lifecycle operations.
+- If the URL, DOM state, HTTP response, database state, port, or process output has not reached the checkpoint within the budget, capture evidence and classify the case as `Fail` or `Blocked`.
+- Always restore temporary data and services before continuing.
+- Retry only once and only with a concrete setup change.
+
+Finite commands can be guarded with:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts\run-with-watchdog.ps1 `
+  -FilePath npm.cmd `
+  -Arguments "run lint" `
+  -TimeoutSeconds 60
+```
+
+Browser loading text that remains unchanged for the full 10-second budget is a detected product stall. Record it immediately instead of waiting longer.
+
 ## Standalone Sequential Regression Plan
 
 Source of truth:
@@ -41,7 +62,11 @@ Stage 1: complete after reset/reseed and fixture fixes.
 Stage 2: complete.
 Stage 3: fixed after user approval.
 Stage 4: 37 pass, 1 blocked, 0 fail as of 2026-07-30.
-Stage 5: next stage to run when user asks.
+Stage 5: complete with 26 pass, 7 blocked, 0 fail.
+Stage 6: complete with 32 pass, 11 blocked, 0 fail.
+Stage 7: fixed and complete with 21 pass, 3 blocked, 0 fail, and 0 not run.
+Stage 8: fixed and complete with 7 pass, 0 blocked, 0 fail, and 0 not run.
+Stage 9: complete with 24 pass, 0 blocked, 0 fail, and 0 not run.
 ```
 
 Stage 4 blocker:
@@ -86,7 +111,7 @@ Current database test state:
 
 - Local Supabase stack has been verified with the MVP migration.
 - `supabase/tests/rls_policies.sql` is executable pgTAP.
-- Latest local result: 29 passing RLS/integrity tests.
+- Latest local result: 30 passing RLS/integrity tests.
 
 Bulk QA fixture verification on 2026-07-30:
 

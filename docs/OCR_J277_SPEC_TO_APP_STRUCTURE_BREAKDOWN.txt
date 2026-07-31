@@ -1,0 +1,1004 @@
+OCR GCSE COMPUTER SCIENCE J277
+SPECIFICATION BREAKDOWN FITTED TO THE CSREVISION COURSE STRUCTURE
+
+Source document
+---------------
+File: 558027-specification-gcse-computer-science-j277.pdf
+Title: Cambridge OCR Level 1/Level 2 GCSE (9-1) in Computer Science J277
+Version: 3.1, May 2026
+Length reviewed: all 49 pages
+First assessment: 2022
+
+Purpose
+-------
+This document converts the current OCR J277 specification into the existing
+csrevision structure of 8 units and 41 topics. It is intended to be the source
+for the student-facing "For this topic, you must be able to..." lists.
+
+The wording below is a concise student-facing interpretation of the OCR
+subject content and guidance. It is not a replacement for the official
+specification.
+
+Mapping rules
+-------------
+1. Keep the existing csrevision unit and topic names.
+2. Move OCR requirements into the closest existing topic instead of copying
+   OCR's broader section structure.
+3. Include the relevant "Required" guidance, not just the left-hand content
+   headings in the specification.
+4. Include relevant OCR Exam Reference Language details because examination
+   code is presented using that language.
+5. Do not turn OCR "Not required" items into revision objectives.
+6. Keep assessment-wide requirements separate from topic objectives.
+7. Where an existing topic title is broader than the OCR specification, state
+   that clearly rather than inventing specification content.
+
+
+HIGH-LEVEL CROSSWALK
+====================
+
+OCR 1.1 Systems architecture
+  -> App Unit 2: Hardware
+
+OCR 1.2 Memory and storage
+  -> App Unit 2: Hardware
+  -> App Unit 4: Data representation
+
+OCR 1.3 Computer networks, connections and protocols
+  -> App Unit 5: Networks
+
+OCR 1.4 Network security
+  -> App Unit 6: Cyber security
+
+OCR 1.5 Systems software
+  -> App Unit 3: Software
+
+OCR 1.6 Ethical, legal, cultural and environmental impacts
+  -> App Unit 8: Societal implications of digital technology
+
+OCR 2.1 Algorithms
+  -> App Unit 7: Algorithms
+
+OCR 2.2 Programming fundamentals
+  -> App Unit 1: Programming
+
+OCR 2.3 Producing robust programs
+  -> App topics 1.8 Defensive design and 1.9 Errors and testing
+
+OCR 2.4 Boolean logic
+  -> App topic 4.3 Logic gates and Truth tables
+
+OCR 2.5 Programming languages and IDEs
+  -> App topics 1.10 Translators and facilities and 1.11 IDEs
+
+OCR 2d Practical Programming skills
+  -> Cross-topic requirement spanning App Units 1 and 7
+
+
+UNIT 1 - PROGRAMMING
+====================
+
+1.1 Programming fundamentals
+----------------------------
+For this topic, students must be able to:
+
+1. Use variables and constants to store values.
+2. Use assignment to give a variable a value and update it.
+3. Accept inputs and produce outputs.
+4. Choose and use suitable integer, real, Boolean, character and string data
+   types.
+5. Cast data temporarily from one type to another and identify situations in
+   which casting is useful.
+6. Recognise and use the comparison operators ==, !=, <, <=, > and >=.
+7. Recognise and use the arithmetic operators +, -, *, /, MOD, DIV and ^.
+8. Recognise and use the Boolean operators AND, OR and NOT in program
+   expressions.
+9. Manipulate strings using concatenation and slicing.
+10. Interpret and use the OCR string operations length, substring, left,
+    right, upper, lower, ASC and CHR.
+11. Generate and use random integer and real values.
+12. Apply these fundamentals in a high-level programming language.
+
+Specification boundary:
+- Sequence and selection belong in 1.2.
+- Iteration belongs in 1.3.
+- OCR explicitly requires string concatenation and slicing. String length,
+  case conversion and character-code conversion appear in the OCR Exam
+  Reference Language.
+- String interpolation is not explicitly required by OCR J277. It may be
+  taught as language-specific enrichment, but it should not be labelled as an
+  OCR specification requirement.
+
+1.2 Sequence and selection
+--------------------------
+For this topic, students must be able to:
+
+1. Explain and use sequence so instructions execute in the intended order.
+2. Use selection to choose which instructions run according to a condition.
+3. Create, interpret, correct, complete and refine IF, ELSEIF and ELSE
+   selection.
+4. Create and interpret CASE SELECT or SWITCH selection, including a default
+   case.
+5. Form selection conditions using comparison and Boolean operators.
+6. Use nested selection when a problem requires decisions inside decisions.
+7. Apply sequence and selection in a high-level programming language.
+
+1.3 Iteration
+-------------
+For this topic, students must be able to:
+
+1. Explain why iteration is used.
+2. Distinguish count-controlled iteration from condition-controlled
+   iteration.
+3. Create, interpret, correct, complete and refine FOR loops.
+4. Use a positive or negative step value in a FOR loop.
+5. Create, interpret, correct, complete and refine WHILE loops.
+6. Explain that a WHILE condition is checked before the loop body runs.
+7. Create, interpret, correct, complete and refine DO UNTIL loops.
+8. Explain that a DO UNTIL loop runs once before its condition is checked.
+9. Choose a suitable loop type for a given problem.
+10. Use nested iteration and nesting that combines iteration with selection.
+11. Apply iteration in a high-level programming language.
+
+1.4 Arrays
+----------
+For this topic, students must be able to:
+
+1. Explain why arrays are used when solving problems.
+2. Declare, populate, access and update one-dimensional arrays.
+3. Declare, populate, access and update two-dimensional arrays.
+4. Use zero-based indexes when working with OCR Exam Reference Language
+   arrays.
+5. Explain that OCR arrays are fixed-length or static structures.
+6. Explain that an OCR array stores values of one data type.
+7. Explain how records store related fields about one item.
+8. Use two-dimensional arrays to represent table-like data made from fields
+   and records.
+9. Pass arrays into subprograms and return arrays where appropriate.
+10. Apply arrays and records in a high-level programming language.
+
+1.5 Procedures and functions
+----------------------------
+For this topic, students must be able to:
+
+1. Explain how subprograms help produce structured and maintainable code.
+2. Create and call procedures with and without parameters.
+3. Create and call functions with and without parameters.
+4. Return a value from a function and store or use that returned value.
+5. Distinguish a function from a procedure.
+6. Choose when a function or procedure is appropriate.
+7. Use local variables and constants within subprograms.
+8. Explain and use global variables and constants where appropriate.
+9. Pass arrays to subprograms and return arrays where appropriate.
+10. Apply functions and procedures in a high-level programming language.
+
+1.6 Text files
+--------------
+For this topic, students must be able to:
+
+1. Explain why programs read data from and write data to files.
+2. Create a new text file.
+3. Open a text file and retain its file handle in a variable.
+4. Read lines from a text file.
+5. Write lines to a text file.
+6. Test for the end of a file when reading multiple lines.
+7. Close a file after use.
+8. Combine open, read, write and close operations in a working program.
+9. Apply basic file handling in a high-level programming language.
+
+1.7 Introduction to SQL
+-----------------------
+For this topic, students must be able to:
+
+1. Explain that SQL can be used to search stored data.
+2. Use SELECT to identify the fields to return.
+3. Use FROM to identify the table to search.
+4. Use WHERE to filter records using a condition.
+5. Combine SELECT, FROM and WHERE in a simple query.
+6. Interpret and write simple SQL queries in a given scenario.
+
+Specification boundary:
+- OCR J277 requires SELECT, FROM and WHERE only. Other SQL commands may be
+  enrichment but should not be presented as required J277 content.
+
+1.8 Defensive design
+--------------------
+For this topic, students must be able to:
+
+1. Explain how defensive design anticipates likely misuse and unexpected
+   inputs.
+2. Design a program that caters for the likely range of input values.
+3. Validate input and deal appropriately with invalid data.
+4. Explain how authentication confirms a user's identity.
+5. Design and implement simple authentication such as a username and
+   password check.
+6. Improve maintainability through meaningful naming conventions.
+7. Use consistent indentation.
+8. Add useful comments and explain why commenting helps maintenance.
+9. Use subprograms to make code easier to understand, test and maintain.
+10. Apply defensive design techniques in a high-level programming language.
+
+1.9 Errors and testing
+----------------------
+For this topic, students must be able to:
+
+1. Explain the purpose of testing.
+2. Distinguish iterative testing during development from final or terminal
+   testing at the end of production.
+3. Identify syntax errors and explain that they break the language's
+   grammatical rules and prevent code from running or being translated.
+4. Identify logic errors and explain that they cause unexpected output.
+5. Select normal test data that should be accepted.
+6. Select boundary test data at the edge of the valid range.
+7. Select invalid test data of the correct type that should be rejected.
+8. Select erroneous test data of the wrong type that should be rejected.
+9. Choose suitable test data for a given scenario and justify the choices.
+10. Create and complete a test plan with expected and actual results.
+11. Use test results to correct and refine algorithms or programs.
+
+1.10 Translators and facilities
+-------------------------------
+For this topic, students must be able to:
+
+1. Describe the characteristics and purposes of high-level languages.
+2. Describe the characteristics and purposes of low-level languages.
+3. Compare high-level and low-level languages.
+4. Explain why translators are needed.
+5. Describe how a compiler translates a program.
+6. Describe how an interpreter translates and executes a program.
+7. Compare the benefits and drawbacks of compilers and interpreters.
+8. Select a suitable translator for a given scenario and justify the choice.
+
+Not required by OCR:
+- Understanding how assemblers work.
+
+Mapping note:
+- The word "facilities" in the app topic title does not add a separate OCR
+  content requirement. IDE facilities are assigned to 1.11.
+
+1.11 IDEs
+---------
+For this topic, students must be able to:
+
+1. Explain the purpose of an Integrated Development Environment.
+2. Describe how an editor helps a programmer write and change code.
+3. Describe how error diagnostics help identify problems.
+4. Describe how a run-time environment helps execute and test code.
+5. Describe how translators are provided or used within an IDE.
+6. Explain how each IDE tool or facility supports program development.
+7. Use a range of these tools in at least one IDE.
+
+
+UNIT 2 - HARDWARE
+=================
+
+2.1 Architecture of the CPU
+---------------------------
+For this topic, students must be able to:
+
+1. Explain the purpose of the CPU.
+2. Describe the fetch-execute cycle and the actions at each stage.
+3. Describe the purpose and role of the Arithmetic Logic Unit.
+4. Describe the purpose and role of the Control Unit.
+5. Describe the purpose and role of cache in the CPU.
+6. Explain the role of registers during the fetch-execute cycle.
+7. Describe the Von Neumann architecture.
+8. State the purpose of the Memory Address Register, Memory Data Register,
+   Program Counter and Accumulator.
+9. Identify whether each named register stores data or an address.
+10. Explain the difference between storing data and storing an address.
+
+Not required by OCR:
+- The detailed passing of data between registers at every stage of the
+  fetch-execute cycle.
+
+2.2 CPU performance and Embedded systems
+----------------------------------------
+For this topic, students must be able to:
+
+1. Explain what CPU clock speed means.
+2. Explain how changing clock speed can affect system performance.
+3. Explain how changing cache size can affect system performance.
+4. Explain how changing the number of CPU cores can affect performance.
+5. Analyse the combined effect of CPU characteristics in a given scenario.
+6. Explain what an embedded system is and its purpose.
+7. Describe typical characteristics of embedded systems.
+8. Recognise and give examples of embedded systems.
+9. Apply knowledge of embedded systems to unfamiliar scenarios.
+
+2.3 Primary Memory
+------------------
+For this topic, students must be able to:
+
+1. Explain why a computer needs primary storage.
+2. Explain that primary storage normally includes RAM and ROM.
+3. Describe the purpose and key characteristics of RAM.
+4. Describe the purpose and key characteristics of ROM.
+5. Compare RAM and ROM.
+6. Explain the purpose of ROM in a computer system.
+7. Explain the purpose of RAM in a computer system.
+8. Explain why virtual memory may be needed.
+9. Explain how virtual memory transfers data between RAM and secondary
+   storage when RAM is full.
+10. Explain the role of cache as primary storage.
+
+Not required by OCR:
+- Paging or segmentation.
+
+2.4 Secondary storage
+---------------------
+For this topic, students must be able to:
+
+1. Explain why computers need secondary storage.
+2. Recognise optical, magnetic and solid-state storage.
+3. Describe the differences between optical, magnetic and solid-state
+   storage devices and media.
+4. Compare storage devices and media by capacity.
+5. Compare storage devices and media by speed.
+6. Compare storage devices and media by portability.
+7. Compare storage devices and media by durability.
+8. Compare storage devices and media by reliability.
+9. Compare storage devices and media by cost.
+10. Recommend suitable storage for a given application and justify the
+    choice.
+
+Not required by OCR:
+- Internal component-level operation of optical, magnetic or solid-state
+  storage.
+
+
+UNIT 3 - SOFTWARE
+=================
+
+3.1 Operating systems
+---------------------
+For this topic, students must be able to:
+
+1. Explain the purpose of an operating system.
+2. Describe the features and purpose of a user interface.
+3. Explain how an operating system allocates memory to applications.
+4. Explain how memory management supports multitasking.
+5. Explain how an operating system manages transfers between memory.
+6. Explain how an operating system manages peripherals and device drivers.
+7. Explain that data transfers between devices and the processor need to be
+   managed.
+8. Describe user-management functions including accounts, access rights and
+   security.
+9. Describe file-management functions including naming, folders, moving and
+   saving files.
+10. Apply operating-system knowledge to a given scenario.
+
+Not required by OCR:
+- Paging or segmentation.
+
+3.2 Utility software
+--------------------
+For this topic, students must be able to:
+
+1. Explain the purpose of utility software.
+2. Explain that utility software performs housekeeping and additional tasks
+   that may not be carried out by the operating system.
+3. Explain the purpose of encryption software and why it is needed.
+4. Explain the purpose of defragmentation software and why it is needed.
+5. Explain the purpose of data-compression software and why it is needed.
+6. Recommend suitable utility software for a given need.
+
+
+UNIT 4 - DATA REPRESENTATION
+============================
+
+4.1 Units and binary numbers
+----------------------------
+For this topic, students must be able to:
+
+1. Define bit, nibble and byte.
+2. Recall that a nibble contains 4 bits and a byte contains 8 bits.
+3. Use kilobyte, megabyte, gigabyte, terabyte and petabyte.
+4. Convert between data-storage units using the OCR decimal definitions.
+5. Accept and interpret calculations that use 1,024 where stated.
+6. Explain why data must be converted to binary for computer processing.
+7. Explain that storage devices have fixed capacities.
+8. Calculate the storage capacity required for a given collection of files.
+9. Convert positive denary whole numbers from 0 to 255 into binary values of
+   up to 8 bits.
+10. Convert binary values of up to 8 bits into denary.
+11. Identify the most significant bit and least significant bit.
+12. Recognise that leading zeroes do not change a binary value.
+
+4.2 Binary arithmetic and hexadecimal
+-------------------------------------
+For this topic, students must be able to:
+
+1. Add two binary integers of up to 8 bits.
+2. Identify and explain overflow errors produced by binary addition.
+3. Convert positive denary whole numbers into two-digit hexadecimal values.
+4. Convert two-digit hexadecimal values into denary.
+5. Convert binary integers into hexadecimal.
+6. Convert hexadecimal values into binary.
+7. Work within OCR's ranges of 00000000 to 11111111, denary 0 to 255 and
+   hexadecimal 00 to FF.
+8. Carry out left and right binary shifts.
+9. Explain the effect of left and right shifts on a binary value.
+
+4.3 Logic gates and Truth tables
+--------------------------------
+For this topic, students must be able to:
+
+1. Recall and use the truth table for an AND gate.
+2. Recall and use the truth table for an OR gate.
+3. Recall and use the truth table for a NOT gate.
+4. Recognise the standard symbols for AND, OR and NOT gates.
+5. Create, complete and edit simple logic diagrams.
+6. Create, complete and edit truth tables.
+7. Combine more than one Boolean operator or logic gate.
+8. Apply logical operators in truth tables to solve a problem.
+9. Interpret alternative valid notation such as 1/0 or True/False.
+
+Placement rationale:
+- Keep this topic in Unit 4 immediately after 4.1 and 4.2. Students first
+  learn binary values and operations, then apply binary 0 and 1 as the inputs
+  and outputs of logic gates.
+- Do not move it into Hardware. Although gates are implemented by hardware,
+  OCR assesses the Boolean diagrams, symbols and truth tables rather than
+  electronic circuit construction.
+
+Required visual reference content for the rollout:
+- Show a clearly labelled standard OCR-style AND gate diagram with inputs A
+  and B and output Q.
+- Show a clearly labelled standard OCR-style OR gate diagram with inputs A
+  and B and output Q.
+- Show a clearly labelled standard OCR-style NOT gate diagram with input A
+  and output Q.
+- Show at least one diagram that combines more than one gate.
+- The diagrams must use the recognised gate shapes, not text alone.
+- Each gate diagram must have a text alternative for accessibility.
+
+Required truth tables:
+
+AND and OR
+
+A  B  |  A AND B  |  A OR B
+0  0  |     0     |    0
+0  1  |     0     |    1
+1  0  |     0     |    1
+1  1  |     1     |    1
+
+NOT
+
+A  |  NOT A
+0  |    1
+1  |    0
+
+4.4 Characters
+--------------
+For this topic, students must be able to:
+
+1. Explain how binary codes represent characters.
+2. Define the term character set.
+3. Explain how the number of bits per character limits the number of
+   characters that can be represented.
+4. Compare ASCII and Unicode and explain the effect of each character set.
+5. Explain that character sets are logically ordered.
+6. Interpret 8-bit ASCII values when they are provided in an examination.
+7. Calculate text-file size from bits per character and number of
+   characters.
+8. Use ASC and CHR conversions in OCR Exam Reference Language.
+
+Not required by OCR:
+- Memorising individual character-set codes.
+
+4.5 Images
+----------
+For this topic, students must be able to:
+
+1. Explain how an image is represented as a grid of pixels in binary.
+2. Explain that each pixel's colour is represented by a binary code.
+3. Explain how colour depth affects image quality and file size.
+4. Explain how image resolution affects image quality and file size.
+5. Explain the purpose of image metadata and give examples such as width and
+   height.
+6. Calculate image-file size using colour depth x image height x image width.
+7. Apply image-representation knowledge to a given scenario.
+
+4.6 Sound
+---------
+For this topic, students must be able to:
+
+1. Explain why analogue sound must be converted into binary for storage.
+2. Explain how sound is sampled and stored digitally.
+3. Define sample rate and state that it is measured in hertz.
+4. Define duration in seconds.
+5. Define bit depth as the number of bits used to store each sample.
+6. Explain how sample rate affects playback quality and file size.
+7. Explain how duration affects file size.
+8. Explain how bit depth affects playback quality and file size.
+9. Calculate sound-file size using sample rate x duration x bit depth.
+10. Apply sound-representation knowledge to a given scenario.
+
+4.7 Data compression, File Formats & Encryption
+------------------------------------------------
+For this topic, students must be able to:
+
+1. Explain why files may need to be compressed.
+2. Identify scenarios in which compression is useful.
+3. Explain the principle of lossy compression.
+4. Explain the principle of lossless compression.
+5. Compare the advantages and disadvantages of lossy and lossless
+   compression.
+6. Explain the effect of lossy and lossless compression on a file.
+7. Explain the principle of encryption for securing data.
+8. Explain the purpose of encryption utility software.
+
+Specification boundaries:
+- OCR does not require students to carry out a specific compression
+  algorithm.
+- OCR J277 does not specify a list of file formats to learn. "File Formats"
+  in the existing topic title is broader than the specification and should
+  not generate invented required objectives.
+- Encryption is also applied in 5.6 for network connections and in 6.2 as a
+  vulnerability-prevention method.
+
+
+UNIT 5 - NETWORKS
+=================
+
+5.1 LAN
+-------
+For this topic, students must be able to:
+
+1. Define a Local Area Network.
+2. Describe the characteristics of a LAN.
+3. Recognise common examples of LANs.
+4. Explain how the number of connected devices can affect performance.
+5. Explain how bandwidth can affect performance.
+6. Explain other relevant factors that affect network performance in a given
+   scenario.
+7. Apply knowledge of LANs to recommend or evaluate a network.
+
+5.2 LAN Hardware
+----------------
+For this topic, students must be able to:
+
+1. Explain the role of a wireless access point.
+2. Explain the role of a router.
+3. Explain the role of a switch.
+4. Explain the role of a Network Interface Controller or Card.
+5. Explain the role of transmission media.
+6. Select the hardware needed to connect stand-alone computers into a LAN.
+7. Apply knowledge of network hardware to a given scenario.
+
+5.3 LAN Topologies
+------------------
+For this topic, students must be able to:
+
+1. Describe a star network topology.
+2. Describe a mesh network topology.
+3. Compare the advantages and disadvantages of star and mesh topologies.
+4. Recommend a suitable topology for a given scenario and justify the
+   choice.
+
+5.4 The Internet and WAN
+------------------------
+For this topic, students must be able to:
+
+1. Define a Wide Area Network.
+2. Describe the characteristics of a WAN and give common examples.
+3. Explain that the Internet is a worldwide network of computer networks.
+4. Explain that the Domain Name Service uses multiple Domain Name Servers.
+5. Explain how DNS converts a URL into an IP address.
+6. Explain the purpose of hosting.
+7. Explain the roles of web servers and web clients.
+8. Explain that cloud computing provides remote services such as storage,
+   software and processing.
+9. Compare the advantages and disadvantages of cloud computing.
+10. Apply knowledge of the Internet and WANs to a given scenario.
+
+5.5 Client-server and P2P networks
+----------------------------------
+For this topic, students must be able to:
+
+1. Describe the roles of computers in a client-server network.
+2. Explain that servers provide services such as web pages and file storage.
+3. Explain that clients request and use services from servers.
+4. Describe the roles of computers in a peer-to-peer network.
+5. Compare client-server and peer-to-peer networks.
+6. Select a suitable network model for a scenario and justify the choice.
+
+5.6 Network Protocols and Layers
+--------------------------------
+For this topic, students must be able to:
+
+1. Compare wired and wireless network connections.
+2. Explain the use of Ethernet, Wi-Fi and Bluetooth as connection modes.
+3. Recommend one or more connection modes for a scenario.
+4. Explain the principle of encryption for securing data across a network
+   connection.
+5. Describe the format and purpose of IPv4 and IPv6 addresses.
+6. Describe the format and use of a MAC address within a network.
+7. Explain that a standard supplies rules that allow hardware and software
+   from different producers to interact.
+8. Explain that a communication protocol is a set of rules for transferring
+   data.
+9. State the purpose and key features of TCP/IP, HTTP, HTTPS, FTP, POP, IMAP
+   and SMTP.
+10. Explain why different protocols are used for different purposes.
+11. Explain how protocol layers are used and the benefits of a layered
+    approach.
+12. Apply protocol and connection knowledge to a given scenario.
+
+Not required by OCR:
+- The internal operation of Ethernet, Wi-Fi or Bluetooth.
+- Static versus dynamic IP addresses.
+- Public versus private IP addresses.
+- Knowledge of individual named standards.
+- Memorising the names and functions of each TCP/IP layer.
+
+
+UNIT 6 - CYBER SECURITY
+=======================
+
+6.1 Network threats
+-------------------
+For this topic, students must be able to:
+
+1. Explain threats posed to devices, systems and networks.
+2. Explain how malware attacks are used and their purpose.
+3. Explain social engineering, including phishing and people as a weak
+   point.
+4. Explain how brute-force attacks are used and their purpose.
+5. Explain how denial-of-service attacks are used and their purpose.
+6. Explain how data interception and theft occur and their purpose.
+7. Explain the concept of SQL injection.
+8. Identify a likely form of attack from a scenario.
+
+6.2 Preventing vulnerabilities
+------------------------------
+For this topic, students must be able to:
+
+1. Explain how penetration testing identifies or reduces vulnerabilities.
+2. Explain how anti-malware software limits malware threats.
+3. Explain how firewalls limit network threats.
+4. Explain how user access levels reduce risk.
+5. Explain how strong passwords reduce risk.
+6. Explain how encryption limits the impact of data interception and theft.
+7. Explain how physical security protects systems and data.
+8. Match each prevention method to the attacks it may limit or prevent.
+9. Recommend suitable prevention methods for a scenario and justify the
+   choices.
+
+
+UNIT 7 - ALGORITHMS
+===================
+
+7.1 Computational thinking
+--------------------------
+For this topic, students must be able to:
+
+1. Define abstraction.
+2. Use abstraction to remove unnecessary detail from a problem.
+3. Define decomposition.
+4. Decompose a problem into smaller subproblems.
+5. Define algorithmic thinking.
+6. Use algorithmic thinking to form a step-by-step solution.
+7. Explain how abstraction, decomposition and algorithmic thinking help
+   define and refine problems.
+
+7.2 Searching algorithms
+------------------------
+For this topic, students must be able to:
+
+1. Describe the main steps of a linear search.
+2. Apply a linear search to a data set.
+3. Identify a linear search from code, pseudocode or OCR Exam Reference
+   Language.
+4. Describe the main steps of a binary search.
+5. Explain that binary search requires ordered data.
+6. Apply a binary search to a data set.
+7. Identify a binary search from code, pseudocode or OCR Exam Reference
+   Language.
+8. Compare linear and binary search for a given scenario.
+
+Not required by OCR:
+- Memorising the exact code or pseudocode for either search algorithm.
+
+7.3 Sorting algorithms
+----------------------
+For this topic, students must be able to:
+
+1. Describe the main steps and code segments of bubble sort.
+2. Apply bubble sort to a data set.
+3. Identify bubble sort from code, pseudocode or OCR Exam Reference
+   Language.
+4. Describe the main steps and code segments of merge sort.
+5. Apply merge sort to a data set.
+6. Identify merge sort from code, pseudocode or OCR Exam Reference Language.
+7. Describe the main steps and code segments of insertion sort.
+8. Apply insertion sort to a data set.
+9. Identify insertion sort from code, pseudocode or OCR Exam Reference
+   Language.
+10. Identify any prerequisites of a given sorting algorithm.
+
+Not required by OCR:
+- Memorising the exact code or pseudocode for these sorting algorithms.
+
+7.4 Flowcharts
+--------------
+For this topic, students must be able to:
+
+1. Recognise terminal, process, input/output, decision, subprogram and flow
+   line symbols.
+2. Interpret an algorithm represented as a flowchart.
+3. Create a flowchart for a given problem.
+4. Complete, correct and refine a flowchart.
+5. Represent sequence, selection and iteration in a flowchart.
+6. Identify inputs, processes and outputs before designing a flowchart.
+7. Produce simple structure diagrams showing problem sections and the links
+   between them.
+
+7.5 Pseudocode
+--------------
+For this topic, students must be able to:
+
+1. Interpret algorithms written in pseudocode.
+2. Create algorithms using clear pseudocode.
+3. Complete, correct and refine pseudocode.
+4. Express sequence, selection, iteration, arrays and subprograms in
+   pseudocode.
+5. Translate between natural-language requirements, pseudocode, flowcharts
+   and program code.
+6. Distinguish informal pseudocode from the more precise OCR Exam Reference
+   Language.
+
+7.6 Interpreting algorithms
+---------------------------
+For this topic, students must be able to:
+
+1. Identify the inputs, processes and outputs of a problem.
+2. Interpret algorithms represented in pseudocode, flowcharts, OCR Exam
+   Reference Language or a high-level language.
+3. Create, correct, complete and refine an algorithm.
+4. Identify syntax and logic errors in code and suggest fixes.
+5. Create and use trace tables to follow an algorithm.
+6. Trace variable values, outputs, selection paths and loop iterations.
+7. Interpret nested selection and iteration.
+8. Compare an algorithm with its requirements and identify improvements.
+
+
+UNIT 8 - SOCIETAL IMPLICATIONS OF DIGITAL TECHNOLOGY
+=====================================================
+
+8.1 Ethical and cultural issues
+-------------------------------
+For this topic, students must be able to:
+
+1. Explain how digital technology can create ethical issues.
+2. Explain how digital technology can create cultural issues.
+3. Give a range of examples of technology affecting individuals and wider
+   society.
+4. Discuss positive and negative impacts of digital technology.
+5. Consider different stakeholders and viewpoints.
+6. Apply ethical and cultural considerations to unfamiliar scenarios.
+7. Produce a balanced discussion supported by relevant examples.
+
+8.2 Environmental issues
+------------------------
+For this topic, students must be able to:
+
+1. Explain how manufacturing digital devices affects the environment.
+2. Explain how using digital technology affects energy consumption.
+3. Explain issues caused by electronic waste and disposal.
+4. Explain how digital technology may reduce environmental impact.
+5. Discuss positive and negative environmental effects in a given scenario.
+6. Consider environmental consequences when evaluating a digital solution.
+
+Mapping note:
+- The specification requires knowledge of a variety of environmental
+  impacts but does not prescribe a fixed list of examples. The examples above
+  should be taught as applications, not as an exhaustive OCR list.
+
+8.3 Legislation & privacy
+-------------------------
+For this topic, students must be able to:
+
+1. Explain how digital technology creates legal and privacy issues.
+2. Explain the purpose of the Data Protection Act 2018 and the actions it
+   allows or prohibits.
+3. Explain the purpose of the Computer Misuse Act 1990 and the actions it
+   allows or prohibits.
+4. Explain the purpose of the Copyright, Designs and Patents Act 1988 and
+   the actions it allows or prohibits.
+5. Explain why software must be licensed.
+6. Describe open-source licensing, including access to and modification of
+   source code.
+7. Describe proprietary licensing, including restricted source-code access
+   and typical off-the-shelf purchase.
+8. Compare the benefits and drawbacks of open-source and proprietary
+   software.
+9. Recommend a suitable software licence for a scenario and justify the
+   choice.
+10. Discuss legal and privacy impacts of digital technology in context.
+
+
+COURSE-WIDE PRACTICAL PROGRAMMING REQUIREMENTS
+==============================================
+
+These requirements span Units 1 and 7 and should not be repeated as a separate
+topic list on every page.
+
+Students must be given practical opportunities to:
+
+1. Design programs.
+2. Write programs.
+3. Test programs.
+4. Refine programs.
+5. Use one or more high-level text-based programming languages.
+6. Solve a stated problem or meet a supplied specification.
+7. Apply programming fundamentals, additional techniques, robust design and
+   algorithmic thinking together.
+
+OCR lists Python, C-family languages, Java, JavaScript, Visual Basic/.NET,
+PHP, Delphi and BASIC as examples. Students are not required to memorise that
+list. A second language may be needed if the first language cannot demonstrate
+all required practical skills.
+
+
+OCR EXAM REFERENCE LANGUAGE REQUIREMENTS
+========================================
+
+1. Examination code is presented in OCR Exam Reference Language.
+2. Students must interpret its operators, variables, constants, global
+   variables, assignment, input/output and casting.
+3. Students must interpret FOR, WHILE and DO UNTIL iteration.
+4. Students must interpret IF/ELSEIF/ELSE and SWITCH selection.
+5. Students must interpret string, file, array, procedure, function and
+   random-number syntax.
+6. In questions that demand OCR Exam Reference Language or a high-level
+   language, answers in natural English, bullet points or informal pseudocode
+   do not receive marks.
+7. Minor syntax errors may not be penalised when the programming logic and
+   intended command are clear, but students should still write precisely.
+
+
+ASSESSMENT STRUCTURE STUDENTS SHOULD KNOW
+=========================================
+
+J277/01 Computer systems
+------------------------
+- 1 hour 30 minutes
+- 80 marks
+- 50% of the GCSE
+- Non-calculator
+- All questions mandatory
+- Multiple-choice, short-response and extended-response questions
+- Includes one 8-mark extended-response question
+- Assesses AO1 and AO2
+
+J277/02 Computational thinking, algorithms and programming
+-----------------------------------------------------------
+- 1 hour 30 minutes
+- 80 marks
+- 50% of the GCSE
+- Non-calculator
+- All questions mandatory
+- Section A: 50 marks on knowledge, understanding and computational
+  application
+- Section B: 30 marks on designing, writing, testing and refining programs
+- Assesses AO1, AO2 and AO3
+
+Assessment Objectives
+---------------------
+- AO1: demonstrate knowledge and understanding of key concepts and
+  principles.
+- AO2: apply knowledge and understanding.
+- AO3: analyse problems computationally, make reasoned judgements, and
+  design, program, evaluate and refine solutions.
+
+Overall weighting:
+- AO1: 30%
+- AO2: 40%
+- AO3: 30%
+
+Other assessment expectations
+-----------------------------
+- Students must combine knowledge from different specification areas in
+  synoptic questions.
+- Students must apply relevant mathematical skills in computing contexts.
+- Extended responses must form a sustained, coherent line of reasoning.
+- All examined components must be taken in the same May/June series.
+
+
+COMMAND WORDS
+=============
+
+The student revision system should teach and consistently use these OCR
+command words:
+
+- Add: join something to increase its size, number or amount.
+- Analyse: break information into parts, examine relationships and reach a
+  conclusion.
+- Annotate: add brief notes to a diagram or graph.
+- Calculate: obtain a numerical answer and show relevant working.
+- Compare: explain similarities and differences while referring to all items.
+- Complete: supply all missing necessary parts.
+- Convert: change information from one form to another.
+- Define: give the precise meaning.
+- Describe: give a detailed account.
+- Design: produce a plan, model or solution.
+- Discuss: give a balanced review supported by evidence.
+- Draw: produce a diagram or representation.
+- Evaluate: judge implications, strengths and limitations against criteria.
+- Explain: give a detailed account with reasons or causes.
+- Give: present the requested information.
+- How: state the way or means by which something happens.
+- Identify: recognise and state the relevant feature briefly.
+- Justify: support an answer with valid reasons or evidence.
+- Label: add names or brief explanations to a diagram or graph.
+- List: give a sequence of brief answers without explanation.
+- Order: place responses into a logical sequence.
+- Outline: give a brief account or summary.
+- Refine: improve, modify or make more efficient.
+- Show: provide the steps in a calculation or derivation.
+- Solve: obtain an answer using an appropriate method.
+- State: give a specific brief answer without explanation.
+- Tick: select or mark the chosen response.
+- What: provide the requested identifying information.
+- Write/Rewrite: produce or improve the requested text or code.
+
+
+GRADE-DESCRIPTOR DIRECTION
+==========================
+
+The topic objectives should support progression towards these broad outcomes:
+
+- Higher performance: comprehensive knowledge, sustained application and
+  analysis across complex problems, and complete refined solutions.
+- Middle performance: mostly accurate knowledge, appropriate application and
+  analysis, and working solutions that meet most requirements.
+- Foundation performance: limited but relevant knowledge, basic application
+  to straightforward problems, and partially working solutions.
+
+These are progression principles, not separate topic objectives.
+
+
+CONTENT REVIEWED BUT NOT SUITABLE FOR TOPIC OBJECTIVES
+======================================================
+
+The complete specification was reviewed. The following sections do not
+describe student revision content and should not be placed in topic objective
+lists:
+
+- OCR background, support services and contact details.
+- Qualification administration and centre entry processes.
+- Special consideration and access arrangements.
+- Results, certificates and post-results services.
+- Malpractice procedures.
+- Qualification overlap and progression pathways.
+- Historical summaries of specification updates.
+
+Relevant current-version updates already reflected in this mapping include:
+
+- Nested selection and iteration.
+- Utility software as additional functionality beyond the operating system.
+- Cache within primary storage.
+- MAC address format.
+- The current DO UNTIL form in OCR Exam Reference Language.
+- Modulo terminology.
+
+
+ROLLOUT CHECKS
+==============
+
+Before these objectives are added to the application:
+
+1. Use this file as the content source instead of copying the OCR section
+   numbering directly.
+2. Keep each topic's objective list collapsed and numbered.
+3. Keep every existing practice test visible below its objectives.
+4. Do not add unsupported file-format objectives to 4.7.
+5. Do not label string interpolation as an OCR requirement.
+6. Preserve the "Not required by OCR" boundaries when authoring tests and
+   revision material.
+7. Review future OCR specification versions against this file before
+   changing the live lists.
+8. Keep 4.3 after the binary topics and include the labelled AND, OR and NOT
+   gate diagrams, a combined-gate example and the required truth tables.

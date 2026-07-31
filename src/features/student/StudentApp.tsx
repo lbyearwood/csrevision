@@ -14,7 +14,7 @@ import {
   CheckCircle2,
   XCircle,
 } from 'lucide-react';
-import { useEffect, useMemo, useState, type FormEvent, type KeyboardEvent, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type FormEvent, type KeyboardEvent, type ReactNode } from 'react';
 import { NavLink, Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import { useAppState } from '../../app/AppState';
 import { Button } from '../../components/ui/Button';
@@ -561,6 +561,22 @@ interface PracticeResource {
   testId?: string;
 }
 
+const revisionObjectivesByTopicName: Record<string, string[]> = {
+  '1.1 Programming fundamentals': [
+    'Use variables and constants to store values in a program.',
+    'Use assignment to give a variable a value and change it when needed.',
+    'Accept inputs into a program and produce outputs.',
+    'Generate and use random numbers in a program.',
+    'Choose and use suitable data types, including integer, real, Boolean, character and string.',
+    'Use casting to temporarily convert data from one data type to another.',
+    'Use string operations, including length, concatenation and slicing.',
+    'Recognise and use comparison operators: ==, !=, <, <=, > and >=.',
+    'Recognise and use arithmetic operators: +, -, *, /, MOD, DIV and ^.',
+    'Understand and use the Boolean operators AND, OR and NOT.',
+    'Apply these programming techniques in a high-level programming language.',
+  ],
+};
+
 function PracticePage() {
   const state = useAppState();
   const navigate = useNavigate();
@@ -600,6 +616,7 @@ function PracticePage() {
   const selectedSubject = availableSubjects.find((subject) => subject.id === selectedSubjectId);
   const selectedUnit = state.units.find((unit) => unit.id === selectedUnitId);
   const selectedTopic = state.topics.find((topic) => topic.id === selectedTopicId && topic.unitId === selectedUnitId);
+  const revisionObjectives = selectedTopic ? revisionObjectivesByTopicName[selectedTopic.topicName] : undefined;
   const subjectUnits = state.units.filter((unit) => unit.subjectId === selectedSubjectId);
   const unitTopics = state.topics.filter((topic) => topic.unitId === selectedUnitId);
   const unfinishedPracticeAttempts = useMemo(() => {
@@ -808,8 +825,34 @@ function PracticePage() {
               <span className="text-muted" aria-hidden="true">/</span>
               <span className="text-muted">{selectedTopic.topicName}</span>
             </div>
-            <h3 className="mt-2 font-bold">Tests for {selectedTopic.topicName}</h3>
+            <h3 className="mt-2 text-xl font-bold">
+              {revisionObjectives ? 'Revision objectives' : `Tests for ${selectedTopic.topicName}`}
+            </h3>
           </div>
+          {revisionObjectives ? (
+            <Panel className="overflow-hidden p-0" tone="light">
+              <details className="group">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 bg-[linear-gradient(135deg,#202a6f_0%,#43308f_100%)] px-5 py-5 text-white [&::-webkit-details-marker]:hidden lg:px-6">
+                  <div>
+                <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#d9dfff]">{selectedTopic.topicName}</p>
+                    <h4 className="mt-2 text-xl font-bold lg:text-2xl">For this topic, you must be able to…</h4>
+                  </div>
+                  <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-white/20 bg-white/10 transition group-open:rotate-90" aria-hidden="true">
+                    <ChevronRight size={21} />
+                  </span>
+                </summary>
+                <ol className="grid gap-3 bg-white p-4 lg:grid-cols-2 lg:p-6">
+                  {revisionObjectives.map((objective, index) => (
+                    <li className="grid grid-cols-[2rem_minmax(0,1fr)] gap-3 rounded-app border border-[#dedbf0] bg-[#f7faff] p-4 text-sm font-semibold leading-6 text-ink" key={objective}>
+                      <span className="grid size-8 place-items-center rounded-full bg-[#554fd1] font-bold text-white" aria-hidden="true">{index + 1}</span>
+                      <span>{objective}</span>
+                    </li>
+                  ))}
+                </ol>
+              </details>
+            </Panel>
+          ) : null}
+          {revisionObjectives ? <h3 className="pt-1 text-xl font-bold">Practice test</h3> : null}
           <Panel className="overflow-hidden p-0" tone="light">
             <div className="space-y-3 bg-white px-4 py-4 lg:px-5">
               {resources.filter((resource) => resource.topicId === selectedTopic.id && resource.type === 'test').length ? (
@@ -841,6 +884,7 @@ function AssignedPage() {
   const state = useAppState();
   const navigate = useNavigate();
   const [actionError, setActionError] = useState('');
+  const [startingAssignmentId, setStartingAssignmentId] = useState<string | null>(null);
   const assignments = currentStudentAssignments(state);
   return (
     <div className="space-y-4 px-4 py-5 lg:px-0 lg:py-0">
@@ -855,6 +899,7 @@ function AssignedPage() {
           const test = state.tests.find((item) => item.id === version?.testId);
           const display = getStudentTestDisplay(state, test?.id);
           const consumed = findExistingAssignedAttempt(state, assignment.id);
+          const isStarting = startingAssignmentId === assignment.id;
           return (
             <Panel className="border-2 border-[#dedbf0] bg-white p-4 text-ink shadow-[0_10px_22px_rgba(58,55,143,0.08)] transition hover:-translate-y-0.5 hover:border-[#7164e8] hover:shadow-[0_16px_28px_rgba(58,55,143,0.15)] lg:p-6" key={assignment.id} tone="light">
               <div className="flex items-start justify-between gap-3">
@@ -866,23 +911,35 @@ function AssignedPage() {
                     {assignment.dueAt ? `Due ${formatDate(assignment.dueAt)}` : 'No due date set'}
                   </p>
                 </div>
-                <StatusBadge tone={consumed?.status === 'in_progress' ? 'blue' : consumed ? 'green' : 'amber'}>
-                  {consumed?.status === 'in_progress' ? 'In progress' : consumed ? 'Completed' : 'Ready'}
+                <StatusBadge tone={isStarting || consumed?.status === 'in_progress' ? 'blue' : consumed ? 'green' : 'amber'}>
+                  {isStarting ? 'Starting' : consumed?.status === 'in_progress' ? 'In progress' : consumed ? 'Completed' : 'Ready'}
                 </StatusBadge>
               </div>
               <Button
+                aria-busy={isStarting}
                 className="mt-4 w-full lg:mt-6 lg:min-h-14 lg:text-base"
+                disabled={Boolean(startingAssignmentId)}
                 onClick={async () => {
+                  if (startingAssignmentId) return;
                   try {
                     setActionError('');
+                    setStartingAssignmentId(assignment.id);
                     const attempt = await state.beginAttempt({ testId: test!.id, assignmentId: assignment.id });
                     navigate(`/student/test/${attempt.id}`);
                   } catch (caught) {
                     setActionError(getActionError(caught));
+                  } finally {
+                    setStartingAssignmentId((current) => current === assignment.id ? null : current);
                   }
                 }}
               >
-                {consumed?.status === 'in_progress' ? 'Continue assessment' : consumed ? 'Try again' : 'Start assessment'}
+                {isStarting
+                  ? 'Starting assessment...'
+                  : consumed?.status === 'in_progress'
+                    ? 'Continue assessment'
+                    : consumed
+                      ? 'Try again'
+                      : 'Start assessment'}
               </Button>
             </Panel>
           );
@@ -902,16 +959,26 @@ function ActiveTestPage() {
   const { attemptId = '' } = useParams();
   const navigate = useNavigate();
   const state = useAppState();
+  const beginAttemptRef = useRef(state.beginAttempt);
+  const hydrationAttemptIdRef = useRef(attemptId);
+  beginAttemptRef.current = state.beginAttempt;
+  hydrationAttemptIdRef.current = attemptId;
   const attempt = state.attempts.find((row) => row.id === attemptId);
   const test = state.tests.find((row) => row.id === attempt?.testId);
   const display = getStudentTestDisplay(state, test?.id);
   const attemptQuestions = state.questions.filter((question) => question.testVersionId === attempt?.testVersionId);
+  const attemptStatus = attempt?.status;
+  const attemptTestId = attempt?.testId;
+  const attemptAssignmentId = attempt?.assignmentId;
   const [index, setIndex] = useState(() => Math.min(Math.max(0, attempt?.resumeQuestionIndex ?? 0), Math.max(0, attemptQuestions.length - 1)));
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isHydratingQuestions, setIsHydratingQuestions] = useState(false);
   const [hasRequestedQuestionHydration, setHasRequestedQuestionHydration] = useState(false);
   const [showUnansweredConfirm, setShowUnansweredConfirm] = useState(false);
   const [submitError, setSubmitError] = useState('');
+  const [pendingAnswer, setPendingAnswer] = useState<string | null>(null);
+  const [isSavingAnswer, setIsSavingAnswer] = useState(false);
+  const [saveAnswerError, setSaveAnswerError] = useState('');
   const question = attemptQuestions[index];
   const answeredCount = state.answers.filter((answer) => answer.attemptId === attemptId && answer.answer).length;
   const selectedAnswer = state.answers.find((answer) => answer.attemptId === attemptId && answer.questionId === question?.id)?.answer;
@@ -922,30 +989,32 @@ function ActiveTestPage() {
   }, [attempt, attemptQuestions.length]);
 
   useEffect(() => {
-    if (!attempt || attempt.status !== 'in_progress' || attemptQuestions.length || hasRequestedQuestionHydration) return;
-    let isActive = true;
+    if (!attemptTestId || attemptStatus !== 'in_progress' || attemptQuestions.length || hasRequestedQuestionHydration) return;
     setHasRequestedQuestionHydration(true);
     setIsHydratingQuestions(true);
     setSubmitError('');
-    void state.beginAttempt({ testId: attempt.testId, assignmentId: attempt.assignmentId })
+    void beginAttemptRef.current({ testId: attemptTestId, assignmentId: attemptAssignmentId })
       .then((hydratedAttempt) => {
-        if (isActive) setIndex(Math.max(0, hydratedAttempt.resumeQuestionIndex ?? 0));
+        if (hydrationAttemptIdRef.current === attemptId) {
+          setIndex(Math.max(0, hydratedAttempt.resumeQuestionIndex ?? 0));
+        }
       })
       .catch((caught: unknown) => {
-        if (isActive) setSubmitError(getActionError(caught));
+        if (hydrationAttemptIdRef.current === attemptId) setSubmitError(getActionError(caught));
       })
       .finally(() => {
-        if (isActive) setIsHydratingQuestions(false);
+        if (hydrationAttemptIdRef.current === attemptId) setIsHydratingQuestions(false);
       });
-
-    return () => {
-      isActive = false;
-    };
-  }, [attempt, attemptQuestions.length, hasRequestedQuestionHydration, state]);
+  }, [attemptAssignmentId, attemptId, attemptQuestions.length, attemptStatus, attemptTestId, hasRequestedQuestionHydration]);
 
   useEffect(() => {
     if (attemptQuestions.length && answeredCount >= attemptQuestions.length) setShowUnansweredConfirm(false);
   }, [answeredCount, attemptQuestions.length]);
+
+  useEffect(() => {
+    setPendingAnswer(null);
+    setSaveAnswerError('');
+  }, [question?.id]);
 
   if (!attempt) {
     return <div className="p-4">Attempt not found.</div>;
@@ -955,10 +1024,29 @@ function ActiveTestPage() {
     return (
       <div className="space-y-3 p-4">
         <Panel className="p-5">
-          <p className="font-bold">{isHydratingQuestions || !hasRequestedQuestionHydration ? 'Loading your test...' : 'Attempt not found.'}</p>
+          <p className="font-bold">
+            {isHydratingQuestions || !hasRequestedQuestionHydration
+              ? 'Loading your test...'
+              : submitError
+                ? 'Unable to load your test.'
+                : 'Attempt not found.'}
+          </p>
           {submitError ? <p className="mt-2 text-sm text-[#ffc7c7]">{submitError}</p> : (
             <p className="mt-2 text-sm text-[#b8c8d9]">Reconnecting to local Supabase and restoring the question set.</p>
           )}
+          {submitError ? (
+            <Button
+              className="mt-4"
+              type="button"
+              variant="secondary"
+              onClick={() => {
+                setSubmitError('');
+                setHasRequestedQuestionHydration(false);
+              }}
+            >
+              Retry loading test
+            </Button>
+          ) : null}
         </Panel>
       </div>
     );
@@ -984,15 +1072,26 @@ function ActiveTestPage() {
 
   const unansweredCount = Math.max(attemptQuestions.length - answeredCount, 0);
 
-  const chooseAnswer = (answer: string) => {
+  const chooseAnswer = async (answer: string) => {
+    if (isSavingAnswer) return;
     setShowUnansweredConfirm(false);
-    state.saveAnswer(attempt.id, question.id, answer);
+    setPendingAnswer(answer);
+    setSaveAnswerError('');
+    setIsSavingAnswer(true);
+    try {
+      await state.saveAnswer(attempt.id, question.id, answer);
+      setPendingAnswer(null);
+    } catch (caught) {
+      setSaveAnswerError(getActionError(caught));
+    } finally {
+      setIsSavingAnswer(false);
+    }
   };
 
   const handleOptionKeyDown = (event: KeyboardEvent<HTMLButtonElement>, answer: string) => {
     if (event.key !== 'Enter' && event.key !== ' ') return;
     event.preventDefault();
-    chooseAnswer(answer);
+    void chooseAnswer(answer);
   };
 
   const requestSubmit = () => {
@@ -1032,8 +1131,9 @@ function ActiveTestPage() {
               <button
                 className={`flex min-h-12 w-full items-center gap-3 rounded-app border px-3 text-left text-sm font-semibold outline-none transition focus-visible:ring-2 focus-visible:ring-blue/25 ${selectedAnswer === option.id ? 'border-blue bg-[#eef5ff] text-ink' : 'border-line bg-white text-ink'}`}
                 aria-pressed={selectedAnswer === option.id}
+                disabled={isSavingAnswer}
                 key={option.id}
-                onClick={() => chooseAnswer(option.id)}
+                onClick={() => void chooseAnswer(option.id)}
                 onKeyDown={(event) => handleOptionKeyDown(event, option.id)}
               >
                 <span className={`grid h-5 w-5 place-items-center rounded-full border text-[11px] ${selectedAnswer === option.id ? 'border-blue bg-blue text-white' : 'border-muted text-muted'}`}>
@@ -1045,21 +1145,38 @@ function ActiveTestPage() {
             {!question.options?.length ? (
               <textarea
                 className="min-h-28 w-full rounded-app border border-line bg-white p-3 text-sm text-ink outline-none focus:border-blue"
-                onChange={(event) => chooseAnswer(event.target.value)}
+                disabled={isSavingAnswer}
+                onBlur={(event) => {
+                  if (event.target.value !== selectedAnswer) void chooseAnswer(event.target.value);
+                }}
+                onChange={(event) => {
+                  setPendingAnswer(event.target.value);
+                  setSaveAnswerError('');
+                }}
                 placeholder="Type your answer"
-                value={typeof selectedAnswer === 'string' ? selectedAnswer : ''}
+                value={pendingAnswer ?? (typeof selectedAnswer === 'string' ? selectedAnswer : '')}
               />
+            ) : null}
+            {isSavingAnswer ? <p className="text-sm font-semibold text-blue" role="status">Saving answer...</p> : null}
+            {saveAnswerError ? (
+              <div className="rounded-app border border-[#f3b4b4] bg-[#fff1f1] p-3 text-sm text-danger" role="alert">
+                <p className="font-semibold">Answer not saved. Your previous saved answer is unchanged.</p>
+                <p className="mt-1">{saveAnswerError}</p>
+                <Button className="mt-3" type="button" variant="secondary" onClick={() => void chooseAnswer(pendingAnswer ?? '')}>
+                  Retry saving answer
+                </Button>
+              </div>
             ) : null}
           </div>
         </div>
       </Panel>
 
       <div className="grid grid-cols-2 gap-3">
-        <Button variant="secondary" disabled={index === 0} onClick={() => moveToQuestion(index - 1)}>Previous</Button>
+        <Button variant="secondary" disabled={index === 0 || isSavingAnswer} onClick={() => moveToQuestion(index - 1)}>Previous</Button>
         {index === attemptQuestions.length - 1 ? (
-          <Button disabled={isSubmitting} onClick={requestSubmit}>{isSubmitting ? 'Submitting...' : 'Submit'}</Button>
+          <Button disabled={isSubmitting || isSavingAnswer || Boolean(saveAnswerError)} onClick={requestSubmit}>{isSubmitting ? 'Submitting...' : 'Submit'}</Button>
         ) : (
-          <Button onClick={() => moveToQuestion(index + 1)}>Next</Button>
+          <Button disabled={isSavingAnswer || Boolean(saveAnswerError)} onClick={() => moveToQuestion(index + 1)}>Next</Button>
         )}
       </div>
       {showUnansweredConfirm ? (

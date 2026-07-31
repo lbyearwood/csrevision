@@ -159,6 +159,7 @@ export interface StudentAnswer {
   attemptId: string;
   questionId: string;
   answer: string | string[];
+  lastSavedAt?: string;
   marksAwarded?: number;
   maxMarks: number;
   feedback?: string;
