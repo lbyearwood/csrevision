@@ -11,5 +11,7 @@ coverage/
 *.pid
 site-dev.out
 site-dev.err
+*.log
+tmp/
 supabase/.branches/
 supabase/.temp/

@@ -6,15 +6,15 @@ Audience: Codex agents bootstrapping this repository on a new machine. The user 
 
 ## Read Order
 
-1. `docs/HANDOVER.md` for the latest continuation state.
-2. `docs/CODEX_START_PROCESS.md` for the required pull/read/install/run/report startup sequence.
-3. `docs/CODEX_DEVELOPMENT_PROCESS.md` for the per-task QA rule.
-4. `docs/CODEX_END_PROCESS.md` for the user-triggered end-of-day commit and push sequence.
-5. `docs/PROJECT_TASKS.md` for live tasks and blockers.
+1. `Planning/Process/HANDOVER.md` for the latest continuation state.
+2. `Planning/Process/CODEX_START_PROCESS.md` for the required pull/read/install/run/report startup sequence.
+3. `Planning/Process/CODEX_DEVELOPMENT_PROCESS.md` for the per-task QA rule.
+4. `Planning/Process/CODEX_END_PROCESS.md` for the user-triggered end-of-day commit and push sequence.
+5. `Planning/Process/PROJECT_TASKS.md` for live tasks and blockers.
 6. `PROJECT_BRIEF.md` for product rules and architecture constraints.
 7. This file for machine setup.
-8. `docs/TROUBLESHOOTING.md` if local commands fail or Windows/Codex behaves oddly.
-9. `docs/SUPABASE_SETUP.md` before any backend, Auth, RLS, seed, or Edge Function work.
+8. `Planning/Setup/TROUBLESHOOTING.md` if local commands fail or Windows/Codex behaves oddly.
+9. `Planning/Setup/SUPABASE_SETUP.md` before any backend, Auth, RLS, seed, or Edge Function work.
 
 ## Required Dependencies
 
@@ -75,28 +75,21 @@ VITE_APP_NAME=csrevision
 npx.cmd supabase db reset --local
 ```
 
-5. If the stack is already running and only the seed needs reapplying, use the direct seed apply command documented in `docs/SUPABASE_SETUP.md`:
+5. If the stack is already running and only the seed needs reapplying, use the direct seed apply command documented in `Planning/Setup/SUPABASE_SETUP.md`:
 
 ```powershell
 docker cp supabase\seed.sql supabase_db_csrevision:/tmp/csrevision_seed.sql
 docker exec supabase_db_csrevision psql -v ON_ERROR_STOP=1 -U postgres -d postgres -f /tmp/csrevision_seed.sql
 ```
 
-6. For bulk/staged QA, apply the optional bulk QA seed after the base seed is present. Do this only when the task needs the large local fixture set or the user has approved a reset/reseed workflow:
-
-```powershell
-docker cp supabase\qa_bulk_seed.sql supabase_db_csrevision:/tmp/csrevision_qa_bulk_seed.sql
-docker exec supabase_db_csrevision psql -v ON_ERROR_STOP=1 -U postgres -d postgres -f /tmp/csrevision_qa_bulk_seed.sql
-```
-
-Expected bulk QA fixture state:
+6. The single `supabase/seed.sql` includes the complete classroom-scale QA fixture. Expected seeded state:
 
 ```text
-active_students=250
-active_real_classes=10
-assignments=94
-attempts=3142
-assignment_recipients=51
+active_students=300
+active_real_classes=12
+assignments=98
+attempts=3122
+assignment_recipients=61
 bulk_seed_audits=1
 ```
 
@@ -123,7 +116,7 @@ After `npx.cmd supabase start`, run:
 npx.cmd supabase status
 ```
 
-The output must include `FUNCTIONS_URL` before testing active assessments. If it does not, see `docs/TROUBLESHOOTING.md`.
+The output must include `FUNCTIONS_URL` before testing active assessments. If it does not, see `Planning/Setup/TROUBLESHOOTING.md`.
 
 ## Local Seed Accounts
 
@@ -167,7 +160,7 @@ Functional changes also require targeted QA of the changed workflow against loca
 - RLS/schema changes: run pgTAP or direct SQL checks proving allowed and denied access.
 - Persistence changes: save data, navigate or reload, and prove the saved state is still present.
 - Teacher assignment QA should check the `Create assignment`, `Active Assignments`, and `Expired Assignments` tabs. Active rows use current/no-deadline assignments; Expired rows use only past-deadline assignments.
-- Staged regression QA uses `docs/planning/csrevision-full-test-plan-checklist.html`. The artifact is read-only for the user and must be updated by Codex after every test in the requested stage.
+- Staged regression QA uses `Planning/Testing/csrevision-full-test-plan-checklist.html`. The artifact is read-only for the user and must be updated by Codex after every test in the requested stage.
 
 Do not mark the task complete until this behavioural QA passes. If it cannot be run, document the gap and leave the task blocked or partially verified.
 
@@ -211,9 +204,9 @@ The generated questions are not production content. They exist so the UI and loc
 
 ## Known Machine Issues
 
-- For detailed fixes, see `docs/TROUBLESHOOTING.md`.
+- For detailed fixes, see `Planning/Setup/TROUBLESHOOTING.md`.
 - If Docker Desktop reports virtualization support missing, enable virtualization in BIOS/UEFI and ensure WSL 2 / Linux containers are available.
 - If PowerShell blocks `npm.ps1` or `npx.ps1`, use `npm.cmd` and `npx.cmd`.
-- If `Start-Process` fails with duplicate `Path` / `PATH` keys, normalize the current process environment using the command in `docs/TROUBLESHOOTING.md`.
+- If `Start-Process` fails with duplicate `Path` / `PATH` keys, normalize the current process environment using the command in `Planning/Setup/TROUBLESHOOTING.md`.
 - `supabase_vector_csrevision` may restart locally because the Vector log collector cannot access Docker logs. Core local services have still worked while API, Studio, DB, Auth, and Inbucket are healthy.
 - Do not commit `.env.local`, service-role keys, AI keys, or production credentials.

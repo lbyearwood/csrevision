@@ -4,7 +4,7 @@ Last updated: 2026-07-30
 
 Status: outstanding work that must be addressed.
 
-Source of truth: `docs/planning/csrevision-full-test-plan-checklist.html`
+Source of truth: `Planning/Testing/csrevision-full-test-plan-checklist.html`
 
 The staged test plan currently contains 22 blocked tests:
 
@@ -171,4 +171,4 @@ This document is complete only when:
 - all 22 corresponding checklist entries are `Pass`, or an explicitly approved scope change removes a test from the plan;
 - the full automated release gates still pass;
 - temporary fixtures and test artifacts are cleaned up;
-- `docs/HANDOVER.md`, `docs/PROJECT_TASKS.md`, and the test-plan evidence are updated.
+- `Planning/Process/HANDOVER.md`, `Planning/Process/PROJECT_TASKS.md`, and the test-plan evidence are updated.

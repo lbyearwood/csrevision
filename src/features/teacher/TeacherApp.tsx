@@ -25,11 +25,12 @@ import {
   X,
 } from 'lucide-react';
 import { Route, Routes, NavLink } from 'react-router-dom';
-import { Fragment, useEffect, useMemo, useRef, useState, type FormEvent, type ReactNode } from 'react';
+import { Fragment, useEffect, useMemo, useRef, useState, type ComponentProps, type FormEvent, type ReactNode } from 'react';
 import { useAppState } from '../../app/AppState';
+import { RevisionObjectivesPanel } from '../../components/RevisionObjectivesPanel';
 import { Button } from '../../components/ui/Button';
 import { Metric } from '../../components/ui/Metric';
-import { Panel } from '../../components/ui/Panel';
+import { Panel as UiPanel } from '../../components/ui/Panel';
 import { StatusBadge } from '../../components/ui/StatusBadge';
 import { formatDate, isDateWithinInputRange } from '../../lib/time';
 import { supabase } from '../../lib/supabaseClient';
@@ -46,14 +47,14 @@ const navItems = [
   { to: '/teacher/leaderboards', label: 'Leaderboards', icon: Trophy },
 ];
 
-const darkSubtleText = 'text-[#b8c8d9]';
+const darkSubtleText = 'text-muted';
 const nestedTableFrame = 'overflow-x-auto rounded-app border border-line bg-white text-ink';
-const nestedTableHead = 'border-b border-line bg-mist text-xs text-muted';
+const nestedTableHead = 'border-b border-line bg-[#f7f5ff] text-xs text-muted';
 const lightControlClass = 'h-11 w-full rounded-app border border-line bg-mist px-3 text-sm text-ink shadow-inner [color-scheme:light] focus:border-blue focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue/15';
 const whiteControlClass = 'h-11 w-full rounded-app border border-[#dedbf0] bg-white px-3 text-sm text-ink shadow-inner [color-scheme:light] focus:border-blue focus:outline-none focus:ring-2 focus:ring-blue/15';
 const lightTextareaClass = 'min-h-11 w-full rounded-app border border-line bg-mist px-3 py-2 text-sm text-ink shadow-inner [color-scheme:light] focus:border-blue focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue/15';
-const filterCheckboxClass = 'h-4 w-4 rounded border-[#8996e7] bg-[#202a6f] accent-blue focus:ring-2 focus:ring-blue/25';
-const filterLabelClass = 'inline-flex min-h-8 items-center gap-2 text-sm font-semibold text-[#eef5fc]';
+const filterCheckboxClass = 'h-4 w-4 rounded border-[#a49aee] bg-white accent-[#554fd1] focus:ring-2 focus:ring-blue/25';
+const filterLabelClass = 'inline-flex min-h-8 items-center gap-2 text-sm font-semibold text-ink';
 const resultsFilterFieldClass = 'min-w-0 space-y-2 text-sm font-semibold';
 const classStatusFilters = ['active', 'archived'] as const satisfies ReadonlyArray<ClassRecord['status']>;
 const allResultsFilterValue = 'all';
@@ -64,6 +65,10 @@ const markingMethodLabel: Record<Test['markingMethod'], string> = {
   teacher_marked: 'Teacher-marked',
 };
 const resultNaturalSort = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+
+function Panel({ tone = 'light', className = '', ...props }: ComponentProps<typeof UiPanel>) {
+  return <UiPanel className={`min-w-0 ${className}`} tone={tone} {...props} />;
+}
 
 function useDialogAccessibility() {
   useEffect(() => {
@@ -169,46 +174,54 @@ export function TeacherApp() {
   }
 
   return (
-    <main className="min-h-screen bg-mist p-3 text-ink lg:p-6">
-      <div className="grid min-h-[860px] w-full overflow-hidden rounded-[18px] border border-line bg-mist shadow-panel lg:grid-cols-[220px_1fr]">
-        <aside className="hidden border-r border-[#4b59bd] bg-[#202a6f] p-4 text-white lg:block">
-          <div className="mb-8 flex items-center gap-3">
-            <div className="grid h-10 w-10 place-items-center rounded-app border border-[#7e8eff] bg-[linear-gradient(135deg,#3857df_0%,#7650cf_100%)] text-white shadow-[0_8px_18px_rgba(56,87,223,0.28)]">
-              <Code2 size={22} strokeWidth={2.4} aria-hidden="true" />
+    <main className="min-h-screen bg-mist text-ink">
+      <div className="mx-auto min-h-screen max-w-[430px] bg-mist shadow-panel md:my-6 md:min-h-[860px] md:rounded-[28px] md:border md:border-line lg:mx-0 lg:my-0 lg:grid lg:min-h-screen lg:w-full lg:max-w-none lg:grid-cols-[248px_minmax(0,1fr)] lg:gap-6 lg:border-0 lg:bg-transparent lg:p-6 lg:shadow-none">
+        <aside className="hidden rounded-app border border-[#6474df] bg-[linear-gradient(165deg,#16235d_0%,#202a6f_48%,#43308f_100%)] p-4 text-white shadow-[0_18px_42px_rgba(32,42,111,0.24)] lg:flex lg:self-start lg:flex-col">
+          <div className="mb-6 flex items-center gap-3 px-2">
+            <div className="grid h-11 w-11 place-items-center rounded-app border border-[#7e8eff] bg-[linear-gradient(135deg,#3857df_0%,#7650cf_100%)] text-white shadow-[0_8px_18px_rgba(56,87,223,0.28)]">
+              <Code2 size={23} strokeWidth={2.4} aria-hidden="true" />
             </div>
             <div>
-              <p className="font-bold">csrevision</p>
-              <p className="text-xs text-[#d9dfff]">Teacher console</p>
+              <p className="text-lg font-bold">csrevision</p>
+              <p className="text-xs font-semibold text-[#d9dfff]">Teacher console</p>
             </div>
           </div>
-          <nav className="space-y-1">
+          <nav className="space-y-2">
             {navItems.map((item) => (
               <NavLink
                 end={item.to === '/teacher'}
                 key={item.to}
                 to={item.to}
                 className={({ isActive }) =>
-                  `flex min-h-11 items-center gap-3 rounded-app px-3 text-sm font-semibold ${isActive ? 'bg-[#fffaf0] text-[#182347]' : 'text-[#d9dfff] hover:bg-[#2d3d9b] hover:text-white'}`
+                  `flex items-center gap-3 rounded-app px-3 py-3 text-sm font-semibold ${isActive ? 'bg-[#fffaf0] text-[#182347]' : 'text-[#d9dfff] hover:bg-[#2d3d9b] hover:text-white'}`
                 }
               >
-                <item.icon size={18} aria-hidden="true" />
-                {item.label}
+                <span className="grid size-8 shrink-0 place-items-center rounded-xl border border-white/15 bg-white/10 shadow-[inset_0_1px_0_rgba(255,255,255,0.1)]"><item.icon size={18} aria-hidden="true" /></span>
+                <span className="min-w-0 flex-1">{item.label}</span>
               </NavLink>
             ))}
           </nav>
-          <div className="mt-5 border-t border-[#4b59bd] pt-4">
-            <div className="flex items-center gap-3 px-3">
-              <span className="grid size-10 shrink-0 place-items-center rounded-full border border-[#9ca8ff] bg-[linear-gradient(135deg,#4d6cf0_0%,#9a55db_100%)] text-sm font-bold text-white shadow-[0_5px_12px_rgba(67,83,218,0.32)]">JD</span>
-              <div className="min-w-0"><p className="truncate text-sm font-bold text-white">J. Doe</p><p className="text-xs text-[#d9dfff]">Teacher</p></div>
+          <div className="mt-3 border-t border-[#4b59bd] pt-3">
+            <div className="flex items-center gap-3 rounded-app px-3 py-3 text-[#e5e8ff]">
+              <span className="grid size-9 shrink-0 place-items-center rounded-full border border-[#9ca8ff] bg-[linear-gradient(135deg,#4d6cf0_0%,#9a55db_100%)] text-sm font-bold text-white shadow-[0_5px_12px_rgba(67,83,218,0.32)]">JD</span>
+              <div className="min-w-0 flex-1"><p className="truncate text-sm font-bold text-white">J. Doe</p><p className="text-xs text-[#d9dfff]">Teacher</p></div>
             </div>
-            <button className="mt-3 flex min-h-10 w-full items-center gap-3 rounded-app px-3 text-sm font-semibold text-[#d9dfff] transition hover:bg-[#2d3d9b] hover:text-white" onClick={signOut} type="button">
+            <button className="mt-2 flex w-full items-center gap-3 rounded-app px-3 py-3 text-sm font-semibold text-[#d9dfff] transition hover:bg-[#2d3d9b] hover:text-white" onClick={signOut} type="button">
               <LogOut size={18} aria-hidden="true" />
               Sign out
             </button>
           </div>
         </aside>
 
-        <section className="min-w-0 bg-mist text-ink">
+        <section className="min-w-0 lg:self-start">
+          <header className="flex items-center justify-between border-b border-[#6474df] bg-[linear-gradient(135deg,#202a6f_0%,#413093_100%)] px-4 py-4 text-white lg:hidden">
+            <div className="flex items-center gap-3"><div className="grid h-10 w-10 place-items-center rounded-app border border-[#7e8eff] bg-[linear-gradient(135deg,#3857df_0%,#7650cf_100%)] shadow-[0_8px_18px_rgba(56,87,223,0.28)]"><Code2 size={21} strokeWidth={2.4} aria-hidden="true" /></div><div><p className="font-bold">csrevision</p><p className="text-xs font-semibold text-[#d9dfff]">Teacher console</p></div></div>
+            <div className="flex items-center gap-2">
+              <span aria-label="J. Doe, Teacher" className="grid h-10 w-10 place-items-center rounded-full border border-[#9ca8ff] bg-[linear-gradient(135deg,#4d6cf0_0%,#9a55db_100%)] text-sm font-bold">JD</span>
+              <button aria-label="Sign out" className="grid h-10 w-10 place-items-center rounded-full border border-[#4b59bd] bg-[#2d3d9b] transition hover:bg-[#394aaa] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fff1a9]" onClick={signOut} title="Sign out" type="button"><LogOut size={18} aria-hidden="true" /></button>
+            </div>
+          </header>
+          <div className="pb-24 lg:pb-0">
           <Routes>
             <Route index element={<TeacherDashboard />} />
             <Route path="classes" element={<ClassesPage />} />
@@ -218,7 +231,22 @@ export function TeacherApp() {
             <Route path="results" element={<ResultsPage />} />
             <Route path="leaderboards" element={<LeaderboardsPage />} />
           </Routes>
+          </div>
         </section>
+
+        <nav className="fixed bottom-0 left-1/2 grid w-full max-w-[430px] -translate-x-1/2 grid-cols-7 border-t border-[#6474df] bg-[linear-gradient(135deg,#202a6f_0%,#413093_100%)] px-1 py-2 md:bottom-6 md:rounded-b-[28px] lg:hidden">
+          {navItems.map((item) => (
+            <NavLink
+              end={item.to === '/teacher'}
+              key={item.to}
+              to={item.to}
+              className={({ isActive }) => `flex min-h-14 flex-col items-center justify-center gap-1 rounded-app px-0.5 text-center text-[9px] font-semibold leading-tight ${isActive ? 'text-white' : 'text-[#d9dfff]'}`}
+            >
+              <item.icon size={19} aria-hidden="true" />
+              <span>{item.label}</span>
+            </NavLink>
+          ))}
+        </nav>
       </div>
     </main>
   );
@@ -325,17 +353,17 @@ function TeacherDashboard() {
           <p className="text-sm text-muted">Class progress, assigned tests and results.</p>
         </div>
         <div className="grid min-w-0 gap-2 sm:grid-cols-2">
-          <select className="h-12 min-w-0 rounded-app border border-[#4b59bd] bg-[#202a6f] px-3 text-sm font-semibold text-white" value={classRecord.id} onChange={(event) => { setSelectedClassId(event.target.value); setSelectedTopicId('all'); }}>
+          <select className="h-12 min-w-0 rounded-app border border-[#c8c3ff] bg-white px-3 text-sm font-semibold text-ink shadow-[0_5px_14px_rgba(54,68,163,0.07)] focus:border-blue focus:outline-none focus:ring-2 focus:ring-blue/15" value={classRecord.id} onChange={(event) => { setSelectedClassId(event.target.value); setSelectedTopicId('all'); }}>
             {activeClasses.map((classOption) => <option key={classOption.id} value={classOption.id}>{classOption.className}</option>)}
           </select>
-          <select className="h-12 min-w-0 rounded-app border border-[#4b59bd] bg-[#202a6f] px-3 text-sm font-semibold text-white" value={selectedTopicId} onChange={(event) => setSelectedTopicId(event.target.value)}>
+          <select className="h-12 min-w-0 rounded-app border border-[#c8c3ff] bg-white px-3 text-sm font-semibold text-ink shadow-[0_5px_14px_rgba(54,68,163,0.07)] focus:border-blue focus:outline-none focus:ring-2 focus:ring-blue/15" value={selectedTopicId} onChange={(event) => setSelectedTopicId(event.target.value)}>
             <option value="all">All course topics</option>
             {classTopicOptions.map((topic) => <option key={topic.id} value={topic.id}>{topic.topicName}</option>)}
           </select>
         </div>
       </div>
 
-      <Panel className="grid grid-cols-2 overflow-hidden sm:grid-cols-4">
+      <Panel className="grid grid-cols-2 overflow-hidden sm:grid-cols-4" tone="dark">
         <Metric label="Students" value={classStudents.length} />
         <Metric label="Tests Assigned" value={classAssignments.length} />
         <Metric label="Tests Completed" value={completed} />
@@ -343,7 +371,7 @@ function TeacherDashboard() {
       </Panel>
 
       <div className="grid min-w-0 gap-5 lg:grid-cols-[minmax(0,1fr)_330px]">
-        <Panel className="p-4">
+        <Panel className="self-start p-4">
           <div className="mb-4 flex items-center justify-between">
             <h2 className="font-bold">Student Performance Overview</h2>
             <Search className={darkSubtleText} size={18} />
@@ -445,8 +473,8 @@ function TeacherDashboard() {
 
 function SummaryRow({ label, value }: { label: string; value: string }) {
   return (
-    <div className="flex items-center justify-between border-b border-[#4b59bd] py-3 text-sm last:border-b-0">
-      <span className="text-[#b8c8d9]">{label}</span>
+    <div className="flex items-center justify-between border-b border-line py-3 text-sm last:border-b-0">
+      <span className="text-muted">{label}</span>
       <span className="font-bold">{value}</span>
     </div>
   );
@@ -715,8 +743,8 @@ function ClassesPage() {
       {message ? <p className="rounded-app bg-[#e7f7ef] p-3 text-sm font-semibold text-green">{message}</p> : null}
       {error ? <p className="rounded-app bg-[#fff1f1] p-3 text-sm font-semibold text-danger">{error}</p> : null}
       <Panel className="p-4">
-        <div className="mb-3 border-b border-[#4b59bd] pb-3">
-          <p className="text-xs font-semibold uppercase tracking-normal text-[#b8c8d9]">Filters</p>
+        <div className="mb-3 border-b border-line pb-3">
+          <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#71699b]">Filters</p>
         </div>
         <div className="grid gap-5 lg:grid-cols-2">
           <fieldset className="space-y-2">
@@ -1206,7 +1234,7 @@ function StudentsPage() {
                 </select>
               </label>
               <p className="text-sm font-semibold text-[#b8c8d9]">
-                Showing <span className="text-white">{filteredStudents.length}</span> of <span className="text-white">{visibleStudents.length}</span>
+                Showing <span className="text-[#514bd0]">{filteredStudents.length}</span> of <span className="text-[#514bd0]">{visibleStudents.length}</span>
               </p>
             </div>
             <label className="space-y-2 text-sm font-semibold">
@@ -1452,10 +1480,11 @@ function StudentsPage() {
   );
 }
 
-function TestsPage() {
+export function TestsPage() {
   const state = useAppState();
   const [selectedSubjectId, setSelectedSubjectId] = useState<string | null>(null);
   const [selectedUnitId, setSelectedUnitId] = useState<string | null>(null);
+  const [selectedTopicId, setSelectedTopicId] = useState<string | null>(null);
   const [previewTestId, setPreviewTestId] = useState<string | null>(null);
   const [previewQuestionIndex, setPreviewQuestionIndex] = useState(0);
   const testResources = useMemo(
@@ -1468,6 +1497,7 @@ function TestsPage() {
   );
   const selectedSubject = state.subjects.find((subject) => subject.id === selectedSubjectId);
   const selectedUnit = state.units.find((unit) => unit.id === selectedUnitId);
+  const selectedTopic = state.topics.find((topic) => topic.id === selectedTopicId && topic.unitId === selectedUnitId);
   const previewTest = testResources.find((test) => test.id === previewTestId) ?? null;
   const previewQuestions = previewTest?.version
     ? state.questions.filter((question) => question.testVersionId === previewTest.version?.id).sort((first, second) => first.questionOrder - second.questionOrder)
@@ -1475,6 +1505,8 @@ function TestsPage() {
   const previewQuestion = previewQuestions[previewQuestionIndex];
   const subjectUnits = state.units.filter((unit) => unit.subjectId === selectedSubjectId);
   const unitTopics = state.topics.filter((topic) => topic.unitId === selectedUnitId);
+  const revisionObjectives = selectedTopic?.revisionObjectives ?? [];
+  const selectedTopicTests = selectedTopic ? testResources.filter((test) => test.topicId === selectedTopic.id) : [];
 
   const countTopicsForSubject = (subjectId: string) => {
     const unitIds = new Set(state.units.filter((unit) => unit.subjectId === subjectId).map((unit) => unit.id));
@@ -1495,6 +1527,7 @@ function TestsPage() {
   const resetToCourses = () => {
     setSelectedSubjectId(null);
     setSelectedUnitId(null);
+    setSelectedTopicId(null);
     setPreviewTestId(null);
   };
 
@@ -1517,7 +1550,12 @@ function TestsPage() {
               <button
                 className="group flex w-full items-center gap-4 rounded-app border-2 border-[#dedbf0] bg-white p-4 text-left text-ink shadow-[0_10px_22px_rgba(58,55,143,0.08)] transition duration-200 hover:-translate-y-0.5 hover:border-[#7164e8] hover:shadow-[0_16px_28px_rgba(58,55,143,0.15)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue lg:gap-5 lg:p-5"
                 key={subject.id}
-                onClick={() => setSelectedSubjectId(subject.id)}
+                onClick={() => {
+                  setSelectedSubjectId(subject.id);
+                  setSelectedUnitId(null);
+                  setSelectedTopicId(null);
+                  setPreviewTestId(null);
+                }}
               >
                 <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br from-[#5157dd] to-[#7b45d5] text-white shadow-[0_8px_16px_rgba(76,79,202,0.24)] lg:size-16" aria-hidden="true"><BookOpenCheck size={28} /></span>
                 <div className="min-w-0 flex-1"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#71699b]">Course</p><h2 className="mt-1 text-xl font-bold tracking-tight lg:text-2xl">{subject.subjectName}</h2><p className="mt-2 max-w-2xl text-sm leading-6 text-muted lg:text-base">{subject.description}</p></div>
@@ -1564,7 +1602,11 @@ function TestsPage() {
                 <button
                   className="group flex w-full items-center gap-4 rounded-app border-2 border-[#dedbf0] bg-white p-4 text-left text-ink shadow-[0_10px_22px_rgba(58,55,143,0.08)] transition duration-200 hover:-translate-y-0.5 hover:border-[#7164e8] hover:shadow-[0_16px_28px_rgba(58,55,143,0.15)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue lg:gap-5 lg:p-5"
                   key={unit.id}
-                  onClick={() => setSelectedUnitId(unit.id)}
+                  onClick={() => {
+                    setSelectedUnitId(unit.id);
+                    setSelectedTopicId(null);
+                    setPreviewTestId(null);
+                  }}
                 >
                   <span className={`grid size-14 shrink-0 place-items-center rounded-2xl bg-gradient-to-br ${unitAccent} text-xl font-bold text-white shadow-[0_8px_16px_rgba(76,79,202,0.24)] lg:size-16 lg:text-2xl`} aria-hidden="true">{unit.unitName.match(/^\d+/)?.[0] ?? unitIndex + 1}</span>
                   <div className="min-w-0 flex-1"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#71699b]">Unit</p><h2 className="mt-1 text-lg font-bold tracking-tight lg:text-xl">{unit.unitName}</h2><div className="mt-2 flex flex-wrap items-center gap-2 text-sm font-semibold text-muted"><span>{topicCount} topics</span><span aria-hidden="true">•</span><span>{testCount} test resources</span></div></div>
@@ -1576,15 +1618,15 @@ function TestsPage() {
         </div>
       ) : null}
 
-      {selectedSubject && selectedUnit ? (
+      {selectedSubject && selectedUnit && !selectedTopic ? (
         <div className="space-y-4">
           <div>
             <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-semibold">
-              <button className="text-blue transition hover:text-ink" onClick={() => setSelectedUnitId(null)}>{selectedSubject.subjectName}</button>
+              <button className="text-blue transition hover:text-ink" onClick={() => { setSelectedUnitId(null); setSelectedTopicId(null); setPreviewTestId(null); }} type="button">{selectedSubject.subjectName}</button>
               <span className="text-muted" aria-hidden="true">/</span>
               <span className="text-muted">{selectedUnit.unitName}</span>
             </div>
-            <h2 className="mt-2 font-bold">Topics in {selectedUnit.unitName}</h2>
+            <h2 className="mt-2 font-bold">Choose a topic in {selectedUnit.unitName}</h2>
           </div>
           <div className="space-y-3">
             {unitTopics.map((topic, topicIndex) => {
@@ -1592,50 +1634,73 @@ function TestsPage() {
               const topicAccent = ['bg-[#6259df]', 'bg-[#0ca89c]', 'bg-[#ef8b4f]', 'bg-[#a15bd0]'][topicIndex % 4];
               return (
                 <Panel className="overflow-hidden p-0" key={topic.id} tone="light">
-                  <div className="flex items-start gap-4 px-4 py-4 lg:items-center lg:px-5"><span className={`mt-0.5 size-3 shrink-0 rounded-full ${topicAccent} lg:size-4`} aria-hidden="true" /><div className="min-w-0 flex-1"><h2 className="text-lg font-bold lg:text-xl">{topic.topicName}</h2></div><span className="shrink-0 rounded-lg bg-[#f0efff] px-2.5 py-1 text-sm font-bold text-[#554fd1]">{topicTests.length} {topicTests.length === 1 ? 'test' : 'tests'}</span></div>
+                  <button className="group flex w-full items-center gap-4 px-4 py-4 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-3px] focus-visible:outline-blue lg:px-5" onClick={() => { setSelectedTopicId(topic.id); setPreviewTestId(null); }} type="button"><span className={`size-4 shrink-0 rounded-full ${topicAccent}`} aria-hidden="true" /><div className="min-w-0 flex-1"><p className="text-xs font-bold uppercase tracking-[0.14em] text-[#71699b]">Topic</p><h2 className="mt-1 text-lg font-bold lg:text-xl">{topic.topicName}</h2></div><span className="shrink-0 rounded-lg bg-[#f0efff] px-2.5 py-1 text-sm font-bold text-[#554fd1]">{topicTests.length} {topicTests.length === 1 ? 'test' : 'tests'}</span><span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#f0efff] text-[#554fd1] transition group-hover:bg-[#554fd1] group-hover:text-white" aria-hidden="true"><ChevronRight size={21} /></span></button>
 
-                  <div className="space-y-3 border-t border-[#e2dff4] bg-[#faf9ff] px-4 py-3 lg:px-5">
-                    {topicTests.length ? (
-                      topicTests.map((test) => {
-                        const questionCount = test.version ? state.questions.filter((question) => question.testVersionId === test.version?.id).length : 0;
-                        return (
-                          <div className="flex flex-col gap-3 rounded-app border border-[#dedbf0] bg-white p-3 text-ink sm:flex-row sm:items-center sm:justify-between" key={test.id}>
-                            <div className="min-w-0">
-                            <div className="flex items-start justify-between gap-3 sm:block">
-                              <div>
-                                <h3 className="text-sm font-bold">{test.testTitle}</h3>
-                                <p className="mt-1 text-xs text-muted">{test.testDescription}</p>
-                              </div>
-                              <StatusBadge tone={test.status === 'published' ? 'green' : test.status === 'draft' ? 'amber' : 'neutral'}>
-                                {test.status === 'published' ? 'Published' : test.status === 'draft' ? 'Draft' : 'Archived'}
-                              </StatusBadge>
-                            </div>
-                            <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium text-muted">
-                              <span>{test.version ? `Version ${test.version.versionNumber}` : 'No version'}</span>
-                              <span aria-hidden="true">•</span>
-                              <span>{questionCount} questions</span>
-                              <span aria-hidden="true">•</span>
-                              <span>{Math.round(test.defaultTimeLimitSeconds / 60)} min</span>
-                              <span aria-hidden="true">â€¢</span>
-                              <span>{markingMethodLabel[test.markingMethod]}</span>
-                            </div>
-                            </div>
-                            <Button className="min-h-10 shrink-0 px-4" disabled={!test.version || !questionCount} onClick={() => openTestPreview(test.id)} type="button" variant="secondary"><BookOpenCheck size={16} aria-hidden="true" />Preview</Button>
-                          </div>
-                        );
-                      })
-                    ) : (
-                      <p className="rounded-app border border-dashed border-line bg-white p-3 text-sm text-muted">
-                        No tests are available for this topic yet.
-                      </p>
-                    )}
-                  </div>
                 </Panel>
               );
             })}
           </div>
         </div>
       ) : null}
+
+      {selectedSubject && selectedUnit && selectedTopic ? (
+        <div className="space-y-4">
+          <div>
+            <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm font-semibold">
+              <button className="text-blue transition hover:text-ink" onClick={() => { setSelectedUnitId(null); setSelectedTopicId(null); setPreviewTestId(null); }} type="button">{selectedSubject.subjectName}</button>
+              <span className="text-muted" aria-hidden="true">/</span>
+              <button className="text-blue transition hover:text-ink" onClick={() => { setSelectedTopicId(null); setPreviewTestId(null); }} type="button">{selectedUnit.unitName}</button>
+              <span className="text-muted" aria-hidden="true">/</span>
+              <span className="text-muted">{selectedTopic.topicName}</span>
+            </div>
+            <h2 className="mt-2 font-bold">{revisionObjectives.length ? 'Revision objectives' : `Tests for ${selectedTopic.topicName}`}</h2>
+          </div>
+
+          <RevisionObjectivesPanel
+            key={selectedTopic.id}
+            objectives={revisionObjectives}
+            supplementKeys={selectedTopic.revisionSupplementKeys}
+            topicName={selectedTopic.topicName}
+          />
+
+          {revisionObjectives.length ? <h2 className="font-bold">Tests for {selectedTopic.topicName}</h2> : null}
+          <Panel className="space-y-3" tone="light">
+            {selectedTopicTests.length ? (
+              selectedTopicTests.map((test) => {
+                const questionCount = test.version ? state.questions.filter((question) => question.testVersionId === test.version?.id).length : 0;
+                return (
+                  <div className="flex flex-col gap-3 rounded-app border border-[#dedbf0] bg-white p-3 text-ink sm:flex-row sm:items-center sm:justify-between" key={test.id}>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-start justify-between gap-3 sm:block">
+                        <div>
+                          <h3 className="text-sm font-bold">{test.testTitle}</h3>
+                          <p className="mt-1 text-xs text-muted">{test.testDescription}</p>
+                        </div>
+                        <StatusBadge tone={test.status === 'published' ? 'green' : test.status === 'draft' ? 'amber' : 'neutral'}>
+                          {test.status === 'published' ? 'Published' : test.status === 'draft' ? 'Draft' : 'Archived'}
+                        </StatusBadge>
+                      </div>
+                      <div className="mt-2 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs font-medium text-muted">
+                        <span>{test.version ? `Version ${test.version.versionNumber}` : 'No version'}</span>
+                        <span aria-hidden="true">•</span>
+                        <span>{questionCount} questions</span>
+                        <span aria-hidden="true">•</span>
+                        <span>{Math.round(test.defaultTimeLimitSeconds / 60)} min</span>
+                        <span aria-hidden="true">•</span>
+                        <span>{markingMethodLabel[test.markingMethod]}</span>
+                      </div>
+                    </div>
+                    <Button className="min-h-10 shrink-0 px-4" disabled={!test.version || !questionCount} onClick={() => openTestPreview(test.id)} type="button" variant="secondary"><BookOpenCheck size={16} aria-hidden="true" />Preview</Button>
+                  </div>
+                );
+              })
+            ) : (
+              <p className="rounded-app border border-dashed border-line bg-white p-3 text-sm text-muted">No tests are available for this topic yet.</p>
+            )}
+          </Panel>
+        </div>
+      ) : null}
+
       {previewTest ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#10142b]/55 p-4 backdrop-blur-sm" role="presentation">
           <section aria-label={`${previewTest.testTitle} preview`} aria-modal="true" className="max-h-[calc(100vh-2rem)] w-full max-w-3xl overflow-auto rounded-[1.5rem] border-2 border-[#7774ec] bg-white text-ink shadow-[0_28px_72px_rgba(19,25,72,0.38)]" role="dialog">
@@ -1999,8 +2064,8 @@ function AssignmentsPage() {
       {activeTab === 'create' ? (
         <div className="space-y-5">
           <Panel className="p-4">
-            <div className="mb-3 border-b border-[#4b59bd] pb-3">
-              <p className="text-xs font-semibold uppercase tracking-normal text-[#b8c8d9]">Assignment details</p>
+            <div className="mb-3 border-b border-line pb-3">
+              <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#71699b]">Assignment details</p>
             </div>
             <div className="grid gap-4 lg:grid-cols-3">
               <label className="space-y-2 text-sm font-semibold">
@@ -2193,8 +2258,8 @@ function AssignmentsPage() {
       {activeTab === 'active' || activeTab === 'expired' ? (
         <div className="space-y-5">
           <Panel className="p-4">
-            <div className="mb-3 border-b border-[#4b59bd] pb-3">
-              <p className="text-xs font-semibold uppercase tracking-normal text-[#b8c8d9]">Filters</p>
+            <div className="mb-3 border-b border-line pb-3">
+              <p className="text-xs font-bold uppercase tracking-[0.12em] text-[#71699b]">Filters</p>
             </div>
             <div className="grid gap-4 lg:grid-cols-2 xl:grid-cols-4">
               <label className="space-y-2 text-sm font-semibold">
@@ -2648,9 +2713,9 @@ function ResultsPage() {
         >
           <div>
             <h2 className="font-bold">Result filters</h2>
-            <p className="mt-1 text-sm text-[#d9dfff] transition group-hover:text-white">Change the class, course, topic or due-date view.</p>
+            <p className="mt-1 text-sm text-muted">Change the class, course, topic or due-date view.</p>
           </div>
-          <ChevronRight aria-hidden="true" className={`shrink-0 text-[#d9dfff] transition group-hover:text-white ${filtersOpen ? 'rotate-90' : ''}`} size={22} />
+          <ChevronRight aria-hidden="true" className={`shrink-0 text-[#554fd1] transition ${filtersOpen ? 'rotate-90' : ''}`} size={22} />
         </button>
         {filtersOpen ? <div className="mt-4 grid gap-4 lg:grid-cols-2 xl:grid-cols-12">
           <label className={`${resultsFilterFieldClass} xl:col-span-2`}>
@@ -2720,7 +2785,7 @@ function ResultsPage() {
               ))}
             </select>
           </label>
-          <label className="col-span-full inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-white">
+          <label className="col-span-full inline-flex min-h-10 items-center gap-2 text-sm font-semibold text-ink">
             <input checked={isDueDateFilterEnabled} className="size-4 accent-blue" onChange={(event) => setIsDueDateFilterEnabled(event.target.checked)} type="checkbox" />
             Filter by due date
           </label>
@@ -2866,22 +2931,22 @@ function LeaderboardsPage() {
   return (
     <TeacherPage title="Leaderboards">
       <Panel className="overflow-hidden p-0">
-        <div className="flex flex-wrap items-start justify-between gap-5 border-b border-[#4b59bd] px-5 py-5 lg:px-6">
+        <div className="flex flex-wrap items-start justify-between gap-5 border-b-4 border-[#c8c3ff] bg-white px-5 py-5 lg:px-6">
           <div className="flex items-start gap-3">
-            <span className="grid size-11 place-items-center rounded-xl border border-[#315071] bg-[#17304d] text-[#e6bc5c]">
+            <span className="grid size-11 place-items-center rounded-xl bg-gradient-to-br from-[#5157dd] to-[#7b45d5] text-[#fff1a9] shadow-[0_7px_14px_rgba(76,79,202,0.24)]">
               <Trophy size={22} aria-hidden="true" />
             </span>
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#b8c8d9]">Class leaderboard</p>
-              <h2 className="mt-1 text-xl font-bold text-white">{activeClasses.find((classRecord) => classRecord.id === classId)?.className ?? 'All classes'}</h2>
+              <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#71699b]">Class leaderboard</p>
+              <h2 className="mt-1 text-xl font-bold text-ink">{activeClasses.find((classRecord) => classRecord.id === classId)?.className ?? 'All classes'}</h2>
               <p className={`mt-1 text-sm ${darkSubtleText}`}>Standings based on points earned.</p>
             </div>
           </div>
-          <span className="pt-2 text-sm font-semibold text-[#b8c8d9]">{rankedClassRows.length} students</span>
+          <span className="pt-2 text-sm font-semibold text-muted">{rankedClassRows.length} students</span>
         </div>
-        <div className="grid gap-3 border-b border-[#4b59bd] bg-[#202a6f] p-4 text-white lg:grid-cols-[minmax(150px,1fr)_minmax(140px,0.75fr)] lg:items-end lg:px-5">
-          <label className="space-y-1 text-sm font-semibold"><span className="text-[#d9dfff]">Class</span><select className={whiteControlClass} onChange={(event) => setClassId(event.target.value)} value={classId}><option value={allResultsFilterValue}>All classes</option>{activeClasses.map((classRecord) => <option key={classRecord.id} value={classRecord.id}>{classRecord.className}</option>)}</select></label>
-          <label className="space-y-1 text-sm font-semibold"><span className="text-[#d9dfff]">Year group</span><select className={whiteControlClass} onChange={(event) => setYearGroup(event.target.value)} value={yearGroup}><option value={allResultsFilterValue}>All year groups</option>{yearGroups.map((group) => <option key={group} value={group}>Year {group}</option>)}</select></label>
+        <div className="grid gap-3 border-b border-line bg-[#f7f5ff] p-4 text-ink lg:grid-cols-[minmax(150px,1fr)_minmax(140px,0.75fr)] lg:items-end lg:px-5">
+          <label className="space-y-1 text-sm font-semibold"><span className="text-[#71699b]">Class</span><select className={whiteControlClass} onChange={(event) => setClassId(event.target.value)} value={classId}><option value={allResultsFilterValue}>All classes</option>{activeClasses.map((classRecord) => <option key={classRecord.id} value={classRecord.id}>{classRecord.className}</option>)}</select></label>
+          <label className="space-y-1 text-sm font-semibold"><span className="text-[#71699b]">Year group</span><select className={whiteControlClass} onChange={(event) => setYearGroup(event.target.value)} value={yearGroup}><option value={allResultsFilterValue}>All year groups</option>{yearGroups.map((group) => <option key={group} value={group}>Year {group}</option>)}</select></label>
         </div>
         <div className="space-y-2 p-4 lg:p-5">
           {rankedClassRows.map((row) => (

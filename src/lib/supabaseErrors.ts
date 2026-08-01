@@ -2,7 +2,7 @@ const LOCAL_SUPABASE_UNAVAILABLE_MESSAGE =
   'Local Supabase is unavailable. Start or restart Supabase, then retry.';
 
 const LOCAL_SCHEMA_OUTDATED_MESSAGE =
-  'The Local Supabase schema is out of date. Apply the latest migrations or run the documented local reset, then retry. See docs/SUPABASE_SETUP.md.';
+  'The Local Supabase schema is out of date. Apply the latest migrations or run the documented local reset, then retry. See Planning/Setup/SUPABASE_SETUP.md.';
 
 function errorMessage(error: unknown): string {
   if (error instanceof Error) return error.message;

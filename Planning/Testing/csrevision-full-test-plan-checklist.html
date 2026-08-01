@@ -558,7 +558,7 @@
     add("Reliability and error handling", "P1", "Two browser tabs open same active attempt.", "Answer in both tabs and submit from one.", "App prevents or safely handles conflicting updates.", "");
     add("Reliability and error handling", "P1", "Student clicks submit repeatedly.", "Double-click submit button or press Enter multiple times.", "Only one final submission is recorded; UI prevents duplicate submits.", "");
     add("Reliability and error handling", "P1", "Teacher creates assignment then reloads immediately.", "Create assignment; reload Active Assignments.", "Assignment persists or failure is clearly shown; no ghost assignment in UI.", "");
-    add("Reliability and error handling", "P1", "Supabase schema out of date in disposable DB.", "Run app before migrations; attempt login.", "Error points to local migration issue such as missing column and docs/start process covers migration up.", "");
+    add("Reliability and error handling", "P1", "Supabase schema out of date in disposable DB.", "Run app before migrations; attempt login.", "Error points to local migration issue such as missing column and the Planning start process covers migration up.", "");
     add("Reliability and error handling", "P2", "Large table has empty result set.", "Apply filters with no matches.", "Empty state is clear and does not leave stale previous rows visible.", "");
 
     add("Security", "P0", "Student signed in.", "Attempt direct REST read of questions/question_options/correct answers.", "RLS denies protected fields/tables; correct answers are not exposed to student browser.", "");
@@ -594,11 +594,11 @@
     add("Regression and release", "P1", "Before release branch or push.", "Run git diff --check.", "No whitespace errors.", "");
     add("Regression and release", "P1", "Before release branch or push.", "Run browser smoke across Teacher Dashboard, Students, Assignments, Results, Courses, Leaderboards.", "Core teacher pages load, no framework overlay, no console errors.", "");
     add("Regression and release", "P1", "Before release branch or push.", "Run browser smoke across Student Home, Practice, Assigned, Active Test, Results, Profile, Leaderboard.", "Core student pages load, no framework overlay, no console errors.", "");
-    add("Regression and release", "P1", "Before handing over to another Codex/computer.", "Update docs/HANDOVER.md and docs/PROJECT_TASKS.md if product state changed.", "Next agent can pull, read docs, run dependencies, migrate, seed, and start the site.", "");
+    add("Regression and release", "P1", "Before handing over to another Codex/computer.", "Update Planning/Process/HANDOVER.md and Planning/Process/PROJECT_TASKS.md if product state changed.", "Next agent can pull, read docs, run dependencies, migrate, seed, and start the site.", "");
     add("Regression and release", "P1", "Before production launch decision.", "Review backup/restore plan and production migration process.", "Production data protection and rollback plan are documented and tested.", "");
     add("Regression and release", "P1", "Before production launch decision.", "Review environment variables and deployment settings.", "Only publishable frontend key is exposed; service secrets live only server-side.", "");
     add("Regression and release", "P2", "After visual changes.", "Run screenshot QA on affected desktop/narrow/mobile viewports.", "Changed page remains readable with no overlap/clipping.", "");
-    add("Regression and release", "P2", "After docs/process changes.", "Search docs/code for stale old wording.", "Old terms such as Tests page, Check titles, or demo fallback do not reappear incorrectly.", "");
+    add("Regression and release", "P2", "After Planning/process changes.", "Search documentation/code for stale old wording.", "Old terms such as Tests page, Check titles, or demo fallback do not reappear incorrectly.", "");
     add("Regression and release", "P2", "After local QA creates temporary rows.", "Restore seed values or document local-only dirty DB state.", "Handover makes clear what is Git-tracked and what only exists in local Supabase.", "");
 
     const journeyStages = [
@@ -653,7 +653,7 @@
       {
         id: "release-regression-uat",
         title: "Release Regression and UAT",
-        description: "Run end-to-end acceptance scenarios, automated release checks, smoke tests, docs/handover checks, launch readiness, and final local data cleanup.",
+        description: "Run end-to-end acceptance scenarios, automated release checks, smoke tests, planning/handover checks, launch readiness, and final local data cleanup.",
         sources: [212, 213, 214, 215, 216, 217, 218, 219, 220, 221, 222, 223, 224, 225, 226, 228, 229, 230, 234, 235, 231, 232, 233, 236]
       }
     ];

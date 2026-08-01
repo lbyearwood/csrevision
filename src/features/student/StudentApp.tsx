@@ -19,6 +19,7 @@ import { NavLink, Route, Routes, useNavigate, useParams } from 'react-router-dom
 import { useAppState } from '../../app/AppState';
 import { Button } from '../../components/ui/Button';
 import { Panel } from '../../components/ui/Panel';
+import { RevisionObjectivesPanel } from '../../components/RevisionObjectivesPanel';
 import { StatusBadge } from '../../components/ui/StatusBadge';
 import { leaderboardDisplay } from '../../lib/identity';
 import { formatDate } from '../../lib/time';
@@ -29,7 +30,7 @@ import type { LeaderboardRow } from '../../types/domain';
 const navItems = [
   { to: '/student', label: 'Home', icon: Home },
   { to: '/student/practice', label: 'Practice', icon: BookOpenCheck },
-  { to: '/student/assigned', label: 'My assignments', icon: ListChecks },
+  { to: '/student/assigned', label: 'My assignments', mobileLabel: 'Assignments', icon: ListChecks },
   { to: '/student/results', label: 'My results', icon: BarChart3 },
   { to: '/student/leaderboard', label: 'Leaderboard', icon: Trophy },
 ];
@@ -109,7 +110,10 @@ export function StudentApp() {
         <section className="min-w-0 lg:self-start">
           <header className="flex items-center justify-between border-b border-[#6474df] bg-[linear-gradient(135deg,#202a6f_0%,#413093_100%)] px-4 py-4 text-white lg:hidden">
             <div className="flex items-center gap-3"><div className="grid h-10 w-10 place-items-center rounded-app border border-[#7e8eff] bg-[linear-gradient(135deg,#3857df_0%,#7650cf_100%)] shadow-[0_8px_18px_rgba(56,87,223,0.28)]"><Code2 size={21} strokeWidth={2.4} aria-hidden="true" /></div><p className="font-bold">csrevision</p></div>
-            <NavLink className="grid h-10 w-10 place-items-center rounded-full border border-[#4b59bd] bg-[#2d3d9b]" to="/student/profile" title="Profile"><UserRound size={18} aria-hidden="true" /></NavLink>
+            <div className="flex items-center gap-2">
+              <NavLink aria-label="View profile" className="grid h-10 w-10 place-items-center rounded-full border border-[#4b59bd] bg-[#2d3d9b]" to="/student/profile" title="Profile"><UserRound size={18} aria-hidden="true" /></NavLink>
+              <button aria-label="Sign out" className="grid h-10 w-10 place-items-center rounded-full border border-[#4b59bd] bg-[#2d3d9b] transition hover:bg-[#394aaa] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#fff1a9]" onClick={signOut} title="Sign out" type="button"><LogOut size={18} aria-hidden="true" /></button>
+            </div>
           </header>
           <div className="pb-24 lg:pb-0">
           <Routes>
@@ -125,20 +129,22 @@ export function StudentApp() {
           </div>
         </section>
 
-        <nav className="fixed bottom-0 left-1/2 grid w-full max-w-[430px] -translate-x-1/2 grid-cols-6 border-t border-[#6474df] bg-[linear-gradient(135deg,#202a6f_0%,#413093_100%)] px-2 py-2 md:bottom-6 md:rounded-b-[28px] lg:hidden">
+        <nav className="fixed bottom-0 left-1/2 grid w-full max-w-[430px] -translate-x-1/2 grid-cols-5 border-t border-[#6474df] bg-[linear-gradient(135deg,#202a6f_0%,#413093_100%)] px-2 py-2 md:bottom-6 md:rounded-b-[28px] lg:hidden">
           {navItems.map((item) => (
             <NavLink
               end={item.to === '/student'}
               key={item.to}
               to={item.to}
               className={({ isActive }) =>
-                `relative flex min-h-14 flex-col items-center justify-center gap-1 rounded-app text-[10px] font-semibold ${isActive ? 'text-white' : 'text-[#d9dfff]'}`
+                `flex min-h-14 min-w-0 flex-col items-center justify-center gap-1 rounded-app px-0.5 text-[10px] font-semibold leading-none focus:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-[#fff1a9] ${isActive ? 'text-white' : 'text-[#d9dfff]'}`
               }
             >
-              <item.icon size={20} aria-hidden="true" />
-              {item.label}
-              {item.to === '/student/practice' && unfinishedPracticeCount > 0 ? <span className="absolute right-1 top-1 grid min-w-5 place-items-center rounded-full bg-[#5a55d8] px-1 py-0.5 text-[10px] font-bold text-white shadow-sm" aria-label={`${unfinishedPracticeCount} unfinished practice tests`}>{unfinishedPracticeCount}</span> : null}
-              {item.to === '/student/assigned' && outstandingAssignmentCount > 0 ? <span className="absolute right-1 top-1 grid min-w-5 place-items-center rounded-full bg-[#e5484d] px-1 py-0.5 text-[10px] font-bold text-white shadow-sm" aria-label={`${outstandingAssignmentCount} outstanding assignments`}>{outstandingAssignmentCount}</span> : null}
+              <span className="relative grid size-7 place-items-center">
+                <item.icon size={20} aria-hidden="true" />
+                {item.to === '/student/practice' && unfinishedPracticeCount > 0 ? <span className="absolute -right-2 -top-1 grid min-w-5 place-items-center rounded-full bg-[#5a55d8] px-1 py-0.5 text-[10px] font-bold leading-none text-white shadow-sm" aria-label={`${unfinishedPracticeCount} unfinished practice tests`}>{unfinishedPracticeCount}</span> : null}
+                {item.to === '/student/assigned' && outstandingAssignmentCount > 0 ? <span className="absolute -right-2 -top-1 grid min-w-5 place-items-center rounded-full bg-[#e5484d] px-1 py-0.5 text-[10px] font-bold leading-none text-white shadow-sm" aria-label={`${outstandingAssignmentCount} outstanding assignments`}>{outstandingAssignmentCount}</span> : null}
+              </span>
+              <span className="whitespace-nowrap">{'mobileLabel' in item ? item.mobileLabel : item.label}</span>
             </NavLink>
           ))}
         </nav>
@@ -561,22 +567,6 @@ interface PracticeResource {
   testId?: string;
 }
 
-const revisionObjectivesByTopicName: Record<string, string[]> = {
-  '1.1 Programming fundamentals': [
-    'Use variables and constants to store values in a program.',
-    'Use assignment to give a variable a value and change it when needed.',
-    'Accept inputs into a program and produce outputs.',
-    'Generate and use random numbers in a program.',
-    'Choose and use suitable data types, including integer, real, Boolean, character and string.',
-    'Use casting to temporarily convert data from one data type to another.',
-    'Use string operations, including length, concatenation and slicing.',
-    'Recognise and use comparison operators: ==, !=, <, <=, > and >=.',
-    'Recognise and use arithmetic operators: +, -, *, /, MOD, DIV and ^.',
-    'Understand and use the Boolean operators AND, OR and NOT.',
-    'Apply these programming techniques in a high-level programming language.',
-  ],
-};
-
 function PracticePage() {
   const state = useAppState();
   const navigate = useNavigate();
@@ -616,7 +606,7 @@ function PracticePage() {
   const selectedSubject = availableSubjects.find((subject) => subject.id === selectedSubjectId);
   const selectedUnit = state.units.find((unit) => unit.id === selectedUnitId);
   const selectedTopic = state.topics.find((topic) => topic.id === selectedTopicId && topic.unitId === selectedUnitId);
-  const revisionObjectives = selectedTopic ? revisionObjectivesByTopicName[selectedTopic.topicName] : undefined;
+  const revisionObjectives = selectedTopic?.revisionObjectives ?? [];
   const subjectUnits = state.units.filter((unit) => unit.subjectId === selectedSubjectId);
   const unitTopics = state.topics.filter((topic) => topic.unitId === selectedUnitId);
   const unfinishedPracticeAttempts = useMemo(() => {
@@ -826,33 +816,16 @@ function PracticePage() {
               <span className="text-muted">{selectedTopic.topicName}</span>
             </div>
             <h3 className="mt-2 text-xl font-bold">
-              {revisionObjectives ? 'Revision objectives' : `Tests for ${selectedTopic.topicName}`}
+              {revisionObjectives.length ? 'Revision objectives' : `Tests for ${selectedTopic.topicName}`}
             </h3>
           </div>
-          {revisionObjectives ? (
-            <Panel className="overflow-hidden p-0" tone="light">
-              <details className="group">
-                <summary className="flex cursor-pointer list-none items-center justify-between gap-4 bg-[linear-gradient(135deg,#202a6f_0%,#43308f_100%)] px-5 py-5 text-white [&::-webkit-details-marker]:hidden lg:px-6">
-                  <div>
-                <p className="text-xs font-bold uppercase tracking-[0.14em] text-[#d9dfff]">{selectedTopic.topicName}</p>
-                    <h4 className="mt-2 text-xl font-bold lg:text-2xl">For this topic, you must be able to…</h4>
-                  </div>
-                  <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-white/20 bg-white/10 transition group-open:rotate-90" aria-hidden="true">
-                    <ChevronRight size={21} />
-                  </span>
-                </summary>
-                <ol className="grid gap-3 bg-white p-4 lg:grid-cols-2 lg:p-6">
-                  {revisionObjectives.map((objective, index) => (
-                    <li className="grid grid-cols-[2rem_minmax(0,1fr)] gap-3 rounded-app border border-[#dedbf0] bg-[#f7faff] p-4 text-sm font-semibold leading-6 text-ink" key={objective}>
-                      <span className="grid size-8 place-items-center rounded-full bg-[#554fd1] font-bold text-white" aria-hidden="true">{index + 1}</span>
-                      <span>{objective}</span>
-                    </li>
-                  ))}
-                </ol>
-              </details>
-            </Panel>
-          ) : null}
-          {revisionObjectives ? <h3 className="pt-1 text-xl font-bold">Practice test</h3> : null}
+          <RevisionObjectivesPanel
+            key={selectedTopic.id}
+            objectives={revisionObjectives}
+            supplementKeys={selectedTopic.revisionSupplementKeys}
+            topicName={selectedTopic.topicName}
+          />
+          {revisionObjectives.length ? <h3 className="pt-1 text-xl font-bold">Practice test</h3> : null}
           <Panel className="overflow-hidden p-0" tone="light">
             <div className="space-y-3 bg-white px-4 py-4 lg:px-5">
               {resources.filter((resource) => resource.topicId === selectedTopic.id && resource.type === 'test').length ? (

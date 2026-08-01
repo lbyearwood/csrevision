@@ -509,49 +509,49 @@ set
   display_order = excluded.display_order,
   updated_at = now();
 
-insert into public.topics (id, unit_id, slug, topic_name, description, keywords, status, display_order)
+insert into public.topics (id, unit_id, slug, topic_name, description, keywords, revision_objectives, revision_supplement_keys, status, display_order)
 values
-  ('27860f9a-72f8-bb6f-6fb7-9a71433fd5b8', '2fcb8576-4fe2-3e9a-e5d0-b4e8c2e67be5', '1-1-programming-fundamentals', '1.1 Programming fundamentals', 'Placeholder OCR topic for 1.1 Programming fundamentals.', array['1.1', 'Programming fundamentals'], 'active', 1),
-  ('2c20441a-48bd-f667-1364-d0c27952e086', '2fcb8576-4fe2-3e9a-e5d0-b4e8c2e67be5', '1-2-sequence-and-selection', '1.2 Sequence and selection', 'Placeholder OCR topic for 1.2 Sequence and selection.', array['1.2', 'Sequence and selection'], 'active', 2),
-  ('f25c734a-3e0d-65e6-e630-71d6bce93f84', '2fcb8576-4fe2-3e9a-e5d0-b4e8c2e67be5', '1-3-iteration', '1.3 Iteration', 'Placeholder OCR topic for 1.3 Iteration.', array['1.3', 'Iteration'], 'active', 3),
-  ('80411c66-767d-3a22-c126-be5b8fa9a7ac', '2fcb8576-4fe2-3e9a-e5d0-b4e8c2e67be5', '1-4-arrays', '1.4 Arrays', 'Placeholder OCR topic for 1.4 Arrays.', array['1.4', 'Arrays'], 'active', 4),
-  ('11c974c1-51df-f2b6-639b-afc10589a3a7', '2fcb8576-4fe2-3e9a-e5d0-b4e8c2e67be5', '1-5-procedures-and-functions', '1.5 Procedures and functions', 'Placeholder OCR topic for 1.5 Procedures and functions.', array['1.5', 'Procedures and functions'], 'active', 5),
-  ('f215c654-f57d-654c-2602-913189dfe0e1', '2fcb8576-4fe2-3e9a-e5d0-b4e8c2e67be5', '1-6-text-files', '1.6 Text files', 'Placeholder OCR topic for 1.6 Text files.', array['1.6', 'Text files'], 'active', 6),
-  ('ac45344c-16f4-3b82-71a5-b4b950789cee', '2fcb8576-4fe2-3e9a-e5d0-b4e8c2e67be5', '1-7-introduction-to-sql', '1.7 Introduction to SQL', 'Placeholder OCR topic for 1.7 Introduction to SQL.', array['1.7', 'Introduction to SQL'], 'active', 7),
-  ('5a93905c-4847-d679-0b00-98e60a36a566', '2fcb8576-4fe2-3e9a-e5d0-b4e8c2e67be5', '1-8-defensive-design', '1.8 Defensive design', 'Placeholder OCR topic for 1.8 Defensive design.', array['1.8', 'Defensive design'], 'active', 8),
-  ('eb0605f0-4be3-914b-7161-9804dd0d2de0', '2fcb8576-4fe2-3e9a-e5d0-b4e8c2e67be5', '1-9-errors-and-testing', '1.9 Errors and testing', 'Placeholder OCR topic for 1.9 Errors and testing.', array['1.9', 'Errors and testing'], 'active', 9),
-  ('7501df4d-88c2-c8cd-6723-a01b73d30fab', '2fcb8576-4fe2-3e9a-e5d0-b4e8c2e67be5', '1-10-translators-and-facilities', '1.10 Translators and facilities', 'Placeholder OCR topic for 1.10 Translators and facilities.', array['1.10', 'Translators and facilities'], 'active', 10),
-  ('9b95470b-81d7-e539-d9b4-e9b48026c4ef', '2fcb8576-4fe2-3e9a-e5d0-b4e8c2e67be5', '1-11-ides', '1.11 IDEs', 'Placeholder OCR topic for 1.11 IDEs.', array['1.11', 'IDEs'], 'active', 11),
-  ('8119e0db-6bb6-adfa-a391-d8aa42fec562', 'c81109c4-de10-5daf-de12-ecf0ac5e3027', '2-1-architecture-of-the-cpu', '2.1 Architecture of the CPU', 'Placeholder OCR topic for 2.1 Architecture of the CPU.', array['2.1', 'Architecture of the CPU'], 'active', 1),
-  ('78e5cac2-a131-45e3-de86-4120580f9c07', 'c81109c4-de10-5daf-de12-ecf0ac5e3027', '2-2-cpu-performance-and-embedded-systems', '2.2 CPU performance and Embedded systems', 'Placeholder OCR topic for 2.2 CPU performance and Embedded systems.', array['2.2', 'CPU performance and Embedded systems'], 'active', 2),
-  ('7f86ef9b-3cf1-4f37-8387-8d31f454eef9', 'c81109c4-de10-5daf-de12-ecf0ac5e3027', '2-3-primary-memory', '2.3 Primary Memory', 'Placeholder OCR topic for 2.3 Primary Memory.', array['2.3', 'Primary Memory'], 'active', 3),
-  ('91c95f6e-e404-dc27-9f39-bf8bb1f9b595', 'c81109c4-de10-5daf-de12-ecf0ac5e3027', '2-4-secondary-storage', '2.4 Secondary storage', 'Placeholder OCR topic for 2.4 Secondary storage.', array['2.4', 'Secondary storage'], 'active', 4),
-  ('284e376e-d8fb-513a-d7a1-bef381b319cc', '5192d8ff-b95a-f973-fe42-eb0fdaa8f1d8', '3-1-operating-systems', '3.1 Operating systems', 'Placeholder OCR topic for 3.1 Operating systems.', array['3.1', 'Operating systems'], 'active', 1),
-  ('6da005a5-3e4f-e471-b663-7b7b6a555cc7', '5192d8ff-b95a-f973-fe42-eb0fdaa8f1d8', '3-2-utility-software', '3.2 Utility software', 'Placeholder OCR topic for 3.2 Utility software.', array['3.2', 'Utility software'], 'active', 2),
-  ('dff5b76a-7abd-2171-5d23-62374520dab7', '28d17a5e-6d98-a20f-2a31-3a83a865d2d0', '4-1-units-and-binary-numbers', '4.1 Units and binary numbers', 'Placeholder OCR topic for 4.1 Units and binary numbers.', array['4.1', 'Units and binary numbers'], 'active', 1),
-  ('67a20329-cb87-99c7-2d94-47c8af0e249f', '28d17a5e-6d98-a20f-2a31-3a83a865d2d0', '4-2-binary-arithmetic-and-hexadecimal', '4.2 Binary arithmetic and hexadecimal', 'Placeholder OCR topic for 4.2 Binary arithmetic and hexadecimal.', array['4.2', 'Binary arithmetic and hexadecimal'], 'active', 2),
-  ('be35a14f-8c0e-029c-635d-103a9b4dba37', '28d17a5e-6d98-a20f-2a31-3a83a865d2d0', '4-3-logic-gates-and-truth-tables', '4.3 Logic gates and Truth tables', 'Placeholder OCR topic for 4.3 Logic gates and Truth tables.', array['4.3', 'Logic gates and Truth tables'], 'active', 3),
-  ('31e52098-f002-4f1e-27c9-dbb3cdc93ef1', '28d17a5e-6d98-a20f-2a31-3a83a865d2d0', '4-4-characters', '4.4 Characters', 'Placeholder OCR topic for 4.4 Characters.', array['4.4', 'Characters'], 'active', 4),
-  ('41a5d8e0-b699-e682-280d-c35c23e40c31', '28d17a5e-6d98-a20f-2a31-3a83a865d2d0', '4-5-images', '4.5 Images', 'Placeholder OCR topic for 4.5 Images.', array['4.5', 'Images'], 'active', 5),
-  ('d75f3ded-6d76-beb7-1993-053f42472967', '28d17a5e-6d98-a20f-2a31-3a83a865d2d0', '4-6-sound', '4.6 Sound', 'Placeholder OCR topic for 4.6 Sound.', array['4.6', 'Sound'], 'active', 6),
-  ('fa17b775-ff4e-62ab-8240-165c244334f8', '28d17a5e-6d98-a20f-2a31-3a83a865d2d0', '4-7-data-compression-file-formats-and-encryption', '4.7 Data compression, File Formats & Encryption', 'Placeholder OCR topic for 4.7 Data compression, File Formats & Encryption.', array['4.7', 'Data compression, File Formats & Encryption'], 'active', 7),
-  ('14eca7b8-e7d9-447a-3feb-212034bcb0d4', 'cf347948-fbe2-2dda-0912-009ae98c77ef', '5-1-lan', '5.1 LAN', 'Placeholder OCR topic for 5.1 LAN.', array['5.1', 'LAN'], 'active', 1),
-  ('a0e57e36-d3bf-2054-5588-50a685d688b2', 'cf347948-fbe2-2dda-0912-009ae98c77ef', '5-2-lan-hardware', '5.2 LAN Hardware', 'Placeholder OCR topic for 5.2 LAN Hardware.', array['5.2', 'LAN Hardware'], 'active', 2),
-  ('3d643e8f-7021-b358-1796-6f2287948778', 'cf347948-fbe2-2dda-0912-009ae98c77ef', '5-3-lan-topologies', '5.3 LAN Topologies', 'Placeholder OCR topic for 5.3 LAN Topologies.', array['5.3', 'LAN Topologies'], 'active', 3),
-  ('bf637796-a427-7f1b-c0fc-9e7e27b5ad83', 'cf347948-fbe2-2dda-0912-009ae98c77ef', '5-4-the-internet-and-wan', '5.4 The Internet and WAN', 'Placeholder OCR topic for 5.4 The Internet and WAN.', array['5.4', 'The Internet and WAN'], 'active', 4),
-  ('a0e8a7e7-70ad-ce07-5b32-4cc6080dac79', 'cf347948-fbe2-2dda-0912-009ae98c77ef', '5-5-client-server-and-p2p-networks', '5.5 Client-server and P2P networks', 'Placeholder OCR topic for 5.5 Client-server and P2P networks.', array['5.5', 'Client-server and P2P networks'], 'active', 5),
-  ('33e54d5e-fec7-d819-67c2-36e07602b6f1', 'cf347948-fbe2-2dda-0912-009ae98c77ef', '5-6-network-protocols-and-layers', '5.6 Network Protocols and Layers', 'Placeholder OCR topic for 5.6 Network Protocols and Layers.', array['5.6', 'Network Protocols and Layers'], 'active', 6),
-  ('dbf5e123-61eb-02d6-5571-3bdb42f6a51c', '911a95ab-608d-095c-1945-47c4d0f62ffd', '6-1-network-threats', '6.1 Network threats', 'Placeholder OCR topic for 6.1 Network threats.', array['6.1', 'Network threats'], 'active', 1),
-  ('7bee8196-e4d6-b838-175e-6166183e6f64', '911a95ab-608d-095c-1945-47c4d0f62ffd', '6-2-preventing-vulnerabilities', '6.2 Preventing vulnerabilities', 'Placeholder OCR topic for 6.2 Preventing vulnerabilities.', array['6.2', 'Preventing vulnerabilities'], 'active', 2),
-  ('ad63d0a6-dfae-4121-0d5e-827790e165c1', 'ea653c5e-d4f2-f1dc-e240-ef4917a63a67', '7-1-computational-thinking', '7.1 Computational thinking', 'Placeholder OCR topic for 7.1 Computational thinking.', array['7.1', 'Computational thinking'], 'active', 1),
-  ('e1fc51f9-5edc-820e-0c7a-763944540883', 'ea653c5e-d4f2-f1dc-e240-ef4917a63a67', '7-2-searching-algorithms', '7.2 Searching algorithms', 'Placeholder OCR topic for 7.2 Searching algorithms.', array['7.2', 'Searching algorithms'], 'active', 2),
-  ('5f91fabc-4836-cf29-45dd-c1a796e754ec', 'ea653c5e-d4f2-f1dc-e240-ef4917a63a67', '7-3-sorting-algorithms', '7.3 Sorting algorithms', 'Placeholder OCR topic for 7.3 Sorting algorithms.', array['7.3', 'Sorting algorithms'], 'active', 3),
-  ('2799c249-2545-15fc-ac89-c03a050cda37', 'ea653c5e-d4f2-f1dc-e240-ef4917a63a67', '7-4-flowcharts', '7.4 Flowcharts', 'Placeholder OCR topic for 7.4 Flowcharts.', array['7.4', 'Flowcharts'], 'active', 4),
-  ('022cb693-ad51-f3fe-c59a-9f4d9a377675', 'ea653c5e-d4f2-f1dc-e240-ef4917a63a67', '7-5-pseudocode', '7.5 Pseudocode', 'Placeholder OCR topic for 7.5 Pseudocode.', array['7.5', 'Pseudocode'], 'active', 5),
-  ('13485fa2-bb8f-01c8-699c-d96df3b94f35', 'ea653c5e-d4f2-f1dc-e240-ef4917a63a67', '7-6-interpreting-algorithms', '7.6 Interpreting algorithms', 'Placeholder OCR topic for 7.6 Interpreting algorithms.', array['7.6', 'Interpreting algorithms'], 'active', 6),
-  ('c74f53f7-9ad1-ad3d-5000-677513a3fd4a', 'fe3b3733-e69d-6f88-28aa-b7d2d19b1be3', '8-1-ethical-and-cultural-issues', '8.1 Ethical and cultural issues', 'Placeholder OCR topic for 8.1 Ethical and cultural issues.', array['8.1', 'Ethical and cultural issues'], 'active', 1),
-  ('0981a819-7c8c-def8-7d24-ff9ef7067ed6', 'fe3b3733-e69d-6f88-28aa-b7d2d19b1be3', '8-2-environmental-issues', '8.2 Environmental issues', 'Placeholder OCR topic for 8.2 Environmental issues.', array['8.2', 'Environmental issues'], 'active', 2),
-  ('2437d272-9ca3-30a2-0158-d179740a691b', 'fe3b3733-e69d-6f88-28aa-b7d2d19b1be3', '8-3-legislation-and-privacy', '8.3 Legislation & privacy', 'Placeholder OCR topic for 8.3 Legislation & privacy.', array['8.3', 'Legislation & privacy'], 'active', 3)
+  ('27860f9a-72f8-bb6f-6fb7-9a71433fd5b8', '2fcb8576-4fe2-3e9a-e5d0-b4e8c2e67be5', '1-1-programming-fundamentals', '1.1 Programming fundamentals', 'Placeholder OCR topic for 1.1 Programming fundamentals.', array['1.1', 'Programming fundamentals'], array['Use variables and constants to store values.', 'Use assignment to give a variable a value and update it.', 'Accept inputs and produce outputs.', 'Choose and use suitable integer, real, Boolean, character and string data types.', 'Cast data temporarily from one type to another and identify situations in which casting is useful.', 'Recognise and use the comparison operators ==, !=, <, <=, > and >=.', 'Recognise and use the arithmetic operators +, -, *, /, MOD, DIV and ^.', 'Recognise and use the Boolean operators AND, OR and NOT in program expressions.', 'Manipulate strings using concatenation and slicing.', 'Interpret and use the OCR string operations length, substring, left, right, upper, lower, ASC and CHR.', 'Generate and use random integer and real values.', 'Apply these fundamentals in a high-level programming language.'], '{}', 'active', 1),
+  ('2c20441a-48bd-f667-1364-d0c27952e086', '2fcb8576-4fe2-3e9a-e5d0-b4e8c2e67be5', '1-2-sequence-and-selection', '1.2 Sequence and selection', 'Placeholder OCR topic for 1.2 Sequence and selection.', array['1.2', 'Sequence and selection'], array['Explain and use sequence so instructions execute in the intended order.', 'Use selection to choose which instructions run according to a condition.', 'Create, interpret, correct, complete and refine IF, ELSEIF and ELSE selection.', 'Create and interpret CASE SELECT or SWITCH selection, including a default case.', 'Form selection conditions using comparison and Boolean operators.', 'Use nested selection when a problem requires decisions inside decisions.', 'Apply sequence and selection in a high-level programming language.'], '{}', 'active', 2),
+  ('f25c734a-3e0d-65e6-e630-71d6bce93f84', '2fcb8576-4fe2-3e9a-e5d0-b4e8c2e67be5', '1-3-iteration', '1.3 Iteration', 'Placeholder OCR topic for 1.3 Iteration.', array['1.3', 'Iteration'], array['Explain why iteration is used.', 'Distinguish count-controlled iteration from condition-controlled iteration.', 'Create, interpret, correct, complete and refine FOR loops.', 'Use a positive or negative step value in a FOR loop.', 'Create, interpret, correct, complete and refine WHILE loops.', 'Explain that a WHILE condition is checked before the loop body runs.', 'Create, interpret, correct, complete and refine DO UNTIL loops.', 'Explain that a DO UNTIL loop runs once before its condition is checked.', 'Choose a suitable loop type for a given problem.', 'Use nested iteration and nesting that combines iteration with selection.', 'Apply iteration in a high-level programming language.'], '{}', 'active', 3),
+  ('80411c66-767d-3a22-c126-be5b8fa9a7ac', '2fcb8576-4fe2-3e9a-e5d0-b4e8c2e67be5', '1-4-arrays', '1.4 Arrays', 'Placeholder OCR topic for 1.4 Arrays.', array['1.4', 'Arrays'], array['Explain why arrays are used when solving problems.', 'Declare, populate, access and update one-dimensional arrays.', 'Declare, populate, access and update two-dimensional arrays.', 'Use zero-based indexes when working with OCR Exam Reference Language arrays.', 'Explain that OCR arrays are fixed-length or static structures.', 'Explain that an OCR array stores values of one data type.', 'Explain how records store related fields about one item.', 'Use two-dimensional arrays to represent table-like data made from fields and records.', 'Pass arrays into subprograms and return arrays where appropriate.', 'Apply arrays and records in a high-level programming language.'], '{}', 'active', 4),
+  ('11c974c1-51df-f2b6-639b-afc10589a3a7', '2fcb8576-4fe2-3e9a-e5d0-b4e8c2e67be5', '1-5-procedures-and-functions', '1.5 Procedures and functions', 'Placeholder OCR topic for 1.5 Procedures and functions.', array['1.5', 'Procedures and functions'], array['Explain how subprograms help produce structured and maintainable code.', 'Create and call procedures with and without parameters.', 'Create and call functions with and without parameters.', 'Return a value from a function and store or use that returned value.', 'Distinguish a function from a procedure.', 'Choose when a function or procedure is appropriate.', 'Use local variables and constants within subprograms.', 'Explain and use global variables and constants where appropriate.', 'Pass arrays to subprograms and return arrays where appropriate.', 'Apply functions and procedures in a high-level programming language.'], '{}', 'active', 5),
+  ('f215c654-f57d-654c-2602-913189dfe0e1', '2fcb8576-4fe2-3e9a-e5d0-b4e8c2e67be5', '1-6-text-files', '1.6 Text files', 'Placeholder OCR topic for 1.6 Text files.', array['1.6', 'Text files'], array['Explain why programs read data from and write data to files.', 'Create a new text file.', 'Open a text file and retain its file handle in a variable.', 'Read lines from a text file.', 'Write lines to a text file.', 'Test for the end of a file when reading multiple lines.', 'Close a file after use.', 'Combine open, read, write and close operations in a working program.', 'Apply basic file handling in a high-level programming language.'], '{}', 'active', 6),
+  ('ac45344c-16f4-3b82-71a5-b4b950789cee', '2fcb8576-4fe2-3e9a-e5d0-b4e8c2e67be5', '1-7-introduction-to-sql', '1.7 Introduction to SQL', 'Placeholder OCR topic for 1.7 Introduction to SQL.', array['1.7', 'Introduction to SQL'], array['Explain that SQL can be used to search stored data.', 'Use SELECT to identify the fields to return.', 'Use FROM to identify the table to search.', 'Use WHERE to filter records using a condition.', 'Combine SELECT, FROM and WHERE in a simple query.', 'Interpret and write simple SQL queries in a given scenario.'], '{}', 'active', 7),
+  ('5a93905c-4847-d679-0b00-98e60a36a566', '2fcb8576-4fe2-3e9a-e5d0-b4e8c2e67be5', '1-8-defensive-design', '1.8 Defensive design', 'Placeholder OCR topic for 1.8 Defensive design.', array['1.8', 'Defensive design'], array['Explain how defensive design anticipates likely misuse and unexpected inputs.', 'Design a program that caters for the likely range of input values.', 'Validate input and deal appropriately with invalid data.', 'Explain how authentication confirms a user''s identity.', 'Design and implement simple authentication such as a username and password check.', 'Improve maintainability through meaningful naming conventions.', 'Use consistent indentation.', 'Add useful comments and explain why commenting helps maintenance.', 'Use subprograms to make code easier to understand, test and maintain.', 'Apply defensive design techniques in a high-level programming language.'], '{}', 'active', 8),
+  ('eb0605f0-4be3-914b-7161-9804dd0d2de0', '2fcb8576-4fe2-3e9a-e5d0-b4e8c2e67be5', '1-9-errors-and-testing', '1.9 Errors and testing', 'Placeholder OCR topic for 1.9 Errors and testing.', array['1.9', 'Errors and testing'], array['Explain the purpose of testing.', 'Distinguish iterative testing during development from final or terminal testing at the end of production.', 'Identify syntax errors and explain that they break the language''s grammatical rules and prevent code from running or being translated.', 'Identify logic errors and explain that they cause unexpected output.', 'Select normal test data that should be accepted.', 'Select boundary test data at the edge of the valid range.', 'Select invalid test data of the correct type that should be rejected.', 'Select erroneous test data of the wrong type that should be rejected.', 'Choose suitable test data for a given scenario and justify the choices.', 'Create and complete a test plan with expected and actual results.', 'Use test results to correct and refine algorithms or programs.'], '{}', 'active', 9),
+  ('7501df4d-88c2-c8cd-6723-a01b73d30fab', '2fcb8576-4fe2-3e9a-e5d0-b4e8c2e67be5', '1-10-translators-and-facilities', '1.10 Translators and facilities', 'Placeholder OCR topic for 1.10 Translators and facilities.', array['1.10', 'Translators and facilities'], array['Describe the characteristics and purposes of high-level languages.', 'Describe the characteristics and purposes of low-level languages.', 'Compare high-level and low-level languages.', 'Explain why translators are needed.', 'Describe how a compiler translates a program.', 'Describe how an interpreter translates and executes a program.', 'Compare the benefits and drawbacks of compilers and interpreters.', 'Select a suitable translator for a given scenario and justify the choice.'], '{}', 'active', 10),
+  ('9b95470b-81d7-e539-d9b4-e9b48026c4ef', '2fcb8576-4fe2-3e9a-e5d0-b4e8c2e67be5', '1-11-ides', '1.11 IDEs', 'Placeholder OCR topic for 1.11 IDEs.', array['1.11', 'IDEs'], array['Explain the purpose of an Integrated Development Environment.', 'Describe how an editor helps a programmer write and change code.', 'Describe how error diagnostics help identify problems.', 'Describe how a run-time environment helps execute and test code.', 'Describe how translators are provided or used within an IDE.', 'Explain how each IDE tool or facility supports program development.', 'Use a range of these tools in at least one IDE.'], '{}', 'active', 11),
+  ('8119e0db-6bb6-adfa-a391-d8aa42fec562', 'c81109c4-de10-5daf-de12-ecf0ac5e3027', '2-1-architecture-of-the-cpu', '2.1 Architecture of the CPU', 'Placeholder OCR topic for 2.1 Architecture of the CPU.', array['2.1', 'Architecture of the CPU'], array['Explain the purpose of the CPU.', 'Describe the fetch-execute cycle and the actions at each stage.', 'Describe the purpose and role of the Arithmetic Logic Unit.', 'Describe the purpose and role of the Control Unit.', 'Describe the purpose and role of cache in the CPU.', 'Explain the role of registers during the fetch-execute cycle.', 'Describe the Von Neumann architecture.', 'State the purpose of the Memory Address Register, Memory Data Register, Program Counter and Accumulator.', 'Identify whether each named register stores data or an address.', 'Explain the difference between storing data and storing an address.'], '{}', 'active', 1),
+  ('78e5cac2-a131-45e3-de86-4120580f9c07', 'c81109c4-de10-5daf-de12-ecf0ac5e3027', '2-2-cpu-performance-and-embedded-systems', '2.2 CPU performance and Embedded systems', 'Placeholder OCR topic for 2.2 CPU performance and Embedded systems.', array['2.2', 'CPU performance and Embedded systems'], array['Explain what CPU clock speed means.', 'Explain how changing clock speed can affect system performance.', 'Explain how changing cache size can affect system performance.', 'Explain how changing the number of CPU cores can affect performance.', 'Analyse the combined effect of CPU characteristics in a given scenario.', 'Explain what an embedded system is and its purpose.', 'Describe typical characteristics of embedded systems.', 'Recognise and give examples of embedded systems.', 'Apply knowledge of embedded systems to unfamiliar scenarios.'], '{}', 'active', 2),
+  ('7f86ef9b-3cf1-4f37-8387-8d31f454eef9', 'c81109c4-de10-5daf-de12-ecf0ac5e3027', '2-3-primary-memory', '2.3 Primary Memory', 'Placeholder OCR topic for 2.3 Primary Memory.', array['2.3', 'Primary Memory'], array['Explain why a computer needs primary storage.', 'Explain that primary storage normally includes RAM and ROM.', 'Describe the purpose and key characteristics of RAM.', 'Describe the purpose and key characteristics of ROM.', 'Compare RAM and ROM.', 'Explain the purpose of ROM in a computer system.', 'Explain the purpose of RAM in a computer system.', 'Explain why virtual memory may be needed.', 'Explain how virtual memory transfers data between RAM and secondary storage when RAM is full.', 'Explain the role of cache as primary storage.'], '{}', 'active', 3),
+  ('91c95f6e-e404-dc27-9f39-bf8bb1f9b595', 'c81109c4-de10-5daf-de12-ecf0ac5e3027', '2-4-secondary-storage', '2.4 Secondary storage', 'Placeholder OCR topic for 2.4 Secondary storage.', array['2.4', 'Secondary storage'], array['Explain why computers need secondary storage.', 'Recognise optical, magnetic and solid-state storage.', 'Describe the differences between optical, magnetic and solid-state storage devices and media.', 'Compare storage devices and media by capacity.', 'Compare storage devices and media by speed.', 'Compare storage devices and media by portability.', 'Compare storage devices and media by durability.', 'Compare storage devices and media by reliability.', 'Compare storage devices and media by cost.', 'Recommend suitable storage for a given application and justify the choice.'], '{}', 'active', 4),
+  ('284e376e-d8fb-513a-d7a1-bef381b319cc', '5192d8ff-b95a-f973-fe42-eb0fdaa8f1d8', '3-1-operating-systems', '3.1 Operating systems', 'Placeholder OCR topic for 3.1 Operating systems.', array['3.1', 'Operating systems'], array['Explain the purpose of an operating system.', 'Describe the features and purpose of a user interface.', 'Explain how an operating system allocates memory to applications.', 'Explain how memory management supports multitasking.', 'Explain how an operating system manages transfers between memory.', 'Explain how an operating system manages peripherals and device drivers.', 'Explain that data transfers between devices and the processor need to be managed.', 'Describe user-management functions including accounts, access rights and security.', 'Describe file-management functions including naming, folders, moving and saving files.', 'Apply operating-system knowledge to a given scenario.'], '{}', 'active', 1),
+  ('6da005a5-3e4f-e471-b663-7b7b6a555cc7', '5192d8ff-b95a-f973-fe42-eb0fdaa8f1d8', '3-2-utility-software', '3.2 Utility software', 'Placeholder OCR topic for 3.2 Utility software.', array['3.2', 'Utility software'], array['Explain the purpose of utility software.', 'Explain that utility software performs housekeeping and additional tasks that may not be carried out by the operating system.', 'Explain the purpose of encryption software and why it is needed.', 'Explain the purpose of defragmentation software and why it is needed.', 'Explain the purpose of data-compression software and why it is needed.', 'Recommend suitable utility software for a given need.'], '{}', 'active', 2),
+  ('dff5b76a-7abd-2171-5d23-62374520dab7', '28d17a5e-6d98-a20f-2a31-3a83a865d2d0', '4-1-units-and-binary-numbers', '4.1 Units and binary numbers', 'Placeholder OCR topic for 4.1 Units and binary numbers.', array['4.1', 'Units and binary numbers'], array['Define bit, nibble and byte.', 'Recall that a nibble contains 4 bits and a byte contains 8 bits.', 'Use kilobyte, megabyte, gigabyte, terabyte and petabyte.', 'Convert between data-storage units using the OCR decimal definitions.', 'Accept and interpret calculations that use 1,024 where stated.', 'Explain why data must be converted to binary for computer processing.', 'Explain that storage devices have fixed capacities.', 'Calculate the storage capacity required for a given collection of files.', 'Convert positive denary whole numbers from 0 to 255 into binary values of up to 8 bits.', 'Convert binary values of up to 8 bits into denary.', 'Identify the most significant bit and least significant bit.', 'Recognise that leading zeroes do not change a binary value.'], '{}', 'active', 1),
+  ('67a20329-cb87-99c7-2d94-47c8af0e249f', '28d17a5e-6d98-a20f-2a31-3a83a865d2d0', '4-2-binary-arithmetic-and-hexadecimal', '4.2 Binary arithmetic and hexadecimal', 'Placeholder OCR topic for 4.2 Binary arithmetic and hexadecimal.', array['4.2', 'Binary arithmetic and hexadecimal'], array['Add two binary integers of up to 8 bits.', 'Identify and explain overflow errors produced by binary addition.', 'Convert positive denary whole numbers into two-digit hexadecimal values.', 'Convert two-digit hexadecimal values into denary.', 'Convert binary integers into hexadecimal.', 'Convert hexadecimal values into binary.', 'Work within OCR''s ranges of 00000000 to 11111111, denary 0 to 255 and hexadecimal 00 to FF.', 'Carry out left and right binary shifts.', 'Explain the effect of left and right shifts on a binary value.'], '{}', 'active', 2),
+  ('be35a14f-8c0e-029c-635d-103a9b4dba37', '28d17a5e-6d98-a20f-2a31-3a83a865d2d0', '4-3-logic-gates-and-truth-tables', '4.3 Logic gates and Truth tables', 'Placeholder OCR topic for 4.3 Logic gates and Truth tables.', array['4.3', 'Logic gates and Truth tables'], array['Recall and use the truth table for an AND gate.', 'Recall and use the truth table for an OR gate.', 'Recall and use the truth table for a NOT gate.', 'Recognise the standard symbols for AND, OR and NOT gates.', 'Create, complete and edit simple logic diagrams.', 'Create, complete and edit truth tables.', 'Combine more than one Boolean operator or logic gate.', 'Apply logical operators in truth tables to solve a problem.', 'Interpret alternative valid notation such as 1/0 or True/False.'], array['logic_gates_reference'], 'active', 3),
+  ('31e52098-f002-4f1e-27c9-dbb3cdc93ef1', '28d17a5e-6d98-a20f-2a31-3a83a865d2d0', '4-4-characters', '4.4 Characters', 'Placeholder OCR topic for 4.4 Characters.', array['4.4', 'Characters'], array['Explain how binary codes represent characters.', 'Define the term character set.', 'Explain how the number of bits per character limits the number of characters that can be represented.', 'Compare ASCII and Unicode and explain the effect of each character set.', 'Explain that character sets are logically ordered.', 'Interpret 8-bit ASCII values when they are provided in an examination.', 'Calculate text-file size from bits per character and number of characters.', 'Use ASC and CHR conversions in OCR Exam Reference Language.'], '{}', 'active', 4),
+  ('41a5d8e0-b699-e682-280d-c35c23e40c31', '28d17a5e-6d98-a20f-2a31-3a83a865d2d0', '4-5-images', '4.5 Images', 'Placeholder OCR topic for 4.5 Images.', array['4.5', 'Images'], array['Explain how an image is represented as a grid of pixels in binary.', 'Explain that each pixel''s colour is represented by a binary code.', 'Explain how colour depth affects image quality and file size.', 'Explain how image resolution affects image quality and file size.', 'Explain the purpose of image metadata and give examples such as width and height.', 'Calculate image-file size using colour depth x image height x image width.', 'Apply image-representation knowledge to a given scenario.'], '{}', 'active', 5),
+  ('d75f3ded-6d76-beb7-1993-053f42472967', '28d17a5e-6d98-a20f-2a31-3a83a865d2d0', '4-6-sound', '4.6 Sound', 'Placeholder OCR topic for 4.6 Sound.', array['4.6', 'Sound'], array['Explain why analogue sound must be converted into binary for storage.', 'Explain how sound is sampled and stored digitally.', 'Define sample rate and state that it is measured in hertz.', 'Define duration in seconds.', 'Define bit depth as the number of bits used to store each sample.', 'Explain how sample rate affects playback quality and file size.', 'Explain how duration affects file size.', 'Explain how bit depth affects playback quality and file size.', 'Calculate sound-file size using sample rate x duration x bit depth.', 'Apply sound-representation knowledge to a given scenario.'], '{}', 'active', 6),
+  ('fa17b775-ff4e-62ab-8240-165c244334f8', '28d17a5e-6d98-a20f-2a31-3a83a865d2d0', '4-7-data-compression-file-formats-and-encryption', '4.7 Data compression, File Formats & Encryption', 'Placeholder OCR topic for 4.7 Data compression, File Formats & Encryption.', array['4.7', 'Data compression, File Formats & Encryption'], array['Explain why files may need to be compressed.', 'Identify scenarios in which compression is useful.', 'Explain the principle of lossy compression.', 'Explain the principle of lossless compression.', 'Compare the advantages and disadvantages of lossy and lossless compression.', 'Explain the effect of lossy and lossless compression on a file.', 'Explain the principle of encryption for securing data.', 'Explain the purpose of encryption utility software.'], '{}', 'active', 7),
+  ('14eca7b8-e7d9-447a-3feb-212034bcb0d4', 'cf347948-fbe2-2dda-0912-009ae98c77ef', '5-1-lan', '5.1 LAN', 'Placeholder OCR topic for 5.1 LAN.', array['5.1', 'LAN'], array['Define a Local Area Network.', 'Describe the characteristics of a LAN.', 'Recognise common examples of LANs.', 'Explain how the number of connected devices can affect performance.', 'Explain how bandwidth can affect performance.', 'Explain other relevant factors that affect network performance in a given scenario.', 'Apply knowledge of LANs to recommend or evaluate a network.'], '{}', 'active', 1),
+  ('a0e57e36-d3bf-2054-5588-50a685d688b2', 'cf347948-fbe2-2dda-0912-009ae98c77ef', '5-2-lan-hardware', '5.2 LAN Hardware', 'Placeholder OCR topic for 5.2 LAN Hardware.', array['5.2', 'LAN Hardware'], array['Explain the role of a wireless access point.', 'Explain the role of a router.', 'Explain the role of a switch.', 'Explain the role of a Network Interface Controller or Card.', 'Explain the role of transmission media.', 'Select the hardware needed to connect stand-alone computers into a LAN.', 'Apply knowledge of network hardware to a given scenario.'], '{}', 'active', 2),
+  ('3d643e8f-7021-b358-1796-6f2287948778', 'cf347948-fbe2-2dda-0912-009ae98c77ef', '5-3-lan-topologies', '5.3 LAN Topologies', 'Placeholder OCR topic for 5.3 LAN Topologies.', array['5.3', 'LAN Topologies'], array['Describe a star network topology.', 'Describe a mesh network topology.', 'Compare the advantages and disadvantages of star and mesh topologies.', 'Recommend a suitable topology for a given scenario and justify the choice.'], '{}', 'active', 3),
+  ('bf637796-a427-7f1b-c0fc-9e7e27b5ad83', 'cf347948-fbe2-2dda-0912-009ae98c77ef', '5-4-the-internet-and-wan', '5.4 The Internet and WAN', 'Placeholder OCR topic for 5.4 The Internet and WAN.', array['5.4', 'The Internet and WAN'], array['Define a Wide Area Network.', 'Describe the characteristics of a WAN and give common examples.', 'Explain that the Internet is a worldwide network of computer networks.', 'Explain that the Domain Name Service uses multiple Domain Name Servers.', 'Explain how DNS converts a URL into an IP address.', 'Explain the purpose of hosting.', 'Explain the roles of web servers and web clients.', 'Explain that cloud computing provides remote services such as storage, software and processing.', 'Compare the advantages and disadvantages of cloud computing.', 'Apply knowledge of the Internet and WANs to a given scenario.'], '{}', 'active', 4),
+  ('a0e8a7e7-70ad-ce07-5b32-4cc6080dac79', 'cf347948-fbe2-2dda-0912-009ae98c77ef', '5-5-client-server-and-p2p-networks', '5.5 Client-server and P2P networks', 'Placeholder OCR topic for 5.5 Client-server and P2P networks.', array['5.5', 'Client-server and P2P networks'], array['Describe the roles of computers in a client-server network.', 'Explain that servers provide services such as web pages and file storage.', 'Explain that clients request and use services from servers.', 'Describe the roles of computers in a peer-to-peer network.', 'Compare client-server and peer-to-peer networks.', 'Select a suitable network model for a scenario and justify the choice.'], '{}', 'active', 5),
+  ('33e54d5e-fec7-d819-67c2-36e07602b6f1', 'cf347948-fbe2-2dda-0912-009ae98c77ef', '5-6-network-protocols-and-layers', '5.6 Network Protocols and Layers', 'Placeholder OCR topic for 5.6 Network Protocols and Layers.', array['5.6', 'Network Protocols and Layers'], array['Compare wired and wireless network connections.', 'Explain the use of Ethernet, Wi-Fi and Bluetooth as connection modes.', 'Recommend one or more connection modes for a scenario.', 'Explain the principle of encryption for securing data across a network connection.', 'Describe the format and purpose of IPv4 and IPv6 addresses.', 'Describe the format and use of a MAC address within a network.', 'Explain that a standard supplies rules that allow hardware and software from different producers to interact.', 'Explain that a communication protocol is a set of rules for transferring data.', 'State the purpose and key features of TCP/IP, HTTP, HTTPS, FTP, POP, IMAP and SMTP.', 'Explain why different protocols are used for different purposes.', 'Explain how protocol layers are used and the benefits of a layered approach.', 'Apply protocol and connection knowledge to a given scenario.'], '{}', 'active', 6),
+  ('dbf5e123-61eb-02d6-5571-3bdb42f6a51c', '911a95ab-608d-095c-1945-47c4d0f62ffd', '6-1-network-threats', '6.1 Network threats', 'Placeholder OCR topic for 6.1 Network threats.', array['6.1', 'Network threats'], array['Explain threats posed to devices, systems and networks.', 'Explain how malware attacks are used and their purpose.', 'Explain social engineering, including phishing and people as a weak point.', 'Explain how brute-force attacks are used and their purpose.', 'Explain how denial-of-service attacks are used and their purpose.', 'Explain how data interception and theft occur and their purpose.', 'Explain the concept of SQL injection.', 'Identify a likely form of attack from a scenario.'], '{}', 'active', 1),
+  ('7bee8196-e4d6-b838-175e-6166183e6f64', '911a95ab-608d-095c-1945-47c4d0f62ffd', '6-2-preventing-vulnerabilities', '6.2 Preventing vulnerabilities', 'Placeholder OCR topic for 6.2 Preventing vulnerabilities.', array['6.2', 'Preventing vulnerabilities'], array['Explain how penetration testing identifies or reduces vulnerabilities.', 'Explain how anti-malware software limits malware threats.', 'Explain how firewalls limit network threats.', 'Explain how user access levels reduce risk.', 'Explain how strong passwords reduce risk.', 'Explain how encryption limits the impact of data interception and theft.', 'Explain how physical security protects systems and data.', 'Match each prevention method to the attacks it may limit or prevent.', 'Recommend suitable prevention methods for a scenario and justify the choices.'], '{}', 'active', 2),
+  ('ad63d0a6-dfae-4121-0d5e-827790e165c1', 'ea653c5e-d4f2-f1dc-e240-ef4917a63a67', '7-1-computational-thinking', '7.1 Computational thinking', 'Placeholder OCR topic for 7.1 Computational thinking.', array['7.1', 'Computational thinking'], array['Define abstraction.', 'Use abstraction to remove unnecessary detail from a problem.', 'Define decomposition.', 'Decompose a problem into smaller subproblems.', 'Define algorithmic thinking.', 'Use algorithmic thinking to form a step-by-step solution.', 'Explain how abstraction, decomposition and algorithmic thinking help define and refine problems.'], '{}', 'active', 1),
+  ('e1fc51f9-5edc-820e-0c7a-763944540883', 'ea653c5e-d4f2-f1dc-e240-ef4917a63a67', '7-2-searching-algorithms', '7.2 Searching algorithms', 'Placeholder OCR topic for 7.2 Searching algorithms.', array['7.2', 'Searching algorithms'], array['Describe the main steps of a linear search.', 'Apply a linear search to a data set.', 'Identify a linear search from code, pseudocode or OCR Exam Reference Language.', 'Describe the main steps of a binary search.', 'Explain that binary search requires ordered data.', 'Apply a binary search to a data set.', 'Identify a binary search from code, pseudocode or OCR Exam Reference Language.', 'Compare linear and binary search for a given scenario.'], '{}', 'active', 2),
+  ('5f91fabc-4836-cf29-45dd-c1a796e754ec', 'ea653c5e-d4f2-f1dc-e240-ef4917a63a67', '7-3-sorting-algorithms', '7.3 Sorting algorithms', 'Placeholder OCR topic for 7.3 Sorting algorithms.', array['7.3', 'Sorting algorithms'], array['Describe the main steps and code segments of bubble sort.', 'Apply bubble sort to a data set.', 'Identify bubble sort from code, pseudocode or OCR Exam Reference Language.', 'Describe the main steps and code segments of merge sort.', 'Apply merge sort to a data set.', 'Identify merge sort from code, pseudocode or OCR Exam Reference Language.', 'Describe the main steps and code segments of insertion sort.', 'Apply insertion sort to a data set.', 'Identify insertion sort from code, pseudocode or OCR Exam Reference Language.', 'Identify any prerequisites of a given sorting algorithm.'], '{}', 'active', 3),
+  ('2799c249-2545-15fc-ac89-c03a050cda37', 'ea653c5e-d4f2-f1dc-e240-ef4917a63a67', '7-4-flowcharts', '7.4 Flowcharts', 'Placeholder OCR topic for 7.4 Flowcharts.', array['7.4', 'Flowcharts'], array['Recognise terminal, process, input/output, decision, subprogram and flow line symbols.', 'Interpret an algorithm represented as a flowchart.', 'Create a flowchart for a given problem.', 'Complete, correct and refine a flowchart.', 'Represent sequence, selection and iteration in a flowchart.', 'Identify inputs, processes and outputs before designing a flowchart.', 'Produce simple structure diagrams showing problem sections and the links between them.'], array['flowchart_symbols_reference'], 'active', 4),
+  ('022cb693-ad51-f3fe-c59a-9f4d9a377675', 'ea653c5e-d4f2-f1dc-e240-ef4917a63a67', '7-5-pseudocode', '7.5 Pseudocode', 'Placeholder OCR topic for 7.5 Pseudocode.', array['7.5', 'Pseudocode'], array['Interpret algorithms written in pseudocode.', 'Create algorithms using clear pseudocode.', 'Complete, correct and refine pseudocode.', 'Express sequence, selection, iteration, arrays and subprograms in pseudocode.', 'Translate between natural-language requirements, pseudocode, flowcharts and program code.', 'Distinguish informal pseudocode from the more precise OCR Exam Reference Language.'], '{}', 'active', 5),
+  ('13485fa2-bb8f-01c8-699c-d96df3b94f35', 'ea653c5e-d4f2-f1dc-e240-ef4917a63a67', '7-6-interpreting-algorithms', '7.6 Interpreting algorithms', 'Placeholder OCR topic for 7.6 Interpreting algorithms.', array['7.6', 'Interpreting algorithms'], array['Identify the inputs, processes and outputs of a problem.', 'Interpret algorithms represented in pseudocode, flowcharts, OCR Exam Reference Language or a high-level language.', 'Create, correct, complete and refine an algorithm.', 'Identify syntax and logic errors in code and suggest fixes.', 'Create and use trace tables to follow an algorithm.', 'Trace variable values, outputs, selection paths and loop iterations.', 'Interpret nested selection and iteration.', 'Compare an algorithm with its requirements and identify improvements.'], '{}', 'active', 6),
+  ('c74f53f7-9ad1-ad3d-5000-677513a3fd4a', 'fe3b3733-e69d-6f88-28aa-b7d2d19b1be3', '8-1-ethical-and-cultural-issues', '8.1 Ethical and cultural issues', 'Placeholder OCR topic for 8.1 Ethical and cultural issues.', array['8.1', 'Ethical and cultural issues'], array['Explain how digital technology can create ethical issues.', 'Explain how digital technology can create cultural issues.', 'Give a range of examples of technology affecting individuals and wider society.', 'Discuss positive and negative impacts of digital technology.', 'Consider different stakeholders and viewpoints.', 'Apply ethical and cultural considerations to unfamiliar scenarios.', 'Produce a balanced discussion supported by relevant examples.'], '{}', 'active', 1),
+  ('0981a819-7c8c-def8-7d24-ff9ef7067ed6', 'fe3b3733-e69d-6f88-28aa-b7d2d19b1be3', '8-2-environmental-issues', '8.2 Environmental issues', 'Placeholder OCR topic for 8.2 Environmental issues.', array['8.2', 'Environmental issues'], array['Explain how manufacturing digital devices affects the environment.', 'Explain how using digital technology affects energy consumption.', 'Explain issues caused by electronic waste and disposal.', 'Explain how digital technology may reduce environmental impact.', 'Discuss positive and negative environmental effects in a given scenario.', 'Consider environmental consequences when evaluating a digital solution.'], '{}', 'active', 2),
+  ('2437d272-9ca3-30a2-0158-d179740a691b', 'fe3b3733-e69d-6f88-28aa-b7d2d19b1be3', '8-3-legislation-and-privacy', '8.3 Legislation & privacy', 'Placeholder OCR topic for 8.3 Legislation & privacy.', array['8.3', 'Legislation & privacy'], array['Explain how digital technology creates legal and privacy issues.', 'Explain the purpose of the Data Protection Act 2018 and the actions it allows or prohibits.', 'Explain the purpose of the Computer Misuse Act 1990 and the actions it allows or prohibits.', 'Explain the purpose of the Copyright, Designs and Patents Act 1988 and the actions it allows or prohibits.', 'Explain why software must be licensed.', 'Describe open-source licensing, including access to and modification of source code.', 'Describe proprietary licensing, including restricted source-code access and typical off-the-shelf purchase.', 'Compare the benefits and drawbacks of open-source and proprietary software.', 'Recommend a suitable software licence for a scenario and justify the choice.', 'Discuss legal and privacy impacts of digital technology in context.'], '{}', 'active', 3)
 on conflict (id) do update
 set
   unit_id = excluded.unit_id,
@@ -559,6 +559,8 @@ set
   topic_name = excluded.topic_name,
   description = excluded.description,
   keywords = excluded.keywords,
+  revision_objectives = excluded.revision_objectives,
+  revision_supplement_keys = excluded.revision_supplement_keys,
   status = excluded.status,
   display_order = excluded.display_order,
   updated_at = now();
@@ -620,13 +622,6 @@ set
   status = excluded.status,
   created_by = excluded.created_by,
   updated_at = now();
-
-update public.tests as test
-set test_title = topic.topic_name || ' | Core knowledge test',
-    updated_at = now()
-from public.topics as topic
-where topic.id = test.topic_id
-  and test.test_title ~* 'test\\s*1$';
 
 insert into public.test_versions (id, test_id, version_number, status, total_marks, estimated_duration_seconds, published_at, published_by, version_notes)
 values
@@ -1706,6 +1701,10 @@ values
   ('30055e2c-4063-2a3c-b8e3-66d626432c1a', 'd2d17afb-de36-3b25-41d7-d2298dac64be', 'A finished production question bank', false, 4, 'Placeholder distractor.')
 on conflict (id) do nothing;
 
+insert into public.class_courses (class_id, subject_id)
+values ('40000000-0000-4000-8000-000000000001', '50000000-0000-4000-8000-000000000001')
+on conflict (class_id, subject_id) do nothing;
+
 insert into public.test_assignments (
   id,
   test_version_id,
@@ -1927,3 +1926,481 @@ set
   target_id = excluded.target_id,
   detail = excluded.detail,
   created_at = now();
+
+-- Local-only bulk fixture for classroom-scale QA. Loaded from seed.sql.
+-- It deliberately contains fictional accounts and must never be promoted to production data.
+
+do $bulk_seed$
+begin
+
+drop table if exists public.qa_fixture_assignments;
+drop table if exists public.qa_fixture_learners;
+drop table if exists public.qa_fixture_students;
+drop table if exists public.qa_fixture_classes;
+
+create unlogged table public.qa_fixture_classes (
+  class_id uuid primary key,
+  slug text not null,
+  class_name text not null,
+  current_year smallint not null,
+  subject_id uuid not null,
+  status text not null,
+  expected_new_students integer not null,
+  class_order integer not null
+);
+
+insert into public.qa_fixture_classes
+select
+  coalesce(existing.id, fixture.default_class_id),
+  fixture.slug,
+  fixture.class_name,
+  fixture.current_year,
+  fixture.subject_id,
+  fixture.status,
+  fixture.expected_new_students,
+  fixture.class_order
+from (values
+  ('40000000-0000-4000-8000-000000000001'::uuid, '10a-computing', '10A Computing', 10::smallint, '50000000-0000-4000-8000-000000000001'::uuid, 'active', 20, 1),
+  ('40000000-0000-4000-8000-000000000002'::uuid, '10b-computing', '10B Computing', 10::smallint, '50000000-0000-4000-8000-000000000001'::uuid, 'active', 25, 2),
+  (md5('qa-class:10c-computing')::uuid, '10c-computing', '10C Computing', 10::smallint, '50000000-0000-4000-8000-000000000001'::uuid, 'active', 25, 3),
+  (md5('qa-class:11a-computing')::uuid, '11a-computing', '11A Computing', 11::smallint, '50000000-0000-4000-8000-000000000001'::uuid, 'active', 25, 4),
+  (md5('qa-class:11b-computing')::uuid, '11b-computing', '11B Computing', 11::smallint, '50000000-0000-4000-8000-000000000001'::uuid, 'active', 25, 5),
+  (md5('qa-class:12a-it')::uuid, '12a-it', '12A IT', 12::smallint, '50000000-0000-4000-8000-000000000002'::uuid, 'active', 25, 6),
+  (md5('qa-class:12b-it')::uuid, '12b-it', '12B IT', 12::smallint, '50000000-0000-4000-8000-000000000002'::uuid, 'active', 25, 7),
+  (md5('qa-class:13a-it')::uuid, '13a-it', '13A IT', 13::smallint, '50000000-0000-4000-8000-000000000002'::uuid, 'active', 25, 8),
+  (md5('qa-class:13b-it')::uuid, '13b-it', '13B IT', 13::smallint, '50000000-0000-4000-8000-000000000002'::uuid, 'active', 25, 9),
+  (md5('qa-class:13c-it')::uuid, '13c-it', '13C IT', 13::smallint, '50000000-0000-4000-8000-000000000002'::uuid, 'active', 25, 10),
+  (md5('qa-class:11c-computing')::uuid, '11c-computing', '11C Computing', 11::smallint, '50000000-0000-4000-8000-000000000001'::uuid, 'active', 25, 11),
+  (md5('qa-class:13d-it')::uuid, '13d-it', '13D IT', 13::smallint, '50000000-0000-4000-8000-000000000002'::uuid, 'active', 25, 12)
+) as fixture(default_class_id, slug, class_name, current_year, subject_id, status, expected_new_students, class_order)
+left join public.classes existing
+  on existing.owner_teacher_id = '20000000-0000-4000-8000-000000000001'::uuid
+  and existing.slug = fixture.slug;
+
+insert into public.classes (id, slug, class_name, academic_year, year_group, owner_teacher_id, status, join_code, accepting_students, is_system)
+select class_id, slug, class_name,
+  case when status = 'active' then '2025/26' else '2023/24' end,
+  current_year::text,
+  '20000000-0000-4000-8000-000000000001'::uuid,
+  status,
+  null, false, false
+from public.qa_fixture_classes
+on conflict (id) do update set
+  slug = excluded.slug, class_name = excluded.class_name, academic_year = excluded.academic_year,
+  year_group = excluded.year_group, status = excluded.status, join_code = null, accepting_students = false,
+  updated_at = now();
+
+insert into public.class_courses (class_id, subject_id)
+select class_id, subject_id
+from public.qa_fixture_classes
+on conflict (class_id, subject_id) do nothing;
+
+update public.student_profiles
+set initial_year_group = 10, joined_on = date '2025-09-01', updated_at = now()
+where id in (
+  '30000000-0000-4000-8000-000000000101'::uuid,
+  '30000000-0000-4000-8000-000000000102'::uuid,
+  '30000000-0000-4000-8000-000000000103'::uuid,
+  '30000000-0000-4000-8000-000000000104'::uuid,
+  '30000000-0000-4000-8000-000000000105'::uuid
+);
+
+create unlogged table public.qa_fixture_students (
+  student_id uuid primary key,
+  profile_id uuid not null,
+  auth_id uuid not null,
+  class_id uuid,
+  class_order integer,
+  row_number integer not null,
+  first_name text not null,
+  surname text not null,
+  username text not null,
+  email text not null,
+  public_id text not null,
+  initial_year_group smallint not null,
+  joined_on date not null,
+  account_status text not null
+);
+
+insert into public.qa_fixture_students
+select
+  md5('qa-student:' || class.slug || ':' || generated.member_number)::uuid,
+  md5('qa-profile:' || class.slug || ':' || generated.member_number)::uuid,
+  md5('qa-auth:' || class.slug || ':' || generated.member_number)::uuid,
+  class.class_id,
+  class.class_order,
+  generated.member_number,
+  (array['Alex','Amelia','Arjun','Ava','Bilal','Chloe','Daniel','Elena','Ethan','Fatima','Grace','Harrison','Imani','Isaac','Jasmine','Kai','Layla','Leo','Mia','Noah','Olivia','Priya','Ravi','Sofia','Zara'])[((generated.global_number - 1) % 25) + 1],
+  (array['Ahmed','Bennett','Clarke','Das','Evans','Foster','Green','Hughes','Iqbal','Jones','Kaur','Lewis','Morgan','Naylor','Osei','Patel','Reed','Shah','Taylor','Usman','Walker','Xu','Young','Zaman','Brooks'])[(((generated.global_number - 1) / 25)::integer % 25) + 1],
+  'qa' || replace(class.slug, '-', '') || lpad(generated.member_number::text, 2, '0'),
+  'qa' || replace(class.slug, '-', '') || lpad(generated.member_number::text, 2, '0') || '@students.local',
+  'Q' || lpad((class.class_order * 100 + generated.member_number)::text, 5, '0'),
+  case
+    when class.current_year = 10 then 10
+    when class.current_year = 11 then 10
+    when class.current_year = 12 then 12
+    else 12
+  end,
+  case
+    when class.status = 'archived' and class.current_year = 11 then date '2022-09-01'
+    when class.status = 'archived' then date '2022-09-01'
+    when class.current_year in (10, 12) then date '2025-09-01'
+    else date '2024-09-01'
+  end,
+  case when class.status = 'archived' then 'archived' else 'active' end
+from public.qa_fixture_classes class
+cross join lateral (
+  select series as member_number,
+    row_number() over (order by class.class_order, series) as global_number
+  from generate_series(case when class.class_order = 1 then 6 else 1 end, case when class.class_order = 1 then 25 else class.expected_new_students end) series
+) generated;
+
+insert into auth.users (
+  instance_id, id, aud, role, email, encrypted_password, email_confirmed_at,
+  confirmation_token, recovery_token, email_change_token_new, email_change,
+  email_change_token_current, reauthentication_token, phone_change, phone_change_token,
+  email_change_confirm_status, raw_app_meta_data, raw_user_meta_data, created_at, updated_at, is_sso_user, is_anonymous
+)
+select
+  '00000000-0000-0000-0000-000000000000'::uuid, auth_id, 'authenticated', 'authenticated', email,
+  extensions.crypt('Localdev1!', extensions.gen_salt('bf')), now(), '', '', '', '', '', '', '', '', 0,
+  '{"provider":"email","providers":["email"],"app_role":"student"}'::jsonb, '{}'::jsonb,
+  joined_on::timestamptz, now(), false, false
+from public.qa_fixture_students
+on conflict (id) do update set email = excluded.email, encrypted_password = excluded.encrypted_password, updated_at = now();
+
+insert into auth.identities (id, provider_id, user_id, identity_data, provider, last_sign_in_at, created_at, updated_at)
+select gen_random_uuid(), auth_id, auth_id,
+  jsonb_build_object('sub', auth_id::text, 'email', email, 'email_verified', true, 'phone_verified', false),
+  'email', now(), joined_on::timestamptz, now()
+from public.qa_fixture_students
+on conflict (provider_id, provider) do update set user_id = excluded.user_id, identity_data = excluded.identity_data, updated_at = now();
+
+insert into public.profiles (id, auth_user_id, role, display_name, username, account_status)
+select profile_id, auth_id, 'student', first_name || ' ' || surname, username, account_status
+from public.qa_fixture_students
+on conflict (id) do update set auth_user_id = excluded.auth_user_id, display_name = excluded.display_name, username = excluded.username, account_status = excluded.account_status, updated_at = now();
+
+insert into public.student_profiles (id, profile_id, first_name, surname, student_id, initial_year_group, joined_on, internal_auth_email, account_status, created_by)
+select student_id, profile_id, first_name, surname, public_id, initial_year_group, joined_on, email, account_status,
+  '10000000-0000-4000-8000-000000000001'::uuid
+from public.qa_fixture_students
+on conflict (id) do update set profile_id = excluded.profile_id, first_name = excluded.first_name, surname = excluded.surname,
+  student_id = excluded.student_id, initial_year_group = excluded.initial_year_group, joined_on = excluded.joined_on,
+  internal_auth_email = excluded.internal_auth_email, account_status = excluded.account_status, updated_at = now();
+
+delete from public.class_memberships membership
+using public.qa_fixture_students fixture
+where membership.class_id = fixture.class_id
+  and membership.student_id = fixture.student_id
+  and membership.status = 'active'
+  and membership.id <> md5('qa-membership:' || fixture.class_id::text || ':' || fixture.student_id::text)::uuid;
+
+insert into public.class_memberships (id, class_id, student_id, start_date, end_date, status)
+select md5('qa-membership:' || class_id::text || ':' || student_id::text)::uuid, class_id, student_id, joined_on,
+  case when account_status = 'archived' then date '2024-07-31' else null end,
+  case when account_status = 'archived' then 'ended' else 'active' end
+from public.qa_fixture_students
+on conflict (id) do update set class_id = excluded.class_id, student_id = excluded.student_id, start_date = excluded.start_date,
+  end_date = excluded.end_date, status = excluded.status, updated_at = now();
+
+create unlogged table public.qa_fixture_learners (student_id uuid primary key, profile_id uuid not null, class_id uuid not null, class_order integer not null, row_number integer not null, account_status text not null);
+
+insert into public.qa_fixture_learners
+select id, profile_id, '40000000-0000-4000-8000-000000000001'::uuid, 1, row_number() over (order by id), 'active'
+from public.student_profiles
+where id in (
+  '30000000-0000-4000-8000-000000000101'::uuid,
+  '30000000-0000-4000-8000-000000000102'::uuid,
+  '30000000-0000-4000-8000-000000000103'::uuid,
+  '30000000-0000-4000-8000-000000000104'::uuid,
+  '30000000-0000-4000-8000-000000000105'::uuid
+);
+
+insert into public.qa_fixture_learners
+select student_id, profile_id, class_id, class_order, row_number, account_status from public.qa_fixture_students;
+
+create unlogged table public.qa_fixture_assignments (
+  id uuid primary key,
+  class_id uuid not null,
+  class_order integer not null,
+  test_id uuid not null,
+  test_version_id uuid not null,
+  sequence integer not null,
+  recipient_scope text not null,
+  status text not null,
+  start_at timestamptz,
+  due_at timestamptz
+);
+
+insert into public.qa_fixture_assignments
+select md5('qa-assignment:' || class.slug || ':' || sequence)::uuid, class.class_id, class.class_order,
+  selected.test_id, selected.test_version_id, sequence,
+  case when class.status = 'active' and sequence = 2 then 'selected' else 'class' end,
+  case when class.status = 'archived' then 'closed' when sequence = 8 then 'scheduled' when sequence in (1, 2) then 'open' else 'closed' end,
+  case when class.status = 'archived' then timestamp with time zone '2024-04-01 08:00:00+00'
+       when sequence = 8 then now() + interval '7 days'
+       else now() - ((sequence + 2) || ' days')::interval end,
+  case when class.status = 'archived' then timestamp with time zone '2024-04-15 16:00:00+00'
+       when sequence = 1 then now() + interval '6 days'
+       when sequence = 2 then now() + interval '14 days'
+       when sequence = 8 then now() + interval '21 days'
+       else now() - ((sequence + 3) || ' days')::interval end
+from public.qa_fixture_classes class
+cross join lateral generate_series(1, case when class.status = 'archived' then 6 else 8 end) sequence
+cross join lateral (
+  select test.id as test_id, version.id as test_version_id
+  from public.test_versions version
+  join public.tests test on test.id = version.test_id
+  join public.topics topic on topic.id = test.topic_id
+  join public.units unit on unit.id = topic.unit_id
+  where unit.subject_id = class.subject_id and version.status = 'published' and test.status = 'published'
+  order by test.id
+  offset ((class.class_order + sequence - 2) % greatest(1, (select count(*) from public.test_versions version2 join public.tests test2 on test2.id = version2.test_id join public.topics topic2 on topic2.id = test2.topic_id join public.units unit2 on unit2.id = topic2.unit_id where unit2.subject_id = class.subject_id and version2.status = 'published' and test2.status = 'published')))
+  limit 1
+) selected;
+
+insert into public.qa_fixture_assignments
+select md5('qa-assignment:stage4-past-due-outstanding')::uuid, class.class_id, class.class_order,
+  selected.test_id, selected.test_version_id, 99,
+  'selected', 'open', now() - interval '9 days', now() - interval '2 days'
+from public.qa_fixture_classes class
+cross join lateral (
+  select test.id as test_id, version.id as test_version_id
+  from public.test_versions version
+  join public.tests test on test.id = version.test_id
+  join public.topics topic on topic.id = test.topic_id
+  join public.units unit on unit.id = topic.unit_id
+  where unit.subject_id = class.subject_id and version.status = 'published' and test.status = 'published'
+  order by topic.topic_name, test.test_title
+  offset 6
+  limit 1
+) selected
+where class.slug = '10a-computing';
+
+insert into public.test_assignments (id, test_version_id, assigned_by, class_id, start_at, due_at, time_limit_seconds, attempt_limit, feedback_policy, status, recipient_scope)
+select id, test_version_id, '10000000-0000-4000-8000-000000000001'::uuid, class_id, start_at, due_at, 900, null,
+  case when status = 'closed' then 'score_and_summary' else 'score_only' end, status, recipient_scope
+from public.qa_fixture_assignments
+on conflict (id) do update set test_version_id = excluded.test_version_id, class_id = excluded.class_id, start_at = excluded.start_at,
+  due_at = excluded.due_at, status = excluded.status, recipient_scope = excluded.recipient_scope, updated_at = now();
+
+delete from public.assignment_recipients
+where assignment_id in (select id from public.qa_fixture_assignments);
+
+insert into public.assignment_recipients (assignment_id, student_id)
+select assignment.id, learner.student_id
+from public.qa_fixture_assignments assignment
+join public.qa_fixture_learners learner on learner.class_id = assignment.class_id
+where assignment.recipient_scope = 'selected'
+  and learner.account_status = 'active'
+  and (
+    (assignment.id = md5('qa-assignment:stage4-past-due-outstanding')::uuid and learner.row_number = 7)
+    or (assignment.id <> md5('qa-assignment:stage4-past-due-outstanding')::uuid and learner.row_number in (4, 8, 12, 16, 24))
+  )
+on conflict (assignment_id, student_id) do nothing;
+
+insert into public.test_attempts (
+  id, student_id, class_id_at_attempt, test_id, test_version_id, assignment_id, attempt_type, attempt_number, status,
+  started_at, expires_at, submitted_at, duration_seconds, time_limit_seconds, timed_out, submitted_late,
+  score, max_score, percentage, marking_status, feedback_status, points_awarded, suspicious_event_count
+)
+select
+  md5('qa-assigned-attempt:' || assignment.id::text || ':' || learner.student_id::text)::uuid,
+  learner.student_id, learner.class_id, assignment.test_id, assignment.test_version_id, assignment.id, 'assigned', 1,
+  case when assignment.status = 'open' and learner.row_number % 4 = 0 then 'in_progress'
+       when assignment.status = 'open' then 'not_started'
+       when (learner.row_number + assignment.sequence) % 13 = 0 then 'timed_out'
+       when (learner.row_number + assignment.sequence) % 11 = 0 then 'abandoned'
+       when (learner.row_number + assignment.sequence) % 7 = 0 then 'submitted'
+       when (learner.row_number + assignment.sequence) % 3 = 0 then 'marked'
+       else 'feedback_released' end,
+  assignment.start_at + ((learner.row_number % 4) || ' hours')::interval,
+  assignment.due_at,
+  case when assignment.status = 'closed' then assignment.start_at + ((learner.row_number % 4 + 1) || ' hours')::interval else null end,
+  case when assignment.status = 'closed' then 360 + ((learner.row_number * 19) % 420) else null end,
+  900,
+  assignment.status = 'closed' and (learner.row_number + assignment.sequence) % 13 = 0,
+  assignment.status = 'closed' and (learner.row_number + assignment.sequence) % 9 = 0,
+  case when assignment.status = 'closed' then greatest(0, floor(version.total_marks * (45 + ((learner.row_number * 7 + assignment.sequence * 11) % 56)) / 100.0)) else null end,
+  case when assignment.status = 'closed' then version.total_marks else null end,
+  case when assignment.status = 'closed' then 45 + ((learner.row_number * 7 + assignment.sequence * 11) % 56) else null end,
+  case when assignment.status = 'closed' and (learner.row_number + assignment.sequence) % 11 <> 0 then 'marked' else 'not_required' end,
+  case when assignment.status = 'closed' and (learner.row_number + assignment.sequence) % 3 <> 0 then 'released' else 'hidden' end,
+  case when assignment.status = 'closed' and (learner.row_number + assignment.sequence) % 11 <> 0 then 20 + ((learner.row_number * 13 + assignment.sequence * 5) % 81) else 0 end,
+  case when learner.row_number % 9 = 0 then 1 else 0 end
+from public.qa_fixture_assignments assignment
+join public.qa_fixture_learners learner on learner.class_id = assignment.class_id
+  and learner.row_number % 5 <> 0
+  and (
+    assignment.recipient_scope = 'class'
+    or exists (
+      select 1
+      from public.assignment_recipients recipient
+      where recipient.assignment_id = assignment.id
+        and recipient.student_id = learner.student_id
+    )
+  )
+join public.test_versions version on version.id = assignment.test_version_id
+where assignment.status <> 'scheduled'
+  and not (assignment.status = 'open' and learner.row_number % 4 <> 0)
+on conflict (id) do update set status = excluded.status, submitted_at = excluded.submitted_at, score = excluded.score,
+  max_score = excluded.max_score, percentage = excluded.percentage, marking_status = excluded.marking_status,
+  feedback_status = excluded.feedback_status, points_awarded = excluded.points_awarded,
+  suspicious_event_count = excluded.suspicious_event_count, updated_at = now();
+
+update public.test_attempts attempt
+set
+  status = 'feedback_released',
+  submitted_at = attempt.started_at + interval '12 minutes',
+  duration_seconds = 720,
+  score = version.total_marks,
+  max_score = version.total_marks,
+  percentage = 100,
+  marking_status = 'marked',
+  feedback_status = 'released',
+  points_awarded = greatest(coalesce(attempt.points_awarded, 0), 125),
+  updated_at = now()
+from public.qa_fixture_assignments assignment
+join public.qa_fixture_learners learner
+  on learner.class_id = assignment.class_id
+  and learner.row_number = 12
+join public.test_versions version on version.id = assignment.test_version_id
+where assignment.class_order = 1
+  and assignment.sequence = 2
+  and attempt.id = md5('qa-assigned-attempt:' || assignment.id::text || ':' || learner.student_id::text)::uuid;
+
+insert into public.test_attempts (
+  id, student_id, class_id_at_attempt, test_id, test_version_id, attempt_type, attempt_number, status,
+  started_at, submitted_at, duration_seconds, time_limit_seconds, score, max_score, percentage,
+  marking_status, feedback_status, points_awarded, suspicious_event_count
+)
+select
+  md5('qa-practice-attempt:' || learner.student_id::text || ':' || practice_number)::uuid,
+  learner.student_id, learner.class_id, selected.test_id, selected.test_version_id, 'practice', practice_number, 'feedback_released',
+  now() - ((practice_number * 18 + learner.row_number) || ' days')::interval,
+  now() - ((practice_number * 18 + learner.row_number) || ' days')::interval + interval '11 minutes',
+  660, 900,
+  greatest(0, floor(selected.total_marks * (48 + ((learner.row_number * 9 + practice_number * 7) % 51)) / 100.0)),
+  selected.total_marks, 48 + ((learner.row_number * 9 + practice_number * 7) % 51),
+  'marked', 'released', 25 + ((learner.row_number * 11 + practice_number * 3) % 76), 0
+from public.qa_fixture_learners learner
+cross join lateral generate_series(1, 6) practice_number
+join public.qa_fixture_classes class on class.class_id = learner.class_id
+cross join lateral (
+  select test.id as test_id, version.id as test_version_id, version.total_marks
+  from public.test_versions version
+  join public.tests test on test.id = version.test_id
+  join public.topics topic on topic.id = test.topic_id
+  join public.units unit on unit.id = topic.unit_id
+  where unit.subject_id = class.subject_id and version.status = 'published' and test.status = 'published'
+  order by test.id
+  offset ((learner.row_number + practice_number - 2) % greatest(1, (select count(*) from public.test_versions version2 join public.tests test2 on test2.id = version2.test_id join public.topics topic2 on topic2.id = test2.topic_id join public.units unit2 on unit2.id = topic2.unit_id where unit2.subject_id = class.subject_id and version2.status = 'published' and test2.status = 'published')))
+  limit 1
+) selected
+on conflict (id) do update set submitted_at = excluded.submitted_at, score = excluded.score, percentage = excluded.percentage,
+  points_awarded = excluded.points_awarded, updated_at = now();
+
+update public.test_attempts attempt
+set
+  score = version.total_marks,
+  max_score = version.total_marks,
+  percentage = 100,
+  marking_status = 'marked',
+  feedback_status = 'released',
+  points_awarded = greatest(coalesce(attempt.points_awarded, 0), 95),
+  updated_at = now()
+from public.test_versions version
+where attempt.test_version_id = version.id
+  and attempt.student_id = (
+    select student.id
+    from public.student_profiles student
+    join public.profiles profile on profile.id = student.profile_id
+    where profile.username = 'qa10acomputing07'
+  )
+  and attempt.status <> 'voided'
+  and attempt.percentage is not null;
+
+delete from public.attempt_events
+where event_detail->>'fixture' = 'bulk-classroom-qa';
+
+insert into public.attempt_events (id, attempt_id, student_id, event_type, created_at, event_detail)
+select
+  md5('qa-attempt-event:' || attempt.id::text || ':tab-hidden')::uuid,
+  attempt.id,
+  attempt.student_id,
+  'tab_hidden',
+  attempt.started_at + interval '4 minutes',
+  jsonb_build_object('fixture', 'bulk-classroom-qa', 'reason', 'Seeded suspicious activity for dashboard QA')
+from public.test_attempts attempt
+join public.qa_fixture_learners learner
+  on learner.student_id = attempt.student_id
+  and learner.class_id = attempt.class_id_at_attempt
+where attempt.suspicious_event_count > 0
+  and attempt.assignment_id in (select id from public.qa_fixture_assignments)
+on conflict (id) do update set
+  event_type = excluded.event_type,
+  created_at = excluded.created_at,
+  event_detail = excluded.event_detail;
+
+insert into public.points_transactions (id, student_id, related_attempt_id, points, reason, created_by, metadata, created_at)
+select md5('qa-points:' || attempt.id::text)::uuid, attempt.student_id, attempt.id, attempt.points_awarded,
+  'Bulk QA fixture points', 'system', '{"fixture":"bulk-classroom-qa"}'::jsonb, coalesce(attempt.submitted_at, attempt.started_at)
+from public.test_attempts attempt
+join public.qa_fixture_learners learner on learner.student_id = attempt.student_id and learner.class_id = attempt.class_id_at_attempt
+where attempt.points_awarded > 0
+  and (
+    attempt.assignment_id in (select id from public.qa_fixture_assignments)
+    or (attempt.attempt_type = 'practice' and attempt.started_at >= now() - interval '180 days')
+  )
+on conflict (id) do update set points = excluded.points, related_attempt_id = excluded.related_attempt_id, created_at = excluded.created_at;
+
+delete from public.leaderboard_snapshots
+where student_id in (select student_id from public.qa_fixture_learners);
+
+insert into public.leaderboard_snapshots (id, period_type, class_id, student_id, display_name, student_public_id, points, status_name, rank, calculated_at)
+select md5('qa-leaderboard:' || learner.class_id::text || ':' || learner.student_id::text)::uuid, 'all_time', learner.class_id, learner.student_id,
+  profile.display_name, student.student_id, coalesce(sum(points.points), 0),
+  case when coalesce(sum(points.points), 0) >= 1200 then 'Champion' when coalesce(sum(points.points), 0) >= 700 then 'Learner' else 'Starter' end,
+  row_number() over (partition by learner.class_id order by coalesce(sum(points.points), 0) desc, profile.display_name, student.student_id), now()
+from public.qa_fixture_learners learner
+join public.student_profiles student on student.id = learner.student_id
+join public.profiles profile on profile.id = learner.profile_id
+left join public.points_transactions points on points.student_id = learner.student_id
+group by learner.student_id, learner.class_id, profile.display_name, student.student_id
+on conflict (id) do update set class_id = excluded.class_id, points = excluded.points, status_name = excluded.status_name, rank = excluded.rank, calculated_at = now();
+
+insert into public.activity_sessions (id, profile_id, role, started_at, last_active_at, ended_at)
+select profile_id, profile_id, 'student', now() - interval '2 days', now() - interval '90 minutes', now() - interval '90 minutes'
+from public.qa_fixture_learners
+where row_number % 3 = 0
+on conflict (id) do update set last_active_at = excluded.last_active_at, ended_at = excluded.ended_at;
+
+insert into public.activity_events (id, session_id, profile_id, event_type, route, created_at)
+select md5('qa-activity-event:' || learner.profile_id::text || ':student-home')::uuid, learner.profile_id, learner.profile_id,
+  'page_view', '/student', now() - interval '2 days'
+from public.qa_fixture_learners learner where learner.row_number % 3 = 0
+on conflict (id) do update set route = excluded.route, created_at = excluded.created_at;
+
+insert into public.activity_events (id, session_id, profile_id, event_type, route, created_at)
+select md5('qa-activity-event:' || learner.profile_id::text || ':student-practice')::uuid, learner.profile_id, learner.profile_id,
+  'page_view', '/student/practice', now() - interval '100 minutes'
+from public.qa_fixture_learners learner where learner.row_number % 3 = 0
+on conflict (id) do update set route = excluded.route, created_at = excluded.created_at;
+
+insert into public.audit_logs (id, actor_profile_id, action, target_type, target_id, detail, created_at)
+values (
+  md5('qa-audit:bulk-classroom-qa-seed-applied')::uuid,
+  '10000000-0000-4000-8000-000000000001'::uuid,
+  'bulk_classroom_qa_seed_applied', 'database', null,
+  '{"classes":12,"active_classes":12,"active_students":300,"fixture":"bulk-classroom-qa"}'::jsonb, now()
+)
+on conflict (id) do update set detail = excluded.detail, created_at = excluded.created_at;
+
+
+drop table if exists public.qa_fixture_assignments;
+drop table if exists public.qa_fixture_learners;
+drop table if exists public.qa_fixture_students;
+drop table if exists public.qa_fixture_classes;
+end
+$bulk_seed$;

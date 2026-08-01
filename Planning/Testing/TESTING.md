@@ -13,10 +13,10 @@ Use automated checks and targeted manual/browser/backend QA together:
 - Static checks confirm code quality: typecheck, lint, unit tests, and build.
 - Behaviour checks confirm the feature works: browser QA, Edge Function calls, database/RLS tests, or direct local Supabase verification.
 - Test against local Supabase data until launch. Do not use frontend-only/demo assumptions.
-- Record the exact checks and result in the task response. Also update `docs/HANDOVER.md` when the project state materially changes or when the user asks to end development.
+- Record the exact checks and result in the task response. Also update `Planning/Process/HANDOVER.md` when the project state materially changes or when the user asks to end development.
 - If a workflow cannot be tested, do not mark it complete. Mark it blocked or partially verified and explain the missing check.
 
-See `docs/CODEX_DEVELOPMENT_PROCESS.md` for the required per-task development QA process.
+See `Planning/Process/CODEX_DEVELOPMENT_PROCESS.md` for the required per-task development QA process.
 
 ## Stall Detection Rule
 
@@ -44,7 +44,7 @@ Browser loading text that remains unchanged for the full 10-second budget is a d
 Source of truth:
 
 ```text
-docs/planning/csrevision-full-test-plan-checklist.html
+Planning/Testing/csrevision-full-test-plan-checklist.html
 ```
 
 Current rules:

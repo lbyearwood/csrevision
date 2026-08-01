@@ -683,13 +683,26 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     if (error) throw error;
 
     const courseIds = [...new Set(input.courseIds)];
-    const { error: removeCoursesError } = await supabase.from('class_courses').delete().eq('class_id', input.id);
-    if (removeCoursesError) throw removeCoursesError;
-    if (courseIds.length) {
+    const currentCourseIds = new Set(
+      snapshot.classes.find((classRecord) => classRecord.id === input.id)?.courseIds ?? [],
+    );
+    const requestedCourseIds = new Set(courseIds);
+    const courseIdsToAdd = courseIds.filter((subjectId) => !currentCourseIds.has(subjectId));
+    const courseIdsToRemove = [...currentCourseIds].filter((subjectId) => !requestedCourseIds.has(subjectId));
+
+    if (courseIdsToAdd.length) {
       const { error: addCoursesError } = await supabase
         .from('class_courses')
-        .insert(courseIds.map((subjectId) => ({ class_id: input.id, subject_id: subjectId })));
-      if (addCoursesError) throw addCoursesError;
+        .insert(courseIdsToAdd.map((subjectId) => ({ class_id: input.id, subject_id: subjectId })));
+      if (addCoursesError) throw toLocalSupabaseError(addCoursesError, 'Unable to add the selected courses');
+    }
+    if (courseIdsToRemove.length) {
+      const { error: removeCoursesError } = await supabase
+        .from('class_courses')
+        .delete()
+        .eq('class_id', input.id)
+        .in('subject_id', courseIdsToRemove);
+      if (removeCoursesError) throw toLocalSupabaseError(removeCoursesError, 'Unable to remove the selected courses');
     }
 
     const updatedClass = mapClassRow({ ...(data as ClassRow), course_ids: courseIds });

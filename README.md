@@ -11,7 +11,7 @@ Mobile-first student knowledge testing platform for teacher-created accounts, cl
 
 ## Local Development
 
-For a new computer or Codex environment, follow [docs/CODEX_START_PROCESS.md](docs/CODEX_START_PROCESS.md) first, then read [docs/HANDOVER.md](docs/HANDOVER.md) and [docs/DEVELOPMENT_SETUP.md](docs/DEVELOPMENT_SETUP.md). If local commands behave oddly, check [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md). Until launch, all development and QA require Docker Desktop and the local Supabase stack; there is no frontend-only/demo fallback.
+For a new computer or Codex environment, follow [Planning/Process/CODEX_START_PROCESS.md](Planning/Process/CODEX_START_PROCESS.md) first, then read [Planning/Process/HANDOVER.md](Planning/Process/HANDOVER.md) and [Planning/Setup/DEVELOPMENT_SETUP.md](Planning/Setup/DEVELOPMENT_SETUP.md). If local commands behave oddly, check [Planning/Setup/TROUBLESHOOTING.md](Planning/Setup/TROUBLESHOOTING.md). Until launch, all development and QA require Docker Desktop and the local Supabase stack; there is no frontend-only/demo fallback.
 
 ```bash
 npm.cmd install
@@ -51,14 +51,15 @@ Deferred to later versions: AI written-answer marking, certificates, CSV import/
 
 Future Codex agents should start with:
 
-- [docs/CODEX_START_PROCESS.md](docs/CODEX_START_PROCESS.md) for the required pull/read/install/run/report startup sequence.
-- [docs/CODEX_DEVELOPMENT_PROCESS.md](docs/CODEX_DEVELOPMENT_PROCESS.md) for the required per-task QA gate.
-- [docs/CODEX_END_PROCESS.md](docs/CODEX_END_PROCESS.md) for the user-triggered end-of-day update-docs/write-handover/commit-and-push sequence.
-- [docs/HANDOVER.md](docs/HANDOVER.md) for the current continuation state and fresh-PC bootstrap.
-- [docs/PROJECT_TASKS.md](docs/PROJECT_TASKS.md) for live state, current tasks, and blockers.
+- [Planning/README.md](Planning/README.md) for the organised planning-directory index.
+- [Planning/Process/CODEX_START_PROCESS.md](Planning/Process/CODEX_START_PROCESS.md) for the required pull/read/install/run/report startup sequence.
+- [Planning/Process/CODEX_DEVELOPMENT_PROCESS.md](Planning/Process/CODEX_DEVELOPMENT_PROCESS.md) for the required per-task QA gate.
+- [Planning/Process/CODEX_END_PROCESS.md](Planning/Process/CODEX_END_PROCESS.md) for the user-triggered end-of-day planning update, handover, commit and push sequence.
+- [Planning/Process/HANDOVER.md](Planning/Process/HANDOVER.md) for the current continuation state and fresh-PC bootstrap.
+- [Planning/Process/PROJECT_TASKS.md](Planning/Process/PROJECT_TASKS.md) for live state, current tasks, and blockers.
 - [PROJECT_BRIEF.md](PROJECT_BRIEF.md) for product rules and long-term architecture constraints.
-- [docs/DEVELOPMENT_SETUP.md](docs/DEVELOPMENT_SETUP.md) for fresh-machine dependencies and bootstrap.
-- [docs/TROUBLESHOOTING.md](docs/TROUBLESHOOTING.md) for Windows/Codex local development fixes.
-- [docs/SUPABASE_SETUP.md](docs/SUPABASE_SETUP.md) before any local or cloud Supabase work.
+- [Planning/Setup/DEVELOPMENT_SETUP.md](Planning/Setup/DEVELOPMENT_SETUP.md) for fresh-machine dependencies and bootstrap.
+- [Planning/Setup/TROUBLESHOOTING.md](Planning/Setup/TROUBLESHOOTING.md) for Windows/Codex local development fixes.
+- [Planning/Setup/SUPABASE_SETUP.md](Planning/Setup/SUPABASE_SETUP.md) before any local or cloud Supabase work.
 
-Keep `docs/PROJECT_TASKS.md` updated as work is completed, started, blocked, or deferred.
+Keep `Planning/Process/PROJECT_TASKS.md` updated as work is completed, started, blocked, or deferred.

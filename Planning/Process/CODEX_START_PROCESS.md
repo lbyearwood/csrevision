@@ -37,19 +37,19 @@ If the working tree is dirty:
 
 Read these in order:
 
-1. `docs/CODEX_START_PROCESS.md`
-2. `docs/CODEX_DEVELOPMENT_PROCESS.md`
-3. `docs/CODEX_END_PROCESS.md`
-4. `docs/HANDOVER.md`
-5. `docs/PROJECT_TASKS.md`
+1. `Planning/Process/CODEX_START_PROCESS.md`
+2. `Planning/Process/CODEX_DEVELOPMENT_PROCESS.md`
+3. `Planning/Process/CODEX_END_PROCESS.md`
+4. `Planning/Process/HANDOVER.md`
+5. `Planning/Process/PROJECT_TASKS.md`
 6. `PROJECT_BRIEF.md`
-7. `docs/DEVELOPMENT_SETUP.md`
-8. `docs/TESTING.md`
-9. `docs/TROUBLESHOOTING.md`
-10. `docs/SUPABASE_SETUP.md` before any backend, Auth, RLS, seed, Edge Function, or persistence work
-11. `docs/planning/csrevision-full-test-plan-checklist.html` when continuing staged QA or fixing failures from the sequential test plan
+7. `Planning/Setup/DEVELOPMENT_SETUP.md`
+8. `Planning/Testing/TESTING.md`
+9. `Planning/Setup/TROUBLESHOOTING.md`
+10. `Planning/Setup/SUPABASE_SETUP.md` before any backend, Auth, RLS, seed, Edge Function, or persistence work
+11. `Planning/Testing/csrevision-full-test-plan-checklist.html` when continuing staged QA or fixing failures from the sequential test plan
 
-Use `docs/PROJECT_TASKS.md` as the live source for current focus, open blockers, and next actions.
+Use `Planning/Process/PROJECT_TASKS.md` as the live source for current focus, open blockers, and next actions.
 
 ### 3. Install Or Refresh Dependencies
 
@@ -102,13 +102,13 @@ Bulk QA seed presence check:
 docker exec supabase_db_csrevision psql -U postgres -d postgres -c "select (select count(*) from public.student_profiles where account_status = 'active') as active_students, (select count(*) from public.classes where is_system = false and status = 'active') as active_real_classes, (select count(*) from public.test_assignments) as assignments, (select count(*) from public.assignment_recipients) as assignment_recipients, (select count(*) from public.audit_logs where action = 'bulk_classroom_qa_seed_applied') as bulk_seed_audits;"
 ```
 
-Expected after base seed plus `supabase/qa_bulk_seed.sql`:
+Expected after the consolidated `supabase/seed.sql`:
 
 ```text
-active_students=250
-active_real_classes=10
-assignments=94
-assignment_recipients=51
+active_students=300
+active_real_classes=12
+assignments=98
+assignment_recipients=61
 bulk_seed_audits=1
 ```
 
@@ -158,7 +158,7 @@ After the repo is synced, docs are read, dependencies are refreshed, and the sit
 - whether the working tree is clean
 - site URL
 - whether local Supabase is running
-- the next recommended task from `docs/PROJECT_TASKS.md`
+- the next recommended task from `Planning/Process/PROJECT_TASKS.md`
 
 Pick the next task from `Current Focus` first, then from the most relevant incomplete section. If blocked, state the unblock action rather than inventing a new task.
 
@@ -172,7 +172,7 @@ Continue the standalone sequential test plan at Stage 5.
 
 Reason:
 
-- The test plan at `docs/planning/csrevision-full-test-plan-checklist.html` is the source of truth for staged regression QA.
+- The test plan at `Planning/Testing/csrevision-full-test-plan-checklist.html` is the source of truth for staged regression QA.
 - Stage 4 is recorded as 37 pass, 1 blocked, 0 fail.
 - The only Stage 4 blocker is Test 94: PDF download was triggered without console errors, but the in-app browser did not expose the downloaded file for visual inspection.
 - Do not skip ahead; run tests in displayed order and update the HTML artifact after each test.
@@ -191,5 +191,5 @@ Merge teacher Courses and Assignments into one Resources workflow, then plan/bui
 - Do not run destructive local database resets unless needed for the task and clearly appropriate.
 - Do not expose service-role keys, correct answers, hidden mark schemes, or privileged marking logic to the frontend.
 - Do not leave docs stale after completing or changing project direction.
-- After each development task, follow the QA gate in `docs/CODEX_DEVELOPMENT_PROCESS.md` before saying the task is complete.
-- Follow `docs/CODEX_END_PROCESS.md` only when the user explicitly says to end or wrap up development.
+- After each development task, follow the QA gate in `Planning/Process/CODEX_DEVELOPMENT_PROCESS.md` before saying the task is complete.
+- Follow `Planning/Process/CODEX_END_PROCESS.md` only when the user explicitly says to end or wrap up development.

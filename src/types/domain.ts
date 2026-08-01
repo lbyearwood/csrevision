@@ -70,10 +70,14 @@ export interface Unit {
   unitName: string;
 }
 
+export type RevisionSupplementKey = 'logic_gates_reference' | 'flowchart_symbols_reference';
+
 export interface Topic {
   id: string;
   unitId: string;
   topicName: string;
+  revisionObjectives: string[];
+  revisionSupplementKeys: RevisionSupplementKey[];
 }
 
 export interface Test {

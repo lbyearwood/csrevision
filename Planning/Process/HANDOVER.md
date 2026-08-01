@@ -1,6 +1,6 @@
 # Codex Handover
 
-Last updated: 2026-07-31
+Last updated: 2026-08-01
 
 Audience: a new Codex agent continuing `csrevision` on a different development computer.
 
@@ -8,19 +8,19 @@ Audience: a new Codex agent continuing `csrevision` on a different development c
 
 Read these files in order:
 
-1. `docs/CODEX_START_PROCESS.md`
-2. `docs/CODEX_DEVELOPMENT_PROCESS.md`
-3. `docs/CODEX_END_PROCESS.md`
-4. `docs/HANDOVER.md`
-5. `docs/PROJECT_TASKS.md`
-6. `docs/OUTSTANDING_BLOCKED_TESTS.md`
+1. `Planning/Process/CODEX_START_PROCESS.md`
+2. `Planning/Process/CODEX_DEVELOPMENT_PROCESS.md`
+3. `Planning/Process/CODEX_END_PROCESS.md`
+4. `Planning/Process/HANDOVER.md`
+5. `Planning/Process/PROJECT_TASKS.md`
+6. `Planning/Testing/OUTSTANDING_BLOCKED_TESTS.md`
 7. `PROJECT_BRIEF.md`
-8. `docs/DEVELOPMENT_SETUP.md`
-9. `docs/TESTING.md`
-10. `docs/SUPABASE_SETUP.md`
-11. `docs/PRODUCTION_RELEASE_RUNBOOK.md` before any production launch decision
-12. `docs/TROUBLESHOOTING.md`
-13. `docs/planning/csrevision-full-test-plan-checklist.html` if continuing staged QA or fixing staged-test failures
+8. `Planning/Setup/DEVELOPMENT_SETUP.md`
+9. `Planning/Testing/TESTING.md`
+10. `Planning/Setup/SUPABASE_SETUP.md`
+11. `Planning/Setup/PRODUCTION_RELEASE_RUNBOOK.md` before any production launch decision
+12. `Planning/Setup/TROUBLESHOOTING.md`
+13. `Planning/Testing/csrevision-full-test-plan-checklist.html` if continuing staged QA or fixing staged-test failures
 
 The active branch is:
 
@@ -34,6 +34,66 @@ Current user instruction:
 - Run the end process only when the user explicitly says `end` or asks to wrap up development.
 - The end process includes committing and pushing the active branch.
 - Do not push unless the user explicitly says `push` or explicitly requests the end process.
+
+## Session update - 2026-08-01
+
+### Current local working mode
+
+- Active branch: `agent/csrevision-accounts-mvp`.
+- Local Supabase remains the mandatory backend for development and QA.
+- Docker database, Auth, API, Storage, Studio and supporting services are running; Supabase status reports imgproxy, Edge Runtime and pooler stopped.
+- The Vite Question Lab is available locally at `http://127.0.0.1:5173/Planning/Prototypes/question-types/index.html` at end of session.
+
+### Completed in this session
+
+- Reorganised the former `docs` tree into `Planning/Curriculum`, `Planning/Process`, `Planning/Prototypes`, `Planning/Setup`, `Planning/Testing` and `Planning/Work Packages`.
+- Added specification-derived revision objectives for all 41 OCR topics, shared student/teacher rendering, accessible logic-gate/truth-table and flowchart supplements, database migration, deterministic seed generation and tests.
+- Updated Teacher Courses to Course -> Unit -> Topic navigation with revision objectives and the existing teacher-only read-only test preview.
+- Enforced class-course assignment integrity in Postgres and `start-test-attempt`; active assignments cannot exist or reopen without the class course. The focused pgTAP fixture is isolated from the high-volume seed.
+- Consolidated the complete 300-student QA fixture into `supabase/seed.sql` and removed the superseded `supabase/qa_bulk_seed.sql`.
+- Matched teacher portal colour/layout styling to the student portal and corrected mobile navigation/logout behaviour without changing features.
+- Built all 24 Question Lab prototypes with responsive touch-first controls, deterministic marking, strong semantic feedback and explicit pending-review handling for extended responses.
+- Confirmed student code is never executed. Type 22 is a structured code response matched against approved complete variants; there are no sandboxes, public tests or hidden executable tests.
+- Confirmed Codex generates and validates curriculum content before deployment; the live app does not run background AI question-generation jobs.
+
+### Latest verification on 2026-08-01
+
+```text
+Watchdog npm.cmd run typecheck: passed
+Watchdog npm.cmd run lint: passed
+Watchdog npm.cmd run test: passed, 10 files / 33 tests
+Watchdog npm.cmd run build: passed, existing Vite >500 kB chunk warning only
+Watchdog Question Lab marking tests: passed, 12 tests
+Watchdog npx.cmd supabase status: passed; local database/API/Studio are running
+Watchdog npx.cmd supabase test db --local supabase\tests: passed, 3 files / 50 pgTAP tests
+Question Lab browser QA: desktop 1400px, tablet 768px and phone 390px passed with no horizontal overflow or console errors
+git diff --check: passed
+```
+
+### Important local-only state
+
+- The local seeded database contains 300 student profiles and approximately 3,122 test attempts. Its complete PostgreSQL database size is 17 MB; application tables use approximately 4.4 MB.
+- Local Docker volumes, browser approval states and runtime logs are not Git-tracked production data.
+- `.dev-server*.log`, `site-dev*.log`, `supabase-functions*.log` and `tmp/` are intentionally excluded from the commit.
+- GitHub CLI authentication for `lbyearwood` reported an invalid saved token. A normal Git push should still be attempted through the configured Git credential manager; if that also fails, run `gh auth login -h github.com` before retrying.
+
+### Known gaps and next recommended task
+
+1. Obtain stakeholder approval for the final Question Lab aesthetics and functionality across all 24 types.
+2. Then design the balanced topic question pools and revisit `Planning/Work Packages/Assigned test delivery.md` for the one-way assigned-test journey.
+3. Keep practice questions predefined, generate content through the controlled Codex pipeline, and do not add runtime code execution or live AI question generation.
+4. Continue addressing the 22 blocked regression items in `Planning/Testing/OUTSTANDING_BLOCKED_TESTS.md` before production launch.
+
+### Files to inspect first
+
+- `Planning/Prototypes/question-types/app.js`
+- `Planning/Prototypes/question-types/marking.mjs`
+- `Planning/Curriculum/AUTOMARK_QUESTION_TYPES.md`
+- `src/components/RevisionObjectivesPanel.tsx`
+- `src/features/teacher/TeacherApp.tsx`
+- `supabase/migrations/20260731120840_enforce_assignment_course_entitlements.sql`
+- `supabase/tests/assignment_course_integrity.sql`
+- `supabase/seed.sql`
 
 ## Session update - 2026-07-31
 
@@ -51,7 +111,7 @@ Current user instruction:
 - Corrected the 1.1 content so sequence/selection and iteration remain in their separate 1.2 and 1.3 topics.
 - Added appropriate 1.1 fundamentals such as input/output, data types, casting, random-number generation and string operations.
 - Read and visually reviewed all 49 pages of the supplied OCR J277 specification, Version 3.1 (May 2026).
-- Created `docs/OCR_J277_SPEC_TO_APP_STRUCTURE_BREAKDOWN.txt`, mapping the complete assessable specification into the existing 8 units and 41 topics rather than changing the app hierarchy.
+- Created `Planning/Curriculum/OCR_J277_SPEC_TO_APP_STRUCTURE_BREAKDOWN.txt`, mapping the complete assessable specification into the existing 8 units and 41 topics rather than changing the app hierarchy.
 - The breakdown records student-facing objectives, OCR required/not-required boundaries, OCR Exam Reference Language, practical programming requirements, assessment structure, Assessment Objectives and command words.
 - Assigned logic gates and truth tables to `4.3 Logic gates and Truth tables`, after the two binary topics. The rollout must include labelled AND/OR/NOT diagrams, a combined-gate example, complete truth tables and accessible text alternatives.
 - Recorded that string interpolation and a prescribed list of file formats are not explicit OCR J277 requirements and must not be labelled as specification content.
@@ -79,14 +139,14 @@ npx.cmd supabase test db --local supabase\tests: passed, 30 pgTAP tests
 
 ### Known gaps and next recommended task
 
-1. Replace the single hard-coded 1.1 objective list with a maintainable data source covering all 41 topics from `docs/OCR_J277_SPEC_TO_APP_STRUCTURE_BREAKDOWN.txt`.
+1. Replace the single hard-coded 1.1 objective list with a maintainable data source covering all 41 topics from `Planning/Curriculum/OCR_J277_SPEC_TO_APP_STRUCTURE_BREAKDOWN.txt`.
 2. Preserve the approved collapsed/numbered design and every existing practice test.
 3. Add responsive, accessible SVG gate diagrams and truth tables to topic 4.3.
 4. Run typecheck, lint, unit tests, build and desktop/mobile browser QA across representative topics from all 8 units.
 
 ### Files to inspect first
 
-- `docs/OCR_J277_SPEC_TO_APP_STRUCTURE_BREAKDOWN.txt`
+- `Planning/Curriculum/OCR_J277_SPEC_TO_APP_STRUCTURE_BREAKDOWN.txt`
 - `src/features/student/StudentApp.tsx`
 - `supabase/seed.sql`
 - `scripts/generate-placeholder-resources.mjs`
@@ -97,7 +157,7 @@ npx.cmd supabase test db --local supabase\tests: passed, 30 pgTAP tests
 
 - Local Supabase is still mandatory. There is no frontend demo fallback and no browser-only fixture fallback.
 - Active branch: `agent/csrevision-accounts-mvp`.
-- The standalone sequential QA artifact is now part of the Codex workflow: `docs/planning/csrevision-full-test-plan-checklist.html`.
+- The standalone sequential QA artifact is now part of the Codex workflow: `Planning/Testing/csrevision-full-test-plan-checklist.html`.
 - The test-plan page is read-only for the user. Codex must update status/evidence by editing the HTML artifact.
 
 ### Completed in this session
@@ -106,7 +166,7 @@ npx.cmd supabase test db --local supabase\tests: passed, 30 pgTAP tests
 - Fixed selected-recipient assignment start by granting `service_role` the required `assignment_recipients` access in migration `20260730194500_grant_service_access_to_assignment_recipients.sql`; pgTAP now protects the grant.
 - Made the assignment due-date input update React state on input and blur as well as change, so browser-driven date entry is submitted reliably.
 - Improved `start-test-attempt` error handling so PostgREST-style object errors expose their useful message instead of a generic failure.
-- Added `docs/PRODUCTION_RELEASE_RUNBOOK.md` and completed a local logical backup/restore rehearsal with matching source/restored counts.
+- Added `Planning/Setup/PRODUCTION_RELEASE_RUNBOOK.md` and completed a local logical backup/restore rehearsal with matching source/restored counts.
 - Completed and fixed Stage 8 performance and scale QA: 7 pass, 0 fail, 0 blocked. Assigned assessment starts now show immediate scoped pending feedback, prevent parallel starts, recover after timeout, and navigate after success.
 - Completed and fixed Stage 7. Its 24 tests now record 21 pass, 3 blocked, and 0 fail.
 - Added application-level watchdog timeouts and actionable Local Supabase errors for stalled sign-in, Edge Function hydration, and answer-save requests.
@@ -122,12 +182,12 @@ npx.cmd supabase test db --local supabase\tests: passed, 30 pgTAP tests
 - Student My Results topic rows now include points earned.
 - Student Profile now has class-code join UI and handles invalid, disabled, and valid class codes through local Supabase.
 - Student all-time leaderboard rows now include public IDs in the visible label so same-name bulk-seed students are distinguishable.
-- `supabase/qa_bulk_seed.sql` is safely rerunnable and now includes deterministic fixtures for no-current-learning-gaps, completed open selected-recipient, and past-due outstanding assignment checks.
+- `supabase/seed.sql` is safely rerunnable and includes the complete 300-student fixture plus deterministic no-current-learning-gaps, completed open selected-recipient, and past-due outstanding assignment checks.
 - Temporary browser-QA attempts and temporary class-code membership changes were cleaned from the local database after verification.
 
 ### Standalone test-plan state
 
-- Artifact: `docs/planning/csrevision-full-test-plan-checklist.html`.
+- Artifact: `Planning/Testing/csrevision-full-test-plan-checklist.html`.
 - Total tests: 236.
 - Stage 4 recorded state after fixes: 37 pass, 1 blocked, 0 fail.
 - Stage 5 recorded state: 26 pass, 7 blocked, 0 fail.
@@ -138,7 +198,7 @@ npx.cmd supabase test db --local supabase\tests: passed, 30 pgTAP tests
 - Remaining Stage 4 blocker: Test 94. The PDF download button clicked successfully and produced no console errors, but the in-app browser did not expose the downloaded PDF file for visual inspection.
 - Remaining Stage 7 blockers are Tests 184, 189, and 197: isolated missing-config startup, a safe stale-schema fixture, and reliable 200% browser zoom emulation.
 - All nine staged QA sections are now recorded. Do not start production deployment without explicit user instruction and the production runbook preconditions.
-- Outstanding blocked-test backlog: `docs/OUTSTANDING_BLOCKED_TESTS.md` records all 22 unresolved tests, required work, partial evidence, recommended order, and completion criteria.
+- Outstanding blocked-test backlog: `Planning/Testing/OUTSTANDING_BLOCKED_TESTS.md` records all 22 unresolved tests, required work, partial evidence, recommended order, and completion criteria.
 
 ### Latest verification on 2026-07-30
 
@@ -170,14 +230,14 @@ bulk_seed_audits=0
 
 These counts describe this computer's local Supabase volumes and are not Git-tracked production state. Earlier staged QA created durable local history beyond the deterministic seed baseline; use the documented reset/reseed process when an exact clean baseline is required.
 
-Local bulk QA seed verification:
+Current consolidated seed verification:
 
 ```text
-active_students=250
-active_real_classes=10
-test_assignments=94
-test_attempts=3142
-assignment_recipients=51
+active_students=300
+active_real_classes=12
+test_assignments=98
+test_attempts=3122
+assignment_recipients=61
 bulk_seed_audits=1
 ```
 
@@ -239,8 +299,8 @@ Targeted browser QA:
 
 ### Important local-only state and risks
 
-- The bulk QA records live in the local database until recreated from `supabase/qa_bulk_seed.sql`; do not treat browser-created attempts or activity as Git-tracked data.
-- Run a clean local reset plus bulk seed replay before relying on the fixture for broader regression testing.
+- The bulk QA records are recreated by the consolidated `supabase/seed.sql`; do not treat browser-created attempts or activity as Git-tracked data.
+- Run a clean local reset before relying on the fixture for broader regression testing.
 - The GitHub CLI token is currently invalid. A normal `git push` may still use configured Git credentials; if it does not, re-authenticate GitHub before retrying.
 - Test-version authoring remains a planned workflow. Existing IDs protect historic links, but teacher-facing draft/publish version management is not yet built.
 
@@ -253,9 +313,9 @@ Current local Git state on 2026-07-28:
 
 - Branch: `agent/csrevision-accounts-mvp`.
 - Working tree is dirty and local changes are not pushed.
-- Modified project docs: `PROJECT_BRIEF.md`, `docs/CODEX_DEVELOPMENT_PROCESS.md`, `docs/CODEX_END_PROCESS.md`, `docs/CODEX_START_PROCESS.md`, `docs/DEVELOPMENT_SETUP.md`, `docs/HANDOVER.md`, `docs/PROJECT_TASKS.md`, `docs/SUPABASE_SETUP.md`, `docs/TESTING.md`.
+- Modified project docs: `PROJECT_BRIEF.md`, `Planning/Process/CODEX_DEVELOPMENT_PROCESS.md`, `Planning/Process/CODEX_END_PROCESS.md`, `Planning/Process/CODEX_START_PROCESS.md`, `Planning/Setup/DEVELOPMENT_SETUP.md`, `Planning/Process/HANDOVER.md`, `Planning/Process/PROJECT_TASKS.md`, `Planning/Setup/SUPABASE_SETUP.md`, `Planning/Testing/TESTING.md`.
 - Modified app files: `src/features/teacher/TeacherApp.tsx`, `src/features/student/StudentApp.tsx`.
-- The user requested docs/handover updates after the Teacher Assignments Active/Expired tab work. Preserve these local changes; do not revert unrelated earlier edits.
+- The user requested planning/handover updates after the Teacher Assignments Active/Expired tab work. Preserve these local changes; do not revert unrelated earlier edits.
 
 Clone and enter the branch:
 
@@ -546,7 +606,6 @@ Local-only class join codes may differ from a fresh reset because Regenerate was
 - Supabase schema and seed:
   - `supabase/migrations/20260707202000_mvp_v1_schema.sql`
   - `supabase/seed.sql`
-  - `supabase/qa_bulk_seed.sql`
 - Edge Functions:
   - `supabase/functions/update-student-account/index.ts`
   - `supabase/functions/reset-student-password/index.ts`
@@ -554,7 +613,7 @@ Local-only class join codes may differ from a fresh reset because Regenerate was
   - `supabase/functions/save-answer/index.ts`
   - `supabase/functions/submit-test-attempt/index.ts`
 - QA artifact:
-  - `docs/planning/csrevision-full-test-plan-checklist.html`
+  - `Planning/Testing/csrevision-full-test-plan-checklist.html`
 
 ## Current Known Gaps
 

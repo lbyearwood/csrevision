@@ -17,7 +17,7 @@ Static checks are required, but they are not enough for behaviour changes:
 
 Use local Supabase for all functional QA until launch. Do not verify against frontend-only/demo assumptions.
 
-When UI labels, page names, or workflow names change, run a case-insensitive docs/code sweep for the old wording before finalizing. Update Codex-facing docs in the same task so the next agent does not preserve stale product language.
+When UI labels, page names, or workflow names change, run a case-insensitive documentation/code sweep for the old wording before finalizing. Update Codex-facing planning files in the same task so the next agent does not preserve stale product language.
 
 ## What To Run
 
@@ -36,7 +36,7 @@ For docs-only changes, run:
 git diff --check
 ```
 
-For Supabase/backend changes, also run the relevant local checks from `docs/SUPABASE_SETUP.md`. Examples:
+For Supabase/backend changes, also run the relevant local checks from `Planning/Setup/SUPABASE_SETUP.md`. Examples:
 
 ```powershell
 npx.cmd supabase status
@@ -90,7 +90,7 @@ For browser tests, use the same rule operationally: after an action, poll the ex
 The staged regression source of truth is:
 
 ```text
-docs/planning/csrevision-full-test-plan-checklist.html
+Planning/Testing/csrevision-full-test-plan-checklist.html
 ```
 
 Rules for this artifact:
@@ -125,4 +125,4 @@ This process does not automatically mean:
 - push
 - end development for the day
 
-Those belong to `docs/CODEX_END_PROCESS.md` and only happen when the user explicitly says `end`, asks to commit, or asks to push.
+Those belong to `Planning/Process/CODEX_END_PROCESS.md` and only happen when the user explicitly says `end`, asks to commit, or asks to push.

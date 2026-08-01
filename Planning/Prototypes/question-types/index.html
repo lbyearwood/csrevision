@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Interactive csrevision prototypes for approving deterministic auto-mark question types." />
+    <title>Question Lab | csrevision prototype</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#prototype-workspace">Skip to prototype</a>
+    <main class="app-shell">
+      <aside class="sidebar" aria-label="Question type prototypes">
+        <div class="brand">
+          <span class="brand-mark" aria-hidden="true">&lt;/&gt;</span>
+          <div><strong>csrevision</strong><span>Question Lab</span></div>
+        </div>
+        <nav class="type-nav" id="type-nav" aria-label="Choose a question type"></nav>
+        <p class="prototype-note">Approval prototype<br />No production data</p>
+      </aside>
+
+      <section class="main-column">
+        <header class="page-header">
+          <div>
+            <h1>Question Lab</h1>
+            <p>Review the student experience, marking rules and QA before production.</p>
+          </div>
+          <span class="batch-label">Batches 1–5 · 24 types</span>
+        </header>
+
+        <div class="content-grid">
+          <section class="workspace" id="prototype-workspace" aria-labelledby="active-type-heading">
+            <div class="mode-switch" aria-label="Prototype view">
+              <button aria-pressed="true" data-mode="student" type="button">Student preview</button>
+              <button aria-pressed="false" data-mode="spec" type="button">AI authoring spec</button>
+            </div>
+            <div id="workspace-content"></div>
+          </section>
+
+          <details class="approval-panel" id="approval-panel" open>
+            <summary><span>Approval checklist</span><span id="approval-summary">5 items pending</span></summary>
+            <div class="approval-body" id="approval-body"></div>
+          </details>
+        </div>
+      </section>
+    </main>
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

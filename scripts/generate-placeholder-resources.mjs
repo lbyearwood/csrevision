@@ -2,6 +2,11 @@
 import { createHash } from 'node:crypto';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { resolve } from 'node:path';
+import {
+  ocrRevisionContentBySlug,
+  ocrRevisionTopics,
+  validateOcrRevisionContent,
+} from './ocr-j277-revision-content.mjs';
 
 const subjectUuid = '50000000-0000-4000-8000-000000000001';
 const teacherProfileUuid = '10000000-0000-4000-8000-000000000001';
@@ -191,6 +196,8 @@ function flattenTopics() {
     unit.topics.map((topic, topicIndex) => {
       const topicName = `${topic.code} ${topic.title}`;
       const topicSlug = slugify(topicName);
+      const revisionContent = ocrRevisionContentBySlug.get(topicSlug);
+      if (!revisionContent) throw new Error(`Missing OCR revision content for ${topicName}.`);
       const testNumber = 1;
       return {
         unitCode: unit.unitCode,
@@ -208,6 +215,8 @@ function flattenTopics() {
         testSlug: `${topicSlug}-test-${testNumber}`,
         testTitle: `${topicName} test ${testNumber}`,
         displayOrder: topicIndex + 1,
+        revisionObjectives: revisionContent.objectives,
+        revisionSupplementKeys: revisionContent.supplementKeys,
       };
     }),
   );
@@ -275,6 +284,7 @@ function generateSqlInsert(tableName, columns, rows, conflictClause) {
 
 function generatedContentSql() {
   const topics = flattenTopics();
+  validateOcrRevisionContent(ocrRevisionTopics, topics.map((topic) => topic.topicName));
   const unitRows = ocrCourse.map((unit, index) => [
     sqlString(uuidFromSeed(`unit:${unit.unitCode}`)),
     sqlString(subjectUuid),
@@ -292,6 +302,8 @@ function generatedContentSql() {
     sqlString(topic.topicName),
     sqlString(`Placeholder OCR topic for ${topic.topicName}.`),
     sqlArray([topic.topicCode, topic.topicTitle]),
+    sqlArray(topic.revisionObjectives),
+    sqlArray(topic.revisionSupplementKeys),
     sqlString('active'),
     String(topic.displayOrder),
   ]);
@@ -415,7 +427,7 @@ set
 
 ${generateSqlInsert(
   'public.topics',
-  ['id', 'unit_id', 'slug', 'topic_name', 'description', 'keywords', 'status', 'display_order'],
+  ['id', 'unit_id', 'slug', 'topic_name', 'description', 'keywords', 'revision_objectives', 'revision_supplement_keys', 'status', 'display_order'],
   topicRows,
   `on conflict (id) do update
 set
@@ -424,6 +436,8 @@ set
   topic_name = excluded.topic_name,
   description = excluded.description,
   keywords = excluded.keywords,
+  revision_objectives = excluded.revision_objectives,
+  revision_supplement_keys = excluded.revision_supplement_keys,
   status = excluded.status,
   display_order = excluded.display_order,
   updated_at = now()`,
@@ -502,6 +516,10 @@ ${generateSqlInsert(
   optionRows,
   'on conflict (id) do nothing',
 )}
+
+insert into public.class_courses (class_id, subject_id)
+values (${sqlString(class8aUuid)}, ${sqlString(subjectUuid)})
+on conflict (class_id, subject_id) do nothing;
 
 insert into public.test_assignments (
   id,

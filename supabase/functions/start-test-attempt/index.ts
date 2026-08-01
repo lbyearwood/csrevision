@@ -128,28 +128,27 @@ Deno.serve(async (req) => {
     if (versionError || !version) throw versionError ?? new Error('Test version not found');
     if (version.status !== 'published') return errorResponse('Test version is not published', 403);
 
-    if (!assignmentId) {
-      const { data: testCourse, error: testCourseError } = await service
-        .from('tests')
-        .select('topics!inner(units!inner(subject_id))')
-        .eq('id', (version.tests as { id: string }).id)
-        .single();
-      if (testCourseError || !testCourse) throw testCourseError ?? new Error('Test course not found');
-      const topic = testCourse.topics as { units?: { subject_id?: string } | Array<{ subject_id?: string }> };
-      const unit = Array.isArray(topic.units) ? topic.units[0] : topic.units;
-      const subjectId = unit?.subject_id;
-      if (!subjectId) return errorResponse('Test course not found', 404);
+    const { data: testCourse, error: testCourseError } = await service
+      .from('tests')
+      .select('topics!inner(units!inner(subject_id))')
+      .eq('id', (version.tests as { id: string }).id)
+      .single();
+    if (testCourseError || !testCourse) throw testCourseError ?? new Error('Test course not found');
+    const topic = testCourse.topics as { units?: { subject_id?: string } | Array<{ subject_id?: string }> };
+    const unit = Array.isArray(topic.units) ? topic.units[0] : topic.units;
+    const subjectId = unit?.subject_id;
+    if (!subjectId) return errorResponse('Test course not found', 404);
 
-      const { data: entitlement, error: entitlementError } = await service
-        .from('class_courses')
-        .select('class_id')
-        .in('class_id', Array.from(activeClassIds))
-        .eq('subject_id', subjectId)
-        .limit(1)
-        .maybeSingle();
-      if (entitlementError) throw entitlementError;
-      if (!entitlement) return errorResponse('This course is not available to your class', 403);
-    }
+    const entitledClassIds = assignment ? [assignment.class_id] : Array.from(activeClassIds);
+    const { data: entitlement, error: entitlementError } = await service
+      .from('class_courses')
+      .select('class_id')
+      .in('class_id', entitledClassIds)
+      .eq('subject_id', subjectId)
+      .limit(1)
+      .maybeSingle();
+    if (entitlementError) throw entitlementError;
+    if (!entitlement) return errorResponse('This course is not available to your class', 403);
 
     // Timed tests are temporarily disabled throughout the platform.
     const timeLimitSeconds = null;

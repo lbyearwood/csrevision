@@ -166,7 +166,7 @@ If the local database is stale, reset from migrations and seed:
 npx.cmd supabase db reset --local
 ```
 
-See `docs/SUPABASE_SETUP.md` for the full local backend runbook.
+See `Planning/Setup/SUPABASE_SETUP.md` for the full local backend runbook.
 
 ## Edge Function Returns `name resolution failed`
 

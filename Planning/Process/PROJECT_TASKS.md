@@ -1,10 +1,10 @@
 # Project Tasks
 
-Last updated: 2026-07-31
+Last updated: 2026-08-01
 
 Audience: Codex agents. The user does not plan to read this. Keep this file terse, current, and action-oriented.
 
-This is the active project state file for `csrevision`. Future Codex agents should follow `docs/CODEX_START_PROCESS.md` first, then read this file, then `PROJECT_BRIEF.md`, then the specific docs for the area being changed. After each development task, follow `docs/CODEX_DEVELOPMENT_PROCESS.md`. Only follow `docs/CODEX_END_PROCESS.md` when the user explicitly says to end or wrap up development.
+This is the active project state file for `csrevision`. Future Codex agents should follow `Planning/Process/CODEX_START_PROCESS.md` first, then read this file, then `PROJECT_BRIEF.md`, then the specific docs for the area being changed. After each development task, follow `Planning/Process/CODEX_DEVELOPMENT_PROCESS.md`. Only follow `Planning/Process/CODEX_END_PROCESS.md` when the user explicitly says to end or wrap up development.
 
 Status key:
 
@@ -20,16 +20,18 @@ Codex update protocol:
 - When completing a task, mark it `[x]` and add verification if useful.
 - When blocked, mark it `[!]` and write the unblock action.
 - Update `Last updated` whenever this file changes.
-- Keep long-term product/architecture direction in `PROJECT_BRIEF.md`; keep backend commands in `docs/SUPABASE_SETUP.md`.
+- Keep long-term product/architecture direction in `PROJECT_BRIEF.md`; keep backend commands in `Planning/Setup/SUPABASE_SETUP.md`.
 
 ## Current Focus
 
+- `[~]` Complete stakeholder functionality and aesthetic approval for all twenty-four implemented Question Lab prototypes; mobile/tablet QA passes, code is never executed, and extended responses remain pending until rubric review.
+- `[ ]` Revisit and implement the deferred assigned-test delivery plan in `Planning/Work Packages/Assigned test delivery.md` after question-type functionality and aesthetics are approved.
 - `[~]` Build the local Supabase/Postgres backend into the source of truth for the project.
-- `[~]` Roll out the approved collapsed, numbered revision-objectives design to all 41 OCR topics using `docs/OCR_J277_SPEC_TO_APP_STRUCTURE_BREAKDOWN.txt`; retain every practice test and include gate diagrams/truth tables in `4.3 Logic gates and Truth tables`.
+- `[x]` Rolled out the approved collapsed, numbered revision-objectives design to all 41 OCR topics using the specification breakdown; retained every practice test and added the configured logic-gate/truth-table and flowchart supplements.
 - `[x]` Execute and fix Stage 7 of the standalone sequential regression test plan; all 24 tests are recorded with 21 pass, 0 fail, and 3 blocked.
 - `[x]` Execute and fix Stage 8 performance and scale tests; all 7 tests are recorded with 7 pass, 0 fail, and 0 blocked.
 - `[x]` Execute and fix Stage 9 release regression and UAT; all 24 tests are recorded with 24 pass, 0 fail, and 0 blocked.
-- `[!]` Address the 22 blocked tests recorded in `docs/OUTSTANDING_BLOCKED_TESTS.md`; prioritise P0 admin/multi-teacher fixtures, historical versioning, and the deterministic missing-config harness.
+- `[!]` Address the 22 blocked tests recorded in `Planning/Testing/OUTSTANDING_BLOCKED_TESTS.md`; prioritise P0 admin/multi-teacher fixtures, historical versioning, and the deterministic missing-config harness.
 - `[x]` Keep development and QA Supabase-only until launch; no frontend demo fallback.
 - `[x]` Add BTEC AAQ Extended Certificate course content alongside OCR GCSE Computer Science, with class-course access controls.
 - `[x]` Add high-volume local QA data for Years 10–13 only, including active and archived classes, assignments, attempts, results, activity, and leaderboards.
@@ -43,16 +45,21 @@ Codex update protocol:
 
 ## Recently Completed
 
-- `[x]` Read and visually reviewed all 49 pages of OCR J277 specification Version 3.1 (May 2026), then mapped its required content, boundaries, practical programming requirements, assessment structure and command words into the existing 8-unit, 41-topic app structure in `docs/OCR_J277_SPEC_TO_APP_STRUCTURE_BREAKDOWN.txt`.
+- `[x]` Implemented all 24 Question Lab prototypes with deterministic marking contracts, responsive touch-first controls, strong post-check feedback, rubric-review state for extended responses, and no execution of student-submitted code.
+- `[x]` Added teacher Course -> Unit -> Topic navigation with the shared revision-objectives panel and retained the teacher-specific read-only test preview.
+- `[x]` Enforced assignment/course integrity so students cannot receive or reopen active assignments for courses not assigned to their class; added eight focused pgTAP checks.
+- `[x]` Consolidated the 300-student QA fixture into `supabase/seed.sql` and removed the superseded secondary bulk seed.
+- `[x]` Reorganised `docs` into the structured `Planning` hierarchy, including Curriculum, Process, Prototypes, Setup, Testing and Work Packages.
+- `[x]` Read and visually reviewed all 49 pages of OCR J277 specification Version 3.1 (May 2026), then mapped its required content, boundaries, practical programming requirements, assessment structure and command words into the existing 8-unit, 41-topic app structure in `Planning/Curriculum/OCR_J277_SPEC_TO_APP_STRUCTURE_BREAKDOWN.txt`.
 - `[x]` User approved the `1.1 Programming fundamentals` revision-objectives presentation: collapsed by default, numbered when expanded, with the existing practice test retained below it.
 - `[x]` Assigned logic-gate diagrams and truth tables to `4.3 Logic gates and Truth tables` after the binary topics; rollout must include labelled AND/OR/NOT diagrams, a combined-gate example and complete truth tables.
 - `[x]` Completed Stage 9 release regression and UAT. Added the selected-recipient service grant and pgTAP regression, verified the complete assignment journey and historical reporting, passed all automated/browser/responsive gates, rehearsed logical restore, audited frontend secrets, updated release docs, and removed exact UAT rows.
-- `[x]` Added `docs/PRODUCTION_RELEASE_RUNBOOK.md` with backup, single-deployer migration, verification, rollback, and restore steps; local restore rehearsal matched five critical source/restored counts.
+- `[x]` Added `Planning/Setup/PRODUCTION_RELEASE_RUNBOOK.md` with backup, single-deployer migration, verification, rollback, and restore steps; local restore rehearsal matched five critical source/restored counts.
 - `[x]` Fixed Stage 8 Test 211: assigned assessment actions now show a scoped Starting badge and disabled busy button immediately, prevent parallel starts, restore controls after timeout, and navigate normally after success.
 - `[x]` Completed Stage 8 performance/scale QA against the 250-student bulk dataset. Results filtering and student search remained responsive, Dashboard/Leaderboards rendered cleanly, build and PDF generation checks passed, and the disposable assigned-test attempt was removed.
 - `[x]` Fixed all seven Stage 7 failures: actionable local-service errors, bounded assessment hydration, pessimistic/retryable answer saves, stale-tab conflict detection, Enter sign-in, modal focus/Escape handling, and reduced-motion support. The previously blocked assessment-keyboard test now passes.
 - `[x]` Added bounded test watchdog rules and `scripts/run-with-watchdog.ps1`; commands now emit heartbeats, self-detect timeout, terminate their owned process, and return exit code 124 instead of waiting indefinitely.
-- `[x]` Added standalone read-only sequential test plan artifact at `docs/planning/csrevision-full-test-plan-checklist.html` with 236 discrete tests in dependency-aware execution order.
+- `[x]` Added standalone read-only sequential test plan artifact at `Planning/Testing/csrevision-full-test-plan-checklist.html` with 236 discrete tests in dependency-aware execution order.
 - `[x]` Completed Stage 4 fixes and updated the test-plan artifact: Stage 4 is now 37 pass, 1 blocked, 0 fail. Remaining blocker is PDF file inspection after browser download because the in-app browser did not expose the downloaded file.
 - `[x]` Made student Practice a real Course -> Unit -> Topic -> Test drilldown without visible future-resource buttons.
 - `[x]` Fixed in-progress practice resume/reload by rehydrating questions and saved answers from local Supabase through `start-test-attempt`.
@@ -93,7 +100,7 @@ Codex update protocol:
 - `[x]` Renamed `PROJECT_INITIATION_DOCUMENT.md` to `PROJECT_BRIEF.md`.
 - `[x]` Added project brief change log and change-control process.
 - `[x]` Created this Codex-facing project state tracker.
-- `[x]` Restored `docs/SUPABASE_SETUP.md` as a Codex-facing local Supabase runbook.
+- `[x]` Restored `Planning/Setup/SUPABASE_SETUP.md` as a Codex-facing local Supabase runbook.
 - `[x]` Created ignored `.env.local` with frontend-safe local Supabase URL and publishable key.
 - `[x]` Added deterministic `supabase/seed.sql` for local Auth users, profiles, classes, content, attempts, points, and leaderboard data.
 - `[x]` Applied `supabase/seed.sql` to the running local Supabase database.
@@ -102,10 +109,10 @@ Codex update protocol:
 - `[x]` Updated frontend sign-in helpers to return the active Supabase profile role/display name when Supabase is configured.
 - `[x]` Updated local login defaults to use seeded development credentials.
 - `[x]` Added placeholder OCR resource data: 8 units, 41 numbered topics, 41 practice tests, and 205 five-option MCQs in local Supabase seed data.
-- `[x]` Added `docs/DEVELOPMENT_SETUP.md` with fresh-machine dependencies, local Supabase setup, seed verification, and Codex run commands.
-- `[x]` Added `docs/HANDOVER.md` for continuing on a different PC.
-- `[x]` Added `docs/CODEX_START_PROCESS.md` defining the required Codex startup sequence: sync Git, read docs, install dependencies, run the site, and report the next task.
-- `[x]` Added `docs/CODEX_END_PROCESS.md` defining the user-triggered end-of-day sequence: final checks, update dev docs, write handover, commit locally, push, and report next task.
+- `[x]` Added `Planning/Setup/DEVELOPMENT_SETUP.md` with fresh-machine dependencies, local Supabase setup, seed verification, and Codex run commands.
+- `[x]` Added `Planning/Process/HANDOVER.md` for continuing on a different PC.
+- `[x]` Added `Planning/Process/CODEX_START_PROCESS.md` defining the required Codex startup sequence: sync Git, read docs, install dependencies, run the site, and report the next task.
+- `[x]` Added `Planning/Process/CODEX_END_PROCESS.md` defining the user-triggered end-of-day sequence: final checks, update dev docs, write handover, commit locally, push, and report next task.
 - `[x]` Implemented persistent teacher assignment creation in local Supabase.
 - `[x]` Split Teacher Assignments into `Create assignment`, `Active Assignments`, and `Expired Assignments`.
 - `[x]` Added Active/Expired assignment tables with shared class/course/unit/topic filters, columns for date created/class/topic/assignment deadline, and deadline-based separation.
@@ -317,6 +324,6 @@ Codex update protocol:
 ## Notes
 
 - Supabase cloud should host the backend, but Git-tracked SQL migrations should remain the source of truth for schema.
-- Use `docs/SUPABASE_SETUP.md` before local or cloud Supabase work.
+- Use `Planning/Setup/SUPABASE_SETUP.md` before local or cloud Supabase work.
 - Real student data needs backups; migrations only recreate structure, not production data.
 - Avoid dashboard-only schema changes. Make schema changes in SQL migrations so they can be reviewed, tested, repeated, and restored.

@@ -6,7 +6,7 @@ Audience: every Codex agent ending development for the day on this repository. T
 
 Run this process only when the user explicitly says `end`, `end development`, `finish for today`, or clearly asks to wrap up the development session. Do not run this automatically after every task.
 
-Per-task QA is handled by `docs/CODEX_DEVELOPMENT_PROCESS.md`. Proving that a feature works is a development-process requirement, not an end-process step.
+Per-task QA is handled by `Planning/Process/CODEX_DEVELOPMENT_PROCESS.md`. Proving that a feature works is a development-process requirement, not an end-process step.
 
 ## Required End Sequence
 
@@ -29,7 +29,7 @@ If the worktree contains changes unrelated to the current task:
 
 Confirm the development QA from the day's completed tasks has already been run and reported.
 
-If recent functional changes have not had targeted QA, run the missing checks before ending. Use `docs/CODEX_DEVELOPMENT_PROCESS.md` to choose the right browser, Edge Function, database/RLS, persistence, and static checks.
+If recent functional changes have not had targeted QA, run the missing checks before ending. Use `Planning/Process/CODEX_DEVELOPMENT_PROCESS.md` to choose the right browser, Edge Function, database/RLS, persistence, and static checks.
 
 As a final safety net for code changes, run:
 
@@ -46,14 +46,14 @@ For docs-only sessions, at minimum run:
 git diff --check
 ```
 
-For Supabase/backend sessions, also run the relevant local checks from `docs/SUPABASE_SETUP.md`. Examples:
+For Supabase/backend sessions, also run the relevant local checks from `Planning/Setup/SUPABASE_SETUP.md`. Examples:
 
 ```powershell
 npx.cmd supabase status
 docker exec supabase_db_csrevision psql -U postgres -d postgres -c "<verification query>"
 ```
 
-If a check cannot be run, write the reason in `docs/HANDOVER.md` and the final response.
+If a check cannot be run, write the reason in `Planning/Process/HANDOVER.md` and the final response.
 
 ### 3. Update Dev Docs
 
@@ -61,24 +61,24 @@ Update docs before committing. Keep updates terse and useful for the next Codex.
 
 Always consider:
 
-- `docs/PROJECT_TASKS.md`: mark completed work, in-progress items, blockers, and next task.
-- `docs/HANDOVER.md`: refresh continuation state, latest completed work, verification, known gaps, and next recommended task.
-- `docs/TESTING.md`: refresh targeted QA expectations when workflow names or required browser/backend checks change.
-- `docs/planning/csrevision-full-test-plan-checklist.html`: if staged QA was run or fixed, keep the assistant-maintained statuses/evidence current before committing.
+- `Planning/Process/PROJECT_TASKS.md`: mark completed work, in-progress items, blockers, and next task.
+- `Planning/Process/HANDOVER.md`: refresh continuation state, latest completed work, verification, known gaps, and next recommended task.
+- `Planning/Testing/TESTING.md`: refresh targeted QA expectations when workflow names or required browser/backend checks change.
+- `Planning/Testing/csrevision-full-test-plan-checklist.html`: if staged QA was run or fixed, keep the assistant-maintained statuses/evidence current before committing.
 
 Update when relevant:
 
 - `PROJECT_BRIEF.md`: material scope, architecture, security, data model, deployment, or feature-direction change.
-- `docs/DEVELOPMENT_SETUP.md`: dependency, machine setup, or command change.
-- `docs/SUPABASE_SETUP.md`: backend command, seed, local service, RLS, migration, or Edge Function change.
-- `docs/TROUBLESHOOTING.md`: any new recurring local failure and its fix.
+- `Planning/Setup/DEVELOPMENT_SETUP.md`: dependency, machine setup, or command change.
+- `Planning/Setup/SUPABASE_SETUP.md`: backend command, seed, local service, RLS, migration, or Edge Function change.
+- `Planning/Setup/TROUBLESHOOTING.md`: any new recurring local failure and its fix.
 - `README.md`: entry-point or public setup instruction change.
 
 Do not leave a completed task undocumented.
 
 ### 4. Write Handover
 
-Refresh `docs/HANDOVER.md` so another Codex can continue without reading the full chat.
+Refresh `Planning/Process/HANDOVER.md` so another Codex can continue without reading the full chat.
 
 Handover must include:
 
@@ -153,8 +153,8 @@ Keep the final response short enough for the user to scan.
 As of 2026-07-27, every user-triggered end-of-day session should end by refreshing:
 
 ```text
-docs/PROJECT_TASKS.md
-docs/HANDOVER.md
+Planning/Process/PROJECT_TASKS.md
+Planning/Process/HANDOVER.md
 ```
 
 Then commit the active branch locally and push it.

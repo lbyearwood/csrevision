@@ -8,6 +8,7 @@ import type {
   PointsTransaction,
   Question,
   QuestionOption,
+  RevisionSupplementKey,
   StudentAnswer,
   StudentProfile,
   Subject,
@@ -17,6 +18,15 @@ import type {
   TestAttempt,
   TestVersion,
 } from '../types/domain';
+
+const revisionSupplementKeys = new Set<RevisionSupplementKey>([
+  'logic_gates_reference',
+  'flowchart_symbols_reference',
+]);
+
+function isRevisionSupplementKey(value: string): value is RevisionSupplementKey {
+  return revisionSupplementKeys.has(value as RevisionSupplementKey);
+}
 
 export interface SupabaseSnapshot {
   teacher: TeacherProfile;
@@ -183,9 +193,11 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
         id: string;
         unit_id: string;
         topic_name: string;
+        revision_objectives: string[] | null;
+        revision_supplement_keys: string[] | null;
         display_order: number;
       }>
-    >('topics', client.from('topics').select('id, unit_id, topic_name, display_order').order('display_order')),
+    >('topics', client.from('topics').select('id, unit_id, topic_name, revision_objectives, revision_supplement_keys, display_order').order('display_order')),
     readTable<
       Array<{
         id: string;
@@ -446,6 +458,8 @@ export async function loadSupabaseSnapshot(): Promise<SupabaseSnapshot> {
       id: topic.id,
       unitId: topic.unit_id,
       topicName: topic.topic_name,
+      revisionObjectives: topic.revision_objectives ?? [],
+      revisionSupplementKeys: (topic.revision_supplement_keys ?? []).filter(isRevisionSupplementKey),
     })),
     tests: tests.map((test) => ({
       id: test.id,
